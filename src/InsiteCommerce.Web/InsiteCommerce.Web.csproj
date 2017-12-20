@@ -9,7 +9,7 @@
     <MvcBuildViews>true</MvcBuildViews>
     <MvcProjectUpgradeChecked>true</MvcProjectUpgradeChecked>
     <WebGreaseLibPath>..\packages\WebGrease.1.5.2\lib</WebGreaseLibPath>
-    <TypeScriptToolsVersion>2.2</TypeScriptToolsVersion>
+    <TypeScriptToolsVersion>1.8</TypeScriptToolsVersion>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
     <NoWarn>1591</NoWarn>

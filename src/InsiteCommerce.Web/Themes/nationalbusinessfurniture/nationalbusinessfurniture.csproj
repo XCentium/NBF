@@ -9,12 +9,12 @@
     <ProductVersion>
     </ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{2f56b99c-4ab9-44ec-9b33-d6f3439146cc}</ProjectGuid>
+    <ProjectGuid>{dbf4425f-7771-48f6-b00b-d46e5d40a661}</ProjectGuid>
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>nationalbusinessfurniture</RootNamespace>
-    <AssemblyName>nationalbusinessfurniture</AssemblyName>
+    <RootNamespace>NationalBusinessFurniture</RootNamespace>
+    <AssemblyName>NationalBusinessFurniture</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />

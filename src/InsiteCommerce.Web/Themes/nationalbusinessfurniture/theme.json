@@ -1,6 +1,6 @@
 {
-  "Name": "nationalbusinessfurniture",
-  "Description": "The nationalbusinessfurniture Theme",
+  "Name": "NationalBusinessFurniture",
+  "Description": "The NationalBusinessFurniture Theme",
   "ParentTheme": "Responsive",
   "DefinitionScripts": [
     "Scripts/typings/*"
