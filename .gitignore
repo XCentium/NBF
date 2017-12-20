@@ -72,6 +72,7 @@ packages/
 
 src/InSiteCommerce.Web/node_modules/
 *.map
+src/InSiteCommerce.Web/Themes/**/Scripts/**/*.js
 src/InSiteCommerce.Web/_SystemResources/Themes/**/*.js
 src/InSiteCommerce.Web/_SystemResources/Themes/**/*.js.map
 src/InSiteCommerce.Web/_SystemResources/Themes/Responsive/base.css
