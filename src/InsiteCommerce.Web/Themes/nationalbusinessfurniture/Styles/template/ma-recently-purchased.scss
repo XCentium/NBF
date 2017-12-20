@@ -1,0 +1,199 @@
+﻿.widget-recently-purchased {
+    padding-left: 0.9375rem;
+    padding-right: 0.9375rem;
+
+    .quote-required {
+        margin-right: 1em;
+
+        .f-dropdown.content {
+            min-width: 190px !important;
+        }
+
+        .f-dropdown.open:before {
+            bottom: -11px !important;
+        }
+
+        .f-dropdown.open:after {
+            opacity: .3;
+        }
+
+        .quote-tip {
+            z-index: 1;
+
+            .t-dropdown {
+                z-index: 1;
+            }
+
+            .f-dropdown {
+                z-index: 1000;
+            }
+        }
+    }
+
+    .quantity-pricing {
+        z-index: 1;
+
+        .t-dropdown {
+            z-index: 1;
+        }
+
+        .f-dropdown.content {
+            z-index: 1000;
+            width: auto;
+
+            .isc-pricebreaks {
+                min-width: 225px;
+
+                tr {
+                    border-bottom: none;
+                    height: 36px !important;
+
+                    td {
+                        line-height: 1.125rem;
+                        padding: 0.5625rem 0.625rem;
+                        vertical-align: inherit;
+                        border: none;
+                    }
+                }
+            }
+        }
+
+        .f-dropdown.open:before {
+            left: 15px;
+        }
+
+        .f-dropdown.open:after {
+            left: 14px;
+        }
+    }
+
+    .btn.primary.add-to-cart {
+        width: 1.875em;
+        height: 2.35rem;
+        line-height: 2.35rem;
+        font-size: 1.5em;
+        padding: 0;
+        float: left;
+        text-indent: -9999px;
+        position: relative;
+        min-width: 0;
+    }
+
+    .btn.primary.add-to-cart:before {
+        content: "\e00a";
+        font-family: 'good-oatmeal-v2';
+        speak: none;
+        font-style: normal;
+        font-weight: normal;
+        font-variant: normal;
+        text-transform: none;
+        line-height: 1;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        display: inline;
+        width: auto;
+        height: auto;
+        line-height: inherit;
+        vertical-align: baseline;
+        background-image: none;
+        background-position: 0 0;
+        background-repeat: repeat;
+        text-indent: 0;
+        position: absolute;
+        top: 0;
+        left: 10px;
+    }
+
+    .item-qty {
+        float: left;
+        margin-right: 5px;
+        width: 3rem;
+    }
+
+    .info-tbl {
+        width: 100%;
+
+        .col-name {
+            .item-thumb {
+                max-width: 75px;
+                float: left;
+                margin-right: 10px;
+            }
+        }
+
+        .col-price {
+            width: 15%;
+            text-align: center;
+        }
+
+        .col-actions {
+            width: 15%;
+            min-width: 9em;
+        }
+    }
+
+    .purchased-list {
+        list-style-type: none;
+        border: 1px solid #E0E0E0;
+        margin: 0;
+
+        li {
+            border-bottom: 1px solid #E0E0E0;
+            margin: 0;
+            padding: 0.8rem 0.9rem;
+            position: relative;
+
+            .col-name {
+                clear: both;
+                width: 100%;
+
+                .item-thumb {
+                    max-width: 75px;
+                    float: left;
+                    margin-right: 10px;
+                }
+            }
+
+            .col-actions {
+                width: 100%;
+                clear: both;
+                height: 2.35rem;
+
+                .price {
+                    float: right;
+                    top: 6px;
+                    position: relative;
+                }
+
+                .actions {
+                    float: right;
+                    margin-left: 0.8rem;
+                }
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: 480px) {
+    .widget-recently-purchased {
+        .quote-required {
+            .f-dropdown.open:before {
+                left: 102px;
+            }
+
+            .f-dropdown.open:after {
+                left: 101px;
+            }
+        }
+
+        .quantity-pricing {
+            .f-dropdown.open:before {
+                left: 17px;
+            }
+
+            .f-dropdown.open:after {
+                left: 16px;
+            }
+        }
+    }
+}

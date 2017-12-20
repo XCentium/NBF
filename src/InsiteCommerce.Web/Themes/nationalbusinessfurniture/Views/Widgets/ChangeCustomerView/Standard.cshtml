@@ -1,0 +1,45 @@
+﻿<div class="row" ng-controller="SelectCustomerController as vm" ng-cloak
+     home-page-url="[% urlForPage 'HomePage' %]"
+     dashboard-url="[% urlForPage 'MyAccountPage' %]"
+     addresses-url="[% urlForPage 'MyAccountAddressPage' %]"
+     checkout-address-url="[% urlForPage 'CheckoutAddressPage' %]"
+     review-and-pay-url="[% urlForPage 'ReviewAndPayPage' %]"
+     cart-url="[% urlForPage 'CartPage' %]">
+
+    <div class="large-6 columns si-step-2">
+        <div class="select-step select-customer-step">
+            <label>[% translate 'Select Bill To' %]</label>
+            <input type="text" class="billto-selector tst_billto_selector" id="selectBillTo" name="selectedBillTo"
+                   ng-init="vm.billToOptionsPlaceholder = '[% translate 'Search or Select Bill To' %]'" ng-click="vm.totalBillTosCount && vm.openAutocomplete($event, '#selectBillTo')"
+                   ng-model="vm.billToSearch" ng-change="vm.changeBillTo()" kendo-auto-complete k-options="vm.billToOptions" />
+            <span class="icon-arw-down-5" ng-click="vm.totalBillTosCount && vm.openAutocomplete($event, '#selectBillTo')"></span>
+            <div ng-show="vm.noShipToAndCantCreate" class="messaging--error">
+                [% siteMessage 'SignIn_NoShipToAndCantCreate' %]
+            </div>
+        </div>
+        <div class="select-step select-ship-step" ng-show="!vm.noShipToAndCantCreate && vm.billTo">
+            <label>[% translate 'Select Ship To' %]</label>
+            <input type="text"  class="shipto-selector tst_shipto_selector" id="selectShipTo" name="selectShipTo"
+                   ng-init="vm.shipToOptionsPlaceholder = '[% translate 'Search or Select Ship To' %]'" ng-click="vm.totalShipTosCount && vm.openAutocomplete($event, '#selectShipTo')"
+                   ng-model="vm.shipToSearch" kendo-auto-complete k-options="vm.shipToOptions" />
+            <span class="icon-arw-down-5" ng-click="vm.totalShipTosCount && vm.openAutocomplete($event, '#selectShipTo')"></span>
+        </div>
+        <p class="error">
+            <span class="field-validation-error" ng-if="vm.errorMessage">{{vm.errorMessage}}</span>
+        </p>
+        <div ng-show="vm.showIsDefaultCheckbox && vm.billTo && vm.shipTo && !vm.shipTo.isNew">
+            <input type="checkbox" id="useDefaultCustomer" ng-change="vm.setAsDefaultCustomer()" ng-model="vm.useDefaultCustomer">
+            <label for="useDefaultCustomer">[% siteMessage 'DefaultCustomer_SetToUser' %]</label>
+        </div>
+        <div class="btns">
+            <a href="" id="tst_changeCustomer_continue" class="btn primary btn-continue" ng-class="{ disabled: !vm.billTo || !vm.shipTo }" ng-click="vm.setCustomer()">[% translate 'Continue' %]</a>
+            <a href="" class="btn secondary btn-cancel" ng-click="vm.cancel()">[% translate 'Cancel' %]</a>
+        </div>
+    </div>
+</div>
+
+<div class="ng-cloak">
+    <isc-popup-template container-id="defaultCustomerChangedMessage">
+        [[Model.DefaultCustomerChangedMessage]]
+    </isc-popup-template>
+</div>

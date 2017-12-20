@@ -5,12 +5,18 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InsiteCommerce.Web", "Insit
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Extensions", "Extensions\Extensions.csproj", "{65DB69B0-1EBA-4DA9-B8C8-1798A1EF3424}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nationalbusinessfurniture", "InSiteCommerce.Web\Themes\nationalbusinessfurniture\nationalbusinessfurniture.csproj", "{2f56b99c-4ab9-44ec-9b33-d6f3439146cc}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2f56b99c-4ab9-44ec-9b33-d6f3439146cc}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2f56b99c-4ab9-44ec-9b33-d6f3439146cc}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2f56b99c-4ab9-44ec-9b33-d6f3439146cc}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2f56b99c-4ab9-44ec-9b33-d6f3439146cc}.Release|Any CPU.Build.0 = Release|Any CPU
 		{65DB69B0-1EBA-4DA9-B8C8-1798A1EF3424}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{65DB69B0-1EBA-4DA9-B8C8-1798A1EF3424}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{65DB69B0-1EBA-4DA9-B8C8-1798A1EF3424}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -24,4 +30,5 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 EndGlobal
+
 
