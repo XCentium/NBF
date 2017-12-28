@@ -80,8 +80,4 @@ src/InSiteCommerce.Web/_SystemResources/Themes/Responsive/base.css.map
 src/InSiteCommerce.Web/_SystemResources/Themes/Responsive/template/*.css
 src/InSiteCommerce.Web/_SystemResources/Themes/Responsive/template/*.css.map
 src/InSiteCommerce.Web/config/connectionStrings.config
-src/InSiteCommerce.Web/config/appSettings.config
 src/InSiteCommerce.Web/App_Data/luceneindex/
-
-
-/src/InSiteCommerce.Web/App_Data/insiteidentity.pfx
