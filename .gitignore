@@ -75,9 +75,9 @@ src/InSiteCommerce.Web/node_modules/
 src/InSiteCommerce.Web/Themes/**/Scripts/**/*.js
 src/InSiteCommerce.Web/_SystemResources/Themes/**/*.js
 src/InSiteCommerce.Web/_SystemResources/Themes/**/*.js.map
-src/InSiteCommerce.Web/_SystemResources/Themes/Responsive/base.css
-src/InSiteCommerce.Web/_SystemResources/Themes/Responsive/base.css.map
-src/InSiteCommerce.Web/_SystemResources/Themes/Responsive/template/*.css
-src/InSiteCommerce.Web/_SystemResources/Themes/Responsive/template/*.css.map
+src/InSiteCommerce.Web/_SystemResources/Themes/**/base.css
+src/InSiteCommerce.Web/_SystemResources/Themes/**/base.css.map
+src/InSiteCommerce.Web/_SystemResources/Themes/**/template/*.css
+src/InSiteCommerce.Web/_SystemResources/Themes/**/template/*.css.map
 src/InSiteCommerce.Web/config/connectionStrings.config
 src/InSiteCommerce.Web/App_Data/luceneindex/
