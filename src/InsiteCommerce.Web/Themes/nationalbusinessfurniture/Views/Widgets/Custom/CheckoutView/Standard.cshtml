@@ -1,4 +1,4 @@
-﻿<div class="large-12 columns checkout" ng-controller="CheckoutAddressController as vm" ng-cloak>
+﻿<div class="large-12 columns checkout" ng-controller="NbfCheckoutController as vm" ng-cloak>
     <div class="checkout-head">
         <h1>[% translate 'Checkout' %]</h1>
         {% comment %}
@@ -14,8 +14,8 @@
     <div class="medium-8 columns">
         <dl class="accordion checkout-accordion" data-accordion>
             <dd class="accordion-navigation">
-                <a href="#panel1b">[% translate 'Billing Information' %]</a>
-                <div id="panel1b" class="content active">
+                <a href="#address">[% translate 'Step 1: Shipping Address' %]</a>
+                <div id="address" class="content active">
                     <form id="addressForm" name="addressForm" ng-show="vm.countries" class="address-form">
                         <div class="section-container" data-section data-section-resized="true" style="min-height: 0;">
                             <section class="bill-to">
@@ -34,6 +34,13 @@
                                             </label>
                                         </div>
                                     </div>
+                                    <div class="btns">
+                                        <button id="tst_checkoutAddress_continue" type="button" class="btn primary btn-continue"
+                                                ng-click="vm.continueCheckout('#payment', '[% urlForPage 'CartPage' %]')"
+                                                ng-disabled="vm.continueCheckoutInProgress">
+                                            [% translate 'Continue' %]
+                                        </button>
+                                    </div>
                                 </div>
                             </section>
                             <section class="ship-to">
@@ -46,13 +53,6 @@
                                         <isc-address-edit prefix="st" show-email="false" address="vm.selectedShipTo" countries="vm.countries" address-fields="vm.addressFields.shipToAddressFields"
                                                           is-read-only="vm.isReadOnly" set-state-required-rule="vm.setStateRequiredRule('st', vm.selectedShipTo)"></isc-address-edit>
                                     </div>
-                                    <div class="btns">
-                                        <button id="tst_checkoutAddress_continue" type="button" class="btn primary btn-continue"
-                                                ng-click="vm.continueCheckout('[% urlForPage 'ReviewAndPayPage' %]', '[% urlForPage 'CartPage' %]')"
-                                                ng-disabled="vm.continueCheckoutInProgress">
-                                            [% translate 'Continue' %]
-                                        </button>
-                                    </div>
                                 </div>
                             </section>
                         </div>
@@ -60,14 +60,14 @@
                 </div>
             </dd>
             <dd class="accordion-navigation">
-                <a href="#panel2b">Accordion 2</a>
-                <div id="panel2b" class="content">
+                <a href="#payment">Accordion 2</a>
+                <div id="payment" class="content">
                     Panel 2. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
                 </div>
             </dd>
             <dd class="accordion-navigation">
-                <a href="#panel3b">Accordion 3</a>
-                <div id="panel3b" class="content">
+                <a href="#review">Accordion 3</a>
+                <div id="review" class="content">
                     Panel 3. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
                 </div>
             </dd>
@@ -112,9 +112,6 @@
                                             class="item-list cart-items">
                             </isc-cart-lines>
                         </div>
-                    </div>
-                    <div class="btns hide-for-small">
-                        <a id="tst_cartPage_continueShopping" ng-show="vm.cart.displayContinueShoppingLink" href="[% urlForPage 'HomePage' %]" ng-click="vm.continueShopping($event)" class="btn secondary btn-continue-shopping">[% translate 'Continue Shopping' %]</a>
                     </div>
                 </div>
                 <div ng-if="vm.cart.cartLines.length > 0" class="cart-right">

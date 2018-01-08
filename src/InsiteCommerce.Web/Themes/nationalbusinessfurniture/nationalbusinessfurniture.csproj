@@ -83,9 +83,9 @@
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Scripts\Custom\Account\nbf.sign-in.controller.ts" />
     <Content Include="Scripts\Custom\Cart\nbf.cart-total-display.directive.ts" />
     <Content Include="theme.json" />
+    <TypeScriptCompile Include="Scripts\Custom\Cart\nbf.checkout.controller.ts" />
     <TypeScriptCompile Include="Scripts\insite.config.ts" />
     <TypeScriptCompile Include="Scripts\insite.content-pager.controller.ts" />
     <TypeScriptCompile Include="Scripts\insite.content.directives.ts" />
@@ -433,7 +433,12 @@
   <ItemGroup>
     <Content Include="Views\Directives\Custom\Cart\CheckoutCartTotalDisplay.cshtml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Styles\custom\checkout.scss" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Scripts\Custom\Account\" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
