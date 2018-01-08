@@ -121,6 +121,7 @@
         }
 
         protected signOutFailed(error: any): void {
+	        alert("Sign out failed");
         }
 
         protected checkCurrentPageForMessages(): void {
@@ -153,6 +154,15 @@
 
         protected updateSessionFailed(error: any): void {
         }
+
+		signIn(returnToUrl = true, e): void {
+			e.preventDefault();
+		    if (this.session.billTo && this.session.billTo.isGuest) {
+			    this.sessionService.signOut().then(
+				    () => { this.coreService.redirectToSignIn(returnToUrl); },
+				    (error: any) => { this.signOutFailed(error); });
+		    }
+	    }
     }
 
     angular

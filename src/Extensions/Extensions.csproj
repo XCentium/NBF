@@ -48,6 +48,10 @@
     <Reference Include="Insite.Configurator, Version=4.3.2.38010, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Insite.Commerce.Public.4.3.2.38010\lib\net452\Insite.Configurator.dll</HintPath>
     </Reference>
+    <Reference Include="Insite.ContentLibrary, Version=4.3.2.38010, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Insite.Commerce.Private.4.3.2.38010\lib\net452\Insite.ContentLibrary.dll</HintPath>
+    </Reference>
     <Reference Include="Insite.Core.Interfaces, Version=4.3.2.38010, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Insite.Commerce.Public.4.3.2.38010\lib\net452\Insite.Core.Interfaces.dll</HintPath>
     </Reference>
@@ -95,6 +99,10 @@
     </Reference>
     <Reference Include="Insite.Public.Core, Version=4.3.2.38010, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Insite.Commerce.Public.4.3.2.38010\lib\net452\Insite.Public.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.Public.WebFramework, Version=4.3.2.38010, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Insite.Commerce.Private.4.3.2.38010\lib\net452\Insite.Public.WebFramework.dll</HintPath>
     </Reference>
     <Reference Include="Insite.QuickOrder, Version=4.3.2.38010, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Insite.Commerce.Public.4.3.2.38010\lib\net452\Insite.QuickOrder.dll</HintPath>
@@ -222,11 +230,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Widgets\CheckoutView.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config">
       <SubType>Designer</SubType>
     </Content>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

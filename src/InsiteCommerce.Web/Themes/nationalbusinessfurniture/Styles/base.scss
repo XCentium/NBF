@@ -1,3 +1,6 @@
+@import 'custom/checkout';
+
+
 @font-face {
     font-family: 'good-oatmeal-v2';
     src: url('/SystemResources/Styles/Fonts/good-oatmeal-371/good-oatmeal-371.woff') format('woff'),
@@ -2002,7 +2005,7 @@ table td select {
 
 #userPanel .row, #searchPanel .row,
 #loginPanel .row {
-    max-width: 1040px;
+    max-width: 1200px;
 }
 
 #userPanel .row .small-6 label {
@@ -2043,7 +2046,7 @@ table td select {
 }
 
 #userPanel .row, #searchPanel .row {
-    max-width: 1040px;
+    max-width: 1200px;
 }
 
 #userPanel .btn {
@@ -2863,7 +2866,7 @@ header div.head-cm {
 
 @media all and (min-width: 1040px) {
     [role="main"] .main-row {
-        max-width: 1040px;
+        max-width: 1200px;
         padding-left: 25px;
         padding-right: 25px;
     }
@@ -5630,7 +5633,7 @@ header + .ui-lock {
 
 @media all and (min-width: 1040px) {
     header .logo-row {
-        max-width: 1040px;
+        max-width: 1200px;
         padding: 0;
     }
 }
@@ -6060,7 +6063,7 @@ a.ex:hover, a.ex:focus {
 
 @media all and (min-width: 1040px) {
     [role="primary-nav"] > .row {
-        max-width: 1040px;
+        max-width: 1200px;
         padding: 0;
     }
 }
@@ -6302,7 +6305,7 @@ header .foundicon-remove:before, [role="secondary-nav"] .foundicon-remove:before
     [role="secondary-nav"] > .row {
         width: 100%;
         margin: 0 auto;
-        max-width: 1040px;
+        max-width: 1200px;
         display: block;
         height: 100%;
         height: 40px;
@@ -8335,7 +8338,7 @@ html, body {
 .isc-nav-wrap {
     width: 100%;
     margin: 0 auto;
-    max-width: 1040px;
+    max-width: 1200px;
     display: block;
     height: 100%;
 }
@@ -8546,7 +8549,7 @@ header label.toggle.burger:after {
     margin: 0 auto;
     z-index: 1;
     position: relative;
-    max-width: 1040px;
+    max-width: 1200px;
 
     &.container-wide {
         max-width: 100%;

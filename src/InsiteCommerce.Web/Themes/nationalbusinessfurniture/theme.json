@@ -121,6 +121,8 @@
     // override the view for an alias by specifiying the file location. This will use MyCustomCartLines.cshtml when the the Cart-CartLines view is needed.
     // "Cart-CartLines": "Views/Directives/Cart/MyCustomCartLines.cshtml"
     // "Cart-CartLines": "~/Themes/MyTheme/Views/Directives/Cart/MyCustomCartLines.cshtml"
+
+    "Custom-CheckoutCartTotalDisplay": "views/directives/custom/cart/checkoutcarttotaldisplay.cshtml"
   }
 }
 

@@ -1,0 +1,149 @@
+﻿<div class="large-12 columns checkout" ng-controller="CheckoutAddressController as vm" ng-cloak>
+    <div class="checkout-head">
+        <h1>[% translate 'Checkout' %]</h1>
+        {% comment %}
+        <div class="checkout-crumbs">
+            <div class="crumb-current">[% translate 'Billing & Shipping' %]</div>
+            <div class="crumb-sep">&gt;</div>
+            <div>[% translate 'Payment' %]</div>
+            <div class="crumb-sep">&gt;</div>
+            <div>[% translate 'Confirmation' %]</div>
+        </div>
+        {% endcomment %}
+    </div>
+    <div class="medium-8 columns">
+        <dl class="accordion checkout-accordion" data-accordion>
+            <dd class="accordion-navigation">
+                <a href="#panel1b">[% translate 'Billing Information' %]</a>
+                <div id="panel1b" class="content active">
+                    <form id="addressForm" name="addressForm" ng-show="vm.countries" class="address-form">
+                        <div class="section-container" data-section data-section-resized="true" style="min-height: 0;">
+                            <section class="bill-to">
+                                <h3>[% translate 'Billing Information' %]</h3>
+                                <div>
+                                    <div class="billing-info">
+                                        <div class="required-msg" style="height: 53px; margin: 0">
+                                            <span class="redTxt">*</span>[% translate 'Required' %]
+                                        </div>
+                                        <isc-address-edit prefix="bt" show-email="true" address="vm.cart.billTo" countries="vm.countries" address-fields="vm.addressFields.billToAddressFields"
+                                                          set-state-required-rule="vm.setStateRequiredRule('bt', vm.cart.billTo)"></isc-address-edit>
+                                        <div class="newsletter-signup" ng-show="vm.cart.showNewsletterSignup">
+                                            <label class="input-lbl">
+                                                <input class="tst_checkoutAddress_isSubscribed" type="checkbox" ng-model="vm.account.isSubscribed">
+                                                [% siteMessage 'Address_SignMeUp' %]
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                            <section class="ship-to">
+                                <h3>[% translate 'Shipping Information' %]</h3>
+                                <div>
+                                    <div class="shipping-info">
+                                        <div class="ship-select">
+                                            <select id="shipTo" name="shipTo" ng-model="vm.selectedShipTo" ng-options="shipTo.label for shipTo in vm.shipTos" ng-change="vm.checkSelectedShipTo()"></select>
+                                        </div>
+                                        <isc-address-edit prefix="st" show-email="false" address="vm.selectedShipTo" countries="vm.countries" address-fields="vm.addressFields.shipToAddressFields"
+                                                          is-read-only="vm.isReadOnly" set-state-required-rule="vm.setStateRequiredRule('st', vm.selectedShipTo)"></isc-address-edit>
+                                    </div>
+                                    <div class="btns">
+                                        <button id="tst_checkoutAddress_continue" type="button" class="btn primary btn-continue"
+                                                ng-click="vm.continueCheckout('[% urlForPage 'ReviewAndPayPage' %]', '[% urlForPage 'CartPage' %]')"
+                                                ng-disabled="vm.continueCheckoutInProgress">
+                                            [% translate 'Continue' %]
+                                        </button>
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+                    </form>
+                </div>
+            </dd>
+            <dd class="accordion-navigation">
+                <a href="#panel2b">Accordion 2</a>
+                <div id="panel2b" class="content">
+                    Panel 2. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                </div>
+            </dd>
+            <dd class="accordion-navigation">
+                <a href="#panel3b">Accordion 3</a>
+                <div id="panel3b" class="content">
+                    Panel 3. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                </div>
+            </dd>
+        </dl>
+    </div>
+    <div class="medium-4 columns">
+        <div ng-controller="CartController as vm" ng-cloak ng-show="vm.cart">
+            <div class="checkout-cart">
+                <h3 ng-if="vm.cart.cartLines.length > 0" class="results-count">
+                    <span class="result-num" ng-bind="vm.cart.totalCountDisplay"></span> <span class="result-lbl">[% translate 'Items' %]</span>
+                </h3>
+                <div class="cart-left">
+                    <div id="tst_cartPage_cartIsEmpty" ng-if="vm.cart.cartLines.length == 0" class="cart-empty">
+                        <h3>[% siteMessage 'Cart_NoOrderLines' %]</h3>
+                    </div>
+                    <div ng-if="vm.cart.cartLines.length > 0">
+                        <div id="tst_cartPage_approvingMessage" ng-if="vm.cart.isAwaitingApproval" class="app-for">
+                            <h3>[% translate 'Approving Order For' %]: <em ng-bind="vm.cart.initiatedByUserName"></em></h3>
+                        </div>
+                        <div ng-if="vm.cart.quoteRequiredCount > 0" class="quote-items-note messaging">
+                            [% siteMessage 'Rfq_QuoteRequiredMsg' %]
+                        </div>
+                        <div ng-show="vm.cart.hasInsufficientInventory" class="messaging--error" id="tst_cartPage_hasInsufficientInventory_message">
+                            [% siteMessage 'Cart_InsufficientInventoryAtCheckout' %]
+                        </div>
+                        <div ng-show="vm.cart.cartNotPriced" class="messaging--error">
+                            [% siteMessage 'Cart_NoPriceAvailableAtCheckout' %]
+                        </div>
+                        <div ng-show="vm.productsCannotBePurchased" class="messaging--error">
+                            [% siteMessage 'Cart_ProductsCannotBePurchased' %]
+                        </div>
+                        <div class="hide-for-medium-up btns hide-for-print">
+                            [[CheckoutButtons]]
+                        </div>
+                        <div id="cartgrid">
+                            <isc-cart-lines cart="vm.cart" editable="true"
+                                            include-quote-required="true"
+                                            include-inventory="vm.showInventoryAvailability"
+                                            failed-to-get-real-time-inventory="vm.failedToGetRealTimeInventory"
+                                            inventory-check="true"
+                                            promotions="vm.promotions"
+                                            class="item-list cart-items">
+                            </isc-cart-lines>
+                        </div>
+                    </div>
+                    <div class="btns hide-for-small">
+                        <a id="tst_cartPage_continueShopping" ng-show="vm.cart.displayContinueShoppingLink" href="[% urlForPage 'HomePage' %]" ng-click="vm.continueShopping($event)" class="btn secondary btn-continue-shopping">[% translate 'Continue Shopping' %]</a>
+                    </div>
+                </div>
+                <div ng-if="vm.cart.cartLines.length > 0" class="cart-right">
+                    <nbf-cart-total-display ng-if="!vm.cart.cartNotPriced" cart="vm.cart" promotions="vm.promotions" order-taxes="vm.cart.customerOrderTaxes" is-cart-page="true"></nbf-cart-total-display>
+                    <div class="btns hide-for-print" id="tst_cartPage_buttons">
+                        [[CheckoutButtons]]
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script type="text/ng-template" id="/PartialViews/Cart-CartLines">
+            [% partialView 'Cart-CartLines' %]
+        </script>
+        <script type="text/ng-template" id="/PartialViews/Cart-CartTotalDisplay">
+            [% partialView 'Cart-CartTotalDisplay' %]
+        </script>
+        <script type="text/ng-template" id="/PartialViews/Catalog-CrossSellCarousel">
+            [% partialView 'Cart-CartLines' %]
+        </script>
+    </div>
+    <isc-popup-template container-id="insufficientInventoryAtCheckout">
+        [% siteMessage 'Cart_InsufficientInventoryAtCheckout' %]
+    </isc-popup-template>
+</div>
+
+<script type="text/ng-template" id="/PartialViews/Account-AddressEdit">
+    [% partialView 'Account-AddressEdit' %]
+</script>
+<script type="text/ng-template" id="/PartialViews/Account-AddressField">
+    [% partialView 'Account-AddressField' %]
+</script>
