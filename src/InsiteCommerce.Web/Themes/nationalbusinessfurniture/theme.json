@@ -122,7 +122,8 @@
     // "Cart-CartLines": "Views/Directives/Cart/MyCustomCartLines.cshtml"
     // "Cart-CartLines": "~/Themes/MyTheme/Views/Directives/Cart/MyCustomCartLines.cshtml"
 
-    "Custom-CheckoutCartTotalDisplay": "views/directives/custom/cart/checkoutcarttotaldisplay.cshtml"
+    "Custom-CheckoutCartTotalDisplay": "views/directives/custom/cart/checkoutcarttotaldisplay.cshtml",
+    "Custom-CheckoutCartLines": "views/directives/custom/cart/checkoutcartlines.cshtml"
   }
 }
 

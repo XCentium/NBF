@@ -4,19 +4,21 @@
             display: inline-block;
         }
 
-        .ship-to {
+        .ship-to, .ship-info {
             float: left;
             width: 50%;
             padding-top: 0 !important;
             padding-left: 2em;
         }
 
-        .bill-to {
-            float: left;
-            width: 50%;
-            padding-top: 0 !important;
-            padding-right: 2em;
-        }
+        .order-bill-ship {
+            .bill-to, .bill-info {
+                float: left;
+                width: 50%;
+                padding-top: 0 !important;
+                padding-right: 2em;
+            }
+        }        
     }
 
     .checkout-cart {
@@ -25,8 +27,17 @@
         }
 
         .cart-items {
-            max-height: 600px;
-            overflow-y: scroll;
+            max-height: 500px;
+            overflow-y: auto;
+            .item-list, .item-details {
+                width:100%;
+                > div{
+                    margin-bottom:0;
+                }
+            }
+        }
+        .item-block div.item-opt .item-qty, .qo-item .qo-qty {
+            float:left;
         }
     }
 

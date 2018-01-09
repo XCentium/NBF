@@ -85,6 +85,9 @@
   <ItemGroup>
     <Content Include="Scripts\Custom\Cart\nbf.cart-total-display.directive.ts" />
     <Content Include="theme.json" />
+    <TypeScriptCompile Include="Scripts\Custom\Cart\nbf.cart-lines.directive.ts" />
+    <TypeScriptCompile Include="Scripts\Custom\Cart\nbf.order-confirmation.controller.ts" />
+    <TypeScriptCompile Include="Scripts\Custom\Cart\nbf.review-and-pay.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Cart\nbf.checkout.controller.ts" />
     <TypeScriptCompile Include="Scripts\insite.config.ts" />
     <TypeScriptCompile Include="Scripts\insite.content-pager.controller.ts" />
@@ -438,6 +441,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Scripts\Custom\Account\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Directives\Custom\Cart\CheckoutCartLines.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

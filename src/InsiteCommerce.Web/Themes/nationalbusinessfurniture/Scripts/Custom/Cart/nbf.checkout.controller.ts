@@ -2,8 +2,10 @@
     "use strict";
     import SessionService = insite.account.ISessionService;
     import ShipToModel = Insite.Customers.WebApi.V1.ApiModels.ShipToModel;
+    import StateModel = Insite.Websites.WebApi.V1.ApiModels.StateModel;
 
     export class NbfCheckoutController {
+        //Address Variables
         cart: CartModel;
         cartId: string;
         countries: CountryModel[];
@@ -459,6 +461,16 @@
             $("#nav1min").show();
             this.step = 2;
             $("#payment").addClass("active");
+            $("html:not(:animated), body:not(:animated)").animate({
+                scrollTop: $("#nav1").offset().top
+            }, 200);
+            this.continueCheckoutInProgress = false;
+        }
+
+        editAddresses() {
+            $("#nav1expanded").show();
+            $("#nav1min").hide();
+            $("#payment").removeClass("active");
             $("html:not(:animated), body:not(:animated)").animate({
                 scrollTop: $("#nav1").offset().top
             }, 200);
