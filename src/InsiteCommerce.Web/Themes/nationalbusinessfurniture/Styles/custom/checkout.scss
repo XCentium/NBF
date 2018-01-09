@@ -1,16 +1,103 @@
 ﻿.checkout {
     .checkout-accordion {
         .address-form {
-            display:inline-block;
-        }        
+            display: inline-block;
+        }
+
+        .ship-to {
+            float: left;
+            width: 50%;
+            padding-top: 0 !important;
+            padding-left: 2em;
+        }
+
+        .bill-to {
+            float: left;
+            width: 50%;
+            padding-top: 0 !important;
+            padding-right: 2em;
+        }
     }
+
     .checkout-cart {
         .cart-left {
-            width:100%;                        
+            width: 100%;
         }
+
         .cart-items {
-            max-height:600px;
+            max-height: 600px;
             overflow-y: scroll;
+        }
+    }
+
+    .btns {
+        text-align: center;
+
+        .btn {
+            margin: 1em 0;
+            float: none !important;
+        }
+    }
+
+    .section-container {
+        display: inline-block;
+        width: 100%;
+    }
+
+    @media all and (min-width: 768px) {
+        .ship-method {
+            float: left;
+            width: 50%;
+            padding-top: 0 !important;
+            padding-right: 2em;
+        }
+
+        .payment-details {
+            float: left;
+            width: 50%;
+            padding-top: 0 !important;
+            padding-left: 2em;
+        }
+
+        .order-summary {
+            float: left;
+            clear: both;
+            width: 100%;
+        }
+
+        .order-summary-2 {
+            float: left;
+            clear: both;
+            width: 100%;
+        }
+
+        .order-summary-2 {
+            float: right;
+            margin-bottom: 1em;
+            width: 55%;
+        }
+
+        .order-summary-2 .btns a.btn {
+            float: right;
+            margin-left: 1em;
+            margin-bottom: 1em;
+        }
+
+        .item-list .item-details div.price,
+        .item-list .item-details div.item-opt {
+            display: inline-block;
+            height: auto;
+        }
+
+        .item-list .item-details,
+        .item-list .item-code-notes {
+            padding-right: 1em !important;
+        }
+
+        .bill-ship, .ship-method, .payment-details, .order-summary {
+            .title {
+                display: none;
+            }
         }
     }
 }

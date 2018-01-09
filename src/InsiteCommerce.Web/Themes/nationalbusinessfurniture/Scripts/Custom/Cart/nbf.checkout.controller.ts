@@ -17,6 +17,7 @@
         customerSettings: any;
         cartUri: string;
         initialShipToId: string;
+        step: number = 0;
 
         static $inject = [
             "$scope",
@@ -64,6 +65,28 @@
             this.settingsService.getSettings().then(
                 (settingsCollection: core.SettingsCollection) => { this.getSettingsCompleted(settingsCollection); },
                 (error: any) => { this.getSettingsFailed(error); });
+
+
+            ($(document) as any).foundation({
+                accordion: {
+                    // specify the class used for accordion panels
+                    content_class: "content",
+                    // specify the class used for active (or open) accordion panels
+                    active_class: "active",
+                    // allow multiple accordion panels to be active at the same time
+                    multi_expand: true,
+                    // allow accordion panels to be closed by clicking on their headers
+                    // setting to false only closes accordion panels when another is opened
+                    toggleable: false
+                }
+            });
+
+            $(".accordion-navigation a").click(e => {
+                if (e.target.id.indexOf(this.step.toString()) === -1) {
+                    e.stopPropagation();
+                    e.preventDefault();
+                }
+            });
         }
 
         protected getSettingsCompleted(settingsCollection: core.SettingsCollection): void {
@@ -275,22 +298,55 @@
 
             if (this.customerSettings.allowBillToAddressEdit) {
                 this.customerService.updateBillTo(this.cart.billTo).then(
-                    (billTo: BillToModel) => { this.updateBillToCompleted(billTo, continueUri); },
+                    (billTo: BillToModel) => { this.updateBillToCompleted(billTo); },
                     (error: any) => { this.updateBillToFailed(error); });
             } else {
-                this.updateShipTo(continueUri);
+                this.updateShipTo();
             }
         }
 
-        protected updateBillToCompleted(billTo: BillToModel, continueUri: string): void {
-            this.updateShipTo(continueUri, true);
+        continueToStep2(cartUri: string): void {
+            const valid = $("#addressForm").validate().form();
+            if (!valid) {
+                angular.element("html, body").animate({
+                    scrollTop: angular.element(".error:visible").offset().top
+                }, 300);
+
+                return;
+            }
+
+            this.continueCheckoutInProgress = true;
+            this.cartUri = cartUri;
+
+            // if no changes, redirect to next step
+            if (this.$scope.addressForm.$pristine) {
+                this.loadStep2();
+                return;
+            }
+
+            // if the ship to has been changed, set the shipvia to null so it isn't set to a ship via that is no longer valid
+            if (this.cart.shipTo && this.cart.shipTo.id !== this.selectedShipTo.id) {
+                this.cart.shipVia = null;
+            }
+
+            if (this.customerSettings.allowBillToAddressEdit) {
+                this.customerService.updateBillTo(this.cart.billTo).then(
+                    (billTo: BillToModel) => { this.updateBillToCompleted(billTo); },
+                    (error: any) => { this.updateBillToFailed(error); });
+            } else {
+                this.updateShipTo();
+            }
+        }
+
+        protected updateBillToCompleted(billTo: BillToModel): void {
+            this.updateShipTo(true);
         }
 
         protected updateBillToFailed(error: any): void {
             this.continueCheckoutInProgress = false;
         }
 
-        protected updateShipTo(continueUri: string, customerWasUpdated?: boolean): void {
+        protected updateShipTo(customerWasUpdated?: boolean): void {
             if (this.customerSettings.allowShipToAddressEdit) {
                 const shipToMatches = this.cart.billTo.shipTos.filter(shipTo => { return shipTo.id === this.selectedShipTo.id; });
                 if (shipToMatches.length === 1) {
@@ -299,42 +355,42 @@
 
                 if (this.cart.shipTo.id !== this.cart.billTo.id) {
                     this.customerService.addOrUpdateShipTo(this.cart.shipTo).then(
-                        (shipTo: ShipToModel) => { this.addOrUpdateShipToCompleted(shipTo, continueUri, customerWasUpdated); },
+                        (shipTo: ShipToModel) => { this.addOrUpdateShipToCompleted(shipTo, customerWasUpdated); },
                         (error: any) => { this.addOrUpdateShipToFailed(error); });
                 } else {
-                    this.updateSession(this.cart, continueUri, customerWasUpdated);
+                    this.updateSession(this.cart, customerWasUpdated);
                 }
             } else {
-                this.updateSession(this.cart, continueUri, customerWasUpdated);
+                this.updateSession(this.cart, customerWasUpdated);
             }
         }
 
-        protected addOrUpdateShipToCompleted(shipTo: ShipToModel, continueUri: string, customerWasUpdated?: boolean): void {
+        protected addOrUpdateShipToCompleted(shipTo: ShipToModel, customerWasUpdated?: boolean): void {
             if (this.cart.shipTo.isNew) {
                 this.cart.shipTo = shipTo;
             }
 
-            this.updateSession(this.cart, continueUri, customerWasUpdated);
+            this.updateSession(this.cart, customerWasUpdated);
         }
 
         protected addOrUpdateShipToFailed(error: any): void {
             this.continueCheckoutInProgress = false;
         }
 
-        protected getCartAfterChangeShipTo(cart: CartModel, continueUri: string): void {
+        protected getCartAfterChangeShipTo(cart: CartModel): void {
             this.cartService.expand = "cartlines,shiptos,validation";
             this.cartService.getCart(this.cartId).then(
-                (cart: CartModel) => { this.getCartAfterChangeShipToCompleted(cart, continueUri); },
+                (cart: CartModel) => { this.getCartAfterChangeShipToCompleted(cart); },
                 (error: any) => { this.getCartAfterChangeShipToFailed(error); });
         }
 
-        protected getCartAfterChangeShipToCompleted(cart: CartModel, continueUri: string): void {
+        protected getCartAfterChangeShipToCompleted(cart: CartModel): void {
             this.cartService.expand = "";
             this.cart = cart;
 
             if (!cart.canCheckOut) {
                 this.coreService.displayModal(angular.element("#insufficientInventoryAtCheckout"), () => {
-                    this.redirectTo(this.cartUri);
+                    this.loadStep2();
                 });
 
                 this.$timeout(() => {
@@ -343,10 +399,10 @@
             } else {
                 if (this.initialIsSubscribed !== this.account.isSubscribed) {
                     this.accountService.updateAccount(this.account).then(
-                        (response: AccountModel) => { this.updateAccountCompleted(this.cart, continueUri); },
+                        (response: AccountModel) => { this.updateAccountCompleted(this.cart); },
                         (error: any) => { this.updateAccountFailed(error); });
                 } else {
-                    this.redirectTo(continueUri);
+                    this.loadStep2();
                 }
             }
         }
@@ -355,14 +411,14 @@
             this.continueCheckoutInProgress = false;
         }
 
-        protected updateSession(cart: CartModel, continueUri: string, customerWasUpdated?: boolean): void {
+        protected updateSession(cart: CartModel, customerWasUpdated?: boolean): void {
             this.sessionService.setCustomer(this.cart.billTo.id, this.cart.shipTo.id, false, customerWasUpdated).then(
-                (session: SessionModel) => { this.updateSessionCompleted(session, this.cart, continueUri); },
+                (session: SessionModel) => { this.updateSessionCompleted(session, this.cart); },
                 (error: any) => { this.updateSessionFailed(error); });
         }
 
-        protected updateAccountCompleted(cart: CartModel, continueUri: string): void {
-            this.redirectTo(continueUri);
+        protected updateAccountCompleted(cart: CartModel): void {
+            this.loadStep2();
         }
 
         protected updateAccountFailed(error: any): void {
@@ -377,12 +433,12 @@
             });
         }
 
-        protected updateSessionCompleted(session: SessionModel, cart: CartModel, continueUri: string) {
+        protected updateSessionCompleted(session: SessionModel, cart: CartModel) {
             if (session.isRestrictedProductRemovedFromCart) {
                 this.$localStorage.set("hasRestrictedProducts", true.toString());
-                this.redirectTo(this.cartUri);
+                this.loadStep2();
             } else {
-                this.getCartAfterChangeShipTo(this.cart, continueUri);
+                this.getCartAfterChangeShipTo(this.cart);
             }
         }
 
@@ -396,6 +452,16 @@
             } else {
                 this.coreService.redirectToPathAndRefreshPage(continueUri);
             }
+        }
+
+        protected loadStep2() {
+            $("#nav1expanded").hide();
+            $("#nav1min").show();
+            this.step = 2;
+            $("#payment").addClass("active");
+            $("html:not(:animated), body:not(:animated)").animate({
+                scrollTop: $("#nav1").offset().top
+            }, 200);
         }
     }
 
