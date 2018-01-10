@@ -85,6 +85,16 @@
             this.selectedWishList = wishList;
             this.inProgress = false;
 
+            this.getRealTimePrices();
+            if (!this.productSettings.inventoryIncludedWithPricing) {
+                this.getRealTimeInventory();
+            }
+        }
+
+        protected getWishListFailed(error: any): void {
+        }
+
+        protected getRealTimePrices(): void {
             if (this.productSettings.realTimePricing && this.selectedWishList.wishListLineCollection != null) {
                 const products = this.selectedWishList.wishListLineCollection.map((wishlistLine) => {
                     return {
@@ -98,17 +108,6 @@
                     (pricingResult: RealTimePricingModel) => { this.handleRealTimePricesCompleted(pricingResult); },
                     (reason: any) => { this.handleRealtimePricesFailed(reason); });
             }
-
-            if (this.productSettings.realTimeInventory && this.selectedWishList.wishListLineCollection != null) {
-                const products = this.selectedWishList.wishListLineCollection.map(wishlistLine => this.mapWishlistLineToProduct(wishlistLine));
-
-                this.productService.getProductRealTimeInventory(products).then(
-                    (inventoryResult: RealTimeInventoryModel) => { this.handleRealTimeInventoryCompleted(inventoryResult); },
-                    (reason: any) => { this.handleRealtimeInventoryFailed(reason); });
-            }
-        }
-
-        protected getWishListFailed(error: any): void {
         }
 
         protected handleRealTimePricesCompleted(result: RealTimePricingModel): void {
@@ -116,6 +115,10 @@
                 const wishlistLine = this.selectedWishList.wishListLineCollection.find((p: WishListLineModel) => p.productId === productPrice.productId);
                 wishlistLine.pricing = productPrice;
             });
+
+            if (this.productSettings.inventoryIncludedWithPricing) {
+                this.getRealTimeInventory();
+            }
         }
 
         protected  handleRealtimePricesFailed(reason: any): void {
@@ -124,6 +127,16 @@
                     (p.pricing as any).failedToGetRealTimePrices = true;
                 }
             });
+        }
+
+        protected getRealTimeInventory(): void {
+            if (this.productSettings.realTimeInventory && this.selectedWishList.wishListLineCollection != null) {
+                const products = this.selectedWishList.wishListLineCollection.map(wishlistLine => this.mapWishlistLineToProduct(wishlistLine));
+
+                this.productService.getProductRealTimeInventory(products).then(
+                    (inventoryResult: RealTimeInventoryModel) => { this.handleRealTimeInventoryCompleted(inventoryResult); },
+                    (reason: any) => { this.handleRealtimeInventoryFailed(reason); });
+            }
         }
 
         protected handleRealTimeInventoryCompleted(result: RealTimeInventoryModel): void {

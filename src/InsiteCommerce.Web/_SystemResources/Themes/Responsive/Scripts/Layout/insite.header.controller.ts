@@ -33,6 +33,21 @@
 
             // set min-width of the Search label
             angular.element(".header-b2c .header-zone.rt .sb-search").css("min-width", angular.element(".search-label").outerWidth());
+            angular.element(".header-b2c .mega-nav .top-level-item").hover((event) => {
+                const target = angular.element(event.target);
+                if (target.hasClass("top-level-item")) {
+                    target.addClass("hover");
+                } else {
+                    target.parents(".top-level-item").first().addClass("hover");
+                }
+            }, (event) => {
+                const target = angular.element(event.target);
+                if (target.hasClass("top-level-item")) {
+                    target.removeClass("hover");
+                } else {
+                    target.parents(".top-level-item").first().removeClass("hover");
+                }
+            });
         }
 
         protected onCartLoaded(cart: CartModel): void {
@@ -82,6 +97,10 @@
         }
 
         protected signOutFailed(error: any): void {
+        }
+
+        hideB2CNav($event: any): void {
+            angular.element($event.target).mouseout();
         }
     }
 

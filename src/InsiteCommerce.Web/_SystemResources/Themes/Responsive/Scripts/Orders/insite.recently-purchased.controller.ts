@@ -61,10 +61,10 @@
                 for (let orderLineIndex = 0; orderLineIndex < orderLines.length && this.productItems.length <= this.maxProducts; orderLineIndex++) {
                     let orderLine = orderLines[orderLineIndex];
                     if (orderLine.canAddToCart) {
-                         const productItem = { id: orderLine.productId, unitOfMeasure: orderLine.unitOfMeasure };
-                         if (productItem.id && !this.productItems.some((pi) => (pi.id === orderLine.productId && pi.unitOfMeasure === orderLine.unitOfMeasure)) && this.productItems.length < this.maxProducts) {
-                             this.productItems.push(productItem);
-                         }
+                        const productItem = { id: orderLine.productId, unitOfMeasure: orderLine.unitOfMeasure, product: {} as any };
+                        if (productItem.id && !this.productItems.some((pi) => (pi.id === orderLine.productId && pi.unitOfMeasure === orderLine.unitOfMeasure)) && this.productItems.length < this.maxProducts) {
+                            this.productItems.push(productItem);
+                        }
                     }
                 }
             }
@@ -89,7 +89,7 @@
         }
 
         getProducts(ids: System.Guid[]): void {
-            this.productService.getProducts({ productIds: ids }).then(
+            this.productService.getProducts({ productIds: ids }, ["pricing"]).then(
                 (productCollection: ProductCollectionModel) => { this.getProductsCompleted(productCollection); },
                 (error: any) => { this.getProductsFailed(error); }
             );
@@ -118,6 +118,12 @@
         }
 
         protected getProductsFailed(error: any): void {
+        }
+
+        showUnitOfMeasureLabel(product: ProductDto): boolean {
+            return product.canShowUnitOfMeasure
+                && !!product.unitOfMeasureDisplay
+                && !product.quoteRequired;
         }
 
         protected changeUnitOfMeasureCompleted(product: ProductDto, productItem: IProductItem): void {

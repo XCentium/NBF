@@ -84,13 +84,17 @@
                 return;
             }
 
-            let path = prevUrl;
-            path = path.substring(path.toLowerCase().indexOf(window.location.hostname.toLowerCase()) + window.location.hostname.length);
-            this.referringPath = path;
-
+            this.setReferringPath(prevUrl);
             this.hideNavMenuOnTouchDevices();
             this.closeAllModals();
+            this.retainScrollPosition(newUrl, prevUrl);
+        }
 
+        protected setReferringPath(prevUrl: any): void {
+            this.referringPath = prevUrl.substring(prevUrl.toLowerCase().indexOf(window.location.hostname.toLowerCase()) + window.location.hostname.length);
+        }
+
+        protected retainScrollPosition(newUrl: any, prevUrl: any): void {
             const scrollPositions = {};
             const scrollPos = this.$sessionStorage.getObject("scrollPositions");
             if (scrollPos && scrollPos[newUrl]) {
@@ -102,17 +106,22 @@
         }
 
         protected onViewContentLoaded(event: ng.IAngularEvent): void {
+            this.restoreScrollPosition();
+        }
+
+        protected restoreScrollPosition() {
             const scrollPositions = this.$sessionStorage.getObject("scrollPositions");
             if (!scrollPositions || !scrollPositions[this.$location.absUrl()]) {
+                this.$window.scrollTo(0, 0);
                 return;
             }
 
-            this.$timeout(this.waitForRenderAndScroll.bind(this));
+            this.$timeout(() => { this.waitForRenderAndScroll(); });
         }
 
         protected waitForRenderAndScroll(): void {
             if (this.$http.pendingRequests.length > 0) {
-                this.$timeout(this.waitForRenderAndScroll.bind(this), 100);
+                this.$timeout(() => { this.waitForRenderAndScroll(); }, 100);
             } else {
                 const scrollPositions = this.$sessionStorage.getObject("scrollPositions");
                 this.$window.scrollTo(0, scrollPositions[this.$location.absUrl()]);

@@ -428,6 +428,7 @@ declare module Insite.Cart.WebApi.V1.ApiModels {
 		pricing: Insite.Core.Plugins.Pricing.ProductPriceDto;
 		isPromotionItem: boolean;
 		isDiscounted: boolean;
+		isConfigured: boolean;
 		isFixedConfiguration: boolean;
 		quoteRequired: boolean;
 		breakPrices: Insite.Core.Plugins.Pricing.BreakPriceDto[];
@@ -955,6 +956,7 @@ declare module Insite.Catalog.WebApi.V1.ApiModels {
 		showSavingsPercent: boolean;
 		realTimePricing: boolean;
 		realTimeInventory: boolean;
+		inventoryIncludedWithPricing: boolean;
 		storefrontAccess: string;
 	}
 }

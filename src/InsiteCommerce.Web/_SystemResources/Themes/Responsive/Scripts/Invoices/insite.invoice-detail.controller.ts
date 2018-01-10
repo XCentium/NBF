@@ -47,7 +47,7 @@
         }
 
         protected getInvoiceFailed(error: any): void {
-            this.validationMessage = error.exceptionMessage;
+            this.validationMessage = error.message || error;
         }
 
         protected formatCityCommaStateZip(city: string, state: string, zip: string): string {

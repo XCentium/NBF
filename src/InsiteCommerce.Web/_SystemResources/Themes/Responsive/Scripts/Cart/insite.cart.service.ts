@@ -13,6 +13,7 @@ module insite.cart {
 
         getCarts(filter?: IQueryStringFilter, pagination?: PaginationModel): ng.IPromise<CartCollectionModel>;
         getCart(cartId?: string): ng.IPromise<CartModel>;
+        getSavedOrder(cartId: string, bypassErrorInterceptor?: boolean): ng.IPromise<CartModel>;
         updateCart(cart: CartModel, suppressApiErrors?: boolean): ng.IPromise<CartModel>;
         saveCart(cart: CartModel): ng.IPromise<CartModel>;
         submitRequisition(cart: CartModel): ng.IPromise<CartModel>;
@@ -82,6 +83,13 @@ module insite.cart {
         }
 
         protected getCartsFailed(error: ng.IHttpPromiseCallbackArg<any>): void {
+        }
+
+        getSavedOrder(cartId: string, bypassErrorInterceptor = true): ng.IPromise<CartModel> {
+            const uri = `${this.serviceUri}/${cartId}`;
+            return this.httpWrapperService.executeHttpRequest(
+                this,
+                this.$http({ method: "GET", url: uri, params: this.getCartParams(), bypassErrorInterceptor: true }), null, null);
         }
 
         getCart(cartId?: string): ng.IPromise<CartModel> {
@@ -325,7 +333,7 @@ module insite.cart {
                     var inventoryAvailability = productInventory.inventoryAvailabilityDtos.find(o => o.unitOfMeasure === cartLine.unitOfMeasure);
                     if (inventoryAvailability) {
                         cartLine.availability = inventoryAvailability.availability;
-                        if (!cart.hasInsufficientInventory && (cartLine.canBackOrder || cartLine.quoteRequired || (inventoryAvailability.availability as any).messageType == 2)) {
+                        if (!cart.hasInsufficientInventory && !cartLine.canBackOrder && !cartLine.quoteRequired && (inventoryAvailability.availability as any).messageType == 2) {
                             cart.hasInsufficientInventory = true;
                         }
                     } else {

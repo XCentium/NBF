@@ -12,6 +12,7 @@ module insite.jobquote {
         job: JobQuoteModel;
         calculationMethod: any;
         checkoutAddressUrl: string;
+        validationMessage: string;
 
         static $inject = ["jobQuoteService", "$attrs", "queryString"];
 
@@ -39,6 +40,7 @@ module insite.jobquote {
         }
 
         protected getJobQuoteFailed(error: any): void {
+            this.validationMessage = error.message || error;
         }
 
         quantityRemaining(jobQuoteLine: JobQuoteLineModel): number {
