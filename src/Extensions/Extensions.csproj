@@ -56,54 +56,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Insite.Commerce.Private.4.3.2.38010\lib\net452\Insite.ContentLibrary.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.Core.Interfaces, Version=4.3.2.38010, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Insite.Commerce.Public.4.3.2.38010\lib\net452\Insite.Core.Interfaces.dll</HintPath>
-    </Reference>
-    <Reference Include="Insite.Customers, Version=4.3.2.38010, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Insite.Commerce.Public.4.3.2.38010\lib\net452\Insite.Customers.dll</HintPath>
-    </Reference>
-    <Reference Include="Insite.Dashboard, Version=4.3.2.38010, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Insite.Commerce.Public.4.3.2.38010\lib\net452\Insite.Dashboard.dll</HintPath>
-    </Reference>
-    <Reference Include="Insite.Data, Version=4.3.2.38010, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Insite.Commerce.Public.4.3.2.38010\lib\net452\Insite.Data.dll</HintPath>
-    </Reference>
-    <Reference Include="Insite.Data.Entities, Version=4.3.2.38010, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Insite.Commerce.Public.4.3.2.38010\lib\net452\Insite.Data.Entities.dll</HintPath>
-    </Reference>
-    <Reference Include="Insite.Data.Repositories, Version=4.3.2.38010, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Insite.Commerce.Public.4.3.2.38010\lib\net452\Insite.Data.Repositories.dll</HintPath>
-    </Reference>
-    <Reference Include="Insite.Dealers, Version=4.3.2.38010, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Insite.Commerce.Public.4.3.2.38010\lib\net452\Insite.Dealers.dll</HintPath>
-    </Reference>
-    <Reference Include="Insite.Email, Version=4.3.2.38010, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Insite.Commerce.Public.4.3.2.38010\lib\net452\Insite.Email.dll</HintPath>
-    </Reference>
-    <Reference Include="Insite.Invoice, Version=4.3.2.38010, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Insite.Commerce.Public.4.3.2.38010\lib\net452\Insite.Invoice.dll</HintPath>
-    </Reference>
-    <Reference Include="Insite.JobQuote, Version=4.3.2.38010, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Insite.Commerce.Public.4.3.2.38010\lib\net452\Insite.JobQuote.dll</HintPath>
-    </Reference>
-    <Reference Include="Insite.Message, Version=4.3.2.38010, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Insite.Commerce.Public.4.3.2.38010\lib\net452\Insite.Message.dll</HintPath>
-    </Reference>
-    <Reference Include="Insite.Order, Version=4.3.2.38010, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Insite.Commerce.Public.4.3.2.38010\lib\net452\Insite.Order.dll</HintPath>
-    </Reference>
-    <Reference Include="Insite.OrderApproval, Version=4.3.2.38010, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Insite.Commerce.Public.4.3.2.38010\lib\net452\Insite.OrderApproval.dll</HintPath>
-    </Reference>
-    <Reference Include="Insite.Payments, Version=4.3.2.38010, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Insite.Commerce.Public.4.3.2.38010\lib\net452\Insite.Payments.dll</HintPath>
-    </Reference>
-    <Reference Include="Insite.Promotions, Version=4.3.2.38010, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Insite.Commerce.Public.4.3.2.38010\lib\net452\Insite.Promotions.dll</HintPath>
-    </Reference>
-    <Reference Include="Insite.Public.Core, Version=4.3.2.38010, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Insite.Commerce.Public.4.3.2.38010\lib\net452\Insite.Public.Core.dll</HintPath>
-    </Reference>
     <Reference Include="Insite.Public.WebFramework, Version=4.3.2.38010, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Insite.Commerce.Private.4.3.2.38010\lib\net452\Insite.Public.WebFramework.dll</HintPath>
@@ -333,12 +285,12 @@
       <SubType>Designer</SubType>
     </Content>
   </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\NBF.Customizations.Lib\NBF.Customizations.Lib.csproj">
       <Project>{21a69197-c918-4964-bac6-9de95309c899}</Project>
       <Name>NBF.Customizations.Lib</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
