@@ -74,7 +74,6 @@ module insite.cart {
                 this.productsCannotBePurchased = true;
             }
             this.displayCart(cart);
-            this.getRealTimeInventory();
         }
 
         protected getCartFailed(error: any): void {
@@ -93,21 +92,6 @@ module insite.cart {
         }
 
         protected getCartPromotionsFailed(error: any): void {
-        }
-
-        getRealTimeInventory(): void {
-            if (this.requiresRealTimeInventory) {
-                this.cartService.getRealTimeInventory(this.cart).then(
-                    (realTimeInventory: RealTimeInventoryModel) => this.getRealTimeInventoryCompleted(realTimeInventory),
-                    (error: any) => this.getRealTimeInventoryFailed(error));
-            }
-        }
-
-        protected getRealTimeInventoryCompleted(realTimeInventory: RealTimeInventoryModel): void {
-        }
-
-        protected getRealTimeInventoryFailed(error: any): void {
-            this.failedToGetRealTimeInventory = true;
         }
 
         emptyCart(emptySuccessUri: string): void {

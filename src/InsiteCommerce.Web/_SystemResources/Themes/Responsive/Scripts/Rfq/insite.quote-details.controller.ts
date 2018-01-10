@@ -12,6 +12,7 @@
         percent: number;
         minimumMargin: number;
         maximumDiscount: any;
+        validationMessage: string;
 
         static $inject = [
             "$rootScope",
@@ -76,6 +77,7 @@
         }
 
         protected getQuoteFailed(error: any): void {
+            this.validationMessage = error.message || error;
         }
 
         acceptCheckout(url: string): void {

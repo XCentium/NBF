@@ -416,17 +416,20 @@ module insite.catalog {
         }
 
         protected redirectToSearchPage(searchTerm: string, includeSuggestions?: boolean): void {
-            // search states are needed for when the /search page is redirecting to itself
-            if (insiteMicrositeUriPrefix) {
-                const stateParams = {
-                    microsite: insiteMicrositeUriPrefix.substring(1),
-                    criteria: searchTerm,
-                    includeSuggestions: includeSuggestions === false ? false : null
-                };
-                this.$state.go("search_microsite", stateParams);
-            } else {
-                this.$state.go("search", { criteria: searchTerm });
+            let url = `/search?criteria=${searchTerm}`;
+
+            if (includeSuggestions === false) {
+                url = `${url}&includeSuggestions=false`;
             }
+
+            if (insiteMicrositeUriPrefix) {
+                url = `${insiteMicrositeUriPrefix}${url}`;
+            }
+
+            setTimeout(() => {
+                this.coreService.redirectToPath(url);
+                this.$scope.$apply();
+            }, 0);
         }
 
         getTranslation(key: string): string {

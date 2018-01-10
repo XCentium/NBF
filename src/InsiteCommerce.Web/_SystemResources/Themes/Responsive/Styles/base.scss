@@ -7426,7 +7426,7 @@ nav ul:not(.side-nav) li a {
                         }
                     }
 
-                    &:hover > .second-level-subnav {
+                    &.hover > .second-level-subnav {
                         display: flex;
                         display: -webkit-flex;
                     }
@@ -7499,7 +7499,7 @@ nav ul:not(.side-nav) li a {
                     padding: 0;
                     position: relative;
 
-                    &:hover > .subnav {
+                    &.hover > .subnav {
                         display: block;
                     }
 

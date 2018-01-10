@@ -119,8 +119,14 @@ module insite.catalog {
             }
 
             this.getRealTimePrices();
-            this.getRealTimeInventory();
+            if (!this.settings.inventoryIncludedWithPricing) {
+                this.getRealTimeInventory();
+            }
 
+            this.setTabs();
+        }
+
+        protected setTabs() {
             setTimeout(() => {
                 ($(".easy-resp-tabs") as any).easyResponsiveTabs();
             }, 10);
@@ -154,6 +160,10 @@ module insite.catalog {
             // product.pricing is already updated
             if (this.product.isStyleProductParent) {
                 this.parentProduct = angular.copy(this.product);
+            }
+
+            if (this.settings.inventoryIncludedWithPricing) {
+                this.getRealTimeInventory();
             }
         }
 
@@ -309,11 +319,13 @@ module insite.catalog {
                                 (error: any) => { this.styleChangeGetProductPriceFailed(error); });
                         } else {
                             this.product = angular.copy(this.parentProduct);
+                            this.setTabs();
                         }
 
                     } else {
                         this.product = angular.copy(this.parentProduct);
                         this.product.unitOfMeasureDisplay = "";
+                        this.setTabs();
                     }
                 }
             }
@@ -321,6 +333,7 @@ module insite.catalog {
 
         protected styleChangeGetProductPriceCompleted(productPrice: ProductPriceModel): void {
             this.product = angular.copy(this.parentProduct);
+            this.setTabs();
         }
 
         protected styleChangeGetProductPriceFailed(error: any): void {

@@ -6,6 +6,7 @@
         account: AccountModel;
         cart: CartModel;
         approveOrderErrorMessage: string;
+        validationMessage: string;
 
         static $inject = ["orderApprovalService", "cartService", "accountService", "coreService", "queryString"];
 
@@ -51,6 +52,7 @@
         }
 
         protected orderApprovalServiceGetCartFailed(error: any): void {
+            this.validationMessage = error.message || error;
         }
 
         protected cartServiceGetCartCompleted(cart: CartModel): void {

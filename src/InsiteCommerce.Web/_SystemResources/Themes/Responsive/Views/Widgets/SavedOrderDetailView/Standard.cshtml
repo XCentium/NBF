@@ -1,5 +1,5 @@
 ﻿<div ng-controller="SavedOrderDetailController as vm" ng-cloak>
-    <div>
+    <div ng-show="vm.cart">
         <div class="hide-for-small back-btn">
             <a href="[% urlForPage 'SavedOrderListPage' %]" class="btn tertiary btn-return">[% translate 'Return to Saved Orders' %]</a>
         </div>
@@ -49,7 +49,9 @@
             <a href="javascript: window.print();" class="hide-for-small btn secondary btn-print">[% translate 'Print' %]</a>
         </div>
     </div>
-
+    <div ng-show="vm.validationMessage">
+        {{vm.validationMessage}}
+    </div>
     <script type="text/ng-template" id="/PartialViews/Account-AddressDisplay">
         [% partialView 'Account-AddressDisplay' %]
     </script>
