@@ -41,8 +41,8 @@ module insite {
                     templateUrl: () => "/search"
                 })
                 .state("search_microsite", {
-                    url: ":microsite/search?criteria&includeSuggestions",
-                    templateUrl: (stateParams: ISearchMicrositeStateParams) => `${stateParams.microsite}/search`
+                    url: "/:microsite/search?criteria&includeSuggestions",
+                    templateUrl: (stateParams: ISearchMicrositeStateParams) => `/${stateParams.microsite}/search`
                 })
                 .state("content", {
                     url: "*path",

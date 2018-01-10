@@ -12,12 +12,18 @@
             requestMethod
                 .then(
                     (response: ng.IHttpPromiseCallbackArg<T>) => {
+                    if (completedFunction) {
                         completedFunction.call(caller, response);
-                        deferred.resolve(response.data);
+                    }
+
+                    deferred.resolve(response.data);
                     },
                     (error: ng.IHttpPromiseCallbackArg<any>) => {
+                    if (failedFunction) {
                         failedFunction.call(caller, error);
-                        deferred.reject(error.data);
+                    }
+
+                    deferred.reject(error.data);
                     });
             return deferred.promise;
         }

@@ -19,7 +19,7 @@ module insite.catalog {
                 return { price: 0, priceDisplay: `${product.currencySymbol ? product.currencySymbol : ""}<span class='price-loading-spinner'></span>` };
             }
 
-            if (product.isFixedConfiguration) {
+            if (product.isConfigured || product.isFixedConfiguration) {
                 const price = this.getPrice(null, product.pricing.unitNetPrice, product.pricing.unitNetPriceDisplay, product.qtyOrdered);
                 return { price: price.price, priceDisplay: price.priceDisplay } as IPriceModel;
             }

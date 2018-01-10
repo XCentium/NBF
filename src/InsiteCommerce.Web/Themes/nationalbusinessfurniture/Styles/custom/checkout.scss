@@ -8,5 +8,9 @@
         .cart-left {
             width:100%;                        
         }
+        .cart-items {
+            max-height:600px;
+            overflow-y: scroll;
+        }
     }
 }

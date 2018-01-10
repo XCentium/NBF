@@ -21,14 +21,15 @@
         paginationStorageKey = "DefaultPagination-Requisitions";
         showAddToCartConfirmationDialog: boolean;
 
-        static $inject = ["requisitionService", "cartService", "paginationService", "coreService", "$attrs"];
+        static $inject = ["requisitionService", "cartService", "paginationService", "coreService", "$attrs", "spinnerService"];
 
         constructor(
             protected requisitionService: IRequisitionService,
             protected cartService: cart.ICartService,
             protected paginationService: core.IPaginationService,
             protected coreService: core.ICoreService,
-            protected $attrs: IRequisitionsControllerAttributes) {
+            protected $attrs: IRequisitionsControllerAttributes,
+            protected spinnerService: core.ISpinnerService) {
             this.init();
         }
 
@@ -102,13 +103,21 @@
 
         deleteRequisitionLine(requisitionLine: RequisitionLineModel): void {
             this.message = "";
+            this.spinnerService.show();
             this.requisitionService.deleteRequisitionLine(requisitionLine).then(
                 (requisition: RequisitionModel) => { this.deleteRequisitionLineCompleted(requisitionLine, requisition); },
                 (error: any) => { this.deleteRequisitionLineFailed(error); });
         }
 
         protected deleteRequisitionLineCompleted(requisitionLine: RequisitionLineModel, requisition: RequisitionModel): void {
+            this.spinnerService.show();
             this.getRequisitions();
+
+            this.requisition.requisitionLineCollection.requisitionLines = this.requisition.requisitionLineCollection.requisitionLines.filter(o => o.id !== requisitionLine.id);
+            if (this.requisition.requisitionLineCollection.requisitionLines.length === 0) {
+                this.message = this.deleteOrderLineMessage;
+                return;
+            }
 
             this.requisitionService.getRequisition(this.requisition.id).then(
                 (requisition: RequisitionModel) => { this.getRequisitionAfterDeleteCompleted(requisition); },

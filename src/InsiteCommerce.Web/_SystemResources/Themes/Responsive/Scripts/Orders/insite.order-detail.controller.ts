@@ -136,7 +136,7 @@
         }
 
         protected getOrderFailed(error: any): void {
-            this.validationMessage = error.exceptionMessage;
+            this.validationMessage = error.message || error;
         }
 
         reorderProduct($event, line: OrderLineModel): void {
@@ -200,7 +200,7 @@
         }
 
         protected updateOrderFailed(error: any): void {
-            this.validationMessage = error.exceptionMessage;
+            this.validationMessage = error.exceptionMessage || error;
         }
 
         showShareModal(entityId: string): void {
