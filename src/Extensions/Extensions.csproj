@@ -30,99 +30,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-<<<<<<< HEAD
-    <Reference Include="Insite.Account, Version=4.3.2.38010, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Insite.Commerce.Public.4.3.2.38010\lib\net452\Insite.Account.dll</HintPath>
-    </Reference>
-    <Reference Include="Insite.Budget, Version=4.3.2.38010, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Insite.Commerce.Public.4.3.2.38010\lib\net452\Insite.Budget.dll</HintPath>
-    </Reference>
-    <Reference Include="Insite.Cart, Version=4.3.2.38010, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Insite.Commerce.Public.4.3.2.38010\lib\net452\Insite.Cart.dll</HintPath>
-    </Reference>
-    <Reference Include="Insite.Catalog, Version=4.3.2.38010, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Insite.Commerce.Public.4.3.2.38010\lib\net452\Insite.Catalog.dll</HintPath>
-    </Reference>
-    <Reference Include="Insite.Common, Version=4.3.2.38010, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Insite.Commerce.Public.4.3.2.38010\lib\net452\Insite.Common.dll</HintPath>
-    </Reference>
-    <Reference Include="Insite.Configurator, Version=4.3.2.38010, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Insite.Commerce.Public.4.3.2.38010\lib\net452\Insite.Configurator.dll</HintPath>
-    </Reference>
     <Reference Include="Insite.ContentLibrary, Version=4.3.2.38010, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Insite.Commerce.Private.4.3.2.38010\lib\net452\Insite.ContentLibrary.dll</HintPath>
-    </Reference>
-    <Reference Include="Insite.Core.Interfaces, Version=4.3.2.38010, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Insite.Commerce.Public.4.3.2.38010\lib\net452\Insite.Core.Interfaces.dll</HintPath>
-    </Reference>
-    <Reference Include="Insite.Customers, Version=4.3.2.38010, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Insite.Commerce.Public.4.3.2.38010\lib\net452\Insite.Customers.dll</HintPath>
-    </Reference>
-    <Reference Include="Insite.Dashboard, Version=4.3.2.38010, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Insite.Commerce.Public.4.3.2.38010\lib\net452\Insite.Dashboard.dll</HintPath>
-    </Reference>
-    <Reference Include="Insite.Data, Version=4.3.2.38010, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Insite.Commerce.Public.4.3.2.38010\lib\net452\Insite.Data.dll</HintPath>
-    </Reference>
-    <Reference Include="Insite.Data.Entities, Version=4.3.2.38010, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Insite.Commerce.Public.4.3.2.38010\lib\net452\Insite.Data.Entities.dll</HintPath>
-    </Reference>
-    <Reference Include="Insite.Data.Repositories, Version=4.3.2.38010, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Insite.Commerce.Public.4.3.2.38010\lib\net452\Insite.Data.Repositories.dll</HintPath>
-    </Reference>
-    <Reference Include="Insite.Dealers, Version=4.3.2.38010, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Insite.Commerce.Public.4.3.2.38010\lib\net452\Insite.Dealers.dll</HintPath>
-    </Reference>
-    <Reference Include="Insite.Email, Version=4.3.2.38010, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Insite.Commerce.Public.4.3.2.38010\lib\net452\Insite.Email.dll</HintPath>
-    </Reference>
-    <Reference Include="Insite.Invoice, Version=4.3.2.38010, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Insite.Commerce.Public.4.3.2.38010\lib\net452\Insite.Invoice.dll</HintPath>
-    </Reference>
-    <Reference Include="Insite.JobQuote, Version=4.3.2.38010, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Insite.Commerce.Public.4.3.2.38010\lib\net452\Insite.JobQuote.dll</HintPath>
-    </Reference>
-    <Reference Include="Insite.Message, Version=4.3.2.38010, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Insite.Commerce.Public.4.3.2.38010\lib\net452\Insite.Message.dll</HintPath>
-    </Reference>
-    <Reference Include="Insite.Order, Version=4.3.2.38010, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Insite.Commerce.Public.4.3.2.38010\lib\net452\Insite.Order.dll</HintPath>
-    </Reference>
-    <Reference Include="Insite.OrderApproval, Version=4.3.2.38010, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Insite.Commerce.Public.4.3.2.38010\lib\net452\Insite.OrderApproval.dll</HintPath>
-    </Reference>
-    <Reference Include="Insite.Payments, Version=4.3.2.38010, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Insite.Commerce.Public.4.3.2.38010\lib\net452\Insite.Payments.dll</HintPath>
-    </Reference>
-    <Reference Include="Insite.Promotions, Version=4.3.2.38010, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Insite.Commerce.Public.4.3.2.38010\lib\net452\Insite.Promotions.dll</HintPath>
-    </Reference>
-    <Reference Include="Insite.Public.Core, Version=4.3.2.38010, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Insite.Commerce.Public.4.3.2.38010\lib\net452\Insite.Public.Core.dll</HintPath>
     </Reference>
     <Reference Include="Insite.Public.WebFramework, Version=4.3.2.38010, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Insite.Commerce.Private.4.3.2.38010\lib\net452\Insite.Public.WebFramework.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.QuickOrder, Version=4.3.2.38010, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Insite.Commerce.Public.4.3.2.38010\lib\net452\Insite.QuickOrder.dll</HintPath>
-    </Reference>
-    <Reference Include="Insite.RealTimePricing, Version=4.3.2.38010, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Insite.Commerce.Public.4.3.2.38010\lib\net452\Insite.RealTimePricing.dll</HintPath>
-    </Reference>
-    <Reference Include="Insite.Requisition, Version=4.3.2.38010, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Insite.Commerce.Public.4.3.2.38010\lib\net452\Insite.Requisition.dll</HintPath>
-    </Reference>
-    <Reference Include="Insite.Rfq, Version=4.3.2.38010, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Insite.Commerce.Public.4.3.2.38010\lib\net452\Insite.Rfq.dll</HintPath>
-    </Reference>
-    <Reference Include="Insite.Websites, Version=4.3.2.38010, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Insite.Commerce.Public.4.3.2.38010\lib\net452\Insite.Websites.dll</HintPath>
-    </Reference>
-    <Reference Include="Insite.WishLists, Version=4.3.2.38010, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Insite.Commerce.Public.4.3.2.38010\lib\net452\Insite.WishLists.dll</HintPath>
-=======
     <Reference Include="Insite.Account, Version=4.3.2.38064, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Insite.Commerce.Public.4.3.2.38064\lib\net452\Insite.Account.dll</HintPath>
     </Reference>
@@ -206,7 +121,6 @@
     </Reference>
     <Reference Include="Insite.WishLists, Version=4.3.2.38064, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Insite.Commerce.Public.4.3.2.38064\lib\net452\Insite.WishLists.dll</HintPath>
->>>>>>> 506028c10a0f21da924ed145ac738e49a9a0abaa
     </Reference>
     <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.1\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
@@ -316,21 +230,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-<<<<<<< HEAD
     <Compile Include="Widgets\CheckoutView.cs" />
-=======
->>>>>>> 506028c10a0f21da924ed145ac738e49a9a0abaa
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config">
       <SubType>Designer</SubType>
     </Content>
   </ItemGroup>
-<<<<<<< HEAD
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
-=======
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-</Project>
->>>>>>> 506028c10a0f21da924ed145ac738e49a9a0abaa
