@@ -4,6 +4,10 @@
     import ShipToModel = Insite.Customers.WebApi.V1.ApiModels.ShipToModel;
     import StateModel = Insite.Websites.WebApi.V1.ApiModels.StateModel;
 
+    export interface INbfCheckoutControllerAttributes extends ng.IAttributes {
+        cartUrl: string;
+    }
+
     export class NbfCheckoutController {
         //Address Variables
         cart: CartModel;
@@ -21,14 +25,39 @@
         initialShipToId: string;
         step: number = 0;
 
+        //Review and Pay Variables
+        cartIdParam: string;
+        creditCardBillingCountry: CountryModel;
+        creditCardBillingState: StateModel;
+        promotions: PromotionModel[];
+        promotionAppliedMessage: string;
+        promotionErrorMessage: string;
+        promotionCode: string;
+        submitErrorMessage: string;
+        submitting: boolean;
+        cartUrl: string;
+        cartSettings: CartSettingsModel;
+        pageIsReady = false;
+        showQuoteRequiredProducts: boolean;
+
+        //Confirmation Variables
+        showRfqMessage: boolean;
+        order: OrderModel;
+
+        orderNumber: string;
+
         static $inject = [
             "$scope",
             "$window",
             "cartService",
+            "promotionService",
             "customerService",
             "websiteService",
             "coreService",
+            "spinnerService",
+            "$attrs",
             "queryString",
+            "orderService",
             "accountService",
             "settingsService",
             "$timeout",
@@ -41,10 +70,14 @@
             protected $scope: ICartScope,
             protected $window: ng.IWindowService,
             protected cartService: ICartService,
+            protected promotionService: promotions.IPromotionService,
             protected customerService: customers.ICustomerService,
             protected websiteService: websites.IWebsiteService,
             protected coreService: core.ICoreService,
+            protected spinnerService: core.ISpinnerService,
+            protected $attrs: IReviewAndPayControllerAttributes,
             protected queryString: common.IQueryStringService,
+            protected orderService: order.IOrderService,
             protected accountService: account.IAccountService,
             protected settingsService: core.ISettingsService,
             protected $timeout: ng.ITimeoutService,
@@ -56,6 +89,16 @@
 
         init(): void {
             this.cartId = this.queryString.get("cartId");
+
+            //this.orderNumber = window.location.hash ? window.location.hash.replace('#', '') : '';
+
+            //if (this.orderNumber.length > 0) {
+            //    this.orderService.getOrder(this.orderNumber, "").then(
+            //    (order: OrderModel) => {
+            //        // this.loadStep3();
+            //    },
+            //    (error: any) => { alert("Not Found") });
+            //}
 
             this.websiteService.getAddressFields().then(
                 (model: AddressFieldCollectionModel) => { this.getAddressFieldsCompleted(model); });
@@ -97,6 +140,8 @@
 
         protected getSettingsFailed(error: any): void {
         }
+
+
 
         protected getAddressFieldsCompleted(addressFields: AddressFieldCollectionModel): void {
             this.addressFields = addressFields;
@@ -465,6 +510,9 @@
                 scrollTop: $("#nav1").offset().top
             }, 200);
             this.continueCheckoutInProgress = false;
+
+            this.reviewAndPayInit();
+
         }
 
         editAddresses() {
@@ -474,6 +522,484 @@
             $("html:not(:animated), body:not(:animated)").animate({
                 scrollTop: $("#nav1").offset().top
             }, 200);
+        }
+
+        //Review and Pay Functionality
+
+        reviewAndPayInit(): void {
+            this.$scope.$on("cartChanged", (event: ng.IAngularEvent) => this.onCartChanged(event));
+
+            this.cartUrl = this.$attrs.cartUrl;
+            this.cartId = this.queryString.get("cartId") || "current";
+
+            this.getCart(true);
+
+            $("#reviewAndPayForm").validate();
+
+            this.$scope.$watch("vm.cart.paymentOptions.creditCard.expirationYear", (year: number) => { this.onExpirationYearChanged(year); });
+            this.$scope.$watch("vm.cart.paymentOptions.creditCard.useBillingAddress", (useBillingAddress: boolean) => { this.onUseBillingAddressChanged(useBillingAddress); });
+            this.$scope.$watch("vm.creditCardBillingCountry", (country: CountryModel) => { this.onCreditCardBillingCountryChanged(country); });
+            this.$scope.$watch("vm.creditCardBillingState", (state: StateModel) => { this.onCreditCardBillingStateChanged(state); });
+
+            this.onUseBillingAddressChanged(true);
+
+            this.settingsService.getSettings().then(
+                (settings: core.SettingsCollection) => { this.getCartSettingsCompleted(settings); },
+                (error: any) => { this.getCartSettingsFailed(error); });
+
+            this.websiteService.getCountries("states").then(
+                (countryCollection: CountryCollectionModel) => { this.getCountriesCompletedForReviewAndPay(countryCollection); },
+                (error: any) => { this.getCountriesFailedForReviewAndPay(error); });
+        }
+
+        protected onCartChanged(event: ng.IAngularEvent): void {
+            this.getCart();
+        }
+
+        protected onExpirationYearChanged(year: number): void {
+            if (year) {
+                const now = new Date();
+                const minMonth = now.getFullYear() === year ? now.getMonth() : 0;
+                $("#expirationMonth").rules("add", { min: minMonth });
+                $("#expirationMonth").valid();
+            }
+        }
+
+        protected onUseBillingAddressChanged(useBillingAddress: boolean): void {
+            if (!useBillingAddress) {
+                if (typeof (this.countries) !== "undefined" && this.countries.length === 1) {
+                    this.creditCardBillingCountry = this.countries[0];
+                }
+            }
+        }
+
+        protected onCreditCardBillingCountryChanged(country: CountryModel): void {
+            if (typeof (country) !== "undefined" && this.cart.paymentOptions) {
+                if (country != null) {
+                    this.cart.paymentOptions.creditCard.country = country.name;
+                    this.cart.paymentOptions.creditCard.countryAbbreviation = country.abbreviation;
+                } else {
+                    this.cart.paymentOptions.creditCard.country = "";
+                    this.cart.paymentOptions.creditCard.countryAbbreviation = "";
+                }
+            }
+        }
+
+        protected onCreditCardBillingStateChanged(state: StateModel): void {
+            if (typeof (state) !== "undefined" && this.cart.paymentOptions) {
+                if (state != null) {
+                    this.cart.paymentOptions.creditCard.state = state.name;
+                    this.cart.paymentOptions.creditCard.stateAbbreviation = state.abbreviation;
+                } else {
+                    this.cart.paymentOptions.creditCard.state = "";
+                    this.cart.paymentOptions.creditCard.stateAbbreviation = "";
+                }
+            }
+        }
+
+        protected getCartSettingsCompleted(settingsCollection: core.SettingsCollection): void {
+            this.cartSettings = settingsCollection.cartSettings;
+        }
+
+        protected getCartSettingsFailed(error: any): void {
+        }
+
+        protected getCountriesCompletedForReviewAndPay(countryCollection: CountryCollectionModel) {
+            this.countries = countryCollection.countries;
+        }
+
+        protected getCountriesFailedForReviewAndPay(error: any): void {
+        }
+
+        getCart(isInit?: boolean): void {
+            this.cartService.expand = "cartlines,shipping,tax,carriers,paymentoptions";
+            if (this.$localStorage.get("hasRestrictedProducts") === true.toString()) {
+                this.cartService.expand += ",restrictions";
+            }
+            this.cartService.getCart(this.cartId).then(
+                (cart: CartModel) => { this.getCartCompletedForReviewAndPay(cart, isInit); },
+                (error: any) => { this.getCartFailed(error); });
+        }
+
+        protected getCartCompletedForReviewAndPay(cart: CartModel, isInit: boolean): void {
+            this.cartService.expand = "";
+            let paymentMethod: Insite.Cart.Services.Dtos.PaymentMethodDto;
+            let transientCard: Insite.Core.Plugins.PaymentGateway.Dtos.CreditCardDto;
+
+            if (this.cart && this.cart.paymentOptions) {
+                paymentMethod = this.cart.paymentMethod;
+                transientCard = this.saveTransientCard();
+            }
+
+            this.cart = cart;
+
+            const hasRestrictions = cart.cartLines.some(o => o.isRestricted);
+            // if cart does not have cartLines or any cartLine is restricted, go to Cart page
+            if (!this.cart.cartLines || this.cart.cartLines.length === 0 || hasRestrictions) {
+                this.coreService.redirectToPath(this.cartUrl);
+            }
+
+            if (isInit) {
+                this.showQuoteRequiredProducts = this.cart.status !== "Cart";
+            }
+
+            this.cartIdParam = this.cart.id === "current" ? "" : `?cartId=${this.cart.id}`;
+
+            if (transientCard) {
+                this.restoreTransientCard(transientCard);
+            }
+
+            this.setUpCarrier(isInit);
+            this.setUpShipVia(isInit);
+            this.setUpPaymentMethod(isInit, paymentMethod || this.cart.paymentMethod);
+            this.setUpPayPal(isInit);
+
+            this.promotionService.getCartPromotions(this.cart.id).then(
+                (promotionCollection: PromotionCollectionModel) => { this.getCartPromotionsCompleted(promotionCollection); },
+                (error: any) => { this.getCartPromotionsFailed(error); });
+
+            if (!isInit) {
+                this.pageIsReady = true;
+            }
+        }
+
+        protected saveTransientCard(): Insite.Core.Plugins.PaymentGateway.Dtos.CreditCardDto {
+            return {
+                cardType: this.cart.paymentOptions.creditCard.cardType,
+                cardHolderName: this.cart.paymentOptions.creditCard.cardHolderName,
+                cardNumber: this.cart.paymentOptions.creditCard.cardNumber,
+                expirationMonth: this.cart.paymentOptions.creditCard.expirationMonth,
+                expirationYear: this.cart.paymentOptions.creditCard.expirationYear,
+                securityCode: this.cart.paymentOptions.creditCard.securityCode,
+                useBillingAddress: this.cart.paymentOptions.creditCard.useBillingAddress,
+                address1: this.cart.paymentOptions.creditCard.address1,
+                city: this.cart.paymentOptions.creditCard.city,
+                state: this.cart.paymentOptions.creditCard.state,
+                stateAbbreviation: this.cart.paymentOptions.creditCard.stateAbbreviation,
+                postalCode: this.cart.paymentOptions.creditCard.postalCode,
+                country: this.cart.paymentOptions.creditCard.country,
+                countryAbbreviation: this.cart.paymentOptions.creditCard.countryAbbreviation
+            };
+        }
+
+        protected restoreTransientCard(transientCard: Insite.Core.Plugins.PaymentGateway.Dtos.CreditCardDto): void {
+            this.cart.paymentOptions.creditCard.cardType = transientCard.cardType;
+            this.cart.paymentOptions.creditCard.cardHolderName = transientCard.cardHolderName;
+            this.cart.paymentOptions.creditCard.cardNumber = transientCard.cardNumber;
+            this.cart.paymentOptions.creditCard.expirationMonth = transientCard.expirationMonth;
+            this.cart.paymentOptions.creditCard.expirationYear = transientCard.expirationYear;
+            this.cart.paymentOptions.creditCard.securityCode = transientCard.securityCode;
+        }
+
+        protected setUpCarrier(isInit: boolean): void {
+            this.cart.carriers.forEach(carrier => {
+                if (carrier.id === this.cart.carrier.id) {
+                    this.cart.carrier = carrier;
+                    if (isInit) {
+                        this.updateCarrier();
+                    }
+                }
+            });
+        }
+
+        protected setUpShipVia(isInit: boolean): void {
+            if (this.cart.carrier && this.cart.carrier.shipVias) {
+                this.cart.carrier.shipVias.forEach(shipVia => {
+                    if (shipVia.id === this.cart.shipVia.id) {
+                        this.cart.shipVia = shipVia;
+                    }
+                });
+            }
+        }
+
+        protected setUpPaymentMethod(isInit: boolean, selectedMethod: Insite.Cart.Services.Dtos.PaymentMethodDto): void {
+            if (selectedMethod) {
+                this.cart.paymentOptions.paymentMethods.forEach(paymentMethod => {
+                    if (paymentMethod.name === selectedMethod.name) {
+                        this.cart.paymentMethod = paymentMethod;
+                    }
+                });
+            } else if (this.cart.paymentOptions.paymentMethods.length === 1) {
+                this.cart.paymentMethod = this.cart.paymentOptions.paymentMethods[0];
+            }
+        }
+
+        protected setUpPayPal(isInit: boolean): void {
+            const payerId = this.queryString.get("PayerID").toUpperCase();
+            const token = this.queryString.get("token").toUpperCase();
+
+            if (payerId && token) {
+                this.cart.paymentOptions.isPayPal = true;
+                this.cart.status = "Cart";
+                this.cart.paymentOptions.payPalToken = token;
+                this.cart.paymentOptions.payPalPayerId = payerId;
+                this.cart.paymentMethod = null;
+            }
+        }
+        
+        protected getCartPromotionsCompleted(promotionCollection: PromotionCollectionModel): void {
+            this.promotions = promotionCollection.promotions;
+        }
+
+        protected getCartPromotionsFailed(error: any): void {
+        }
+
+        updateCarrier(): void {
+            if (this.cart.carrier && this.cart.carrier.shipVias) {
+                if (this.cart.carrier.shipVias.length === 1 && this.cart.carrier.shipVias[0] !== this.cart.shipVia) {
+                    this.cart.shipVia = this.cart.carrier.shipVias[0];
+                    this.updateShipVia();
+                } else if (this.cart.carrier.shipVias.length > 1 &&
+                    this.cart.carrier.shipVias.every(sv => sv.id !== this.cart.shipVia.id) &&
+                    this.cart.carrier.shipVias.filter(sv => sv.isDefault).length > 0) {
+                    this.cart.shipVia = this.cart.carrier.shipVias.filter(sv => sv.isDefault)[0];
+                    this.updateShipVia();
+                } else {
+                    this.pageIsReady = true;
+                }
+            } else {
+                this.pageIsReady = true;
+            }
+        }
+
+        updateShipVia(): void {
+            this.cartService.updateCart(this.cart).then(
+                (cart: CartModel) => { this.updateShipViaCompleted(cart); },
+                (error: any) => { this.updateShipViaFailed(error); });
+        }
+
+        protected updateShipViaCompleted(cart: CartModel): void {
+            this.getCart();
+        }
+
+        protected updateShipViaFailed(error: any): void {
+        }
+
+        submit(signInUri: string): void {
+            this.submitting = true;
+            this.submitErrorMessage = "";
+
+            if (!this.validateReviewAndPayForm()) {
+                this.submitting = false;
+                return;
+            }
+
+            this.sessionService.getIsAuthenticated().then(
+                (isAuthenticated: boolean) => { this.getIsAuthenticatedForSubmitCompleted(isAuthenticated, signInUri); },
+                (error: any) => { this.getIsAuthenticatedForSubmitFailed(error); });
+        }
+
+        protected getIsAuthenticatedForSubmitCompleted(isAuthenticated: boolean, signInUri: string): void {
+            if (!isAuthenticated) {
+                this.coreService.redirectToPath(`${signInUri}?returnUrl=${this.coreService.getCurrentPath()}`);
+                return;
+            }
+
+            if (this.cart.requiresApproval) {
+                this.cart.status = "AwaitingApproval";
+            } else {
+                this.cart.status = "Submitted";
+            }
+
+            this.cart.requestedDeliveryDate = this.formatWithTimezone(this.cart.requestedDeliveryDate);
+
+            this.spinnerService.show("mainLayout", true);
+            this.cartService.updateCart(this.cart, true).then(
+                (cart: CartModel) => { this.submitCompleted(cart); },
+                (error: any) => { this.submitFailed(error); });
+        }
+
+        private formatWithTimezone(date: string): string {
+            return date ? moment(date).format() : date;
+        }
+
+        protected getIsAuthenticatedForSubmitFailed(error: any): void {
+        }
+
+        protected submitCompleted(cart: CartModel): void {
+            this.cart.id = cart.id;
+            this.cartService.getCart();
+            this.loadStep3();
+            this.spinnerService.hide();
+        }
+
+        protected submitFailed(error: any): void {
+            this.submitting = false;
+            this.cart.paymentOptions.isPayPal = false;
+            this.submitErrorMessage = error.message;
+            this.spinnerService.hide();
+        }
+
+        submitPaypal(returnUri: string, signInUri: string): void {
+            this.submitErrorMessage = "";
+            this.cart.paymentOptions.isPayPal = true;
+
+            setTimeout(() => {
+                if (!this.validateReviewAndPayForm()) {
+                    this.cart.paymentOptions.isPayPal = false;
+                    return;
+                }
+
+                this.sessionService.getIsAuthenticated().then(
+                    (isAuthenticated: boolean) => { this.getIsAuthenticatedForSubmitPaypalCompleted(isAuthenticated, returnUri, signInUri); },
+                    (error: any) => { this.getIsAuthenticatedForSubmitPaypalFailed(error); });
+            }, 0);
+        }
+
+        protected getIsAuthenticatedForSubmitPaypalCompleted(isAuthenticated: boolean, returnUri: string, signInUri: string): void {
+            if (!isAuthenticated) {
+                this.coreService.redirectToPath(`${signInUri}?returnUrl=${this.coreService.getCurrentPath()}`);
+                return;
+            }
+
+            this.spinnerService.show("mainLayout", true);
+            this.cart.paymentOptions.isPayPal = true;
+            this.cart.paymentOptions.payPalPaymentUrl = this.$window.location.host + returnUri;
+            this.cart.paymentMethod = null;
+            this.cart.status = "PaypalSetup";
+            this.cartService.updateCart(this.cart, true).then(
+                (cart: CartModel) => { this.submitPaypalCompleted(cart); },
+                (error: any) => { this.submitPaypalFailed(error); });
+        }
+
+        protected getIsAuthenticatedForSubmitPaypalFailed(error: any): void {
+            this.cart.paymentOptions.isPayPal = false;
+        }
+
+        protected submitPaypalCompleted(cart: CartModel): void {
+            // full redirect to paypal
+            this.$window.location.href = cart.paymentOptions.payPalPaymentUrl;
+        }
+
+        protected submitPaypalFailed(error: any): void {
+            this.cart.paymentOptions.isPayPal = false;
+            this.submitErrorMessage = error.message;
+            this.spinnerService.hide();
+        }
+
+        protected validateReviewAndPayForm(): boolean {
+            const valid = $("#reviewAndPayForm").validate().form();
+            if (!valid) {
+                $("html, body").animate({
+                    scrollTop: $("#reviewAndPayForm").offset().top
+                }, 300);
+                return false;
+            }
+
+            return true;
+        }
+
+        applyPromotion(): void {
+            this.promotionAppliedMessage = "";
+            this.promotionErrorMessage = "";
+
+            this.promotionService.applyCartPromotion(this.cartId, this.promotionCode).then(
+                (promotion: PromotionModel) => { this.applyPromotionCompleted(promotion); },
+                (error: any) => { this.applyPromotionFailed(error); });
+        }
+
+        protected applyPromotionCompleted(promotion: PromotionModel): void {
+            if (promotion.promotionApplied) {
+                this.promotionAppliedMessage = promotion.message;
+            } else {
+                this.promotionErrorMessage = promotion.message;
+            }
+
+            this.getCart();
+        }
+
+        protected applyPromotionFailed(error: any): void {
+            this.promotionErrorMessage = error.message;
+            this.getCart();
+        }
+
+        protected loadStep3() {
+            $("#nav2expanded").hide();
+            $(".edit").hide();
+            $("#nav2min").show();
+
+            $("#confirmation").addClass("active");
+            $("html:not(:animated), body:not(:animated)").animate({
+                scrollTop: $("#nav1").offset().top
+            }, 200);
+            
+            this.orderConfirmationInit();
+        }
+
+        //Order Confirmation Functionality
+
+        orderConfirmationInit() {
+            this.cartService.expand = "cartlines,carriers";
+
+            this.cartService.getCart(this.cart.id).then(
+                (confirmedCart: CartModel) => { this.getConfirmedCartCompleted(confirmedCart); },
+                (error: any) => { this.getConfirmedCartFailed(error); });
+
+            // get the current cart to update the mini cart
+            this.cartService.expand = "";
+
+            this.cartService.getCart().then(
+                (cart: CartModel) => { this.getCartCompletedOrderConfirmed(cart); },
+                (error: any) => { this.getCartFailedOrderConfirmed(error); });
+        }
+
+        protected getConfirmedCartCompleted(confirmedCart: CartModel): void {
+            this.cart = confirmedCart;
+
+            if (window.hasOwnProperty("dataLayer")) {
+                const data = {
+                    "event": "transactionComplete",
+                    "transactionId": this.cart.orderNumber,
+                    "transactionAffiliation": this.cart.billTo.companyName,
+                    "transactionTotal": this.cart.orderGrandTotal,
+                    "transactionTax": this.cart.totalTax,
+                    "transactionShipping": this.cart.shippingAndHandling,
+                    "transactionProducts": []
+                };
+
+                const cartLines = this.cart.cartLines;
+                for (let key in cartLines) {
+                    if (cartLines.hasOwnProperty(key)) {
+                        const cartLine = cartLines[key];
+                        data.transactionProducts.push({
+                            "sku": cartLine.erpNumber,
+                            "name": cartLine.shortDescription,
+                            "price": cartLine.pricing.unitNetPrice,
+                            "quantity": cartLine.qtyOrdered
+                        });
+                    }
+                }
+
+                (window as any).dataLayer.push(data);
+            }
+
+            //Add for refresh:
+            //window.location.hash = this.cart.orderNumber;
+
+            this.orderService.getOrder(this.cart.orderNumber, "").then(
+                (order: OrderModel) => { this.getOrderCompleted(order); },
+                (error: any) => { this.getOrderFailed(error); });
+
+            this.promotionService.getCartPromotions(this.cart.id).then(
+                (promotionCollection: PromotionCollectionModel) => { this.getCartPromotionsCompleted(promotionCollection); },
+                (error: any) => { this.getConfirmedCartFailed(error); });
+        }
+
+        protected getConfirmedCartFailed(error: any): void {
+        }
+
+        protected getOrderCompleted(orderHistory: OrderModel): void {
+            this.order = orderHistory;
+        }
+
+        protected getOrderFailed(error: any): void {
+        }
+
+        protected getCartCompletedOrderConfirmed(cart: CartModel): void {
+            this.showRfqMessage = cart.canRequestQuote && cart.quoteRequiredCount > 0;
+        }
+
+        protected getCartFailedOrderConfirmed(error: any): void {
         }
     }
 

@@ -6,7 +6,7 @@
         .directive("nbfCartTotalDisplay", () => ({
             restrict: "E",
             replace: true,
-            templateUrl: "/PartialViews/Custom-CheckoutCartTotalDisplay",
+            templateUrl: "/PartialViews/Custom-Cart-CheckoutCartTotalDisplay",
             scope: {
                 cart: "=",
                 promotions: "=",

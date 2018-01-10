@@ -110,10 +110,10 @@
     <nav role="secondary-nav">
         <div class="row">
             <ul role="user-nav" id="tst_userNav">
-                <li role="sign-in" ng-cloak ng-show="::(vm.session && (!vm.session.isAuthenticated || vm.session.isAuthenticated && vm.session.billTo.isGuest) && !vm.session.rememberMe)">
-                    <a href="" ng-click="vm.signIn(true, $event)" class="btn sign-in tst_header_signInButton"><span>[% translate 'Sign In' %]</span></a>
+                <li role="sign-in" ng-cloak ng-show="::(vm.session && !vm.session.isAuthenticated && !vm.session.rememberMe)">
+                    <a href="[% urlForPage 'SignInPage' %]" isc-redirect-to-sign-in return-to-url="true" class="btn sign-in fastClick tst_header_signInButton"><span>[% translate 'Sign In' %]</span></a>
                 </li>
-                <li role="user-options" ng-show="::vm.session.isAuthenticated && !vm.session.billTo.isGuest || vm.session.rememberMe">
+                <li role="user-options" ng-show="::vm.session.isAuthenticated || vm.session.rememberMe">
                     <a href="#" class="user-button fastClick" id="tst_userNav_userName_button">
                         <i ng-cloak class="social foundicon-torso"></i>
                         <span class="cust-name" ng-bind="::vm.session.userLabel"></span>
@@ -124,14 +124,14 @@
                 <li role="isettings-btn" ng-show="vm.languages.length > 1 || vm.currencies.length > 1">
                     <button class="btn tertiary isettings fastClick">
                         <span class="flag-ind" ng-if="vm.languages.length > 1 && vm.session.language && vm.session.language.imageFilePath">
-                            <img ng-cloak ng-src="{{::vm.session.language.imageFilePath}}" alt="{{::vm.session.language.description}}"/>
+                            <img ng-cloak ng-src="{{::vm.session.language.imageFilePath}}" alt="{{::vm.session.language.description}}" />
                         </span>
                         <span class="language-code" ng-if="vm.languages.length > 1 && vm.session.language && !vm.session.language.imageFilePath" ng-bind="::vm.session.language.languageCode"></span>
                         <span class="currency-symbol" ng-if="vm.currencies.length > 1 && vm.session.currency" ng-bind="::vm.session.currency.currencySymbol"></span>
                     </button>
                     <button class="ex fastClick"><i class="foundicon-remove"></i></button>
                 </li>
-                <li role="sign-out" id="tst_header_signOutButton" ng-cloak ng-show="::vm.session.isAuthenticated && !vm.session.billTo.isGuest || vm.session.rememberMe">
+                <li role="sign-out" id="tst_header_signOutButton" ng-cloak ng-show="::vm.session.isAuthenticated || vm.session.rememberMe">
                     [[SignOutLink]]
                 </li>
                 <li role="multi-lang" ng-if="vm.languages.length > 1" id="tst_languageMenu">

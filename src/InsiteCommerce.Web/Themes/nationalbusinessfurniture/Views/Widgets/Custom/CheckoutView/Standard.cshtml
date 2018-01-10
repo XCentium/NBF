@@ -1,4 +1,4 @@
-﻿<div class="large-12 columns checkout" ng-controller="NbfCheckoutController as vm" ng-cloak>
+﻿<div class="large-12 columns checkout" ng-controller="NbfCheckoutController as vm" ng-cloak cart-url="[% urlForPage 'CartPage' %]">
     <div class="checkout-head">
         <h1>[% translate 'Checkout' %]</h1>
         {% comment %}
@@ -11,84 +11,84 @@
         </div>
         {% endcomment %}
     </div>
-    <div class="large-8 columns">
-        <dl class="accordion checkout-accordion" data-accordion id="checkoutAccordion">
-            <dd class="accordion-navigation">
-                <a href="#address" id="nav1">[% translate 'Step 1: Billing / Shipping' %]</a>
-                <div id="address" class="content active">
-                    <div id="nav1expanded">
-                        <form id="addressForm" name="addressForm" ng-show="vm.countries" class="address-form">
-                            <div class="section-container" data-section data-section-resized="true" style="min-height: 0;">
-                                <section class="bill-to">
-                                    <h3>[% translate 'Billing Information' %]</h3>
-                                    <div>
-                                        <div class="billing-info">
-                                            <div class="required-msg" style="height: 53px; margin: 0">
-                                                <span class="redTxt">*</span>[% translate 'Required' %]
-                                            </div>
-                                            <isc-address-edit prefix="bt" show-email="true" address="vm.cart.billTo" countries="vm.countries" address-fields="vm.addressFields.billToAddressFields"
-                                                              set-state-required-rule="vm.setStateRequiredRule('bt', vm.cart.billTo)"></isc-address-edit>
-                                            <div class="newsletter-signup" ng-show="vm.cart.showNewsletterSignup">
-                                                <label class="input-lbl">
-                                                    <input class="tst_checkoutAddress_isSubscribed" type="checkbox" ng-model="vm.account.isSubscribed">
-                                                    [% siteMessage 'Address_SignMeUp' %]
-                                                </label>
+    <div class="row">
+        <div class="large-8 columns">
+            <dl class="accordion checkout-accordion" data-accordion id="checkoutAccordion">
+                <dd class="accordion-navigation">
+                    <a href="#address" id="nav1">[% translate 'Step 1: Billing / Shipping' %]</a>
+                    <div id="address" class="content active">
+                        <div id="nav1expanded">
+                            <form id="addressForm" name="addressForm" ng-show="vm.countries" class="address-form">
+                                <div class="section-container" data-section data-section-resized="true" style="min-height: 0;">
+                                    <section class="bill-to">
+                                        <h3>[% translate 'Billing Information' %]</h3>
+                                        <div>
+                                            <div class="billing-info">
+                                                <div class="required-msg" style="height: 53px; margin: 0">
+                                                    <span class="redTxt">*</span>[% translate 'Required' %]
+                                                </div>
+                                                <isc-address-edit prefix="bt" show-email="true" address="vm.cart.billTo" countries="vm.countries" address-fields="vm.addressFields.billToAddressFields"
+                                                                  set-state-required-rule="vm.setStateRequiredRule('bt', vm.cart.billTo)"></isc-address-edit>
+                                                <div class="newsletter-signup" ng-show="vm.cart.showNewsletterSignup">
+                                                    <label class="input-lbl">
+                                                        <input class="tst_checkoutAddress_isSubscribed" type="checkbox" ng-model="vm.account.isSubscribed">
+                                                        [% siteMessage 'Address_SignMeUp' %]
+                                                    </label>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </section>
-                                <section class="ship-to">
-                                    <h3>[% translate 'Shipping Information' %]</h3>
-                                    <div>
-                                        <div class="shipping-info">
-                                            <div class="ship-select">
-                                                <select id="shipTo" name="shipTo" ng-model="vm.selectedShipTo" ng-options="shipTo.label for shipTo in vm.shipTos" ng-change="vm.checkSelectedShipTo()"></select>
+                                    </section>
+                                    <section class="ship-to">
+                                        <h3>[% translate 'Shipping Information' %]</h3>
+                                        <div>
+                                            <div class="shipping-info">
+                                                <div class="ship-select">
+                                                    <select id="shipTo" name="shipTo" ng-model="vm.selectedShipTo" ng-options="shipTo.label for shipTo in vm.shipTos" ng-change="vm.checkSelectedShipTo()"></select>
+                                                </div>
+                                                <isc-address-edit prefix="st" show-email="false" address="vm.selectedShipTo" countries="vm.countries" address-fields="vm.addressFields.shipToAddressFields"
+                                                                  is-read-only="vm.isReadOnly" set-state-required-rule="vm.setStateRequiredRule('st', vm.selectedShipTo)"></isc-address-edit>
                                             </div>
-                                            <isc-address-edit prefix="st" show-email="false" address="vm.selectedShipTo" countries="vm.countries" address-fields="vm.addressFields.shipToAddressFields"
-                                                              is-read-only="vm.isReadOnly" set-state-required-rule="vm.setStateRequiredRule('st', vm.selectedShipTo)"></isc-address-edit>
                                         </div>
+                                    </section>
+                                    <div class="btns">
+                                        <button id="tst_checkoutAddress_continue" type="button" class="btn primary btn-continue"
+                                                ng-click="vm.continueToStep2('[% urlForPage 'CartPage' %]')"
+                                                ng-disabled="vm.continueCheckoutInProgress">
+                                            [% translate 'Continue' %]
+                                        </button>
                                     </div>
-                                </section>
-                                <div class="btns">
-                                    <button id="tst_checkoutAddress_continue" type="button" class="btn primary btn-continue"
-                                            ng-click="vm.continueToStep2('[% urlForPage 'CartPage' %]')"
-                                            ng-disabled="vm.continueCheckoutInProgress">
-                                        [% translate 'Continue' %]
-                                    </button>
                                 </div>
-                            </div>
-                        </form>
-                    </div>
-                    <div id="nav1min" class="hide checkout-review-pay">
-                        <div class="row order-bill-ship">
-                            <div class="large-4 columns bill-info">
-                                <div class="oc-head">
-                                    <h4>[% translate 'Billing Information' %]</h4>
-                                    <span>
-                                        <a href="" ng-click="vm.editAddresses()" class="edit">
-                                            [% translate 'Edit' %]
-                                        </a>
-                                    </span>
+                            </form>
+                        </div>
+                        <div id="nav1min" class="hide checkout-review-pay">
+                            <div class="row order-bill-ship">
+                                <div class="large-4 columns bill-info">
+                                    <div class="oc-head">
+                                        <h4>[% translate 'Billing Information' %]</h4>
+                                        <span>
+                                            <a href="" ng-click="vm.editAddresses()" class="edit">
+                                                [% translate 'Edit' %]
+                                            </a>
+                                        </span>
+                                    </div>
+                                    <isc-address-display address="vm.cart.billTo" show-email="true"></isc-address-display>
                                 </div>
-                                <isc-address-display address="vm.cart.billTo" show-email="true"></isc-address-display>
-                            </div>
-                            <div class="large-4 columns ship-info">
-                                <div class="oc-head">
-                                    <h4>[% translate 'Shipping Information' %]</h4>
-                                    <span>
-                                        <a href="" ng-click="vm.editAddresses()" class="edit">[% translate 'Edit' %]</a>
-                                    </span>
+                                <div class="large-4 columns ship-info">
+                                    <div class="oc-head">
+                                        <h4>[% translate 'Shipping Information' %]</h4>
+                                        <span>
+                                            <a href="" ng-click="vm.editAddresses()" class="edit">[% translate 'Edit' %]</a>
+                                        </span>
+                                    </div>
+                                    <isc-address-display address="vm.cart.shipTo" show-email="true"></isc-address-display>
                                 </div>
-                                <isc-address-display address="vm.cart.shipTo" show-email="true"></isc-address-display>
                             </div>
                         </div>
                     </div>
-                </div>
-            </dd>
-            <dd class="accordion-navigation">
-                <a href="#payment" id="nav2">Step 2: Shipping / Payment</a>
-                <div id="payment" class="content">
-                    <div ng-controller="NbfReviewAndPayController as vm" ng-cloak cart-url="[% urlForPage 'CartPage' %]">
+                </dd>
+                <dd class="accordion-navigation">
+                    <a href="#payment" id="nav2">[% translate 'Step 2: Payment Information' %]</a>
+                    <div id="payment" class="content">
                         <div id="nav2expanded">
                             <input type="hidden" id="tst_reviewAndPayPage_pageIsReady" value="{{vm.pageIsReady}}" />
                             <form id="reviewAndPayForm">
@@ -96,48 +96,8 @@
                                 <input name="ispaypal" type="hidden" ng-bind="vm.cart.paymentOptions.isPayPal" />
                                 <input name="paypaltoken" type="hidden" ng-bind="vm.cart.paymentOptions.payPalToken" />
                                 <input name="paypalpayerid" type="hidden" ng-bind="vm.cart.paymentOptions.payPalPayerId" />
-                                <div class="section-container" data-section data-section-resized="true" style="min-height: 0px;">
-                                    <section class="ship-method">
-                                        <h3>[% translate 'Shipping Method' %]</h3>
-                                        <div>
-                                            <div class="select-carrier" ng-show="vm.cart.carriers.length > 0">
-                                                <label for="carrier">[% translate 'Select Carrier' %]</label>
-                                                <select name="carrier" id="carrier"
-                                                        ng-model="vm.cart.carrier"
-                                                        ng-change="vm.updateCarrier()"
-                                                        ng-options="carrier.description for carrier in vm.cart.carriers"></select>
-                                            </div>
-                                            <div class="select-method" ng-show="vm.cart.carriers.length > 0">
-                                                <label for="shippingMethod">[% translate 'Select Method' %]</label>
-                                                <select id="shippingMethod" name="shippingMethod"
-                                                        data-rule-required="true" data-msg-required="[% translate 'Shipping Method is required.' %]"
-                                                        ng-model="vm.cart.shipVia"
-                                                        ng-options="shipVia.description for shipVia in vm.cart.carrier.shipVias"
-                                                        ng-change="vm.updateShipVia()">
-                                                    <option value="">[% translate 'Select Method' %]</option>
-                                                </select>
-                                                <span class="field-validation-valid" data-valmsg-for="shippingMethod" data-valmsg-replace="true"></span>
-                                            </div>
-                                            <div class="select-requested-delivery-date" ng-show="vm.cartSettings.canRequestDeliveryDate">
-                                                <label for="requestedDeliveryDate">[% translate 'Request Delivery Date' %]<em>([% translate 'optional' %])</em></label>
-                                                <span>[% siteMessage 'Checkout_RequestedDeliveryDateInformation' %]</span>
-                                                <div class="requested-delivery-date">
-                                                    <input type="text" id="requestedDeliveryDate" name="requestedDeliveryDate" class="datepicker"
-                                                           isc-pick-a-date="vm.cart.requestedDeliveryDate"
-                                                           ng-attr-min-date="true"
-                                                           ng-attr-max-date="vm.cartSettings.maximumDeliveryPeriod" />
-                                                </div>
-                                            </div>
-                                            <p ng-hide="!vm.cart || vm.cart.carriers.length > 0">
-                                                <span class="field-validation-error">[% siteMessage 'ReviewAndPay_NoCarriersFound' %]</span>
-                                            </p>
-                                            <div class="order-notes">
-                                                <label>[% translate 'Add Order Notes' %]<em>([% translate 'optional' %])</em>:</label>
-                                                <textarea ng-model="vm.cart.notes" cols="45" id="Notes" name="Notes" rows="5"></textarea>
-                                            </div>
-                                        </div>
-                                    </section>
-                                    <section class="payment-details" ng-hide="vm.cart.requiresApproval">
+                                <div class="section-container row" data-section data-section-resized="true" style="min-height: 0px;">
+                                    <section class="payment-details large-6 columns" ng-hide="vm.cart.requiresApproval">
                                         <h3>[% translate 'Payment Details' %]</h3>
                                         <div>
                                             <span ng-show="vm.cart.paymentOptions.isPayPal">
@@ -333,124 +293,134 @@
                                 <isc-spinner name="checkoutPage" show="true"></isc-spinner>
                             </form>
                         </div>
-                    <div id="nav2min" class="hide">
-                        <div class="section-container">
-                            <div class="large-6 columns ship-method">
-                                <div class="oc-head">
-                                    <h3>[% translate 'Shipping Method' %]</h3>
+                        <div id="nav2min" class="hide">
+                            <div class="section-container">
+                                <div class="large-6 columns ship-method">
+                                    <div class="oc-head">
+                                        <h3>[% translate 'Shipping Method' %]</h3>
+                                    </div>
+                                    <div class="oc-ship-meth">
+                                        <span ng-bind="vm.cart.carrier.description"></span>
+                                        <span ng-bind="vm.cart.shipVia.description"></span>
+                                    </div>
+                                    <div class="oc-order-notes" ng-if="vm.cart.notes.trim().length > 0">
+                                        <h3>[% translate 'Order Notes' %]:</h3>
+                                        <div ng-bind="vm.cart.notes"></div>
+                                    </div>
                                 </div>
-                                <div class="oc-ship-meth">
-                                    <span ng-bind="vm.cart.carrier.description"></span>
-                                    <span ng-bind="vm.cart.shipVia.description"></span>
-                                </div>
-                                <div class="oc-order-notes" ng-if="vm.cart.notes.trim().length > 0">
-                                    <h4>[% translate 'Order Notes' %]:</h4>
-                                    <div ng-bind="vm.cart.notes"></div>
-                                </div>
-                            </div>
-                            <div class="large-6 columns requested-delivery-date" ng-show="vm.cart.requestedDeliveryDateDisplay">
-                                <div class="oc-head">
-                                    <h3>[% translate 'Requested Delivery Date' %]</h3>
-                                </div>
-                                <div class="oc-delivery-date">
-                                    <span id="tst_orderConfirmation_requestedDeliveryDate" ng-bind="vm.cart.requestedDeliveryDateDisplay | date:'shortDate'"></span>
+                                <div class="large-6 columns requested-delivery-date">
+                                    <div class="oc-head">
+                                        <h3>[% translate 'Payment Method' %]</h3>
+                                    </div>
+                                    <div class="oc-payment-meth">
+                                        <span ng-bind="vm.order.terms"></span>
+                                    </div>
+                                    <div ng-show="vm.cart.requestedDeliveryDateDisplay">
+                                        <div class="oc-head">
+                                            <h3>[% translate 'Requested Delivery Date' %]</h3>
+                                        </div>
+                                        <div class="oc-delivery-date">
+                                            <span id="tst_orderConfirmation_requestedDeliveryDate" ng-bind="vm.cart.requestedDeliveryDateDisplay | date:'shortDate'"></span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    </div>
-                </div>
-            </dd>
-            <dd class="accordion-navigation">
-                <a href="#confirmation" id="nav3">Step 3: Confirmation</a>
-                <div id="confirmation" class="content">
-                    <div class="cm">[% zone 'TopContent' %]</div>
-                    <div class="large-12 columns" ng-controller="NbfOrderConfirmationController as vm" ng-cloak>
-                        <div class="oc-num-date">
-                            <h2>[% translate 'Order Number' %]: <span id="tst_orderConfirmation_orderNumber" ng-bind="vm.cart.orderNumber"></span></h2>
-                            <h2 ng-if="vm.order.statusDisplay">[% translate 'Status' %]: <span id="tst_orderConfirmation_orderStatus" ng-bind="vm.order.statusDisplay"></span></h2>
-                            <h2>[% translate 'Order Date' %]: <span ng-bind="vm.cart.orderDate | date:'shortDate'"></span></h2>
-                            <h2 ng-if="vm.cart.poNumber.length > 0">[% translate 'PO #' %]: <span ng-bind="vm.cart.poNumber"></span></h2>
+                </dd>
+                <dd class="accordion-navigation">
+                    <a href="#confirmation" id="nav3">Step 3: Confirmation</a>
+                    <div id="confirmation" class="content">
+                        <div class="large-6 columns">
+                            <div class="oc-num-date">
+                                <h2>[% translate 'Order Number' %]: <span id="tst_orderConfirmation_orderNumber" ng-bind="vm.cart.orderNumber"></span></h2>
+                                <h2 ng-if="vm.order.statusDisplay">[% translate 'Status' %]: <span id="tst_orderConfirmation_orderStatus" ng-bind="vm.order.statusDisplay"></span></h2>
+                                <h2>[% translate 'Order Date' %]: <span ng-bind="vm.cart.orderDate | date:'shortDate'"></span></h2>
+                                <h2 ng-if="vm.cart.poNumber.length > 0">[% translate 'PO #' %]: <span ng-bind="vm.cart.poNumber"></span></h2>
+                            </div>
+                        </div>
+                        <div class="large-6 columns">
+
                         </div>
                     </div>
-                </div>
-            </dd>
-        </dl>
-    </div>
-    <div class="large-4 columns">
-        <div ng-controller="CartController as vm" ng-cloak ng-show="vm.cart">
-            <div class="checkout-cart">
-                <h3 ng-if="vm.cart.cartLines.length > 0" class="results-count">
-                    <span class="result-num" ng-bind="vm.cart.totalCountDisplay"></span> <span class="result-lbl">[% translate 'Items' %]</span>
-                </h3>
-                <div class="cart-left">
-                    <div id="tst_cartPage_cartIsEmpty" ng-if="vm.cart.cartLines.length == 0" class="cart-empty">
-                        <h3>[% siteMessage 'Cart_NoOrderLines' %]</h3>
+                </dd>
+            </dl>
+        </div>
+        <div class="large-4 columns">
+            <div ng-controller="CartController as vm" ng-cloak ng-show="vm.cart">
+                <div class="checkout-cart">
+                    <h3 ng-if="vm.cart.cartLines.length > 0" class="results-count">
+                        <span class="result-num" ng-bind="vm.cart.totalCountDisplay"></span> <span class="result-lbl">[% translate 'Items' %]</span>
+                    </h3>
+                    <div class="cart-left">
+                        <div id="tst_cartPage_cartIsEmpty" ng-if="vm.cart.cartLines.length == 0" class="cart-empty">
+                            <h3>[% siteMessage 'Cart_NoOrderLines' %]</h3>
+                        </div>
+                        <div ng-if="vm.cart.cartLines.length > 0">
+                            <div id="tst_cartPage_approvingMessage" ng-if="vm.cart.isAwaitingApproval" class="app-for">
+                                <h3>[% translate 'Approving Order For' %]: <em ng-bind="vm.cart.initiatedByUserName"></em></h3>
+                            </div>
+                            <div ng-if="vm.cart.quoteRequiredCount > 0" class="quote-items-note messaging">
+                                [% siteMessage 'Rfq_QuoteRequiredMsg' %]
+                            </div>
+                            <div ng-show="vm.cart.hasInsufficientInventory" class="messaging--error" id="tst_cartPage_hasInsufficientInventory_message">
+                                [% siteMessage 'Cart_InsufficientInventoryAtCheckout' %]
+                            </div>
+                            <div ng-show="vm.cart.cartNotPriced" class="messaging--error">
+                                [% siteMessage 'Cart_NoPriceAvailableAtCheckout' %]
+                            </div>
+                            <div ng-show="vm.productsCannotBePurchased" class="messaging--error">
+                                [% siteMessage 'Cart_ProductsCannotBePurchased' %]
+                            </div>
+                            <div class="hide-for-medium-up btns hide-for-print">
+                                [[CheckoutButtons]]
+                            </div>
+                            <div id="cartgrid">
+                                <nbf-cart-lines cart="vm.cart" editable="true"
+                                                include-quote-required="true"
+                                                include-inventory="vm.showInventoryAvailability"
+                                                failed-to-get-real-time-inventory="vm.failedToGetRealTimeInventory"
+                                                inventory-check="true"
+                                                promotions="vm.promotions"
+                                                class="item-list cart-items">
+                                </nbf-cart-lines>
+                            </div>
+                        </div>
                     </div>
                     <div ng-if="vm.cart.cartLines.length > 0">
-                        <div id="tst_cartPage_approvingMessage" ng-if="vm.cart.isAwaitingApproval" class="app-for">
-                            <h3>[% translate 'Approving Order For' %]: <em ng-bind="vm.cart.initiatedByUserName"></em></h3>
-                        </div>
-                        <div ng-if="vm.cart.quoteRequiredCount > 0" class="quote-items-note messaging">
-                            [% siteMessage 'Rfq_QuoteRequiredMsg' %]
-                        </div>
-                        <div ng-show="vm.cart.hasInsufficientInventory" class="messaging--error" id="tst_cartPage_hasInsufficientInventory_message">
-                            [% siteMessage 'Cart_InsufficientInventoryAtCheckout' %]
-                        </div>
-                        <div ng-show="vm.cart.cartNotPriced" class="messaging--error">
-                            [% siteMessage 'Cart_NoPriceAvailableAtCheckout' %]
-                        </div>
-                        <div ng-show="vm.productsCannotBePurchased" class="messaging--error">
-                            [% siteMessage 'Cart_ProductsCannotBePurchased' %]
-                        </div>
-                        <div class="hide-for-medium-up btns hide-for-print">
+                        <nbf-cart-total-display ng-if="!vm.cart.cartNotPriced" cart="vm.cart" promotions="vm.promotions" order-taxes="vm.cart.customerOrderTaxes"></nbf-cart-total-display>
+                        <div class="btns hide-for-print" id="tst_cartPage_buttons">
                             [[CheckoutButtons]]
                         </div>
-                        <div id="cartgrid">
-                            <nbf-cart-lines cart="vm.cart" editable="true"
-                                            include-quote-required="true"
-                                            include-inventory="vm.showInventoryAvailability"
-                                            failed-to-get-real-time-inventory="vm.failedToGetRealTimeInventory"
-                                            inventory-check="true"
-                                            promotions="vm.promotions"
-                                            class="item-list cart-items">
-                            </nbf-cart-lines>
-                        </div>
-                    </div>
-                </div>
-                <div ng-if="vm.cart.cartLines.length > 0">
-                    <nbf-cart-total-display ng-if="!vm.cart.cartNotPriced" cart="vm.cart" promotions="vm.promotions" order-taxes="vm.cart.customerOrderTaxes"></nbf-cart-total-display>
-                    <div class="btns hide-for-print" id="tst_cartPage_buttons">
-                        [[CheckoutButtons]]
                     </div>
                 </div>
             </div>
-        </div>
 
-        <script type="text/ng-template" id="/PartialViews/Cart-CartLines">
-            [% partialView 'Cart-CartLines' %]
-        </script>
-        <script type="text/ng-template" id="/PartialViews/Cart-CartTotalDisplay">
-            [% partialView 'Cart-CartTotalDisplay' %]
-        </script>
-        <script type="text/ng-template" id="/PartialViews/Catalog-CrossSellCarousel">
-            [% partialView 'Cart-CartLines' %]
-        </script>
-        <script type="text/ng-template" id="/PartialViews/Account-AddressDisplay">
-            [% partialView 'Account-AddressDisplay' %]
-        </script>
-        <script type="text/ng-template" id="/PartialViews/Cart-CartLines">
-            [% partialView 'Cart-CartLines' %]
-        </script>
-        <script type="text/ng-template" id="/PartialViews/Cart-CartTotalDisplay">
-            [% partialView 'Cart-CartTotalDisplay' %]
-        </script>
-        <script type="text/ng-template" id="/PartialViews/Account-AddressEdit">
-            [% partialView 'Account-AddressEdit' %]
-        </script>
-        <script type="text/ng-template" id="/PartialViews/Account-AddressField">
-            [% partialView 'Account-AddressField' %]
-        </script>
+            <script type="text/ng-template" id="/PartialViews/Cart-CartLines">
+                [% partialView 'Cart-CartLines' %]
+            </script>
+            <script type="text/ng-template" id="/PartialViews/Cart-CartTotalDisplay">
+                [% partialView 'Cart-CartTotalDisplay' %]
+            </script>
+            <script type="text/ng-template" id="/PartialViews/Catalog-CrossSellCarousel">
+                [% partialView 'Cart-CartLines' %]
+            </script>
+            <script type="text/ng-template" id="/PartialViews/Account-AddressDisplay">
+                [% partialView 'Account-AddressDisplay' %]
+            </script>
+            <script type="text/ng-template" id="/PartialViews/Cart-CartLines">
+                [% partialView 'Cart-CartLines' %]
+            </script>
+            <script type="text/ng-template" id="/PartialViews/Cart-CartTotalDisplay">
+                [% partialView 'Cart-CartTotalDisplay' %]
+            </script>
+            <script type="text/ng-template" id="/PartialViews/Account-AddressEdit">
+                [% partialView 'Account-AddressEdit' %]
+            </script>
+            <script type="text/ng-template" id="/PartialViews/Account-AddressField">
+                [% partialView 'Account-AddressField' %]
+            </script>
+        </div>
     </div>
     <isc-popup-template container-id="insufficientInventoryAtCheckout">
         [% siteMessage 'Cart_InsufficientInventoryAtCheckout' %]
