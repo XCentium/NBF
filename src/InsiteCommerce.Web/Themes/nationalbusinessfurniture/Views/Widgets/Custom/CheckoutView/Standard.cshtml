@@ -1,15 +1,6 @@
 ﻿<div class="large-12 columns checkout" ng-controller="NbfCheckoutController as vm" ng-cloak cart-url="[% urlForPage 'CartPage' %]">
     <div class="checkout-head">
         <h1>[% translate 'Checkout' %]</h1>
-        {% comment %}
-        <div class="checkout-crumbs">
-            <div class="crumb-current">[% translate 'Billing & Shipping' %]</div>
-            <div class="crumb-sep">&gt;</div>
-            <div>[% translate 'Payment' %]</div>
-            <div class="crumb-sep">&gt;</div>
-            <div>[% translate 'Confirmation' %]</div>
-        </div>
-        {% endcomment %}
     </div>
     <div class="row">
         <div class="large-8 columns">
@@ -27,8 +18,8 @@
                                                 <div class="required-msg" style="height: 53px; margin: 0">
                                                     <span class="redTxt">*</span>[% translate 'Required' %]
                                                 </div>
-                                                <isc-address-edit prefix="bt" show-email="true" address="vm.cart.billTo" countries="vm.countries" address-fields="vm.addressFields.billToAddressFields"
-                                                                  set-state-required-rule="vm.setStateRequiredRule('bt', vm.cart.billTo)"></isc-address-edit>
+                                                <nbf-address-edit prefix="bt" show-email="true" address="vm.cart.billTo" countries="vm.countries" address-fields="vm.addressFields.billToAddressFields"
+                                                                  set-state-required-rule="vm.setStateRequiredRule('bt', vm.cart.billTo)"></nbf-address-edit>
                                                 <div class="newsletter-signup" ng-show="vm.cart.showNewsletterSignup">
                                                     <label class="input-lbl">
                                                         <input class="tst_checkoutAddress_isSubscribed" type="checkbox" ng-model="vm.account.isSubscribed">
@@ -45,8 +36,8 @@
                                                 <div class="ship-select">
                                                     <select id="shipTo" name="shipTo" ng-model="vm.selectedShipTo" ng-options="shipTo.label for shipTo in vm.shipTos" ng-change="vm.checkSelectedShipTo()"></select>
                                                 </div>
-                                                <isc-address-edit prefix="st" show-email="false" address="vm.selectedShipTo" countries="vm.countries" address-fields="vm.addressFields.shipToAddressFields"
-                                                                  is-read-only="vm.isReadOnly" set-state-required-rule="vm.setStateRequiredRule('st', vm.selectedShipTo)"></isc-address-edit>
+                                                <nbf-address-edit prefix="st" show-email="false" address="vm.selectedShipTo" countries="vm.countries" address-fields="vm.addressFields.shipToAddressFields"
+                                                                  is-read-only="vm.isReadOnly" set-state-required-rule="vm.setStateRequiredRule('st', vm.selectedShipTo)"></nbf-address-edit>
                                             </div>
                                         </div>
                                     </section>
@@ -62,7 +53,7 @@
                         </div>
                         <div id="nav1min" class="hide checkout-review-pay">
                             <div class="row order-bill-ship">
-                                <div class="large-4 columns bill-info">
+                                <div class="large-6 columns bill-info">
                                     <div class="oc-head">
                                         <h4>[% translate 'Billing Information' %]</h4>
                                         <span>
@@ -73,7 +64,7 @@
                                     </div>
                                     <isc-address-display address="vm.cart.billTo" show-email="true"></isc-address-display>
                                 </div>
-                                <div class="large-4 columns ship-info">
+                                <div class="large-6 columns ship-info">
                                     <div class="oc-head">
                                         <h4>[% translate 'Shipping Information' %]</h4>
                                         <span>
@@ -278,10 +269,26 @@
                                             </div>
                                         </div>
                                     </section>
-
+                                    <section class="guest-password large-6 columns" ng-show="vm.cart.billTo.isGuest">
+                                        <div>
+                                            [% siteMessage 'Guest_Checkout_Password_Top' 'For order history, saved carts and more, registor for an NBF account! All you need is to create your password below' %]
+                                        </div>
+                                        <input type="password" id="CreateNewAccountInfo_Password" name="CreateNewAccountInfo.Password"
+                                               data-rule-minlength="{{settings.passwordMinimumLength}}"
+                                               data-msg-minlength="{{ '[% siteMessage 'ChangePasswordInfo_Password_Too_Short' EscapeSingleQuotes %]'.replace('{0}', vm.settings.passwordMinimumLength) }}"
+                                               ng-model="vm.password">
+                                        <span class="field-validation-valid" data-valmsg-for="CreateNewAccountInfo.Password" data-valmsg-replace="true"></span>
+                                        <div>
+                                            [% siteMessage 'Guest_Checkout_Password_Bottom' 'Password must be 8 characters and contain 1 capitalized letter, number, and special character' %]                                            
+                                        </div>
+                                    </section>
                                     <div class="section-container">
                                         <div ng-show="vm.cart.requiresApproval && !vm.cart.hasApprover" style="color: red;">
                                             [% siteMessage 'OrderApproval_BuyerWithoutApprover' %]
+                                        </div>
+                                        
+                                        <div class="error">
+                                            <span class="field-validation-error" ng-if="vm.createError" ng-bind="vm.createError"></span>
                                         </div>
                                         <div class="btns">
                                             <a id="tst_submitForApproval_button" href="" class="btn primary btn-submit-for-approval" ng-show="vm.cart.requiresApproval && vm.cart.hasApprover && !vm.submitting" ng-click="vm.submit('[% urlForPage 'OrderApprovalDetailPage' %]')">[% translate 'Submit for approval' %]</a>
@@ -330,17 +337,27 @@
                 </dd>
                 <dd class="accordion-navigation">
                     <a href="#confirmation" id="nav3">Step 3: Confirmation</a>
-                    <div id="confirmation" class="content">
-                        <div class="large-6 columns">
-                            <div class="oc-num-date">
-                                <h2>[% translate 'Order Number' %]: <span id="tst_orderConfirmation_orderNumber" ng-bind="vm.cart.orderNumber"></span></h2>
-                                <h2 ng-if="vm.order.statusDisplay">[% translate 'Status' %]: <span id="tst_orderConfirmation_orderStatus" ng-bind="vm.order.statusDisplay"></span></h2>
-                                <h2>[% translate 'Order Date' %]: <span ng-bind="vm.cart.orderDate | date:'shortDate'"></span></h2>
-                                <h2 ng-if="vm.cart.poNumber.length > 0">[% translate 'PO #' %]: <span ng-bind="vm.cart.poNumber"></span></h2>
+                    <div id="confirmation" class="content row">
+                        <div class="row">
+                            <div class="large-6 columns">
+                                <div class="oc-num-date">
+                                    <h2>
+                                        [% translate 'Order Number' %]: <span id="tst_orderConfirmation_orderNumber" ng-bind="vm.cart.orderNumber"></span>
+                                    </h2>
+                                    <h2 ng-if="vm.order.statusDisplay">
+                                        [% translate 'Status' %]: <span id="tst_orderConfirmation_orderStatus" ng-bind="vm.order.statusDisplay"></span>
+                                    </h2>
+                                    <h2>
+                                        [% translate 'Order Date' %]: <span ng-bind="vm.cart.orderDate | date:'shortDate'"></span>
+                                    </h2>
+                                    <h2 ng-if="vm.cart.poNumber.length > 0">
+                                        [% translate 'PO #' %]: <span ng-bind="vm.cart.poNumber"></span>
+                                    </h2>
+                                </div>
                             </div>
-                        </div>
-                        <div class="large-6 columns">
+                            <div class="large-6 columns">
 
+                            </div>
                         </div>
                     </div>
                 </dd>
@@ -387,7 +404,7 @@
                             </div>
                         </div>
                     </div>
-                    <div ng-if="vm.cart.cartLines.length > 0">
+                    <div ng-if="vm.cart.cartLines.length > 0" class="sticky-first">
                         <nbf-cart-total-display ng-if="!vm.cart.cartNotPriced" cart="vm.cart" promotions="vm.promotions" order-taxes="vm.cart.customerOrderTaxes"></nbf-cart-total-display>
                         <div class="btns hide-for-print" id="tst_cartPage_buttons">
                             [[CheckoutButtons]]

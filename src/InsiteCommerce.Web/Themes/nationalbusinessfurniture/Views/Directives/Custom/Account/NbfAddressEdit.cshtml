@@ -104,6 +104,15 @@
                            is-read-only="isReadOnly">
         </isc-address-field>
     </div>
+    <div class="address-email" ng-if="addressFields.email.isVisible">
+        <isc-address-field field-label="{{addressFields.email.displayName}}"
+                           field-name="{{prefix}}email"
+                           field-value="address.email"
+                           validation="address.validation.email"
+                           is-read-only="isReadOnly"
+                           is-email="true">
+        </isc-address-field>
+    </div>
     <div class="address-phone" ng-if="addressFields.phone.isVisible">
         <isc-address-field field-label="{{addressFields.phone.displayName}}"
                            field-name="{{prefix}}phone"
@@ -120,15 +129,6 @@
                            validation="address.validation.fax"
                            is-read-only="isReadOnly"
                            is-phone="true">
-        </isc-address-field>
-    </div>
-    <div class="address-email" ng-if="addressFields.email.isVisible">
-        <isc-address-field field-label="{{addressFields.email.displayName}}"
-                           field-name="{{prefix}}email"
-                           field-value="address.email"
-                           validation="address.validation.email"
-                           is-read-only="isReadOnly"
-                           is-email="true">
         </isc-address-field>
     </div>
 </div>

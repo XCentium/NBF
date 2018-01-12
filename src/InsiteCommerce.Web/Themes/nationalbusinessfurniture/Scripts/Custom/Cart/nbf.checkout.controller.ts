@@ -44,6 +44,10 @@
         showRfqMessage: boolean;
         order: OrderModel;
 
+        //Account Creation Variables
+        password: string;
+        createError: string;
+
         orderNumber: string;
 
         static $inject = [
@@ -779,6 +783,7 @@
             this.submitting = true;
             this.submitErrorMessage = "";
 
+
             if (!this.validateReviewAndPayForm()) {
                 this.submitting = false;
                 return;
@@ -886,7 +891,34 @@
                 return false;
             }
 
+            var pass = $("#CreateNewAccountInfo_Password").val();
+            if (pass) {
+                this.account.isGuest = false;
+                this.account.email = this.cart.billTo.email;
+                this.account.userName = this.cart.billTo.email;
+                this.account.firstName = this.cart.billTo.firstName;
+                this.account.lastName = this.cart.billTo.lastName;
+                this.account.isSubscribed = true;
+                this.account.password = pass;
+                this.account.setDefaultCustomer = true;
+
+                this.accountService.updateAccount(this.account).then(
+                    () => {
+                        alert("Worked");
+                        return true;
+                    },
+                    (error: any) => {
+                        alert("Nope");
+                        this.createAccountFailed(error);
+                        return false;
+                    });
+            }
+
             return true;
+        }
+
+        protected createAccountFailed(error: any): void {
+            this.createError = error.message;
         }
 
         applyPromotion(): void {

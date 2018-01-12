@@ -11,14 +11,12 @@
             padding-left: 2em;
         }
 
-        .order-bill-ship {
-            .bill-to, .bill-info {
-                float: left;
-                width: 50%;
-                padding-top: 0 !important;
-                padding-right: 2em;
-            }
-        }        
+        .bill-to, .bill-info {
+            float: left;
+            width: 50%;
+            padding-top: 0 !important;
+            padding-right: 2em;
+        }     
     }
 
     .checkout-cart {
