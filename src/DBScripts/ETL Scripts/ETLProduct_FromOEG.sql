@@ -43,7 +43,7 @@ begin
 		join OEGSystemStaging.dbo.Items si on si.ItemId = sp.ItemId
 		left join OEGSystemStaging.dbo.ProductsWebDescriptions spwd on spwd.ProductId = sp.ProductId
 			and spwd.TypeId = 1
-		join StyleClass styles on styles.[Name] = sp.ProductId
+		join StyleClass styles on styles.[Name] = convert(nvarchar(max),sp.ProductId)
 	where 
 		sp.BrandId = @brand
 		and convert(nvarchar(max),sp.ProductId) not in (select ERPNumber from Product)
@@ -132,16 +132,60 @@ begin
 		left join OEGSystemStaging.dbo.LookupItemStatuses luStatus on luStatus.Id = sp.StatusId
 		join Product p on p.ERPNumber = convert(nvarchar(max), sp.ProductId) + '-' + convert(nvarchar(max), spsku.ProductSKUId)
 	where 
-		sp.BrandId = @brand
+		sp.BrandId = 1
 
+
+	insert into StyleTrait
+	([StyleClassId], [Name], [Description], [SortOrder], CreatedBy, ModifiedBy)
+	select 
+		styles.Id, convert(nvarchar(max),sisg.Id), sisg.[Name], sisg.WebSortOrder, 'etl', 'etl'
+	from
+		OEGSystemStaging.dbo.ItemSwatchGroups sisg 
+		join OEGSystemStaging.dbo.Products sp on sp.ItemId = sisg.ItemId
+		join OEGSystemStaging.dbo.Items si on si.ItemId = sp.ItemId
+		join Product p on p.ERPNumber = convert(nvarchar(max),sp.ProductId)
+		join StyleClass styles on styles.[Name] = convert(nvarchar(max),sp.ProductId) 
+	where 
+		sp.BrandId = @brand
+		and not exists (select Id from StyleTrait where [StyleClassId] = styles.Id and [Name] = convert(nvarchar(max),sisg.Id))
+
+	insert into StyleTraitValue
+	([StyleTraitId], [Description] , [SortOrder], [IsDefault], [Value], CreatedBy, ModifiedBy)
+	select 
+		trait.Id, convert(nvarchar(max),sis.SwatchId), sis.WebSortOrder, 0, sis.[Name], 'etl', 'etl'--, sis.GroupId
+	from
+		OEGSystemStaging.dbo.ItemSwatches sis 
+		join OEGSystemStaging.dbo.ItemSwatchGroups sisg on sisg.Id = sis.GroupId
+		join StyleTrait trait on trait.[Name] = convert(nvarchar(max),sisg.Id)
+	where 
+		isnull(sis.[Name],'') != ''
+		and sis.EffectiveDateStart is not null -- ?????
+		and not exists (select Id from StyleTraitValue where [StyleTraitId] = trait.Id and [Description] = convert(nvarchar(max),sis.SwatchId))
+
+	insert into StyleTraitValueProduct
+	(StyleTraitValueId,ProductId)
+	select
+		traitValue.Id, p.Id
+	from
+		OEGSystemStaging.dbo.ItemSKUsSwatches siskus
+		join OEGSystemStaging.dbo.ItemSwatches sis on sis.SwatchId = siskus.SwatchId
+		join OEGSystemStaging.dbo.ProductSKUs spsku on spsku.ItemSKUId = siskus.ItemSKUId
+		join OEGSystemStaging.dbo.Products sp on sp.ProductId = spsku.ProductId
+		join Product p on p.ERPNumber = convert(nvarchar(max), sp.ProductId) + '-' + convert(nvarchar(max), spsku.ProductSKUId)
+		join StyleTraitValue traitValue on traitValue.[Description] = convert(nvarchar(max),sis.SwatchId)
+	where
+		not exists (select [StyleTraitValueId] from StyleTraitValueProduct where StyleTraitValueId = traitValue.Id and ProductId = p.Id)
 
 /*
 
 exec ETLProduct_FromOEG
 select styleclassid,* from product
 select * from styleclass
+select * from styletrait
+
 --delete from product
 --delete from styleclass
+--delete from styletrait
 
 */
 

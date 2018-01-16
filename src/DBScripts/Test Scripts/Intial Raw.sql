@@ -50,10 +50,11 @@ select ItemSKUId, SKUNumber,itemid, OptionCode, Description, * from ItemSKUs whe
 select * from ProductSKUs where productid = 221538
 
 
-select top 1000 * from ItemSwatchGroups where itemid = 160295
-select top 1000 * from [ItemSwatches] where GroupId = 65157
-select top 1000 * from ItemSKUsSwatches where ItemSKUId =769182 
+select top 1000 * from ItemSwatchGroups where itemid = 126022
+select top 1000 * from [ItemSwatches] where GroupId = 2605
+select top 1000 * from ItemSKUsSwatches where SwatchId =172049 
 
+select * from LookupSwatchTypes
 select top 100 * from ProductSKUs
 select * from products where ItemId = 160295
 
