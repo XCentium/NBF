@@ -79,6 +79,7 @@
             const currentContext = this.sessionService.getContext();
             currentContext.billToId = account.billToId;
             currentContext.shipToId = account.shipToId;
+            
             this.sessionService.setContext(currentContext);
             this.coreService.redirectToPathAndRefreshPage(this.returnUrl);
         }

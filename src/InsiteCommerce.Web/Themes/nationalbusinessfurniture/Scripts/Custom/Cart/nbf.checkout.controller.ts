@@ -67,7 +67,8 @@
             "$timeout",
             "$q",
             "sessionService",
-            "$localStorage"
+            "$localStorage",
+            "accessToken"
         ];
 
         constructor(
@@ -87,7 +88,8 @@
             protected $timeout: ng.ITimeoutService,
             protected $q: ng.IQService,
             protected sessionService: SessionService,
-            protected $localStorage: common.IWindowStorage) {
+            protected $localStorage: common.IWindowStorage,
+            protected accessToken: common.IAccessTokenService) {
             this.init();
         }
 
@@ -791,6 +793,33 @@
                 return;
             }
 
+            var pass = $("#CreateNewAccountInfo_Password").val();
+            if (pass) {
+                const newAccount = {
+                    email: this.cart.billTo.email,
+                    userName: this.cart.billTo.email,
+                    password: pass,
+                    isSubscribed: true,
+                    firstName: this.cart.billTo.firstName,
+                    lastName: this.cart.billTo.lastName
+                } as AccountModel;
+                var cart = this.cart;
+
+                this.sessionService.signOut().then(() => {
+                    this.accountService.createAccount(newAccount).then(
+                        (createdAccount: AccountModel) => {
+                            this.createAccountFromGuestCompleted(createdAccount, pass, signInUri, cart);
+                        },
+                        (error: any) => {
+                            this.createAccountFailed(error);
+                        });
+                });
+            } else {
+                this.submitOrder(signInUri);
+            }
+        }
+
+        protected submitOrder(signInUri: string) {
             this.sessionService.getIsAuthenticated().then(
                 (isAuthenticated: boolean) => { this.getIsAuthenticatedForSubmitCompleted(isAuthenticated, signInUri); },
                 (error: any) => { this.getIsAuthenticatedForSubmitFailed(error); });
@@ -801,7 +830,7 @@
                 this.coreService.redirectToPath(`${signInUri}?returnUrl=${this.coreService.getCurrentPath()}`);
                 return;
             }
-
+            debugger;
             if (this.cart.requiresApproval) {
                 this.cart.status = "AwaitingApproval";
             } else {
@@ -892,35 +921,33 @@
                 }, 300);
                 return false;
             }
-
-            var pass = $("#CreateNewAccountInfo_Password").val();
-            if (pass) {
-                this.account.isGuest = false;
-                this.account.email = this.cart.billTo.email;
-                this.account.userName = this.cart.billTo.email;
-                this.account.firstName = this.cart.billTo.firstName;
-                this.account.lastName = this.cart.billTo.lastName;
-                this.account.isSubscribed = true;
-                this.account.password = pass;
-                this.account.setDefaultCustomer = true;
-
-                this.accountService.updateAccount(this.account).then(
-                    () => {
-                        alert("Worked");
-                        return true;
-                    },
-                    (error: any) => {
-                        alert("Nope");
-                        this.createAccountFailed(error);
-                        return false;
-                    });
-            }
-
             return true;
+        }
+
+        protected createAccountFromGuestCompleted(account: AccountModel, pass: string, signInUri: string, cart: CartModel): void {
+            this.account = account;
+            this.accessToken.generate(this.account.userName, pass).then(
+                (accessToken: common.IAccessTokenDto) => { this.generateAccessTokenCompleted(account, accessToken, signInUri, cart); },
+                (error: any) => { this.createAccountFailed(error); });
+        }
+
+        protected generateAccessTokenCompleted(account: AccountModel, accessToken: common.IAccessTokenDto, signInUri: string, cart: CartModel): void {
+            this.accessToken.set(accessToken.accessToken);
+            const currentContext = this.sessionService.getContext();
+            currentContext.billToId = cart.billTo.id;
+            currentContext.shipToId = cart.shipTo.id;
+            this.sessionService.setContext(currentContext);
+            this.cart = cart;
+            
+
+            debugger;
+
+            this.submitOrder(signInUri);
         }
 
         protected createAccountFailed(error: any): void {
             this.createError = error.message;
+            this.submitting = false;
         }
 
         applyPromotion(): void {
