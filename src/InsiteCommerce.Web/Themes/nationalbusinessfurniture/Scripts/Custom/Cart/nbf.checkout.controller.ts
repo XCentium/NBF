@@ -1,6 +1,6 @@
 ﻿module insite.cart {
     "use strict";
-    import SessionService = insite.account.ISessionService;
+    import SessionService = account.ISessionService;
     import ShipToModel = Insite.Customers.WebApi.V1.ApiModels.ShipToModel;
     import StateModel = Insite.Websites.WebApi.V1.ApiModels.StateModel;
 
@@ -159,7 +159,9 @@
         protected getCartCompleted(cart: CartModel): void {
             this.cartService.expand = "";
             this.cart = cart;
-            this.initialShipToId = this.cart.shipTo.id;
+            if (this.cart.shipTo && this.cart.shipTo.id) {
+                this.initialShipToId = this.cart.shipTo.id;
+            }
 
             this.websiteService.getCountries("states").then(
                 (countryCollection: CountryCollectionModel) => { this.getCountriesCompleted(countryCollection); },
@@ -450,7 +452,7 @@
             } else {
                 if (this.initialIsSubscribed !== this.account.isSubscribed) {
                     this.accountService.updateAccount(this.account).then(
-                        (response: AccountModel) => { this.updateAccountCompleted(this.cart); },
+                        () => { this.updateAccountCompleted(this.cart); },
                         (error: any) => { this.updateAccountFailed(error); });
                 } else {
                     this.loadStep2();
