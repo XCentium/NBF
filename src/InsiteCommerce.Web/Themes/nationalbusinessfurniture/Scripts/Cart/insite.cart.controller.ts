@@ -75,6 +75,11 @@ module insite.cart {
             }
             this.displayCart(cart);
             this.getRealTimeInventory();
+
+            $("#sideCart").sticky({
+                topSpacing: 10,
+                bottomSpacing: $("#footer").outerHeight() + 20
+            });
         }
 
         protected getCartFailed(error: any): void {

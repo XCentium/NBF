@@ -337,7 +337,7 @@
                 </dd>
                 <dd class="accordion-navigation">
                     <a href="#confirmation" id="nav3">Step 3: Confirmation</a>
-                    <div id="confirmation" class="content row">
+                    <div id="confirmation" class="content">
                         <div class="row">
                             <div class="large-6 columns">
                                 <div class="oc-num-date">
@@ -365,7 +365,7 @@
         </div>
         <div class="large-4 columns">
             <div ng-controller="CartController as vm" ng-cloak ng-show="vm.cart">
-                <div class="checkout-cart">
+                <div class="checkout-cart" id="sideCart">
                     <h3 ng-if="vm.cart.cartLines.length > 0" class="results-count">
                         <span class="result-num" ng-bind="vm.cart.totalCountDisplay"></span> <span class="result-lbl">[% translate 'Items' %]</span>
                     </h3>
@@ -404,7 +404,7 @@
                             </div>
                         </div>
                     </div>
-                    <div ng-if="vm.cart.cartLines.length > 0" class="sticky-first">
+                    <div ng-if="vm.cart.cartLines.length > 0">
                         <nbf-cart-total-display ng-if="!vm.cart.cartNotPriced" cart="vm.cart" promotions="vm.promotions" order-taxes="vm.cart.customerOrderTaxes"></nbf-cart-total-display>
                         <div class="btns hide-for-print" id="tst_cartPage_buttons">
                             [[CheckoutButtons]]

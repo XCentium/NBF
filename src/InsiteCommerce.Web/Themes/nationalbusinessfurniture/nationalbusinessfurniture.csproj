@@ -83,6 +83,7 @@
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Scripts\sticky.js" />
     <Content Include="theme.json" />
     <TypeScriptCompile Include="Scripts\Custom\Account\nbf.account.directives.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Cart\nbf.cart-total-display.directive.ts" />
@@ -262,6 +263,7 @@
     <TypeScriptCompile Include="Scripts\Typings\moment\moment-node.d.ts" />
     <TypeScriptCompile Include="Scripts\Typings\moment\moment.d.ts" />
     <TypeScriptCompile Include="Scripts\Typings\papaparse\papaparse.d.ts" />
+    <TypeScriptCompile Include="Scripts\Typings\sticky\sticky.d.ts" />
     <TypeScriptCompile Include="Scripts\Typings\xlsx\xlsx.d.ts" />
     <TypeScriptCompile Include="Scripts\UserAdministration\insite.user-detail.controller.ts" />
     <TypeScriptCompile Include="Scripts\UserAdministration\insite.user-list.controller.ts" />
