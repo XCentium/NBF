@@ -8,7 +8,7 @@ namespace Extensions.Widgets
     {
         public string NewsListId { get; set; }
 
-        public ICollection<string> PageTagList { get; set; } = (ICollection<string>)new List<string>();
+        public ICollection<string> PageTags { get; set; } = (ICollection<string>)new List<string>();
 
         public PagingInfo Pagination { get; set; } = new PagingInfo();
     }
