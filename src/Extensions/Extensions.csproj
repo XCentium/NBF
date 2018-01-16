@@ -218,7 +218,7 @@
     <Compile Include="Widgets\PageTagSelectViewPageDrop.cs" />
     <Compile Include="Widgets\PageTagLinksViewPageDrop.cs" />
     <Compile Include="Widgets\ArticleListViewPageDrop.cs" />
-    <Compile Include="Widgets\PageTagSelectPreparer.cs" />
+    <Compile Include="Widgets\PageTagSelectViewPreparer.cs" />
     <Compile Include="Widgets\PageTagLinksViewPreparer.cs" />
     <Compile Include="Widgets\PageTagLinksViewDrop.cs" />
     <Compile Include="Widgets\ArticleListViewDrop.cs" />

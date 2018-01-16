@@ -40,29 +40,21 @@ namespace Extensions.Widgets
             return new PageTagSelectViewDrop();
         }
 
-        protected virtual void PopulateViewModel(PageTagSelectViewDrop model, PageTagSelectView articleList)
+        protected virtual void PopulateViewModel(PageTagSelectViewDrop model, PageTagSelectView pageTagView)
         {
-            //string str1 = articleList.Id.ToString();
-            //int intFromQueryString1 = this.HttpContext.Request.ParseIntFromQueryString(string.Format("{0}_page", (object)str1), 1);
-            //int intFromQueryString2 = this.HttpContext.Request.ParseIntFromQueryString(string.Format("{0}_pageSize", (object)str1), articleList.DefaultPageSize);
-            //List<NewsPage> list = this.ContentHelper.GetChildPages<NewsPage>(articleList.PageContentKey, true).OrderByDescending<NewsPage, DateTimeOffset?>((Func<NewsPage, DateTimeOffset?>)(o => o.PublishDate)).ToList<NewsPage>();
 
             var tagSet = new HashSet<string>();
             //var tagField = this.UnitOfWork.GetRepository<ContentItem>().GetTable().Where(x => x.IsDeleted == false && x.IsRetracted == false && x.PublishOn != null)
             //    .Join(this.UnitOfWork.GetRepository<ContentItemField>().GetTable(), ci => ci.ContentKey, cif => cif.ContentKey,
             //        (ci, cif) => new { ci = ci, cif = cif })
             //        .Where(x => x.cif.FieldName == "Css" || x.cif.FieldName == "Url");
-            var tagField = this.UnitOfWork.GetRepository<ContentItemField>().GetTable()
-                    .Where(x => x.FieldName == "CssClass" || x.FieldName == "Url");
-            foreach (var tag in tagField)
+            //this.ContentHelper.GetPage(
+//            pageTagView.Path.pageTagView.p
+            foreach (var tag in pageTagView.PageTags)
             {
-                if (tag.FieldName == "CssClass")
-                {
-                    tagSet.Add(tag.StringValue);
-                }
-
+                tagSet.Add(tag);
             }
-            model.PageTagList = tagSet.ToList();
+            model.PageTags = tagSet.ToList();
 
             //var l = new List<string>();
             //l.Add("list1");
