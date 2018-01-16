@@ -132,7 +132,24 @@ begin
 		left join OEGSystemStaging.dbo.LookupItemStatuses luStatus on luStatus.Id = sp.StatusId
 		join Product p on p.ERPNumber = convert(nvarchar(max), sp.ProductId) + '-' + convert(nvarchar(max), spsku.ProductSKUId)
 	where 
-		sp.BrandId = 1
+		sp.BrandId = @brand
+
+	-- tie up the style parent for each of the variants
+	;with parentProduct as
+	(
+	select 
+		p.Id, p.ERPNumber
+	from 
+		Product p
+	where
+		p.ERPNumber not like '%-%'
+	)
+	update Product 
+	set StyleParentId = pp.Id
+	from Product p
+	join parentProduct pp on pp.ERPNumber = rtrim(left(p.ERPNumber, CHARINDEX('-', p.ERPNumber) - 1))
+	where 
+		p.ERPNumber like '%-%'
 
 
 	insert into StyleTrait
