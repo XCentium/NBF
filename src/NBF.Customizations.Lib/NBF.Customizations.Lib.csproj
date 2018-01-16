@@ -1,0 +1,270 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{21A69197-C918-4964-BAC6-9DE95309C899}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>NBF.Customizations.Lib</RootNamespace>
+    <AssemblyName>NBF.Customizations.Lib</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Insite.Account">
+      <HintPath>..\InsiteCommerce.Web\bin\Insite.Account.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.Admin">
+      <HintPath>..\InsiteCommerce.Web\bin\Insite.Admin.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.Budget">
+      <HintPath>..\InsiteCommerce.Web\bin\Insite.Budget.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.Cart">
+      <HintPath>..\InsiteCommerce.Web\bin\Insite.Cart.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.Catalog">
+      <HintPath>..\InsiteCommerce.Web\bin\Insite.Catalog.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.Common">
+      <HintPath>..\InsiteCommerce.Web\bin\Insite.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.Configurator">
+      <HintPath>..\InsiteCommerce.Web\bin\Insite.Configurator.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.ContentAdmin">
+      <HintPath>..\InsiteCommerce.Web\bin\Insite.ContentAdmin.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.ContentLibrary">
+      <HintPath>..\InsiteCommerce.Web\bin\Insite.ContentLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.Core">
+      <HintPath>..\InsiteCommerce.Web\bin\Insite.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.Core.Interfaces">
+      <HintPath>..\InsiteCommerce.Web\bin\Insite.Core.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.CurrencyConversion.WebserviceX">
+      <HintPath>..\InsiteCommerce.Web\bin\Insite.CurrencyConversion.WebserviceX.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.Customers">
+      <HintPath>..\InsiteCommerce.Web\bin\Insite.Customers.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.Dashboard">
+      <HintPath>..\InsiteCommerce.Web\bin\Insite.Dashboard.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.Data">
+      <HintPath>..\InsiteCommerce.Web\bin\Insite.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.Data.Entities">
+      <HintPath>..\InsiteCommerce.Web\bin\Insite.Data.Entities.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.Data.Providers.EntityFramework">
+      <HintPath>..\InsiteCommerce.Web\bin\Insite.Data.Providers.EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.Data.Repositories">
+      <HintPath>..\InsiteCommerce.Web\bin\Insite.Data.Repositories.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.Dealers">
+      <HintPath>..\InsiteCommerce.Web\bin\Insite.Dealers.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.Email">
+      <HintPath>..\InsiteCommerce.Web\bin\Insite.Email.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.GeocoderProvider.FreeGeoip">
+      <HintPath>..\InsiteCommerce.Web\bin\Insite.GeocoderProvider.FreeGeoip.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.GeocoderProvider.Google">
+      <HintPath>..\InsiteCommerce.Web\bin\Insite.GeocoderProvider.Google.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.Git">
+      <HintPath>..\InsiteCommerce.Web\bin\Insite.Git.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.HelpLinks">
+      <HintPath>..\InsiteCommerce.Web\bin\Insite.HelpLinks.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.IdentityServer">
+      <HintPath>..\InsiteCommerce.Web\bin\Insite.IdentityServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.Integration">
+      <HintPath>..\InsiteCommerce.Web\bin\Insite.Integration.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.Integration.WebService">
+      <HintPath>..\InsiteCommerce.Web\bin\Insite.Integration.WebService.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.Invoice">
+      <HintPath>..\InsiteCommerce.Web\bin\Insite.Invoice.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.IocContainer.Unity">
+      <HintPath>..\InsiteCommerce.Web\bin\Insite.IocContainer.Unity.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.JobQuote">
+      <HintPath>..\InsiteCommerce.Web\bin\Insite.JobQuote.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.Message">
+      <HintPath>..\InsiteCommerce.Web\bin\Insite.Message.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.Order">
+      <HintPath>..\InsiteCommerce.Web\bin\Insite.Order.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.OrderApproval">
+      <HintPath>..\InsiteCommerce.Web\bin\Insite.OrderApproval.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.PaymentGateway.AuthorizeDotNet">
+      <HintPath>..\InsiteCommerce.Web\bin\Insite.PaymentGateway.AuthorizeDotNet.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.PaymentGateway.Cenpos">
+      <HintPath>..\InsiteCommerce.Web\bin\Insite.PaymentGateway.Cenpos.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.PaymentGateway.CyberSource">
+      <HintPath>..\InsiteCommerce.Web\bin\Insite.PaymentGateway.CyberSource.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.PaymentGateway.Orbital">
+      <HintPath>..\InsiteCommerce.Web\bin\Insite.PaymentGateway.Orbital.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.PaymentGateway.PayflowPro">
+      <HintPath>..\InsiteCommerce.Web\bin\Insite.PaymentGateway.PayflowPro.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.PaymentGateway.PaypalExpress">
+      <HintPath>..\InsiteCommerce.Web\bin\Insite.PaymentGateway.PaypalExpress.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.PaymentGateway.Vantiv">
+      <HintPath>..\InsiteCommerce.Web\bin\Insite.PaymentGateway.Vantiv.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.Payments">
+      <HintPath>..\InsiteCommerce.Web\bin\Insite.Payments.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.Plugins">
+      <HintPath>..\InsiteCommerce.Web\bin\Insite.Plugins.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.Promotions">
+      <HintPath>..\InsiteCommerce.Web\bin\Insite.Promotions.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.Public.Core">
+      <HintPath>..\InsiteCommerce.Web\bin\Insite.Public.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.Public.Integration">
+      <HintPath>..\InsiteCommerce.Web\bin\Insite.Public.Integration.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.Public.WebFramework">
+      <HintPath>..\InsiteCommerce.Web\bin\Insite.Public.WebFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.Punchout">
+      <HintPath>..\InsiteCommerce.Web\bin\Insite.Punchout.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.QuickOrder">
+      <HintPath>..\InsiteCommerce.Web\bin\Insite.QuickOrder.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.RatingService.FedEx">
+      <HintPath>..\InsiteCommerce.Web\bin\Insite.RatingService.FedEx.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.RatingService.Ups">
+      <HintPath>..\InsiteCommerce.Web\bin\Insite.RatingService.Ups.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.RealTimeInventory">
+      <HintPath>..\InsiteCommerce.Web\bin\Insite.RealTimeInventory.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.RealTimePricing">
+      <HintPath>..\InsiteCommerce.Web\bin\Insite.RealTimePricing.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.Requisition">
+      <HintPath>..\InsiteCommerce.Web\bin\Insite.Requisition.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.Rfq">
+      <HintPath>..\InsiteCommerce.Web\bin\Insite.Rfq.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.Search.Elasticsearch">
+      <HintPath>..\InsiteCommerce.Web\bin\Insite.Search.Elasticsearch.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.StorageProviders.Amazon">
+      <HintPath>..\InsiteCommerce.Web\bin\Insite.StorageProviders.Amazon.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.StorageProviders.Azure">
+      <HintPath>..\InsiteCommerce.Web\bin\Insite.StorageProviders.Azure.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.Swagger">
+      <HintPath>..\InsiteCommerce.Web\bin\Insite.Swagger.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.SystemResources">
+      <HintPath>..\InsiteCommerce.Web\bin\Insite.SystemResources.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.TaxCalculator.Avalara">
+      <HintPath>..\InsiteCommerce.Web\bin\Insite.TaxCalculator.Avalara.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.TaxCalculator.CyberSource">
+      <HintPath>..\InsiteCommerce.Web\bin\Insite.TaxCalculator.CyberSource.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.TaxCalculator.Sx">
+      <HintPath>..\InsiteCommerce.Web\bin\Insite.TaxCalculator.Sx.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.UserFiles">
+      <HintPath>..\InsiteCommerce.Web\bin\Insite.UserFiles.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.WebFramework">
+      <HintPath>..\InsiteCommerce.Web\bin\Insite.WebFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.Websites">
+      <HintPath>..\InsiteCommerce.Web\bin\Insite.Websites.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.WIS.Broker">
+      <HintPath>..\InsiteCommerce.Web\bin\Insite.WIS.Broker.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.WishLists">
+      <HintPath>..\InsiteCommerce.Web\bin\Insite.WishLists.dll</HintPath>
+    </Reference>
+    <Reference Include="InsiteCommerce.Web">
+      <HintPath>..\InsiteCommerce.Web\bin\InsiteCommerce.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Http">
+      <HintPath>..\InsiteCommerce.Web\bin\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Api\Base\BaseRepository.cs" />
+    <Compile Include="Content\Interfaces\IContentRepository.cs" />
+    <Compile Include="Content\Interfaces\IContentService.cs" />
+    <Compile Include="Content\Models\ContentSearchModel.cs" />
+    <Compile Include="Content\Repository\ContentRepository.cs" />
+    <Compile Include="Content\Services\ContentService.cs" />
+    <Compile Include="Content\WebApi\ContentController.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
