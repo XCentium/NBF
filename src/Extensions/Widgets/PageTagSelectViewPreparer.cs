@@ -1,18 +1,10 @@
-﻿using Insite.Common.Extensions;
-using Insite.ContentLibrary;
-using Insite.ContentLibrary.Pages;
-using Insite.Core.Interfaces.Data;
+﻿using Insite.Core.Interfaces.Data;
 using Insite.Core.Interfaces.Localization;
-using Insite.Data.Entities;
-using Insite.WebFramework;
 using Insite.WebFramework.Content;
 using Insite.WebFramework.Content.Interfaces;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using Insite.Message.Services;
-using Insite.Message.Services.Parameters;
 
 namespace Extensions.Widgets
 {
