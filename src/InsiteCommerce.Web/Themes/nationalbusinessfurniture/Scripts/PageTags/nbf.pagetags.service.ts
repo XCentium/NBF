@@ -1,10 +1,7 @@
-﻿//import MessageCollectionModel = Insite.Message.WebApi.V1.ApiModels.MessageCollectionModel;
-//import MessageModel = Insite.Message.WebApi.V1.ApiModels.MessageModel;
-
-//module insite.message {
+﻿//module nbf.pagetags {
 //    "use strict";
 
-//    export interface IMessageService {
+//    export interface IPageTagsService {
 //        getMessages(): ng.IPromise<MessageCollectionModel>;
 //        updateMessage(message: MessageModel): ng.IPromise<MessageModel>;
 //    }
@@ -16,7 +13,7 @@
 
 //        constructor(
 //            protected $http: ng.IHttpService,
-//            protected httpWrapperService: core.HttpWrapperService) {
+//            protected httpWrapperService: insite.core.HttpWrapperService) {
 //        }
 
 //        getMessages(): ng.IPromise<MessageCollectionModel> {

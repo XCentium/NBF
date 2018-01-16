@@ -466,13 +466,21 @@
   <ItemGroup>
     <Content Include="Views\Widgets\Custom\ArticleListView\Standard.cshtml" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
-    <Content Include="Views\Widgets\Custom\PageTags\Standard.cshtml" />
+    <Folder Include="Scripts\Custom\Account\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Widgets\Custom\PageTagLinksView\Standard.cshtml" />
     <Content Include="Styles\custom\checkout.scss" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Scripts\Custom\Account\" />
+    <Content Include="Views\Widgets\Custom\PageTagSelectView\Standard.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Widgets\Custom\NewsPageView\Standard.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Widgets\Custom\CommentForm\Standard.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
