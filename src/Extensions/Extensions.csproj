@@ -30,9 +30,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="DotLiquid, Version=1.0.0.0, Culture=neutral, PublicKeyToken=82e46016ecf9f07c, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\InsiteCommerce.Web\bin\DotLiquid.dll</HintPath>
+    <Reference Include="DotLiquid">
+      <HintPath>..\packages\Insite.Commerce.Private.4.3.2.38064\lib\net452\DotLiquid.dll</HintPath>
     </Reference>
     <Reference Include="Insite.Account, Version=4.3.2.38010, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Insite.Commerce.Public.4.3.2.38010\lib\net452\Insite.Account.dll</HintPath>
@@ -56,13 +55,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Insite.Commerce.Private.4.3.2.38010\lib\net452\Insite.ContentLibrary.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.Core, Version=4.3.2.38010, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\InsiteCommerce.Web\bin\Insite.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="Insite.Data, Version=4.3.2.38010, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\InsiteCommerce.Web\bin\Insite.Data.dll</HintPath>
+    <Reference Include="Insite.Core">
+      <HintPath>..\packages\Insite.Commerce.Private.4.3.2.38064\lib\net452\Insite.Core.dll</HintPath>
     </Reference>
     <Reference Include="Insite.Public.WebFramework, Version=4.3.2.38010, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -70,16 +64,6 @@
     </Reference>
     <Reference Include="Insite.QuickOrder, Version=4.3.2.38010, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Insite.Commerce.Public.4.3.2.38010\lib\net452\Insite.QuickOrder.dll</HintPath>
-    </Reference>
-    <Reference Include="Insite.RatingService.FedEx">
-      <HintPath>..\InsiteCommerce.Web\bin\Insite.RatingService.FedEx.dll</HintPath>
-    </Reference>
-    <Reference Include="Insite.RatingService.Ups">
-      <HintPath>..\InsiteCommerce.Web\bin\Insite.RatingService.Ups.dll</HintPath>
-    </Reference>
-    <Reference Include="Insite.RealTimeInventory, Version=4.3.2.38010, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\InsiteCommerce.Web\bin\Insite.RealTimeInventory.dll</HintPath>
     </Reference>
     <Reference Include="Insite.RealTimePricing, Version=4.3.2.38010, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Insite.Commerce.Public.4.3.2.38010\lib\net452\Insite.RealTimePricing.dll</HintPath>
@@ -234,12 +218,6 @@
     <Content Include="packages.config">
       <SubType>Designer</SubType>
     </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\NBF.Customizations.Lib\NBF.Customizations.Lib.csproj">
-      <Project>{21a69197-c918-4964-bac6-9de95309c899}</Project>
-      <Name>NBF.Customizations.Lib</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
