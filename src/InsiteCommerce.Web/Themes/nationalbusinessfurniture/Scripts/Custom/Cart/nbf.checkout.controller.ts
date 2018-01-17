@@ -937,19 +937,122 @@
         protected generateAccessTokenCompleted(account: AccountModel, accessToken: common.IAccessTokenDto, signInUri: string, cart: CartModel): void {
             this.accessToken.set(accessToken.accessToken);
             const currentContext = this.sessionService.getContext();
-            currentContext.billToId = cart.billTo.id;
-            currentContext.shipToId = cart.shipTo.id;
+            currentContext.billToId = account.billToId;
+            currentContext.shipToId = account.shipToId;
+            cart.billTo.id = currentContext.billToId.toString();
+            cart.billTo.isGuest = false;
+            cart.shipTo.id = currentContext.shipToId.toString();
+            cart.shipTo.isDefault = true;
             this.sessionService.setContext(currentContext);
-
-            this.customerService.updateBillTo(this.cart.billTo).then(
-                (billTo: BillToModel) => { this.updateBillToCompleted(billTo); },
-                (error: any) => { this.updateBillToFailed(error); });
 
             this.cart = cart;
             this.cart.initiatedByUserName = account.id;
+            this.customerService.updateBillTo(this.cart.billTo).then(
+                (billTo: BillToModel) => { this.updateGuestBillToCompleted(billTo, signInUri); },
+                (error: any) => { this.updateGuestBillToFailed(error); });
+        }
 
+        protected updateGuestBillToCompleted(billTo: BillToModel, signInUri): void {
+            this.updateGuestShipTo(signInUri, true);
+        }
+
+        protected updateGuestBillToFailed(error: any): void {
+            
+        }
+
+        protected updateGuestShipTo(signInUri: string, customerWasUpdated?: boolean): void {
+            if (this.customerSettings.allowShipToAddressEdit) {
+                const shipToMatches = this.cart.billTo.shipTos.filter(shipTo => { return shipTo.id === this.selectedShipTo.id; });
+                if (shipToMatches.length === 1) {
+                    this.cart.shipTo = this.selectedShipTo;
+                }
+
+                if (this.cart.shipTo.id !== this.cart.billTo.id) {
+                    this.customerService.addOrUpdateShipTo(this.cart.shipTo).then(
+                        (shipTo: ShipToModel) => { this.addOrUpdateGuestShipToCompleted(shipTo, signInUri, customerWasUpdated ) },
+                        (error: any) => { this.addOrUpdateGuestShipToFailed(error); });
+                } else {
+                    this.updateGuestSession(this.cart, signInUri, customerWasUpdated);
+                }
+            } else {
+                this.updateGuestSession(this.cart, signInUri, customerWasUpdated);
+            }
+        }
+
+        protected addOrUpdateGuestShipToCompleted(shipTo: ShipToModel, signInUri: string, customerWasUpdated?: boolean): void {
+            if (this.cart.shipTo.isNew) {
+                this.cart.shipTo = shipTo;
+            }
+            this.updateGuestSession(this.cart, signInUri, true);
+        }
+
+        protected addOrUpdateGuestShipToFailed(error: any): void {
+            
+        }
+
+        protected updateGuestSession(cart: CartModel, signInUri: string, customerWasUpdated?: boolean): void {
+            console.log(this.cart.billTo.id + "-" + this.cart.shipTo.id);
+            this.sessionService.setCustomer(this.cart.billTo.id, this.cart.shipTo.id, false, customerWasUpdated).then(
+                (session: SessionModel) => { this.updateGuestSessionCompleted(session, this.cart, signInUri); },
+                (error: any) => { this.updateGuestSessionFailed(error); });
+        }
+
+        protected updateGuestSessionCompleted(session: SessionModel, cart: CartModel, signInUri: string) {
             debugger;
+            if (session.isRestrictedProductRemovedFromCart) {
+                this.$localStorage.set("hasRestrictedProducts", true.toString());
+                this.submitOrder(signInUri);
+            } else {
+                this.getCartAfterGuestChangeShipTo(this.cart, signInUri);
+            }
+        }
+
+        protected updateGuestSessionFailed(error) {
+            
+        }
+
+        protected updateGuestAccountCompleted(cart: CartModel, signInUri: string): void {
             this.submitOrder(signInUri);
+        }
+
+        protected updateGuestAccountFailed(error: any): void {
+            
+        }
+
+        protected getCartAfterGuestChangeShipTo(cart: CartModel, signInUri: string): void {
+            debugger;
+            this.cartService.expand = "cartlines,shiptos,validation";
+            this.cartService.getCart(this.cartId).then(
+                (cart: CartModel) => { this.getCartAfterGuestChangeShipToCompleted(cart, signInUri); },
+                (error: any) => { this.getCartAfterGuestChangeShipToFailed(error); });
+        }
+
+        protected getCartAfterGuestChangeShipToCompleted(cart: CartModel, signInUri: string): void {
+            debugger;
+            this.cartService.expand = "";
+            this.cart = cart;
+
+            if (!cart.canCheckOut) {
+                this.coreService.displayModal(angular.element("#insufficientInventoryAtCheckout"), () => {
+                    this.submitOrder(signInUri);
+                });
+
+                this.$timeout(() => {
+                    this.coreService.closeModal("#insufficientInventoryAtCheckout");
+                }, 3000);
+            } else {
+                if (this.initialIsSubscribed !== this.account.isSubscribed) {
+                    this.accountService.updateAccount(this.account).then(
+                        () => { this.updateGuestAccountCompleted(this.cart, signInUri); },
+                        (error: any) => { this.updateGuestAccountFailed(error); });
+                } else {
+                    this.submitOrder(signInUri);
+                }
+            }
+        }
+
+        protected getCartAfterGuestChangeShipToFailed(error: any): void {
+            
         }
 
         protected createAccountFailed(error: any): void {

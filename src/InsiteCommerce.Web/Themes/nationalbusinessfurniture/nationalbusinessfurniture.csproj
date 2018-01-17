@@ -116,9 +116,8 @@
     <TypeScriptCompile Include="Scripts\Custom\Account\nbf.account.directives.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Cart\nbf.cart-total-display.directive.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Cart\nbf.cart-lines.directive.ts" />
-    <TypeScriptCompile Include="Scripts\Custom\Cart\nbf.order-confirmation.controller.ts" />
-    <TypeScriptCompile Include="Scripts\Custom\Cart\nbf.review-and-pay.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Cart\nbf.checkout.controller.ts" />
+    <TypeScriptCompile Include="Scripts\Custom\OrderTracker\nbf.order-tracker.controller.ts" />
     <TypeScriptCompile Include="Scripts\insite.config.ts" />
     <TypeScriptCompile Include="Scripts\insite.content-pager.controller.ts" />
     <TypeScriptCompile Include="Scripts\insite.content.directives.ts" />
@@ -472,7 +471,9 @@
   <ItemGroup>
     <Content Include="Views\Widgets\Custom\ArticleListView\Standard.cshtml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Views\Widgets\Custom\OrderTracker\Standard.cshtml" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Directives\Custom\Cart\CheckoutCartLines.cshtml" />
   </ItemGroup>
