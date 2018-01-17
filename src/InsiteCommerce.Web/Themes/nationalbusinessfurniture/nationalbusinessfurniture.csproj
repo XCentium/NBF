@@ -472,7 +472,9 @@
   <ItemGroup>
     <Content Include="Views\Widgets\Custom\ArticleListView\Standard.cshtml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Views\Widgets\Custom\ArticlePageView\Standard.cshtml" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Directives\Custom\Cart\CheckoutCartLines.cshtml" />
   </ItemGroup>
