@@ -62,11 +62,11 @@ begin
 		UrlSegment = LOWER(replace(dbo.UrlFriendlyString(ltrim(rtrim(isnull(spwd.[Description],''))) + '-' + sp.Number),'/','-')),
 		IsDiscontinued = case when luStatus.Name = 'Active' then 0 else 1 end,
 		ActivateOn = sp.FirstAvailableDate,
-		DeactivateOn = case when luStatus.Name = 'Active' then null else getdate()-1 end,
-		CreatedOn = sp.CreatedDate,
-		CreatedBy = isnull(sp.CreatedBy,'etl'),
-		ModifiedOn = sp.ModifiedDate,
-		ModifiedBy = isnull(sp.ModifiedBy, 'etl')
+		DeactivateOn = case when luStatus.Name = 'Active' then null else dateadd(day, -1, SYSDATETIMEOFFSET()) end,
+		CreatedOn = isnull(sp.CreatedDate,SYSDATETIMEOFFSET()),
+		CreatedBy = 'etl',
+		ModifiedOn = isnull(sp.ModifiedDate,SYSDATETIMEOFFSET()),
+		ModifiedBy = 'etl'
 	from 
 		OEGSystemStaging.dbo.Products sp
 		join OEGSystemStaging.dbo.Items si on si.ItemId = sp.ItemId
@@ -113,15 +113,15 @@ begin
 		ShippingHeight = isnull(scd.[Height],0),
 		QtyPerShippingPackage = isnull(si.QtyPerCarton,0),
 		UrlSegment = convert(nvarchar(max), sp.ProductId) + '-' + convert(nvarchar(max), spsku.ProductSKUId),
-		IsDiscontinued = case when spsku.EffEndDate > getdate() then 0 else 1 end,
+		IsDiscontinued = case when luStatus.Name = 'Active' then 0 else case when spsku.EffEndDate > getdate() then 0 else 1 end end,
 		ActivateOn = spsku.EffStartDate,
-		DeactivateOn = spsku.EffEndDate,
+		DeactivateOn = case when luStatus.Name = 'Active' then spsku.EffEndDate else dateadd(day, -1, SYSDATETIMEOFFSET()) end,
 		UPCCode = isnull(sisku.UPCCode,''),
 		ManufacturerItem = spsku.OptionCode,
-		CreatedOn = spsku.CreatedDate,
-		CreatedBy = isnull(spsku.CreatedBy,'etl'),
-		ModifiedOn = spsku.ModifiedDate,
-		ModifiedBy = isnull(spsku.ModifiedBy, 'etl')
+		CreatedOn = isnull(spsku.CreatedDate,SYSDATETIMEOFFSET()),
+		CreatedBy = 'etl',
+		ModifiedOn = isnull(spsku.ModifiedDate,SYSDATETIMEOFFSET()),
+		ModifiedBy = 'etl'
 	from 
 		OEGSystemStaging.dbo.Products sp
 		join OEGSystemStaging.dbo.Items si on si.ItemId = sp.ItemId
@@ -151,11 +151,11 @@ begin
 	where 
 		p.ERPNumber like '%-%'
 
-
+/*
 	insert into StyleTrait
-	([StyleClassId], [Name], [Description], [SortOrder], CreatedBy, ModifiedBy)
+	([StyleClassId], [Name], [SortOrder], [Description], CreatedBy, ModifiedBy)
 	select 
-		styles.Id, convert(nvarchar(max),sisg.Id), sisg.[Name], sisg.WebSortOrder, 'etl', 'etl'
+		styles.Id, sisg.[Name], sisg.WebSortOrder, convert(nvarchar(max),sisg.Id), 'etl', 'etl'
 	from
 		OEGSystemStaging.dbo.ItemSwatchGroups sisg 
 		join OEGSystemStaging.dbo.Products sp on sp.ItemId = sisg.ItemId
@@ -163,8 +163,8 @@ begin
 		join Product p on p.ERPNumber = convert(nvarchar(max),sp.ProductId)
 		join StyleClass styles on styles.[Name] = convert(nvarchar(max),sp.ProductId) 
 	where 
-		sp.BrandId = @brand
-		and not exists (select Id from StyleTrait where [StyleClassId] = styles.Id and [Name] = convert(nvarchar(max),sisg.Id))
+		sp.BrandId = 1 --todo @brand
+		and not exists (select Id from StyleTrait where [StyleClassId] = styles.Id and [Description] = convert(nvarchar(max),sisg.Id))
 
 	insert into StyleTraitValue
 	([StyleTraitId], [Description] , [SortOrder], [IsDefault], [Value], CreatedBy, ModifiedBy)
@@ -173,10 +173,10 @@ begin
 	from
 		OEGSystemStaging.dbo.ItemSwatches sis 
 		join OEGSystemStaging.dbo.ItemSwatchGroups sisg on sisg.Id = sis.GroupId
-		join StyleTrait trait on trait.[Name] = convert(nvarchar(max),sisg.Id)
+		join StyleTrait trait on trait.[Description] = convert(nvarchar(max),sisg.Id)
 	where 
 		isnull(sis.[Name],'') != ''
-		and sis.EffectiveDateStart is not null -- ?????
+		and sis.EffectiveDateStart is not null -- todo: ?????
 		and not exists (select Id from StyleTraitValue where [StyleTraitId] = trait.Id and [Description] = convert(nvarchar(max),sis.SwatchId))
 
 	insert into StyleTraitValueProduct
@@ -192,6 +192,7 @@ begin
 		join StyleTraitValue traitValue on traitValue.[Description] = convert(nvarchar(max),sis.SwatchId)
 	where
 		not exists (select [StyleTraitValueId] from StyleTraitValueProduct where StyleTraitValueId = traitValue.Id and ProductId = p.Id)
+*/
 
 /*
 
@@ -201,8 +202,10 @@ select * from styleclass
 select * from styletrait
 
 --delete from product
---delete from styleclass
---delete from styletrait
+--delete from StyleTraitValueProduct
+--delete from StyleTraitValue
+--delete from StyleTrait
+--delete from StyleClass
 
 */
 
