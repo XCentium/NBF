@@ -1,0 +1,17 @@
+﻿<div ng-controller="NbfOrderTrackerController as vm" class="widget-emailsubscription [[Model.CssClass]]" ng-cloak>
+    <form>
+        [[Model.ContentAbove]]
+        <label for="order[[Model.ContentKey]]">[[Model.Instructions]]</label>
+        <input type="text" class="" name="orderNumber" id="order[[Model.ContentKey]]" placeholder="Order Number"
+               data-val-required="[[Model.OrderNumberIsRequiredErrorMessage]]" data-val="true"/>
+        <label for="phone[[Model.ContentKey]]">[[Model.Instructions]]</label>
+        <input type="text" class="" name="phoneNumber" id="phone[[Model.ContentKey]]" placeholder="Phone Number"
+               data-val-required="[[Model.PhoneIsRequiredErrorMessage]]" data-val="true"
+               data-rule-regex="{{'[% phoneRegex %]'}}"
+               data-val-regex="[[Model.PhoneIsInvalidErrorMessage]]"/>
+        <p>
+            <button class="btn primary btn-subscribe" type="submit" ng-click="vm.submit($event)">[[Model.ButtonText]]</button>
+        </p>
+        <span data-valmsg-replace="true" data-valmsg-for="EmailAddress"></span>
+    </form>
+</div>
