@@ -57,7 +57,7 @@ begin
 		cross join Category c
 		join OEGSystemStaging.dbo.LookupItemClasses sic on convert(nvarchar(max), sic.ClassId) = c.[Name]
 	where
-		BrandId = @brand
+		swc.BrandId = @brand
 		and not exists (select [Name] from Category where [Name] = c.[Name] + '-' + convert(nvarchar(max), swc.Id))
 
 	update Category set
@@ -67,10 +67,62 @@ begin
 	from 
 		OEGSystemStaging.dbo.ItemWebCategoryDisplayNames swc
 		cross join OEGSystemStaging.dbo.LookupItemClasses sic
-		join Category c  on c.[Name] = convert(nvarchar(max), sic.ClassId) + '-' + convert(nvarchar(max), swc.Id)
+		join Category c on c.[Name] = convert(nvarchar(max), sic.ClassId) + '-' + convert(nvarchar(max), swc.Id)
 	where 
 		ShortDescription != swc.DisplayName
 
+
+	-- reverse it
+	insert into Category 
+	(WebSiteId, [Name], ShortDescription, UrlSegment, 
+	ContentManagerId, CreatedBy, ModifiedBy)	
+	select 
+		@WebSiteId, convert(nvarchar(max), swc.Id), swc.DisplayName,
+		LOWER(replace(dbo.UrlFriendlyString(ltrim(rtrim(isnull(swc.DisplayName,'')+'-'+convert(nvarchar(max), swc.Id)))),'/','-')),
+		newid(),'etl','etl'
+	from 
+		OEGSystemStaging.dbo.ItemWebCategoryDisplayNames swc
+	where
+		swc.BrandId = @brand
+		and not exists (select [Name] from Category where [Name] = convert(nvarchar(max), swc.Id))
+	
+	update Category set
+		ShortDescription = swc.DisplayName,
+		UrlSegment = LOWER(replace(dbo.UrlFriendlyString(ltrim(rtrim(isnull(swc.DisplayName,'')+'-'+convert(nvarchar(max), swc.Id)))),'/','-')),
+		ModifiedOn = SYSDATETIMEOFFSET()
+	from
+		OEGSystemStaging.dbo.ItemWebCategoryDisplayNames swc
+		join Category c on c.[Name] = convert(nvarchar(max), swc.Id)
+	where 
+		ShortDescription != swc.DisplayName
+
+
+	insert into Category 
+	(WebSiteId, ParentId, [Name], ShortDescription, UrlSegment, 
+	ContentManagerId, CreatedBy, ModifiedBy)	
+	select 
+		@WebSiteId, c.Id, c.[Name] + '-' + convert(nvarchar(max), sic.ClassId), sic.[Name],
+		LOWER(replace(dbo.UrlFriendlyString(ltrim(rtrim(isnull(swc.DisplayName,'')+'-'+isnull(sic.[Name],'')+'-'+convert(nvarchar(max), sic.ClassId)))),'/','-')),
+		newid(),'etl','etl'
+	from 
+		OEGSystemStaging.dbo.LookupItemClasses sic 
+		cross join Category c
+		join OEGSystemStaging.dbo.ItemWebCategoryDisplayNames swc on convert(nvarchar(max), swc.Id) = c.[Name]
+	where
+		sic.[Name] not in ('Bedroom Furniture', 'Entertainment/AV', 'Misc.', 'Parts')
+		and swc.BrandId = @brand
+		and not exists (select [Name] from Category where [Name] = c.[Name] + '-' + convert(nvarchar(max), sic.ClassId))
+
+	update Category set
+		ShortDescription = sic.[Name],
+		UrlSegment = LOWER(replace(dbo.UrlFriendlyString(ltrim(rtrim(isnull(swc.DisplayName,'')+'-'+isnull(sic.[Name],'')+'-'+convert(nvarchar(max), sic.ClassId)))),'/','-')),
+		ModifiedOn = SYSDATETIMEOFFSET()
+	from 
+		OEGSystemStaging.dbo.LookupItemClasses sic 
+		cross join OEGSystemStaging.dbo.ItemWebCategoryDisplayNames swc
+		join Category c on c.[Name] = convert(nvarchar(max), swc.Id) + '-' + convert(nvarchar(max), sic.ClassId)
+	where 
+		ShortDescription != sic.[Name]	
 /*
 
 exec ETLCategory_FromOEG

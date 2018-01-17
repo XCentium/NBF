@@ -20,6 +20,8 @@ begin
 	from 
 		OEGSystemStaging.dbo.Products sp
 		join OEGSystemStaging.dbo.Items si on si.ItemId = sp.ItemId
+		join OEGSystemStaging.dbo.LookupItemClasses sic on sic.ClassId = si.ClassId
+			and sic.[Name] not in ('Bedroom Furniture', 'Entertainment/AV', 'Misc.', 'Parts')
 		left join OEGSystemStaging.dbo.ProductsWebDescriptions spwd on spwd.ProductId = sp.ProductId
 			and spwd.TypeId = 1
 	where 
@@ -43,6 +45,8 @@ begin
 		join OEGSystemStaging.dbo.Items si on si.ItemId = sp.ItemId
 		left join OEGSystemStaging.dbo.ProductsWebDescriptions spwd on spwd.ProductId = sp.ProductId
 			and spwd.TypeId = 1
+		join OEGSystemStaging.dbo.LookupItemClasses sic on sic.ClassId = si.ClassId
+			and sic.[Name] not in ('Bedroom Furniture', 'Entertainment/AV', 'Misc.', 'Parts')
 		join StyleClass styles on styles.[Name] = convert(nvarchar(max),sp.ProductId)
 	where 
 		sp.BrandId = @brand
@@ -96,6 +100,8 @@ begin
 		join OEGSystemStaging.dbo.Items si on si.ItemId = sp.ItemId
 		join OEGSystemStaging.dbo.ProductSKUs spsku on spsku.ProductId = sp.ProductId
 		join OEGSystemStaging.dbo.ItemSKUs sisku on sisku.ItemSKUId = spsku.ItemSKUId
+		join OEGSystemStaging.dbo.LookupItemClasses sic on sic.ClassId = si.ClassId
+			and sic.[Name] not in ('Bedroom Furniture', 'Entertainment/AV', 'Misc.', 'Parts')
 	where 
 		sp.BrandId = @brand
 		and convert(nvarchar(max), sp.ProductId) + '-' + convert(nvarchar(max), spsku.ProductSKUId) not in (select ERPNumber from Product)
@@ -201,11 +207,11 @@ select styleclassid,* from product
 select * from styleclass
 select * from styletrait
 
---delete from product
---delete from StyleTraitValueProduct
---delete from StyleTraitValue
---delete from StyleTrait
---delete from StyleClass
+--delete from product where createdby = 'etl'
+--delete from StyleTraitValueProduct 
+--delete from StyleTraitValue where createdby = 'etl'
+--delete from StyleTrait where createdby = 'etl'
+--delete from StyleClass where createdby = 'etl'
 
 */
 
