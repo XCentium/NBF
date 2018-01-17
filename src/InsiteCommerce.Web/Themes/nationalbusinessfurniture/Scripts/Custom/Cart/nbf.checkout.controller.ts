@@ -830,7 +830,6 @@
                 this.coreService.redirectToPath(`${signInUri}?returnUrl=${this.coreService.getCurrentPath()}`);
                 return;
             }
-            debugger;
             if (this.cart.requiresApproval) {
                 this.cart.status = "AwaitingApproval";
             } else {
@@ -838,6 +837,9 @@
             }
 
             this.cart.requestedDeliveryDate = this.formatWithTimezone(this.cart.requestedDeliveryDate);
+
+
+            debugger;
 
             this.spinnerService.show("mainLayout", true);
             this.cartService.updateCart(this.cart, true).then(
@@ -853,6 +855,7 @@
         }
 
         protected submitCompleted(cart: CartModel): void {
+            debugger;
             this.cart.id = cart.id;
             this.cartService.getCart();
             this.loadStep3();
@@ -937,11 +940,15 @@
             currentContext.billToId = cart.billTo.id;
             currentContext.shipToId = cart.shipTo.id;
             this.sessionService.setContext(currentContext);
+
+            this.customerService.updateBillTo(this.cart.billTo).then(
+                (billTo: BillToModel) => { this.updateBillToCompleted(billTo); },
+                (error: any) => { this.updateBillToFailed(error); });
+
             this.cart = cart;
-            
+            this.cart.initiatedByUserName = account.id;
 
             debugger;
-
             this.submitOrder(signInUri);
         }
 
