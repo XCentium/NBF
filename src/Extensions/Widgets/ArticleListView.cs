@@ -7,7 +7,6 @@ using System;
 
 namespace Extensions.Widgets
 {
-    [AllowedChildren(new Type[] { typeof(ArticlePageView) })]
     public class ArticleListView : ContentWidget
     {
         [IntegerContentField]
