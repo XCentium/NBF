@@ -2,8 +2,7 @@
     <div class="news-listings">
         [% for tag in Model.Drop.PageTags -%]
         <div class="page-tag-page tst_pageTagLinksView_newsList">
-            <a href="[[Model.Drop.ParentUrl]] + '?tag=[[tag]]'">[[tag]]</a><br />
-            
+            <a href="javascript:window.location.href='[[Model.Drop.ParentUrl]]?tag=[[tag]]'">[[tag]]</a><br />
         </div>
         [% endfor -%]
     </div>

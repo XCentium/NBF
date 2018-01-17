@@ -10,6 +10,7 @@ namespace Extensions.Widgets
 
         public ICollection<string> PageTags { get; set; } = (ICollection<string>)new List<string>();
         public string ParentUrl { get; set; }
+        public string PageUrl { get; set; }
 
         public PagingInfo Pagination { get; set; } = new PagingInfo();
     }
