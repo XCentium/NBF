@@ -58,6 +58,12 @@
     <Reference Include="Insite.Core">
       <HintPath>..\packages\Insite.Commerce.Private.4.3.2.38064\lib\net452\Insite.Core.dll</HintPath>
     </Reference>
+    <Reference Include="Insite.Email">
+      <HintPath>..\packages\Insite.Commerce.Private.4.3.2.38064\lib\net452\Insite.Email.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.Order">
+      <HintPath>..\packages\Insite.Commerce.Private.4.3.2.38064\lib\net452\Insite.Order.dll</HintPath>
+    </Reference>
     <Reference Include="Insite.Public.Core, Version=4.3.2.38064, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Insite.Commerce.Private.4.3.2.38064\lib\net452\Insite.Public.Core.dll</HintPath>
@@ -199,6 +205,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WebApi\Controllers\OrderTrackingController.cs" />
     <Compile Include="Widgets\ArticleListView.cs" />
     <Compile Include="Widgets\OrderTracker.cs" />
     <Compile Include="Widgets\CommentForm.cs" />

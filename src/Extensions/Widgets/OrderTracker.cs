@@ -11,14 +11,19 @@ namespace Extensions.Widgets
         private string _phoneIsInvalidErrorMessage;
         private string _orderNumberIsRequiredErrorMessage;
         private string _orderNumberIsInvalidErrorMessage;
-        private MessageProvider _messageProvider;
+        private readonly MessageProvider _messageProvider;
+
+        public OrderTracker()
+        {
+            _messageProvider = new MessageProvider();
+        }
 
         [RichTextContentField(DisplayName = "Content - Above", IsRequired = true)]
         public virtual string ContentAbove
         {
             get
             {
-                return GetValue("ContentAbove", "<h3>Look up a single order</h3><p>Enter your order number and phone number to track its status</p>", FieldType.Contextual);
+                return GetValue("ContentAbove", "<h2>Look up a single order</h2><p>Enter your order number and phone number to track its status</p>", FieldType.Contextual);
             }
             set
             {
@@ -36,6 +41,32 @@ namespace Extensions.Widgets
             set
             {
                 SetValue("ButtonText", value, FieldType.Contextual);
+            }
+        }
+
+        [TextContentField]
+        public virtual string OrderNotFoundErrorMessage
+        {
+            get
+            {
+                return GetValue("OrderNotFoundErrorMessage", "Order not found, please try again.", FieldType.Contextual);
+            }
+            set
+            {
+                SetValue("OrderNotFoundErrorMessage", value, FieldType.Contextual);
+            }
+        }
+
+        [RichTextContentField(DisplayName = "Content - Below", IsRequired = true)]
+        public virtual string ContentBelow
+        {
+            get
+            {
+                return GetValue("ContentBelow", "", FieldType.Contextual);
+            }
+            set
+            {
+                SetValue("ContentBelow", value, FieldType.Contextual);
             }
         }
 
