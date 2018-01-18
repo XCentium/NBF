@@ -19,7 +19,8 @@
 
             <isc-pager pagination="vm.pagination" storage-key="vm.paginationStorageKey" update-data="vm.search()"></isc-pager>
 
-            <table class="responsive info-tbl tbl-assign-shipto">
+            <div class="overflow-table none">
+            <table class="info-tbl tbl-assign-shipto">
                 <thead>
                     <tr>
                         <th class="col-shipto"><a ng-click="vm.sortBy('ShipTo')" ng-class="vm.getSortClass('ShipTo')" class="sort">[% translate 'Ship To #' %]</a></th>
@@ -50,6 +51,7 @@
                     </tr>
                 </tbody>
             </table>
+            </div>
 
             <isc-pager pagination="vm.pagination" bottom="true" storage-key="vm.paginationStorageKey" update-data="vm.search()"></isc-pager>
 

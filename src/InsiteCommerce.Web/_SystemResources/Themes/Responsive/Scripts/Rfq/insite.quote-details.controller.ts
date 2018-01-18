@@ -13,6 +13,8 @@
         minimumMargin: number;
         maximumDiscount: any;
         validationMessage: string;
+        realTimePricing = false;
+        failedToGetRealTimePrices = false;
 
         static $inject = [
             "$rootScope",
@@ -22,7 +24,9 @@
             "quotePastExpirationDatePopupService",
             "queryString",
             "$scope",
-            "$window"];
+            "$window",
+            "settingsService",
+            "productService"];
 
         constructor(
             protected $rootScope: ng.IScope,
@@ -32,22 +36,36 @@
             protected quotePastExpirationDatePopupService: rfq.QuotePastExpirationDatePopupService,
             protected queryString: common.IQueryStringService,
             protected $scope: ng.IScope,
-            protected $window: ng.IWindowService) {
+            protected $window: ng.IWindowService,
+            protected settingsService: core.ISettingsService,
+            protected productService: catalog.IProductService) {
             this.init();
         }
 
         init(): void {
+            this.quoteId = this.getQuoteId();
+
+            this.settingsService.getSettings().then(
+                (settingsCollection: core.SettingsCollection) => { this.getSettingsCompleted(settingsCollection); },
+                (error: any) => { this.getSettingsFailed(error); });
+
             this.cartService.getCart().then(
                 (cart: CartModel) => { this.getCartCompleted(cart); },
                 (error: any) => { this.getCartFailed(error); });
 
-            this.quoteId = this.getQuoteId();
-            this.getQuote();
             this.validateForm();
 
             this.$scope.$on("submitQuote", (event, url: string) => {
                 this.doSubmitQuote(url);
             });
+        }
+
+        protected getSettingsCompleted(settingsCollection: core.SettingsCollection): void {
+            this.realTimePricing = settingsCollection.productSettings.realTimePricing;
+            this.getQuote();
+        }
+
+        protected getSettingsFailed(error: any): void {
         }
 
         protected getCartCompleted(cart: CartModel): void {
@@ -74,10 +92,28 @@
                 this.calculationMethod = this.quote.calculationMethods[0];
                 this.changeCalculationMethod();
             }
+
+            if (this.realTimePricing && this.quote.quoteLineCollection && this.quote.quoteLineCollection.length > 0) {
+                var products = this.quote.quoteLineCollection.map(o => ({ id: o.productId, qtyOrdered: o.qtyOrdered, selectedUnitOfMeasure: o.unitOfMeasure })) as any;
+                this.productService.getProductRealTimePrices(products).then(
+                    (realTimePricing: RealTimePricingModel) => this.getProductRealTimePricesCompleted(realTimePricing),
+                    (error: any) => this.getProductRealTimePricesFailed(error));
+            }
         }
 
         protected getQuoteFailed(error: any): void {
             this.validationMessage = error.message || error;
+        }
+
+        protected getProductRealTimePricesCompleted(realTimePricing: RealTimePricingModel): void {
+            realTimePricing.realTimePricingResults.forEach((productPrice: ProductPriceDto) => {
+                const quoteLine = this.quote.quoteLineCollection.find((o: QuoteLineModel) => o.productId === productPrice.productId && o.unitOfMeasure === productPrice.unitOfMeasure);
+                quoteLine.pricing = productPrice;
+            });
+        }
+
+        protected getProductRealTimePricesFailed(error: any): void {
+            this.failedToGetRealTimePrices = true;
         }
 
         acceptCheckout(url: string): void {
@@ -208,6 +244,19 @@
                     form.validate().showErrors({ "percent" : error.message });
                 }
             }
+        }
+
+        deleteQuote(returnUrl: string): void {
+            this.rfqService.removeQuote(this.quoteId).then(
+                (quote: QuoteModel) => { this.deleteQuoteCompleted(quote, returnUrl); },
+                (error: any) => { this.deleteQuoteFailed(error); });
+        }
+
+        protected deleteQuoteCompleted(quote: QuoteModel, returnUrl: string): void {
+            this.redirectToPathOrReturnBack(returnUrl);
+        }
+
+        protected deleteQuoteFailed(error: any): void {
         }
 
         protected redirectToPathOrReturnBack(returnUrl: string): void {

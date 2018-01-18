@@ -123,7 +123,7 @@
                     this.cart.paymentOptions.creditCard.state = "";
                     this.cart.paymentOptions.creditCard.stateAbbreviation = "";
                 }
-            } 
+            }
         }
 
         protected getSettingsCompleted(settingsCollection: core.SettingsCollection): void {
@@ -324,7 +324,7 @@
 
         protected getIsAuthenticatedForSubmitCompleted(isAuthenticated: boolean, submitSuccessUri: string, signInUri: string): void {
             if (!isAuthenticated) {
-                this.coreService.redirectToPath(`${signInUri}?returnUrl=${this.coreService.getCurrentPath()}`);
+                this.coreService.redirectToPathAndRefreshPage(`${signInUri}?returnUrl=${this.coreService.getCurrentPath()}`);
                 return;
             }
 

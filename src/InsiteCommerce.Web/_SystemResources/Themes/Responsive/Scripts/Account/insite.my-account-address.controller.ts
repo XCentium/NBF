@@ -171,6 +171,7 @@ module insite.account {
                         this.shipTo = shipTo;
                     }
                 });
+                this.focusOnFirstEnabledShipToInput();
             }
             else if (selectedShipTo) {
                 shipTos.forEach(shipTo => {
@@ -282,6 +283,15 @@ module insite.account {
         protected updateValidationRulesForField(fieldName: string, rules: JQueryValidation.RulesDictionary): void {
             $(`#${fieldName}`).rules("remove", "required,maxlength");
             $(`#${fieldName}`).rules("add", rules);
+        }
+
+        private focusOnFirstEnabledShipToInput() {
+            setTimeout(() => {
+                const formInput = $(".shipping-info input:enabled:first");
+                if (formInput.length) {
+                    formInput.focus();
+                }
+            });
         }
     }
 

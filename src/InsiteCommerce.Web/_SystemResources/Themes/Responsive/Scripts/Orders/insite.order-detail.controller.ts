@@ -1,9 +1,12 @@
 ﻿module insite.order {
     "use strict";
+    import SessionModel = Insite.Account.WebApi.V1.ApiModels.SessionModel;
 
     export class OrderDetailController {
         order: OrderModel;
         orderNumber: string;
+        private stEmail: string;
+        private stPostalCode: string;
         canReorderItems = false;
         btFormat: string;
         stFormat: string;
@@ -18,8 +21,13 @@
         promotions: PromotionModel[];
         allowCancellationStatuses: string[];
         allowRmaStatuses: string[];
+        extraProperties: {
+            stEmail: string,
+            stPostalCode: string
+        };
+        isAuthenticated: boolean;
 
-        static $inject = ["orderService", "settingsService", "queryString", "coreService", "sessionService", "cartService"];
+        static $inject = ["orderService", "settingsService", "queryString", "coreService", "sessionService", "cartService", "addToWishlistPopupService"];
 
         constructor(
             protected orderService: order.IOrderService,
@@ -27,7 +35,8 @@
             protected queryString: common.IQueryStringService,
             protected coreService: core.ICoreService,
             protected sessionService: account.ISessionService,
-            protected cartService: cart.ICartService) {
+            protected cartService: cart.ICartService,
+            protected addToWishlistPopupService: wishlist.AddToWishlistPopupService) {
             this.init();
         }
 
@@ -46,8 +55,19 @@
                 }
             }
 
-            this.getOrder(this.orderNumber);
+            this.stEmail = this.queryString.get("stEmail");
+            this.stPostalCode = this.queryString.get("stPostalCode");
+            this.extraProperties = {
+                stEmail: this.stEmail,
+                stPostalCode: this.stPostalCode
+            }
+
+            this.getOrder(this.orderNumber, this.stEmail, this.stPostalCode);
             this.getOrderStatusMappings();
+
+            this.sessionService.getSession().then(
+                (session: SessionModel) => { this.getSessionCompleted(session); },
+                (error: any) => { this.getSessionFailed(error); });
         }
 
         protected getSettingsCompleted(settingsCollection: core.SettingsCollection): void {
@@ -90,7 +110,7 @@
         }
 
         allowRmaCheck(status: string): boolean {
-            return this.allowRmaStatuses && this.allowRmaStatuses.indexOf(status) !== -1;
+            return this.isAuthenticated && this.allowRmaStatuses && this.allowRmaStatuses.indexOf(status) !== -1;
         }
 
         discountOrderFilter(promotion: PromotionModel): boolean {
@@ -122,8 +142,8 @@
             return formattedString;
         }
 
-        getOrder(orderNumber: string): void {
-            this.orderService.getOrder(orderNumber, "orderlines,shipments").then(
+        getOrder(orderNumber: string, stEmail?: string, stPostalCode?: string): void {
+            this.orderService.getOrder(orderNumber, "orderlines,shipments", stEmail, stPostalCode).then(
                 (order: OrderModel) => { this.getOrderCompleted(order); },
                 (error: any) => { this.getOrderFailed(error); });
         }
@@ -200,11 +220,21 @@
         }
 
         protected updateOrderFailed(error: any): void {
-            this.validationMessage = error.exceptionMessage || error;
+            this.validationMessage = error.exceptionMessage;
         }
 
         showShareModal(entityId: string): void {
             this.coreService.displayModal(`#shareEntityPopupContainer_${entityId}`);
+        }
+
+        openWishListPopup(orderLine: OrderLineModel): void {
+            const product = <ProductDto>(<any>({
+                id: orderLine.productId,
+                qtyOrdered: orderLine.qtyOrdered,
+                selectedUnitOfMeasure: orderLine.unitOfMeasure
+            }));
+
+            this.addToWishlistPopupService.display([product]);
         }
 
         getRealTimeInventory(): void {
@@ -220,6 +250,14 @@
 
         protected getRealTimeInventoryFailed(error: any): void {
             this.failedToGetRealTimeInventory = true;
+        }
+
+        protected getSessionCompleted(sessionModel: SessionModel) {
+            this.isAuthenticated = sessionModel.isAuthenticated;
+        }
+
+        protected getSessionFailed(error: any) {
+
         }
     }
 

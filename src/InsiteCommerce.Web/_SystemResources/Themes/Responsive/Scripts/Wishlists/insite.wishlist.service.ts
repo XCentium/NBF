@@ -8,15 +8,26 @@ module insite.wishlist {
     "use strict";
 
     export interface IWishListService {
-        getWishLists(): ng.IPromise<WishListCollectionModel>;
-        getWishList(wishList: WishListModel): ng.IPromise<WishListModel>;
-        addWishList(wishListName: string): ng.IPromise<WishListModel>;
+        getWishLists(sort?: string, expand?: string, wishListLinesSort?: string): ng.IPromise<WishListCollectionModel>;
+        getWishList(wishList: WishListModel, expand?: string): ng.IPromise<WishListModel>;
+        getListById(listId: System.Guid, expand?: string): ng.IPromise<WishListModel>;
+        addWishList(wishListName: string, description?: string): ng.IPromise<WishListModel>;
         deleteWishList(wishList: WishListModel): ng.IPromise<WishListModel>;
+        deleteWishListShare(wishList: WishListModel, wishListShareId?: string): ng.IPromise<WishListModel>;
         addWishListLine(wishList: WishListModel, product: ProductDto): ng.IPromise<WishListLineModel>;
         deleteLine(line: WishListLineModel): ng.IPromise<WishListLineModel>;
+        deleteLineCollection(wishList: WishListModel, lines: WishListLineModel[]): ng.IPromise<WishListLineCollectionModel>;
+        updateWishList(list: WishListModel): ng.IPromise<WishListModel>;
         updateLine(line: WishListLineModel): ng.IPromise<WishListLineModel>;
         addWishListLines(wishList: WishListModel, products: ProductDto[]): ng.IPromise<WishListLineCollectionModel>;
         getWishListSettings(): ng.IPromise<WishListSettingsModel>;
+        activateInvite(invite: string): ng.IPromise<WishListModel>;
+        sendACopy(list: WishListModel): ng.IPromise<WishListModel>;
+        mapWishlistLineToProduct(line: WishListLineModel): ProductDto;
+        mapWishListLinesToProducts(lines: WishListLineModel[]): ProductDto[];
+        mapProductToWishlistLine(product: ProductDto, line: WishListLineModel): WishListLineModel;
+        applyRealTimeInventoryResult(list: WishListModel, result: RealTimeInventoryModel): void;
+        updateAvailability(line: WishListLineModel): void;
     }
 
     export class WishListService implements IWishListService {
@@ -32,10 +43,16 @@ module insite.wishlist {
             protected coreService: core.ICoreService) {
         }
 
-        getWishLists(): ng.IPromise<WishListCollectionModel> {
+        getWishLists(sort?: string, expand?: string, wishListLinesSort?: string): ng.IPromise<WishListCollectionModel> {
+            const params = {
+                sort: sort,
+                expand: expand,
+                wishListLinesSort: wishListLinesSort
+            };
+
             return this.httpWrapperService.executeHttpRequest(
                 this,
-                this.$http.get(this.serviceUri),
+                this.$http({ method: "GET", url: this.serviceUri, params: params }),
                 this.getWishListsCompleted,
                 this.getWishListsFailed
             );
@@ -47,19 +64,28 @@ module insite.wishlist {
         protected getWishListsFailed(error: ng.IHttpPromiseCallbackArg<any>): void {
         }
 
-        getWishList(wishList: WishListModel): ng.IPromise<WishListModel> {
+        getWishList(wishList: WishListModel, expand?: string): ng.IPromise<WishListModel> {
             const uri = wishList.uri;
 
             return this.httpWrapperService.executeHttpRequest(
                 this,
-                this.$http({ url: uri, method: "GET", params: this.getWishListParams(wishList.pagination) }),
+                this.$http({ url: uri, method: "GET", params: this.getWishListParams(wishList.pagination, expand) }),
                 this.getWishListCompleted,
                 this.getWishListFailed
             );
         }
 
-        protected getWishListParams(pagination?: PaginationModel): any {
-            const params: any = {};
+        getListById(listId: System.Guid, expand?: string): ng.IPromise<WishListModel> {
+            return this.httpWrapperService.executeHttpRequest(
+                this,
+                this.$http({ url: this.serviceUri + "/" + listId, method: "GET", params: { expand: expand } }),
+                this.getWishListCompleted,
+                this.getWishListFailed
+            );
+        }
+
+        protected getWishListParams(pagination?: PaginationModel, expand?: string): any {
+            const params: any = { expand: expand };
 
             if (pagination) {
                 params.page = pagination.page;
@@ -75,8 +101,11 @@ module insite.wishlist {
         protected getWishListFailed(error: ng.IHttpPromiseCallbackArg<any>): void {
         }
 
-        addWishList(wishListName: string): ng.IPromise<WishListModel> {
-            const wishList = angular.toJson({ name: wishListName });
+        addWishList(wishListName: string, description?: string): ng.IPromise<WishListModel> {
+            const wishList = angular.toJson({
+                name: wishListName,
+                description: description ? description : ""
+            });
 
             return this.httpWrapperService.executeHttpRequest(
                 this,
@@ -102,10 +131,24 @@ module insite.wishlist {
         }
 
         protected deleteWishListCompleted(response: ng.IHttpPromiseCallbackArg<WishListModel>): void {
-            this.getWishLists();
         }
 
         protected deleteWishListFailed(error: ng.IHttpPromiseCallbackArg<any>): void {
+        }
+
+        deleteWishListShare(wishList: WishListModel, wishListShareId?: string): ng.IPromise<WishListModel> {
+            return this.httpWrapperService.executeHttpRequest(
+                this,
+                this.$http.delete(wishList.uri + "/share/" + (wishListShareId ? wishListShareId : "current")),
+                this.deleteWishListShareCompleted,
+                this.deleteWishListShareFailed
+            );
+        }
+
+        protected deleteWishListShareCompleted(response: ng.IHttpPromiseCallbackArg<WishListModel>): void {
+        }
+
+        protected deleteWishListShareFailed(error: ng.IHttpPromiseCallbackArg<any>): void {
         }
 
         addWishListLine(wishList: WishListModel, product: ProductDto): ng.IPromise<WishListLineModel> {
@@ -143,6 +186,21 @@ module insite.wishlist {
         protected deleteLineFailed(error: ng.IHttpPromiseCallbackArg<any>): void {
         }
 
+        deleteLineCollection(wishList: WishListModel, lines: WishListLineModel[]): ng.IPromise<WishListLineCollectionModel> {
+            return this.httpWrapperService.executeHttpRequest(
+                this,
+                this.$http({ method: "DELETE", url: `${wishList.wishListLinesUri}/batch`, params: { wishListLineIds: lines.map(o => o.id) } }),
+                this.deleteLineCollectionCompleted,
+                this.deleteLineCollectionFailed
+            );
+        }
+
+        protected deleteLineCollectionCompleted(response: ng.IHttpPromiseCallbackArg<WishListLineCollectionModel>): void {
+        }
+
+        protected deleteLineCollectionFailed(error: ng.IHttpPromiseCallbackArg<any>): void {
+        }
+
         updateLine(line: WishListLineModel): ng.IPromise<WishListLineModel> {
             return this.httpWrapperService.executeHttpRequest(
                 this,
@@ -156,6 +214,51 @@ module insite.wishlist {
         }
 
         protected updateLineFailed(error: ng.IHttpPromiseCallbackArg<any>): void {
+        }
+
+        updateWishList(list: WishListModel): ng.IPromise<WishListModel> {
+            return this.httpWrapperService.executeHttpRequest(
+                this,
+                this.$http({ method: "PATCH", url: list.uri, data: list }),
+                this.updateWishListCompleted,
+                this.updateWishListFailed
+            );
+        }
+
+        protected updateWishListCompleted(response: ng.IHttpPromiseCallbackArg<WishListModel>): void {
+        }
+
+        protected updateWishListFailed(error: ng.IHttpPromiseCallbackArg<any>): void {
+        }
+
+        activateInvite(invite: string): ng.IPromise<WishListModel> {
+            return this.httpWrapperService.executeHttpRequest(
+                this,
+                this.$http({ method: "PATCH", url: this.serviceUri + "/activateinvite", data: { invite: invite } }),
+                this.updateWishListInviteCompleted,
+                this.updateWishListInviteFailed
+            );
+        }
+
+        protected updateWishListInviteCompleted(response: ng.IHttpPromiseCallbackArg<WishListModel>): void {
+        }
+
+        protected updateWishListInviteFailed(error: ng.IHttpPromiseCallbackArg<any>): void {
+        }
+
+        sendACopy(list: WishListModel): ng.IPromise<WishListModel> {
+            return this.httpWrapperService.executeHttpRequest(
+                this,
+                this.$http({ method: "PATCH", url: list.uri + "/sendacopy", data: list }),
+                this.updateWishListSendACopyCompleted,
+                this.updateWishListSendACopyFailed
+            );
+        }
+
+        protected updateWishListSendACopyCompleted(response: ng.IHttpPromiseCallbackArg<WishListModel>): void {
+        }
+
+        protected updateWishListSendACopyFailed(error: ng.IHttpPromiseCallbackArg<any>): void {
         }
 
         addWishListLines(wishList: WishListModel, products: ProductDto[]): ng.IPromise<WishListLineCollectionModel> {
@@ -200,6 +303,73 @@ module insite.wishlist {
             });
 
             return wishListLineCollection;
+        }
+
+        mapWishlistLineToProduct(line: WishListLineModel): ProductDto {
+            return {
+                id: line.productId,
+                productUnitOfMeasures: line.productUnitOfMeasures,
+                unitOfMeasure: line.unitOfMeasure,
+                selectedUnitOfMeasure: line.selectedUnitOfMeasure,
+                quoteRequired: line.quoteRequired,
+                pricing: line.pricing,
+                qtyOrdered: line.qtyOrdered
+            } as ProductDto;
+        }
+
+        mapWishListLinesToProducts(lines: WishListLineModel[]): ProductDto[] {
+            return lines.map((wishlistLine) => {
+                return {
+                    id: wishlistLine.productId,
+                    unitOfMeasure: wishlistLine.unitOfMeasure,
+                    selectedUnitOfMeasure: wishlistLine.unitOfMeasure,
+                    qtyOrdered: wishlistLine.qtyOrdered
+                };
+            }) as ProductDto[];
+        }
+
+        mapProductToWishlistLine(product: ProductDto, line: WishListLineModel): WishListLineModel {
+            line.productUnitOfMeasures = product.productUnitOfMeasures;
+            line.unitOfMeasureDisplay = product.unitOfMeasureDisplay;
+            line.unitOfMeasureDescription = product.unitOfMeasureDescription;
+            line.unitOfMeasure = product.unitOfMeasure;
+            line.canShowUnitOfMeasure = product.canShowUnitOfMeasure;
+            line.selectedUnitOfMeasure = product.selectedUnitOfMeasure;
+            return line;
+        }
+
+        applyRealTimeInventoryResult(list: WishListModel, result: RealTimeInventoryModel): void {
+            list.wishListLineCollection.forEach((line: WishListLineModel) => {
+                const productInventory = result.realTimeInventoryResults.find((productInventory: ProductInventoryDto) => line.productId === productInventory.productId);
+                if (productInventory) {
+                    var inventoryAvailability = productInventory.inventoryAvailabilityDtos.find(o => o.unitOfMeasure === line.unitOfMeasure);
+                    if (inventoryAvailability) {
+                        line.availability = inventoryAvailability.availability;
+                    } else {
+                        line.availability = { messageType: 0 };
+                    }
+
+                    line.productUnitOfMeasures.forEach((productUnitOfMeasure: ProductUnitOfMeasureDto) => {
+                        var inventoryAvailability = productInventory.inventoryAvailabilityDtos.find(o => o.unitOfMeasure === productUnitOfMeasure.unitOfMeasure);
+                        if (inventoryAvailability) {
+                            productUnitOfMeasure.availability = inventoryAvailability.availability;
+                        } else {
+                            productUnitOfMeasure.availability = { messageType: 0 };
+                        }
+                    });
+
+                    this.updateAvailability(line);
+                }
+            });
+        }
+
+        updateAvailability(line: WishListLineModel): void {
+            if (line && line.productUnitOfMeasures && line.selectedUnitOfMeasure) {
+                const productUnitOfMeasure = line.productUnitOfMeasures.find((uom) => uom.unitOfMeasure === line.selectedUnitOfMeasure);
+                if (productUnitOfMeasure && (productUnitOfMeasure as any).availability) {
+                    line.availability = (productUnitOfMeasure as any).availability;
+                }
+            }
         }
     }
 

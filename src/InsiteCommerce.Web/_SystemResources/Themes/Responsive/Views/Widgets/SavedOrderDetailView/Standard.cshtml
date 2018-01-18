@@ -30,6 +30,7 @@
         <div class="row order-details">
             <isc-cart-lines cart="vm.cart"
                             include-inventory="true"
+                            show-add-to-list="true"
                             include-quote-required="vm.showInventoryAvailability"
                             failed-to-get-real-time-inventory="vm.failedToGetRealTimeInventory"
                             class="large-12 columns item-list cart-items">
@@ -45,6 +46,7 @@
                     ng-click="vm.placeSavedOrder('[% urlForPage 'CartPage' %]')"
                     ng-bind="vm.canAddAllToCart ? '[% translate 'Place Saved Order' %]' : '[% translate 'Add All Available To Cart' %]'">
             </button>
+            <button ng-if="vm.canAddAllToList" type="button" class="btn primary" ng-click="vm.addAllToList()">[% translate 'Add All to List' %]</button>
             <button type="button" class="btn secondary btn-delete-saved-order" ng-click="vm.deleteSavedOrder('[% urlForPage 'SavedOrderListPage' %]')">[% translate 'Delete Saved Order' %]</button>
             <a href="javascript: window.print();" class="hide-for-small btn secondary btn-print">[% translate 'Print' %]</a>
         </div>

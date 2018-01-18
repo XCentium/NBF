@@ -20,9 +20,9 @@
         <div class="select-step select-ship-step" ng-show="!vm.noShipToAndCantCreate && vm.billTo">
             <label>[% translate 'Select Ship To' %]</label>
             <input type="text"  class="shipto-selector tst_shipto_selector" id="selectShipTo" name="selectShipTo"
-                   ng-init="vm.shipToOptionsPlaceholder = '[% translate 'Search or Select Ship To' %]'" ng-click="vm.totalShipTosCount && vm.openAutocomplete($event, '#selectShipTo')"
+                   ng-init="vm.shipToOptionsPlaceholder = '[% translate 'Search or Select Ship To' %]'" ng-click="!vm.noShipToAndCantCreate && vm.openAutocomplete($event, '#selectShipTo')"
                    ng-model="vm.shipToSearch" kendo-auto-complete k-options="vm.shipToOptions" />
-            <span class="icon-arw-down-5" ng-click="vm.totalShipTosCount && vm.openAutocomplete($event, '#selectShipTo')"></span>
+            <span class="icon-arw-down-5" ng-click="!vm.noShipToAndCantCreate && vm.openAutocomplete($event, '#selectShipTo')"></span>
         </div>
         <p class="error">
             <span class="field-validation-error" ng-if="vm.errorMessage">{{vm.errorMessage}}</span>
@@ -43,3 +43,15 @@
         [[Model.DefaultCustomerChangedMessage]]
     </isc-popup-template>
 </div>
+
+<script id="totalBillToCountTemplate" type="text/template">
+    <div class="k-header" ng-show="vm.totalBillTosCount > vm.defaultPageSize">
+        [% translate 'Showing 1-{0} of {1}' %]
+    </div>
+</script>
+
+<script id="totalShipToCountTemplate" type="text/template">
+    <div class="k-header" ng-show="vm.totalShipTosCount > vm.defaultPageSize">
+        [% translate 'Showing 1-{0} of {1}' %]
+    </div>
+</script>

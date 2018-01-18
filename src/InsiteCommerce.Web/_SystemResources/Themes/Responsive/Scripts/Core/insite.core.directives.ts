@@ -54,6 +54,19 @@
                 }
             }
         }))
+        // isc-limit-number-of-characters prevents from entering more than specified limit
+        .directive("iscLimitNumberOfCharacters", () => ({
+            require: "ngModel",
+            link: (scope, element, attrs: any, ngModel) => {
+                // backspace, arrows and delete
+                const keyCodes = [8, 37, 38, 39, 40, 46];
+                element.bind("keypress", event => {
+                    if (ngModel.$viewValue && ngModel.$viewValue.length >= attrs.iscLimitNumberOfCharacters && keyCodes.indexOf(event.keyCode) === -1) {
+                        event.preventDefault();
+                    }
+                });
+            }
+        }))
         .directive("iscSpinner", () => ({
             restrict: "E",
             replace: true,
@@ -61,7 +74,7 @@
             scope: {
                 name: "@?",
                 group: "@?",
-                show: "=?",
+                show: "@?",
                 size: "@?",
                 replace: "@?",
                 register: "@?"

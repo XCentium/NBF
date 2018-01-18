@@ -37,7 +37,6 @@
                         <th class="col-name"><a href="" ng-click="vm.sortBy('LastName')" ng-class="vm.getSortClass('LastName')" class="sort">[% translate 'Name' %]</a></th>
                         <th class="col-active">[% translate 'Status' %]</th>
                         <th class="col-role"><a href="" ng-click="vm.sortBy('Role')" ng-class="vm.getSortClass('Role')" class="sort">[% translate 'Role' %]</a></th>
-                        <th class="col-loc">[% translate 'Default Location' %]</th>
                         <th class="col-loc">[% translate 'Last Sign In' %]</th>
                     </tr>
 
@@ -51,7 +50,6 @@
                             <span ng-if="!user.isApproved">[% translate 'Deactivated' %]</span>
                         </td>
                         <td class="col-role" ng-cloak>{{user.role}}</td>
-                        <td class="col-loc" ng-cloak>{{user.defaultLocation}}</td>
                         <td class="col-loc" ng-cloak>{{user.lastLoginOn | date:'short'}}</td>
                     </tr>
                 </tbody>

@@ -1,11 +1,9 @@
-#Step activation
 $addJavaHome = $true # Allowed values: $true  $false
-$installKopf = $true # Allowed values: $true  $false
 
-#Cluster name
-$clusterName = $null # Allowd values: $null or valid cluster name. If $null then cluster name will be elasticsearch_$hostName
+$clusterName = $null # Allowed values: $null or valid cluster name. If $null then cluster name will be elasticsearch_$hostName
+$portNumber = 9201 # default is 9200 but most of our dev machines have 1.X installed and using 9200
 
 #Paths
-$jdkPath = 'C:\Program Files\Java\jre1.8.0_121' #path to Java Server JDK (relative to script or absolute), point to folder containing bin directory not to bin directory itself
+$jrePath = 'C:\Program Files\Java\jre1.8.0_144' #path to Java Server JRE (relative to script or absolute), point to folder containing bin directory not to bin directory itself
 $elasticPath = 'C:\Program Files\elasticsearch'  #path to ElasticSearch (relative to script or absolute), point to folder containing bin directory not to bin directory itself. Relative paths must not start with a \
-$elasticVersion = '1.5.2' #the version of elastic search we are using
+$elasticVersion = '5.5.3' #the version of elastic search we are using
