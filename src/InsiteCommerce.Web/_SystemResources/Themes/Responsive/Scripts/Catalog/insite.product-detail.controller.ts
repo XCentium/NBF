@@ -94,8 +94,8 @@ module insite.catalog {
         }
 
         protected getProductData(productId: string): void {
-            const expand = ["documents", "specifications", "styledproducts", "htmlcontent", "attributes", "crosssells", "pricing"];
-            this.productService.getProduct(null, productId, expand).then(
+            const expand = ["documents", "specifications", "styledproducts", "htmlcontent", "attributes", "crosssells", "pricing", "relatedproducts"];
+            this.productService.getProduct(null, productId, expand, true).then(
                 (productModel: ProductModel) => { this.getProductCompleted(productModel); },
                 (error: any) => { this.getProductFailed(error); });
         }
@@ -207,7 +207,7 @@ module insite.catalog {
         }
 
         protected initStyleSelection(styleTraits: StyleTraitDto[]): void {
-            angular.forEach(styleTraits.sort(s => s.sortOrder), (styleTrait: StyleTraitDto) => {
+            angular.forEach(styleTraits.sort((a, b) => a.sortOrder - b.sortOrder), (styleTrait: StyleTraitDto) => {
                 const result = this.coreService.getObjectByPropertyValue(styleTrait.styleValues, { isDefault: true });
                 this.styleSelection.push(result);
             });

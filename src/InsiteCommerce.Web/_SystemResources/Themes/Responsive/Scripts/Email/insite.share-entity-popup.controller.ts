@@ -15,6 +15,7 @@
         fileName: string;
         currentUserEmail: string;
         submitButtonText: string;
+        extraProperties: {};
 
         static $inject = ["$scope", "emailService", "sessionService"];
 
@@ -80,6 +81,14 @@
             this.shareEntityModel.entityId = this.entityId;
             this.shareEntityModel.entityName = this.entityName;
 
+            if (typeof (this.extraProperties) === "object") {
+                for (var propertyName in this.extraProperties) {
+                    if (this.extraProperties.hasOwnProperty(propertyName)) {
+                        this.shareEntityModel[propertyName] = this.extraProperties[propertyName];
+                    }
+                }
+            }
+
             this.emailService.shareEntity(this.shareEntityModel, this.url).then(
                 (shareEntityModel: ShareEntityModel) => { this.shareEntityCompleted(shareEntityModel); },
                 (error: any) => { this.shareEntityFailed(error); }
@@ -112,7 +121,8 @@
                 fileName: "@",
                 subject: "@",
                 message: "@",
-                submitButtonText: "@"
+                submitButtonText: "@",
+                extraProperties: "="
             },
             templateUrl: "/PartialViews/Common-ShareEntityModal",
             controller: "ShareEntityPopupController",

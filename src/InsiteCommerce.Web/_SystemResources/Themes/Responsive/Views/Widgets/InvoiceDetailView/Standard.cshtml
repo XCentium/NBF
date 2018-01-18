@@ -57,7 +57,7 @@
                                 <div class="oc-head">
                                     <h3>[% translate 'Shipping Method' %]</h3>
                                 </div>
-                                <div ng-bind="vm.invoice.shipCode"></div>
+                                <div ng-bind="vm.invoice.shipViaDescription || vm.invoice.shipCode"></div>
                             </div>
                             <div ng-if="vm.invoice.notes" class="notes">
                                 <div class="oc-head">
@@ -126,7 +126,7 @@
                     <li class="row item-block checkout-item" ng-repeat="line in vm.invoice.invoiceLines track by line.id">
                         <div class="small-2 columns item-thumb">
                             <a ng-href="{{ line.productUri }}">
-                                <img ng-src="{{ line.mediumImagePath }}" alt="{{ line.altText }}" />
+                                <img ng-src="{{ line.mediumImagePath }}" alt="{{ line.altText }}"/>
                             </a>
                         </div>
                         <div class="small-10 columns item-details">

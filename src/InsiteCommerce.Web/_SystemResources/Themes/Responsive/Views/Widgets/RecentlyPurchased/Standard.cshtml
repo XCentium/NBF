@@ -34,6 +34,9 @@
                             <div class="d-block" ng-show="productItem.product.canShowPrice && !productItem.product.quoteRequired">
                                 <isc-quantity-break-pricing product-id="productItem.product.id" break-prices="productItem.product.pricing.unitRegularBreakPrices" block="{{'_' + vm.productItems.indexOf(productItem)}}"></isc-quantity-break-pricing>
                             </div>
+                            <div ng-if="vm.failedToGetRealTimePrices">
+                                <div>[% siteMessage 'RealTimePricing_PriceLoadFailed' %]</div>
+                            </div>
                         </td>
                         <td class="col-actions">
                             <div ng-if="productItem.product.canEnterQuantity" class="item-qty">

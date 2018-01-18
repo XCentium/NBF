@@ -13,6 +13,8 @@
         popupId: string;
         productsToAdd: ProductDto[];
         isRememberedUser: boolean;
+        isGuest: boolean;
+        addingToList: boolean;
 
         static $inject = ["wishListService", "coreService", "settingsService", "addToWishlistPopupService", "accessToken", "sessionService"];
 
@@ -37,14 +39,18 @@
         protected getSettingsCompleted(settings: core.SettingsCollection): void {
             this.allowMultipleWishLists = settings.wishListSettings.allowMultipleWishLists;
 
-            this.addToWishlistPopupService.registerDisplayFunction((data) => {
-                const context = this.sessionService.getContext();
-                this.isAuthenticated = this.accessToken.exists();
-                this.isRememberedUser = context.isRememberedUser;
-                this.productsToAdd = data;
-                this.initialize();
-                this.coreService.displayModal(angular.element("#popup-add-wishlist"));
+            this.sessionService.getSession().then((session: SessionModel) => {
+                this.isAuthenticated = session.isAuthenticated;
+                this.isRememberedUser = session.rememberMe;
+                this.isGuest = session.isGuest;
+
+                this.addToWishlistPopupService.registerDisplayFunction((data) => {
+                    this.productsToAdd = data;
+                    this.initialize();
+                    this.coreService.displayModal(angular.element("#popup-add-wishlist"));
+                });
             });
+
         }
 
         protected getSettingsFailed(error: any): void {
@@ -65,7 +71,7 @@
         }
 
         protected getWishListCollectionCompleted(wishListCollection: WishListCollectionModel): void {
-            this.wishListCollection = wishListCollection.wishListCollection;
+            this.wishListCollection = wishListCollection.wishListCollection.filter(o => o.allowEdit || !o.isSharedList);
         }
 
         protected getWishListCollectionFailed(error: any): void {
@@ -84,6 +90,7 @@
         }
 
         addWishList(wishListName: string): void {
+            this.addingToList = true;
             this.wishListService.addWishList(wishListName).then(
                 (newWishList: WishListModel) => { this.addWishListCompleted(newWishList); },
                 (error: any) => { this.addWishListFailed(error); });
@@ -98,6 +105,10 @@
         }
 
         addToWishList(): void {
+            if (this.addingToList) {
+                return;
+            }
+
             this.clearMessages();
             if (this.selectedWishList) {
                 this.addProductsToWishList(this.selectedWishList);
@@ -111,6 +122,7 @@
         }
 
         protected addProductsToWishList(wishList: WishListModel): void {
+            this.addingToList = true;
             if (this.productsToAdd.length === 1) {
                 this.addLineToWishList(wishList);
             } else {
@@ -126,6 +138,7 @@
 
         protected addWishListLineCompleted(wishListLine: WishListLineModel): void {
             this.addToWishlistCompleted = true;
+            this.addingToList = false;
         }
 
         protected addWishListLineFailed(error: any): void {
@@ -140,6 +153,7 @@
 
         protected addWishListLineCollectionCompleted(wishListLineCollection: WishListLineCollectionModel): void {
             this.addToWishlistCompleted = true;
+            this.addingToList = false;
         }
 
         protected addWishListLineCollectionFailed(error: any): void {

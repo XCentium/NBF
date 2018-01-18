@@ -32,6 +32,9 @@
     <div class="email-wrapper">
         <div class="body-copy">
             <h2>Hello!</h2>
+            [% if Model.FullName != null and Model.FullName != "" -%]
+            <p>[[Model.FullName]] has sent you the attached order.</p>
+            [% endif -%]
             <p>[[Model.Message]]</p>
             <a href="[[Model.FileUrl]]">[[Model.FileName]]</a>
         </div>

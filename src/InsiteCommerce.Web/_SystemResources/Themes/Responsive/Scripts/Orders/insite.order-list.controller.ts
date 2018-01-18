@@ -10,7 +10,7 @@ module insite.order {
         paginationStorageKey = "DefaultPagination-OrderList";
         searchFilter: OrderSearchFilter = {
             customerSequence: "-1",
-            sort: "OrderDate DESC,ErpOrderNumber DESC",
+            sort: "OrderDate DESC,ErpOrderNumber DESC,WebOrderNumber DESC",
             toDate: "",
             fromDate: "",
             expand: "",
@@ -99,7 +99,7 @@ module insite.order {
         clear(): void {
             this.pagination.page = 1;
             this.searchFilter.customerSequence = "-1";
-            this.searchFilter.sort = "OrderDate DESC,ErpOrderNumber DESC";
+            this.searchFilter.sort = "OrderDate DESC,ErpOrderNumber DESC,WebOrderNumber DESC";
             this.searchFilter.toDate = "";
             this.searchFilter.fromDate = "";
             this.searchFilter.ponumber = "";
@@ -116,7 +116,7 @@ module insite.order {
 
         changeSort(sort: string): void {
             if (this.searchFilter.sort === sort && this.searchFilter.sort.indexOf(" DESC") < 0) {
-                this.searchFilter.sort = `${sort.replace(",", " DESC,")} DESC`;
+                this.searchFilter.sort = sort.split(",").map(o => `${o} DESC`).join(",");
             } else {
                 this.searchFilter.sort = sort;
             }

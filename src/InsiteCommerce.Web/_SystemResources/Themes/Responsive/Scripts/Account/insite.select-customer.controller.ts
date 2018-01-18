@@ -133,13 +133,20 @@
             return false;
         }
 
+        renderMessage(values: string[], templateId: string): string {
+            let template = angular.element(`#${templateId}`).html();
+            for (var i = 0; i < values.length; i++) {
+                template = template.replace(`{${i}}`, values[i]);
+            }
+
+            return template;
+        }
+
         initCustomerAutocompletes(settingsCollection: core.SettingsCollection): void {
             const customerSettings = settingsCollection.customerSettings;
-
+            const billToValues = ["{{vm.defaultPageSize}}", "{{vm.totalBillTosCount}}"];
             this.billToOptions = {
-                headerTemplate: `<div class="k-header" ng-if="vm.totalBillTosCount > ${this.defaultPageSize}">
-                                    Showing 1-${this.defaultPageSize} of <span ng-bind="vm.totalBillTosCount"></span>
-                                </div>`,
+                headerTemplate: this.renderMessage(billToValues, "totalBillToCountTemplate"),
                 dataSource: new kendo.data.DataSource({
                     serverFiltering: true,
                     serverPaging: true,
@@ -158,10 +165,9 @@
                 placeholder: this.billToOptionsPlaceholder
             };
 
+            const shipToValues = ["{{vm.defaultPageSize}}", "{{vm.totalShipTosCount}}"];
             this.shipToOptions = {
-                headerTemplate: `<div class="k-header" ng-if="vm.totalShipTosCount > ${this.defaultPageSize}">
-                                    Showing 1-${this.defaultPageSize} of <span ng-bind="vm.totalShipTosCount"></span>
-                                </div>`,
+                headerTemplate: this.renderMessage(shipToValues, "totalShipToCountTemplate"),
                 dataSource: new kendo.data.DataSource({
                     serverFiltering: true,
                     serverPaging: true,

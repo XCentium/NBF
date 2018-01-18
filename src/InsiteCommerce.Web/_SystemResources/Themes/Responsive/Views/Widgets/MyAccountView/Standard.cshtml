@@ -16,7 +16,7 @@
                 <h3>[% translate 'My Lists' %]</h3>
             </li>
             <li class="ul-orders" ng-repeat="wishlist in vm.wishListCollection">
-                <a ng-href="[% urlForPage 'WishListPage' %]?wishListId={{wishlist.id}}">{{wishlist.name}}</a>
+                <a ng-href="[% urlForPage 'MyListDetailPage' %]?id={{wishlist.id}}">{{wishlist.name}}</a>
             </li>
         </ul>
     </div>

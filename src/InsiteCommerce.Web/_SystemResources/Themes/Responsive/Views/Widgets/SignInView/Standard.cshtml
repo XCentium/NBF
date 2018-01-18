@@ -5,10 +5,12 @@
                     addresses-url="[% urlForPage 'MyAccountAddressPage' %]"
                     checkout-address-url="[% urlForPage 'CheckoutAddressPage' %]"
                     review-and-pay-url="[% urlForPage 'ReviewAndPayPage' %]"
+                    my-list-detail-url="[% urlForPage 'MyListDetailPage' %]"
+                    static-list-url="[% urlForPage 'StaticListPage' %]"
                     cart-url="[% urlForPage 'CartPage' %]">
 
     <div class="row">
-        <div class="columns " ng-if="vm.isFromReviewAndPay">
+        <div class="columns " ng-if="vm.session && !vm.session.isAuthenticated && vm.isFromReviewAndPay">
             <p style="color: red;">[% siteMessage 'SignIn_SessionExpiredOnCheckout' %]</p>
         </div>
 
@@ -58,8 +60,8 @@
             <h3>[% translate 'Create New Account' %]</h3>
             <div class="cm">[[Model.CreateAccountContent]]</div>
             <div class="btns">
-                <a class="btn secondary" ng-href="[% urlForPage 'CreateAccountPage' %]?returnUrl={{vm.returnUrl}}">[% translate 'Create Account' %]</a>
-                <a id="tst_signIn_checkoutAsGuest" href="javascript: void();" class="btn secondary" ng-if="vm.settings.allowGuestCheckout" ng-click="vm.guestCheckout()">[% translate 'Checkout As Guest' %]</a>
+                <a class="btn secondary" ng-href="[% urlForPage 'CreateAccountPage' %]?returnUrl={{ vm.encodeUriComponent(vm.returnUrl) }}">[% translate 'Create Account' %]</a>
+                <a id="tst_signIn_checkoutAsGuest" href="javascript: void();" class="btn secondary" ng-if="vm.showGuestCheckout()" ng-click="vm.guestCheckout()">[% translate 'Checkout As Guest' %]</a>
             </div>
         </div>
 
@@ -192,6 +194,33 @@
                         <button type="submit" class="btn primary" ng-click="vm.changePassword()">[% translate 'Change Password' %]</button>
                     </div>
                 </form>
+            </div>
+        </div>
+    </div>
+    <div>
+        <div id="popup-sign-in-required" class="reveal-modal popup-sign-in-required" data-reveal data-reveal-init>
+            <div class="modal-wrap">
+                <h2>[% translate 'Please Sign In or Create an Account' %]</h2>
+                <div class="pop-content">
+                    <div>
+                        <div class="row">
+                            <div>
+                                <p id="tst_signInView_invite_message" ng-if="vm.invitedToList">[% siteMessage 'Lists_SignIn_Required_To_Join_List' %]</p>
+                                <p id="tst_signInView_static_message" ng-if="vm.navigatedFromStaticList">
+                                    [% translate 'In order to view the list shared by' %]
+                                    <span id="tst_signInView_list_owner" ng-bind="vm.listOwner"></span>,
+                                    [% translate 'please sign in or create an account.' %]
+                                </p>
+                            </div>
+                        </div>
+                        <div class="row btns">
+                            <button ng-click="vm.closeModal('#popup-sign-in-required')" class="btn tertiary btn-cancel" type="button">
+                                [% translate 'Close' %]
+                            </button>
+                        </div>
+                    </div>
+                    <a class="close-reveal-modal">&#215;</a>
+                </div>
             </div>
         </div>
     </div>
