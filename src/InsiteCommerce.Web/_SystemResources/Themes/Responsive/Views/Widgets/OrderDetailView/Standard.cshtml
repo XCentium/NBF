@@ -5,13 +5,13 @@
                 <h2>[% translate 'Order #' %] {{vm.order.webOrderNumber}}</h2>
             </div>
             <div class="btns small-12 medium-9 large-9 columns">
-                <a href="#" class="btn primary btn-reorder-all hide-for-print" ng-show="vm.order.canAddToCart && vm.canReorderItems" ng-click="vm.reorderAllProducts($event)">[% translate 'Reorder' %]</a>
+                <a id="tst_orderDetailPage_reorder" href="#" class="btn primary btn-reorder-all hide-for-print" ng-show="vm.order.canAddToCart && vm.canReorderItems" ng-click="vm.reorderAllProducts($event)">[% translate 'Reorder' %]</a>
                 <a id="tst_orderDetailPage_allowRma" ng-href="[% urlForPage 'RequestRmaPage' %]?orderNumber={{ vm.order.webOrderNumber || vm.order.erpOrderNumber }}" ng-if="vm.allowRmaCheck(vm.order.status)" class="btn secondary">[% translate 'Return Request (RMA)' %]</a>
-                <a id="tst_orderDetailPage_allowCancellation" href="#" class="btn secondary btn-cancel hide-for-print" ng-show="vm.order.canAddToCart && vm.allowCancellationCheck(vm.order.status)" ng-click="vm.cancelOrder($event)">[% translate 'Cancel Order' %]</a>
-                <a id="tst_orderDetailPage_print" href="/Order/GetPdf?orderNumber={{vm.order.webOrderNumber}}" class="btn secondary btn-print" ng-show="vm.order" target="_blank">[% translate 'Print' %]</a>
+                <a id="tst_orderDetailPage_allowCancellation" href="#" class="btn secondary btn-cancel hide-for-print" ng-show="vm.isAuthenticated && vm.order.canAddToCart && vm.allowCancellationCheck(vm.order.status)" ng-click="vm.cancelOrder($event)">[% translate 'Cancel Order' %]</a>
+                <a id="tst_orderDetailPage_print" href="/Order/GetPdf?orderNumber={{vm.order.webOrderNumber}}&stPostalCode={{vm.order.shipToPostalCode}}" class="btn secondary btn-print" ng-show="vm.order" target="_blank">[% translate 'Print' %]</a>
                 <a id="tst_orderDetailPage_email" ng-click="vm.showShareModal(vm.order.webOrderNumber)" href="javascript:;" class="btn secondary btn-print" ng-show="vm.order">[% translate 'Email' %]</a>
-                <isc-share-entity-popup entity-id="vm.order.webOrderNumber" entity-name="Order" url="/api/v1/orders/shareorder" file-link="/Order/GetPdf?orderNumber={{vm.order.webOrderNumber}}" header-text="[% translate 'Email Order' %]"
-                                        file-name="order_{{vm.order.webOrderNumber ? vm.order.webOrderNumber : vm.order.erpOrderNumber}}.pdf" subject="[% translate 'Order #' %]{{vm.order.webOrderNumber}}" submit-button-text="[% translate 'Email Order' %]"></isc-share-entity-popup>
+                <isc-share-entity-popup entity-id="vm.order.webOrderNumber" extra-properties="vm.extraProperties" entity-name="Order" url="/api/v1/orders/shareorder" file-link="/Order/GetPdf?orderNumber={{vm.order.webOrderNumber}}&stPostalCode={{vm.order.shipToPostalCode}}" header-text="[% translate 'Email Order' %]"
+                                     file-name="order_{{vm.order.webOrderNumber ? vm.order.webOrderNumber : vm.order.erpOrderNumber}}.pdf" subject="[% translate 'Order #' %]{{vm.order.webOrderNumber}}" submit-button-text="[% translate 'Email Order' %]"></isc-share-entity-popup>
             </div>
         </div>
         <div class="row">
@@ -59,7 +59,7 @@
                                 <div class="oc-head">
                                     <h3>[% translate 'Shipping Method' %]</h3>
                                 </div>
-                                <div ng-bind="vm.order.shipCode"></div>
+                                <div ng-bind="vm.order.shipViaDescription || vm.order.shipCode"></div>
                             </div>
                             <div ng-if="vm.order.requestedDeliveryDateDisplay" class="delivery-date">
                                 <div class="oc-head">
@@ -79,24 +79,26 @@
                 <div id="tst_orderDetailPage_shipmentPackages" class="row ship-track" ng-if="vm.order.shipmentPackages.length > 0">
                     <div class="large-12 columns">
                         <div class="hide-for-small-only">
-                            <table class="responsive info-tbl">
-                                <thead>
+                            <div class="overflow-table none">
+                                <table class="info-tbl">
+                                    <thead>
                                     <tr>
                                         <th class="col-date">[% translate 'Ship Date' %]</th>
                                         <th class="col-carrier">[% translate 'Carrier' %]</th>
                                         <th class="col-service">[% translate 'Service' %]</th>
                                         <th class="col-tracking">[% translate 'Tracking #' %]</th>
                                     </tr>
-                                </thead>
-                                <tbody>
+                                    </thead>
+                                    <tbody>
                                     <tr ng-repeat="shipment in vm.order.shipmentPackages">
                                         <td class="col-date">{{ shipment.shipmentDate | date:'shortDate' }}</td>
                                         <td class="col-carrier" ng-bind="shipment.carrier"></td>
                                         <td class="col-service" ng-bind="shipment.shipVia"></td>
                                         <td class="tst_orderDetailPage_shipmentPackage_trackingUrl col-tracking" ng-bind-html="shipment.trackingUrl"></td>
                                     </tr>
-                                </tbody>
-                            </table>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                         <ul class="shipments show-for-small-only">
                             <li class="header">[% translate 'Shipments' %]</li>
@@ -124,7 +126,8 @@
             </div>
             <div class="medium-5 columns">
                 <isc-cart-total-display cart="vm.order" promotions="vm.order.orderPromotions" order-taxes="vm.order.orderHistoryTaxes" show-separate-shipping-and-handling="true"
-                                        show-misc-charge="true" show-discount-total="true" label="'[% translate 'Order Summary' %]'"></isc-cart-total-display>
+                                        show-misc-charge="true" show-discount-total="true" label="'[% translate 'Order Summary' %]'">
+                </isc-cart-total-display>
             </div>
         </div>
         <div class="order-history-cancelled" ng-show="vm.showCancelationConfirmation">[% translate 'Cancellation Requested' %]</div>
@@ -150,7 +153,7 @@
                     <li class="row item-block checkout-item" id="tst_orderDetailPage_line_{{line.id}}" ng-repeat="line in vm.order.orderLines">
                         <div class="small-2 columns item-thumb" ng-if="line.productUri && line.isActiveProduct">
                             <a ng-href="{{ line.productUri }}">
-                                <img ng-src="{{ line.mediumImagePath }}" alt="{{ line.altText }}" />
+                                <img ng-src="{{ line.mediumImagePath }}" alt="{{ line.altText }}"/>
                             </a>
                         </div>
                         <div class="small-10 columns item-details">
@@ -158,7 +161,7 @@
                                 <div class="item-name">
                                     <a ng-if="line.productUri && line.isActiveProduct" ng-href="{{ line.productUri }}">{{ line.shortDescription }}</a>
                                     <span ng-if="line.sectionOptions" ng-repeat="sectionOption in line.sectionOptions">
-                                        <br /> <span ng-bind="sectionOption.sectionName + ':' + sectionOption.optionName"></span>
+                                        <br/> <span ng-bind="sectionOption.sectionName + ':' + sectionOption.optionName"></span>
                                     </span>
                                     <span ng-if="!line.isActiveProduct" ng-bind="line.shortDescription"></span>
                                     <span ng-if="!line.productUri" ng-bind="line.productErpNumber"></span>
@@ -173,16 +176,20 @@
                                 </div>
                                 <div class="row promo-applied" ng-repeat="promotion in vm.order.orderPromotions | filter: {orderHistoryLineId : line.id}">
                                     <div class="small-6 columns sub-label">
-                                        <em><span ng-bind="promotion.name"></span></em>
+                                        <em>
+                                            <span ng-bind="promotion.name"></span>
+                                        </em>
                                     </div>
+                                </div>
+                                <div class="actions-block">
+                                    <a href="javascript:void(0);" class="btn secondary btn-add-list isc-addToWishlistPopup" ng-click="vm.openWishListPopup(line)" ng-if="::line.canAddToWishlist">[% translate 'Add to List' %]</a>
                                 </div>
                             </div>
                             <div class="price small-12 medium-6 large-4 columns">
                                 <span class="price-sale">
-                                    <isc-product-sale-price-label product="line" price="line.unitPriceDisplay"></isc-product-sale-price-label>
+                                    <isc-product-sale-price-label product="line" price="line.unitPriceDisplay" hide-sale-price-label="true"></isc-product-sale-price-label>
                                 </span>
                                 <span class="selected-uom" ng-bind="line.unitOfMeasureDescription || line.unitOfMeasureDisplay || line.unitOfMeasure"></span>
-                                <isc-product-price-saving product="line" currency-symbol="vm.order.currencySymbol"></isc-product-price-saving>
                             </div>
                             <div class="small-12 medium-6 large-2 columns">
                                 <div class="item-opt">

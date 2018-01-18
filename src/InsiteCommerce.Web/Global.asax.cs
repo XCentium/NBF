@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="Global.asax.cs" company="Insite Software">
-//   Copyright © 2017. Insite Software. All rights reserved.
+//   Copyright © 2018. Insite Software. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 

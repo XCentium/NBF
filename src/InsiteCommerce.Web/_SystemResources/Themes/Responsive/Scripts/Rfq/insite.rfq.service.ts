@@ -12,6 +12,7 @@ module insite.rfq {
         getQuote(quoteId: string): ng.IPromise<QuoteModel>;
         submitQuote(quote: QuoteParameter): ng.IPromise<QuoteModel>;
         updateQuote(quote: QuoteParameter): ng.IPromise<QuoteModel>;
+        removeQuote(quoteId: string): ng.IPromise<QuoteModel>;
         updateQuoteLine(quoteLine: QuoteLineModel): ng.IPromise<QuoteLineModel>;
         submitRfqMessage(rfqMessage: RfqMessageModel): ng.IPromise<RfqMessageModel>;
     }
@@ -86,6 +87,21 @@ module insite.rfq {
         }
 
         protected submitQuoteFailed(error: ng.IHttpPromiseCallbackArg<any>): void {
+        }
+
+        removeQuote(quoteId: string): ng.IPromise<QuoteModel> {
+            return this.httpWrapperService.executeHttpRequest(
+                this,
+                this.$http({ method: "DELETE", url: `${this.serviceUri}/${quoteId}` }),
+                this.removeQuoteCompleted,
+                this.removeQuoteFailed
+            );
+        }
+
+        protected removeQuoteCompleted(response: ng.IHttpPromiseCallbackArg<QuoteModel>): void {
+        }
+
+        protected removeQuoteFailed(error: ng.IHttpPromiseCallbackArg<any>): void {
         }
 
         updateQuote(quote: QuoteParameter): ng.IPromise<QuoteModel> {
