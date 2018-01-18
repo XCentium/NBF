@@ -33,7 +33,7 @@ begin
 	insert into Product 
 	(ERPNumber, [Name], ERPDescription, ShortDescription,  UrlSegment, ContentManagerId, StyleClassId)
 	select  
-		sp.ProductId ERPNumber,
+		convert(nvarchar(max),sp.ProductId) ERPNumber,
 		sp.Number [Name],
 		ltrim(rtrim(isnull(si.[Description],''))) ERPDescription,
 		ltrim(rtrim(isnull(spwd.[Description],''))) ShortDescription,
@@ -139,6 +139,13 @@ begin
 		join Product p on p.ERPNumber = convert(nvarchar(max), sp.ProductId) + '-' + convert(nvarchar(max), spsku.ProductSKUId)
 	where 
 		sp.BrandId = @brand
+
+	-- we need content managers for all these products
+	insert into ContentManager
+	(Id, [Name], CreatedBy, ModifiedBy)
+	select ContentManagerId, 'Product', 'etl', 'etl'
+	from Product
+	where ContentManagerId not in (select Id from ContentManager)
 
 	-- tie up the style parent for each of the variants
 	;with parentProduct as

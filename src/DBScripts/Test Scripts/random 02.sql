@@ -27,3 +27,5 @@ select top 1000 NormalLeadTimeId,* from ItemSKUs where NormalLeadTimeId=1 and Cu
 
 
 select top 100000 ERPNumber,* from [Insite.NBF].dbo.Product
+
+select * from ProductsWebDescriptions

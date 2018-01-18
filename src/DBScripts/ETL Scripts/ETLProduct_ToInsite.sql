@@ -40,6 +40,12 @@ begin
 		not exists (select Id from [Insite.NBF].dbo.Product where Id = etl.Id)
 
 
+	insert into [Insite.NBF].dbo.ContentManager
+	(Id, [Name], CreatedBy, CreatedOn, ModifiedOn, ModifiedBy)
+	select Id, [Name], CreatedBy, CreatedOn, ModifiedOn, ModifiedBy
+	from ContentManager etl
+	where etl.Id not in (select Id from [Insite.NBF].dbo.ContentManager)
+
 	insert into [Insite.NBF].dbo.StyleTrait
 	(
 		[Id],[StyleClassId],[Name],[UnselectedValue],[SortOrder],[Description],
