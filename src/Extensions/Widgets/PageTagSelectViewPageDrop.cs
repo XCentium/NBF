@@ -7,5 +7,6 @@ namespace Extensions.Widgets
         public string PageTags { get; set; }
 
         public string ParentUrl { get; set; }
+        public string PageUrl { get; set; }
     }
 }

@@ -5,7 +5,6 @@ using System;
 
 namespace Extensions.Widgets
 {
-    [AllowedParents(new Type[] { typeof(ArticlePageView) })]
     public class ArticlePageView : ContentWidget
     {
         public virtual ArticlePageViewDrop Drop
