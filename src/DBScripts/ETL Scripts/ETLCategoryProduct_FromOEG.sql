@@ -22,7 +22,7 @@ begin
 		join OEGSystemStaging.dbo.ItemsWebCategories siwc on siwc.ItemId = si.ItemId 
 		join OEGSystemStaging.dbo.ItemWebCategoryDisplayNames swc on swc.WebCategoryId = siwc.WebCategoryId
 			and swc.BrandId = 1
-		join Product p on p.ERPNumber = convert(nvarchar(max), sp.ProductId)
+		join Product p on p.ERPNumber = sp.Number
 		join Category c on c.[Name] = convert(nvarchar(max), sic.ClassId) + '-' + convert(nvarchar(max), swc.Id)
 
 	where
@@ -41,7 +41,7 @@ begin
 		join OEGSystemStaging.dbo.ItemsWebCategories siwc on siwc.ItemId = si.ItemId 
 		join OEGSystemStaging.dbo.ItemWebCategoryDisplayNames swc on swc.WebCategoryId = siwc.WebCategoryId
 			and swc.BrandId = 1
-		join Product p on p.ERPNumber = convert(nvarchar(max), sp.ProductId)
+		join Product p on p.ERPNumber = sp.Number
 		join Category c on c.[Name] = convert(nvarchar(max), swc.Id) + '-' + convert(nvarchar(max), sic.ClassId)
 
 	where

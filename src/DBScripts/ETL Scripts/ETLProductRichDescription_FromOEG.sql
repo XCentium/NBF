@@ -43,11 +43,11 @@ begin
 	Revision, LanguageId, PersonaId, ApprovedOn, PublishToProductionOn, DeviceType, CreatedBy, ModifiedBy)
 
 	select p.ContentManagerId, 'New Revision', 
-	'<p>Type 1</p>' + isnull(spwd2.[Description], '<p></p>') + '<p>Type 2</p>' + isnull(spwd3.[Description], '<p></p>') + '<p>Type 3</p>' + isnull(spwd4.[Description], '<p></p>'), 
+	isnull(spwd2.[Description], '<p></p>') + '<br><br>' + isnull(spwd3.[Description], '<p></p>') + '<br><br>' + isnull(spwd4.[Description], '<p></p>'), 
 	1, @LanguageId, @PersonaId, SYSDATETIMEOFFSET(), SYSDATETIMEOFFSET(), 'Desktop', 'etl', 'etl' 
 	from 
 		product p
-		join OEGSystemStaging.dbo.Products sp on convert(nvarchar(max),sp.ProductId) = p.ERPNumber
+		join OEGSystemStaging.dbo.Products sp on sp.Number = p.ERPNumber
 		left join OEGSystemStaging.dbo.ProductsWebDescriptions spwd2 on spwd2.ProductId = sp.ProductId
 			and spwd2.TypeId = 2
 		left join OEGSystemStaging.dbo.ProductsWebDescriptions spwd3 on spwd3.ProductId = sp.ProductId
