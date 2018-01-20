@@ -61,7 +61,7 @@ begin
 
 /*
 
-ETLProductRichDescription_FromOEG
+exec ETLProductRichDescription_FromOEG
 select * from content where html like '%Tablet Arm Chair features Virco''s classic polyethylene stack chair%'
 
 */
