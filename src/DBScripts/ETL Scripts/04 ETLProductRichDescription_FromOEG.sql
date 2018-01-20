@@ -7,6 +7,10 @@ CREATE procedure [dbo].ETLProductRichDescription_FromOEG
 as
 begin
 
+	declare @IsReady bit
+	exec dbo.IsDataReady  'OEGSystem Snapshot', @IsReady output
+	if @IsReady = 0	return;
+
 	-- copy dependency tables
 	insert into RuleType
 	select * from [Insite.NBF].dbo.RuleType

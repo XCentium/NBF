@@ -7,6 +7,10 @@ create procedure ETLVendor_FromOEG
 as
 begin
 
+	declare @IsReady bit
+	exec dbo.IsDataReady  'OEGSystem Snapshot', @IsReady output
+	if @IsReady = 0	return;
+
 	insert into Vendor 
 	(VendorNumber, [Name], CreatedBy, ModifiedBy)
 	select 
@@ -34,8 +38,6 @@ begin
 
 
 /*
---delete from vendor
-select * from vendor order by modifiedon desc 
 ETLVendor_FromOEG
 */
 

@@ -6,6 +6,10 @@ create procedure ETLProductAttribute_FromOEG
 as
 begin
 
+	declare @IsReady bit
+	exec dbo.IsDataReady  'OEGSystem Snapshot', @IsReady output
+	if @IsReady = 0	return;
+
 	declare @attributeName nvarchar(255)
 	declare @attributeTypeId uniqueidentifier
 

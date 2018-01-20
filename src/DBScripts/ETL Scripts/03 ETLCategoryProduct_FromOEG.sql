@@ -6,6 +6,10 @@ create procedure ETLCategoryProduct_FromOEG
 as
 begin
 
+	declare @IsReady bit
+	exec dbo.IsDataReady  'OEGSystem Snapshot', @IsReady output
+	if @IsReady = 0	return;
+
 	declare @brand int
 	set @brand = 1
 
