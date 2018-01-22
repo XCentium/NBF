@@ -16,3 +16,6 @@
 		join ProductSKUs spsku on spsku.ProductId = sp.ProductId
 	where sp.number='43028'
 	and sp.brandid = 1
+
+select number, * from products 
+where number like '%[_]%'

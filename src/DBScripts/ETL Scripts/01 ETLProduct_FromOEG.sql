@@ -6,6 +6,10 @@ create procedure ETLProduct_FromOEG
 as
 begin
 
+	declare @IsReady bit
+	exec dbo.IsDataReady  'OEGSystem Snapshot', @IsReady output
+	if @IsReady = 0	return;
+
 	declare @brand int
 	set @brand = 1
 
@@ -27,6 +31,7 @@ begin
 	where 
 		sp.BrandId = @brand
 		and isnull(sp.Number,'') != ''
+		and sp.Number not like '%[_]%'
 		and sp.Number not in (select [Name] from StyleClass)
 
 	--base product info per website
@@ -50,8 +55,9 @@ begin
 			and sic.[Name] not in ('Bedroom Furniture', 'Entertainment/AV', 'Misc.', 'Parts')
 		join StyleClass styles on styles.[Name] = sp.Number
 	where 
-		sp.BrandId = 1
+		sp.BrandId = @brand
 		and isnull(sp.Number,'') != ''
+		and sp.Number not like '%[_]%'
 		and sp.Number not in (select ERPNumber from Product)
 	
 
@@ -69,6 +75,7 @@ begin
 		IsDiscontinued = case when luStatus.Name = 'Active' then 0 else 1 end,
 		ActivateOn = sp.FirstAvailableDate,
 		DeactivateOn = case when luStatus.Name = 'Active' then null else dateadd(day, -1, SYSDATETIMEOFFSET()) end,
+		VendorId = v.Id,
 		CreatedOn = isnull(sp.CreatedDate,SYSDATETIMEOFFSET()),
 		CreatedBy = 'etl',
 		ModifiedOn = isnull(sp.ModifiedDate,SYSDATETIMEOFFSET()),
@@ -81,6 +88,8 @@ begin
 		left join OEGSystemStaging.dbo.LookupUnitOfMeasures luUOM on luUOM.Id = si.UnitOfMeasureId
 		left join OEGSystemStaging.dbo.ItemCartonDimensions scd on scd.ItemId = si.ItemId
 		left join OEGSystemStaging.dbo.LookupItemStatuses luStatus on luStatus.Id = sp.StatusId
+		left join OEGSystemStaging.dbo.Vendors sv on sv.VendorId = sp.DisplayVendorId
+			join Vendor v on v.VendorNumber = sv.Code
 		join Product p on p.ERPNumber = sp.Number
 	where 
 		sp.BrandId = @brand
@@ -91,7 +100,7 @@ begin
 	insert into Product 
 	(ERPNumber, [Name], ERPDescription, ShortDescription,  UrlSegment, ContentManagerId)
 	select  
-		sp.Number + '|' + convert(nvarchar(max),spsku.ProductSKUId) ERPNumber,
+		sp.Number + '_' + spsku.OptionCode ERPNumber,
 		'',
 		ltrim(rtrim(isnull(sisku.[Description],''))) ERPDescription,
 		ltrim(rtrim(isnull(spsku.[Description],''))) ShortDescription,
@@ -107,7 +116,8 @@ begin
 	where 
 		sp.BrandId = @brand
 		and isnull(sp.Number,'') != ''
-		and sp.Number + '|' + convert(nvarchar(max),spsku.ProductSKUId) not in (select ERPNumber from Product)
+		and sp.Number not like '%[_]%'
+		and sp.Number + '_' + spsku.OptionCode not in (select ERPNumber from Product)
 
 
 	update Product set
@@ -139,7 +149,7 @@ begin
 		left join OEGSystemStaging.dbo.LookupUnitOfMeasures luUOM on luUOM.Id = si.UnitOfMeasureId
 		left join OEGSystemStaging.dbo.ItemCartonDimensions scd on scd.ItemId = si.ItemId
 		left join OEGSystemStaging.dbo.LookupItemStatuses luStatus on luStatus.Id = sp.StatusId
-		join Product p on p.ERPNumber = sp.Number + '|' + convert(nvarchar(max),spsku.ProductSKUId)
+		join Product p on p.ERPNumber = sp.Number + '_' + spsku.OptionCode
 	where 
 		sp.BrandId = @brand
 
@@ -158,14 +168,14 @@ begin
 	from 
 		Product p
 	where
-		p.ERPNumber not like '%|%'
+		p.ERPNumber not like '%[_]%'
 	)
 	update Product 
 	set StyleParentId = pp.Id
 	from Product p
-	join parentProduct pp on pp.ERPNumber = rtrim(left(p.ERPNumber, CHARINDEX('|', p.ERPNumber) - 1))
+	join parentProduct pp on pp.ERPNumber = rtrim(left(p.ERPNumber, CHARINDEX('_', p.ERPNumber) - 1))
 	where 
-		p.ERPNumber like '%|%'
+		p.ERPNumber like '%[_]%'
 
 
 	insert into StyleTrait
@@ -203,16 +213,17 @@ begin
 		join OEGSystemStaging.dbo.ItemSwatches sis on sis.SwatchId = siskus.SwatchId
 		join OEGSystemStaging.dbo.ProductSKUs spsku on spsku.ItemSKUId = siskus.ItemSKUId
 		join OEGSystemStaging.dbo.Products sp on sp.ProductId = spsku.ProductId
-		join Product p on p.ERPNumber = sp.Number + '|' + convert(nvarchar(max),spsku.ProductSKUId)
+		join Product p on p.ERPNumber = sp.Number + '_' + spsku.OptionCode
 		join StyleTraitValue traitValue on traitValue.[Description] = convert(nvarchar(max),sis.SwatchId)
 	where
-		not exists (select [StyleTraitValueId] from StyleTraitValueProduct where StyleTraitValueId = traitValue.Id and ProductId = p.Id)
+		sp.BrandId = @brand
+		and not exists (select [StyleTraitValueId] from StyleTraitValueProduct where StyleTraitValueId = traitValue.Id and ProductId = p.Id)
 
 
 /*
 
 exec ETLProduct_FromOEG
-select styleclassid,* from product
+select styleclassid,vendorid,* from product
 select * from styleclass
 select * from styletrait
 
