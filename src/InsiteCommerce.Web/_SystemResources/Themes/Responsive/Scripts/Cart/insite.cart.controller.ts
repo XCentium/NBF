@@ -11,8 +11,10 @@ module insite.cart {
         productsCannotBePurchased = false;
         requiresRealTimeInventory = false;
         failedToGetRealTimeInventory = false;
+        canAddAllToList = false;
+        requisitionSubmitting = false;
 
-        static $inject = ["$scope", "cartService", "promotionService", "settingsService", "coreService", "$localStorage"];
+        static $inject = ["$scope", "cartService", "promotionService", "settingsService", "coreService", "$localStorage", "addToWishlistPopupService", "spinnerService"];
 
         constructor(
             protected $scope: ICartScope,
@@ -20,7 +22,9 @@ module insite.cart {
             protected promotionService: promotions.IPromotionService,
             protected settingsService: core.ISettingsService,
             protected coreService: core.ICoreService,
-            protected $localStorage: common.IWindowStorage) {
+            protected $localStorage: common.IWindowStorage,
+            protected addToWishlistPopupService: wishlist.AddToWishlistPopupService,
+            protected spinnerService: core.ISpinnerService) {
             this.init();
         }
 
@@ -60,6 +64,7 @@ module insite.cart {
             if (hasRestrictedProducts === true.toString()) {
                 this.cartService.expand += ",restrictions";
             }
+            this.spinnerService.show();
             this.cartService.getCart().then(
                 (cart: CartModel) => { this.getCartCompleted(cart); },
                 (error: any) => { this.getCartFailed(error); });
@@ -82,6 +87,7 @@ module insite.cart {
 
         displayCart(cart: CartModel): void {
             this.cart = cart;
+            this.canAddAllToList = this.cart.cartLines.every(l => l.canAddToWishlist);
             this.promotionService.getCartPromotions(this.cart.id).then(
                 (promotionCollection: PromotionCollectionModel) => { this.getCartPromotionsCompleted(promotionCollection); },
                 (error: any) => { this.getCartPromotionsFailed(error); });
@@ -107,7 +113,7 @@ module insite.cart {
         }
 
         saveCart(saveSuccessUri: string, signInUri: string): void {
-            if (!this.cart.isAuthenticated) {
+            if (!this.cart.isAuthenticated || this.cart.isGuestOrder) {
                 this.coreService.redirectToPath(`${signInUri}?returnUrl=${this.coreService.getCurrentPath()}`);
                 return;
             }
@@ -126,7 +132,30 @@ module insite.cart {
         protected saveCartFailed(error: any): void {
         }
 
+        addAllToList(): void {
+            let products = [];
+            for (let i = 0; i < this.cart.cartLines.length; i++) {
+                const cartLine = this.cart.cartLines[i];
+                if (!cartLine.canAddToWishlist) {
+                    continue;
+                }
+                const product = <ProductDto>{
+                    id: cartLine.productId,
+                    qtyOrdered: cartLine.qtyOrdered,
+                    selectedUnitOfMeasure: cartLine.unitOfMeasure
+                };
+                products.push(product);
+            }
+
+            this.addToWishlistPopupService.display(products);
+        }
+
         submitRequisition(submitRequisitionSuccessUri: string): void {
+            if (this.requisitionSubmitting) {
+                return;
+            }
+
+            this.requisitionSubmitting = true;
             this.cart.status = "RequisitionSubmitted";
             this.cartService.submitRequisition(this.cart).then(
                 (cart: CartModel) => this.submitRequisitionCompleted(submitRequisitionSuccessUri, cart),
@@ -136,9 +165,11 @@ module insite.cart {
         protected submitRequisitionCompleted(submitRequisitionSuccessUri: string, cart: CartModel): void {
             this.cartService.getCart();
             this.coreService.redirectToPath(submitRequisitionSuccessUri);
+            this.requisitionSubmitting = false;
         }
 
         protected submitRequisitionFailed(error: any): void {
+            this.requisitionSubmitting = false;
         }
 
         continueShopping($event): void {

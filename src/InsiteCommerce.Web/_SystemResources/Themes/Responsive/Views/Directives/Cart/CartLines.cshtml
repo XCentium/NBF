@@ -40,6 +40,10 @@
                 <div>[% siteMessage 'RealTimePricing_PriceLoadFailed' %]</div>
             </div>
             <div class="item-opt" ng-if="!inventoryCheck || cartLine.quoteRequired || (inventoryCheck && (cartLine.availability.messageType != 2 || cartLine.canBackOrder))">
+                <div ng-if="showAddToList" class="actions-block wishlist-actions-block">
+                    <a href="javascript:void(0);" class="btn secondary btn-add-list isc-addToWishlistPopup"
+                       ng-click="vm.openWishListPopup(cartLine)" ng-if="::cartLine.canAddToWishlist">[% translate 'Add to List' %]</a>
+                </div>
                 <div class="item-qty" ng-if="!editable">
                     <strong>[% translate 'QTY_quantity' %]:</strong>
                     <span ng-bind="cartLine.qtyOrdered"></span>
@@ -52,7 +56,7 @@
                            ng-class="{ 'item-opt__changed' : inventoryCheck && cartLine.hasInsufficientInventory || cartLine.isRestricted }"
                            ng-model="cartLine.qtyOrdered"
                            ng-keypress="vm.quantityKeyPress($event,cartLine)"
-                           ng-change="vm.updateLine(cartLine, true)"
+                           ng-change="vm.updateLine(cartLine, true, '{{cartLine.qtyOrdered}}')"
                            ng-model-options="{ updateOn: 'blur' }"
                            ng-disabled="!cart.canModifyOrder || cartLine.isPromotionItem || vm.isUpdateInProgress || cart.type == 'Job'" />
                 </div>

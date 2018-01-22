@@ -25,20 +25,34 @@
             .contact-info table td { padding: 2px 4px; }
         .body-copy { margin-top: 25px; }
             .body-copy p { padding: 6px 0; }
+        .info-tbl th { font-weight: bold; border-bottom: 1px solid #000; }
     </style>
 </head>
 
 <body>
     <div class="email-wrapper">
         <div class="body-copy">
-            <div>[[Model.OrderNumber]]&nbsp;&nbsp;&nbsp;[[Model.OrderDate]]</div>
-            <div>PO Number : &nbsp; [[Model.PONumber]]</div>
-            <div>Billing Information</div>
+            <div>Order Number: &nbsp; [[Model.OrderNumber]]</div>
+            <div>Order Date: &nbsp; [[Model.OrderDate]]</div>
+            <div>PO Number: &nbsp; [[Model.PONumber]]</div>
+            <br />
+            <div><b>Billing Information</b></div>
             <div>[[Model.BTDisplayName]]</div>
-            <div style="white-space: pre-line">[[Model.Address]]</div>
-            <div>[[Model.BTEmail]]</div>
+            <div>
+                [% if Model.BTAddress1 != null and Model.BTAddress1 != "" -%]
+                [[Model.BTAddress1]] <br />
+                [% endif -%]
+                [% if Model.BTAddress2 != null and Model.BTAddress2 != "" -%]
+                [[Model.BTAddress2]] <br />
+                [% endif -%]
+                [[Model.BTCity]], [[Model.BTState]] [[Model.BTPostalCode]] <br />
+                [% if Model.BTCountry != null and Model.BTCountry != "" -%]
+                [[Model.BTCountry]] <br />
+                [% endif -%]
+            </div>
+            <div>Requested By: &nbsp; [[Model.BTEmail]]</div>
             <br /><br />
-            <table cellpadding="10" cellspacing="10">
+            <table cellpadding="10" cellspacing="10" class="info-tbl">
                 <tr>
                     <th style="padding-right: 8px;">Item #</th>
                     <th style="padding-right: 8px;">Description</th>

@@ -125,7 +125,8 @@ module insite {
             "ngMap",
             "ab-base64",
             "kendo.directives",
-            "ui.router"
+            "ui.router",
+            "ui.sortable"
         ])
         .run(["appRunService", ($appRunService: IAppRunService) => { $appRunService.run(); }])
         .service("appRunService", AppRunService);

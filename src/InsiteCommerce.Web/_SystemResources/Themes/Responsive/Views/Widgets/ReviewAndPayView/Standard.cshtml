@@ -60,16 +60,16 @@
                                 ng-change="vm.updateCarrier()"
                                 ng-options="carrier.description for carrier in vm.cart.carriers"></select>
                     </div>
-                    <div class="select-method" ng-show="vm.cart.carriers.length > 0">
-                        <label for="shippingMethod">[% translate 'Select Method' %]</label>
-                        <select id="shippingMethod" name="shippingMethod"
-                                data-rule-required="true" data-msg-required="[% translate 'Shipping Method is required.' %]"
+                    <div class="select-service" ng-show="vm.cart.carriers.length > 0">
+                        <label for="shippingService">[% translate 'Select Service' %]</label>
+                        <select id="shippingService" name="shippingService"
+                                data-rule-required="true" data-msg-required="[% translate 'Shipping Service is required.' %]"
                                 ng-model="vm.cart.shipVia"
                                 ng-options="shipVia.description for shipVia in vm.cart.carrier.shipVias"
                                 ng-change="vm.updateShipVia()">
-                            <option value="">[% translate 'Select Method' %]</option>
+                            <option value="">[% translate 'Select Service' %]</option>
                         </select>
-                        <span class="field-validation-valid" data-valmsg-for="shippingMethod" data-valmsg-replace="true"></span>
+                        <span class="field-validation-valid" data-valmsg-for="shippingService" data-valmsg-replace="true"></span>
                     </div>
                     <div class="select-requested-delivery-date" ng-show="vm.cartSettings.canRequestDeliveryDate">
                         <label for="requestedDeliveryDate">[% translate 'Request Delivery Date' %]<em>([% translate 'optional' %])</em></label>

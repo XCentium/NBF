@@ -74,7 +74,7 @@
         protected onStateChangeError(event: ng.IAngularEvent, to: any, toParams: any, from: any, fromParams: any, error: any): void {
             event.preventDefault();
             if (error.status === 401) {
-                const signIn = `${this.getSignInUrl()}?returnUrl=${toParams.path}`;
+                const signIn = `${this.getSignInUrl()}?returnUrl=${encodeURIComponent(toParams.path)}`;
                 this.$window.location.replace(signIn);
             }
         }
@@ -188,7 +188,7 @@
 
             const currentUrl = this.$window.location.pathname + this.$window.location.search;
             if (returnToUrl && currentUrl !== "/") {
-                signInUrl += `?returnUrl=${encodeURIComponent(currentUrl)}`;
+                signInUrl += `?returnUrl=${encodeURIComponent(currentUrl)}&clientRedirect=true`;
             }
 
             this.redirectToPath(signInUrl);

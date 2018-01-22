@@ -10,6 +10,10 @@ select top 100 sc.*, l.* from ItemsSubClasses sc
 join LookupItemSubClasses l on l.SubClassId = sc.SubClassId
 where itemid = 160295
 
+select * from ProductSKUs where ProductSKUId = 2747498
+select * from Products where ProductId = 178133
+select * from LookupItemStatuses where Id = 2
+
 select * from LookupItemStatuses
 
 select * from LookupItemSubClasses

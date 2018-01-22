@@ -32,14 +32,17 @@
     <div class="email-wrapper">
         <div class="body-copy">
             <h2>Hello, [[Model.FriendsName]]</h2>
-            <p>Your friend, [[Model.UsersName]], has sent you the following message from [[Model.WebsiteUrl]] about a product on the site.</p>
+            <p>Your friend, [[Model.UsersName]], has sent you the following message from <a target="_blank" href="[[Model.WebsiteUrl]]">[[Model.WebsiteName]]</a> about a product on the site.</p>
             <p style="white-space: pre-line">[[Model.UsersMessage]]</p>
             <p>
                 <table>
                     <tr>
-                        <td><a href="[[Model.WebsiteUrl]][[Model.ProductUrl]]">
-                                <img src="[[Model.ProductImage]]" alt="[[Model.AltText]]" width="182" height="230" />
-                            </a></td>
+                        <td>
+                            <a href="[[Model.WebsiteUrl]][[Model.ProductUrl]]">
+                                <img src="[[Model.ProductImage]]" alt="[[Model.AltText]]" width="160"/>
+                            </a>
+                        </td>
+                        <td width="5%">&nbsp;</td>
                         <td><a href="[[Model.WebsiteUrl]][[Model.ProductUrl]]">[[Model.ProductShortDescription]]</a></td>
                     </tr>
                 </table>

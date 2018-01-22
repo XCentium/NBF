@@ -46,7 +46,7 @@
         <div class="btns" ng-show="vm.cart.cartLines !== null && vm.cart.cartLines.length > 0">
             <button ng-disabled="vm.disableSubmit"
                     type="button" class="btn primary btn-submit-quote-request"
-                    ng-click="vm.submitQuote('[% urlForPage 'RfqConfirmationPage' %]')"
+                    ng-click="vm.submitQuote(vm.isSalesRep ? '[% urlForPage 'RfqQuoteDetailsPage' %]' : '[% urlForPage 'RfqConfirmationPage' %]')"
                     ng-bind="!vm.isSalesRep ? '[% translate 'Submit Quote Request' %]' : '[% translate 'Create Quote Proposal' %]'"></button>
         </div>
 

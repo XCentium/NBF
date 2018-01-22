@@ -14,6 +14,8 @@
         maxProducts = 5;
         productItems: IProductItem[] = [];
         addingToCart = false;
+        realTimePricing = false;
+        failedToGetRealTimePrices = false;
 
         static $inject = ["settingsService", "orderService", "productService", "cartService"];
 
@@ -33,6 +35,7 @@
 
         protected getSettingsCompleted(settingsCollection: core.SettingsCollection): void {
             this.showOrders = settingsCollection.orderSettings.showOrders;
+            this.realTimePricing = settingsCollection.productSettings.realTimePricing;
             if (this.showOrders) {
                 this.getRecentlyPurchasedItems();
             }
@@ -115,9 +118,22 @@
                     }
                 }
             }
+
+            if (this.realTimePricing && this.productItems && this.productItems.length > 0) {
+                this.productService.getProductRealTimePrices(this.productItems.map(o => o.product)).then(
+                    (realTimePricing: RealTimePricingModel) => this.getProductRealTimePricesCompleted(realTimePricing),
+                    (error: any) => this.getProductRealTimePricesFailed(error));
+            }
         }
 
         protected getProductsFailed(error: any): void {
+        }
+
+        protected getProductRealTimePricesCompleted(realTimePricing: RealTimePricingModel): void {
+        }
+
+        protected getProductRealTimePricesFailed(error: any): void {
+            this.failedToGetRealTimePrices = true;
         }
 
         showUnitOfMeasureLabel(product: ProductDto): boolean {

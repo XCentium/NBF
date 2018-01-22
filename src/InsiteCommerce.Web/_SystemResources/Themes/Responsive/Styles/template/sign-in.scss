@@ -35,6 +35,12 @@
     }
 }
 
+.popup-sign-in-required {
+    .modal-wrap {
+        max-width: 530px;
+    }
+}
+
 @media all and (min-width: 641px) and (max-width: 1024px) {
     .sign-in {
         .main-row .si-step-1 .large-6 {

@@ -241,8 +241,21 @@
         }
 
         setStateRequiredRule(prefix: string, address: any): void {
-            const isRequired = address.country != null && address.country.states.length > 0;
-            $(`#${prefix}state`).rules("add", { required: isRequired });
+            if (!address.country) {
+                return;
+            }
+
+            const country = this.countries.filter((elem) => {
+               return elem.id === address.country.id;
+            });
+
+            const isRequired = country != null && country.length > 0 && country[0].states.length > 0;
+            setTimeout(() => {
+                if (!isRequired) {
+                    address.state = null;
+                }
+                $(`#${prefix}state`).rules("add", { required: isRequired });
+            }, 100);
         }
 
         continueCheckout(continueUri: string, cartUri: string): void {
@@ -273,13 +286,9 @@
                 this.cart.shipVia = null;
             }
 
-            if (this.customerSettings.allowBillToAddressEdit) {
-                this.customerService.updateBillTo(this.cart.billTo).then(
-                    (billTo: BillToModel) => { this.updateBillToCompleted(billTo, continueUri); },
-                    (error: any) => { this.updateBillToFailed(error); });
-            } else {
-                this.updateShipTo(continueUri);
-            }
+            this.customerService.updateBillTo(this.cart.billTo).then(
+                (billTo: BillToModel) => { this.updateBillToCompleted(billTo, continueUri); },
+                (error: any) => { this.updateBillToFailed(error); });
         }
 
         protected updateBillToCompleted(billTo: BillToModel, continueUri: string): void {
@@ -291,19 +300,15 @@
         }
 
         protected updateShipTo(continueUri: string, customerWasUpdated?: boolean): void {
-            if (this.customerSettings.allowShipToAddressEdit) {
-                const shipToMatches = this.cart.billTo.shipTos.filter(shipTo => { return shipTo.id === this.selectedShipTo.id; });
-                if (shipToMatches.length === 1) {
-                    this.cart.shipTo = this.selectedShipTo;
-                }
+            const shipToMatches = this.cart.billTo.shipTos.filter(shipTo => { return shipTo.id === this.selectedShipTo.id; });
+            if (shipToMatches.length === 1) {
+                this.cart.shipTo = this.selectedShipTo;
+            }
 
-                if (this.cart.shipTo.id !== this.cart.billTo.id) {
-                    this.customerService.addOrUpdateShipTo(this.cart.shipTo).then(
-                        (shipTo: ShipToModel) => { this.addOrUpdateShipToCompleted(shipTo, continueUri, customerWasUpdated); },
-                        (error: any) => { this.addOrUpdateShipToFailed(error); });
-                } else {
-                    this.updateSession(this.cart, continueUri, customerWasUpdated);
-                }
+            if (this.cart.shipTo.id !== this.cart.billTo.id) {
+                this.customerService.addOrUpdateShipTo(this.cart.shipTo).then(
+                    (shipTo: ShipToModel) => { this.addOrUpdateShipToCompleted(shipTo, continueUri, customerWasUpdated); },
+                    (error: any) => { this.addOrUpdateShipToFailed(error); });
             } else {
                 this.updateSession(this.cart, continueUri, customerWasUpdated);
             }

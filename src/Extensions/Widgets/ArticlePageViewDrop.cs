@@ -13,6 +13,10 @@ namespace Extensions.Widgets
 
         public string Title { get; set; }
 
+        public string PreviousArticle { get; set; }
+
+        public string NextArticle { get; set; }
+
         public List<string> Tags { get; set; }
     }
 }
