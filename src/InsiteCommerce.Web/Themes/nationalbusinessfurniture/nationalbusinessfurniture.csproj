@@ -111,7 +111,10 @@
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Scripts\sticky.js" />
+    <Content Include="Scripts\Libraries\jquery.inputmask\0.0.0\jquery.inputmask.js" />
+    <Content Include="Scripts\Libraries\jquery.inputmask\0.0.0\jquery.inputmask.numeric.extensions.js" />
+    <Content Include="Scripts\Libraries\jquery.maskedinput\jquery.maskedinput.js" />
+    <Content Include="Scripts\Libraries\sticky.js" />
     <Content Include="theme.json" />
     <TypeScriptCompile Include="Scripts\Custom\Account\nbf.account.directives.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Cart\nbf.cart-total-display.directive.ts" />
@@ -289,6 +292,7 @@
     <TypeScriptCompile Include="Scripts\Typings\google.analytics\ga.d.ts" />
     <TypeScriptCompile Include="Scripts\Typings\google.maps\google.maps-plus.d.ts" />
     <TypeScriptCompile Include="Scripts\Typings\google.maps\google.maps.d.ts" />
+    <TypeScriptCompile Include="Scripts\Typings\jquery.maskedinput\jquery.maskedinput.d.ts" />
     <TypeScriptCompile Include="Scripts\Typings\jquery\jquery.d.ts" />
     <TypeScriptCompile Include="Scripts\Typings\jquery.validation\jquery-validation-unobtrusive.d.ts" />
     <TypeScriptCompile Include="Scripts\Typings\jquery.validation\jquery.validation.d.ts" />
@@ -504,6 +508,7 @@
   <ItemGroup>
     <Content Include="Views\Directives\Custom\OrderTracker\OrderDetailView.cshtml" />
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

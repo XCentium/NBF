@@ -24,6 +24,8 @@
             this.$form.removeData("validator");
             this.$form.removeData("unobtrusiveValidation");
             $.validator.unobtrusive.parse(this.$form);
+
+            $(".masked-phone").mask("999-999-9999");
         }
 
         submit($event, orderDetailUrl: string): boolean {

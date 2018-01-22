@@ -256,7 +256,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="WebApi\Controllers\OrderTrackingController.cs" />
+    <Compile Include="WebApi\OrderTracking\Controllers\OrderTrackingController.cs" />
+    <Compile Include="WebApi\OrderTracking\Interfaces\IOrderTrackingService.cs" />
+    <Compile Include="WebApi\OrderTracking\Services\OrderTrackingService.cs" />
     <Compile Include="Widgets\ArticleListView.cs" />
     <Compile Include="Widgets\ArticleListViewDrop.cs" />
     <Compile Include="Widgets\ArticleListViewPageDrop.cs" />
