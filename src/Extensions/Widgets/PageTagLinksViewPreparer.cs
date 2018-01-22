@@ -44,7 +44,7 @@ namespace Extensions.Widgets
         {
             var tagSet = new HashSet<string>();
             var tagField = this.UnitOfWork.GetRepository<ContentItemField>().GetTable()
-                    .Where(x => x.FieldName == "PageTags");
+                    .Where(x => x.FieldName == "PageTags" && x.PublishOn != null && x.IsRetracted == false);
             foreach (var tagList in tagField)
             {
                 if (tagList.FieldName == "PageTags")
