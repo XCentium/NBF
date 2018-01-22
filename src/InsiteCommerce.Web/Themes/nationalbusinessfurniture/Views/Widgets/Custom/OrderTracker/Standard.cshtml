@@ -4,7 +4,7 @@
         <label for="order[[Model.ContentKey]]">[[Model.Instructions]]</label>
         <input type="text" class="" name="orderNumber" id="order[[Model.ContentKey]]" placeholder="Order Number"
                data-val-required="[[Model.OrderNumberIsRequiredErrorMessage]]" data-val="true"
-               ng-model="vm.orderNumber"/>
+               ng-model="vm.orderNumber" />
         <span data-valmsg-replace="true" data-valmsg-for="orderNumber"></span>
 
         <label for="phone[[Model.ContentKey]]">[[Model.Instructions]]</label>
@@ -12,7 +12,7 @@
                data-val-required="[[Model.PhoneIsRequiredErrorMessage]]" data-val="true"
                data-rule-regex="{{'[% phoneRegex %]'}}"
                data-val-regex="[[Model.PhoneIsInvalidErrorMessage]]"
-               ng-model="vm.phoneNumber"/>
+               ng-model="vm.phoneNumber" />
         <span data-valmsg-replace="true" data-valmsg-for="phoneNumber"></span>
         <p>
             <button class="btn primary btn-subscribe" type="submit" ng-click="vm.submit($event, '[% urlForPage 'OrderDetailPage' %]')">[[Model.ButtonText]]</button>
@@ -20,6 +20,6 @@
         <span ng-if="vm.orderNotFound">[[Model.OrderNotFoundErrorMessage]]</span>
         [[Model.ContentBelow]]
     </form>
-    
+
     <nbf-order-tracker-order-detail-view order="vm.order" ng-if="vm.order"></nbf-order-tracker-order-detail-view>
 </div>

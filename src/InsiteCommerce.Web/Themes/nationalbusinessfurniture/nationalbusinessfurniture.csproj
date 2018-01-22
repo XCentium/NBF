@@ -501,7 +501,6 @@
   <ItemGroup>
     <Content Include="Views\Widgets\Custom\OrderTracker\Standard.cshtml" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <Content Include="Views\Directives\Custom\OrderTracker\OrderDetailView.cshtml" />
   </ItemGroup>
