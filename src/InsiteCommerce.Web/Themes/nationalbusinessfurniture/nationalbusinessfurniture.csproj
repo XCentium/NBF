@@ -475,7 +475,6 @@
     <Content Include="Views\Widgets\Custom\ArticleListView\Standard.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Widgets\Custom\OrderTracker\Standard.cshtml" />
     <Content Include="Views\Widgets\Custom\ArticlePageView\Standard.cshtml" />
   </ItemGroup>
   <ItemGroup>
@@ -497,12 +496,12 @@
   <ItemGroup>
     <Content Include="Views\Widgets\Custom\CommentForm\Standard.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\Widgets\Custom\OrderTracker\Standard.cshtml" />
-  </ItemGroup>
   <ItemGroup />
   <ItemGroup>
     <Content Include="Views\Directives\Custom\OrderTracker\OrderDetailView.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Widgets\Custom\OrderTracker\Standard.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

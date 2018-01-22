@@ -49,6 +49,10 @@
     <Reference Include="Antlr3.Runtime, Version=3.4.1.9004, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
       <HintPath>..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
+    <Reference Include="DotLiquid, Version=1.0.0.0, Culture=neutral, PublicKeyToken=82e46016ecf9f07c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Insite.Commerce.Private.4.3.2.38064\lib\net452\DotLiquid.dll</HintPath>
+    </Reference>
     <Reference Include="Insite.Account, Version=4.4.0.38481, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Insite.Commerce.Public.4.4.0.38481\lib\net452\Insite.Account.dll</HintPath>
     </Reference>
@@ -252,6 +256,26 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WebApi\Controllers\OrderTrackingController.cs" />
+    <Compile Include="Widgets\ArticleListView.cs" />
+    <Compile Include="Widgets\ArticleListViewDrop.cs" />
+    <Compile Include="Widgets\ArticleListViewPageDrop.cs" />
+    <Compile Include="Widgets\ArticleListViewPreparer.cs" />
+    <Compile Include="Widgets\ArticlePageView.cs" />
+    <Compile Include="Widgets\ArticlePageViewDrop.cs" />
+    <Compile Include="Widgets\ArticlePageViewPreparer.cs" />
+    <Compile Include="Widgets\CheckoutView.cs" />
+    <Compile Include="Widgets\CommentForm.cs" />
+    <Compile Include="Widgets\OrderTracker.cs" />
+    <Compile Include="Widgets\PageTagLinksView.cs" />
+    <Compile Include="Widgets\PageTagLinksViewDrop.cs" />
+    <Compile Include="Widgets\PageTagLinksViewPageDrop.cs" />
+    <Compile Include="Widgets\PageTagLinksViewPreparer.cs" />
+    <Compile Include="Widgets\PageTagListView.cs" />
+    <Compile Include="Widgets\PageTagSelectView.cs" />
+    <Compile Include="Widgets\PageTagSelectViewDrop.cs" />
+    <Compile Include="Widgets\PageTagSelectViewPageDrop.cs" />
+    <Compile Include="Widgets\PageTagSelectViewPreparer.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config">
