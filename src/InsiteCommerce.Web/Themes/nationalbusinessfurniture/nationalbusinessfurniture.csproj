@@ -122,7 +122,6 @@
     <TypeScriptCompile Include="Scripts\Custom\Cart\nbf.order-confirmation.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Cart\nbf.review-and-pay.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Cart\nbf.checkout.controller.ts" />
-    <TypeScriptCompile Include="Scripts\Custom\OrderTracker\nbf.order-tracker.directive.ts" />
     <TypeScriptCompile Include="Scripts\Custom\OrderTracker\nbf.order-tracker.order-detail.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\OrderTracker\nbf.order-tracker.service.ts" />
     <TypeScriptCompile Include="Scripts\Custom\OrderTracker\nbf.order-tracker.controller.ts" />
@@ -506,9 +505,8 @@
     <Content Include="Views\Widgets\Custom\OrderTracker\Standard.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Directives\Custom\OrderTracker\OrderDetailView.cshtml" />
+    <Content Include="Views\Widgets\Custom\OrderTrackerDetailView\Standard.cshtml" />
   </ItemGroup>
-  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

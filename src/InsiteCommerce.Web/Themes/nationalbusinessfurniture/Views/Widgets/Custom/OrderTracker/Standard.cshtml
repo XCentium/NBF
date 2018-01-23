@@ -8,7 +8,7 @@
         <span data-valmsg-replace="true" data-valmsg-for="orderNumber"></span>
 
         <label for="phone[[Model.ContentKey]]">[[Model.Instructions]]</label>
-        <input type="text" class="masked-phone somethijg" name="phoneNumber" id="phone[[Model.ContentKey]]" placeholder="Phone Number"
+        <input type="text" class="masked-phone" name="phoneNumber" id="phone[[Model.ContentKey]]" placeholder="Phone Number"
                data-val-required="[[Model.PhoneIsRequiredErrorMessage]]" data-val="true"
                data-rule-regex="{{'[% phoneRegex %]'}}"
                data-val-regex="[[Model.PhoneIsInvalidErrorMessage]]"
@@ -20,6 +20,4 @@
         <span ng-if="vm.orderNotFound">[[Model.OrderNotFoundErrorMessage]]</span>
         [[Model.ContentBelow]]
     </form>
-
-    <nbf-order-tracker-order-detail-view order="vm.order" ng-if="vm.order"></nbf-order-tracker-order-detail-view>
 </div>

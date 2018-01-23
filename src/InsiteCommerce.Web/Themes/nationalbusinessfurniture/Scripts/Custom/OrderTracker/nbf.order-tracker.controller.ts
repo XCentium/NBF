@@ -7,15 +7,16 @@
         submitted = false;
         $form: JQuery;
         orderNotFound: boolean = false;
-        order: OrderModel;
+        orderId: string;
 
-        static $inject = ["$element", "$scope", "nbfOrderTrackerService", "$window"];
+        static $inject = ["$element", "$scope", "nbfOrderTrackerService", "$window", "spinnerService"];
 
         constructor(
             protected $element: ng.IRootElementService,
             protected $scope: ng.IScope,
-            protected nbfOrderTrackerService: nbf.OrderTracker.IOrderTrackerService,
-            protected $window: ng.IWindowService) {
+            protected nbfOrderTrackerService: OrderTracker.INbfOrderTrackerService,
+            protected $window: ng.IWindowService,
+            protected spinnerService: insite.core.SpinnerService) {
             this.init();
         }
 
@@ -34,23 +35,32 @@
                 return false;
             }
 
-            this.getOrder(this.orderNumber, this.phoneNumber, orderDetailUrl);
+            this.getOrderId(this.orderNumber, this.phoneNumber, orderDetailUrl);
 
             return false;
         }
 
-        getOrder(orderNumber: string, phoneNumber: string, orderDetailUrl: string): void {
-            this.nbfOrderTrackerService.getOrder(orderNumber, phoneNumber).then(
-                (order: OrderModel) => { this.getOrderCompleted(order, orderDetailUrl); },
-                (error: any) => { this.getOrderFailed(error); });
+        getOrderId(orderNumber: string, phoneNumber: string, orderDetailUrl: string): void {
+            this.spinnerService.show("mainLayout", true);
+
+            this.nbfOrderTrackerService.getOrderId(orderNumber, phoneNumber).then(
+                (orderId: string) => { this.getOrderIdCompleted(orderId, orderDetailUrl); },
+                (error: any) => { this.getOrderIdFailed(error); });
         }
 
-        protected getOrderCompleted(order: OrderModel, orderDetailUrl: string): void {
-            this.order = order;
+        protected getOrderIdCompleted(orderId: string, orderDetailUrl: string): void {
+            if (orderId != null) {
+                this.orderId = orderId;
+                this.$window.location.href = "/OrderTracker/Order?orderId=" + this.orderId;
+            } else {
+                this.getOrderIdFailed();
+            }
         }
 
-        protected getOrderFailed(error: any): void {
+        protected getOrderIdFailed(error?: any): void {
             this.orderNotFound = true;
+
+            this.spinnerService.hide("mainLayout");
         }
     }
 
