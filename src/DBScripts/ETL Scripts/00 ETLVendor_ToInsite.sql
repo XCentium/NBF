@@ -10,8 +10,6 @@ begin
 	update [Insite.NBF].dbo.Vendor set
 		VendorNumber = etl.VendorNumber,
 		[Name] = etl.[Name],
-		[Phone] = etl.[Phone],
-		[WebSiteAddress] = etl.[WebSiteAddress],
 		CreatedBy = etl.CreatedBy,
 		CreatedOn = etl.CreatedOn,
 		ModifiedOn = etl.ModifiedOn,
@@ -21,8 +19,8 @@ begin
 
 	--new
 	insert into [Insite.NBF].dbo.Vendor
-	(Id, VendorNumber, [Name], [Phone], [WebSiteAddress], CreatedBy, CreatedOn, ModifiedOn, ModifiedBy)
-	select Id, VendorNumber, [Name], [Phone], [WebSiteAddress], CreatedBy, CreatedOn, ModifiedOn, ModifiedBy
+	(Id, VendorNumber, [Name], CreatedBy, CreatedOn, ModifiedOn, ModifiedBy)
+	select Id, VendorNumber, [Name], CreatedBy, CreatedOn, ModifiedOn, ModifiedBy
 	from Vendor etl
 	where etl.Id not in (select Id from [Insite.NBF].dbo.Vendor)
 

@@ -135,6 +135,7 @@ begin
 		IsDiscontinued = case when luStatus.Name = 'Active' then 0 else case when spsku.EffEndDate > getdate() then 0 else 1 end end,
 		ActivateOn = spsku.EffStartDate,
 		DeactivateOn = case when luStatus.Name = 'Active' then spsku.EffEndDate else dateadd(day, -1, SYSDATETIMEOFFSET()) end,
+		VendorId = v.Id,
 		UPCCode = isnull(sisku.UPCCode,''),
 		ManufacturerItem = spsku.OptionCode,
 		CreatedOn = isnull(spsku.CreatedDate,SYSDATETIMEOFFSET()),
@@ -149,16 +150,35 @@ begin
 		left join OEGSystemStaging.dbo.LookupUnitOfMeasures luUOM on luUOM.Id = si.UnitOfMeasureId
 		left join OEGSystemStaging.dbo.ItemCartonDimensions scd on scd.ItemId = si.ItemId
 		left join OEGSystemStaging.dbo.LookupItemStatuses luStatus on luStatus.Id = sp.StatusId
+		left join OEGSystemStaging.dbo.Vendors sv on sv.VendorId = sp.DisplayVendorId
+			join Vendor v on v.VendorNumber = sv.Code
 		join Product p on p.ERPNumber = sp.Number + '_' + spsku.OptionCode
 	where 
 		sp.BrandId = @brand
 
-	-- we need content managers for all these products
+	-- we need specification records for each specification
+	insert into Specification
+	(ContentManagerId, [Name], [Description], IsActive, CreatedBy, ModifiedBy, ProductId)
+	select newid(), 'Dimensions', 'Dimensions', 1, 'etl', 'etl', Id
+	from Product
+	where Id not in (select ProductId from Specification where [Name] = 'Dimensions')
+	
+	-- make sure we have a content manager record for each of the specifications
+
+	insert into ContentManager
+	(Id, [Name], CreatedBy, ModifiedBy)
+	select ContentManagerId, 'Specification', 'etl', 'etl'  
+	from Specification
+	where ContentManagerId not in (select Id from ContentManager)
+	
+	-- make sure we have a content manager record for each of the products
+
 	insert into ContentManager
 	(Id, [Name], CreatedBy, ModifiedBy)
 	select ContentManagerId, 'Product', 'etl', 'etl'
 	from Product
 	where ContentManagerId not in (select Id from ContentManager)
+
 
 	-- tie up the style parent for each of the variants
 	;with parentProduct as
@@ -223,6 +243,8 @@ begin
 /*
 
 exec ETLProduct_FromOEG
+exec ETLProduct_ToInsite
+
 select styleclassid,vendorid,* from product
 select * from styleclass
 select * from styletrait
