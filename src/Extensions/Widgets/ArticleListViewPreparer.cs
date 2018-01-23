@@ -85,21 +85,6 @@ namespace Extensions.Widgets
 
                         }
                     }
-                    //var pageFields = this.ContentHelper.GetWidgets(item.ContentKey, "Content").DefaultIfEmpty(); //.Where(z => z.Class == "PageTagSelectView");
-                    //foreach (var p in pageFields)
-                    //{
-                    //    foreach (var field in p.CurrentContentItemFields)
-                    //    {
-                    //        if (field.Key == "PageTags")
-                    //        {
-                    //            if (((List<string>)field.Value.ObjectValue).Count > 0)
-                    //            {
-                    //                filteredList.Add(item);
-                    //            }
-                    //        }
-                    //    }
-                    //}
-                    ////.OrderByDescending<NewsPage, DateTimeOffset?>((Func<NewsPage, DateTimeOffset?>)(o => o.PublishDate)).ToList<NewsPage>();
                 }
                 list = filteredHash.ToList();
             }
