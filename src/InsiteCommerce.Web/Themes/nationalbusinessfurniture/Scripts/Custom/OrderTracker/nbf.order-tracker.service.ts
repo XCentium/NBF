@@ -30,8 +30,9 @@
         getOrder(orderId: string): ng.IPromise<OrderModel> {
             const uri = `${this.orderUri}`;
             const params: any = {
-                orderId: orderId
-            };
+                orderId: orderId,
+                expand: "orderlines,shipments"
+        };
             return this.httpWrapperService.executeHttpRequest(
                 this,
                 this.$http({ url: uri, method: "GET", params: params }),

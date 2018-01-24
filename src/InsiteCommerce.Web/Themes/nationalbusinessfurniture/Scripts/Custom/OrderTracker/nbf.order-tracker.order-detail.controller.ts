@@ -23,6 +23,7 @@
         promotions: PromotionModel[];
         allowCancellationStatuses: string[];
         allowRmaStatuses: string[];
+        orderLoaded: boolean = false;
 
         static $inject = ["orderService", "nbfOrderTrackerService", "settingsService", "queryString", "coreService", "sessionService", "cartService"];
 
@@ -64,10 +65,27 @@
 
         protected getOrderCompleted(order: OrderModel): void {
             this.order = order;
+            this.orderLoaded = true;
+            this.getRealTimeInventory();
         }
 
         protected getOrderFailed(error: any): void {
 
+        }
+
+        getRealTimeInventory(): void {
+            if (this.requiresRealTimeInventory) {
+                this.cartService.getRealTimeInventory({ cartLines: this.order.orderLines as any as CartLineModel[] } as CartModel).then(
+                    (realTimeInventory: RealTimeInventoryModel) => this.getRealTimeInventoryCompleted(realTimeInventory),
+                    (error: any) => this.getRealTimeInventoryFailed(error));
+            }
+        }
+
+        protected getRealTimeInventoryCompleted(realTimeInventory: RealTimeInventoryModel): void {
+        }
+
+        protected getRealTimeInventoryFailed(error: any): void {
+            this.failedToGetRealTimeInventory = true;
         }
 
         protected getSettingsCompleted(settingsCollection: insite.core.SettingsCollection): void {
@@ -156,6 +174,10 @@
             this.cartService.addLine(this.orderService.convertToCartLine(line), true).then(
                 (cartLine: CartLineModel) => { this.addLineCompleted(cartLine); },
                 (error: any) => { this.addLineFailed(error); });
+        }
+
+        showShareModal(entityId: string): void {
+            this.coreService.displayModal(`#shareEntityPopupContainer_${entityId}`);
         }
 
         protected addLineCompleted(cartLine: Insite.Cart.WebApi.V1.ApiModels.CartLineModel): void {
