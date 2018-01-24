@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Data;
-using Extensions.WebApi.Models;
+using Extensions.WebApi.OrderTracking.Models;
 using Insite.Catalog.Services.Dtos;
 using Insite.Core.Interfaces.Data;
 using Insite.Core.Interfaces.Dependency;

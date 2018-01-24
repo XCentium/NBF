@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using Extensions.Mappers.Interfaces;
-using Extensions.WebApi.Models;
+using Extensions.WebApi.OrderTracking.Models;
 using Insite.Catalog.Services.Dtos;
 using Insite.Common.Helpers;
 using Insite.Core.Extensions;
