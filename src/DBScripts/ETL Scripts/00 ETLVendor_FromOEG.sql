@@ -26,8 +26,6 @@ begin
 
 	update Vendor set
 		[Name] = s.DisplayName,
-		Phone = isnull(s.[PhoneNumber],''),
-		WebSiteAddress = isnull(s.[Website],''),
 		CreatedBy = 'etl',
 		ModifiedBy = 'etl',
 		ModifiedOn = getdate()
