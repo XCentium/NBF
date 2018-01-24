@@ -1,12 +1,11 @@
-﻿using Extensions.WebApi.Interfaces;
-using Extensions.WebApi.Models;
+﻿using Extensions.WebApi.OrderTracking.Interfaces;
+using Extensions.WebApi.OrderTracking.Models;
 using Insite.Core.Interfaces.Data;
-using Insite.Core.Interfaces.Dependency;
 using Insite.Core.Services;
 using Insite.Core.Services.Handlers;
 using Insite.Order.Services.Results;
 
-namespace Extensions.WebApi.Services
+namespace Extensions.WebApi.OrderTracking.Services
 {
     public class OrderTrackingService : ServiceBase, IOrderTrackingService
     {

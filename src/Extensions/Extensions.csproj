@@ -261,9 +261,9 @@
     <Compile Include="Mappers\GetTrackedOrderMapper.cs" />
     <Compile Include="Mappers\Interfaces\IGetTrackedOrderMapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="WebApi\Interfaces\IOrderTrackingService.cs" />
-    <Compile Include="WebApi\Models\GetTrackingOrderParameter.cs" />
-    <Compile Include="WebApi\Services\OrderTrackingService.cs" />
+    <Compile Include="WebApi\OrderTracking\Interfaces\IOrderTrackingService.cs" />
+    <Compile Include="WebApi\OrderTracking\Models\GetTrackingOrderParameter.cs" />
+    <Compile Include="WebApi\OrderTracking\Services\OrderTrackingService.cs" />
     <Compile Include="WebApi\OrderTracking\Controllers\OrderTrackingController.cs" />
     <Compile Include="Widgets\ArticleListView.cs" />
     <Compile Include="Widgets\ArticleListViewDrop.cs" />

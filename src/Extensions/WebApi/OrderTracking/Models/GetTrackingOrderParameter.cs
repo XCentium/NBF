@@ -1,6 +1,6 @@
 ﻿using Insite.Core.Services;
 
-namespace Extensions.WebApi.Models
+namespace Extensions.WebApi.OrderTracking.Models
 {
     public class GetTrackingOrderParameter : ParameterBase
     {

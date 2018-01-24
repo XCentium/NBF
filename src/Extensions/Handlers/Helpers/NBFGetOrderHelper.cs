@@ -18,7 +18,7 @@ using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
 using Extensions.Handlers.Interfaces;
-using Extensions.WebApi.Models;
+using Extensions.WebApi.OrderTracking.Models;
 using Insite.Core.Localization;
 using Insite.Order.Services;
 
