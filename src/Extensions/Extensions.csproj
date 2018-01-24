@@ -255,8 +255,17 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Handlers\Helpers\NBFGetOrderHelper.cs" />
+    <Compile Include="Handlers\Interfaces\INBFGetOrderHelper.cs" />
+    <Compile Include="Handlers\GetTrackedOrderHandler.cs" />
+    <Compile Include="Mappers\GetTrackedOrderMapper.cs" />
+    <Compile Include="Mappers\Interfaces\IGetTrackedOrderMapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WebApi\Controllers\OrderTrackingController.cs" />
+    <Compile Include="WebApi\Interfaces\IOrderTrackingService.cs" />
+    <Compile Include="WebApi\Models\GetTrackingOrderParameter.cs" />
+    <Compile Include="WebApi\Services\OrderTrackingService.cs" />
+    <Compile Include="WebApi\OrderTracking\Controllers\OrderTrackingController.cs" />
     <Compile Include="Widgets\ArticleListView.cs" />
     <Compile Include="Widgets\ArticleListViewDrop.cs" />
     <Compile Include="Widgets\ArticleListViewPageDrop.cs" />
@@ -266,6 +275,7 @@
     <Compile Include="Widgets\ArticlePageViewPreparer.cs" />
     <Compile Include="Widgets\CheckoutView.cs" />
     <Compile Include="Widgets\CommentForm.cs" />
+    <Compile Include="Widgets\OrderTrackerDetailView.cs" />
     <Compile Include="Widgets\OrderTracker.cs" />
     <Compile Include="Widgets\PageTagLinksView.cs" />
     <Compile Include="Widgets\PageTagLinksViewDrop.cs" />

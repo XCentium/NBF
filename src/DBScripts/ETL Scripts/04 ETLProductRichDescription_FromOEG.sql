@@ -39,7 +39,7 @@ begin
 	delete Content 
 	from Content ct
 		join product p on p.ContentManagerId = ct.ContentManagerId
-		join OEGSystemStaging.dbo.Products sp on convert(nvarchar(max),sp.ProductId) = p.ERPNumber
+		join OEGSystemStaging.dbo.Products sp on sp.Number = p.ERPNumber
 
 	insert into Content 
 	(ContentManagerId, [Name], 

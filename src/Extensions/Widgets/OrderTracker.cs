@@ -57,7 +57,7 @@ namespace Extensions.Widgets
             }
         }
 
-        [RichTextContentField(DisplayName = "Content - Below", IsRequired = true)]
+        [RichTextContentField(DisplayName = "Content - Below")]
         public virtual string ContentBelow
         {
             get
