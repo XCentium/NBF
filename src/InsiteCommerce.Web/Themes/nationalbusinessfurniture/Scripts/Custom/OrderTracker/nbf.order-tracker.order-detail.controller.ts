@@ -1,9 +1,4 @@
 ﻿module nbf.OrderTracker {
-    import Order = insite.order;
-    import Core = insite.core;
-    import Common = insite.common;
-    import Account = insite.account;
-    import Cart = insite.cart;
     "use strict";
 
     export class NbfOrderTrackerOrderDetailController {
@@ -24,23 +19,24 @@
         allowCancellationStatuses: string[];
         allowRmaStatuses: string[];
         orderLoaded: boolean = false;
+        errorLoadingOrder: boolean = false;
 
         static $inject = ["orderService", "nbfOrderTrackerService", "settingsService", "queryString", "coreService", "sessionService", "cartService"];
 
         constructor(
-            protected orderService: Order.IOrderService,
+            protected orderService: insite.order.IOrderService,
             protected nbfOrderTrackerService: INbfOrderTrackerService,
-            protected settingsService: Core.ISettingsService,
-            protected queryString: Common.IQueryStringService,
-            protected coreService: Core.ICoreService,
-            protected sessionService: Account.ISessionService,
-            protected cartService: Cart.ICartService) {
+            protected settingsService: insite.core.ISettingsService,
+            protected queryString: insite.common.IQueryStringService,
+            protected coreService: insite.core.ICoreService,
+            protected sessionService: insite.account.ISessionService,
+            protected cartService: insite.cart.ICartService) {
             this.init();
         }
 
         init(): void {
             this.settingsService.getSettings().then(
-                (settingsCollection: Core.SettingsCollection) => { this.getSettingsCompleted(settingsCollection); },
+                (settingsCollection: insite.core.SettingsCollection) => { this.getSettingsCompleted(settingsCollection); },
                 (error: any) => { this.getSettingsFailed(error); });
 
             this.orderNumber = this.queryString.get("orderId");
@@ -52,7 +48,11 @@
                     this.orderNumber = pathOrderNumber;
                 }
             }
-            this.getOrder(this.orderNumber);
+            if (this.orderNumber) {
+                this.getOrder(this.orderNumber);
+            } else {
+                this.errorLoadingOrder = true;
+            }
             
             this.getOrderStatusMappings();
         }

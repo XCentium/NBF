@@ -1,6 +1,6 @@
 ﻿<div ng-controller="NbfOrderTrackerOrderDetailController as vm" class="ma-order-details [[Model.CssClass]]">
-    <div ng-show="vm.orderLoaded" ng-cloak>
-                <div class="row">
+    <div ng-if="vm.orderLoaded && !vm.errorLoadingOrder" ng-cloak>
+        <div class="row">
             <div class="small-12 medium-3 large-3 columns">
                 <h2>[% translate 'Order #' %] {{vm.order.webOrderNumber}}</h2>
             </div>
@@ -210,20 +210,23 @@
                 </ul>
             </div>
         </div>
+        <script type="text/ng-template" id="/PartialViews/Account-AddressDisplay">
+            [% partialView 'Account-AddressDisplay' %]
+        </script>
+        <script type="text/ng-template" id="/PartialViews/Cart-CartLines">
+            [% partialView 'Cart-CartLines' %]
+        </script>
+        <script type="text/ng-template" id="/PartialViews/Cart-CartTotalDisplay">
+            [% partialView 'Cart-CartTotalDisplay' %]
+        </script>
+        <script type="text/ng-template" id="/PartialViews/Common-ShareEntityModal">
+            [% partialView 'Common-ShareEntityModal' %]
+        </script>
+        <script type="text/ng-template" id="/PartialViews/Common-ShareEntityField">
+            [% partialView 'Common-ShareEntityField' %]
+        </script>
     </div>
-    <script type="text/ng-template" id="/PartialViews/Account-AddressDisplay">
-        [% partialView 'Account-AddressDisplay' %]
-    </script>
-    <script type="text/ng-template" id="/PartialViews/Cart-CartLines">
-        [% partialView 'Cart-CartLines' %]
-    </script>
-    <script type="text/ng-template" id="/PartialViews/Cart-CartTotalDisplay">
-        [% partialView 'Cart-CartTotalDisplay' %]
-    </script>
-    <script type="text/ng-template" id="/PartialViews/Common-ShareEntityModal">
-        [% partialView 'Common-ShareEntityModal' %]
-    </script>
-    <script type="text/ng-template" id="/PartialViews/Common-ShareEntityField">
-        [% partialView 'Common-ShareEntityField' %]
-    </script>
+    <div ng-if="vm.errorLoadingOrder" ng-cloak>
+        <span>[% siteMessage 'OrderTracker_OrderNotFound' 'Order Not Found' %]</span>
+    </div>
 </div>
