@@ -14,7 +14,7 @@ namespace Extensions.Widgets
         private string emailIsInvalidErrorMessage;
         private string emailIsRequiredErrorMessage;
         private string messageIsRequiredErrorMessage;
-        private string topicIsRequiredErrorMessage;
+        private string nameIsRequiredErrorMessage;
 
         /// <summary>Gets or sets the success message.</summary>
         [RichTextContentField(IsRequired = true)]
@@ -30,25 +30,24 @@ namespace Extensions.Widgets
             }
         }
 
-        /// <summary>Gets or sets the email to.</summary>
-        [ListContentField(DisplayName = "Send Email To", InvalidRegExMessage = "Invalid Email Address", IsRequired = true, RegExValidation = "\\w+([-+.']\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*")]
-        public virtual List<string> EmailTo
+        [TextContentField]
+        public virtual string Subject
         {
             get
             {
-                return this.GetValue<List<string>>(nameof(EmailTo), new List<string>(), FieldType.Contextual);
+                return this.GetValue<string>(nameof(Subject), "Comment submitted.", FieldType.Contextual);
             }
             set
             {
-                this.SetValue<List<string>>(nameof(EmailTo), value, FieldType.Contextual);
+                this.SetValue<string>(nameof(Subject), value, FieldType.Contextual);
             }
         }
 
-        public virtual string EmailToValue
+        public virtual string NameIsRequiredErrorMessage
         {
             get
             {
-                return string.Join(",", this.EmailTo.ToArray());
+                return this.nameIsRequiredErrorMessage ?? (this.nameIsRequiredErrorMessage = "Please enter an email address");
             }
         }
 
