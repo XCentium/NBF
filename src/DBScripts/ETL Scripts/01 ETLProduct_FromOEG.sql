@@ -132,9 +132,9 @@ begin
 		ShippingHeight = isnull(scd.[Height],0),
 		QtyPerShippingPackage = isnull(si.QtyPerCarton,0),
 		UrlSegment = sp.Number + '-' + convert(nvarchar(max),spsku.ProductSKUId),
-		IsDiscontinued = case when luStatus.Name = 'Active' then 0 else case when spsku.EffEndDate > getdate() then 0 else 1 end end,
+		IsDiscontinued = case when luStatus.Name = 'Active' and spsku.EffEndDate > getdate() and spsku.IsWebEnabled=1 then 0 else 1 end,
 		ActivateOn = isnull(spsku.EffStartDate,dateadd(day, 10, SYSDATETIMEOFFSET())),
-		DeactivateOn = case when luStatus.Name = 'Active' then spsku.EffEndDate else dateadd(day, -1, SYSDATETIMEOFFSET()) end,
+		DeactivateOn = case when luStatus.Name = 'Active' and spsku.IsWebEnabled=1 then spsku.EffEndDate else dateadd(day, -1, SYSDATETIMEOFFSET()) end,
 		VendorId = v.Id,
 		UPCCode = isnull(sisku.UPCCode,''),
 		ManufacturerItem = spsku.OptionCode,
@@ -198,6 +198,10 @@ begin
 		p.ERPNumber like '%[_]%'
 
 
+	truncate table StyleTraitValueProduct
+	delete from StyleTraitValue
+	delete from StyleTrait
+
 	insert into StyleTrait
 	([StyleClassId], [Name], [SortOrder], [Description], CreatedBy, ModifiedBy)
 	select 
@@ -208,9 +212,10 @@ begin
 		join OEGSystemStaging.dbo.Items si on si.ItemId = sp.ItemId
 		join Product p on p.ERPNumber = sp.Number
 		join StyleClass styles on styles.[Name] = sp.Number 
+		join OEGSystemStaging.dbo.LookupItemStatuses luStatus on luStatus.Id = sp.StatusId
+			and luStatus.Name = 'Active'
 	where 
 		sp.BrandId = @brand
-		and not exists (select Id from StyleTrait where [StyleClassId] = styles.Id and [Description] = convert(nvarchar(max),sisg.Id))
 
 	insert into StyleTraitValue
 	([StyleTraitId], [Description] , [SortOrder], [IsDefault], [Value], CreatedBy, ModifiedBy)
@@ -222,7 +227,6 @@ begin
 		join StyleTrait trait on trait.[Description] = convert(nvarchar(max),sisg.Id)
 	where 
 		isnull(sis.[Name],'') != ''
-		and not exists (select Id from StyleTraitValue where [StyleTraitId] = trait.Id and [Description] = convert(nvarchar(max),sis.SwatchId))
 
 	insert into StyleTraitValueProduct
 	(StyleTraitValueId,ProductId)
@@ -232,13 +236,14 @@ begin
 		OEGSystemStaging.dbo.ItemSKUsSwatches siskus
 		join OEGSystemStaging.dbo.ItemSwatches sis on sis.SwatchId = siskus.SwatchId
 		join OEGSystemStaging.dbo.ProductSKUs spsku on spsku.ItemSKUId = siskus.ItemSKUId
+			and spsku.EffEndDate > getdate() and spsku.IsWebEnabled = 1
 		join OEGSystemStaging.dbo.Products sp on sp.ProductId = spsku.ProductId
 		join Product p on p.ERPNumber = sp.Number + '_' + spsku.OptionCode
 		join StyleTraitValue traitValue on traitValue.[Description] = convert(nvarchar(max),sis.SwatchId)
+		join OEGSystemStaging.dbo.LookupItemStatuses luStatus on luStatus.Id = sp.StatusId
+			and luStatus.Name = 'Active'
 	where
 		sp.BrandId = @brand
-		and not exists (select [StyleTraitValueId] from StyleTraitValueProduct where StyleTraitValueId = traitValue.Id and ProductId = p.Id)
-
 
 /*
 

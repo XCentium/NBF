@@ -108,6 +108,10 @@ begin
 	where etl.Id not in (select Id from [Insite.NBF].dbo.Content)
 
 
+	truncate table [Insite.NBF].dbo.StyleTraitValueProduct
+	delete from [Insite.NBF].dbo.StyleTraitValue
+	delete from [Insite.NBF].dbo.StyleTrait
+
 	insert into [Insite.NBF].dbo.StyleTrait
 	(
 		[Id],[StyleClassId],[Name],[UnselectedValue],[SortOrder],[Description],
@@ -118,8 +122,6 @@ begin
 		[CreatedOn],[CreatedBy],[ModifiedOn],[ModifiedBy]
 	from
 		StyleTrait etl
-	where 
-		not exists (select Id from [Insite.NBF].dbo.StyleTrait where Id = etl.Id)
 
 	insert into [Insite.NBF].dbo.StyleTraitValue
 	(
@@ -131,9 +133,8 @@ begin
 		[CreatedOn],[CreatedBy],[ModifiedOn],[ModifiedBy]
 	from
 		StyleTraitValue etl
-	where 
-		not exists (select Id from [Insite.NBF].dbo.StyleTraitValue where Id = etl.Id)
-		
+
+
 	insert into [Insite.NBF].dbo.StyleTraitValueProduct
 	(
 		[StyleTraitValueId],[ProductId]
@@ -142,9 +143,6 @@ begin
 		[StyleTraitValueId],[ProductId]
 	from
 		StyleTraitValueProduct etl
-	where 
-		not exists (select [StyleTraitValueId] from [Insite.NBF].dbo.StyleTraitValueProduct 
-		where [StyleTraitValueId] = etl.[StyleTraitValueId] and [ProductId] = etl.[ProductId])
 
 /*
 
