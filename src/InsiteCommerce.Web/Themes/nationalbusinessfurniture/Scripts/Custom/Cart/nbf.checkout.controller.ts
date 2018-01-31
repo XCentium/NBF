@@ -1,6 +1,6 @@
-﻿module insite.cart {
+﻿module nbf.Checkout {
     "use strict";
-    import SessionService = account.ISessionService;
+    import SessionService = insite.account.ISessionService;
     import ShipToModel = Insite.Customers.WebApi.V1.ApiModels.ShipToModel;
     import StateModel = Insite.Websites.WebApi.V1.ApiModels.StateModel;
 
@@ -45,10 +45,7 @@
         order: OrderModel;
 
         //Account Creation Variables
-        password: string;
         createError: string;
-
-        orderNumber: string;
 
         static $inject = [
             "$scope",
@@ -65,59 +62,44 @@
             "accountService",
             "settingsService",
             "$timeout",
-            "$q",
             "sessionService",
             "$localStorage",
-            "accessToken"
+            "nbfCheckoutService"
         ];
 
         constructor(
-            protected $scope: ICartScope,
+            protected $scope: insite.cart.ICartScope,
             protected $window: ng.IWindowService,
-            protected cartService: ICartService,
-            protected promotionService: promotions.IPromotionService,
-            protected customerService: customers.ICustomerService,
-            protected websiteService: websites.IWebsiteService,
-            protected coreService: core.ICoreService,
-            protected spinnerService: core.ISpinnerService,
-            protected $attrs: IReviewAndPayControllerAttributes,
-            protected queryString: common.IQueryStringService,
-            protected orderService: order.IOrderService,
-            protected accountService: account.IAccountService,
-            protected settingsService: core.ISettingsService,
+            protected cartService: insite.cart.ICartService,
+            protected promotionService: insite.promotions.IPromotionService,
+            protected customerService: insite.customers.ICustomerService,
+            protected websiteService: insite.websites.IWebsiteService,
+            protected coreService: insite.core.ICoreService,
+            protected spinnerService: insite.core.ISpinnerService,
+            protected $attrs: insite.cart.IReviewAndPayControllerAttributes,
+            protected queryString: insite.common.IQueryStringService,
+            protected orderService: insite.order.IOrderService,
+            protected accountService: insite.account.IAccountService,
+            protected settingsService: insite.core.ISettingsService,
             protected $timeout: ng.ITimeoutService,
-            protected $q: ng.IQService,
             protected sessionService: SessionService,
-            protected $localStorage: common.IWindowStorage,
-            protected accessToken: common.IAccessTokenService) {
+            protected $localStorage: insite.common.IWindowStorage,
+            protected nbfCheckoutService: Checkout.INbfCheckoutService) {
             this.init();
         }
 
         init(): void {
             this.cartId = this.queryString.get("cartId");
 
-            //this.orderNumber = window.location.hash ? window.location.hash.replace('#', '') : '';
-
-            //if (this.orderNumber.length > 0) {
-            //    this.orderService.getOrder(this.orderNumber, "").then(
-            //    (order: OrderModel) => {
-            //        // this.loadStep3();
-            //    },
-            //    (error: any) => { alert("Not Found") });
-            //}
-
             this.websiteService.getAddressFields().then(
                 (model: AddressFieldCollectionModel) => { this.getAddressFieldsCompleted(model); });
 
             this.accountService.getAccount().then(
-                (account: AccountModel) => { this.getAccountCompleted(account); },
-                (error: any) => { this.getAccountFailed(error); });
+                (account: AccountModel) => { this.getAccountCompleted(account); });
 
             this.settingsService.getSettings().then(
-                (settingsCollection: core.SettingsCollection) => { this.getSettingsCompleted(settingsCollection); },
-                (error: any) => { this.getSettingsFailed(error); });
-
-
+                (settingsCollection: insite.core.SettingsCollection) => { this.getSettingsCompleted(settingsCollection); });
+            
             ($(document) as any).foundation({
                 accordion: {
                     // specify the class used for accordion panels
@@ -140,14 +122,9 @@
             });
         }
 
-        protected getSettingsCompleted(settingsCollection: core.SettingsCollection): void {
+        protected getSettingsCompleted(settingsCollection: insite.core.SettingsCollection): void {
             this.customerSettings = settingsCollection.customerSettings;
         }
-
-        protected getSettingsFailed(error: any): void {
-        }
-
-
 
         protected getAddressFieldsCompleted(addressFields: AddressFieldCollectionModel): void {
             this.addressFields = addressFields;
@@ -166,8 +143,7 @@
             }
 
             this.websiteService.getCountries("states").then(
-                (countryCollection: CountryCollectionModel) => { this.getCountriesCompleted(countryCollection); },
-                (error: any) => { this.getCountriesFailed(error); });
+                (countryCollection: CountryCollectionModel) => { this.getCountriesCompleted(countryCollection); });
         }
 
         protected getCartFailed(error: any): void {
@@ -179,17 +155,11 @@
             this.initialIsSubscribed = account.isSubscribed;
         }
 
-        protected getAccountFailed(error: any): void {
-        }
-
         protected getCountriesCompleted(countryCollection: CountryCollectionModel) {
             this.countries = countryCollection.countries;
             this.setUpBillTo();
             this.setUpShipTos();
             this.setSelectedShipTo();
-        }
-
-        protected getCountriesFailed(error: any): void {
         }
 
         protected setUpBillTo(): void {
@@ -307,7 +277,6 @@
                     maxlength: rules.maxLength
                 };
             }
-
             return {
                 required: rules.isRequired
             };
@@ -323,43 +292,6 @@
             $(`#${prefix}state`).rules("add", { required: isRequired });
         }
 
-        continueCheckout(continueUri: string, cartUri: string): void {
-            const valid = $("#addressForm").validate().form();
-            if (!valid) {
-                angular.element("html, body").animate({
-                    scrollTop: angular.element(".error:visible").offset().top
-                }, 300);
-
-                return;
-            }
-
-            this.continueCheckoutInProgress = true;
-            this.cartUri = cartUri;
-
-            if (this.cartId) {
-                continueUri += `?cartId=${this.cartId}`;
-            }
-
-            // if no changes, redirect to next step
-            if (this.$scope.addressForm.$pristine) {
-                this.coreService.redirectToPath(continueUri);
-                return;
-            }
-
-            // if the ship to has been changed, set the shipvia to null so it isn't set to a ship via that is no longer valid
-            if (this.cart.shipTo && this.cart.shipTo.id !== this.selectedShipTo.id) {
-                this.cart.shipVia = null;
-            }
-
-            if (this.customerSettings.allowBillToAddressEdit) {
-                this.customerService.updateBillTo(this.cart.billTo).then(
-                    (billTo: BillToModel) => { this.updateBillToCompleted(billTo); },
-                    (error: any) => { this.updateBillToFailed(error); });
-            } else {
-                this.updateShipTo();
-            }
-        }
-
         continueToStep2(cartUri: string): void {
             const valid = $("#addressForm").validate().form();
             if (!valid) {
@@ -370,6 +302,7 @@
                 return;
             }
 
+            this.spinnerService.show("mainLayout");
             this.continueCheckoutInProgress = true;
             this.cartUri = cartUri;
 
@@ -510,9 +443,13 @@
         }
 
         protected loadStep2() {
+            this.spinnerService.hide("mainLayout");
+
             $("#nav1expanded").hide();
             $("#nav1min").show();
+
             this.step = 2;
+
             $("#payment").addClass("active");
             $("html:not(:animated), body:not(:animated)").animate({
                 scrollTop: $("#nav1").offset().top
@@ -520,7 +457,6 @@
             this.continueCheckoutInProgress = false;
 
             this.reviewAndPayInit();
-
         }
 
         editAddresses() {
@@ -552,12 +488,10 @@
             this.onUseBillingAddressChanged(true);
 
             this.settingsService.getSettings().then(
-                (settings: core.SettingsCollection) => { this.getCartSettingsCompleted(settings); },
-                (error: any) => { this.getCartSettingsFailed(error); });
+                (settings: insite.core.SettingsCollection) => { this.getCartSettingsCompleted(settings); });
 
             this.websiteService.getCountries("states").then(
-                (countryCollection: CountryCollectionModel) => { this.getCountriesCompletedForReviewAndPay(countryCollection); },
-                (error: any) => { this.getCountriesFailedForReviewAndPay(error); });
+                (countryCollection: CountryCollectionModel) => { this.getCountriesCompletedForReviewAndPay(countryCollection); });
         }
 
         protected onCartChanged(event: ng.IAngularEvent): void {
@@ -605,18 +539,12 @@
             }
         }
 
-        protected getCartSettingsCompleted(settingsCollection: core.SettingsCollection): void {
+        protected getCartSettingsCompleted(settingsCollection: insite.core.SettingsCollection): void {
             this.cartSettings = settingsCollection.cartSettings;
-        }
-
-        protected getCartSettingsFailed(error: any): void {
         }
 
         protected getCountriesCompletedForReviewAndPay(countryCollection: CountryCollectionModel) {
             this.countries = countryCollection.countries;
-        }
-
-        protected getCountriesFailedForReviewAndPay(error: any): void {
         }
 
         getCart(isInit?: boolean): void {
@@ -663,8 +591,7 @@
             this.setUpPayPal(isInit);
 
             this.promotionService.getCartPromotions(this.cart.id).then(
-                (promotionCollection: PromotionCollectionModel) => { this.getCartPromotionsCompleted(promotionCollection); },
-                (error: any) => { this.getCartPromotionsFailed(error); });
+                (promotionCollection: PromotionCollectionModel) => { this.getCartPromotionsCompleted(promotionCollection); });
 
             if (!isInit) {
                 this.pageIsReady = true;
@@ -749,9 +676,6 @@
             this.promotions = promotionCollection.promotions;
         }
 
-        protected getCartPromotionsFailed(error: any): void {
-        }
-
         updateCarrier(): void {
             if (this.cart.carrier && this.cart.carrier.shipVias) {
                 if (this.cart.carrier.shipVias.length === 1 && this.cart.carrier.shipVias[0] !== this.cart.shipVia) {
@@ -772,15 +696,11 @@
 
         updateShipVia(): void {
             this.cartService.updateCart(this.cart).then(
-                (cart: CartModel) => { this.updateShipViaCompleted(cart); },
-                (error: any) => { this.updateShipViaFailed(error); });
+                (cart: CartModel) => { this.updateShipViaCompleted(cart); });
         }
 
         protected updateShipViaCompleted(cart: CartModel): void {
             this.getCart();
-        }
-
-        protected updateShipViaFailed(error: any): void {
         }
 
         submit(signInUri: string): void {
@@ -794,6 +714,7 @@
             }
 
             var pass = $("#CreateNewAccountInfo_Password").val();
+
             if (pass) {
                 const newAccount = {
                     email: this.cart.billTo.email,
@@ -803,16 +724,10 @@
                     firstName: this.cart.billTo.firstName,
                     lastName: this.cart.billTo.lastName
                 } as AccountModel;
-                var cart = this.cart;
 
-                this.sessionService.signOut().then(() => {
-                    this.accountService.createAccount(newAccount).then(
-                        (createdAccount: AccountModel) => {
-                            this.createAccountFromGuestCompleted(createdAccount, pass, signInUri, cart);
-                        },
-                        (error: any) => {
-                            this.createAccountFailed(error);
-                        });
+                this.nbfCheckoutService.createAccountFromGuest(this.account.id, newAccount, this.cart.billTo, this.cart.shipTo, pass).then(
+                (account: AccountModel) => {
+                    this.submitOrder(signInUri);
                 });
             } else {
                 this.submitOrder(signInUri);
@@ -837,10 +752,7 @@
             }
 
             this.cart.requestedDeliveryDate = this.formatWithTimezone(this.cart.requestedDeliveryDate);
-
-
-            debugger;
-
+            
             this.spinnerService.show("mainLayout", true);
             this.cartService.updateCart(this.cart, true).then(
                 (cart: CartModel) => { this.submitCompleted(cart); },
@@ -855,7 +767,6 @@
         }
 
         protected submitCompleted(cart: CartModel): void {
-            debugger;
             this.cart.id = cart.id;
             this.cartService.getCart();
             this.loadStep3();
@@ -927,134 +838,6 @@
             return true;
         }
 
-        protected createAccountFromGuestCompleted(account: AccountModel, pass: string, signInUri: string, cart: CartModel): void {
-            this.account = account;
-            this.accessToken.generate(this.account.userName, pass).then(
-                (accessToken: common.IAccessTokenDto) => { this.generateAccessTokenCompleted(account, accessToken, signInUri, cart); },
-                (error: any) => { this.createAccountFailed(error); });
-        }
-
-        protected generateAccessTokenCompleted(account: AccountModel, accessToken: common.IAccessTokenDto, signInUri: string, cart: CartModel): void {
-            this.accessToken.set(accessToken.accessToken);
-            const currentContext = this.sessionService.getContext();
-            currentContext.billToId = account.billToId;
-            currentContext.shipToId = account.shipToId;
-            cart.billTo.id = currentContext.billToId.toString();
-            cart.billTo.isGuest = false;
-            cart.shipTo.id = currentContext.shipToId.toString();
-            cart.shipTo.isDefault = true;
-            this.sessionService.setContext(currentContext);
-
-            this.cart = cart;
-            this.cart.initiatedByUserName = account.id;
-            this.customerService.updateBillTo(this.cart.billTo).then(
-                (billTo: BillToModel) => { this.updateGuestBillToCompleted(billTo, signInUri); },
-                (error: any) => { this.updateGuestBillToFailed(error); });
-        }
-
-        protected updateGuestBillToCompleted(billTo: BillToModel, signInUri): void {
-            this.updateGuestShipTo(signInUri, true);
-        }
-
-        protected updateGuestBillToFailed(error: any): void {
-            
-        }
-
-        protected updateGuestShipTo(signInUri: string, customerWasUpdated?: boolean): void {
-            if (this.customerSettings.allowShipToAddressEdit) {
-                const shipToMatches = this.cart.billTo.shipTos.filter(shipTo => { return shipTo.id === this.selectedShipTo.id; });
-                if (shipToMatches.length === 1) {
-                    this.cart.shipTo = this.selectedShipTo;
-                }
-
-                if (this.cart.shipTo.id !== this.cart.billTo.id) {
-                    this.customerService.addOrUpdateShipTo(this.cart.shipTo).then(
-                        (shipTo: ShipToModel) => { this.addOrUpdateGuestShipToCompleted(shipTo, signInUri, customerWasUpdated ) },
-                        (error: any) => { this.addOrUpdateGuestShipToFailed(error); });
-                } else {
-                    this.updateGuestSession(this.cart, signInUri, customerWasUpdated);
-                }
-            } else {
-                this.updateGuestSession(this.cart, signInUri, customerWasUpdated);
-            }
-        }
-
-        protected addOrUpdateGuestShipToCompleted(shipTo: ShipToModel, signInUri: string, customerWasUpdated?: boolean): void {
-            if (this.cart.shipTo.isNew) {
-                this.cart.shipTo = shipTo;
-            }
-            this.updateGuestSession(this.cart, signInUri, true);
-        }
-
-        protected addOrUpdateGuestShipToFailed(error: any): void {
-            
-        }
-
-        protected updateGuestSession(cart: CartModel, signInUri: string, customerWasUpdated?: boolean): void {
-            console.log(this.cart.billTo.id + "-" + this.cart.shipTo.id);
-            this.sessionService.setCustomer(this.cart.billTo.id, this.cart.shipTo.id, false, customerWasUpdated).then(
-                (session: SessionModel) => { this.updateGuestSessionCompleted(session, this.cart, signInUri); },
-                (error: any) => { this.updateGuestSessionFailed(error); });
-        }
-
-        protected updateGuestSessionCompleted(session: SessionModel, cart: CartModel, signInUri: string) {
-            debugger;
-            if (session.isRestrictedProductRemovedFromCart) {
-                this.$localStorage.set("hasRestrictedProducts", true.toString());
-                this.submitOrder(signInUri);
-            } else {
-                this.getCartAfterGuestChangeShipTo(this.cart, signInUri);
-            }
-        }
-
-        protected updateGuestSessionFailed(error) {
-            
-        }
-
-        protected updateGuestAccountCompleted(cart: CartModel, signInUri: string): void {
-            this.submitOrder(signInUri);
-        }
-
-        protected updateGuestAccountFailed(error: any): void {
-            
-        }
-
-        protected getCartAfterGuestChangeShipTo(cart: CartModel, signInUri: string): void {
-            debugger;
-            this.cartService.expand = "cartlines,shiptos,validation";
-            this.cartService.getCart(this.cartId).then(
-                (cart: CartModel) => { this.getCartAfterGuestChangeShipToCompleted(cart, signInUri); },
-                (error: any) => { this.getCartAfterGuestChangeShipToFailed(error); });
-        }
-
-        protected getCartAfterGuestChangeShipToCompleted(cart: CartModel, signInUri: string): void {
-            debugger;
-            this.cartService.expand = "";
-            this.cart = cart;
-
-            if (!cart.canCheckOut) {
-                this.coreService.displayModal(angular.element("#insufficientInventoryAtCheckout"), () => {
-                    this.submitOrder(signInUri);
-                });
-
-                this.$timeout(() => {
-                    this.coreService.closeModal("#insufficientInventoryAtCheckout");
-                }, 3000);
-            } else {
-                if (this.initialIsSubscribed !== this.account.isSubscribed) {
-                    this.accountService.updateAccount(this.account).then(
-                        () => { this.updateGuestAccountCompleted(this.cart, signInUri); },
-                        (error: any) => { this.updateGuestAccountFailed(error); });
-                } else {
-                    this.submitOrder(signInUri);
-                }
-            }
-        }
-
-        protected getCartAfterGuestChangeShipToFailed(error: any): void {
-            
-        }
-
         protected createAccountFailed(error: any): void {
             this.createError = error.message;
             this.submitting = false;
@@ -1098,20 +881,17 @@
         }
 
         //Order Confirmation Functionality
-
         orderConfirmationInit() {
             this.cartService.expand = "cartlines,carriers";
 
             this.cartService.getCart(this.cart.id).then(
-                (confirmedCart: CartModel) => { this.getConfirmedCartCompleted(confirmedCart); },
-                (error: any) => { this.getConfirmedCartFailed(error); });
+                (confirmedCart: CartModel) => { this.getConfirmedCartCompleted(confirmedCart); });
 
             // get the current cart to update the mini cart
             this.cartService.expand = "";
 
             this.cartService.getCart().then(
-                (cart: CartModel) => { this.getCartCompletedOrderConfirmed(cart); },
-                (error: any) => { this.getCartFailedOrderConfirmed(error); });
+                (cart: CartModel) => { this.getCartCompletedOrderConfirmed(cart); });
         }
 
         protected getConfirmedCartCompleted(confirmedCart: CartModel): void {
@@ -1145,32 +925,20 @@
             }
 
             //Add for refresh:
-            //window.location.hash = this.cart.orderNumber;
+            window.location.hash = this.cart.orderNumber;
 
             this.orderService.getOrder(this.cart.orderNumber, "").then(
-                (order: OrderModel) => { this.getOrderCompleted(order); },
-                (error: any) => { this.getOrderFailed(error); });
+                (order: OrderModel) => { this.getOrderCompleted(order); });
 
             this.promotionService.getCartPromotions(this.cart.id).then(
-                (promotionCollection: PromotionCollectionModel) => { this.getCartPromotionsCompleted(promotionCollection); },
-                (error: any) => { this.getConfirmedCartFailed(error); });
+                (promotionCollection: PromotionCollectionModel) => { this.getCartPromotionsCompleted(promotionCollection); });
         }
-
-        protected getConfirmedCartFailed(error: any): void {
-        }
-
         protected getOrderCompleted(orderHistory: OrderModel): void {
             this.order = orderHistory;
         }
-
-        protected getOrderFailed(error: any): void {
-        }
-
+        
         protected getCartCompletedOrderConfirmed(cart: CartModel): void {
             this.showRfqMessage = cart.canRequestQuote && cart.quoteRequiredCount > 0;
-        }
-
-        protected getCartFailedOrderConfirmed(error: any): void {
         }
     }
 

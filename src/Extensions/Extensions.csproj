@@ -262,6 +262,8 @@
     <Compile Include="Mappers\GetTrackedOrderMapper.cs" />
     <Compile Include="Mappers\Interfaces\IGetTrackedOrderMapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WebApi\GuestCheckout\Controllers\GuestCheckoutController.cs" />
+    <Compile Include="WebApi\GuestCheckout\Models\GuestCheckoutParameter.cs" />
     <Compile Include="WebApi\OrderTracking\Interfaces\IOrderTrackingService.cs" />
     <Compile Include="WebApi\OrderTracking\Models\GetTrackingOrderParameter.cs" />
     <Compile Include="WebApi\OrderTracking\Services\OrderTrackingService.cs" />

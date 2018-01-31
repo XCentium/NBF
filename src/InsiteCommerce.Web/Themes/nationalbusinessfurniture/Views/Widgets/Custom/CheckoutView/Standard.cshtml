@@ -300,16 +300,9 @@
                                         </div>
                                         <div style="color: red;" ng-bind="vm.submitErrorMessage"></div>
                                     </div>
-                                    <div class="promo-code" ng-hide="vm.cart.paymentOptions.isPayPal || vm.cart.type == 'Quote' || vm.cart.type == 'Job'">
-                                        <label>[% translate 'Have a Promotion Code?' %]</label>
-                                        <input id="tst_reviewAndPayPage_promoCode" name="PromoCode" type="text" ng-model="vm.promotionCode"/>
-                                        <span id="tst_reviewAndPayPage_promotionErrorMessage" class="field-validation-error" ng-if="vm.promotionErrorMessage" ng-bind="vm.promotionErrorMessage"></span>
-                                        <span id="tst_reviewAndPayPage_promotionAppliedMessage" class="field-validation-valid" ng-if="vm.promotionAppliedMessage" ng-bind="vm.promotionAppliedMessage"></span>
-                                        <a id="tst_reviewAndPayPage_applyPromoCode" href="" class="btn secondary btn-apply" ng-click="vm.applyPromotion()">[% translate 'Apply_promotion' %]</a>
-                                    </div>
                                 </div>
                                 <div>
-                                    [% siteMessage 'Guest_Checkout_Password_Top' 'For order history, saved carts and more, registor for an NBF account! All you need is to create your password below' %]
+                                    [% siteMessage 'Guest_Checkout_Password_Top' 'For order history, saved carts and more, register for an NBF account! All you need is to create your password below' %]
                                 </div>
                                 <input type="password" id="CreateNewAccountInfo_Password" name="CreateNewAccountInfo.Password" ng-if="vm.cart.billTo.isGuest"
                                        data-rule-minlength="{{settings.passwordMinimumLength}}"
