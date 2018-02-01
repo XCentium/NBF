@@ -84,7 +84,7 @@
 
                                     <div class="item-thumb">
                                         <a ng-href="{{product.productDetailUrl}}">
-                                            <img ng-src="{{product.mediumImagePath}}" alt="{{product.altText}}" increment-images-loaded />
+                                            <img ng-src="https://s7d9.scene7.com/is/image/NationalBusinessFurniture/{{product.mediumImagePath}}?hei=250&id=Iu1rN2&fmt=jpg&fit=constrain,1&wid=250&hei=250" alt="{{product.altText}}" increment-images-loaded />
                                         </a>
                                         <div ng-if="vm.settings.enableProductComparisons" class="product-compare-add">
                                             <a href="javascript:void(0);" data-id="{{product.id}}" class="compare-link" ng-class="{ 'compare-active': product.isBeingCompared }" ng-click="vm.compareProduct(product);">[% translate 'Compare' %]</a>
@@ -166,7 +166,7 @@
                                         <td>
                                             <div class="item-thumb">
                                                 <a ng-href="{{product.productDetailUrl}}">
-                                                    <img ng-src="{{product.mediumImagePath}}" alt="{{product.altText}}" />
+                                                    <img ng-src="https://s7d9.scene7.com/is/image/NationalBusinessFurniture/{{product.mediumImagePath}}?hei=250&id=Iu1rN2&fmt=jpg&fit=constrain,1&wid=250&hei=250" alt="{{product.altText}}" />
                                                 </a>
                                             </div>
                                             <div class="item-description">
@@ -266,7 +266,7 @@
     <div class="compare-hopper" ng-show="vm.canShowCompareHopper()">
         <div class="compare-container">
             <div class="compare-item" ng-repeat="product in vm.productsToCompare">
-                <a href="javascript:void(0);" class="compare-remove" ng-click="vm.clickRemove(product)">[% translate 'Remove' %]</a><img ng-src="{{product.smallImagePath}}" alt="product.altText" />
+                <a href="javascript:void(0);" class="compare-remove" ng-click="vm.clickRemove(product)">[% translate 'Remove' %]</a><img ng-src="https://s7d9.scene7.com/is/image/NationalBusinessFurniture/{{product.smallImagePath}}?hei=250&id=Iu1rN2&fmt=jpg&fit=constrain,1&wid=100&hei=100" alt="product.altText" />
                 <div class="item-name">
                     <a data-id="product.id" href="javascript:void(0);">{{product.shortDescription}}</a>
                 </div>
