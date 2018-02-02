@@ -9,6 +9,8 @@ using System;
 using Insite.Core.Context;
 using Insite.Data.Entities;
 using Extensions.WebApi.Messages.Interfaces;
+using Extensions.Handlers.Interfaces;
+using Extensions.Handlers.Helpers;
 
 namespace Extensions.WebApi.Messages.Repository
 {
@@ -16,15 +18,20 @@ namespace Extensions.WebApi.Messages.Repository
     {
         private const bool IgnoreCase = true;
         private IUnitOfWork UnitOfWork;
+        protected readonly Lazy<INbfListrakHelper> GetListrakHelper;
 
-        public MessageRepository(IUnitOfWorkFactory unitOfWorkFactory, ICustomerService customerService, IProductService productService, IAuthenticationService authenticationService)
+        public MessageRepository(IUnitOfWorkFactory unitOfWorkFactory, ICustomerService customerService, IProductService productService, IAuthenticationService authenticationService, Lazy<INbfListrakHelper> getListrakHelper)
             : base(unitOfWorkFactory, customerService, productService, authenticationService)
         {
             this.UnitOfWork = unitOfWorkFactory.GetUnitOfWork();
+            this.GetListrakHelper = getListrakHelper;
         }
 
         public bool CreateMessage(CreateMessageParameter parameter)
         {
+            
+            this.GetListrakHelper.Value.SendTransactionalEmail(new System.Dynamic.ExpandoObject(), new Insite.Core.Interfaces.Plugins.Emails.SendEmailParameter(), this.UnitOfWork);
+            return true;
             IRepository<Insite.Data.Entities.Message> repository = UnitOfWork.GetRepository<Insite.Data.Entities.Message>();
             Insite.Data.Entities.Message message = repository.Create();
             message.LanguageId = new Guid?(SiteContext.Current.LanguageDto.Id);
