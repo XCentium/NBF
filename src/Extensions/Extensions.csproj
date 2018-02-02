@@ -266,6 +266,8 @@
     <Compile Include="Mappers\Interfaces\IGetTrackedOrderMapper.cs" />
     <Compile Include="Plugins\Pricing\PricingServiceNBF.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WebApi\GuestCheckout\Controllers\GuestCheckoutController.cs" />
+    <Compile Include="WebApi\GuestCheckout\Models\GuestCheckoutParameter.cs" />
     <Compile Include="WebApi\Base\BaseRepository.cs" />
     <Compile Include="WebApi\Messages\Controllers\NBFMessagesController.cs" />
     <Compile Include="WebApi\Messages\Interfaces\IMessageRepository.cs" />

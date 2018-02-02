@@ -7,7 +7,7 @@
 [% capture CheckoutButtons %]
 <a ng-if="vm.cart.properties['isPunchout']" ng-href="/punchout/punchoutsubmitporequisition.isch" isc-full-redirect class="btn primary btn-checkout">[% translate 'Checkout' %]</a>
 <a ng-if="vm.cart.canCheckOut && !vm.cart.properties['isPunchout']" class="btn primary btn-checkout tst_cartPage_checkout"
-   ng-href="{{vm.cart.canBypassCheckoutAddress ? '[% urlForPage 'ReviewAndPayPage' %]' + vm.cart.cartIdParam : '[% urlForPage 'CheckoutAddressPage' %]' + vm.cart.cartIdParam}}">[% translate 'Checkout' %]</a>
+   ng-click="vm.checkout('[% urlForPage 'CheckoutAddressPage' %]')" href="javascript: void(0);">[% translate 'Checkout' %]</a>
 <a ng-if="!vm.cart.canCheckOut && !vm.cart.properties['isPunchout'] && !vm.cart.canRequisition" class="btn primary btn-checkout tst_cartPage_checkoutDisabled disabled" href="javascript:void(0)">[% translate 'Checkout' %]</a>
 <a ng-if="vm.cart.canRequestQuote" href="[% urlForPage 'RfqRequestQuotePage' %]" class="btn primary btn-request-quote tst_cartPage_submitQuote"
    ng-bind="vm.cart.isSalesperson ? '[% translate 'Create a Quote' %]' : '[% translate 'Request a Quote' %]'" ng-disabled="vm.cart.isAwaitingApproval"></a>

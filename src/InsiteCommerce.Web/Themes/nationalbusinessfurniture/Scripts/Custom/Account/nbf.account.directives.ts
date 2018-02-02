@@ -1,4 +1,4 @@
-﻿module insite.account {
+﻿module nbf.account {
     "use strict";
 
     angular

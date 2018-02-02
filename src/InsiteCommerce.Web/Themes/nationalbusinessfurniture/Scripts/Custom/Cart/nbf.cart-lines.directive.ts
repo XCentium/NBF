@@ -1,4 +1,4 @@
-﻿module insite.cart {
+﻿module nbf.cart {
     "use strict";
 
     angular

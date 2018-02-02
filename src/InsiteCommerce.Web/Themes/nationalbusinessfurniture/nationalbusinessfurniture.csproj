@@ -117,10 +117,10 @@
     <Content Include="Scripts\Libraries\sticky.js" />
     <Content Include="theme.json" />
     <TypeScriptCompile Include="Scripts\Custom\Account\nbf.account.directives.ts" />
+    <TypeScriptCompile Include="Scripts\Custom\Cart\nbf.cart.controller.ts" />
+    <TypeScriptCompile Include="Scripts\Custom\Cart\nbf.checkout.service.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Cart\nbf.cart-total-display.directive.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Cart\nbf.cart-lines.directive.ts" />
-    <TypeScriptCompile Include="Scripts\Custom\Cart\nbf.order-confirmation.controller.ts" />
-    <TypeScriptCompile Include="Scripts\Custom\Cart\nbf.review-and-pay.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Cart\nbf.checkout.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Comments\nbf.commentmessage.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Comments\nbf.commentmessage.service.ts" />
@@ -503,6 +503,7 @@
   <ItemGroup>
     <Content Include="Views\Widgets\Custom\CommentForm\Standard.cshtml" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="Views\Widgets\Custom\OrderTracker\Standard.cshtml" />
   </ItemGroup>
