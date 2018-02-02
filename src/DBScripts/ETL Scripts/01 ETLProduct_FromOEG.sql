@@ -103,12 +103,14 @@ begin
 		sp.Number + '_' + spsku.OptionCode ERPNumber,
 		'',
 		ltrim(rtrim(isnull(sisku.[Description],''))) ERPDescription,
-		ltrim(rtrim(isnull(spsku.[Description],''))) ShortDescription,
+		ltrim(rtrim(isnull(spwd.[Description],''))) + ' - ' + ltrim(rtrim(isnull(spsku.[Description],''))) ShortDescription,
 		sp.Number + '-' + convert(nvarchar(max),spsku.ProductSKUId) UrlSegment,
 		NEWID() ContentManagerId
 	from 
 		OEGSystemStaging.dbo.Products sp
 		join OEGSystemStaging.dbo.Items si on si.ItemId = sp.ItemId
+		left join OEGSystemStaging.dbo.ProductsWebDescriptions spwd on spwd.ProductId = sp.ProductId
+			and spwd.TypeId = 1
 		join OEGSystemStaging.dbo.ProductSKUs spsku on spsku.ProductId = sp.ProductId
 		join OEGSystemStaging.dbo.ItemSKUs sisku on sisku.ItemSKUId = spsku.ItemSKUId
 		join OEGSystemStaging.dbo.LookupItemClasses sic on sic.ClassId = si.ClassId
@@ -122,7 +124,7 @@ begin
 
 	update Product set
 		ERPDescription = ltrim(rtrim(isnull(sisku.[Description],''))),
-		ShortDescription = ltrim(rtrim(isnull(spsku.[Description],''))),
+		ShortDescription = ltrim(rtrim(isnull(spwd.[Description],''))) + ' - ' + ltrim(rtrim(isnull(spsku.[Description],''))),
 		UnitOfMeasure = isnull(luUOM.Code,''),
 		UnitOfMeasureDescription = isnull(luUOM.[Name],''),
 		Sku = isnull(sisku.SKUNumber,''),
@@ -145,6 +147,8 @@ begin
 	from 
 		OEGSystemStaging.dbo.Products sp
 		join OEGSystemStaging.dbo.Items si on si.ItemId = sp.ItemId
+		left join OEGSystemStaging.dbo.ProductsWebDescriptions spwd on spwd.ProductId = sp.ProductId
+			and spwd.TypeId = 1
 		join OEGSystemStaging.dbo.ProductSKUs spsku on spsku.ProductId = sp.ProductId
 		join OEGSystemStaging.dbo.ItemSKUs sisku on sisku.ItemSKUId = spsku.ItemSKUId
 		left join OEGSystemStaging.dbo.LookupUnitOfMeasures luUOM on luUOM.Id = si.UnitOfMeasureId

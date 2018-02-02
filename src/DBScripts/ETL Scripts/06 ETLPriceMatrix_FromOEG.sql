@@ -15,47 +15,66 @@ begin
 
 	-- regular price
 
-	;with helper as
-	(
-	select 
-		ROW_NUMBER() OVER (partition by pp.ProductId order by pp.ProductId) RowNumber, 
-		pp.ProductId, pp.Quantity, pp.Price 
-	from 
-		OEGSystemStaging.dbo.ProductPrices pp
-		join OEGSystemStaging.dbo.products p on p.ProductId = pp.ProductId and p.BrandId = 1
-	where 
-		EffStartDate < getdate()
-		and effenddate > getdate()
-		and pp.PricingTierId = 1
-		--and pp.productid in (82186,83689,115857)
-	)
-	insert into PriceMatrix 
-	([RecordType], [CurrencyCode], [Warehouse], [UnitOfMeasure], [CustomerKeyPart], [ProductKeyPart], 
-	[ActivateOn], [DeactivateOn], [CalculationFlags],
-	[PriceBasis01], [AdjustmentType01], [AltAmount01],
-	[BreakQty01], [Amount01],
-	[CreatedBy], [ModifiedBy])
-	select 
-		'Customer Price Code/Product', 'USD', '', '', '', p.Id, 
-		dateadd(day, -1, SYSDATETIMEOFFSET()), null, '',
-		'O', 'A', 0,
-		h.Quantity, h.Price,
-		'etl','etl'
-	from
-		helper h
-		join OEGSystemStaging.dbo.Products sp on sp.ProductId = h.ProductId
-		join Product p on p.ERPNumber = sp.Number
-		where RowNumber = 1
+	exec ETLPriceMatrix_ByPriceCode_FromOEG 1, '', 1
+	exec ETLPriceMatrix_ByPriceCode_FromOEG 1, '', 2
+	exec ETLPriceMatrix_ByPriceCode_FromOEG 1, '', 3
+	exec ETLPriceMatrix_ByPriceCode_FromOEG 1, '', 4
+	exec ETLPriceMatrix_ByPriceCode_FromOEG 1, '', 5
+	exec ETLPriceMatrix_ByPriceCode_FromOEG 1, '', 6
+	exec ETLPriceMatrix_ByPriceCode_FromOEG 1, '', 7
+	exec ETLPriceMatrix_ByPriceCode_FromOEG 1, '', 8
+	exec ETLPriceMatrix_ByPriceCode_FromOEG 1, '', 9
+	exec ETLPriceMatrix_ByPriceCode_FromOEG 1, '', 10
+	exec ETLPriceMatrix_ByPriceCode_FromOEG 1, '', 11
 
+	-- gsa
 
+	exec ETLPriceMatrix_ByPriceCode_FromOEG 1, 'gsa', 1
+	exec ETLPriceMatrix_ByPriceCode_FromOEG 1, 'gsa', 2
+	exec ETLPriceMatrix_ByPriceCode_FromOEG 1, 'gsa', 3
+	exec ETLPriceMatrix_ByPriceCode_FromOEG 1, 'gsa', 4
+	exec ETLPriceMatrix_ByPriceCode_FromOEG 1, 'gsa', 5
+	exec ETLPriceMatrix_ByPriceCode_FromOEG 1, 'gsa', 6
+	exec ETLPriceMatrix_ByPriceCode_FromOEG 1, 'gsa', 7
+	exec ETLPriceMatrix_ByPriceCode_FromOEG 1, 'gsa', 8
+	exec ETLPriceMatrix_ByPriceCode_FromOEG 1, 'gsa', 9
+	exec ETLPriceMatrix_ByPriceCode_FromOEG 1, 'gsa', 10
+	exec ETLPriceMatrix_ByPriceCode_FromOEG 1, 'gsa', 11
 
+	-- sale
+
+	exec ETLPriceMatrix_ByPriceCode_FromOEG 1, 'sale', 1
+	exec ETLPriceMatrix_ByPriceCode_FromOEG 1, 'sale', 2
+	exec ETLPriceMatrix_ByPriceCode_FromOEG 1, 'sale', 3
+	exec ETLPriceMatrix_ByPriceCode_FromOEG 1, 'sale', 4
+	exec ETLPriceMatrix_ByPriceCode_FromOEG 1, 'sale', 5
+	exec ETLPriceMatrix_ByPriceCode_FromOEG 1, 'sale', 6
+	exec ETLPriceMatrix_ByPriceCode_FromOEG 1, 'sale', 7
+	exec ETLPriceMatrix_ByPriceCode_FromOEG 1, 'sale', 8
+	exec ETLPriceMatrix_ByPriceCode_FromOEG 1, 'sale', 9
+	exec ETLPriceMatrix_ByPriceCode_FromOEG 1, 'sale', 10
+	exec ETLPriceMatrix_ByPriceCode_FromOEG 1, 'sale', 11
+
+	-- medical
+
+	exec ETLPriceMatrix_ByPriceCode_FromOEG 1, 'medical', 1
+	exec ETLPriceMatrix_ByPriceCode_FromOEG 1, 'medical', 2
+	exec ETLPriceMatrix_ByPriceCode_FromOEG 1, 'medical', 3
+	exec ETLPriceMatrix_ByPriceCode_FromOEG 1, 'medical', 4
+	exec ETLPriceMatrix_ByPriceCode_FromOEG 1, 'medical', 5
+	exec ETLPriceMatrix_ByPriceCode_FromOEG 1, 'medical', 6
+	exec ETLPriceMatrix_ByPriceCode_FromOEG 1, 'medical', 7
+	exec ETLPriceMatrix_ByPriceCode_FromOEG 1, 'medical', 8
+	exec ETLPriceMatrix_ByPriceCode_FromOEG 1, 'medical', 9
+	exec ETLPriceMatrix_ByPriceCode_FromOEG 1, 'medical', 10
+	exec ETLPriceMatrix_ByPriceCode_FromOEG 1, 'medical', 11
 
 /*
 exec ETLPriceMatrix_FromOEG
-select * from PriceMatrix
+exec ETLPriceMatrix_ToInsite
+select * from PriceMatrix where breakqty05 != 0
 
-select top 1000 * from OEGSystemStaging.dbo.ProductPrices spp
-where spp.PricingTierId = 1
+
 
 */
 
