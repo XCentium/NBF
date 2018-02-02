@@ -707,7 +707,6 @@
             this.submitting = true;
             this.submitErrorMessage = "";
 
-
             if (!this.validateReviewAndPayForm()) {
                 this.submitting = false;
                 return;
@@ -726,7 +725,7 @@
                 } as AccountModel;
 
                 this.nbfCheckoutService.createAccountFromGuest(this.account.id, newAccount, this.cart.billTo, this.cart.shipTo, pass).then(
-                (account: AccountModel) => {
+                () => {
                     this.submitOrder(signInUri);
                 });
             } else {
@@ -925,7 +924,7 @@
             }
 
             //Add for refresh:
-            window.location.hash = this.cart.orderNumber;
+            //window.location.hash = this.cart.orderNumber;
 
             this.orderService.getOrder(this.cart.orderNumber, "").then(
                 (order: OrderModel) => { this.getOrderCompleted(order); });
