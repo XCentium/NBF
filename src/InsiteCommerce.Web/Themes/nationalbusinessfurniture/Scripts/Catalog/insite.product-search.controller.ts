@@ -329,7 +329,7 @@ module insite.catalog {
                 additionalInfo += `<span class='manufacturer-item-number'><span class='label'>${manufacturerItemNumberLabel}</span><span class='value'>${manufacturerItemNumber}</span></span>`;
             }
 
-            return `<div class="group-${suggestion.type} tst_autocomplete_product_${suggestion.id}"><div class="image"><img src='${suggestion.image}' /></div><div><div class='shortDescription'>${shortDescription}</div>${additionalInfo}</div></div>`;
+            return `<div class="group-${suggestion.type} tst_autocomplete_product_${suggestion.id}"><div class="image"><img src='https://s7d9.scene7.com/is/image/NationalBusinessFurniture/${suggestion.image}?hei=100&id=Iu1rN2&fmt=jpg&fit=constrain,1&wid=100&hei=100' /></div><div><div class='shortDescription'>${shortDescription}</div>${additionalInfo}</div></div>`;
         }
 
         onEnter(): void {
