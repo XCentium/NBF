@@ -326,6 +326,6 @@
     </VisualStudio>
   </ProjectExtensions>
   <PropertyGroup>
-    <PreBuildEvent>powershell.exe -ExecutionPolicy ByPass -File $(SolutionDir)\tools\PowerShellScripts\validateReferences.ps1 -allowedLibrariesPath $(SolutionDir)\Tools\PowerShellScripts\allowedLibraries.txt -projectPath  $(SolutionDir)\Extensions\Extensions.csproj</PreBuildEvent>
+    <PreBuildEvent>powershell.exe -ExecutionPolicy ByPass -File $(ProjectDir)\..tools\PowerShellScripts\validateReferences.ps1 -allowedLibrariesPath $(ProjectDir)\..Tools\PowerShellScripts\allowedLibraries.txt -projectPath  $(ProjectDir)\..\Extensions\Extensions.csproj</PreBuildEvent>
   </PropertyGroup>
 </Project>
