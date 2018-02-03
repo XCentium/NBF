@@ -37,10 +37,12 @@ begin
 			--and p.Number in ('')
 		)
 		insert into PriceMatrix 
-		([RecordType], [CurrencyCode], [Warehouse], [UnitOfMeasure], [CustomerKeyPart], [ProductKeyPart], [ActivateOn], [DeactivateOn], [CalculationFlags], [PriceBasis01], [AdjustmentType01], [AltAmount01],
+		([RecordType], 
+		[CurrencyCode], [Warehouse], [UnitOfMeasure], [CustomerKeyPart], [ProductKeyPart], [ActivateOn], [DeactivateOn], [CalculationFlags], [PriceBasis01], [AdjustmentType01], [AltAmount01],
 		[BreakQty01], [Amount01], [CreatedBy], [ModifiedBy])
 		select 
-			'Customer Price Code/Product', 'USD', '', '', @pricecode, p.Id, dateadd(day, -1, SYSDATETIMEOFFSET()), null, '', 'O', 'A', 0,
+			case when @pricecode = '' then 'Product' else 'Customer Price Code/Product' end, 
+			'USD', '', '', @pricecode, p.Id, dateadd(day, -1, SYSDATETIMEOFFSET()), null, '', 'O', 'A', 0,
 			h.Quantity, h.Price, 'etl','etl'
 		from
 			helper h

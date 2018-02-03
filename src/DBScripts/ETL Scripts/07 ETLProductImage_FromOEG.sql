@@ -97,7 +97,7 @@ begin
 		h.MediumImagePath,
 		h.LargeImagePath,
 		h.AltText, 
-		h.RowNumber+10 SortOrder,
+		h.RowNumber SortOrder,
 		'etl','etl'
 	from
 		helper h
