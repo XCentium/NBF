@@ -1,0 +1,78 @@
+﻿
+@import "../variables";
+
+.callout-wrap {
+    position: relative;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    padding-bottom: 41%;
+    margin-bottom:80px;
+
+    h3 {
+        margin-bottom: .5em;
+    }
+
+    .callout-link {
+        &:after {
+            content: "\f30b";
+            font-family: $FontAwesome;
+            color: $nbf-orange;
+            left: 15px;
+            position: relative;
+        }
+    }
+
+    .callout-content {
+        position: absolute;
+        padding: 30px 40px;
+        background-color: $nbf-white-95;
+        width: 486px;
+    }
+
+
+    &.navy {
+
+        .callout-content {
+            background-color: $nbf-navy-95;
+            color: $nbf-white;
+
+            .callout-link {
+                color: $nbf-white;
+
+                &:after {
+                    color: $nbf-white;
+                }
+            }
+        }
+    }
+
+    &.bottomright {
+
+        .callout-content {
+            bottom: 40px;
+            right: 0;
+        }
+    }
+
+    &.topleft {
+        .callout-content {
+            top: 40px;
+            left: 0;
+        }
+    }
+
+    &.bottomleft {
+        .callout-content {
+            bottom: 40px;
+            left: 0;
+        }
+    }
+
+    &.topright {
+        .callout-content {
+            top: 40px;
+            right: 0;
+        }
+    }
+}

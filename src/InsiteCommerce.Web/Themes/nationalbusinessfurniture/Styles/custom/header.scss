@@ -1,0 +1,125 @@
+﻿@import "../variables";
+
+
+#header {
+
+    .head-row {
+
+        .search-container {
+                padding-top: 3em;
+                padding-left:32px;
+                padding-right:32px;
+
+            form {
+                border-bottom: 1px solid #D5D5D5;
+            }
+
+
+            .search-input {
+                width: 88%;
+
+                .isc-searchAutoComplete {
+                    border: none;
+
+                    &:focus {
+                        box-shadow: none;
+                    }
+                }
+            }
+
+            .search-button {
+                button {
+                    margin-bottom: 0;
+                    background-color: transparent;
+                    padding: 0;
+                    font-size: 18px;
+                    vertical-align: bottom;
+                    height: 24px;
+                    width: 24px;
+                    border: 0;
+
+                    &:after {
+                        color: #737373;
+                    }
+
+                    &:hover {
+                        background-color: transparent;
+                        color: $nbf-charcoal;
+                    }
+                }
+            }
+        }
+    }
+
+    .header-zone {
+        &.rt {
+            .col1 {
+                padding-top: 24px;
+                padding-bottom: 24px;
+            }
+
+            .web-code {
+                font-size: 14px;
+                line-height: 17px;
+                display: block;
+            }
+
+            .phone {
+                display: block;
+                font-size: 36px;
+                font-weight: 500;
+                line-height: 46px;
+            }
+
+            .chat {
+                font-size: 14px;
+                line-height: 17px;
+                display: block;
+            }
+
+            .row {
+                display: -moz-box;
+                display: -webkit-flexbox;
+                display: -ms-flexbox;
+                display: -webkit-flex;
+                display: -moz-flex;
+                display: flex;
+                
+                @media only screen and (max-width: 1025px) {
+                    display:block;
+                }
+
+                .guarantee-wrap {
+                    display: -moz-box;
+                    display: -webkit-flexbox;
+                    display: -ms-flexbox;
+                    display: -webkit-flex;
+                    display: -moz-flex;
+                    display: flex;
+                    justify-content: center;
+                    flex-direction: column;
+                    text-align: center;
+                    letter-spacing: 1px;
+                    color: $nbf-orange;
+                    background-image:url('/userfiles/systemimages/sprocket.png');
+                    background-position:center;
+                    background-repeat: no-repeat;
+                    padding: 30px 0;
+
+
+                    .first-line {
+                        display: block;
+                        line-height: normal;
+                        font-weight: bold;
+                        font-size: 1.4em;
+                    }
+
+                    .second-line {
+                        display: block;
+                        line-height: normal;
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,39 @@
+﻿@import "../variables";
+
+
+
+label {
+    font-size:16px;
+    line-height:1.5em;
+}
+
+
+input, select {
+    border: 1px solid #D5D5D5;
+    background-color: $nbf-white;
+    height: 46px;
+    padding: 0px 20px;
+
+    &:focus {
+        border-color:$nbf-charcoal;
+        box-shadow: 0 2px 5px 0 rgba(0,0,0,0.1);
+    }
+}
+
+.input-email-icon {
+    &:before {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        display: inline-block;
+        font: normal normal normal 14px/1 FontAwesome;
+        content: "\f0e0";
+        font-size: 18px;
+        left: 20px;
+        pointer-events: none;
+    }
+
+    input {
+        padding-left:50px;
+    }
+}

@@ -1,0 +1,21 @@
+﻿
+@import "../variables";
+.widget-1column {
+    &.no-margin {
+        padding-right:0;
+        padding-left:0;
+    }
+}
+
+.narrow-container {
+    & > .row {
+
+        margin-left: -0.9375rem;
+        margin-right: -0.9375rem;
+        max-width: 1200px;
+
+        @media all and (min-width: 1230px) {
+            margin: 0 auto;
+        }
+    }
+}

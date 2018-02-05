@@ -112,6 +112,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Scripts\sticky.js" />
+    <Content Include="Styles\custom\font-awesome.css" />
+    <Content Include="Styles\fonts\fontawesome-webfont.svg" />
+    <Content Include="Styles\img\sprocket.png" />
     <Content Include="theme.json" />
     <TypeScriptCompile Include="Scripts\Custom\Account\nbf.account.directives.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Cart\nbf.cart-total-display.directive.ts" />
@@ -493,6 +496,62 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Widgets\Custom\CommentForm\Standard.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Styles\custom\footer.scss" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Styles\variables.scss" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Styles\custom\top-nav-container.scss" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Styles\custom\buttons.scss" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Styles\custom\forms.scss" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Styles\custom\header.scss" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Widgets\Custom\FooterView\Standard.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Styles\fonts\fontawesome-webfont.eot" />
+    <Content Include="Styles\fonts\fontawesome-webfont.ttf" />
+    <Content Include="Styles\fonts\fontawesome-webfont.woff" />
+    <Content Include="Styles\fonts\fontawesome-webfont.woff2" />
+    <Content Include="Styles\fonts\FontAwesome.otf" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Styles\fonts\proximanova-bold-italic.woff" />
+    <Content Include="Styles\fonts\proximanova-bold.woff" />
+    <Content Include="Styles\fonts\proximanova-extrabold.woff" />
+    <Content Include="Styles\fonts\proximanova-light-italic.woff" />
+    <Content Include="Styles\fonts\proximanova-light.woff" />
+    <Content Include="Styles\fonts\proximanova-regular-italic.woff" />
+    <Content Include="Styles\fonts\proximanova-regular.woff" />
+    <Content Include="Styles\fonts\proximanova-semibold.woff" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Styles\custom\user-nav.scss" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="compilerconfig.json" />
+    <None Include="compilerconfig.json.defaults">
+      <DependentUpon>compilerconfig.json</DependentUpon>
+    </None>
+    <Content Include="Styles\custom\column-widget.scss" />
+    <Content Include="Styles\custom\page-banner.scss" />
+    <Content Include="Styles\custom\header-message.scss" />
+    <Content Include="Styles\custom\square-grid.scss" />
+    <Content Include="Views\Widgets\Custom\ProductCTA\Standard.cshtml" />
+    <Content Include="Views\Widgets\Custom\Banner\Standard.cshtml" />
+    <Content Include="Styles\custom\breadcrumbs.scss" />
+    <Content Include="Styles\custom\callouts.scss" />
+    <Content Include="Views\Widgets\Custom\ProductCTA\four-square.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

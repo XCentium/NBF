@@ -60,6 +60,12 @@
     "Scripts/Common/insite.base-popup.service.ts",
     "Scripts/*"
   ],
+  "fonts": [
+    "Styles/fonts/*"
+  ],
+  "images": [
+    "Styles/img/*"
+  ],
   "Styles": [
     "Styles/normalize.css",
     "Styles/foundation.css",
@@ -67,7 +73,9 @@
     "~/SystemResources/Scripts/Libraries/pickadate/3.5.0-custom/themes/classic.date.css",
     "~/SystemResources/Scripts/Libraries/jquery-ui/1.9.2/jquery-ui.custom.css",
     "Styles/flexslider.css",
+    "Styles/custom/font-awesome.css",
     "Styles/base.scss",
+    "Styles/custom/buttons.scss",
     "~/SystemResources/Scripts/Libraries/zurb-responsive-tables/0.0.0/responsive-tables.css",
     "Styles/template/sign-in.scss",
     "Styles/template/ma-settings.scss",
@@ -111,7 +119,8 @@
     "Styles/template/compare-hopper.scss",
     "Styles/template/product-detail.scss",
     "Styles/template/ma-recently-purchased.scss",
-    "Styles/custom/checkout.scss"
+    "Styles/custom/checkout.scss",
+    "Styles/custom/*"
   ],
   "Widgets": {
     // override the default template used for a widget. Standard will be used unless one is specified here.

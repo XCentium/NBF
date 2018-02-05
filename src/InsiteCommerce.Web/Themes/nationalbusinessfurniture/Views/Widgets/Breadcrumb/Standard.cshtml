@@ -1,12 +1,22 @@
-﻿<ul class="widget-breadcrumb breadcrumbs [[Model.CssClass]]">
-    [% for parent in Model.Drop.Parents -%]
-    <li class="[[parent.CssClass]]">
-        <a href="[[parent.Url]]">
-            [[parent.Title]]
-        </a>
-    </li>
-    [% endfor -%]
-    <li class="hide-for-small current">
-        [[CurrentPage.Title]]
-    </li>
-</ul>
+﻿<div class="row breadcrumb-wrap">
+    <ul class="widget-breadcrumb breadcrumbs [[Model.CssClass]]">
+        [% for parent in Model.Drop.Parents -%]
+        <li class="[[parent.CssClass]]">
+            <a href="[[parent.Url]]">
+                [[parent.Title]]
+            </a>
+        </li>
+        [% endfor -%]
+        <li class="hide-for-small current">
+            [[CurrentPage.Title]]
+        </li>
+    </ul>
+    <ul class="share-links">
+        <li>Share</li>
+        <li class="cell"><a href="#"><i class="fa fa-envelope" aria-hidden="true"></i></a></li>
+        <li class="cell"><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+        <li class="cell"><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+        <li class="cell"><a href="#"><i class="fa fa-pinterest-p" aria-hidden="true"></i></a></li>
+        <li><a href="#" class="btn btn-secondary btn-sahre btn-navy">Print Page</a></li>
+    </ul>
+</div>
