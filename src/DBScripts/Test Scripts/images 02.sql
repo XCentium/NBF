@@ -1,19 +1,19 @@
 select productid from products where number like '56289%' and statusid = 1
 
-select * from products where Number = '56816'
-select * from  ProductSKUs where ProductId = 156450 and OptionCode = '11'
+select * from products where Number = '41899'
+select * from  ProductSKUs where ProductId = 222479 and OptionCode = '11'
 
 select * from ProductSKUs where 
 productid = 115815 and IsWebEnabled > 0
 
-select * from ProductWebImages where productid = 83460 and (UsageId = 1 or IsPrimary = 1)
+select * from ProductWebImages where productid = 41899 and (UsageId = 1 or IsPrimary = 1)
 order by IsPrimary desc, WebSortOrder
 
 select * from ProductSkusWebImages where productskuid in 
 (
-select productskuid from ProductSKUs where productid = 156450 and IsWebEnabled > 0
+select productskuid from ProductSKUs where productid = 222479 and IsWebEnabled > 0
 )
-select * from ProductWebImages where productid = 156450 
+select * from ProductWebImages where productid = 222479 
 
 select pswi.ProductSKUId, count(*) from ProductSkusWebImages pswi
 join ProductWebImages pwi on pwi.WebImageId = pswi.WebImageId
