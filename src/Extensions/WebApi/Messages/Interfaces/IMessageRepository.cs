@@ -1,5 +1,6 @@
 ﻿using Extensions.WebApi.Messages.Models;
 using Insite.Core.Interfaces.Dependency;
+using System.Threading.Tasks;
 
 namespace Extensions.WebApi.Messages.Interfaces
 {

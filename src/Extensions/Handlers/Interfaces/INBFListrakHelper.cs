@@ -6,11 +6,13 @@ using Insite.Core.Interfaces.Data;
 using Insite.Core.Interfaces.Dependency;
 using Insite.Core.Interfaces.Plugins.Emails;
 using System.Dynamic;
+using System.Threading.Tasks;
+using Extensions.WebApi.Listrak.Models;
 
 namespace Extensions.Handlers.Interfaces
 {
     public interface INbfListrakHelper : IDependency, IExtension
     {
-        bool SendTransactionalEmail(ExpandoObject templateData, SendEmailParameter sendEmailParameter, IUnitOfWork unitOfWork);
+        Task<bool> SendTransactionalEmail(SendTransationalMessageParameter parameter, IUnitOfWork unitOfWork);
     }
 }

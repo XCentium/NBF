@@ -12,25 +12,29 @@ using Insite.Core.Interfaces.Plugins.Emails;
 using System.Net.Http;
 using Microsoft.Owin.Security;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using System.Collections;
+using Extensions.WebApi.Listrak.Models;
+using System.Reflection;
+using System.ComponentModel;
 
 namespace Extensions.Handlers.Helpers
 {
+    public class SegmentationFieldValue
+    {
+        public int SegmentationFieldId { get; set; }
+        public string Value { get; set; }
+    }
+
     public class NBFListrakHelper : INbfListrakHelper, IDependency
     {
-        protected readonly Lazy<IProductService> ProductService;
-        protected readonly Lazy<IShipmentService> ShipmentService;
-        protected readonly Lazy<IEntityTranslationService> EntityTranslationService;
-
-        public NBFListrakHelper(Lazy<IProductService> productService, Lazy<IShipmentService> shipmentService, Lazy<IEntityTranslationService> entityTranslationService)
+        public NBFListrakHelper()
         {
-            this.ProductService = productService;
-            this.ShipmentService = shipmentService;
-            this.EntityTranslationService = entityTranslationService;
         }
 
-        public virtual bool SendTransactionalEmail(ExpandoObject templateData, SendEmailParameter sendEmailParameter, IUnitOfWork unitOfWork)
+        public virtual async Task<bool> SendTransactionalEmail(SendTransationalMessageParameter parameter, IUnitOfWork unitOfWork)
         {
-            var a = ProcessSendTransactionalEmail();
+            var a = await ProcessSendTransactionalEmail(parameter, unitOfWork);
             //var userProfile = SiteContext.Current.UserProfileDto;
             //var url = HttpContext.Current.Request.Url;
             //dynamic emailData = new ExpandoObject();
@@ -38,27 +42,37 @@ namespace Extensions.Handlers.Helpers
             //emailData.LastName = userProfile.LastName ?? string.Empty;
             //emailData.Email = userProfile.Email;
             //emailData.WebsiteUrl = $"{url.Scheme}://{url.Authority}";
-            return true;
+            return a;
         }
 
-        private bool ProcessSendTransactionalEmail()
+        private async Task<bool> ProcessSendTransactionalEmail(SendTransationalMessageParameter parameter, IUnitOfWork unitOfWork)
         {
-            var token = GetOAuthToken();
+            var token = await GetOAuthToken();
             var client = new HttpClient();
 
-            client.BaseAddress = new Uri("https://auth.listrak.com/OAuth2/Token");
-            //client.DefaultRequestHeaders.Add("Content-Type", "client_credentials");
-            //client.
+            client.BaseAddress = new Uri("https://api.listrak.com/email/");
+            client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
+            var segmentationFieldValues = new ArrayList();
+            foreach (var field in parameter.SegmentationFields)
+            {
+                var fieldValue = new SegmentationFieldValue()
+                {
+                    SegmentationFieldId = field.SegmentationFieldId,
+                    Value = field.Value
+                };
+                segmentationFieldValues.Add(fieldValue);
+            }
+            var transactionalMessageId = parameter.Message.GetId();
+            var response = await client.PostAsJsonAsync(string.Format("v1/List/346046/TransactionalMessage/{0}/Message", transactionalMessageId), new
+            {
+                EmailAddress = parameter.EmailAddress,
+                SegmentationFieldValues = segmentationFieldValues
+            });
 
-            //var response = await client.PostAsJsonAsync("v1/List/{listId}/TransactionalMessage/{transactionalMessageId}/Message", new
-            //{
-            //    EmailAddress = null,
-            //    SegmentationFieldValues = null
-            //});
             return true;
         }
 
-        private async System.Threading.Tasks.Task<string> GetOAuthToken()
+        public async Task<string> GetOAuthToken()
         {
             var args = new List<KeyValuePair<string, string>>();
             args.Add(new KeyValuePair<string, string>("grant_type", "client_credentials"));
@@ -69,7 +83,6 @@ namespace Extensions.Handlers.Helpers
             request.Content = new FormUrlEncodedContent(args);
             request.Method = HttpMethod.Post;
             client.BaseAddress = new Uri("https://auth.listrak.com/OAuth2/Token");
-           // request.Headers.Add("Content-Type", "client_credentials");
 
             var responseString = string.Empty;
             try
@@ -84,9 +97,35 @@ namespace Extensions.Handlers.Helpers
             {
 
             }
+            var responseData = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(responseString);
 
+            return responseData["access_token"];
+        }
+    }
 
-            return "";
+    public static class DescriptionExtensions
+    {
+        public static int GetId(this Enum value)
+        {
+            int enumId = 0;
+            if (value == null)
+            {
+                throw new ArgumentNullException("value");
+            }
+
+            string description = value.ToString();
+            FieldInfo fieldInfo = value.GetType().GetField(description);
+            DescriptionAttribute[] attributes =
+               (DescriptionAttribute[])
+             fieldInfo.GetCustomAttributes(typeof(DescriptionAttribute), false);
+
+            if (attributes != null && attributes.Length > 0)
+            {
+                description = attributes[0].Description;
+            }
+
+            int.TryParse(description, out enumId);
+            return enumId;
         }
     }
 }
