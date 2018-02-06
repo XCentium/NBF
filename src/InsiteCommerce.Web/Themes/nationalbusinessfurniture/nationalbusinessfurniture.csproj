@@ -552,6 +552,10 @@
     <Content Include="Styles\custom\breadcrumbs.scss" />
     <Content Include="Styles\custom\callouts.scss" />
     <Content Include="Views\Widgets\Custom\ProductCTA\four-square.cshtml" />
+    <Content Include="Views\Widgets\Custom\LatestBlogPosts\Standard.cshtml" />
+    <Content Include="Styles\custom\latest-blog-posts.scss" />
+    <Content Include="Views\Widgets\Custom\FeaturedProducts\Standard.cshtml" />
+    <Content Include="Styles\custom\featured-product-widget.scss" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
