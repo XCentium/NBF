@@ -14,6 +14,7 @@ interface JQueryMaskedInputOptions {
     skipOptionalPartCharacter?: string;
     clearIncomplete?: boolean;
     clearMaskOnLostFocus?: boolean;
+    autoclear?:boolean;
     autoUnmask?: boolean;
     showMaskOnFocus?: boolean;
     showMaskOnHover?: boolean;
