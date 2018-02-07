@@ -1,15 +1,9 @@
 ﻿using System;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
-using Extensions.Mappers.Interfaces;
 using Extensions.WebApi.GuestCheckout.Models;
-using Insite.Account.Services;
-using Insite.Account.Services.Parameters;
-using Insite.Account.Services.Results;
 using Insite.Account.WebApi.V1.ApiModels;
-using Insite.Account.WebApi.V1.Mappers.Interfaces;
 using Insite.Core.Interfaces.Data;
 using Insite.Core.Plugins.Utilities;
 using Insite.Core.WebApi;
@@ -53,6 +47,18 @@ namespace Extensions.WebApi.GuestCheckout.Controllers
             }
 
             return model.Account;
+        }
+
+        [Route("", Name = "CheckUserName")]
+        [ResponseType(typeof(Boolean))]
+        public bool Get(string userName)
+        {
+            var unitOfWork = _unitOfWorkFactory.GetUnitOfWork();
+
+            var account = unitOfWork.GetRepository<UserProfile>().GetTable().FirstOrDefault(x =>
+                x.UserName.Equals(userName, StringComparison.CurrentCultureIgnoreCase));
+
+            return account != null;
         }
     }
 }

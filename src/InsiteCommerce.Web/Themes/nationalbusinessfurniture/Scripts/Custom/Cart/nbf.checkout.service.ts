@@ -3,6 +3,7 @@
 
     export interface INbfCheckoutService {
         createAccountFromGuest(guestId: string, account: AccountModel, billTo: BillToModel, shipTo: ShipToModel, newPass: string): ng.IPromise<AccountModel>;
+        checkUserName(userName: string): ng.IPromise<boolean>;
     }
 
     export class NbfCheckoutService implements INbfCheckoutService {
@@ -40,12 +41,28 @@
             );
         }
 
+        checkUserName(userName: string) : ng.IPromise <boolean> {
+            const uri = `${this.serviceUri}?userName=${userName}`;
+                return this.httpWrapperService.executeHttpRequest(
+                this,
+                this.$http({ url: uri, method: "GET" }),
+                this.checkUserNameCompleted,
+                this.checkUserNameFailed);
+        }
+
+        protected checkUserNameCompleted(response: ng.IHttpPromiseCallbackArg<boolean>) {
+
+        }
+
+        protected checkUserNameFailed(error: any) {
+
+        }
+
         protected guestAccountParams(account: AccountModel, guestId: string): any {
             return { "account": account, "guestId": guestId };
         }
 
         protected createAccountCompleted(response: ng.IHttpPromiseCallbackArg<AccountModel>): void {
-            alert(response);
             if (response != null) {
                 this.billTo.isGuest = false;
                 this.customerService.updateBillTo(this.billTo).then(
@@ -75,7 +92,6 @@
         }
 
         protected changePasswordFailed(error: any): void {
-            alert("nope - " + error);
             //Something went wrong
         }
 

@@ -1,22 +1,59 @@
 ﻿.checkout {
     .checkout-accordion {
-        .address-form {
+        .nav-header {
+            text-align:center;
+        }
+
+        .address-form, .order-bill-ship {
             display: inline-block;
+            width: 100%;
         }
 
         .ship-to, .ship-info {
             float: left;
-            width: 50%;
-            padding-top: 0 !important;
-            padding-left: 2em;
+            width: 100%;
+            padding: 0 !important;
+
+            .shipping-info {
+                width: 50%;
+            }
         }
 
         .bill-to, .bill-info {
             float: left;
-            width: 50%;
-            padding-top: 0 !important;
-            padding-right: 2em;
-        }     
+            width: 100%;
+            padding: 0 !important;
+
+            .billing-info {
+                width: 50%;
+            }
+        }
+
+        #nav1min {
+            .ship-to, .ship-info {
+                float: left;
+                width: 50%;
+                padding-top: 0 !important;
+                padding-left: 1em;
+                padding-right: 1em;
+
+                .shipping-info {
+                    width: 100%;
+                }
+            }
+
+            .bill-to, .bill-info {
+                float: left;
+                width: 50%;
+                padding-top: 0 !important;
+                padding-left: 1em;
+                padding-right: 1em;
+
+                .billing-info {
+                    width: 100%;
+                }
+            }
+        }
     }
 
     .checkout-cart {
@@ -30,15 +67,18 @@
         .cart-items {
             max-height: 500px;
             overflow-y: auto;
+
             .item-list, .item-details {
-                width:100%;
-                > div{
-                    margin-bottom:0;
+                width: 100%;
+
+                > div {
+                    margin-bottom: 0;
                 }
             }
         }
+
         .item-block div.item-opt .item-qty, .qo-item .qo-qty {
-            float:left;
+            float: left;
         }
     }
 
@@ -106,7 +146,8 @@
         }
     }
 }
-.checkout-addresses{
+
+.checkout-addresses {
     transform: none !important;
     -webkit-transform: none !important;
 }
