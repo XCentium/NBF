@@ -1,8 +1,22 @@
 ﻿@import "../variables";
 
-.popular-cat {
-    &__item {
+.category-list {
+
+    &__wrap {
+        list-style:none;
+
+        a{
+            text-decoration:none;
+        }
     }
+    &__item {
+        margin-bottom:60px;
+
+            &:last-child {
+            float:left !important;
+        }
+    }
+
     &__img-wrap {
         border: 1px solid $divider-gray
     }

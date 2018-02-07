@@ -749,6 +749,7 @@
     <Content Include="Global.asax" />
     <Content Include="Integration\Integration.svc" />
     <Content Include="SimplePing.aspx" />
+    <Content Include="UserFiles\Images\BannerImages\1440x600.png" />
     <Content Include="UserFiles\Images\BannerImages\placeholder.png" />
     <Content Include="UserFiles\Images\Logo.png" />
     <Content Include="Images\list-notes-icon.png" />

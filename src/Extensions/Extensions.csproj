@@ -287,6 +287,7 @@
     <Compile Include="Widgets\ArticlePageView.cs" />
     <Compile Include="Widgets\ArticlePageViewDrop.cs" />
     <Compile Include="Widgets\ArticlePageViewPreparer.cs" />
+    <Compile Include="Widgets\CategoriesList.cs" />
     <Compile Include="Widgets\PopularCategories.cs" />
     <Compile Include="Widgets\FeaturedProducts.cs" />
     <Compile Include="Widgets\Latest BlogPosts.cs" />
