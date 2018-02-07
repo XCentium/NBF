@@ -25,7 +25,7 @@
                                                     <select id="shipTo" name="shipTo" ng-model="vm.selectedShipTo" ng-options="shipTo.label for shipTo in vm.shipTos" ng-change="vm.checkSelectedShipTo()"></select>
                                                 </div>
                                                 <nbf-address-edit prefix="st" show-email="false" address="vm.selectedShipTo" countries="vm.countries" address-fields="vm.addressFields.shipToAddressFields"
-                                                                  set-state-required-rule="vm.setStateRequiredRule('st', vm.selectedShipTo)"></nbf-address-edit>
+                                                                  is-read-only="vm.isReadOnly" set-state-required-rule="vm.setStateRequiredRule('st', vm.selectedShipTo)"></nbf-address-edit>
                                             </div>
                                         </div>
                                     </section>
