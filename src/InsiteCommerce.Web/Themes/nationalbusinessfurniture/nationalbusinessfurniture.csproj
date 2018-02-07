@@ -504,7 +504,10 @@
   <ItemGroup>
     <Content Include="Views\Widgets\Custom\CommentForm\Standard.cshtml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Views\Widgets\Custom\SignInWidget\Standard.cshtml" />
+    <Content Include="Views\Directives\Custom\Account\NbfSignInWidget.cshtml" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Widgets\Custom\OrderTracker\Standard.cshtml" />
   </ItemGroup>
