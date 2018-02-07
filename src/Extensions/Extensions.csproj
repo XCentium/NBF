@@ -118,7 +118,7 @@
       <HintPath>..\packages\Insite.Commerce.Public.4.4.0.38481\lib\net452\Insite.Payments.dll</HintPath>
     </Reference>
     <Reference Include="Insite.Plugins">
-      <HintPath>..\InsiteCommerce.Web\bin\Insite.Plugins.dll</HintPath>
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.0.38481\lib\net452\Insite.Plugins.dll</HintPath>
     </Reference>
     <Reference Include="Insite.Promotions, Version=4.4.0.38481, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Insite.Commerce.Public.4.4.0.38481\lib\net452\Insite.Promotions.dll</HintPath>
