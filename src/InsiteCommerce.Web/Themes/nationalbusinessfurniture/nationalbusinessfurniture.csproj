@@ -115,7 +115,7 @@
     <Content Include="Scripts\Libraries\jquery.inputmask\0.0.0\jquery.inputmask.numeric.extensions.js" />
     <Content Include="Scripts\Libraries\jquery.maskedinput\jquery.maskedinput.js" />
     <Content Include="Scripts\Libraries\sticky.js" />
-    <Content Include="Scripts\sticky.js" />
+    <!--<Content Include="Scripts\sticky.js" />-->
     <Content Include="Styles\custom\font-awesome.css" />
     <Content Include="Styles\fonts\fontawesome-webfont.svg" />
     <Content Include="Styles\img\sprocket.png" />
@@ -125,8 +125,6 @@
     <TypeScriptCompile Include="Scripts\Custom\Cart\nbf.checkout.service.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Cart\nbf.cart-total-display.directive.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Cart\nbf.cart-lines.directive.ts" />
-    <TypeScriptCompile Include="Scripts\Custom\Cart\nbf.order-confirmation.controller.ts" />
-    <TypeScriptCompile Include="Scripts\Custom\Cart\nbf.review-and-pay.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Cart\nbf.checkout.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Comments\nbf.commentmessage.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Comments\nbf.commentmessage.service.ts" />
@@ -299,6 +297,7 @@
     <TypeScriptCompile Include="Scripts\Typings\google.analytics\ga.d.ts" />
     <TypeScriptCompile Include="Scripts\Typings\google.maps\google.maps-plus.d.ts" />
     <TypeScriptCompile Include="Scripts\Typings\google.maps\google.maps.d.ts" />
+    <TypeScriptCompile Include="Scripts\Typings\jquery.maskedinput\jquery.maskedinput.d.ts" />
     <TypeScriptCompile Include="Scripts\Typings\jquery\jquery.d.ts" />
     <TypeScriptCompile Include="Scripts\Typings\jquery.validation\jquery-validation-unobtrusive.d.ts" />
     <TypeScriptCompile Include="Scripts\Typings\jquery.validation\jquery.validation.d.ts" />
@@ -508,7 +507,16 @@
   <ItemGroup>
     <Content Include="Views\Widgets\Custom\CommentForm\Standard.cshtml" />
   </ItemGroup>
- <ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Widgets\Custom\OrderTracker\Standard.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Widgets\Custom\OrderTrackerDetailView\Standard.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
     <Content Include="Styles\custom\footer.scss" />
   </ItemGroup>
   <ItemGroup>
@@ -569,15 +577,6 @@
     <Content Include="Styles\custom\featured-product-widget.scss" />
     <Content Include="Views\Widgets\Custom\PopularCategories\Standard.cshtml" />
     <Content Include="Styles\custom\popular-cat-widget.scss" />
-  </ItemGroup>
- <ItemGroup>
-    <Content Include="Views\Widgets\Custom\OrderTracker\Standard.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\Widgets\Custom\OrderTrackerDetailView\Standard.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="packages.config" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
