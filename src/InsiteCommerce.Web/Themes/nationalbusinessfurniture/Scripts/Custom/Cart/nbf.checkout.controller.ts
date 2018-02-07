@@ -13,10 +13,13 @@
         //Address Variables
         cart: CartModel;
         cartId: string;
+        queryCartId: string;
         countries: CountryModel[];
         selectedShipTo: ShipToModel;
+        originalBillTo: BillToModel;
         shipTos: ShipToModel[];
         continueCheckoutInProgress = false;
+        isReadOnly = false;
         account: AccountModel;
         initialIsSubscribed: boolean;
         addressFields: AddressFieldCollectionModel;
@@ -26,6 +29,7 @@
         step: number = 0;
         billToSameAsShipToSelected = true;
         isGuest: boolean;
+        emailReadOnly: boolean = true;
 
         //Review and Pay Variables
         cartIdParam: string;
@@ -49,6 +53,7 @@
         //Account Creation Variables
         createError: string;
         userFound: boolean = false;
+        newUser: boolean = false;
 
         static $inject = [
             "$scope",
@@ -92,7 +97,8 @@
         }
 
         init(): void {
-            this.cartId = this.queryString.get("cartId");
+            this.queryCartId = this.queryString.get("cartId");
+            this.cartUrl = this.$attrs.cartUrl;
 
             this.websiteService.getAddressFields().then(
                 (model: AddressFieldCollectionModel) => { this.getAddressFieldsCompleted(model); });
@@ -131,6 +137,8 @@
                     this.updateBillTo();
                 }
             });
+
+            $(".masked-phone").mask("999-999-9999", { autoclear: false });
         }
 
         protected getSettingsCompleted(settingsCollection: insite.core.SettingsCollection): void {
@@ -138,9 +146,25 @@
         }
 
         protected getAddressFieldsCompleted(addressFields: AddressFieldCollectionModel): void {
-            this.addressFields = addressFields;
+            this.addressFields = addressFields; 
 
-            this.cartService.expand = "shiptos,validation";
+            this.cartService.expand = "shiptos,validation,cartlines";
+
+            if (this.queryCartId) {
+                this.cartService.getCart(this.queryCartId).then(
+                    (cart: CartModel) => {
+                        if (cart.status === "Submitted") {
+                            this.getCartCompleted(cart);
+                            this.loadStep4();
+                        }
+                    },
+                    (error: any) => { this.getCartInitial(this.cartId) });
+            } else {
+                this.getCartInitial(this.cartId);
+            }
+        }
+
+        protected getCartInitial(cartId: string) {
             this.cartService.getCart(this.cartId).then(
                 (cart: CartModel) => { this.getCartCompleted(cart); },
                 (error: any) => { this.getCartFailed(error); });
@@ -150,10 +174,17 @@
             this.cartService.expand = "";
             this.cart = cart;
 
+            this.originalBillTo = cart.billTo;
             this.isGuest = cart.billTo.isGuest;
 
             if (this.cart.shipTo && this.cart.shipTo.id) {
                 this.initialShipToId = this.cart.shipTo.id;
+            }
+
+            const hasRestrictions = cart.cartLines.some(o => o.isRestricted);
+            // if cart does not have cartLines or any cartLine is restricted, go to Cart page
+            if (!this.cart.cartLines || this.cart.cartLines.length === 0 || hasRestrictions) {
+                this.coreService.redirectToPath(this.cartUrl);
             }
 
             this.websiteService.getCountries("states").then(
@@ -206,6 +237,8 @@
                 if (this.cart.billTo.isGuest) {
                     if (shipTo.isNew) {
                         shipTos.push(shipTo);
+                        //Only show new ship to option for guest users
+                        this.shipTos = shipTos;
                     }
                 } else {
                     if (shipTo.id === this.cart.billTo.id) {
@@ -213,9 +246,6 @@
                     }
                 }
             });
-
-            //Only show new ship to option for guest users
-            this.shipTos = shipTos;
 
             // if this billTo was returned in the shipTos, replace the billTo in the shipTos array
             // with the actual billto object so that updating one side updates the other side
@@ -250,11 +280,17 @@
         }
 
         checkSelectedShipTo(): void {
+            if (this.billToAndShipToAreSameCustomer()) {
+                this.isReadOnly = true;
+            } else {
+                this.isReadOnly = false;
+            }
+
             this.updateBillTo();
 
             if (this.onlyOneCountryToSelect()) {
                 this.selectFirstCountryForAddress(this.selectedShipTo);
-                this.setStateRequiredRule("st", this.selectedShipTo);
+                //this.setStateRequiredRule("st", this.selectedShipTo);
             }
 
             this.updateAddressFormValidation();
@@ -262,7 +298,12 @@
 
         protected updateBillTo(): void {
             if (this.billToSameAsShipToSelected) {
-                this.cart.billTo.email = this.selectedShipTo.email;
+                if (this.selectedShipTo.isNew && this.cart.billTo.isGuest) {
+                    this.cart.billTo.email = this.selectedShipTo.email;
+                    this.emailReadOnly = false;
+                } else {
+                    this.emailReadOnly = true;
+                }
                 this.cart.billTo.firstName = this.selectedShipTo.firstName;
                 this.cart.billTo.lastName = this.selectedShipTo.lastName;
                 this.cart.billTo.companyName = this.selectedShipTo.companyName;
@@ -272,7 +313,13 @@
                 this.cart.billTo.state = this.selectedShipTo.state;
                 this.cart.billTo.postalCode = this.selectedShipTo.postalCode;
                 this.cart.billTo.phone = this.selectedShipTo.phone;
+            } else {
+                this.cart.billTo = this.originalBillTo;
             }
+        }
+
+        protected billToAndShipToAreSameCustomer(): boolean {
+            return this.selectedShipTo.id === this.cart.billTo.id;
         }
 
         protected onlyOneCountryToSelect(): boolean {
@@ -536,7 +583,6 @@
         reviewAndPayInit(): void {
             this.$scope.$on("cartChanged", (event: ng.IAngularEvent) => this.onCartChanged(event));
 
-            this.cartUrl = this.$attrs.cartUrl;
             this.cartId = this.queryString.get("cartId") || "current";
 
             this.getCart(true);
@@ -805,6 +851,7 @@
 
                             this.nbfCheckoutService.createAccountFromGuest(this.account.id, newAccount, this.cart.billTo, this.cart.shipTo, pass).then(
                                 () => {
+                                    this.newUser = true;
                                     this.submitOrder(signInUri);
                                 });
                         }
@@ -848,9 +895,17 @@
 
         protected submitCompleted(cart: CartModel): void {
             this.cart.id = cart.id;
-            this.cartService.getCart();
-            this.loadStep4();
-            this.spinnerService.hide();
+            if (this.newUser) {
+                this.$window.location.href = `${this.$window.location.href}?cartid=${this.cart.id}`;
+            } else {
+                if (history.pushState) {
+                    var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + "?cartid=" + this.cart.id;
+                    window.history.pushState({ path: newurl }, "", newurl);
+                }
+                this.cartService.getCart();
+                this.loadStep4();
+                this.spinnerService.hide();
+            }
         }
 
         protected submitFailed(error: any): void {
@@ -968,13 +1023,16 @@
         }
 
         protected loadStep4() {
-            $("#nav3expanded").hide();
+            $("#nav1expanded,#nav2expanded,#nav3expanded").hide();
+            $("#nav1min,#nav2min,#nav3min,#thankYou").show();
+            $("#address,#shipping,#payment").addClass("active");
+
             $(".edit").hide();
-            $("#nav3min").show();
 
             $("#confirmation").addClass("active");
+
             $("html:not(:animated), body:not(:animated)").animate({
-                scrollTop: $("#nav3").offset().top
+                scrollTop: $("#nav4").offset().top
             }, 200);
 
             this.orderConfirmationInit();

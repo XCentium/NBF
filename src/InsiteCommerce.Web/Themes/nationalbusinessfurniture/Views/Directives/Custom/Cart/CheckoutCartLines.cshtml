@@ -1,13 +1,11 @@
 ﻿<ul>
     <li id="tst_cartLines_{{::cartLine.productId}}_{{cartLine.unitOfMeasure}}" class="row item-block checkout-item" ng-repeat="cartLine in cart.cartLines | filter: quoteRequiredFilter">
         <div class="small-12 columns item-details">
-            <div class="remove" ng-if="!cartLine.isPromotionItem && cart.canModifyOrder && editable">
-                <a class="btn btn-remove" ng-click="vm.removeLine(cartLine)">
-                    <i class="foundicon-remove"></i>
-                </a>
-            </div>
             <span ng-if="cartLine.isPromotionItem && editable">[% siteMessage 'Cart_PromotionalItem' %]</span>
-
+            <div class="item-qty">
+                <strong>[% translate 'QTY_quantity' %]:</strong>
+                <span ng-bind="cartLine.qtyOrdered"></span>
+            </div>
             <div class="item-name">
                 <a ng-href="{{cartLine.productUri}}">
                     <span ng-bind="cartLine.shortDescription"></span>
@@ -39,22 +37,6 @@
                 <div>[% siteMessage 'RealTimePricing_PriceLoadFailed' %]</div>
             </div>
             <div class="item-opt" ng-if="!inventoryCheck || cartLine.quoteRequired || (inventoryCheck && (cartLine.availability.messageType != 2 || cartLine.canBackOrder))">
-                <div class="item-qty" ng-if="!editable">
-                    <strong>[% translate 'QTY_quantity' %]:</strong>
-                    <span ng-bind="cartLine.qtyOrdered"></span>
-                </div>
-                <div class="item-qty" ng-if="editable">
-                    <label for="cartLineQuantity_{{$index}}">[% translate 'QTY_quantity' %]:</label>
-                    <input id="cartLineQuantity_{{$index}}"
-                           type="text"
-                           class="numerictextbox qty txt tst_cartLines_quantity"
-                           ng-class="{ 'item-opt__changed' : inventoryCheck && cartLine.hasInsufficientInventory || cartLine.isRestricted }"
-                           ng-model="cartLine.qtyOrdered"
-                           ng-keypress="vm.quantityKeyPress($event,cartLine)"
-                           ng-change="vm.updateLine(cartLine, true)"
-                           ng-model-options="{ updateOn: 'blur' }"
-                           ng-disabled="!cart.canModifyOrder || cartLine.isPromotionItem || vm.isUpdateInProgress || cart.type == 'Job'" />
-                </div>
                 <div class="item-subtotal"><span ng-if="!cartLine.quoteRequired && !cart.cartNotPriced" ng-bind="cartLine.pricing.extendedUnitNetPriceDisplay"></span></div>
                 <div class="item-qty-message" ng-show="inventoryCheck || cartLine.isRestricted">
                     <span ng-show="inventoryCheck && cartLine.hasInsufficientInventory" class="message-avail--avail">

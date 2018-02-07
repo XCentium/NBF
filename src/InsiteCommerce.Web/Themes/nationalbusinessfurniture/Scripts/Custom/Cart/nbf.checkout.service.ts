@@ -12,20 +12,15 @@
         shipTo: ShipToModel;
         newPass: string;
 
-        static $inject = ["$http", "$window", "httpWrapperService", "accountService", "customerService", "$location", "$localStorage", "coreService", "sessionService", "accessToken"];
+        static $inject = ["$http", "httpWrapperService", "customerService", "$location", "$localStorage", "sessionService"];
 
         constructor(
             protected $http: ng.IHttpService,
-            protected $window: ng.IWindowService,
             protected httpWrapperService: insite.core.HttpWrapperService,
-            protected accountService: insite.account.IAccountService,
             protected customerService: insite.customers.ICustomerService,
             protected $location: ng.ILocaleService,
             protected $localStorage: insite.common.IWindowStorage,
-            protected coreService: insite.core.ICoreService,
-            protected sessionService: insite.account.ISessionService,
-            protected accessToken: insite.common.IAccessTokenService,
-            protected $rootScope: ng.IRootScopeService) {
+            protected sessionService: insite.account.ISessionService) {
         }
 
         createAccountFromGuest(guestId: string, account: AccountModel, billTo: BillToModel, shipTo: ShipToModel, newPass: string): ng.IPromise<AccountModel> {
@@ -86,9 +81,6 @@
 
         protected changePasswordCompleted(session: SessionModel): void {
             this.$localStorage.set("changePasswordDate", (new Date()).toLocaleString());
-            this.$rootScope.$broadcast("sessionReloaded", session);
-            console.dir(session);
-            debugger;
         }
 
         protected changePasswordFailed(error: any): void {

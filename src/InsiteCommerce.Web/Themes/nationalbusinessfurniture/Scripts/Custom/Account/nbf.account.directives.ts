@@ -13,6 +13,7 @@
                 countries: "=",
                 setStateRequiredRule: "&",
                 isReadOnly: "=",
+                isEmailReadOnly: "=",
                 addressFields: "="
             }
         }));
