@@ -923,8 +923,6 @@
                 (window as any).dataLayer.push(data);
             }
 
-            //Add for refresh:
-            //window.location.hash = this.cart.orderNumber;
 
             this.orderService.getOrder(this.cart.orderNumber, "").then(
                 (order: OrderModel) => { this.getOrderCompleted(order); });
