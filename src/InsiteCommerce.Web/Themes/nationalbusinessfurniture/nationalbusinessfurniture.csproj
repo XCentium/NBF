@@ -556,6 +556,8 @@
     <Content Include="Styles\custom\latest-blog-posts.scss" />
     <Content Include="Views\Widgets\Custom\FeaturedProducts\Standard.cshtml" />
     <Content Include="Styles\custom\featured-product-widget.scss" />
+    <Content Include="Views\Widgets\Custom\PopularCategories\Standard.cshtml" />
+    <Content Include="Styles\custom\popular-cat-widget.scss" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

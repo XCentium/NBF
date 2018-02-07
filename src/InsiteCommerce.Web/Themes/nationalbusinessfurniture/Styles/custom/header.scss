@@ -89,7 +89,7 @@
                     display:block;
                 }
 
-                .guarantee-wrap {
+                .guarantee {
                     display: -moz-box;
                     display: -webkit-flexbox;
                     display: -ms-flexbox;
@@ -107,14 +107,14 @@
                     padding: 30px 0;
 
 
-                    .first-line {
+                    &__first-line {
                         display: block;
                         line-height: normal;
                         font-weight: bold;
                         font-size: 1.4em;
                     }
 
-                    .second-line {
+                    &__second-line {
                         display: block;
                         line-height: normal;
                     }

@@ -3954,22 +3954,18 @@ a.btn:hover, a.btn:focus, button.btn:hover, button.btn:focus {
 }
 
 a.btn.primary:link, a.btn.primary:visited, button.primary, .btn.primary {
-    background-color: #555555;
 }
 
 a.btn.secondary:link, a.btn.secondary:visited, button.secondary, .btn.secondary {
-    background-color: SlateGray;
 }
 
 a.btn.tertiary:link, a.btn.tertiary:visited, button.tertiary, .btn.tertiary, div.remove a.btn {
-    background-color: #f1f1f1;
-    color: #636363;
+
 }
 
 a.btn.tertiary:hover, a.btn.tertiary:focus,
 button.btn.tertiary:hover, button.btn.tertiary:focus,
 div.remove a.btn:hover, div.remove a.btn:focus {
-    color: DodgerBlue;
 }
 
 .btn.disabled, .btn:disabled {
@@ -8515,7 +8511,7 @@ header label.toggle.burger:after {
     white-space: nowrap;
 }
 
-.isc-primary-nav li a {
+.isc-primary-nav > ul > li > a, .isc-primary-nav > ul > li > span > a  {
     display: block;
     color: $nbf-nav-navy;
     text-decoration: none;
@@ -8746,6 +8742,7 @@ header label.toggle.burger:after {
         bottom: auto;
         left: auto;
         width: auto;
+        border: 1px solid $divider-gray;
         -webkit-transform: none !important;
         -ms-transform: none !important;
         transform: none !important;
@@ -8804,7 +8801,7 @@ header label.toggle.burger:after {
 /* Subnav Colors */
 
 .isc-primary-nav, .isc-primary-nav .subnav {
-    background: #555555;
+    background: #fff;
 }
 
 @media ( min-width:48em ) {
