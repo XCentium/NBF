@@ -116,6 +116,7 @@
     <Content Include="Scripts\Libraries\jquery.maskedinput\jquery.maskedinput.js" />
     <Content Include="Scripts\Libraries\sticky.js" />
     <Content Include="theme.json" />
+    <TypeScriptCompile Include="Scripts\Custom\Account\nbf.sign-in-widget.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Account\nbf.account.directives.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Cart\nbf.cart.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Cart\nbf.checkout.service.ts" />

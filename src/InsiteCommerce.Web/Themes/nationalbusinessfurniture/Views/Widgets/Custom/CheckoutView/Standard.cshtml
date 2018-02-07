@@ -2,10 +2,12 @@
     <div class="row">
         <div class="large-8 columns">
             <h2 id="thankYou" class="hide">[% siteMessage 'Checkout_Confirmation_Message' 'Thank you for your order!' %]</h2>
-            <h3 ng-if="vm.cart.cartLines.length > 0" class="results-count">
-                <span class="result-num" ng-bind="vm.cart.totalCountDisplay"></span> <span class="result-lbl">[% translate 'Items' %]</span>
-            </h3>
-            <dl class="accordion checkout-accordion" data-accordion id="checkoutAccordion">
+        <h3 ng-if="vm.cart.cartLines.length > 0" class="results-count">
+            <span class="result-num" ng-bind="vm.cart.totalCountDisplay"></span> <span class="result-lbl">[% translate 'Items' %]</span>
+        </h3>
+            
+        <nbf-sign-in-widget include-forgot-password-link="false" allow-create-account="false" ng-if="vm.cart.billTo.isGuest"></nbf-sign-in-widget>
+        <dl class="accordion checkout-accordion" data-accordion id="checkoutAccordion">
                 <dd class="accordion-navigation">
                     <a href="#address" id="nav1" class="nav-header">
                         [% translate 'Step 1: Billing / Shipping' %]

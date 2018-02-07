@@ -300,6 +300,7 @@
     <Compile Include="Widgets\PageTagSelectViewDrop.cs" />
     <Compile Include="Widgets\PageTagSelectViewPageDrop.cs" />
     <Compile Include="Widgets\PageTagSelectViewPreparer.cs" />
+    <Compile Include="Widgets\SignInWidget.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config">

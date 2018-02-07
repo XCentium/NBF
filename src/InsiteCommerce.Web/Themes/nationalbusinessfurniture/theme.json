@@ -124,7 +124,8 @@
     // "Cart-CartLines": "~/Themes/MyTheme/Views/Directives/Cart/MyCustomCartLines.cshtml"
     "Custom-Cart-CheckoutCartLines": "views/directives/custom/cart/checkoutcartlines.cshtml",
     "Custom-Cart-CheckoutCartTotalDisplay": "views/directives/custom/cart/checkoutcarttotaldisplay.cshtml",
-    "Custom-Account-NbfAddressEdit": "views/directives/custom/account/nbfaddressedit.cshtml"
+    "Custom-Account-NbfAddressEdit": "views/directives/custom/account/nbfaddressedit.cshtml",
+    "Custom-Account-NbfSignInWidget": "views/directives/custom/account/nbfsigninwidget.cshtml"
   }
 }
 
