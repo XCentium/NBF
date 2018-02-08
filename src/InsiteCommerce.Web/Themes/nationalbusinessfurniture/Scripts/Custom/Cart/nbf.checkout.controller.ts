@@ -158,7 +158,7 @@
                             this.loadStep4();
                         }
                     },
-                    (error: any) => { this.getCartInitial(this.cartId) });
+                    () => { this.getCartInitial(this.cartId) });
             } else {
                 this.getCartInitial(this.cartId);
             }
@@ -290,7 +290,7 @@
 
             if (this.onlyOneCountryToSelect()) {
                 this.selectFirstCountryForAddress(this.selectedShipTo);
-                //this.setStateRequiredRule("st", this.selectedShipTo);
+                this.setStateRequiredRule("st", this.selectedShipTo);
             }
 
             this.updateAddressFormValidation();
@@ -378,8 +378,21 @@
         }
 
         setStateRequiredRule(prefix: string, address: any): void {
-            const isRequired = address.country != null && address.country.states.length > 0;
-            $(`#${prefix}state`).rules("add", { required: isRequired });
+            if (!address.country) {
+                return;
+            }
+
+            const country = this.countries.filter((elem) => {
+                return elem.id === address.country.id;
+            });
+
+            const isRequired = country != null && country.length > 0 && country[0].states.length > 0;
+            setTimeout(() => {
+                if (!isRequired) {
+                    address.state = null;
+                }
+                $(`#${prefix}state`).rules("add", { required: isRequired });
+            }, 100);
         }
 
         continueToStep2(cartUri: string): void {
@@ -407,13 +420,9 @@
                 this.cart.shipVia = null;
             }
 
-            if (this.customerSettings.allowBillToAddressEdit) {
-                this.customerService.updateBillTo(this.cart.billTo).then(
-                    (billTo: BillToModel) => { this.updateBillToCompleted(billTo); },
-                    (error: any) => { this.updateBillToFailed(error); });
-            } else {
-                this.updateShipTo();
-            }
+            this.customerService.updateBillTo(this.cart.billTo).then(
+                (billTo: BillToModel) => { this.updateBillToCompleted(billTo); },
+                (error: any) => { this.updateBillToFailed(error); });
         }
 
         continueToStep3(cartUri: string): void {
@@ -438,19 +447,16 @@
         }
 
         protected updateShipTo(customerWasUpdated?: boolean): void {
-            if (this.customerSettings.allowShipToAddressEdit) {
-                const shipToMatches = this.cart.billTo.shipTos.filter(shipTo => { return shipTo.id === this.selectedShipTo.id; });
-                if (shipToMatches.length === 1) {
-                    this.cart.shipTo = this.selectedShipTo;
-                }
+            const shipToMatches = this.cart.billTo.shipTos.filter(shipTo => { return shipTo.id === this.selectedShipTo.id; });
+            if (shipToMatches.length === 1) {
+                this.cart.shipTo = this.selectedShipTo;
+            }
 
-                if (this.cart.shipTo.id !== this.cart.billTo.id) {
-                    this.customerService.addOrUpdateShipTo(this.cart.shipTo).then(
-                        (shipTo: ShipToModel) => { this.addOrUpdateShipToCompleted(shipTo, customerWasUpdated); },
-                        (error: any) => { this.addOrUpdateShipToFailed(error); });
-                } else {
-                    this.updateSession(this.cart, customerWasUpdated);
-                }
+
+            if (this.cart.shipTo.id !== this.cart.billTo.id) {
+                this.customerService.addOrUpdateShipTo(this.cart.shipTo).then(
+                    (shipTo: ShipToModel) => { this.addOrUpdateShipToCompleted(shipTo, customerWasUpdated); },
+                    (error: any) => { this.addOrUpdateShipToFailed(error); });
             } else {
                 this.updateSession(this.cart, customerWasUpdated);
             }

@@ -1,6 +1,7 @@
-﻿  
- 
- 
+﻿
+
+
+
 
 
 
@@ -22,7 +23,6 @@ declare module Insite.Account.WebApi.V1.ApiModels {
 		approver: string;
 		isApproved: boolean;
 		activationStatus: string;
-		defaultLocation: string;
 		lastLoginOn: Date;
 		availableApprovers: string[];
 		availableRoles: string[];
@@ -74,7 +74,9 @@ declare module Insite.Account.WebApi.V1.ApiModels {
 		rememberMe: boolean;
 		isRestrictedProductRemovedFromCart: boolean;
 		firstName: string;
+		lastName: string;
 		customerWasUpdated: boolean;
+		isGuest: boolean;
 	}
 	interface AccountShipToCollectionModel extends Insite.Core.WebApi.BaseModel {
 		pagination: Insite.Core.WebApi.PaginationModel;
@@ -367,6 +369,7 @@ declare module Insite.Cart.WebApi.V1.ApiModels {
 		orderGrandTotalDisplay: string;
 		costCodeLabel: string;
 		isAuthenticated: boolean;
+		isGuestOrder: boolean;
 		isSalesperson: boolean;
 		isSubscribed: boolean;
 		requiresPoNumber: boolean;
@@ -401,6 +404,7 @@ declare module Insite.Cart.WebApi.V1.ApiModels {
 		requestedDeliveryDateDisplay: Date;
 		cartNotPriced: boolean;
 		messages: string[];
+		creditCardBillingAddress: Insite.Cart.WebApi.V1.ApiModels.CreditCardBillingAddressDto;
 	}
 	interface CartLineModel extends Insite.Core.WebApi.BaseModel {
 		productUri: string;
@@ -428,6 +432,7 @@ declare module Insite.Cart.WebApi.V1.ApiModels {
 		pricing: Insite.Core.Plugins.Pricing.ProductPriceDto;
 		isPromotionItem: boolean;
 		isDiscounted: boolean;
+		isConfigured: boolean;
 		isFixedConfiguration: boolean;
 		quoteRequired: boolean;
 		breakPrices: Insite.Core.Plugins.Pricing.BreakPriceDto[];
@@ -442,6 +447,15 @@ declare module Insite.Cart.WebApi.V1.ApiModels {
 		isSubscription: boolean;
 		productSubscription: Insite.Catalog.Services.Dtos.ProductSubscriptionDto;
 		isRestricted: boolean;
+		canAddToWishlist: boolean;
+	}
+	interface CreditCardBillingAddressDto {
+		address1: string;
+		address2: string;
+		city: string;
+		stateAbbreviation: string;
+		countryAbbreviation: string;
+		postalCode: string;
 	}
 	interface CartLineCollectionModel extends Insite.Core.WebApi.BaseModel {
 		cartLines: Insite.Cart.WebApi.V1.ApiModels.CartLineModel[];
@@ -560,6 +574,7 @@ declare module Insite.Core.Plugins.Pricing {
 		extendedActualPriceDisplay: string;
 		regularBreakPrices: Insite.Core.Plugins.Pricing.BreakPriceDto[];
 		actualBreakPrices: Insite.Core.Plugins.Pricing.BreakPriceDto[];
+		unitOfMeasure: string;
 	}
 	interface BreakPriceDto {
 		breakQty: number;
@@ -628,8 +643,8 @@ declare module Insite.Catalog.Services.Dtos {
 		customerUnitOfMeasure: string;
 		canBackOrder: boolean;
 		trackInventory: boolean;
-		minimumOrderQty: number;
 		multipleSaleQty: number;
+		minimumOrderQty: number;
 		htmlContent: string;
 		productCode: string;
 		priceCode: string;
@@ -692,6 +707,7 @@ declare module Insite.Catalog.Services.Dtos {
 		productSubscription: Insite.Catalog.Services.Dtos.ProductSubscriptionDto;
 		replacementProductId: System.Guid;
 		warehouses: Insite.Catalog.Services.Dtos.WarehouseDto[];
+		relatedProducts: Insite.Catalog.Services.Dtos.RelatedProductDto[];
 	}
 	interface LegacyConfigurationDto {
 		sections: Insite.Catalog.Services.Dtos.ConfigSectionDto[];
@@ -812,6 +828,10 @@ declare module Insite.Catalog.Services.Dtos {
 		htmlContent: string;
 		specifications: Insite.Catalog.Services.Dtos.SpecificationDto[];
 	}
+	interface RelatedProductDto {
+		relatedProductType: string;
+		productDto: Insite.Catalog.Services.Dtos.ProductDto;
+	}
 }
 declare module Insite.OrderApproval.WebApi.V1.ApiModels {
 	interface OrderApprovalCollectionModel extends Insite.Core.WebApi.BaseModel {
@@ -882,6 +902,10 @@ declare module Insite.Catalog.WebApi.V1.ApiModels {
 		obsoletePath: boolean;
 		needRedirect: boolean;
 		redirectUrl: string;
+		primaryImagePath: string;
+		openGraphTitle: string;
+		openGraphImage: string;
+		openGraphUrl: string;
 	}
 	interface CategoryModel extends Insite.Core.WebApi.BaseModel {
 		id: System.Guid;
@@ -942,6 +966,7 @@ declare module Insite.Catalog.WebApi.V1.ApiModels {
 		extendedActualPriceDisplay: string;
 		regularBreakPrices: Insite.Core.Plugins.Pricing.BreakPriceDto[];
 		actualBreakPrices: Insite.Core.Plugins.Pricing.BreakPriceDto[];
+		unitOfMeasure: string;
 	}
 	interface ProductSettingsModel extends Insite.Core.WebApi.BaseModel {
 		allowBackOrder: boolean;
@@ -955,6 +980,7 @@ declare module Insite.Catalog.WebApi.V1.ApiModels {
 		showSavingsPercent: boolean;
 		realTimePricing: boolean;
 		realTimeInventory: boolean;
+		inventoryIncludedWithPricing: boolean;
 		storefrontAccess: string;
 	}
 }
@@ -1000,9 +1026,9 @@ declare module Insite.Core.Plugins.Search.Dtos {
 		selected: boolean;
 	}
 }
-declare module Insite.Dashboard.WepApi.V1.ApiModels {
+declare module Insite.Dashboard.WebApi.V1.ApiModels {
 	interface DashboardPanelCollectionModel extends Insite.Core.WebApi.BaseModel {
-		dashboardPanels: Insite.Dashboard.WepApi.V1.ApiModels.DashboardPanelModel[];
+		dashboardPanels: Insite.Dashboard.WebApi.V1.ApiModels.DashboardPanelModel[];
 	}
 	interface DashboardPanelModel {
 		text: string;
@@ -1124,6 +1150,7 @@ declare module Insite.Invoice.WebApi.V1.ApiModels {
 		otherChargesDisplay: string;
 		currentBalanceDisplay: string;
 		orderTotalDisplay: string;
+		shipViaDescription: string;
 	}
 	interface InvoiceLineModel extends Insite.Core.WebApi.BaseModel {
 		id: string;
@@ -1273,6 +1300,7 @@ declare module Insite.Order.WebApi.V1.ApiModels {
 		canAddToCart: boolean;
 		canAddAllToCart: boolean;
 		showTaxAndShipping: boolean;
+		shipViaDescription: string;
 	}
 	interface OrderLineModel extends Insite.Core.WebApi.BaseModel {
 		id: string;
@@ -1341,6 +1369,7 @@ declare module Insite.Order.WebApi.V1.ApiModels {
 		isActiveProduct: boolean;
 		sectionOptions: Insite.Order.Services.Dtos.SectionOptionDto[];
 		salePriceLabel: string;
+		canAddToWishlist: boolean;
 	}
 	interface OrderPromotionModel extends Insite.Core.WebApi.BaseModel {
 		id: string;
@@ -1521,8 +1550,26 @@ declare module Insite.WishLists.WebApi.V1.ApiModels {
 		canAddAllToCart: boolean;
 		canAddToCart: boolean;
 		hasAnyLines: boolean;
+		description: string;
+		updatedOn: Date;
+		updatedByDisplayName: string;
+		wishListLinesCount: number;
+		wishListSharesCount: number;
+		isSharedList: boolean;
+		sharedByDisplayName: string;
+		sharedUsers: Insite.WishLists.WebApi.V1.ApiModels.WishListShareModel[];
 		pagination: Insite.Core.WebApi.PaginationModel;
 		wishListLineCollection: Insite.WishLists.WebApi.V1.ApiModels.WishListLineModel[];
+		allowEdit: boolean;
+		shareOption: string;
+		recipientEmailAddress: string;
+		sendEmail: boolean;
+		message: string;
+		senderName: string;
+	}
+	interface WishListShareModel extends Insite.Core.WebApi.BaseModel {
+		id: string;
+		displayName: string;
 	}
 	interface WishListLineModel extends Insite.Core.WebApi.BaseModel {
 		id: System.Guid;
@@ -1554,6 +1601,13 @@ declare module Insite.WishLists.WebApi.V1.ApiModels {
 		selectedUnitOfMeasure: string;
 		productUnitOfMeasures: Insite.Catalog.Services.Dtos.ProductUnitOfMeasureDto[];
 		packDescription: string;
+		createdOn: Date;
+		notes: string;
+		createdByDisplayName: string;
+		isSharedLine: boolean;
+		isVisible: boolean;
+		isDiscontinued: boolean;
+		sortOrder: number;
 	}
 	interface WishListLineCollectionModel extends Insite.Core.WebApi.BaseModel {
 		wishListLines: Insite.WishLists.WebApi.V1.ApiModels.WishListLineModel[];
@@ -1562,6 +1616,7 @@ declare module Insite.WishLists.WebApi.V1.ApiModels {
 		allowMultipleWishLists: boolean;
 		allowEditingOfWishLists: boolean;
 		allowWishListsByCustomer: boolean;
+		allowListSharing: boolean;
 	}
 }
 declare module Insite.JobQuote.WebApi.V1.ApiModels {
@@ -1603,6 +1658,7 @@ declare module Insite.Core.Plugins.Inventory {
 		qtyOnHand: number;
 		inventoryAvailabilityDtos: Insite.Core.Plugins.Inventory.InventoryAvailabilityDto[];
 		inventoryWarehousesDtos: Insite.Core.Plugins.Inventory.InventoryWarehousesDto[];
+		additionalResults: {[key: string]:  string};
 	}
 	interface InventoryAvailabilityDto {
 		unitOfMeasure: string;
@@ -1613,4 +1669,3 @@ declare module Insite.Core.Plugins.Inventory {
 		warehouseDtos: Insite.Catalog.Services.Dtos.WarehouseDto[];
 	}
 }
-

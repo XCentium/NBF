@@ -1,16 +1,19 @@
 ﻿module insite.cart {
     "use strict";
 
+    import ProductDto = Insite.Catalog.Services.Dtos.ProductDto;
+
     export class CartLinesController {
         openLineNoteId = "";
         isUpdateInProgress = false;
 
-        static $inject = ["$scope", "cartService", "productSubscriptionPopupService", "spinnerService"];
+        static $inject = ["$scope", "cartService", "productSubscriptionPopupService", "addToWishlistPopupService", "spinnerService"];
 
         constructor(
             protected $scope: ICartScope,
             protected cartService: ICartService,
             protected productSubscriptionPopupService: catalog.ProductSubscriptionPopupService,
+            protected addToWishlistPopupService: wishlist.AddToWishlistPopupService,
             protected spinnerService: core.ISpinnerService) {
             this.init();
         }
@@ -32,17 +35,21 @@
             this.updateLine(cartLine, true);
         }
 
-        updateLine(cartLine: CartLineModel, refresh: boolean): void {
-            if (refresh) {
-                this.isUpdateInProgress = true;
-            }
-            if (parseFloat(cartLine.qtyOrdered.toString()) === 0) {
-                this.removeLine(cartLine);
+        updateLine(cartLine: CartLineModel, refresh: boolean, oldQtyOrdered: number = 1): void {
+            if (cartLine.qtyOrdered || cartLine.qtyOrdered === 0) {
+                if (refresh) {
+                    this.isUpdateInProgress = true;
+                }
+                if (parseFloat(cartLine.qtyOrdered.toString()) === 0) {
+                    this.removeLine(cartLine);
+                } else {
+                    this.spinnerService.show();
+                    this.cartService.updateLine(cartLine, refresh).then(
+                        (cartLineModel: CartLineModel) => { this.updateLineCompleted(cartLineModel); },
+                        (error: any) => { this.updateLineFailed(error); });
+                }
             } else {
-                this.spinnerService.show();
-                this.cartService.updateLine(cartLine, refresh).then(
-                    (cartLineModel: CartLineModel) => { this.updateLineCompleted(cartLineModel); },
-                    (error: any) => { this.updateLineFailed(error); });
+                cartLine.qtyOrdered = oldQtyOrdered;
             }
         }
 
@@ -95,6 +102,16 @@
 
         openProductSubscriptionPopup(cartLine: CartLineModel): void {
             this.productSubscriptionPopupService.display({ product: null, cartLine: cartLine, productSubscription: null });
+        }
+
+        openWishListPopup(cartLine: CartLineModel): void {
+            const product = <ProductDto>{
+                id: cartLine.productId,
+                qtyOrdered: cartLine.qtyOrdered,
+                selectedUnitOfMeasure: cartLine.unitOfMeasure
+            };
+
+            this.addToWishlistPopupService.display([product]);
         }
     }
 

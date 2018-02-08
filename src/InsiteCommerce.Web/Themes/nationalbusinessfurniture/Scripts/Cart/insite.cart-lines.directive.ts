@@ -10,6 +10,8 @@
             scope: {
                 cart: "=",
                 promotions: "=",
+                isCartPage: "=",
+                showAddToList: "=",
                 inventoryCheck: "@",
                 includeInventory: "@",
                 includeQuoteRequired: "=",

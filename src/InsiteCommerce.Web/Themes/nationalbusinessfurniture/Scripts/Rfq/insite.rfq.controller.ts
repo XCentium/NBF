@@ -137,7 +137,11 @@ module insite.rfq {
         }
 
         protected quoteCompletedRedirect(successUri, quoteModelId): void {
-            this.coreService.redirectToPath(`${successUri}?cartid=${quoteModelId}`);
+            if (this.isSalesRep) {
+                this.coreService.redirectToPath(`${successUri}?quoteId=${quoteModelId}`);
+            } else {
+                this.coreService.redirectToPath(`${successUri}?cartid=${quoteModelId}`);
+            }
         }
     }
 

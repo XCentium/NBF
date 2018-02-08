@@ -169,7 +169,7 @@
                 position: relative;
                 display: inline-block;
 
-                .picker.picker--opened.picker--focused {
+                .picker.picker--opened {
                     position: relative;
 
                     .picker__holder {
@@ -291,6 +291,10 @@
             width: 50%;
             vertical-align: top;
             float: right;
+
+            .overflow-table {
+                overflow: inherit;
+            }
         }
 
         .picker {

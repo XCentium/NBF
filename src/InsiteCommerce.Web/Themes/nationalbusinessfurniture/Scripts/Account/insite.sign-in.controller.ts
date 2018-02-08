@@ -1,4 +1,5 @@
 ﻿module insite.account {
+    import IWishListService = wishlist.IWishListService;
     "use strict";
 
     export interface ISignInControllerAttributes extends ng.IAttributes {
@@ -8,6 +9,8 @@
         addressesUrl: string;
         checkoutAddressUrl: string;
         reviewAndPayUrl: string;
+        myListDetailUrl: string;
+        staticListUrl: string;
         cartUrl: string;
     }
 
@@ -25,6 +28,8 @@
         returnUrl: string;
         checkoutAddressUrl: string;
         reviewAndPayUrl: string;
+        myListDetailUrl: string;
+        staticListUrl: string;
         cartUrl: string;
         addressesUrl: string;
         settings: AccountSettingsModel;
@@ -36,6 +41,12 @@
         signInForm: any;
         isFromReviewAndPay: boolean;
         rememberMe: boolean;
+        invitedToList: boolean;
+        navigatedFromStaticList: boolean;
+        listOwner: string;
+        listId: string;
+        isFromCheckoutAddress: boolean;
+        session: SessionModel;
 
         static $inject = ["$scope",
             "$window",
@@ -50,7 +61,9 @@
             "queryString",
             "accessToken",
             "$timeout",
-            "$localStorage"
+            "$localStorage",
+            "wishListService",
+            "$q"
         ];
 
         constructor(
@@ -68,7 +81,8 @@
             protected accessToken: common.IAccessTokenService,
             protected $timeout: ng.ITimeoutService,
             protected $localStorage: common.IWindowStorage,
-            protected $http: ng.IHttpService) {
+            protected wishListService: IWishListService,
+            protected $q: ng.IQService) {
             this.init();
         }
 
@@ -79,6 +93,8 @@
             this.addressesUrl = this.$attrs.addressesUrl;
             this.checkoutAddressUrl = this.$attrs.checkoutAddressUrl;
             this.reviewAndPayUrl = this.$attrs.reviewAndPayUrl;
+            this.myListDetailUrl = this.$attrs.myListDetailUrl;
+            this.staticListUrl = this.$attrs.staticListUrl;
             this.cartUrl = this.$attrs.cartUrl;
 
             this.returnUrl = this.queryString.get("returnUrl");
@@ -99,18 +115,53 @@
                 this.$scope.$on("cartLoaded", (event: ng.IAngularEvent, cart: CartModel) => { this.onCartLoaded(cart); });
             }
 
-            if (this.returnUrl.toLowerCase().indexOf("reviewandpay") > -1) {
+            const lowerCaseReturnUrl = this.returnUrl.toLowerCase();
+            if (lowerCaseReturnUrl.indexOf(this.reviewAndPayUrl.toLowerCase()) > -1) {
                 this.isFromReviewAndPay = true;
             }
+
+            if (lowerCaseReturnUrl.indexOf(this.myListDetailUrl.toLowerCase()) > -1 && lowerCaseReturnUrl.indexOf("invite") > -1) {
+                this.invitedToList = true;
+            }
+
+            const idParam = "?id=";
+            if (lowerCaseReturnUrl.indexOf(this.staticListUrl.toLowerCase()) > -1 && !this.queryString.get("clientRedirect") && lowerCaseReturnUrl.indexOf(idParam) > -1) {
+                this.listId = lowerCaseReturnUrl.substr(lowerCaseReturnUrl.indexOf(idParam) + idParam.length, 36);
+                this.navigatedFromStaticList = true;
+            }
+
+            this.isFromCheckoutAddress = lowerCaseReturnUrl.indexOf(this.checkoutAddressUrl.toLowerCase()) > -1;
         }
 
         protected getSessionCompleted(session: SessionModel): void {
-            if (session.isAuthenticated) {
+            this.session = session;
+            if (session.isAuthenticated && !session.isGuest) {
                 this.$window.location.href = this.dashboardUrl;
+            } else if (this.invitedToList) {
+                this.coreService.displayModal("#popup-sign-in-required");
+            } else if (this.navigatedFromStaticList) {
+                this.getList();
             }
         }
 
         protected getSessionFailed(error: any): void {
+        }
+
+        getList(): void {
+            this.spinnerService.show();
+            this.wishListService.getListById(this.listId, "excludelistlines,staticlist").then(
+                (list: WishListModel) => { this.getListCompleted(list); },
+                (error: any) => { this.getListFailed(error); });
+        }
+
+        protected getListCompleted(list: WishListModel): void {
+            this.spinnerService.hide();
+            this.listOwner = list.sharedByDisplayName;
+            this.coreService.displayModal("#popup-sign-in-required");
+        }
+
+        protected getListFailed(error: any): void {
+            this.spinnerService.hide();
         }
 
         protected getSettingsCompleted(settingsCollection: core.SettingsCollection): void {
@@ -133,10 +184,34 @@
 
             this.disableSignIn = true;
             this.spinnerService.show("mainLayout", true);
+
+            this.signOutIfGuestSignedIn().then(
+                (signOutResult: string) => { this.signOutIfGuestSignedInCompleted(signOutResult); },
+                (error: any) => { this.signOutIfGuestSignedInFailed(error); }
+            );
+        }
+
+        protected signOutIfGuestSignedIn(): ng.IPromise<string> {
+            if (this.session.isAuthenticated && this.session.isGuest) {
+                return this.sessionService.signOut();
+            }
+
+            const defer = this.$q.defer<string>();
+            defer.resolve();
+            return defer.promise;
+        }
+
+        protected signOutIfGuestSignedInCompleted(signOutResult: string): void {
             this.accessToken.remove();
             this.accessToken.generate(this.userName, this.password).then(
                 (accessTokenDto: common.IAccessTokenDto) => { this.generateAccessTokenOnSignInCompleted(accessTokenDto); },
                 (error: any) => { this.generateAccessTokenOnSignInFailed(error); });
+        }
+
+        protected signOutIfGuestSignedInFailed(error: any): void {
+            this.signInError = error.message;
+            this.disableSignIn = false;
+            this.spinnerService.hide("mainLayout");
         }
 
         protected generateAccessTokenOnSignInCompleted(accessTokenDto: common.IAccessTokenDto): void {
@@ -162,6 +237,10 @@
             }
         }
 
+        encodeUriComponent(url): string {
+            return (this.$window as any).encodeURIComponent(url);
+        }
+
         protected getCartCompleted(session: SessionModel, cart: CartModel): void {
             this.cartService.expand = "";
             this.sessionService.redirectAfterSelectCustomer(
@@ -180,12 +259,16 @@
             this.cartService.expand = "";
         }
 
+        showGuestCheckout(): boolean {
+            return this.settings && this.settings.allowGuestCheckout && this.session && !this.session.isAuthenticated && this.isFromCheckoutAddress;
+        }
+
         guestCheckout(): void {
             const account = { isGuest: true } as AccountModel;
-
+            this.spinnerService.show("mainLayout", true);
             this.accountService.createAccount(account).then(
                 (createdAccount: AccountModel) => { this.createAccountCompleted(createdAccount); },
-                (error: any)  => { this.createAccountFailed(error); });
+                (error: any) => { this.createAccountFailed(error); });
         }
 
         protected createAccountCompleted(account: AccountModel): void {
@@ -275,7 +358,16 @@
                 this.$localStorage.set("hasRestrictedProducts", true.toString());
             }
 
-            this.selectCustomer(session);
+            if (this.invitedToList) {
+                const inviteParam = "invite=";
+                const lowerCaseReturnUrl = this.returnUrl.toLowerCase();
+                const invite = lowerCaseReturnUrl.substr(lowerCaseReturnUrl.indexOf(inviteParam) + inviteParam.length);
+                this.wishListService.activateInvite(invite).then(
+                    (wishList: WishListModel) => { this.selectCustomer(session); },
+                    (error: any) => { this.selectCustomer(session); });
+            } else {
+                this.selectCustomer(session);
+            }
         }
 
         protected signInFailed(error: any): void {
@@ -290,6 +382,10 @@
                     this.signInError = error;
                 }
             }
+        }
+
+        protected closeModal(selector: string): void {
+            this.coreService.closeModal(selector);
         }
     }
 

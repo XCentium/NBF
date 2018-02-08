@@ -1,7 +1,7 @@
 ﻿module insite.account {
     "use strict";
 
-    export class SignInWidgetController extends SignInController {
+    export class SignInWidgetController extends insite.account.SignInController {
         accessTokenString = "";
         changePasswordError: string;
         email: string;
@@ -35,6 +35,16 @@
         isFromCheckoutAddress: boolean;
         session: SessionModel;
 
+        protected getSessionCompleted(session: SessionModel): void {
+            this.session = session;
+            if (session.isAuthenticated && !session.isGuest) {
+                this.$window.location.href = this.dashboardUrl;
+            } else if (this.invitedToList) {
+                this.coreService.displayModal("#popup-sign-in-required");
+            } else if (this.navigatedFromStaticList) {
+                super.getList();
+            }
+        }
 
     }
 

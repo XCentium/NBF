@@ -91,7 +91,7 @@ module insite.budget {
         budgetCalendarLoaded(): void {
             angular.element("#FiscalYearEndDate")
                 .attr("data-mindate", `1/1/${this.calendar.fiscalYear}`)
-                .attr("data-maxdate", `12/31/${this.calendar.fiscalYear}`);
+                .attr("data-maxdate", `12/31/${this.calendar.fiscalYear + 1}`);
 
             this.calendarCalculate();
             this.addPeriod();
@@ -406,7 +406,7 @@ module insite.budget {
             if (index === this.calendar.budgetPeriods.length - 1 || !this.calendar.budgetPeriods[index + 1]) {
                 date = this.calendar.fiscalYearEndDate ?
                     new Date(this.calendar.fiscalYearEndDate.toString()) :
-                    new Date(this.calendar.fiscalYear + 2, 0, 1);
+                    new Date(this.calendar.fiscalYear + 1, 0, 1);
             } else {
                 date = new Date(this.calendar.budgetPeriods[index + 1].toString());
             }

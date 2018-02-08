@@ -72,9 +72,11 @@
             }
 
             this.coreService.displayModal($popup);
-            setTimeout(() => {
-                this.coreService.closeModal(popupSelector);
-            }, this.cartSettings.addToCartPopupTimeout);
+            if (!this.isQtyAdjusted) {
+                setTimeout(() => {
+                    this.coreService.closeModal(popupSelector);
+                }, this.cartSettings.addToCartPopupTimeout);
+            }
         }
     }
 
@@ -100,12 +102,12 @@
         .controller("AddToCartPopupController", AddToCartPopupController)
         .service("addToCartPopupService", AddToCartPopupService)
         .directive("iscAddToCartPopup", () => ({
-                restrict: "E",
-                replace: true,
-                templateUrl: "/PartialViews/Cart-AddToCartPopup",
-                controller: "AddToCartPopupController",
-                controllerAs: "vm",
-                scope: {},
-                bindToController: true
-            }));
+            restrict: "E",
+            replace: true,
+            templateUrl: "/PartialViews/Cart-AddToCartPopup",
+            controller: "AddToCartPopupController",
+            controllerAs: "vm",
+            scope: {},
+            bindToController: true
+        }));
 }

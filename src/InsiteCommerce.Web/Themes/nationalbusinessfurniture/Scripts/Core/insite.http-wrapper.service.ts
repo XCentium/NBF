@@ -17,7 +17,7 @@
                     },
                     (error: ng.IHttpPromiseCallbackArg<any>) => {
                         failedFunction.call(caller, error);
-                        deferred.reject(error.data);
+                        (<any>deferred).reject(error.data, error.status);
                     });
             return deferred.promise;
         }

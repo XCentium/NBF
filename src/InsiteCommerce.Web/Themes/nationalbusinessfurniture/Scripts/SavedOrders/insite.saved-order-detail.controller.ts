@@ -8,15 +8,18 @@
         showInventoryAvailability = false;
         requiresRealTimeInventory = false;
         failedToGetRealTimeInventory = false;
+        canAddAllToList = false;
+        validationMessage: string;
 
-        static $inject = ["cartService", "coreService", "spinnerService", "settingsService", "queryString"];
+        static $inject = ["cartService", "coreService", "spinnerService", "settingsService", "queryString", "addToWishlistPopupService"];
 
         constructor(
             protected cartService: cart.ICartService,
             protected coreService: core.ICoreService,
             protected spinnerService: core.ISpinnerService,
             protected settingsService: core.ISettingsService,
-            protected queryString: common.IQueryStringService) {
+            protected queryString: common.IQueryStringService,
+            protected addToWishlistPopupService: wishlist.AddToWishlistPopupService) {
             this.init();
         }
 
@@ -26,7 +29,7 @@
                 (error: any) => { this.getSettingsFailed(error); });
 
             this.cartService.expand = "cartlines,costcodes";
-            this.cartService.getCart(this.queryString.get("cartid")).then(
+            this.cartService.getCart(this.queryString.get("cartid"), false).then(
                 (cart: CartModel) => { this.getCartCompleted(cart); },
                 (error: any) => { this.getCartFailed(error); });
         }
@@ -42,6 +45,7 @@
         protected getCartCompleted(cart: CartModel): void {
             this.cartService.expand = "";
             this.cart = cart;
+            this.canAddAllToList = this.cart.cartLines.every(l => l.canAddToWishlist);
             this.canAddToCart = this.cart.cartLines.some(l => l.canAddToCart);
             this.canAddAllToCart = this.cart.cartLines.every(l => l.canAddToCart);
             this.getRealTimeInventory();
@@ -49,6 +53,7 @@
 
         protected getCartFailed(error: any): void {
             this.cartService.expand = "";
+            this.validationMessage = error.message || error;
         }
 
         getRealTimeInventory(): void {
@@ -64,6 +69,24 @@
 
         protected getRealTimeInventoryFailed(error: any): void {
             this.failedToGetRealTimeInventory = true;
+        }
+
+        addAllToList(): void {
+            let products = [];
+            for (let i = 0; i < this.cart.cartLines.length; i++) {
+                const cartLine = this.cart.cartLines[i];
+                if (!cartLine.canAddToWishlist) {
+                    continue;
+                }
+                const product = <ProductDto>{
+                    id: cartLine.productId,
+                    qtyOrdered: cartLine.qtyOrdered,
+                    selectedUnitOfMeasure: cartLine.unitOfMeasure
+                };
+                products.push(product);
+            }
+
+            this.addToWishlistPopupService.display(products);
         }
 
         placeSavedOrder(cartUri: string): void {

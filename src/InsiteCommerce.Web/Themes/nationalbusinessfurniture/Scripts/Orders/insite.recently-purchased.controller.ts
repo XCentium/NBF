@@ -14,6 +14,8 @@
         maxProducts = 5;
         productItems: IProductItem[] = [];
         addingToCart = false;
+        realTimePricing = false;
+        failedToGetRealTimePrices = false;
 
         static $inject = ["settingsService", "orderService", "productService", "cartService"];
 
@@ -33,6 +35,7 @@
 
         protected getSettingsCompleted(settingsCollection: core.SettingsCollection): void {
             this.showOrders = settingsCollection.orderSettings.showOrders;
+            this.realTimePricing = settingsCollection.productSettings.realTimePricing;
             if (this.showOrders) {
                 this.getRecentlyPurchasedItems();
             }
@@ -61,10 +64,10 @@
                 for (let orderLineIndex = 0; orderLineIndex < orderLines.length && this.productItems.length <= this.maxProducts; orderLineIndex++) {
                     let orderLine = orderLines[orderLineIndex];
                     if (orderLine.canAddToCart) {
-                         const productItem = { id: orderLine.productId, unitOfMeasure: orderLine.unitOfMeasure };
-                         if (productItem.id && !this.productItems.some((pi) => (pi.id === orderLine.productId && pi.unitOfMeasure === orderLine.unitOfMeasure)) && this.productItems.length < this.maxProducts) {
-                             this.productItems.push(productItem);
-                         }
+                        const productItem = { id: orderLine.productId, unitOfMeasure: orderLine.unitOfMeasure, product: {} as any };
+                        if (productItem.id && !this.productItems.some((pi) => (pi.id === orderLine.productId && pi.unitOfMeasure === orderLine.unitOfMeasure)) && this.productItems.length < this.maxProducts) {
+                            this.productItems.push(productItem);
+                        }
                     }
                 }
             }
@@ -89,7 +92,7 @@
         }
 
         getProducts(ids: System.Guid[]): void {
-            this.productService.getProducts({ productIds: ids }).then(
+            this.productService.getProducts({ productIds: ids }, ["pricing"]).then(
                 (productCollection: ProductCollectionModel) => { this.getProductsCompleted(productCollection); },
                 (error: any) => { this.getProductsFailed(error); }
             );
@@ -115,9 +118,28 @@
                     }
                 }
             }
+
+            if (this.realTimePricing && this.productItems && this.productItems.length > 0) {
+                this.productService.getProductRealTimePrices(this.productItems.map(o => o.product)).then(
+                    (realTimePricing: RealTimePricingModel) => this.getProductRealTimePricesCompleted(realTimePricing),
+                    (error: any) => this.getProductRealTimePricesFailed(error));
+            }
         }
 
         protected getProductsFailed(error: any): void {
+        }
+
+        protected getProductRealTimePricesCompleted(realTimePricing: RealTimePricingModel): void {
+        }
+
+        protected getProductRealTimePricesFailed(error: any): void {
+            this.failedToGetRealTimePrices = true;
+        }
+
+        showUnitOfMeasureLabel(product: ProductDto): boolean {
+            return product.canShowUnitOfMeasure
+                && !!product.unitOfMeasureDisplay
+                && !product.quoteRequired;
         }
 
         protected changeUnitOfMeasureCompleted(product: ProductDto, productItem: IProductItem): void {

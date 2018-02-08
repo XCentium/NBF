@@ -32,7 +32,7 @@
             </div>
             <div id="userPanel">
                 <form>
-                    <div class="row collapse" ng-show="::(vm.session.isAuthenticated || vm.session.rememberMe)">
+                    <div class="row collapse" ng-show="::((vm.session.isAuthenticated || vm.session.rememberMe) && !vm.session.isGuest)">
                         <div class="small-12 columns right">
                             <div class="inf-cust">
                                 <span class="inf-label">[% translate 'Customer #' %]:</span>
@@ -63,7 +63,7 @@
                             </button>
                         </div>
 
-                        <div class="small-12 columns user-info" ng-if="::vm.session.isAuthenticated">
+                        <div class="small-12 columns user-info">
                             <div class="user-button">
                                 <i class="social foundicon-torso"></i>
                                 <span class="cust-name" ng-bind="::vm.session.userLabel"></span>
@@ -110,10 +110,10 @@
     <nav role="secondary-nav">
         <div class="row">
             <ul role="user-nav" id="tst_userNav">
-                <li role="sign-in" ng-cloak ng-show="::(vm.session && !vm.session.isAuthenticated && !vm.session.rememberMe)">
+                <li role="sign-in" ng-cloak ng-show="::(vm.session && (!vm.session.isAuthenticated && !vm.session.rememberMe || vm.session.isGuest))">
                     <a href="[% urlForPage 'SignInPage' %]" isc-redirect-to-sign-in return-to-url="true" class="btn sign-in fastClick tst_header_signInButton"><span>[% translate 'Sign In' %]</span></a>
                 </li>
-                <li role="user-options" ng-show="::vm.session.isAuthenticated || vm.session.rememberMe">
+                <li role="user-options" ng-show="::((vm.session.isAuthenticated || vm.session.rememberMe) && !vm.session.isGuest)">
                     <a href="#" class="user-button fastClick" id="tst_userNav_userName_button">
                         <i ng-cloak class="social foundicon-torso"></i>
                         <span class="cust-name" ng-bind="::vm.session.userLabel"></span>
@@ -131,7 +131,7 @@
                     </button>
                     <button class="ex fastClick"><i class="foundicon-remove"></i></button>
                 </li>
-                <li role="sign-out" id="tst_header_signOutButton" ng-cloak ng-show="::vm.session.isAuthenticated || vm.session.rememberMe">
+                <li role="sign-out" id="tst_header_signOutButton" ng-cloak ng-show="::((vm.session.isAuthenticated || vm.session.rememberMe) && !vm.session.isGuest)">
                     [[SignOutLink]]
                 </li>
                 <li role="multi-lang" ng-if="vm.languages.length > 1" id="tst_languageMenu">

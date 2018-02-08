@@ -12,7 +12,7 @@ module insite.cart {
         expand: string;
 
         getCarts(filter?: IQueryStringFilter, pagination?: PaginationModel): ng.IPromise<CartCollectionModel>;
-        getCart(cartId?: string): ng.IPromise<CartModel>;
+        getCart(cartId?: string, bypassErrorInterceptor?: boolean): ng.IPromise<CartModel>;
         updateCart(cart: CartModel, suppressApiErrors?: boolean): ng.IPromise<CartModel>;
         saveCart(cart: CartModel): ng.IPromise<CartModel>;
         submitRequisition(cart: CartModel): ng.IPromise<CartModel>;
@@ -84,7 +84,7 @@ module insite.cart {
         protected getCartsFailed(error: ng.IHttpPromiseCallbackArg<any>): void {
         }
 
-        getCart(cartId?: string): ng.IPromise<CartModel> {
+        getCart(cartId?: string, bypassErrorInterceptor = true): ng.IPromise<CartModel> {
             if (!cartId) {
                 cartId = "current";
             }
@@ -97,7 +97,7 @@ module insite.cart {
 
             return this.httpWrapperService.executeHttpRequest(
                 this,
-                this.$http({ method: "GET", url: uri, params: this.getCartParams(), bypassErrorInterceptor: true }),
+                this.$http({ method: "GET", url: uri, params: this.getCartParams(), bypassErrorInterceptor: bypassErrorInterceptor }),
                 (response: ng.IHttpPromiseCallbackArg<CartModel>) => { this.getCartCompleted(response, cartId); },
                 this.getCartFailed);
         }
@@ -325,7 +325,7 @@ module insite.cart {
                     var inventoryAvailability = productInventory.inventoryAvailabilityDtos.find(o => o.unitOfMeasure === cartLine.unitOfMeasure);
                     if (inventoryAvailability) {
                         cartLine.availability = inventoryAvailability.availability;
-                        if (!cart.hasInsufficientInventory && (cartLine.canBackOrder || cartLine.quoteRequired || (inventoryAvailability.availability as any).messageType == 2)) {
+                        if (!cart.hasInsufficientInventory && !cartLine.canBackOrder && !cartLine.quoteRequired && (inventoryAvailability.availability as any).messageType == 2) {
                             cart.hasInsufficientInventory = true;
                         }
                     } else {

@@ -60,10 +60,10 @@
                             <span class="result-lbl" ng-if="!vm.noResults && vm.products">{{'[% translate 'Items_pager' %]'.toLowerCase()}}</span>
 
                             <span ng-if="vm.query && !(vm.searchCategory || vm.filterCategory.categoryId)" class="search-lbl">
-                                {{ vm.noResults ? "[% translate 'No results found for' %]" : "[% translate 'results for' %]" }} <strong>{{vm.query}}</strong>
+                                {{ vm.noResults ? "[% translate 'No results found for' %]" : "[% translate 'results for' %]" }} <strong id="tst_productList_query">{{vm.query}}</strong>
                             </span>
                             <span ng-if="vm.query && (vm.searchCategory || vm.filterCategory.categoryId)" class="search-lbl">
-                                {{ vm.noResults ? "[% translate 'No results found for' %]" : "[% translate 'results for' %]" }} <strong>{{vm.query}}</strong> [% translate 'in_category' %] {{vm.searchCategory.shortDescription || vm.filterCategory.shortDescription}}
+                                {{ vm.noResults ? "[% translate 'No results found for' %]" : "[% translate 'results for' %]" }} <strong id="tst_productList_query">{{vm.query}}</strong> [% translate 'in_category' %] {{vm.searchCategory.shortDescription || vm.filterCategory.shortDescription}}
                             </span>
                         </h3>
 
@@ -71,7 +71,7 @@
                             [% translate 'Did you mean ' %] <a ng-click="vm.goToSearchCriteria(vm.products.didYouMeanSuggestions[0].suggestion)" ng-bind="vm.products.didYouMeanSuggestions[0].suggestion"></a>
                         </div>
                         <div class="search-autocorrect-original" ng-if="vm.autoCorrectedQuery">
-                            [% translate 'Search instead for' %] <a ng-click="vm.goToSearchCriteria(vm.originalQuery, false)">{{vm.originalQuery}}</a>
+                            [% translate 'Search instead for' %] <a id="tst_productList_originalQuery" ng-click="vm.goToSearchCriteria(vm.originalQuery, false)">{{vm.originalQuery}}</a>
                         </div>
 
                         <div ng-show="vm.products.products.length > 0">
@@ -84,7 +84,7 @@
 
                                     <div class="item-thumb">
                                         <a ng-href="{{product.productDetailUrl}}">
-                                            <img ng-src="https://s7d9.scene7.com/is/image/NationalBusinessFurniture/{{product.mediumImagePath}}?hei=250&id=Iu1rN2&fmt=jpg&fit=constrain,1&wid=250&hei=250" alt="{{product.altText}}" increment-images-loaded />
+                                            <img ng-src="{{product.mediumImagePath}}" alt="{{product.altText}}" increment-images-loaded />
                                         </a>
                                         <div ng-if="vm.settings.enableProductComparisons" class="product-compare-add">
                                             <a href="javascript:void(0);" data-id="{{product.id}}" class="compare-link" ng-class="{ 'compare-active': product.isBeingCompared }" ng-click="vm.compareProduct(product);">[% translate 'Compare' %]</a>
@@ -166,7 +166,7 @@
                                         <td>
                                             <div class="item-thumb">
                                                 <a ng-href="{{product.productDetailUrl}}">
-                                                    <img ng-src="https://s7d9.scene7.com/is/image/NationalBusinessFurniture/{{product.mediumImagePath}}?hei=250&id=Iu1rN2&fmt=jpg&fit=constrain,1&wid=250&hei=250" alt="{{product.altText}}" />
+                                                    <img ng-src="{{product.mediumImagePath}}" alt="{{product.altText}}" />
                                                 </a>
                                             </div>
                                             <div class="item-description">
@@ -266,7 +266,7 @@
     <div class="compare-hopper" ng-show="vm.canShowCompareHopper()">
         <div class="compare-container">
             <div class="compare-item" ng-repeat="product in vm.productsToCompare">
-                <a href="javascript:void(0);" class="compare-remove" ng-click="vm.clickRemove(product)">[% translate 'Remove' %]</a><img ng-src="https://s7d9.scene7.com/is/image/NationalBusinessFurniture/{{product.smallImagePath}}?hei=250&id=Iu1rN2&fmt=jpg&fit=constrain,1&wid=100&hei=100" alt="product.altText" />
+                <a href="javascript:void(0);" class="compare-remove" ng-click="vm.clickRemove(product)">[% translate 'Remove' %]</a><img ng-src="{{product.smallImagePath}}" alt="product.altText" />
                 <div class="item-name">
                     <a data-id="product.id" href="javascript:void(0);">{{product.shortDescription}}</a>
                 </div>
