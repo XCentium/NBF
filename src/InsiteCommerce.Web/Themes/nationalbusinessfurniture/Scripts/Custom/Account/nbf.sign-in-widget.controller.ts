@@ -1,7 +1,7 @@
 ﻿module insite.account {
     "use strict";
 
-    export class SignInWidgetController extends insite.account.SignInController {
+    export class SignInWidgetController extends SignInController {
         accessTokenString = "";
         changePasswordError: string;
         email: string;
