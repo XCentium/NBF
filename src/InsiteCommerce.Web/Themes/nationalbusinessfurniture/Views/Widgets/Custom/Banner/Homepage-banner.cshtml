@@ -7,7 +7,12 @@
 <div class="row">
     <div class="medium-12 large-12 columns widget-1column no-margin [[Model.CssClass]]">
         <div class="banner banner--homepage homepage__banner-bg">
-            <div class="banner__content banner__content--top-left  banner__content--square">
+            <div class="banner__content banner__content--[[Model.Position]]  banner__content--[[Model.Style]]">
+                [% if Model.Style == "Default" -%]
+                <h2>Hundreds of Products Shipping Today!</h2>
+                <p>With a wide selection ready to get to your doorstep, shopping can't get any easier.</p>
+                <a href="#" class="btn btn-primary">Start Here!</a>
+                [% else -%]
                 <div class="square-padding-bottom">
                     <div class="square-conatiner">
                         <div class="v-center">
@@ -15,11 +20,22 @@
                         </div>
                     </div>
                 </div>
+                [% endif -%]
             </div>
-            <div class="banner__content banner__content--bottom-right">
+            <div class="banner__content banner__content--[[Model.Style]] banner__content--[[Model.Position]]">
+                [% if Model.Style == "Default" -%]
                 <h2>Hundreds of Products Shipping Today!</h2>
                 <p>With a wide selection ready to get to your doorstep, shopping can't get any easier.</p>
                 <a href="#" class="btn btn-primary">Start Here!</a>
+                [% else -%]
+                <div class="square-padding-bottom">
+                    <div class="square-conatiner">
+                        <div class="v-center">
+                            <h3>Contemporary Computer Desk</h3>
+                        </div>
+                    </div>
+                </div>
+                [% endif -%]
             </div>
         </div>
     </div>
