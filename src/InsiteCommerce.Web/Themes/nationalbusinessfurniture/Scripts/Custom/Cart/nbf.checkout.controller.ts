@@ -556,12 +556,8 @@
             e.preventDefault();
             this.userFound = false;
 
-            $("#nav1expanded").show();
-            $("#nav1min").hide();
-            $("#nav1 .edit").hide();
-            $("#nav2 .edit").hide();
-            $("#nav2expanded").show();
-            $("#nav2min").hide();
+            $("#nav1expanded,#nav2expanded").show();
+            $("#nav1min,#nav2min,#nav1 .edit,#nav2 .edit").hide();
 
             $("#shipping").removeClass("active");
             $("#payment").removeClass("active");
@@ -575,8 +571,7 @@
             e.preventDefault();
 
             $("#nav2expanded").show();
-            $("#nav2min").hide();
-            $("#nav2 .edit").hide();
+            $("#nav2min, #nav2 .edit").hide();
 
             $("#payment").removeClass("active");
             $("html:not(:animated), body:not(:animated)").animate({
@@ -713,8 +708,7 @@
             }
 
             $("#nav1expanded").hide();
-            $("#nav1min").show();
-            $("#nav1 .edit").show();
+            $("#nav1min, #nav1 .edit").show();
 
             $("#shipping").addClass("active");
             $("html:not(:animated), body:not(:animated)").animate({
@@ -1016,9 +1010,7 @@
 
         protected loadStep3() {
             $("#nav2expanded").hide();
-
-            $("#nav2min").show();
-            $("#nav2 .edit").show();
+            $("#nav2min, #nav2 .edit").show();
 
             $("#payment").addClass("active");
             $("html:not(:animated), body:not(:animated)").animate({
@@ -1029,11 +1021,9 @@
         }
 
         protected loadStep4() {
-            $("#nav1expanded,#nav2expanded,#nav3expanded").hide();
+            $("#nav1expanded,#nav2expanded,#nav3expanded,.edit").hide();
             $("#nav1min,#nav2min,#nav3min,#thankYou").show();
             $("#address,#shipping,#payment").addClass("active");
-
-            $(".edit").hide();
 
             $("#confirmation").addClass("active");
 

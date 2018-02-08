@@ -1,5 +1,8 @@
 ﻿.checkout {
     .checkout-accordion {
+        .ship-select, .required-msg {
+            min-height: 0px;
+        }
         .nav-header {
             text-align:center;
         }
