@@ -751,6 +751,7 @@
     <Content Include="SimplePing.aspx" />
     <Content Include="UserFiles\Images\BannerImages\1440x600.png" />
     <Content Include="UserFiles\Images\BannerImages\placeholder.png" />
+    <Content Include="UserFiles\Images\Callouts\1200x480.gif" />
     <Content Include="UserFiles\Images\Logo.png" />
     <Content Include="Images\list-notes-icon.png" />
     <Content Include="UserFiles\Images\Products\LG_NotFound.jpg" />
