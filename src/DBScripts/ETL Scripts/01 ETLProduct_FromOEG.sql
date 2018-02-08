@@ -70,7 +70,8 @@ begin
 		ShippingLength = isnull(scd.[Length],0),
 		ShippingWidth = isnull(scd.[Width],0),
 		ShippingHeight = isnull(scd.[Height],0),
-		QtyPerShippingPackage = isnull(si.QtyPerCarton,0),
+		ShippingAmountOverride = isnull(sp.DeliveryAmount,0),
+		QtyPerShippingPackage = 0,
 		UrlSegment = LOWER(replace(dbo.UrlFriendlyString(ltrim(rtrim(isnull(spwd.[Description],''))) + '-' + sp.Number),'/','-')),
 		IsDiscontinued = case when luStatus.Name = 'Active' then 0 else 1 end,
 		ActivateOn = isnull(sp.FirstAvailableDate,dateadd(day, 10, SYSDATETIMEOFFSET())),
@@ -132,7 +133,8 @@ begin
 		ShippingLength = isnull(scd.[Length],0),
 		ShippingWidth = isnull(scd.[Width],0),
 		ShippingHeight = isnull(scd.[Height],0),
-		QtyPerShippingPackage = isnull(si.QtyPerCarton,0),
+		ShippingAmountOverride = isnull(sp.DeliveryAmount,0),
+		QtyPerShippingPackage = case when isnull(si.RequireTruck,0) > 0 then si.RequireTruck when isnull(sisku.ShipTypeId,0) = 12 then 1 else 0 end,
 		UrlSegment = sp.Number + '-' + convert(nvarchar(max),spsku.ProductSKUId),
 		IsDiscontinued = case when luStatus.Name = 'Active' and spsku.EffEndDate > getdate() and spsku.IsWebEnabled=1 then 0 else 1 end,
 		ActivateOn = isnull(spsku.EffStartDate,dateadd(day, 10, SYSDATETIMEOFFSET())),
@@ -182,7 +184,7 @@ begin
 	select ContentManagerId, 'Product', 'etl', 'etl'
 	from Product
 	where ContentManagerId not in (select Id from ContentManager)
-
+	and ContentManagerId != '00000000-0000-0000-0000-000000000000'
 
 	-- tie up the style parent for each of the variants
 	;with parentProduct as
@@ -254,7 +256,7 @@ begin
 exec ETLProduct_FromOEG
 exec ETLProduct_ToInsite
 
-select styleclassid,vendorid,* from product
+select styleclassid,vendorid,ShippingAmountOverride,QtyPerShippingPackage,* from product
 select * from styleclass
 select * from styletrait
 
