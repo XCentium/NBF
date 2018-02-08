@@ -32,9 +32,9 @@ namespace Extensions.Handlers.Helpers
         {
         }
 
-        public virtual async Task<bool> SendTransactionalEmail(SendTransationalMessageParameter parameter, IUnitOfWork unitOfWork)
+        public virtual async Task<bool> SendTransactionalEmail(SendTransationalMessageParameter parameter)
         {
-            var a = await ProcessSendTransactionalEmail(parameter, unitOfWork);
+            var a = await ProcessSendTransactionalEmail(parameter);
             //var userProfile = SiteContext.Current.UserProfileDto;
             //var url = HttpContext.Current.Request.Url;
             //dynamic emailData = new ExpandoObject();
@@ -45,7 +45,7 @@ namespace Extensions.Handlers.Helpers
             return a;
         }
 
-        private async Task<bool> ProcessSendTransactionalEmail(SendTransationalMessageParameter parameter, IUnitOfWork unitOfWork)
+        private async Task<bool> ProcessSendTransactionalEmail(SendTransationalMessageParameter parameter)
         {
             var token = await GetOAuthToken();
             var client = new HttpClient();
@@ -58,7 +58,7 @@ namespace Extensions.Handlers.Helpers
                 var fieldValue = new SegmentationFieldValue()
                 {
                     SegmentationFieldId = field.SegmentationFieldId,
-                    Value = field.Value
+                    Value = "<![CDATA[" + field.Value
                 };
                 segmentationFieldValues.Add(fieldValue);
             }

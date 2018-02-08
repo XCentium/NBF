@@ -13,6 +13,6 @@ namespace Extensions.Handlers.Interfaces
 {
     public interface INbfListrakHelper : IDependency, IExtension
     {
-        Task<bool> SendTransactionalEmail(SendTransationalMessageParameter parameter, IUnitOfWork unitOfWork);
+        Task<bool> SendTransactionalEmail(SendTransationalMessageParameter parameter);
     }
 }

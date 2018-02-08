@@ -31,24 +31,9 @@ namespace Extensions.WebApi.Messages.Repository
             this.UnitOfWork = unitOfWorkFactory.GetUnitOfWork();
             this.GetListrakHelper = getListrakHelper;
         }
-        private async Task<bool> SendEmailCaller(SendTransationalMessageParameter param)
-        {
-            var service = new NBFListrakHelper();
-            return await service.SendTransactionalEmail(param, this.UnitOfWork);
-        }
 
         public bool CreateMessage(CreateMessageParameter parameter)
         {
-            
-            var param = new SendTransationalMessageParameter();
-            var field = new SegmentationFieldParameter();
-            param.SegmentationFields = new System.Collections.Generic.List<SegmentationFieldParameter>();
-            field.SegmentationFieldId = WelcomeEmailFieldEnum.FirstName.GetId();
-            field.Value = "testing from helper.";
-            param.SegmentationFields.Add(field);
-            param.Message = Enums.Listrak.TransactionalMessageEnum.WelcomeEmail;
-            param.EmailAddress = "n.t.agnos@gmail.com";
-            var a = SendEmailCaller(param);
             IRepository<Insite.Data.Entities.Message> repository = UnitOfWork.GetRepository<Insite.Data.Entities.Message>();
             Insite.Data.Entities.Message message = repository.Create();
             message.LanguageId = new Guid?(SiteContext.Current.LanguageDto.Id);

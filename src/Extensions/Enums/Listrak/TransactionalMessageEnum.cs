@@ -6,11 +6,11 @@ namespace Extensions.Enums.Listrak
     {
         [Description("11570051")]
         WelcomeEmail,
+        [Description("11572525")]
+        OrderConfirmation,
         [Description("11570051")]
         BrowseAbandonmentEmail,
         [Description("11570051")]
-        CartAbandonmentEmail,
-        [Description("11570051")]
-        PostPurchaseEmail
+        CartAbandonmentEmail
     }
 }

@@ -31,7 +31,7 @@ namespace Extensions.WebApi.Listrak.Repository
         public async Task<bool> SendTransactionalEmail(SendTransationalMessageParameter parameter)
         {
 
-            var a = await this.GetListrakHelper.Value.SendTransactionalEmail(parameter, this.UnitOfWork);
+            var a = await this.GetListrakHelper.Value.SendTransactionalEmail(parameter);
             return a;
         }
     }
