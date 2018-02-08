@@ -111,6 +111,7 @@ begin
 	(
 	select 
 		--p.ERPNumber, p.ShortDescription, sp.ProductId, sp.BrandId, --debugging
+		--spwi.*,
 		ROW_NUMBER() OVER (partition by p.Id order by p.ERPNumber, spwi.IsPrimary desc, spwi.WebSortOrder) RowNumber, 
 		p.Id, isnull(spwi.[FileName],'') [Name],
 		isnull(spwi.[FileName],'') [SmallImagePath],
@@ -120,15 +121,15 @@ begin
 	from
 		OEGSystemStaging.dbo.Products sp
 		join OEGSystemStaging.dbo.ProductWebImages spwi on spwi.ProductId = sp.ProductId
-			and (spwi.UsageId = 2 and spwi.IsPrimary = 0) -- these are the featured images
+			and ((spwi.UsageId = 2 and spwi.IsPrimary = 0) or spwi.IsPrimary = 1) -- these are the featured images
 		join OEGSystemStaging.dbo.ProductSKUs spsku on spsku.ProductId = sp.ProductId
 			and spsku.IsWebEnabled = 1
-		join OEGSystemStaging.dbo.ProductSkusWebImages spswi on spswi.ProductSKUId = spsku.ProductSKUId
-			and spswi.WebImageId = spwi.WebImageId
+		left join OEGSystemStaging.dbo.ProductSkusWebImages spswi on spswi.ProductSKUId = spsku.ProductSKUId
 		join Product p on p.ERPNumber = sp.Number + '_' + spsku.OptionCode
 	where 
-		sp.BrandId = 1
-		--and p.ERPNumber like '56289%' 
+		sp.BrandId = @brand
+		and (spswi.WebImageId = spwi.WebImageId or spswi.WebImageId is null)
+		--and p.ERPNumber = '41899_11' 
 		--and p.Id = '232286bf-87fd-e711-a98c-a3e0f1200094'
 	--order by p.ERPNumber -- debugging
 	)
@@ -151,6 +152,8 @@ begin
 		'etl','etl'
 	from
 		helper h
+	where
+		h.RowNumber = 1
 	order by h.Id, h.RowNumber	
 
 
