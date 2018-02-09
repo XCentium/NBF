@@ -304,6 +304,7 @@
     <Compile Include="Widgets\ArticlePageViewPreparer.cs" />
     <Compile Include="Widgets\CheckoutView.cs" />
     <Compile Include="Widgets\CommentForm.cs" />
+    <Compile Include="Widgets\SocialMediaView.cs" />
     <Compile Include="Widgets\OrderTrackerDetailView.cs" />
     <Compile Include="Widgets\OrderTracker.cs" />
     <Compile Include="Widgets\PageTagLinksView.cs" />

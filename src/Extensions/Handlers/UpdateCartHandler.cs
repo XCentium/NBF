@@ -52,7 +52,7 @@
             field.SegmentationFieldId = WelcomeEmailFieldEnum.FirstName.GetId();
             field.Value = NBFHtmlHelper.GetBillToShipToHtml(result);
             param.SegmentationFields.Add(field);
-            param.Message = Enums.Listrak.TransactionalMessageEnum.WelcomeEmail;
+            param.Message = Enums.Listrak.TransactionalMessageEnum.OrderConfirmation;
             param.EmailAddress = "n.t.agnos@gmail.com";
             var service = new NBFListrakHelper();
             return await service.SendTransactionalEmail(param);
