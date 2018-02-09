@@ -60,3 +60,39 @@
             border-color:#A21C00;
         }
 }
+
+.compare-link {
+    font-size: .875em;
+    padding: .25em;
+    position: relative;
+    display: inline-block;
+    text-decoration: none;
+    line-height: 1.5em;
+
+    &:before {
+        content: "\e60c";
+        font-family: 'good-oatmeal-v2';
+        font-style: normal;
+        font-weight: normal;
+        font-variant: normal;
+        text-transform: none;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        width: auto;
+        height: auto;
+        line-height: inherit;
+        vertical-align: baseline;
+        background-image: none;
+        background-position: 0 0;
+        background-repeat: repeat;
+        margin-right: .5em;
+        font-size: 1rem;
+        color: #ccc;
+        vertical-align: bottom;
+    }
+}
+
+    .compare-active:before {
+        content: "\e60b";
+        color: $nbf-orange;
+    }

@@ -2,6 +2,8 @@
 
 .popular-cat {
     &__item {
+      display: block;
+
     }
     &__img-wrap {
         border: 1px solid $divider-gray

@@ -205,7 +205,9 @@
         <div class="row logo-row small-12 columns">
             <div class="clearfix">
                 <div class="header-zone lft">
-                    [% zone 'Left' %]Logo
+                    <div class="logo-wrap">
+                        [% zone 'Left' %]<a href="/"><img src="/userfiles/SystemImages/NBFLOGO.png" alt="Logo" /></a>
+                    </div>
                 </div>
                 <isc-product-search id="wideSearch" class="header-zone"></isc-product-search>
                 <div class="header-zone rt">
@@ -215,7 +217,7 @@
                             <div class="col1">
                                 <span class="web-code">Web Code: <strong class="code">TC3UM4-16735</strong></span>
                                 <span class="phone">800-558-1010</span>
-                                <span class="chat"><img class="chat-img" src="#" alt="C" /> Live Chat: <strong class="status">Available!</strong></span>
+                                <span class="chat"><span class="ico-chat"><span class="path1"></span><span class="path2"></span><span class="path3"></span></span> Live Chat: <strong class="status">Available!</strong></span>
                             </div>
                         </div>
                         <div class="columns small-12 medium-12 large-5 guarantee end">
@@ -237,11 +239,11 @@
                 [% if Model.Drop.DisplayCart -%]
                 <ul class="user-nav">
                     <li ng-cloak ng-show="::(vm.session && !vm.session.isAuthenticated && !vm.session.rememberMe)">
-                        <a href="[% urlForPage 'SignInPage' %]" isc-redirect-to-sign-in return-to-url="true" class="btn sign-in fastClick tst_header_signInButton"><span>[% translate 'Login' %]</span></a>
+                        <a href="[% urlForPage 'SignInPage' %]" isc-redirect-to-sign-in return-to-url="true" class="btn sign-in fastClick tst_header_signInButton"><span class="ico-LoginIcon"></span> <span>[% translate 'Login' %]</span></a>
                     </li>
                     <li>
                         <div class="cart-button">
-                            <a id="tst_cartLink" class="cart-link" href="[% urlForPage 'CartPage' %]"><span ng-bind="vm.cart.totalCountDisplay"></span><span>[% translate 'Cart' %]</span></a>
+                            <a id="tst_cartLink" class="cart-link" href="[% urlForPage 'CartPage' %]"><span class="ico-CartIcon"></span> <span ng-bind="vm.cart.totalCountDisplay"></span><span>[% translate 'Cart' %]</span></a>
                         </div>
                     </li>
                 </ul>

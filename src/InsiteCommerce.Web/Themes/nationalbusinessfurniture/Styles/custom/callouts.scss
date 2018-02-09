@@ -36,12 +36,15 @@
     }
 
     &__link {
+        text-decoration:none;
+
         &:after {
-            content: "\f30b";
-            font-family: $FontAwesome;
+            content: "\e903";
+            font-family: $icomoon;
             color: $nbf-orange;
             left: 15px;
             position: relative;
+                top: 2px;
         }
     }
 

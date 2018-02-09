@@ -5,7 +5,7 @@
     margin: 0;
     margin-right: 50px;
     text-align: right;
-    width: 250px;
+    width: 300px;
 
     @media all and (max-width: 767px) {
         margin-right: 15px;
@@ -14,6 +14,8 @@
 
     li {
         display: inline-block;
+        width:49%;
+        text-align:center;
 
         a {
             font-size:18px;
@@ -25,7 +27,15 @@
             color: $nbf-black;
             font-weight:normal;
             line-height:80px;
-            padding:0 60px;
+            padding: 0;
+
+            .ico-LoginIcon {
+                vertical-align: text-bottom;
+                font-size: 20px;
+                line-height: normal;
+                color:$nbf-orange;
+                margin-right: 2px;
+            }
         }
     }
 }
@@ -44,9 +54,9 @@ div.cart-button a.cart-link {
     position: relative;
     text-align: center;
     text-decoration: none;
-    display: block;
-    width: 100%;
+    display: inline-block;
     height: 100%;
+    line-height:80px;
 
 }
 
@@ -64,7 +74,7 @@ div.cart-button a.cart-link span {
 }
 
 div.cart-button a.cart-link:before, header label.toggle.burger:after {
-    content: "\e00a";
+    //content: "\e00a";
     left: 1em;
     position: static;
     font-family: 'good-oatmeal-v2';

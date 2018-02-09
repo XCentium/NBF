@@ -51,6 +51,11 @@
         }
     }
 
+    .logo-wrap {
+        max-width:318px;
+        margin-top:23px;
+    }
+
     .header-zone {
         &.rt {
             .col1 {
@@ -75,6 +80,13 @@
                 font-size: 14px;
                 line-height: 17px;
                 display: block;
+
+                .ico-chat {
+                    vertical-align: text-bottom;
+                    line-height: normal;
+                    color:$nbf-orange;
+                    margin-right:5px;
+                }
             }
 
             .row {
