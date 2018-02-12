@@ -1,0 +1,84 @@
+﻿@import "../variables.scss";
+
+.user-nav {
+    float: right;
+    margin: 0;
+    margin-right: 50px;
+    text-align: right;
+    width: 300px;
+
+    @media all and (max-width: 767px) {
+        margin-right: 15px;
+        width: 50%;
+    }
+
+    li {
+        display: inline-block;
+        width:49%;
+        text-align:center;
+
+        a {
+            font-size:18px;
+            font-family:$ProximaNova;
+        }
+
+        a.sign-in {
+            background-color: transparent;
+            color: $nbf-black;
+            font-weight:normal;
+            line-height:80px;
+            padding: 0;
+
+            .ico-LoginIcon {
+                vertical-align: text-bottom;
+                font-size: 20px;
+                line-height: normal;
+                color:$nbf-orange;
+                margin-right: 2px;
+            }
+        }
+    }
+}
+
+
+
+/* Cart Button */
+
+div.cart-button {
+    height: 100%;
+}
+
+/* Menu Button */
+
+div.cart-button a.cart-link {
+    position: relative;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    height: 100%;
+    line-height:80px;
+
+}
+
+a.cart-link {
+
+}
+
+div.cart-button a.cart-link > * {
+    /*vertical-align: top;*/
+}
+
+div.cart-button a.cart-link span {
+    display: inline-block;
+    margin: 0 auto;
+}
+
+div.cart-button a.cart-link:before {
+    //content: "\e00a";
+    left: 1em;
+    position: static;
+    font-family: 'good-oatmeal-v2';
+    display: inline-block;
+    padding-right: .25em;
+    text-indent: 0;
+}

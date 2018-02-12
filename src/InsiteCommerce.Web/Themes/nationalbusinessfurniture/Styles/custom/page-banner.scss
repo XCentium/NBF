@@ -1,0 +1,177 @@
+﻿
+@import "../variables";
+
+.banner {
+    
+    padding-bottom: 41.6%;
+    position: relative;
+    margin-bottom: 80px;
+
+     @media all and (max-width: 767px) {
+        margin-bottom: 40px;
+    }
+
+    &--homepage {
+        padding-bottom: 48.5%;
+    }
+
+     &__bg {
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right:0;
+
+        @media all and (max-width: 1079px)  {
+            position:relative;
+            height:400px;
+        }
+    }
+
+    &__bg--homepage {
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right:0;
+
+        @media all and (max-width: 1079px)  {
+            position:relative;
+            height:400px;
+        }
+    }
+
+
+    @media all and (max-width: 1079px) {
+        padding-bottom: 0;
+        background-size: 100% auto;
+        background-position: top;
+        background-color: $nbf-white;
+
+        &--homepage {
+        }
+    }
+
+    &__content {
+        position: absolute;
+        padding: 40px;
+        background-color: rgba(255, 255, 255, .95);
+        width: 568px;
+
+        .btn-primary {
+            @media all and (max-width: 767px) {
+                width:100%;
+            }
+        }
+
+        &--topleft {
+            top: 40px;
+            left: 40px;
+        }
+
+        &--topright {
+            top: 40px;
+            right: 40px;
+        }
+
+        &--bottomleft {
+            bottom: 40px;
+            left: 40px;
+        }
+
+        &--bottomright {
+            bottom: 40px;
+            right: 40px;
+        }
+
+        &--square {
+            padding: 0;
+            width: 294px;
+
+            .square-padding-bottom {
+                padding-bottom: 100%;
+                position: relative;
+
+                @media all and (max-width: 1079px) {
+                    padding-bottom: 0;
+                }
+
+                .square-conatiner {
+                    position: absolute;
+                    top: 0;
+                    bottom: 0;
+                    left: 0;
+                    right: 0;
+
+                    @media all and (max-width: 1079px) {
+                        position: relative;
+                    }
+
+
+                    .v-center {
+
+                        @media all and (min-width: 1080px) {
+                            position: relative;
+                            top: 50%;
+                            -webkit-transform: translate(-50%, -50%);
+                            -ms-transform: translate(-50%, -50%);
+                            transform: translate(-50%, -50%);
+                            left: 50%;
+                        }
+                    }
+                }
+            }
+
+            h3 {
+                margin: 0;
+                line-height: 1.5;
+                padding: 30px;
+
+                @media all and (max-width: 1079px) {
+                        padding: 0px;
+                        text-align:center;
+                    }
+
+                &:after {
+                    display: block;
+                    content: "";
+                    max-width: 120px;
+                    width: 86%;
+                    border-bottom: 1px solid #CB563E;
+                    margin-top: 12px;
+
+                    @media all and (max-width: 1079px) {
+                        max-width: none;
+                        width: 100%;
+                    }
+                }
+            }
+        }
+
+
+        @media all and (max-width: 1079px) {
+            position: relative;
+            height: auto;
+            width: 100%;
+            bottom: auto;
+            right: auto;
+            left: auto;
+            top: auto;
+            padding: 30px;
+        }
+
+        @media all and (max-width: 767px) {
+            padding: 15px;
+        }
+
+        h2 {
+            margin: 0;
+        }
+    }
+}

@@ -1,0 +1,51 @@
+﻿@import "../variables";
+
+
+
+.top-nav-container {
+    [role="secondary-nav"] {
+        background-color:#F0F0F0;
+
+        @media all and (max-width: 767px) {
+            display:none;
+        }
+
+        .container {
+            background-color:transparent;
+        }
+
+        .top-nav-wrap {
+            padding:0 50px;
+
+            @media all and (max-width: 767px){
+                padding:0 15px;
+            }
+
+            ul {
+                li{
+                    a{
+                        padding-top:10px;
+                        padding-bottom:10px;
+                        color:$nbf-navy;
+                        font-size: 16px;
+                        font-weight: 500;
+                        line-height: 20px;
+
+                        &:first-child {
+                        padding-left:0;
+                    }
+                    }
+                }
+            }
+
+            .catalog-link {
+                padding-top:10px;
+                padding-bottom:10px;
+                color:$nbf-navy;
+                font-size: 16px;
+                font-weight: 500;
+                line-height: 20px;
+            }
+        }
+    }
+}

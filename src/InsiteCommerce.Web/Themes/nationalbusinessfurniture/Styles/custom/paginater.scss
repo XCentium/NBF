@@ -1,0 +1,319 @@
+﻿@import "../variables";
+/* Paginator */
+
+body [role="main"] div.paginator-34 {
+    clear: both;
+    width: 100%;
+    float: left;
+    text-align: center;
+    padding: 0;
+    height:50px;
+    border:0;
+    border-top: 1px solid #E0E0E0;
+    border-bottom: 1px solid #E0E0E0;
+    background: #fff;
+    margin-bottom: 60px;
+}
+.paginator-34  .items-count {
+    font-size:24px;
+    line-height:205%;
+    font-family: $ProximaNova-bold;
+}
+.paginator-34 .result-count {
+    float:left;
+    margin-left:20px;
+}
+
+
+.paginator-34 ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.paginator-34 ul > li {
+    float: left;
+}
+
+.paginator-34 * {
+    vertical-align: middle;
+}
+
+.paginator-34 select {
+    margin-bottom: 0;
+    height: 48px;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+    border-top: 0;
+    border-bottom: 0;
+}
+
+.paginator-34 .pagination .page-current span {
+    display: inline-block;
+    width: auto;
+    line-height: 275%;
+}
+
+.paginator-34 ul li {
+    font-size: inherit;
+    height: auto;
+    float: right;
+}
+
+.paginator-34 ul li a {
+    vertical-align: middle;
+    padding: 0;
+}
+
+.paginator-34 .remove-all {
+    float: left;
+    line-height: 25px;
+}
+
+.paginator-34 a.p-num {
+    font-weight: bold;
+}
+
+.paginator-34 a.p-num:hover {
+    text-decoration: underline;
+}
+
+.paginator-34 .page-current, .paginator-34 .page-previous {
+    white-space: nowrap;
+    text-align: right;
+    line-height: 220%;
+    font-style: italic;
+}
+
+.enter-page {
+    width: 35px !important;
+    margin-right: 5px !important;
+    float: left;
+}
+
+.pagination > div {
+    display: inline-block;
+    margin-left: 0.3125em;
+}
+
+.pagination > div.hidden {
+    display: none;
+}
+
+.pagination a.next-prev:link, .pagination a.next-prev:visited {
+    font-family:$FontAwesome;
+    width: 50px;
+    line-height: 300%;
+    display: inline-block;
+    text-decoration: none;
+    cursor: pointer !important;
+    border-right: 1px solid #cccccc;
+    border-left: 1px solid #cccccc;
+    font-size:16px;
+    color:$nbf-black;
+}
+
+.paginator-34 .pagination a.next-prev:link, .pagination a.next-prev:visited {
+
+}
+
+
+.pagination a.next-prev:hover, .pagination a.next-prev:focus {
+    opacity: 0.9;
+    color: inherit;
+}
+
+.pagination a.p-prev:before {
+    content: "\f053";
+}
+
+.pagination a.p-next:after {
+    content: "\f054";
+}
+
+.pagination div.page-prev {
+    margin-right: .25em;
+    vertical-align: top;
+}
+
+.pagination div.page-next {
+    margin-left: .25em;
+    vertical-align: top;
+}
+
+@media all and (max-width: 767px) {
+
+    .pagination div.page-prev {
+        float: left;
+        margin-left: 0;
+    }
+
+    .pagination div.page-next {
+        float: right;
+        margin-right: 0;
+    }
+}
+
+@media all and (min-width: 768px) {
+    .paginator-34 > * {
+        width: auto;
+        position: relative;
+        z-index: 2;
+    }
+
+    .paginator-34 .results-list, .paginator-34 .sort-list {
+        width: auto !important;
+        height: 2.5em;
+        margin-bottom: 0;
+        margin-right: .8em;
+    }
+
+    .paginator-34 .sort-list {
+        min-width: 200px;
+    }
+
+    .paginator-34 .sort-list .sorting-label {
+        display: inline-block;
+        float: left;
+        text-align: center;
+        border-left: 1px solid #ccc;
+    }
+}
+
+.paginator-34 label {
+    white-space: nowrap;
+    vertical-align: middle;
+    font-weight: normal;
+    text-transform:uppercase;
+    line-height: 300%;
+    margin-bottom:0;
+    color: #868889;
+    font-size: 16px;
+}
+
+.paginator-34 .sort-list div.small-4, .paginator-34 li.results-list .per-page {
+    width: auto !important;
+}
+
+.paginator-34 li.results-list .per-page-select {
+    float: left;
+}
+
+.paginator-34 .sort-list .small-8 {
+    float: left;
+}
+
+.paginator-34 form.custom div.custom, .paginator-34 div.custom {
+    margin: 0;
+}
+
+.paginator-34 .results-count {
+    line-height: 25px;
+    text-align: left;
+}
+
+.pagination input {
+    margin: 0;
+    margin-right: .5em !important;
+    height: 2.4em !important;
+    width: auto;
+    min-width: 50px;
+    max-width: 80px;
+}
+
+.paginator-34 .pagination input {
+    height: 48px !important;
+    border-bottom:0;
+    border-top:0;
+    text-align:center;
+}
+
+@media all and (max-width: 767px) {
+
+    .pagination input {
+        min-width: 60px;
+        max-width: 90px;
+    }
+}
+
+h3.results-count {
+    margin: 0;
+    margin-bottom: 0.75em;
+    font-weight: normal;
+    font-size: 1em;
+}
+
+.results-count .result-num {
+    font-weight: 600;
+}
+
+.results-count .result-lbl,
+.results-count .search-lbl {
+}
+
+.paginator-34 .sort-list {
+    text-align: left;
+    padding-left: 0;
+    width: 210px;
+}
+
+@media all and (max-width: 767px) {
+
+    .paginator-34 .sort-list,
+    .paginator-34 .results-list {
+        margin-bottom: .5em;
+    }
+}
+
+.sort-list select, .results-list select {
+    max-width: 175px;
+    min-width: 53px;
+    vertical-align: middle;
+}
+
+.sort-list label {
+    vertical-align: middle;
+    margin-right: 5px;
+}
+
+.sort-list label {
+    width: auto;
+}
+
+.sort-list .columns, .results-list .columns {
+    padding: 0 .2em;
+}
+
+.paginator-34 .results-list {
+    width: auto;
+    max-width: 50%;
+}
+
+.results-list label, .sort-list label {
+    margin-right: 5px;
+    max-width: 80px;
+    overflow: hidden;
+        display: inline-block;
+    text-overflow: ellipsis;
+}
+
+.results-list select {
+    width: 50px;
+}
+
+.paginator-34 .pagination {
+    height: auto;
+    margin-bottom: 0;
+    display: inline-block;
+    position: relative;
+    z-index: 2;
+}
+
+body [role="main"] div.pbtm {
+    margin-bottom: 1.5em;
+    padding-top: 0;
+}
+
+.pbtm .pagination {
+    margin: 0;
+}

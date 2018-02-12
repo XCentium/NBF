@@ -1,3 +1,4 @@
+@import "../variables";
 .product-list {
     .pl4-cm {
         margin-bottom: 1.5em;
@@ -290,7 +291,7 @@
 
     .n-filter .accordion ul li.f-selected:before {
         content: "\e60b";
-        color: DodgerBlue;
+        color: $nbf-orange;
     }
 
     .n-filter .accordion ul li.f-selected {
@@ -474,7 +475,10 @@
 
     .item-block .product-compare-add {
         text-align: left;
-        margin: 0.5em 0;
+        margin:0;
+        position: absolute;
+        bottom: 3px;
+        left: 3px;
     }
 
     @media all and (max-width:768px) {
@@ -495,7 +499,7 @@
     /* Compare Button */
     a.compare-link {
         font-size: .875em;
-        padding: .25em;
+        padding: 0 .25em;
         position: relative;
         display: inline-block;
         text-decoration: none;
@@ -550,7 +554,7 @@
 
     a.compare-active:before {
         content: "\e60b";
-        color: DodgerBlue;
+        color: $nbf-orange;
     }
 
     @media all and (min-width:480px) {
@@ -599,7 +603,7 @@
     .viewmode-selector > button {
         display: inline-block;
         width: 25px;
-        height: 35px;
+        height: 48px;
         text-indent: -999px;
         position: relative;
         overflow: hidden;
@@ -624,7 +628,7 @@
         line-height: inherit;
         vertical-align: middle;
         position: absolute;
-        top: 15%;
+        top: 22%;
         left: 5%;
     }
 
@@ -646,11 +650,15 @@
     }
 
     .viewmode-selector a.vms-grid:before {
-        content: "\e653";
+        content: "\f009";
+        font-family: $FontAwesome;
+            font-size: 1em;
     }
 
     .viewmode-selector a.vms-list:before {
-        content: "\e654";
+        content: "\f0ca";
+        font-family: $FontAwesome;
+            font-size: 1em;
     }
 
     .viewmode-selector a.vms-table:before {
@@ -735,7 +743,8 @@
     @media all and (min-width:768px) {
         .viewmode-selector {
             display: inline-block;
-            margin-bottom: .5em;
+            margin-bottom: 0;
+            margin-right:15px;
         }
 
         /* Width of the list container */
@@ -808,6 +817,14 @@
         .vm-list .item-details {
             width: 80%;
             padding-right: 1em !important;
+
+            .item-name {
+                margin-bottom:10px;
+            }
+
+            .item-name-grid {
+                display:none;
+            }
         }
 
         .vm-list div.item-details div.item-inf-wrapper {
@@ -885,14 +902,17 @@
         }
 
         .vm-grid .item-list {
-            border: 1px solid #e0e0e0;
             border-right: 0;
             border-bottom: 0;
         }
 
         .vm-grid .item-details {
             width: 100%;
-            padding: 1em !important;
+            padding: 0 !important;
+
+            .item-name-list {
+                display:none;
+            }
         }
 
         .vm-grid .item-details .item-inf-wrapper {
@@ -909,7 +929,6 @@
         }
 
         .vm-grid .item-block {
-            border-right: 1px solid #E0E0E0;
             border-collapse: collapse;
             padding: 0;
         }
@@ -918,7 +937,8 @@
             width: 100%;
             max-width: none;
             margin: 0;
-            padding: 1rem 1rem 0 1rem !important;
+            padding:0 0 20px !important;
+            margin-bottom: 10px;
         }
 
         .vm-grid .item-block .item-description {
@@ -927,10 +947,6 @@
 
         .vm-grid .item-block .item-name {
             font-size: .8em;
-        }
-
-        .vm-grid .item-block .product-compare-add {
-            text-align: center;
         }
 
         .vm-grid .item-block .item-info {
@@ -1310,17 +1326,25 @@
         }
     }
 
-    @media all and (min-width:768px) {
+    @media all and (max-width:919px) and (min-width:768px) {
         .vm-grid .item-block {
-            width: 50%;
-            border-bottom: 1px solid #E0E0E0;
+            width: 47%;
+            margin-right: 6% !important;
+
+            &:nth-child(2n) {
+                margin-right:0 !important;
+            }
         }
     }
 
     @media all and (min-width:920px) {
         .vm-grid .item-block {
-            width: 33.3333%;
-            border-bottom: 1px solid #E0E0E0;
+            width: 22.75%;
+            margin-right: 3% !important;
+
+            &:nth-child(4n) {
+                margin-right:0 !important;
+            }
         }
     }
 

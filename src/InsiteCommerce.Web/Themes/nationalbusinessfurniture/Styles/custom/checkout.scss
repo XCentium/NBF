@@ -1,4 +1,6 @@
-﻿.checkout {
+﻿@import "../variables";
+
+.checkout {
     .checkout-accordion {
         .ship-select, .required-msg {
             min-height: 0px;

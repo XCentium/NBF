@@ -1,0 +1,48 @@
+﻿@import "../variables";
+
+/* Header Messages */
+
+.head-msg-wrap {
+    background: $nbf-navy;
+    
+    & > .container {
+        background-color:transparent;
+    }
+
+    .head-msg {
+        position: relative;
+        padding: .6em 50px .6em 50px;
+        color:#fff;
+        font-family: $ProximaNova-bold;
+
+        @media all and (max-width: 767px){
+            padding:.6em 55px .6em 15px;
+        }
+    }
+}
+
+.head-msg span {
+    font-size: 0.875rem;
+}
+
+.head-msg span a {
+    display: inline-block;
+}
+
+.head-msg .close-msg {
+    font-size: 24px;
+    font-weight: 400;
+    text-decoration: none;
+    color: #fff;
+    padding: 0 9px;
+    position: absolute;
+    top: 0;
+    display: block;
+    height: 42px;
+    line-height: 50px;
+    right: 15px;
+}
+
+.head-msg .close-msg:hover, .head-msg .close-msg:focus {
+    color: inherit;
+}
