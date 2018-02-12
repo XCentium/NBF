@@ -1,26 +1,40 @@
 ﻿@import "../variables";
 
 
+.product-list-wrap {
+    margin:0;
+    padding:0;
+    list-style:none;
 
+    .item-block__product {
+        &:last-child {
+            float:left !important;
+        }
+    }
+}
 
 
 .item-block {
-    a {
-        text-decoration: none;
-    }
+
 
     &__product {
+        display:block;
+        margin-bottom:60px;
+
+        a {
+            text-decoration: none;
+        }
 
         &__img-wrap {
             margin-bottom: 15px;
             border: 1px solid $divider-gray;
-            position:relative;
+            position: relative;
         }
 
         &__compare {
-            position:absolute;
-            bottom:5px;
-            left:5px;
+            position: absolute;
+            bottom: 5px;
+            left: 5px;
         }
 
         &__img {
@@ -50,6 +64,10 @@
             font-size: 16px;
             text-align: right;
 
+            .vm-list & {
+                text-align: left;
+            }
+
             .ico-Truck {
                 font-size: 9px;
             }
@@ -57,15 +75,33 @@
 
         &__details {
 
-            .flag {
-                display: inline;
-                float: right;
+        }
+        &__flag {
+            display: inline;
+            float: right;
+            .vm-list & {
+                float:none;
+                display:blcok;
             }
         }
 
         &__desc {
-            height:54px;
-            overflow:hidden;
+            height: 54px;
+            overflow: hidden;
+        }
+
+        &__col-2 {
+            & > div[class^="col"] {
+                width:50%;
+                float:left;
+            }
+
+            .vm-list & {
+                    & > div[class^="col"] {
+                    width:100%;
+                    float:none;
+                }
+            }
         }
 
         &__swatch {

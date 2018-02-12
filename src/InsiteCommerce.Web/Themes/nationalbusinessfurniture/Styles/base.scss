@@ -361,6 +361,10 @@ h1 {
     margin-bottom: .5em;
     letter-spacing: 1px;
     color: inherit;
+
+    @media all and (max-width: 767px) {
+        font-size: 36px;
+    }
 }
 
 h2 {
@@ -371,6 +375,10 @@ h2 {
     line-height:  1.2em;
     margin-bottom: .75em;
     color: inherit;
+
+    @media all and (max-width: 767px) {
+        font-size: 30px;
+    }
 }
 
 h3 {
@@ -380,6 +388,10 @@ h3 {
     margin-bottom: 1em;
     color: inherit;
     font-weight: normal;
+
+    @media all and (max-width: 767px) {
+        font-size: 24px;
+    }
 }
 
 h4{
@@ -390,6 +402,10 @@ h4{
     line-height:  1.2em;
     margin-bottom: 1em;
     color: inherit;
+
+    @media all and (max-width: 767px) {
+        font-size: 20px;
+    }
 }
 
 h5, h6 {
@@ -399,6 +415,10 @@ h5, h6 {
     margin-bottom: 1em;
     color: inherit;
     font-weight: normal;
+
+    @media all and (max-width: 767px) {
+        font-size: 3px;
+    }
 }
 
 a {
@@ -1016,292 +1036,6 @@ h2.resp-tab-active {
     .section-container section.active .content {
         display: block !important;
     }
-}
-
-/* Paginator */
-
-body [role="main"] div.paginator-34 {
-    clear: both;
-    width: 100%;
-    float: left;
-    text-align: center;
-    padding: 0.75em 1em 0 1em;
-    border: 1px solid #E0E0E0;
-    background: #fff;
-    margin-bottom: 10px;
-}
-
-.paginator-34 ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-}
-
-.paginator-34 ul > li {
-    float: left;
-}
-
-.paginator-34 * {
-    vertical-align: middle;
-}
-
-.paginator-34 select {
-    margin-bottom: 0;
-    height: 2.5em;
-    padding-top: 0.5em;
-    padding-bottom: 0.5em;
-}
-
-.paginator-34 .pagination .page-current span {
-    display: inline-block;
-    width: auto;
-}
-
-.paginator-34 ul li {
-    font-size: inherit;
-    height: auto;
-    float: left;
-}
-
-.paginator-34 ul li a {
-    vertical-align: middle;
-    padding: 0;
-}
-
-.paginator-34 .remove-all {
-    float: left;
-    line-height: 25px;
-}
-
-.paginator-34 a.p-num {
-    font-weight: bold;
-}
-
-.paginator-34 a.p-num:hover {
-    text-decoration: underline;
-}
-
-.paginator-34 .page-current, .paginator-34 .page-previous {
-    white-space: nowrap;
-    text-align: right;
-    line-height: 220%;
-    font-style: italic;
-}
-
-.enter-page {
-    width: 35px !important;
-    margin-right: 5px !important;
-    float: left;
-}
-
-.pagination > div {
-    display: inline-block;
-    margin-left: 0.3125em;
-}
-
-.pagination > div.hidden {
-    display: none;
-}
-
-.pagination a.next-prev:link, .pagination a.next-prev:visited {
-    font-family: 'good-oatmeal-v2';
-    width: 2em;
-    height: 2em;
-    line-height: 200%;
-    display: inline-block;
-    text-decoration: none;
-    cursor: pointer !important;
-}
-
-
-.pagination a.next-prev:hover, .pagination a.next-prev:focus {
-    opacity: 0.9;
-    color: inherit;
-}
-
-.pagination a.p-prev:before {
-    content: "\e011";
-}
-
-.pagination a.p-next:after {
-    content: "\e012";
-}
-
-.pagination div.page-prev {
-    margin-right: .25em;
-    vertical-align: top;
-}
-
-.pagination div.page-next {
-    margin-left: .25em;
-    vertical-align: top;
-}
-
-@media all and (max-width: 767px) {
-
-    .pagination div.page-prev {
-        float: left;
-        margin-left: 0;
-    }
-
-    .pagination div.page-next {
-        float: right;
-        margin-right: 0;
-    }
-}
-
-@media all and (min-width: 768px) {
-    .paginator-34 > * {
-        width: auto;
-        position: relative;
-        z-index: 2;
-    }
-
-    .paginator-34 .results-list, .paginator-34 .sort-list {
-        width: auto !important;
-        height: 2.5em;
-        margin-bottom: 0.25em;
-        margin-right: .8em;
-    }
-
-    .paginator-34 .sort-list {
-        min-width: 200px;
-    }
-
-    .paginator-34 .sort-list .sorting-label {
-        display: inline-block;
-        float: left;
-    }
-}
-
-.paginator-34 label {
-    white-space: nowrap;
-    vertical-align: middle;
-    font-weight: normal;
-    font-style: italic;
-    font-size: 0.9em;
-    line-height: 250%;
-}
-
-.paginator-34 .sort-list div.small-4, .paginator-34 li.results-list .per-page {
-    width: auto !important;
-}
-
-.paginator-34 li.results-list .per-page-select {
-    float: left;
-}
-
-.paginator-34 .sort-list .small-8 {
-    float: left;
-}
-
-.paginator-34 form.custom div.custom, .paginator-34 div.custom {
-    margin: 0;
-}
-
-.paginator-34 .results-count {
-    line-height: 25px;
-    text-align: left;
-}
-
-.pagination input {
-    margin: 0;
-    margin-right: .5em !important;
-    height: 2.4em !important;
-    width: auto;
-    min-width: 50px;
-    max-width: 80px;
-}
-
-@media all and (max-width: 767px) {
-
-    .pagination input {
-        min-width: 60px;
-        max-width: 90px;
-    }
-}
-
-h3.results-count {
-    margin: 0;
-    margin-bottom: 0.75em;
-    font-weight: normal;
-    font-size: 1em;
-}
-
-.results-count .result-num {
-    font-weight: 600;
-}
-
-.results-count .result-lbl,
-.results-count .search-lbl {
-}
-
-.paginator-34 .sort-list {
-    text-align: left;
-    padding-left: 0;
-    width: 210px;
-}
-
-@media all and (max-width: 767px) {
-
-    .paginator-34 .sort-list,
-    .paginator-34 .results-list {
-        margin-bottom: .5em;
-    }
-}
-
-.sort-list select, .results-list select {
-    width: auto !important;
-    max-width: 175px;
-    min-width: 53px;
-    vertical-align: middle;
-}
-
-.sort-list label {
-    vertical-align: middle;
-    margin-right: 5px;
-}
-
-.sort-list label {
-    width: auto;
-}
-
-.sort-list .columns, .results-list .columns {
-    padding: 0 .2em;
-}
-
-.paginator-34 .results-list {
-    width: auto;
-    max-width: 50%;
-}
-
-.results-list label, .sort-list label {
-    margin-right: 5px;
-    max-width: 65px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.results-list select {
-    width: 50px;
-}
-
-.paginator-34 .pagination {
-    height: 2.5em;
-    margin-bottom: .25em;
-    display: inline-block;
-    float: right;
-    position: relative;
-    z-index: 2;
-}
-
-body [role="main"] div.pbtm {
-    margin-bottom: 1.5em;
-    padding-top: .5em;
-}
-
-.pbtm .pagination {
-    margin: 0;
 }
 
 
@@ -2960,7 +2694,6 @@ header div.head-cm {
 
 @media all and (min-width: 768px) {
     .item-list {
-        border: 1px solid #E0E0E0;
     }
 }
 
@@ -2980,10 +2713,11 @@ header div.head-cm {
 
 .item-block .item-thumb {
     width: 25%;
-    padding: 0 0 .9375rem .9375rem !important;
+    padding: 0 0 20px !important;
     max-width: 160px;
     float: left;
     position: relative;
+    border: 1px solid $divider-gray;
 }
 
 @media all and (max-width: 767px) {

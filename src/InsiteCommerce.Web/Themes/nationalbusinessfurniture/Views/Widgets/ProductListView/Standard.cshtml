@@ -76,7 +76,6 @@
 
                         <div ng-show="vm.products.products.length > 0">
                             <isc-pager id="tst_productList_topPager" pagination="vm.products.pagination" storage-key="vm.paginationStorageKey" update-data="vm.updateProductData()" select-view="vm.selectView(viewName)" custom-context="vm.customPagerContext" page-changed="vm.pagerPageChanged()"></isc-pager>
-
                             <ul class="item-list cart-items" id="tst_productList_nonTable">
                                 <li ng-repeat="product in vm.products.products" id="tst_productList_{{product.id}}" class="row item-block checkout-item isc-productContainer {{product.isSponsored ? 'sponsored' : ''}}" data-product="{{product.id}}">
 
@@ -93,7 +92,29 @@
                                     <div class="item-details">
                                         <div class="item-inf-wrapper">
                                             <div class="item-description">
-                                                <div class="item-name">
+                                                <div class="item-name item-name-list">
+                                                    <a id="tst_productList_{{product.id}}_descriptionLink" ng-href="{{product.productDetailUrl}}">{{product.shortDescription}}</a>
+                                                </div>
+                                                <div class="item-block__product__swatch">
+                                                    <ul>
+                                                        <li>
+                                                            <div class="item-block__product__swatch__img-wrap">
+                                                                <img class="item-block__product__swatch" src="http://demandware.edgesuite.net/aaqz_prd/on/demandware.static/-/Sites-MandCo-Master/default/dwe8e3cc47/7421753_black_p_swatch.jpg" />
+                                                            </div>
+                                                        </li>
+                                                        <li>
+                                                            <div class="item-block__product__swatch__img-wrap">
+                                                                <img class="item-block__product__swatch" src="http://demandware.edgesuite.net/aaqz_prd/on/demandware.static/-/Sites-MandCo-Master/default/dwe8e3cc47/7421753_black_p_swatch.jpg" />
+                                                            </div>
+                                                        <li>
+                                                            <div class="item-block__product__swatch__img-wrap">
+                                                                <img class="item-block__product__swatch" src="http://demandware.edgesuite.net/aaqz_prd/on/demandware.static/-/Sites-MandCo-Master/default/dwe8e3cc47/7421753_black_p_swatch.jpg" />
+                                                            </div>
+                                                        </li>
+                                                        <li class="right"><u>More</u></li>
+                                                    </ul>
+                                                </div>
+                                                <div class="item-name item-name-grid">
                                                     <a id="tst_productList_{{product.id}}_descriptionLink" ng-href="{{product.productDetailUrl}}">{{product.shortDescription}}</a>
                                                 </div>
                                                 <div class="item-num">
@@ -102,12 +123,28 @@
                                                     <span ng-if="product.customerName" class="item-num-my">[% translate 'My Part #' %]: {{product.customerName}}</span>
                                                 </div>
                                             </div>
-                                            <div class="rating"></div>
                                             <div ng-if="vm.settings.showInventoryAvailability" class="availability">
                                                 <isc-availability-message availability="product.availability" failed-to-get-real-time-inventory="vm.failedToGetRealTimeInventory"></isc-availability-message>
                                             </div>
+                                            <div class="item-block__product__price-wrap">
+                                                <div class="item-block__product__price">
+                                                    <h4 class="text-orange">$150</h4> <span class="strike ori-price-tag">Was $200</span>
+                                                </div>
+                                                <div class="item-block__product__flag">
+                                                    flag
+                                                </div>
+                                            </div>
+                                            <div class="item-block__product__col-2">
+                                                <div class="col-1">
+                                                    <div class="item-block__product__stars"><div class="rating"></div>Stars Here!</div>
+                                                </div>
+                                                <div class="col-2">
+                                                    <div class="item-block__product__ships-today"><span class="ico-Truck"></span> Ships Today!</div>
+                                                </div>
+                                            </div>
                                             <isc-sorted-attribute-value-list ng-if="product.attributeTypes.length > 0" attribute-types="product.attributeTypes" maximum-number="3" class="attribute-list"></isc-sorted-attribute-value-list>
                                         </div>
+                                        
                                         <div class="item-price" ng-if="!vm.failedToGetRealTimePrices">
                                             <div class="product-info">
                                                 <isc-product-price product="product"></isc-product-price>

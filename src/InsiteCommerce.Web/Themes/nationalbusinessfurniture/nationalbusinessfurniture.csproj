@@ -582,6 +582,7 @@
     <Content Include="Views\Widgets\Custom\Banner\Homepage-banner.cshtml" />
     <Content Include="Views\Widgets\Custom\CategoriesList\Standard.cshtml" />
     <Content Include="Styles\custom\category-list.scss" />
+    <Content Include="Styles\custom\paginater.scss" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -1,10 +1,12 @@
 ﻿@import "../variables";
 
-
+select::-ms-expand {
+    display: none;
+}
 
 label {
-    font-size:16px;
-    line-height:1.5em;
+    font-size: 16px;
+    line-height: 1.5em;
 }
 
 
@@ -15,8 +17,34 @@ input, select {
     padding: 0px 20px;
 
     &:focus {
-        border-color:$nbf-charcoal;
+        border-color: $nbf-charcoal;
         box-shadow: 0 2px 5px 0 rgba(0,0,0,0.1);
+    }
+}
+
+.custom-select {
+    position: relative;
+
+    &:after {
+        content: '\f078';
+        font-family:$FontAwesome;
+        color: #333;
+        right: 5px;
+        /*Adjust for position however you want*/
+        top: 50%;
+        -webkit-transform: translateY(-50%);
+        -ms-transform: translateY(-50%);
+        transform: translateY(-50%);
+        /*left line */
+        position: absolute;
+        pointer-events: none;
+    }
+
+    select {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        width:100%  !important;
     }
 }
 
@@ -34,6 +62,6 @@ input, select {
     }
 
     input {
-        padding-left:50px;
+        padding-left: 50px;
     }
 }
