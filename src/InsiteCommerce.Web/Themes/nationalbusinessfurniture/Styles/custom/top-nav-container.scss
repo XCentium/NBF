@@ -6,6 +6,10 @@
     [role="secondary-nav"] {
         background-color:#F0F0F0;
 
+        @media all and (max-width: 767px) {
+            display:none;
+        }
+
         .container {
             background-color:transparent;
         }

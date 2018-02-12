@@ -6,12 +6,17 @@
     margin-bottom: 80px;
     padding-bottom: 40%;
 
+    @media all and (max-width: 767px) {
+        margin-bottom: 40px;
+    }
+
 
     &__img-wrap {
 
         @media all and (max-width: 767px) {
-            padding-bottom: 40%;
+            padding-bottom: 0;
             position: relative;
+            height: 300px;
         }
     }
 
@@ -57,6 +62,7 @@
         @media all and (max-width: 767px) {
             position: relative;
             width: 100%;
+            padding:15px 20px;
         }
     }
 

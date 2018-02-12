@@ -23,6 +23,9 @@
 
 .four-col {
     margin-bottom: 80px;
+     @media all and (max-width: 767px) {
+        margin-bottom: 40px;
+    }
 
     a {
         text-decoration: none;
@@ -88,7 +91,7 @@
             width: 30.5%;
         }
 
-        @media all and (max-width: 787px) {
+        @media all and (max-width: 767px) {
             width: 48%;
         }
 

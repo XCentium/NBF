@@ -31,22 +31,86 @@
             }
         }
 
+        .bbb-wrap {
+            @media all and (max-width: 767px) {
+                padding:30px;
+                text-align:center;
+            }
+        }
+
         &__group {
             margin: 0;
             list-style: none;
             margin-bottom: 1em;
 
+            @media all and (max-width: 767px){
+                margin-left: -15px;
+                margin-right: -15px;
+                margin-bottom: 0;
+                max-height: 50px;
+                overflow: hidden;
+                -webkit-transition: max-height 0.5s ease-in-out;
+                -moz-transition: max-height 0.5s ease-in-out;
+                -o-transition: max-height 0.5s ease-in-out;
+                transition: max-height 0.5s ease-in-out;
+
+                &.open {
+                    -webkit-transition: max-height 0.5s ease-in-out;
+                    -moz-transition: max-height 0.5s ease-in-out;
+                    -o-transition: max-height 0.5s ease-in-out;
+                    transition: max-height 0.5s ease-in-out;
+                    max-height: 500px;
+
+                    .footer-nav__group__title:after {
+                        content:"\f077";
+                    }
+                }
+            }
+
             li {
                 font-size: 16px;
                 line-height: 1.2;
                 margin-bottom: 10px;
+
+
+                @media all and (max-width: 767px) {
+                    border-bottom:1px solid $divider-gray;
+                    margin-bottom: 0;
+
+                    a{
+                        display: block;
+                        padding: 15px 15px;
+                    }
+                }
             }
-             &__title {
+
+            &__title {
                 margin-bottom: 1em;
                 color: $nbf-navy;
                 text-transform: uppercase;
                 font-weight: bold;
                 font-size: 18px;
+                position: relative;
+
+                @media all and (min-width: 768px) {
+                    pointer-events:none;
+                }
+
+                @media all and (max-width: 767px) {
+                    padding: 15px 15px;
+                    margin-bottom: 0;
+
+                    &:after {
+                        content:"\f078";
+                        position:absolute;
+                        top: 15px;
+                        right: 25px;
+                        height: 16px;
+                        width: 15px;
+                        font-family:$FontAwesome;
+                    }
+
+                }
             }
         }
     }

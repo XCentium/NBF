@@ -18,8 +18,8 @@
 
 
     &__product {
-        display:block;
-        margin-bottom:60px;
+        display: block;
+        margin-bottom: 60px;
 
         a {
             text-decoration: none;
@@ -64,6 +64,10 @@
             font-size: 16px;
             text-align: right;
 
+            @media (max-width: 767px) {
+                text-align: left;
+            }
+
             .vm-list & {
                 text-align: left;
             }
@@ -74,14 +78,15 @@
         }
 
         &__details {
-
         }
+
         &__flag {
             display: inline;
             float: right;
+
             .vm-list & {
-                float:none;
-                display:blcok;
+                float: none;
+                display: blcok;
             }
         }
 
@@ -92,14 +97,14 @@
 
         &__col-2 {
             & > div[class^="col"] {
-                width:50%;
-                float:left;
+                width: 50%;
+                float: left;
             }
 
             .vm-list & {
-                    & > div[class^="col"] {
-                    width:100%;
-                    float:none;
+                & > div[class^="col"] {
+                    width: 100%;
+                    float: none;
                 }
             }
         }

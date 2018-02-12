@@ -130,6 +130,7 @@
     <TypeScriptCompile Include="Scripts\Custom\Cart\nbf.checkout.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Comments\nbf.commentmessage.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Comments\nbf.commentmessage.service.ts" />
+    <TypeScriptCompile Include="Scripts\Custom\Footer\nbf.footer.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\OrderTracker\nbf.order-tracker.order-detail.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\OrderTracker\nbf.order-tracker.service.ts" />
     <TypeScriptCompile Include="Scripts\Custom\OrderTracker\nbf.order-tracker.controller.ts" />
@@ -583,6 +584,9 @@
     <Content Include="Views\Widgets\Custom\CategoriesList\Standard.cshtml" />
     <Content Include="Styles\custom\category-list.scss" />
     <Content Include="Styles\custom\paginater.scss" />
+    <Content Include="Styles\utilities.scss" />
+    <Content Include="Views\Widgets\HeaderView\NBF.cshtml" />
+    <Content Include="Views\Widgets\ProductListView\NBF.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
