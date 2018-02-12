@@ -1,0 +1,62 @@
+﻿@import "../variables";
+
+
+.btn {
+
+}
+
+.button, .btn, button {
+     background-color:$nbf-orange;
+     color:$nbf-white;
+     padding-top:11px;
+     padding-bottom:11px;
+     border-width:2px;
+     border-color:$nbf-orange;
+     font-family:$base-font-family;
+     text-align:center;
+     padding-left:55px;
+     padding-right:55px;
+     display: inline-block;
+
+    &.btn-primary {
+        background-color:$nbf-orange;
+
+        &:hover {
+            background-color:#A21C00;
+        }
+    }
+
+    &.btn-secondary {
+        background-color:$nbf-white;
+        border:2px solid $nbf-orange;
+        color:$nbf-orange;
+
+        &:hover {
+            background-color:#A21C00;
+            color:$nbf-white;
+            border-color:#A21C00;
+        }
+
+        &.btn-navy {
+            border-color:$nbf-navy;
+            color:$nbf-navy;
+
+            &:hover {
+                background-color:$nbf-navy;
+                color:$nbf-white;
+                border-color:$nbf-navy;
+            }
+        }
+    }
+
+
+    &.disabled, :disabled {
+        opacity:0.5;
+        pointer-events: none;
+    }
+
+     &:hover {
+            background-color:#A21C00;
+            border-color:#A21C00;
+        }
+}

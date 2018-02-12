@@ -507,9 +507,8 @@
   <ItemGroup>
     <Content Include="Views\Widgets\Custom\CommentForm\Standard.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\Widgets\Custom\SocialMediaView\Standard.cshtml" />
-  </ItemGroup>
+<<<<<<< HEAD
+  <ItemGroup />
   <ItemGroup>
     <Content Include="Views\Widgets\Custom\OrderTracker\Standard.cshtml" />
   </ItemGroup>
@@ -518,7 +517,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
-  </ItemGroup>
+=======
   <ItemGroup>
     <Content Include="Styles\custom\footer.scss" />
   </ItemGroup>
@@ -580,6 +579,7 @@
     <Content Include="Styles\custom\featured-product-widget.scss" />
     <Content Include="Views\Widgets\Custom\PopularCategories\Standard.cshtml" />
     <Content Include="Styles\custom\popular-cat-widget.scss" />
+>>>>>>> Mark/Header-footer
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
