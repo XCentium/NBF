@@ -1,19 +1,26 @@
 ﻿
 <style type="text/css">
-    .banner-bg {
-        background-image: url('/userfiles/images/bannerimages/placeholder.png');
+    .banner__bg {
+        background-image: url('/userfiles/images/bannerimages/1440x600.png');
     }
 </style>
 <div class="row">
     <div class="medium-12 large-12 columns widget-1column no-margin [[Model.CssClass]]">
-        <div class="banner banner-bg">
-            <div class="banner__top-left">
-                <h3>Contemporary Computer Desk</h3>
-            </div>
-            <div class="banner__bottom-right">
-                <h2>Hundreds of Products Shipping Today!</h2>
-                <p>With a wide selection ready to get to your doorstep, shopping can't get any easier.</p>
-                <a href="#" class="btn btn-primary">Start Here!</a>
+        <div class="banner banner__bg">
+            <div class="banner__content banner__content--[[Model.Position]] banner__content--[[Model.Style]]">
+                [% if Model.Style == "Default" -%]
+                <h2>Seating</h2>
+                <p>Looking to take a comfortable seat at your workstation? Computer chairs come in a huge variety to suit your needs. Check out our Complete Guide to Office Chair.</p>
+                <a href="#" class="btn btn-primary">Get The Guide</a>
+                [% else -%]
+                <div class="square-padding-bottom">
+                    <div class="square-conatiner">
+                        <div class="v-center">
+                            <h3>Contemporary Computer Desk</h3>
+                        </div>
+                    </div>
+                </div>
+                [% endif -%]
             </div>
         </div>
     </div>

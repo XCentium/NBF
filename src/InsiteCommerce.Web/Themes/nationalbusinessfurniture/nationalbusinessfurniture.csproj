@@ -580,6 +580,9 @@
     <Content Include="Styles\custom\featured-product-widget.scss" />
     <Content Include="Views\Widgets\Custom\PopularCategories\Standard.cshtml" />
     <Content Include="Styles\custom\popular-cat-widget.scss" />
+    <Content Include="Views\Widgets\Custom\Banner\Homepage-banner.cshtml" />
+    <Content Include="Views\Widgets\Custom\CategoriesList\Standard.cshtml" />
+    <Content Include="Styles\custom\category-list.scss" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
