@@ -6,7 +6,7 @@
             <span class="result-num" ng-bind="vm.cart.totalCountDisplay"></span> <span class="result-lbl">[% translate 'Items' %]</span>
         </h3>
             
-        <nbf-sign-in-widget include-forgot-password-link="false" allow-create-account="false" ng-if="vm.cart.billTo.isGuest"></nbf-sign-in-widget>
+        <nbf-sign-in-widget include-forgot-password-link="false" allow-create-account="false" ng-if="vm.cart.billTo.isGuest && !vm.hideSignIn"></nbf-sign-in-widget>
         <dl class="accordion checkout-accordion" data-accordion id="checkoutAccordion">
                 <dd class="accordion-navigation">
                     <a href="#address" id="nav1" class="nav-header">

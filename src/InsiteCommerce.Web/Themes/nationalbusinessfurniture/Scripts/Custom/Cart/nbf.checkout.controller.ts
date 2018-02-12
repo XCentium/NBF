@@ -26,10 +26,10 @@
         customerSettings: any;
         cartUri: string;
         initialShipToId: string;
-        step: number = 0;
+        step = 0;
         billToSameAsShipToSelected = true;
         isGuest: boolean;
-        emailReadOnly: boolean = true;
+        emailReadOnly = true;
 
         //Review and Pay Variables
         cartIdParam: string;
@@ -52,8 +52,9 @@
 
         //Account Creation Variables
         createError: string;
-        userFound: boolean = false;
-        newUser: boolean = false;
+        userFound = false;
+        newUser = false;
+        hideSignIn = false;
 
         static $inject = [
             "$scope",
@@ -319,8 +320,6 @@
         }
 
         protected billToAndShipToAreSameCustomer(): boolean {
-            console.dir(this.selectedShipTo);
-            console.dir(this.cart.billTo.id);
             return this.selectedShipTo.id === this.cart.billTo.id;
         }
 
@@ -380,21 +379,22 @@
         }
 
         setStateRequiredRule(prefix: string, address: any): void {
-            if (!address.country) {
-                return;
-            }
+            //if (!address.country) {
+            //    return;
+            //}
 
-            const country = this.countries.filter((elem) => {
-                return elem.id === address.country.id;
-            });
+            //const country = this.countries.filter((elem) => {
+            //   return elem.id === address.country.id;
+            //});
 
-            const isRequired = country != null && country.length > 0 && country[0].states.length > 0;
-            setTimeout(() => {
-                if (!isRequired) {
-                    address.state = null;
-                }
-                $(`#${prefix}state`).rules("add", { required: isRequired });
-            }, 100);
+            //const isRequired = country != null && country.length > 0 && country[0].states.length > 0;
+            //setTimeout(() => {
+            //    if (!isRequired) {
+            //        address.state = null;
+            //    }
+            //    $(`#${prefix}state`).validate();
+            //    $(`#${prefix}state`).rules("add", { required: isRequired });
+            //}, 100);
         }
 
         continueToStep2(cartUri: string): void {
@@ -1006,6 +1006,7 @@
 
         protected loadStep2() {
             this.continueCheckoutInProgress = false;
+            this.hideSignIn = true;
 
             this.reviewAndPayInit();
         }
