@@ -757,7 +757,16 @@
     <Content Include="UserFiles\Images\Products\LG_NotFound.jpg" />
     <Content Include="UserFiles\Images\Products\MD_NotFound.jpg" />
     <Content Include="UserFiles\Images\Products\SM_NotFound.jpg" />
+    <Content Include="UserFiles\SystemImages\bbb.png" />
+    <Content Include="UserFiles\SystemImages\CartIcon.svg" />
+    <Content Include="UserFiles\SystemImages\chat.svg" />
+    <Content Include="UserFiles\SystemImages\EmailIcon.svg" />
+    <Content Include="UserFiles\SystemImages\LoginIcon.svg" />
+    <Content Include="UserFiles\SystemImages\NBFLOGO.png" />
+    <Content Include="UserFiles\SystemImages\RightArrowOrange.svg" />
+    <Content Include="UserFiles\SystemImages\RightArrowwhite.svg" />
     <Content Include="UserFiles\SystemImages\sprocket.png" />
+    <Content Include="UserFiles\SystemImages\Truck.svg" />
     <Content Include="_viewstart.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>

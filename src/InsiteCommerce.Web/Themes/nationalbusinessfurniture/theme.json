@@ -74,6 +74,7 @@
     "~/SystemResources/Scripts/Libraries/jquery-ui/1.9.2/jquery-ui.custom.css",
     "Styles/flexslider.css",
     "Styles/custom/font-awesome.css",
+    "Styles/utilities.scss",
     "Styles/base.scss",
     "Styles/custom/buttons.scss",
     "~/SystemResources/Scripts/Libraries/zurb-responsive-tables/0.0.0/responsive-tables.css",

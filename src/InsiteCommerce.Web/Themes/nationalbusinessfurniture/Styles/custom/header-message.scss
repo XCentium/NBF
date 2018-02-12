@@ -16,7 +16,7 @@
         font-family: $ProximaNova-bold;
 
         @media all and (max-width: 767px){
-            padding:.6em 15px;
+            padding:.6em 55px .6em 15px;
         }
     }
 }
@@ -30,16 +30,16 @@
 }
 
 .head-msg .close-msg {
-    font-size: 2em;
+    font-size: 24px;
     font-weight: 400;
     text-decoration: none;
-    color: #868686;
+    color: #fff;
     padding: 0 9px;
     position: absolute;
     top: 0;
     display: block;
     height: 42px;
-    line-height: 42px;
+    line-height: 50px;
     right: 15px;
 }
 
