@@ -259,6 +259,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Filters\OrderTrackerFilter.cs" />
+    <Compile Include="Handlers\AddSessionHandlerNBF.cs" />
     <Compile Include="Handlers\Helpers\NBFGetOrderHelper.cs" />
     <Compile Include="Handlers\Interfaces\INBFGetOrderHelper.cs" />
     <Compile Include="Handlers\GetTrackedOrderHandler.cs" />

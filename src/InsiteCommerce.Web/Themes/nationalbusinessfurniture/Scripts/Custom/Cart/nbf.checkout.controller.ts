@@ -19,7 +19,7 @@
         originalBillTo: BillToModel;
         shipTos: ShipToModel[];
         continueCheckoutInProgress = false;
-        isReadOnly = false;
+        shipToIsReadOnly = false;
         account: AccountModel;
         initialIsSubscribed: boolean;
         addressFields: AddressFieldCollectionModel;
@@ -281,9 +281,9 @@
 
         checkSelectedShipTo(): void {
             if (this.billToAndShipToAreSameCustomer()) {
-                this.isReadOnly = true;
+                this.shipToIsReadOnly = true;
             } else {
-                this.isReadOnly = false;
+                this.shipToIsReadOnly = false;
             }
 
             this.updateBillTo();
@@ -319,6 +319,8 @@
         }
 
         protected billToAndShipToAreSameCustomer(): boolean {
+            console.dir(this.selectedShipTo);
+            console.dir(this.cart.billTo.id);
             return this.selectedShipTo.id === this.cart.billTo.id;
         }
 

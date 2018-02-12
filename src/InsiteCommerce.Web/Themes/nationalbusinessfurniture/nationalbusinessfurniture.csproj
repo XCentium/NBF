@@ -446,6 +446,7 @@
     <None Include="Views\Widgets\Breadcrumb\Standard.cshtml" />
     <None Include="Views\Widgets\BudgetView\Standard.cshtml" />
     <None Include="Views\Widgets\Carousel\Standard.cshtml" />
+    <Content Include="Views\Widgets\CartView\NBF.cshtml" />
     <None Include="Views\Widgets\CartView\Standard.cshtml" />
     <None Include="Views\Widgets\ChangeAccountPasswordView\Standard.cshtml" />
     <None Include="Views\Widgets\ChangeCustomerView\Standard.cshtml" />
