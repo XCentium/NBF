@@ -548,6 +548,7 @@
   <ItemGroup>
     <Content Include="Views\Widgets\Custom\SignInWidget\Standard.cshtml" />
     <Content Include="Views\Directives\Custom\Account\NbfSignInWidget.cshtml" />
+    <Content Include="Views\Widgets\Custom\SocialMediaView\Standard.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Widgets\Custom\OrderTracker\Standard.cshtml" />
