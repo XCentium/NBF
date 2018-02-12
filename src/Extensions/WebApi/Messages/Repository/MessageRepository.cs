@@ -9,6 +9,13 @@ using System;
 using Insite.Core.Context;
 using Insite.Data.Entities;
 using Extensions.WebApi.Messages.Interfaces;
+using Extensions.Handlers.Interfaces;
+using Extensions.Handlers.Helpers;
+using System.Threading.Tasks;
+using Extensions.WebApi.Listrak.Services;
+using Extensions.WebApi.Listrak.Models;
+using Extensions.WebApi.Listrak.Repository;
+using Extensions.Enums.Listrak.Fields;
 
 namespace Extensions.WebApi.Messages.Repository
 {
@@ -16,11 +23,13 @@ namespace Extensions.WebApi.Messages.Repository
     {
         private const bool IgnoreCase = true;
         private IUnitOfWork UnitOfWork;
+        protected readonly Lazy<INbfListrakHelper> GetListrakHelper;
 
-        public MessageRepository(IUnitOfWorkFactory unitOfWorkFactory, ICustomerService customerService, IProductService productService, IAuthenticationService authenticationService)
+        public MessageRepository(IUnitOfWorkFactory unitOfWorkFactory, ICustomerService customerService, IProductService productService, IAuthenticationService authenticationService, Lazy<INbfListrakHelper> getListrakHelper)
             : base(unitOfWorkFactory, customerService, productService, authenticationService)
         {
             this.UnitOfWork = unitOfWorkFactory.GetUnitOfWork();
+            this.GetListrakHelper = getListrakHelper;
         }
 
         public bool CreateMessage(CreateMessageParameter parameter)

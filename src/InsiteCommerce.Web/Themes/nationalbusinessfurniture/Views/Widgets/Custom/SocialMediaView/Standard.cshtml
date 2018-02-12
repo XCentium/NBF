@@ -1,0 +1,75 @@
+﻿<div ng-controller="NbfSocialMediaController as vm" class="widget-socailmedia [[Model.CssClass]]" ng-cloak>
+
+    <meta property="og:title" content="Your Website Title" />     <section class="social-bar">
+
+        <div id="fb-root"></div>
+        <script>
+            (function (d, s, id) {
+                var js, fjs = d.getElementsByTagName(s)[0];
+                if (d.getElementById(id)) return;
+                js = d.createElement(s); js.id = id;
+                js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.9";
+                fjs.parentNode.insertBefore(js, fjs);
+            }(document, 'script', 'facebook-jssdk'));
+        </script>
+        <script type="text/javascript"
+                async defer
+                src="//assets.pinterest.com/js/pinit.js">
+        </script>
+        <div class="row">
+            <div class="column medium-6 medium-push-3">
+                <span class="rock">Share</span>
+                <div class="social square">
+                    <ul class="inline-list">
+                        <li>
+
+                            <div class="fb-share-button" data-href="{{vm.url}}" data-layout="button" data-size="small" data-mobile-iframe="true">
+                                <a target="_blank" href="https://www.facebook.com/sharer/sharer.php?title=[[CurrentPage.Title]]&u=https%3A%2F%2F{{vm.url}}&amp;src=sdkpreparse&title=titleofpage" class="fb-xfbml-parse-ignore">Share</a>
+                            </div>
+
+                        </li>
+                        <li>
+                            <a target="_blank" class="stb-btn stb-twitter" aria-label="tweet" href="https://twitter.com/share?url={{vm.url}}&amp;text=[[CurrentPage.Title]]">
+                                <span class="fa-stack">
+                                    twitter
+                                    <i class="fa fa-square-outline fa-stack-2x"></i>
+                                    <i class="fa fa-twitter fa-stack-1x"></i>
+                                </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a target="_blank" class="stb-btn stb-linkedin" aria-label="share on linkedin" href="https://www.linkedin.com/shareArticle?mini=true&amp;url={{vm.url}}&amp;title=[[CurrentPage.Title]]">
+                                <span class="fa-stack">
+                                    linkedin
+                                    <i class="fa fa-square-outline fa-stack-2x"></i>
+                                    <i class="fa fa-linkedin fa-stack-1x"></i>
+                                </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.pinterest.com/pin/create/button/?url={{vm.url}}&description=[[CurrentPage.Title]]">
+                                pinterest
+                            </a>
+                        </li>
+                        <li>
+                            <a href="mailto:?subject=I wanted you to see this site&amp;body={{vm.url}} [[CurrentPage.Title]]" title="Share by Email">
+                                Email
+                            </a>
+                        </li>
+                        <li>
+                            <a href="mailto:?subject=I wanted you to see this site&amp;body={{vm.url}} [[CurrentPage.Title]]" title="Share by Email">
+                                Email
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://plus.google.com/share?url={{vm.url}}" onclick="javascript:window.open(this.href,
+                                '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;">
+                                Google+
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>

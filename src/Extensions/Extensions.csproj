@@ -118,7 +118,7 @@
       <HintPath>..\packages\Insite.Commerce.Public.4.4.0.38481\lib\net452\Insite.Payments.dll</HintPath>
     </Reference>
     <Reference Include="Insite.Plugins">
-      <HintPath>..\InsiteCommerce.Web\bin\Insite.Plugins.dll</HintPath>
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.0.38481\lib\net452\Insite.Plugins.dll</HintPath>
     </Reference>
     <Reference Include="Insite.Promotions, Version=4.4.0.38481, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Insite.Commerce.Public.4.4.0.38481\lib\net452\Insite.Promotions.dll</HintPath>
@@ -258,10 +258,18 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Enums\Listrak\Fields\OrderConfirmationFieldEnum.cs" />
+    <Compile Include="Enums\Listrak\Fields\WelcomeEmailFieldEnum.cs" />
+    <Compile Include="Enums\Listrak\TransactionalMessageEnum.cs" />
     <Compile Include="Filters\OrderTrackerFilter.cs" />
+    <Compile Include="Handlers\AddCustomer.cs" />
+    <Compile Include="Handlers\Helpers\NBFHtmlHelper.cs" />
+    <Compile Include="Handlers\Helpers\NBFListrakHelper.cs" />
     <Compile Include="Handlers\Helpers\NBFGetOrderHelper.cs" />
     <Compile Include="Handlers\Interfaces\INBFGetOrderHelper.cs" />
+    <Compile Include="Handlers\Interfaces\INBFListrakHelper.cs" />
     <Compile Include="Handlers\GetTrackedOrderHandler.cs" />
+    <Compile Include="Handlers\UpdateCartHandler.cs" />
     <Compile Include="Mappers\GetTrackedOrderMapper.cs" />
     <Compile Include="Mappers\Interfaces\IGetTrackedOrderMapper.cs" />
     <Compile Include="Plugins\Pricing\PricingServiceNBF.cs" />
@@ -270,6 +278,13 @@
     <Compile Include="WebApi\GuestCheckout\Controllers\GuestCheckoutController.cs" />
     <Compile Include="WebApi\GuestCheckout\Models\GuestCheckoutParameter.cs" />
     <Compile Include="WebApi\Base\BaseRepository.cs" />
+    <Compile Include="WebApi\Listrak\Controllers\ListrakController.cs" />
+    <Compile Include="WebApi\Listrak\Interfaces\IListrakRepository.cs" />
+    <Compile Include="WebApi\Listrak\Interfaces\IListrakService.cs" />
+    <Compile Include="WebApi\Listrak\Models\SendTransationalMessageParameter.cs" />
+    <Compile Include="WebApi\Listrak\Models\SegmentationFieldParameter.cs" />
+    <Compile Include="WebApi\Listrak\Repository\ListrakRepository.cs" />
+    <Compile Include="WebApi\Listrak\Services\ListrakService.cs" />
     <Compile Include="WebApi\Messages\Controllers\NBFMessagesController.cs" />
     <Compile Include="WebApi\Messages\Interfaces\IMessageRepository.cs" />
     <Compile Include="WebApi\Messages\Interfaces\IMessagesService.cs" />
@@ -295,6 +310,7 @@
     <Compile Include="Widgets\FooterView.cs" />
     <Compile Include="Widgets\CheckoutView.cs" />
     <Compile Include="Widgets\CommentForm.cs" />
+    <Compile Include="Widgets\SocialMediaView.cs" />
     <Compile Include="Widgets\OrderTrackerDetailView.cs" />
     <Compile Include="Widgets\OrderTracker.cs" />
     <Compile Include="Widgets\PageTagLinksView.cs" />

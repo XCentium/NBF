@@ -508,6 +508,9 @@
     <Content Include="Views\Widgets\Custom\CommentForm\Standard.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Views\Widgets\Custom\SocialMediaView\Standard.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
     <Content Include="Views\Widgets\Custom\OrderTracker\Standard.cshtml" />
   </ItemGroup>
   <ItemGroup>
