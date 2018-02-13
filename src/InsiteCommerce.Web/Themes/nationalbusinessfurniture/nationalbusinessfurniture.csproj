@@ -162,6 +162,7 @@
     <TypeScriptCompile Include="Scripts\Custom\Comments\nbf.commentmessage.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Comments\nbf.commentmessage.service.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Footer\nbf.footer.controller.ts" />
+    <TypeScriptCompile Include="Scripts\Custom\Layout\nbf.top-nav.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\OrderTracker\nbf.order-tracker.order-detail.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\OrderTracker\nbf.order-tracker.service.ts" />
     <TypeScriptCompile Include="Scripts\Custom\OrderTracker\nbf.order-tracker.controller.ts" />

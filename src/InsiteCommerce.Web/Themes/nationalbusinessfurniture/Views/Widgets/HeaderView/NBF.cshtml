@@ -9,15 +9,15 @@
     insite.navAdjustments = [];
 </script>
 
-<div ng-controller="TopNavController as vm" class="top-nav-container" ng-cloak dashboard-url="[% urlForPage 'MyAccountPage' %]">
+<div ng-controller="NbfTopNavController as vm" class="top-nav-container" ng-cloak dashboard-url="[% urlForPage 'MyAccountPage' %]">
     <input type="hidden" id="tst_currentLanguage" value="{{::vm.session.language.id}}" />
-    <div class="head-msg-wrap" ng-cloak>
+    <div class="head-msg-wrap" ng-cloak ng-if="vm.showTopMessage">
         <div class="container wide-container">
             <div class="head-msg">
                 <span>
                     [% translate 'Check it out! Don’t miss out on FREE shipping in the next 4 hours. Learn more here.' %]
                 </span>
-                <a class="close-msg isc-closemsg" ng-click="vm.closeQuoteInformation()">×</a>
+                <a class="close-msg isc-closemsg" ng-click="vm.closeTopMessage()">×</a>
             </div>
         </div>
     </div>
@@ -240,6 +240,9 @@
                 <ul class="user-nav">
                     <li ng-cloak ng-show="::(vm.session && !vm.session.isAuthenticated && !vm.session.rememberMe)">
                         <a href="[% urlForPage 'SignInPage' %]" isc-redirect-to-sign-in return-to-url="true" class="btn sign-in fastClick tst_header_signInButton"><span class="ico-LoginIcon"></span> <span>[% translate 'Login' %]</span></a>
+                    </li>
+                    <li ng-cloak ng-show="::vm.session.isAuthenticated || vm.session.rememberMe">
+                        <a href="" ng-click="vm.signOut('[[Model.Drop.SignOutReturnUrl]]')" class="btn sign-in fastClick tst_header_signInButton"><span class="ico-LoginIcon"></span> <span>[% translate 'Log Out' %]</span></a>
                     </li>
                     <li>
                         <div class="cart-button">

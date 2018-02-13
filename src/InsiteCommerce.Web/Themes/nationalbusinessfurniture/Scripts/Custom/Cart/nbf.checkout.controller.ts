@@ -281,12 +281,6 @@
         }
 
         checkSelectedShipTo(): void {
-            if (this.billToAndShipToAreSameCustomer()) {
-                this.shipToIsReadOnly = true;
-            } else {
-                this.shipToIsReadOnly = false;
-            }
-
             this.updateBillTo();
 
             if (this.onlyOneCountryToSelect()) {
@@ -298,6 +292,12 @@
         }
 
         protected updateBillTo(): void {
+            if (this.billToAndShipToAreSameCustomer()) {
+                this.shipToIsReadOnly = true;
+            } else {
+                this.shipToIsReadOnly = false;
+            }
+
             if (this.billToSameAsShipToSelected) {
                 if (this.selectedShipTo.isNew && this.cart.billTo.isGuest) {
                     this.cart.billTo.email = this.selectedShipTo.email;
