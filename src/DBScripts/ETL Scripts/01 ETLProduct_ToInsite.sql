@@ -24,14 +24,14 @@ begin
 	(
 		[Id],[Name],[ShortDescription],[ERPDescription],[UnitOfMeasure],[Sku],[ActivateOn],[DeactivateOn],
 		[ShippingWeight],[ShippingLength],[ShippingWidth],[ShippingHeight],
-		[QtyPerShippingPackage],[UrlSegment],[ContentManagerId],[ERPNumber],[UPCCode],
+		[QtyPerShippingPackage],[ShippingAmountOverride],[UrlSegment],[ContentManagerId],[ERPNumber],[UPCCode],
 		[StyleClassId],[StyleParentId],[IsDiscontinued],[ManufacturerItem],[Unspsc],[UnitOfMeasureDescription],[VendorId],
 		[CreatedOn],[CreatedBy],[ModifiedOn],[ModifiedBy]
 	)
 	select 
 		[Id],[Name],[ShortDescription],[ERPDescription],[UnitOfMeasure],[Sku],[ActivateOn],[DeactivateOn],
 		[ShippingWeight],[ShippingLength],[ShippingWidth],[ShippingHeight],
-		[QtyPerShippingPackage],[UrlSegment],[ContentManagerId],[ERPNumber],[UPCCode],
+		[QtyPerShippingPackage],[ShippingAmountOverride],[UrlSegment],[ContentManagerId],[ERPNumber],[UPCCode],
 		[StyleClassId],[StyleParentId],[IsDiscontinued],[ManufacturerItem],[Unspsc],[UnitOfMeasureDescription],[VendorId],
 		[CreatedOn],[CreatedBy],[ModifiedOn],[ModifiedBy]
 	from
@@ -68,6 +68,7 @@ begin
 		ShippingWidth = etl.ShippingWidth,
 		ShippingHeight = etl.ShippingHeight,
 		[QtyPerShippingPackage] = etl.[QtyPerShippingPackage],
+		[ShippingAmountOverride] = etl.[ShippingAmountOverride],
 		[UrlSegment] = etl.[UrlSegment],
 		[ContentManagerId] =etl.[ContentManagerId],
 		[ERPNumber] = etl.[ERPNumber],
