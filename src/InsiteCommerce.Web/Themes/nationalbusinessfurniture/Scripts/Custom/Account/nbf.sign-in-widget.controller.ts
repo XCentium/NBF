@@ -63,7 +63,6 @@
                 $localStorage,
                 wishListService,
                 $q);
-            this.init();
         }
 
         init() {

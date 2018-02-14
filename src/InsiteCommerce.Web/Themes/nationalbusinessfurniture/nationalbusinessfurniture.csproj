@@ -152,6 +152,7 @@
     <TypeScriptCompile Include="Scripts\Catalog\insite.recently-viewed.controller.ts" />
     <TypeScriptCompile Include="Scripts\Catalog\insite.related-products.controller.ts" />
     <TypeScriptCompile Include="Scripts\Common\insite.base-upload.ts" />
+    <TypeScriptCompile Include="Scripts\Custom\Account\nbf.create-account.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Account\nbf.sign-in-widget.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Account\nbf.account.directives.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Cart\nbf.cart.controller.ts" />
@@ -461,6 +462,7 @@
     <None Include="Views\Widgets\ChangeCustomerView\Standard.cshtml" />
     <None Include="Views\Widgets\CheckoutAddressView\Standard.cshtml" />
     <None Include="Views\Widgets\ContactUsForm\Standard.cshtml" />
+    <Content Include="Views\Widgets\CreateAccountView\NBF.cshtml" />
     <None Include="Views\Widgets\CreateAccountView\Standard.cshtml" />
     <None Include="Views\Widgets\CurrencySelector\Standard.cshtml" />
     <None Include="Views\Widgets\DealerDirectionsView\Standard.cshtml" />
