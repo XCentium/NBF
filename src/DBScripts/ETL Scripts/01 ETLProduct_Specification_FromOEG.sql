@@ -63,6 +63,43 @@ begin
 	where s.ContentManagerId not in (select ContentManagerId from Content)
 	and isnull(dim.General,'') != ''
 
+
+
+	/*
+	Vendor Code
+	*/
+
+	-- first update the existing contents
+
+	update Content set
+	Html = isnull(v.Code,''),
+	ModifiedOn = getdate()
+	--select p.erpnumber, isnull(dim.General,''), c.Html, dim.ItemId
+	from Product p
+	join Specification s on s.ProductId = p.Id and s.[Name] = 'Vendor Code'
+	join Content c on c.ContentManagerId = s.ContentManagerId
+	join OEGSystemStaging.dbo.Products sp on sp.Number = p.ERPNumber
+		and sp.BrandId = @brand
+	join OEGSystemStaging.dbo.Vendors v on v.VendorId = sp.PrimaryVendorId
+	where c.Html != isnull(v.Code,'') 
+	and isnull(v.Code,'') != ''
+
+	-- now insert any new ones we didn't have before
+
+	insert into Content 
+	(ContentManagerId, [Name], Html, Revision, LanguageId, PersonaId, ApprovedOn, PublishToProductionOn, DeviceType, CreatedBy, ModifiedBy)
+	select s.ContentManagerId, 'New Revision', 
+	isnull(v.Code,''), 
+	1, @LanguageId, @PersonaId, getdate(), getdate(), 'Desktop', 'etl', 'etl' 
+	--select p.ERPNumber, v.Code
+	from Product p
+	join Specification s on s.ProductId = p.Id and s.[Name] = 'Vendor Code'
+	join OEGSystemStaging.dbo.Products sp on sp.Number = p.ERPNumber
+		and sp.BrandId = @brand
+	join OEGSystemStaging.dbo.Vendors v on v.VendorId = sp.PrimaryVendorId
+	where s.ContentManagerId not in (select ContentManagerId from Content)
+	and isnull(v.Code,'') != ''
+
 /*
 exec ETLProductSpecification_FromOEG
 

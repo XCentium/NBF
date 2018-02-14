@@ -208,6 +208,179 @@ begin
 	exec ETLAttribute_FromOEG @attributeName
 	exec ETLAttributeValue_FromOEG @attributeName
 
+
+
+	set @attributeName = 'GSA'
+	exec ETLAttribute_FromOEG @attributeName
+	select top 1 @attributeTypeId = Id from AttributeType where [Name] = @attributeName
+
+	-- since there is no "key" on this table it's tough to do an "update", we are just going to add new ones and manually delete unused ones (if needed)
+	if not exists (select 1 from AttributeValue where AttributeTypeId = @attributeTypeId and [value] = 'Yes')
+	begin
+		insert into AttributeValue (AttributeTypeId, [Value], SortOrder, IsActive, CreatedBy, ModifiedBy)
+		select @attributeTypeId, 'Yes', 0, 1, 'etl', 'etl'
+	end
+	if not exists (select 1 from AttributeValue where AttributeTypeId = @attributeTypeId and [value] = 'No')
+	begin
+		insert into AttributeValue (AttributeTypeId, [Value], SortOrder, IsActive, CreatedBy, ModifiedBy)
+		select @attributeTypeId, 'No', 0, 1, 'etl', 'etl'
+	end
+
+
+	-- since there is no primary key here, we can just delete all associations and repopulate
+	delete from ProductAttributeValue
+	where AttributeValueId in ( select avalue.Id from AttributeValue avalue
+	join AttributeType atype on atype.Id = avalue.AttributeTypeId and atype.Id = @attributeTypeId)
+
+	
+	insert into ProductAttributeValue (ProductId, AttributeValueId) 
+	select distinct p.Id, avalue.Id 
+	from OEGSystemStaging.dbo.Products sp
+	join OEGSystemStaging.dbo.ProductSKUs spsku on spsku.ProductId = sp.ProductId
+	join OEGSystemStaging.dbo.ItemSKUs sisku on sisku.ItemSKUId = spsku.ItemSKUId
+	join Product p on p.ERPNumber = sp.Number + '_' + spsku.OptionCode
+	join AttributeValue avalue on avalue.[Value] = case when sisku.IsGSAEnabled = 0 then 'No' else 'Yes' end
+	where avalue.AttributeTypeId = @attributeTypeId
+	and sp.BrandId = @brand
+
+
+
+	set @attributeName = 'Ships Today'
+	exec ETLAttribute_FromOEG @attributeName
+	select top 1 @attributeTypeId = Id from AttributeType where [Name] = @attributeName
+
+	-- since there is no "key" on this table it's tough to do an "update", we are just going to add new ones and manually delete unused ones (if needed)
+	if not exists (select 1 from AttributeValue where AttributeTypeId = @attributeTypeId and [value] = 'Yes')
+	begin
+		insert into AttributeValue (AttributeTypeId, [Value], SortOrder, IsActive, CreatedBy, ModifiedBy)
+		select @attributeTypeId, 'Yes', 0, 1, 'etl', 'etl'
+	end
+	if not exists (select 1 from AttributeValue where AttributeTypeId = @attributeTypeId and [value] = 'No')
+	begin
+		insert into AttributeValue (AttributeTypeId, [Value], SortOrder, IsActive, CreatedBy, ModifiedBy)
+		select @attributeTypeId, 'No', 0, 1, 'etl', 'etl'
+	end
+
+
+	-- since there is no primary key here, we can just delete all associations and repopulate
+	delete from ProductAttributeValue
+	where AttributeValueId in ( select avalue.Id from AttributeValue avalue
+	join AttributeType atype on atype.Id = avalue.AttributeTypeId and atype.Id = @attributeTypeId)
+
+	
+	insert into ProductAttributeValue (ProductId, AttributeValueId) 
+	select distinct p.Id, avalue.Id 
+	from OEGSystemStaging.dbo.Products sp
+	join OEGSystemStaging.dbo.ProductSKUs spsku on spsku.ProductId = sp.ProductId
+	join OEGSystemStaging.dbo.ItemSKUs sisku on sisku.ItemSKUId = spsku.ItemSKUId
+	join Product p on p.ERPNumber = sp.Number + '_' + spsku.OptionCode
+	join AttributeValue avalue on avalue.[Value] = case when sisku.NormalLeadTimeId = 1 and sisku.CurrentLeadTimeId is null then 'Yes' else 'No' end
+	where avalue.AttributeTypeId = @attributeTypeId
+	and sp.BrandId = @brand
+
+
+
+	set @attributeName = 'New Product'
+	exec ETLAttribute_FromOEG @attributeName
+	select top 1 @attributeTypeId = Id from AttributeType where [Name] = @attributeName
+
+	-- since there is no "key" on this table it's tough to do an "update", we are just going to add new ones and manually delete unused ones (if needed)
+	if not exists (select 1 from AttributeValue where AttributeTypeId = @attributeTypeId and [value] = 'Yes')
+	begin
+		insert into AttributeValue (AttributeTypeId, [Value], SortOrder, IsActive, CreatedBy, ModifiedBy)
+		select @attributeTypeId, 'Yes', 0, 1, 'etl', 'etl'
+	end
+	if not exists (select 1 from AttributeValue where AttributeTypeId = @attributeTypeId and [value] = 'No')
+	begin
+		insert into AttributeValue (AttributeTypeId, [Value], SortOrder, IsActive, CreatedBy, ModifiedBy)
+		select @attributeTypeId, 'No', 0, 1, 'etl', 'etl'
+	end
+
+
+	-- since there is no primary key here, we can just delete all associations and repopulate
+	delete from ProductAttributeValue
+	where AttributeValueId in ( select avalue.Id from AttributeValue avalue
+	join AttributeType atype on atype.Id = avalue.AttributeTypeId and atype.Id = @attributeTypeId)
+
+	
+	insert into ProductAttributeValue (ProductId, AttributeValueId) 
+	select distinct p.Id, avalue.Id 
+	from Product p
+	join OEGSystemStaging.dbo.Products sp on sp.Number = p.ERPNumber
+		and sp.BrandId = @brand
+	join AttributeValue avalue on avalue.[Value] = case when sp.FirstAvailableDate > dateadd(month, -6, getdate()) then 'Yes' else 'No' end
+	where avalue.AttributeTypeId = @attributeTypeId
+
+
+
+	set @attributeName = 'Top Rated'
+	exec ETLAttribute_FromOEG @attributeName
+	select top 1 @attributeTypeId = Id from AttributeType where [Name] = @attributeName
+
+	-- since there is no "key" on this table it's tough to do an "update", we are just going to add new ones and manually delete unused ones (if needed)
+	if not exists (select 1 from AttributeValue where AttributeTypeId = @attributeTypeId and [value] = 'Yes')
+	begin
+		insert into AttributeValue (AttributeTypeId, [Value], SortOrder, IsActive, CreatedBy, ModifiedBy)
+		select @attributeTypeId, 'Yes', 0, 1, 'etl', 'etl'
+	end
+	if not exists (select 1 from AttributeValue where AttributeTypeId = @attributeTypeId and [value] = 'No')
+	begin
+		insert into AttributeValue (AttributeTypeId, [Value], SortOrder, IsActive, CreatedBy, ModifiedBy)
+		select @attributeTypeId, 'No', 0, 1, 'etl', 'etl'
+	end
+
+
+	-- since there is no primary key here, we can just delete all associations and repopulate
+	delete from ProductAttributeValue
+	where AttributeValueId in ( select avalue.Id from AttributeValue avalue
+	join AttributeType atype on atype.Id = avalue.AttributeTypeId and atype.Id = @attributeTypeId)
+
+	
+	insert into ProductAttributeValue (ProductId, AttributeValueId) 
+	select distinct p.Id, avalue.Id 
+	from Product p
+	join OEGSystemStaging.dbo.Products sp on sp.Number = p.ERPNumber
+		and sp.BrandId = @brand
+	left join OEGSystemStaging.dbo.ProductRating spr on spr.ProductOID = sp.Number
+	join AttributeValue avalue on avalue.[Value] = case when isnull(spr.Rating,0) >= 4 then 'Yes' else 'No' end
+	where avalue.AttributeTypeId = @attributeTypeId
+
+
+	set @attributeName = 'On Sale'
+	exec ETLAttribute_FromOEG @attributeName
+	select top 1 @attributeTypeId = Id from AttributeType where [Name] = @attributeName
+
+	-- since there is no "key" on this table it's tough to do an "update", we are just going to add new ones and manually delete unused ones (if needed)
+	if not exists (select 1 from AttributeValue where AttributeTypeId = @attributeTypeId and [value] = 'Yes')
+	begin
+		insert into AttributeValue (AttributeTypeId, [Value], SortOrder, IsActive, CreatedBy, ModifiedBy)
+		select @attributeTypeId, 'Yes', 0, 1, 'etl', 'etl'
+	end
+	if not exists (select 1 from AttributeValue where AttributeTypeId = @attributeTypeId and [value] = 'No')
+	begin
+		insert into AttributeValue (AttributeTypeId, [Value], SortOrder, IsActive, CreatedBy, ModifiedBy)
+		select @attributeTypeId, 'No', 0, 1, 'etl', 'etl'
+	end
+
+
+	-- since there is no primary key here, we can just delete all associations and repopulate
+	delete from ProductAttributeValue
+	where AttributeValueId in ( select avalue.Id from AttributeValue avalue
+	join AttributeType atype on atype.Id = avalue.AttributeTypeId and atype.Id = @attributeTypeId)
+
+	
+	insert into ProductAttributeValue (ProductId, AttributeValueId) 
+	select distinct p.Id, avalue.Id 
+	from Product p
+	join OEGSystemStaging.dbo.Products sp on sp.Number = p.ERPNumber
+		and sp.BrandId = @brand
+	left join OEGSystemStaging.dbo.ProductPrices spp on spp.ProductId = sp.ProductId
+		and spp.EffStartDate < getdate() and spp.effenddate > getdate() and spp.PricingTierId = 3 and Quantity = 1
+	join AttributeValue avalue on avalue.[Value] = case when isnull(spp.Price,0) > 0 then 'Yes' else 'No' end
+	where avalue.AttributeTypeId = @attributeTypeId
+
+
+
 /*
 
 exec ETLProductAttribute_FromOEG
