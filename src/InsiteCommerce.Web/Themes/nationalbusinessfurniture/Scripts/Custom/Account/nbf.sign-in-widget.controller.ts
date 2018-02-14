@@ -8,6 +8,7 @@
 
     export class SignInWidgetController extends SignInController {
         forcedRedirectUrl: string;
+        guestCartOrderNum: string;
 
         static $inject = ["$scope",
             "$window",
@@ -24,7 +25,8 @@
             "$timeout",
             "$localStorage",
             "wishListService",
-            "$q"
+            "$q",
+            "ipCookie"
         ];
 
         constructor(
@@ -43,7 +45,8 @@
             protected $timeout: ng.ITimeoutService,
             protected $localStorage: common.IWindowStorage,
             protected wishListService: IWishListService,
-            protected $q: ng.IQService) {
+            protected $q: ng.IQService,
+            protected ipCookie: any) {
             super($scope,
                 $window,
                 accountService,
@@ -113,6 +116,34 @@
             }
 
             this.isFromCheckoutAddress = lowerCaseReturnUrl.indexOf(this.checkoutAddressUrl.toLowerCase()) > -1;
+        }
+
+        protected signOutIfGuestSignedIn(): ng.IPromise<string> {
+            if (this.session.isAuthenticated && this.session.isGuest) {
+                if (this.cart.cartLines.length > 0) {
+                    this.guestCartOrderNum = this.cart.orderNumber;
+                }
+                return this.sessionService.signOut();
+            }
+            const defer = this.$q.defer<string>();
+            defer.resolve();
+            return defer.promise;
+        }
+
+        protected signOutIfGuestSignedInCompleted(signOutResult: string): void {
+            if (this.guestCartOrderNum) {
+                this.ipCookie("guestCartId", this.guestCartOrderNum);
+            }
+            this.accessToken.remove();
+            this.accessToken.generate(this.userName, this.password).then(
+                (accessTokenDto: common.IAccessTokenDto) => { this.generateAccessTokenOnSignInCompleted(accessTokenDto); },
+                (error: any) => { this.generateAccessTokenOnSignInFailed(error); });
+        }
+
+        protected signOutIfGuestSignedInFailed(error: any): void {
+            this.signInError = error.message;
+            this.disableSignIn = false;
+            this.spinnerService.hide("mainLayout");
         }
     }
 

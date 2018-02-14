@@ -16,6 +16,7 @@ using Insite.Core.Interfaces.Dependency;
 using Insite.Core.Interfaces.Plugins.Security;
 using Insite.Core.Plugins.Cart;
 using Insite.Core.Plugins.EntityUtilities;
+using Insite.Core.Plugins.Utilities;
 using Insite.Core.Providers;
 using Insite.Core.Services;
 using Insite.Core.Services.Handlers;
@@ -41,6 +42,7 @@ namespace Extensions.Handlers
         protected readonly StorefrontUserPermissionsSettings StorefrontUserPermissionsSettings;
         protected readonly StorefrontSecuritySettings StorefrontSecuritySettings;
         protected readonly ICartOrderProviderFactory CartOrderProviderFactory;
+        protected readonly ICookieManager CookieManager;
 
         public override int Order
         {
@@ -50,7 +52,7 @@ namespace Extensions.Handlers
             }
         }
 
-        public AddSessionHandlerNbf(IAuthenticationService authenticationService, ICustomerService customerService, ICartService cartService, IHandlerFactory handlerFactory, ISiteContextServiceFactory siteContextServiceFactory, IUserProfileUtilities userProfileUtilities, StorefrontUserPermissionsSettings storefrontUserPermissionsSettings, StorefrontSecuritySettings storefrontSecuritySettings, ICartOrderProviderFactory cartOrderProviderFactory)
+        public AddSessionHandlerNbf(IAuthenticationService authenticationService, ICustomerService customerService, ICartService cartService, IHandlerFactory handlerFactory, ISiteContextServiceFactory siteContextServiceFactory, IUserProfileUtilities userProfileUtilities, StorefrontUserPermissionsSettings storefrontUserPermissionsSettings, StorefrontSecuritySettings storefrontSecuritySettings, ICartOrderProviderFactory cartOrderProviderFactory, ICookieManager cookieManager)
         {
             StorefrontSecuritySettings = storefrontSecuritySettings;
             AuthenticationService = authenticationService;
@@ -61,11 +63,16 @@ namespace Extensions.Handlers
             UserProfileUtilities = userProfileUtilities;
             StorefrontUserPermissionsSettings = storefrontUserPermissionsSettings;
             CartOrderProviderFactory = cartOrderProviderFactory;
+            CookieManager = cookieManager;
         }
 
         public override AddSessionResult Execute(IUnitOfWork unitOfWork, AddSessionParameter parameter, AddSessionResult result)
         {
             UserProfile user;
+
+            var guestCartId = CookieManager.Get("guestCartId");
+            CookieManager.Remove("guestCartId");
+
             var addSessionResult = CheckForErrorResult(unitOfWork, parameter, result, out user);
             if (addSessionResult != null)
                 return addSessionResult;
@@ -77,14 +84,7 @@ namespace Extensions.Handlers
                     return CreateErrorServiceResult(result, SubCode.NotFound, MessageProvider.Current.Customer_BillToNotFound);
                 if (!StorefrontUserPermissionsSettings.AllowCreateNewShipToAddress && SiteContext.Current.ShipTo == null)
                     return CreateErrorServiceResult(result, SubCode.AccountServiceContactCustomerSupport, MessageProvider.Current.Contact_Customer_Support);
-                var parameter1 = new UpdateCartParameter();
-                parameter1.BillToId = SiteContext.Current.BillTo.Id;
-                var shipTo = SiteContext.Current.ShipTo;
-                Guid? nullable = shipTo != null ? shipTo.Id : SiteContext.Current.BillTo.Id;
-                parameter1.ShipToId = nullable;
-                //UpdateCartResult updateCartResult = cartService.UpdateCart(parameter1);
-                //if (updateCartResult.ResultCode != ResultCode.Success)
-                //    return this.CreateErrorServiceResult<AddSessionResult>(result, updateCartResult.SubCode, updateCartResult.Message);
+
                 unitOfWork.Save();
 
                 // Get the two carts that may be the user's:
@@ -93,7 +93,8 @@ namespace Extensions.Handlers
                 var cartOrderProvider = CartOrderProviderFactory.GetCartOrderProvider();
                 var usersCart = unitOfWork.GetRepository<CustomerOrder>().GetTable()
                     .FirstOrDefault(co => co.PlacedByUserProfileId == user.Id && co.Status == "Cart");
-                var anonymousCart = cartOrderProvider.GetCartOrder();
+                var anonymousCart = unitOfWork.GetRepository<CustomerOrder>().GetTable()
+                    .FirstOrDefault(co => co.OrderNumber.ToString().Equals(guestCartId, StringComparison.CurrentCultureIgnoreCase) && co.Status == "Cart");
                 if (usersCart != null && anonymousCart != null && usersCart.Id != anonymousCart.Id)
                 {
                     // If we have both, copy the anonymous cart order lines into the previous cart.
@@ -132,8 +133,9 @@ namespace Extensions.Handlers
                     updateCartResult.GetCartResult.Cart.PlacedByUserProfile = user;
                     updateCartResult.GetCartResult.Cart.PlacedByUserName = user.UserName;
                     updateCartResult.GetCartResult.Cart.InitiatedByUserProfile = user;
-                    unitOfWork.Save();
 
+                    unitOfWork.Save();
+                    
                     try
                     {
                         var getCartParameter = new GetCartParameter
@@ -146,8 +148,26 @@ namespace Extensions.Handlers
                         {
                             LogHelper.For(this)
                                 .Error($"Error validating user's cart during login: {JsonConvert.SerializeObject(getCartResult)}");
-                        } else { 
+                        } else {
+                            foreach (var orderLine in anonymousCart.OrderLines.Where(ol => !ol.IsPromotionItem))
+                            {
+                                var addCartLineParameter = new AddCartLineParameter(new CartLineDto
+                                {
+                                    ProductId = orderLine.ProductId,
+                                    QtyOrdered = orderLine.QtyOrdered,
+                                    UnitOfMeasure = orderLine.UnitOfMeasure
+                                });
+                                foreach (var property in orderLine.CustomProperties)
+                                {
+                                    addCartLineParameter.Properties.Add(property.Name, property.Value);
+                                }
+                                CartService.AddCartLine(addCartLineParameter);
+                            }
+
+                            unitOfWork.GetRepository<CustomerOrder>().Delete(anonymousCart);
                             unitOfWork.Save();
+
+                            cartOrderProvider.SetCartOrder(getCartResult.Cart);
                         }
                     }
                     catch (Exception e)
