@@ -11,12 +11,12 @@ using Insite.Data.Entities;
 
 namespace Extensions.WebApi.GuestCheckout.Controllers
 {
-    [RoutePrefix("api/nbf/guestCheckout")]
-    public class GuestCheckoutController : BaseApiController
+    [RoutePrefix("api/nbf/guestActivation")]
+    public class GuestActivationController : BaseApiController
     {
         private readonly IUnitOfWorkFactory _unitOfWorkFactory;
 
-        public GuestCheckoutController(ICookieManager cookieManager, IUnitOfWorkFactory unitOfWorkFactory)
+        public GuestActivationController(ICookieManager cookieManager, IUnitOfWorkFactory unitOfWorkFactory)
           : base(cookieManager)
         {
             _unitOfWorkFactory = unitOfWorkFactory;

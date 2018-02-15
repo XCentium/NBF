@@ -34,7 +34,8 @@
             "websiteService",
             "customerService",
             "$localStorage",
-            "$location"
+            "$location",
+            "nbfGuestActivationService"
         ];
 
         constructor(
@@ -49,7 +50,8 @@
             protected websiteService: websites.IWebsiteService,
             protected customerService: customers.ICustomerService,
             protected $localStorage: common.IWindowStorage,
-            protected $location: ng.ILocaleService) {
+            protected $location: ng.ILocaleService,
+            protected nbfGuestActivationService: nbf.guest.INbfGuestActivationService) {
             this.init();
         }
 
@@ -139,64 +141,45 @@
 
             this.spinnerService.show("mainLayout", true);
 
-            this.signOutIfGuestSignedIn().then(
-                (signOutResult: string) => { this.signOutIfGuestSignedInCompleted(signOutResult); },
-                (error: any) => { this.signOutIfGuestSignedInFailed(error); }
-            );
-        }
+            this.nbfGuestActivationService.checkUserName(this.email).then(
+                (response) => {
+                    if (response) {
+                        this.createError = "User name already exists";
+                    } else {
+                        this.accountService.getAccount().then(
+                            (account: AccountModel) => {
+                                const newAccount = {
+                                    email: this.email,
+                                    userName: this.email,
+                                    password: this.password,
+                                    firstName: this.userFirstName,
+                                    lastName: this.userLastName,
+                                    isSubscribed: this.isSubscribed,
+                                    billToId: this.billTo.id as System.Guid,
+                                    shipToId: this.shipTo.id as System.Guid
+                                } as AccountModel;
 
-        protected signOutIfGuestSignedIn(): ng.IPromise<string> {
-            if (this.session.isAuthenticated && this.session.isGuest) {
-                return this.sessionService.signOut();
-            }
+                                //AccountModel has no value for phone, assign to user's billto address
+                                this.billTo.phone = this.userPhone;
+                                this.billTo.email = this.email;
 
-            const defer = this.$q.defer<string>();
-            defer.resolve();
-            return defer.promise;
-        }
-
-        protected signOutIfGuestSignedInCompleted(signOutResult: string): void {
-            const account = {
-                email: this.email,
-                userName: this.email,
-                password: this.password,
-                isSubscribed: this.isSubscribed
-            } as AccountModel;
-
-            this.accountService.createAccount(account).then(
-                (createdAccount: AccountModel) => { this.createAccountCompleted(createdAccount); },
-                (error: any) => { this.createAccountFailed(error); });
-        }
-
-        protected signOutIfGuestSignedInFailed(error: any): void {
-            this.createError = error.message;
+                                this.nbfGuestActivationService
+                                    .createAccountFromGuest(account.id, newAccount, this.billTo, this.shipTo).then(
+                                    (accountResult: AccountModel) => { this.createAccountCompleted(accountResult); },
+                                        (error: any) => { this.createAccountFailed(error); }
+                                    );
+                            },
+                            (error: any) => { this.createAccountFailed(error); });
+                    }
+                });
         }
 
         protected createAccountCompleted(account: AccountModel): void {
-            this.accessToken.generate(this.email, this.password).then(
-                (accessToken: common.IAccessTokenDto) => { this.generateAccessTokenCompleted(account, accessToken); },
-                (error: any) => { this.generateAccessTokenFailed(error); });
+            this.coreService.redirectToPathAndRefreshPage(this.returnUrl);
         }
 
         protected createAccountFailed(error: any): void {
-            this.createError = error.message;
-        }
-
-        protected generateAccessTokenCompleted(account: AccountModel, accessToken: common.IAccessTokenDto): void {
-            this.accessToken.set(accessToken.accessToken);
-            const currentContext = this.sessionService.getContext();
-            currentContext.billToId = account.billToId;
-            currentContext.shipToId = account.shipToId;
-            this.billTo.id = account.billToId.toString();
-            this.shipTo.id = account.shipToId.toString();
-            this.sessionService.setContext(currentContext);
-
-            this.customerService.updateBillTo(this.billTo).then(
-                (billTo: BillToModel) => { this.updateBillToCompleted(billTo); },
-                (error: any) => { this.updateBillToFailed(error); });
-        }
-
-        protected generateAccessTokenFailed(error: any): void {
+            this.spinnerService.hide("mainLayout");
             this.createError = error.message;
         }
 
@@ -375,8 +358,10 @@
 
         checkSelectedShipTo(): void {
             if (this.shipToSameAsBillTo) {
+                this.shipTo = this.billTo.shipTos[0];
                 this.isReadOnly = true;
             } else {
+                this.shipTo = this.billTo.shipTos[1];
                 this.isReadOnly = false;
             }
 

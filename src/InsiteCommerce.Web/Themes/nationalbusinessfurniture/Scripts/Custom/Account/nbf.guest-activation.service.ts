@@ -1,13 +1,13 @@
-﻿module nbf.Checkout {
+﻿module nbf.guest {
     "use strict";
 
-    export interface INbfCheckoutService {
-        createAccountFromGuest(guestId: string, account: AccountModel, billTo: BillToModel, shipTo: ShipToModel, newPass: string): ng.IPromise<AccountModel>;
+    export interface INbfGuestActivationService {
+        createAccountFromGuest(guestId: string, account: AccountModel, billTo: BillToModel, shipTo: ShipToModel): ng.IPromise<AccountModel>;
         checkUserName(userName: string): ng.IPromise<boolean>;
     }
 
-    export class NbfCheckoutService implements INbfCheckoutService {
-        serviceUri = "/api/nbf/guestCheckout";
+    export class NbfGuestActivationService implements INbfGuestActivationService {
+        serviceUri = "/api/nbf/guestActivation";
         billTo: BillToModel;
         shipTo: ShipToModel;
         newPass: string;
@@ -23,10 +23,10 @@
             protected sessionService: insite.account.ISessionService) {
         }
 
-        createAccountFromGuest(guestId: string, account: AccountModel, billTo: BillToModel, shipTo: ShipToModel, newPass: string): ng.IPromise<AccountModel> {
+        createAccountFromGuest(guestId: string, account: AccountModel, billTo: BillToModel, shipTo: ShipToModel): ng.IPromise<AccountModel> {
             this.billTo = billTo;
             this.shipTo = shipTo;
-            this.newPass = newPass;
+            this.newPass = account.password;
 
             return this.httpWrapperService.executeHttpRequest(
                 this,
@@ -125,5 +125,5 @@
 
     angular
         .module("insite")
-        .service("nbfCheckoutService", NbfCheckoutService);
+        .service("nbfGuestActivationService", NbfGuestActivationService);
 }
