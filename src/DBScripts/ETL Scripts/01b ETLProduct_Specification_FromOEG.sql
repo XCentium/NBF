@@ -74,7 +74,7 @@ begin
 	update Content set
 	Html = isnull(v.Code,''),
 	ModifiedOn = getdate()
-	--select p.erpnumber, isnull(dim.General,''), c.Html, dim.ItemId
+	--select p.erpnumber, isnull(v.Code,''), c.Html, v.VendorId
 	from Product p
 	join Specification s on s.ProductId = p.Id and s.[Name] = 'Vendor Code'
 	join Content c on c.ContentManagerId = s.ContentManagerId
@@ -99,6 +99,47 @@ begin
 	join OEGSystemStaging.dbo.Vendors v on v.VendorId = sp.PrimaryVendorId
 	where s.ContentManagerId not in (select ContentManagerId from Content)
 	and isnull(v.Code,'') != ''
+
+
+
+	/*
+	Collection
+	*/
+
+	-- first update the existing contents
+
+	update Content set
+	Html = isnull(sic.[Name],''),
+	ModifiedOn = getdate()
+	--select p.erpnumber, isnull(sic.[Name],''), c.Html, sic.CollectionId
+	from Product p
+	join Specification s on s.ProductId = p.Id and s.[Name] = 'Collection'
+	join Content c on c.ContentManagerId = s.ContentManagerId
+	join OEGSystemStaging.dbo.Products sp on sp.Number = p.ERPNumber
+		and sp.BrandId = @brand
+	join OEGSystemStaging.dbo.Items si on si.ItemId = sp.ItemId
+	join OEGSystemStaging.dbo.ItemCollections sic on sic.CollectionId = si.CollectionId
+	where c.Html != isnull(sic.[Name],'') 
+	and isnull(sic.[Name],'') != ''
+
+	-- now insert any new ones we didn't have before
+
+	insert into Content 
+	(ContentManagerId, [Name], Html, Revision, LanguageId, PersonaId, ApprovedOn, PublishToProductionOn, DeviceType, CreatedBy, ModifiedBy)
+	select s.ContentManagerId, 'New Revision', 
+	isnull(sic.[Name],''), 
+	1, @LanguageId, @PersonaId, getdate(), getdate(), 'Desktop', 'etl', 'etl' 
+	--select p.ERPNumber, sic.[Name]
+	from Product p
+	join Specification s on s.ProductId = p.Id and s.[Name] = 'Collection'
+	join OEGSystemStaging.dbo.Products sp on sp.Number = p.ERPNumber
+		and sp.BrandId = @brand
+	join OEGSystemStaging.dbo.Items si on si.ItemId = sp.ItemId
+	join OEGSystemStaging.dbo.ItemCollections sic on sic.CollectionId = si.CollectionId
+	where s.ContentManagerId not in (select ContentManagerId from Content)
+	and isnull(sic.[Name],'') != ''
+
+
 
 /*
 exec ETLProductSpecification_FromOEG

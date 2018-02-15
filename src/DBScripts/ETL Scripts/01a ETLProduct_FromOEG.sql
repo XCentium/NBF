@@ -175,6 +175,12 @@ begin
 	from Product
 	where Id not in (select ProductId from Specification where [Name] = 'Vendor Code')
 
+	insert into Specification
+	(ContentManagerId, [Name], [Description], IsActive, CreatedBy, ModifiedBy, ProductId)
+	select newid(), 'Collection', 'Collection', 1, 'etl', 'etl', Id
+	from Product
+	where Id not in (select ProductId from Specification where [Name] = 'Collection')
+
 	-- make sure we have a content manager record for each of the specifications
 
 	insert into ContentManager
