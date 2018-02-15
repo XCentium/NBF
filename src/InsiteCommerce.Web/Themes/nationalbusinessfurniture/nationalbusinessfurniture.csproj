@@ -153,10 +153,10 @@
     <TypeScriptCompile Include="Scripts\Catalog\insite.related-products.controller.ts" />
     <TypeScriptCompile Include="Scripts\Common\insite.base-upload.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Account\nbf.create-account.controller.ts" />
+    <TypeScriptCompile Include="Scripts\Custom\Account\nbf.guest-activation.service.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Account\nbf.sign-in-widget.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Account\nbf.account.directives.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Cart\nbf.cart.controller.ts" />
-    <TypeScriptCompile Include="Scripts\Custom\Cart\nbf.checkout.service.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Cart\nbf.cart-total-display.directive.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Cart\nbf.cart-lines.directive.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Cart\nbf.checkout.controller.ts" />

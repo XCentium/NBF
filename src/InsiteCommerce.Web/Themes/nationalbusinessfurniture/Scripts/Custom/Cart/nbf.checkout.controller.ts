@@ -73,7 +73,7 @@
             "$timeout",
             "sessionService",
             "$localStorage",
-            "nbfCheckoutService"
+            "nbfGuestActivationService"
         ];
 
         constructor(
@@ -93,7 +93,7 @@
             protected $timeout: ng.ITimeoutService,
             protected sessionService: SessionService,
             protected $localStorage: insite.common.IWindowStorage,
-            protected nbfCheckoutService: Checkout.INbfCheckoutService) {
+            protected nbfGuestActivationService: guest.INbfGuestActivationService) {
             this.init();
         }
 
@@ -227,25 +227,29 @@
             //handle guest ship tos
             var shipTos = [];
             this.shipTos.forEach(shipTo => {
-                if (!shipTo.country && !shipTo.state) {
-                    shipTo.country = this.countries[0];
-                }
+                //if (!shipTo.country && !shipTo.state) {
+                //    shipTo.country = this.countries[0];
+                //}
                 if (shipTo.country && shipTo.country.states) {
                     this.replaceObjectWithReference(shipTo, this.countries, "country");
                     this.replaceObjectWithReference(shipTo, shipTo.country.states, "state");
                 }
 
-                if (this.cart.billTo.isGuest) {
-                    if (shipTo.isNew) {
-                        shipTos.push(shipTo);
-                        //Only show new ship to option for guest users
-                        this.shipTos = shipTos;
-                    }
-                } else {
-                    if (shipTo.id === this.cart.billTo.id) {
-                        shipToBillTo = shipTo;
-                    }
+                if (shipTo.id === this.cart.billTo.id) {
+                    shipToBillTo = shipTo;
                 }
+
+                //if (this.cart.billTo.isGuest) {
+                //    if (shipTo.isNew) {
+                //        shipTos.push(shipTo);
+                //        //Only show new ship to option for guest users
+                //        this.shipTos = shipTos;
+                //    }
+                //} else {
+                //    if (shipTo.id === this.cart.billTo.id) {
+                //        shipToBillTo = shipTo;
+                //    }
+                //}
             });
 
             // if this billTo was returned in the shipTos, replace the billTo in the shipTos array
@@ -261,15 +265,19 @@
             this.selectedShipTo = this.cart.shipTo;
 
             this.shipTos.forEach(shipTo => {
-                if (this.cart.billTo.isGuest) {
-                    if (shipTo.isNew) {
-                        this.selectedShipTo = shipTo;
-                    }
-                } else {
-                    if (this.cart.shipTo && shipTo.id === this.cart.shipTo.id || !this.selectedShipTo && shipTo.isNew) {
-                        this.selectedShipTo = shipTo;
-                    }
+
+                if (this.cart.shipTo && shipTo.id === this.cart.shipTo.id || !this.selectedShipTo && shipTo.isNew) {
+                    this.selectedShipTo = shipTo;
                 }
+                //if (this.cart.billTo.isGuest) {
+                //    if (shipTo.isNew) {
+                //        this.selectedShipTo = shipTo;
+                //    }
+                //} else {
+                //    if (this.cart.shipTo && shipTo.id === this.cart.shipTo.id || !this.selectedShipTo && shipTo.isNew) {
+                //        this.selectedShipTo = shipTo;
+                //    }
+                //}
             });
 
             if (this.selectedShipTo && this.selectedShipTo.id === this.cart.billTo.id) {
@@ -281,6 +289,28 @@
         }
 
         checkSelectedShipTo(): void {
+            if (this.isGuest){
+                if (!this.billToSameAsShipToSelected) {
+                    this.shipTos.forEach(shipTo => {
+                        if (shipTo.isNew) {
+                            shipTo.email = this.selectedShipTo.email;
+                            shipTo.firstName = this.selectedShipTo.firstName;
+                            shipTo.lastName = this.selectedShipTo.lastName;
+                            shipTo.companyName = this.selectedShipTo.companyName;
+                            shipTo.address1 = this.selectedShipTo.address1;
+                            shipTo.address2 = this.selectedShipTo.address2;
+                            shipTo.city = this.selectedShipTo.city;
+                            shipTo.state = this.selectedShipTo.state;
+                            shipTo.postalCode = this.selectedShipTo.postalCode;
+                            shipTo.phone = this.selectedShipTo.phone;
+                            this.selectedShipTo = shipTo;
+                        }
+                    });
+                } else {
+                    this.selectedShipTo = this.shipTos[0];
+                }
+            }
+
             this.updateBillTo();
 
             if (this.onlyOneCountryToSelect()) {
@@ -292,30 +322,25 @@
         }
 
         protected updateBillTo(): void {
-            if (this.billToAndShipToAreSameCustomer()) {
+            if (this.billToAndShipToAreSameCustomer() && !this.isGuest) {
                 this.shipToIsReadOnly = true;
             } else {
                 this.shipToIsReadOnly = false;
             }
 
-            if (this.billToSameAsShipToSelected) {
-                if (this.selectedShipTo.isNew && this.cart.billTo.isGuest) {
-                    this.cart.billTo.email = this.selectedShipTo.email;
-                    this.emailReadOnly = false;
-                } else {
-                    this.emailReadOnly = true;
+            if (this.isGuest) {
+                this.cart.billTo.email = this.selectedShipTo.email;
+                if (this.billToSameAsShipToSelected) {
+                    this.cart.billTo.firstName = this.selectedShipTo.firstName;
+                    this.cart.billTo.lastName = this.selectedShipTo.lastName;
+                    this.cart.billTo.companyName = this.selectedShipTo.companyName;
+                    this.cart.billTo.address1 = this.selectedShipTo.address1;
+                    this.cart.billTo.address2 = this.selectedShipTo.address2;
+                    this.cart.billTo.city = this.selectedShipTo.city;
+                    this.cart.billTo.state = this.selectedShipTo.state;
+                    this.cart.billTo.postalCode = this.selectedShipTo.postalCode;
+                    this.cart.billTo.phone = this.selectedShipTo.phone;
                 }
-                this.cart.billTo.firstName = this.selectedShipTo.firstName;
-                this.cart.billTo.lastName = this.selectedShipTo.lastName;
-                this.cart.billTo.companyName = this.selectedShipTo.companyName;
-                this.cart.billTo.address1 = this.selectedShipTo.address1;
-                this.cart.billTo.address2 = this.selectedShipTo.address2;
-                this.cart.billTo.city = this.selectedShipTo.city;
-                this.cart.billTo.state = this.selectedShipTo.state;
-                this.cart.billTo.postalCode = this.selectedShipTo.postalCode;
-                this.cart.billTo.phone = this.selectedShipTo.phone;
-            } else {
-                this.cart.billTo = this.originalBillTo;
             }
         }
 
@@ -453,7 +478,6 @@
             if (shipToMatches.length === 1) {
                 this.cart.shipTo = this.selectedShipTo;
             }
-
 
             if (this.cart.shipTo.id !== this.cart.billTo.id) {
                 this.customerService.addOrUpdateShipTo(this.cart.shipTo).then(
@@ -836,7 +860,7 @@
 
             if (pass) {
                 this.userFound = false;
-                this.nbfCheckoutService.checkUserName(this.cart.billTo.email).then(
+                this.nbfGuestActivationService.checkUserName(this.cart.billTo.email).then(
                     (response) => {
                         if (response) {
                             this.userFound = true;
@@ -851,7 +875,7 @@
                                 lastName: this.cart.billTo.lastName
                             } as AccountModel;
 
-                            this.nbfCheckoutService.createAccountFromGuest(this.account.id, newAccount, this.cart.billTo, this.cart.shipTo, pass).then(
+                            this.nbfGuestActivationService.createAccountFromGuest(this.account.id, newAccount, this.cart.billTo, this.cart.shipTo).then(
                                 () => {
                                     this.newUser = true;
                                     this.submitOrder(signInUri);

@@ -23,7 +23,7 @@
                                         <h3>[% translate 'Shipping Address' %]</h3>
                                         <div>
                                             <div class="shipping-info">
-                                                <div class="ship-select" ng-if="vm.shipTos.length > 1">
+                                                <div class="ship-select" ng-if="vm.shipTos.length > 1 && !vm.isGuest">
                                                     <select id="shipTo" name="shipTo" ng-model="vm.selectedShipTo" ng-options="shipTo.label for shipTo in vm.shipTos" ng-change="vm.checkSelectedShipTo()"></select>
                                                 </div>
                                                 <nbf-address-edit prefix="st" show-email="false" address="vm.selectedShipTo" countries="vm.countries" address-fields="vm.addressFields.shipToAddressFields"
@@ -31,7 +31,7 @@
                                             </div>
                                         </div>
                                     </section>
-                                    <section class="bill-to">
+                                    <section class="bill-to" ng-if="vm.selectedShipTo.label != 'Use Billing Address' && !vm.isGuest">
                                         <h3>[% translate 'Billing Address' %]</h3>
                                         <div>
                                             <label for="sameAsShipping">[% translate 'Same as shipping' %]</label>
