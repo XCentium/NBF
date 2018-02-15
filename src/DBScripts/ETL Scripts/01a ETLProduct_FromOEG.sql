@@ -171,7 +171,7 @@ begin
 	
 	insert into Specification
 	(ContentManagerId, [Name], [Description], IsActive, CreatedBy, ModifiedBy, ProductId)
-	select newid(), 'Vendor Code', 'Vendor Code', 1, 'etl', 'etl', Id
+	select newid(), 'Vendor Code', 'Vendor Code', 0, 'etl', 'etl', Id
 	from Product
 	where Id not in (select ProductId from Specification where [Name] = 'Vendor Code')
 
