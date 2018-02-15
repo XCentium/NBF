@@ -10,11 +10,12 @@ label {
 }
 
 
-input, select {
+input[type="text"], select {
     border: 1px solid #D5D5D5;
     background-color: $nbf-white;
     height: 46px;
     padding: 0px 20px;
+    margin-bottom:30px;
 
     &:focus {
         border-color: $nbf-charcoal;

@@ -406,7 +406,6 @@ h3 {
     font-size: 36px;
     line-height:  1.2em;
     margin-bottom: 1em;
-    color: inherit;
     font-weight: normal;
 
     @media all and (max-width: 767px) {
@@ -421,7 +420,6 @@ h4{
     font-family: $ProximaNova-bold;
     line-height:  1.2em;
     margin-bottom: 1em;
-    color: inherit;
 
     @media all and (max-width: 767px) {
         font-size: 20px;
@@ -7501,6 +7499,15 @@ nav ul:not(.side-nav) li a {
     margin-bottom: 0.25em;
 }
 
+.comment-from__title {
+    text-align:center;
+    margin-bottom:15px;
+}
+
+.comment-from__label {
+    
+}
+
 .widget-contactform .cf-form textarea {
     height: 150px;
 }
@@ -7516,18 +7523,17 @@ nav ul:not(.side-nav) li a {
 @media all and (min-width: 768px) {
 
     .widget-contactform {
-        max-width: 600px;
+        max-width:788px;
+        margin:0 auto;
     }
 
     .widget-contactform .cf-form label {
-        width: 40%;
-        float: left;
+      
     }
 
     .widget-contactform .cf-form input,
     .widget-contactform .cf-form select {
-        width: 55%;
-        float: right;
+      
     }
 }
 
