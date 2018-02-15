@@ -15,7 +15,7 @@
     };
 
     that.hideMenu = () => {
-        $("#sub-cat").addClass("hide-item");
+        $("#sub-cat").addClass("hide-item t1");
     };
 
     that.activatePanel = () => {
@@ -26,14 +26,14 @@
     };
 
     that.goToSubnav = (navArrow) => {
-        $(".isc-primary-nav ul li .hide-item").removeClass("hide-item");
+        $(".isc-primary-nav ul li .hide-item").removeClass("hide-item t2");
         const $activeNav = $(".isc-primary-nav ul.active-nav");
         $activeNav.scrollTop(0);
 
         $(".isc-primary-nav ul").removeClass("active-nav");
 
         const self = $(navArrow);
-        self.closest("li").find("ul.subnav:first").addClass("active-nav");
+        self.closest("li").find("div.subnav:first").addClass("active-nav");
 
         $(".isc-primary-nav-back").removeClass("isc-hidden");
     };
@@ -57,7 +57,7 @@
     };
 
     that.hideSubNav = () => {
-        $(".isc-primary-nav ul li:hover > ul").addClass("hide-item");
+        $(".isc-primary-nav ul li:hover > ul").addClass("hide-item t3");
     };
 
     that.setup = () => {
@@ -211,14 +211,14 @@
                 let tOut;
                 $(".isc-primary-nav ul li").hover(
                     function () {
-                        $(this).children("ul").addClass("hide-item");
+                        $(this).children("ul").addClass("hide-item t4");
                         tOut = setTimeout($.proxy(function () {
-                            $(this).children("ul").removeClass("hide-item");
+                            $(this).children("ul").removeClass("hide-item t5");
                         }, this), navTimeoutDelay);
                     },
                     function () {
                         clearTimeout(tOut);
-                        $(this).children("ul").addClass("hide-item");
+                        $(this).children("ul").addClass("hide-item t6");
                     }
                 );
             }

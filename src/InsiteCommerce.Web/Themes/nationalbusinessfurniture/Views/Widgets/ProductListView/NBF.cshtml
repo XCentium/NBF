@@ -120,7 +120,7 @@
                                                                             <img class="item-block__product__swatch" src="http://demandware.edgesuite.net/aaqz_prd/on/demandware.static/-/Sites-MandCo-Master/default/dwe8e3cc47/7421753_black_p_swatch.jpg" />
                                                                         </div>
                                                                     </li>
-                                                                    <li class="right"><u>More</u></li>
+                                                                    <li class="item-block__product__more-link"><u>More</u></li>
                                                                 </ul>
                                                             </div>
                                                             <div class="item-name item-name-grid">
@@ -137,7 +137,7 @@
                                                         </div>
                                                         <div class="item-block__product__price-wrap">
                                                             <div class="item-block__product__price">
-                                                                <h4 class="text-orange">$150</h4> <span class="strike ori-price-tag">Was $200</span>
+                                                                <h3 class="text-orange item-block__price">$150</h3> <span class="strike ori-price-tag">Was $200</span>
                                                             </div>
                                                             <div class="item-block__product__flag">
                                                                 flag
@@ -154,7 +154,7 @@
                                                         <isc-sorted-attribute-value-list ng-if="product.attributeTypes.length > 0" attribute-types="product.attributeTypes" maximum-number="3" class="attribute-list"></isc-sorted-attribute-value-list>
                                                     </div>
 
-                                                    <div class="item-price" ng-if="!vm.failedToGetRealTimePrices">
+                                                    <div class="item-price" ng-if="!vm.failedToGetRealTimePrices" style="display:none;">
                                                         <div class="product-info">
                                                             <isc-product-price product="product"></isc-product-price>
 
@@ -367,123 +367,161 @@
                     <li ng-repeat="breadcrumb in vm.leftNavBreadCrumbs()"><a ng-href="{{breadcrumb.path}}">{{breadcrumb.text}}</a></li>
                 </ul>
             </div>
-
-            <div class="n-filter row">
-                <div class="filter-label">
-                    <span class="filter-title">[% translate 'Filter By' %]:</span>
-                </div>
-
-                [[filterStatusControls]]
-                <div class="large-12 column filter-middle product-list-filters">
-                    <div class="f-search-within" style="display:none;">
-                        <div class="search-within-search clearfix">
-                            <label ng-if="!vm.category">[% translate 'Search Within Results' %]</label>
-                            <label ng-if="vm.category">[% translate 'Search Within Category' %]</label>
-
-                            <div class="search-container">
-                                <div class="search-input">
-                                    <input id="searchWithin" type="text" placeholder="[% translate 'Enter keywords' %]" ng-model="vm.searchWithinInput" isc-enter="vm.searchWithinEntered()" />
-                                </div>
-                                <div class="search-button">
-                                    <button class="btn primary fastClick" ng-click="vm.searchWithinEntered()">Go</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="f-cat" ng-if="vm.products.categoryFacets.length > 0">
-                        <section class="accordion">
-                            <div>
-                                <input type="checkbox" id="accord-1" class="accord-check" />
-                                <label for="accord-1" class="accord-head">[% translate 'Categories' %]</label>
-                                <article class="accord-content">
-                                    <div class="f-wrap">
-                                        <ul>
-                                            <li class="view-all"><a href="javascript:;"><span>View All</span></a></li>
-                                            <li id="tst_productList_categoryLeftNav_categoryFacet_{{categoryFacet.categoryId}}" ng-repeat="categoryFacet in vm.products.categoryFacets | orderBy : 'shortDescription'"
-                                                ng-class="{'f-selected' : categoryFacet.selected}"
-                                                ng-click="vm.toggleCategory(categoryFacet)">
-                                                <a href="javascript:;">
-                                                    <span class="f-name">{{categoryFacet.shortDescription}}</span>
-                                                    <span class="f-count">({{categoryFacet.count}})</span>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </article>
-                            </div>
-                        </section>
-                    </div>
-
-                    <div class="f-cat" ng-if="vm.products.priceRange.priceFacets.length > 0">
-                        <section class="accordion">
-                            <div>
-                                <input type="checkbox" id="accord-2" class="accord-check" />
-                                <label for="accord-2" class="accord-head">[% translate 'Price' %]</label>
-                                <article class="accord-content">
-                                    <div class="f-wrap">
-                                        <ul>
-                                            <li class="view-all"><a href="javascript:;"><span>View All</span></a></li>
-                                            <li id="tst_productList_priceFacet_{{priceFacet.minimumPrice.toString()}}"
-                                                ng-repeat="priceFacet in vm.products.priceRange.priceFacets | orderBy : 'minimumPrice'"
-                                                ng-class="{'f-selected' : vm.isPriceFacetSelected(priceFacet)}"
-                                                ng-click="vm.togglePriceFilter(priceFacet.minimumPrice.toString())">
-                                                <a href="javascript:;">
-                                                    <span class="f-name tst_productList_priceFacet_{{$index}}">{{vm.priceRangeDisplay(priceFacet)}}</span> <span ng-attr-id="{{'leftNavCategoryPriceFacetCount_' + $index}}" class="f-count tst_productList_priceFacetCount_{{$index}}">({{priceFacet.count}})</span>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </article>
-                            </div>
-                        </section>
-                    </div>
-
-                    <div ng-repeat="section in vm.products.attributeTypeFacets | orderBy : ['sort','nameDisplay']" class="f-cat" ng-if="vm.products.attributeTypeFacets.length > 0">
-                        <section class="accordion">
-                            <div>
-                                <input type="checkbox" id="accord-{{$index + 3}}" class="accord-check" />
-                                <label for="accord-{{$index + 3}}" class="accord-head">{{section.nameDisplay}}</label>
-                                <article class="accord-content">
-                                    <div class="f-wrap">
-                                        <ul>
-                                            <li class="view-all"><a href="javascript:;"><span>View All</span></a></li>
-                                            <li id="tst_productList_categoryLeftNav_attributeValueFacet_{{attributeValue.attributeValueId}}"
-                                                ng-repeat="attributeValue in section.attributeValueFacets | orderBy : ['sortOrder','valueDisplay']"
-                                                ng-class="{'f-selected' : vm.isAttributeValueFacetSelected(attributeValue)}"
-                                                ng-click="vm.toggleFilter(attributeValue.attributeValueId)">
-                                                <a href="javascript:;">
-                                                    <span class="f-name">{{attributeValue.valueDisplay}}</span>
-                                                    <span class="f-count">({{attributeValue.count}})</span>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </article>
-                            </div>
-                        </section>
-                    </div>
-
-                    <!-- hidden div to force load of checked image -->
-                    <div class="f-cat" style="display:none;">
-                        <ul class="accordion">
-                            <li class="current active">
-                                <ul> <li class="f-selected"></li></ul>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="filter-select-wrap">
-                    select filters
-                </div>
-            </div>
-            
-            <!-- narrow version filters -->
             <div class="f-cat" role="mobile-filters">
                 <section class="accordion">
                     <div>
-                        <input type="checkbox" id="accord-10000" class="accord-check" />
-                        <label id="tst_productList_tableView_filterButton" for="accord-10000" class="accord-head">[% translate 'Filters' %]</label>
+                        <input type="checkbox" id="accord-10000" class="accord-check" checked />
+                        <label id="tst_productList_tableView_filterButton" for="accord-10000" class="accord-head  mobile-title">[% translate 'Filters' %]</label>
+                        <article class="accord-content">
+
+                            <div class="n-filter row">
+                                <div class="filter-label">
+                                    <span class="filter-title">[% translate 'Filter By' %]:</span>
+                                </div>
+
+                                [[filterStatusControls]]
+                                <div class="large-12 column filter-middle product-list-filters">
+                                    <div class="f-search-within" style="display:none;">
+                                        <div class="search-within-search clearfix">
+                                            <label ng-if="!vm.category">[% translate 'Search Within Results' %]</label>
+                                            <label ng-if="vm.category">[% translate 'Search Within Category' %]</label>
+
+                                            <div class="search-container">
+                                                <div class="search-input">
+                                                    <input id="searchWithin" type="text" placeholder="[% translate 'Enter keywords' %]" ng-model="vm.searchWithinInput" isc-enter="vm.searchWithinEntered()" />
+                                                </div>
+                                                <div class="search-button">
+                                                    <button class="btn primary fastClick" ng-click="vm.searchWithinEntered()">Go</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="f-cat" ng-if="vm.products.categoryFacets.length > 0">
+                                        <section class="accordion">
+                                            <div>
+                                                <input type="checkbox" id="accord-1" class="accord-check" />
+                                                <label for="accord-1" class="accord-head">[% translate 'Categories' %]</label>
+                                                <article class="accord-content">
+                                                    <div class="f-wrap">
+                                                        <ul>
+                                                            <li class="view-all"><a href="javascript:;"><span>View All</span></a></li>
+                                                            <li id="tst_productList_categoryLeftNav_categoryFacet_{{categoryFacet.categoryId}}" ng-repeat="categoryFacet in vm.products.categoryFacets | orderBy : 'shortDescription'"
+                                                                ng-class="{'f-selected' : categoryFacet.selected}"
+                                                                ng-click="vm.toggleCategory(categoryFacet)">
+                                                                <a href="javascript:;">
+                                                                    <span class="f-name">{{categoryFacet.shortDescription}}</span>
+                                                                    <span class="f-count">({{categoryFacet.count}})</span>
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </article>
+                                            </div>
+                                        </section>
+                                    </div>
+
+                                    <div class="f-cat" ng-if="vm.products.priceRange.priceFacets.length > 0">
+                                        <section class="accordion">
+                                            <div>
+                                                <input type="checkbox" id="accord-2" class="accord-check" />
+                                                <label for="accord-2" class="accord-head">[% translate 'Price' %]</label>
+                                                <article class="accord-content">
+                                                    <div class="f-wrap">
+                                                        <ul>
+                                                            <li class="view-all"><a href="javascript:;"><span>View All</span></a></li>
+                                                            <li id="tst_productList_priceFacet_{{priceFacet.minimumPrice.toString()}}"
+                                                                ng-repeat="priceFacet in vm.products.priceRange.priceFacets | orderBy : 'minimumPrice'"
+                                                                ng-class="{'f-selected' : vm.isPriceFacetSelected(priceFacet)}"
+                                                                ng-click="vm.togglePriceFilter(priceFacet.minimumPrice.toString())">
+                                                                <a href="javascript:;">
+                                                                    <span class="f-name tst_productList_priceFacet_{{$index}}">{{vm.priceRangeDisplay(priceFacet)}}</span> <span ng-attr-id="{{'leftNavCategoryPriceFacetCount_' + $index}}" class="f-count tst_productList_priceFacetCount_{{$index}}">({{priceFacet.count}})</span>
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </article>
+                                            </div>
+                                        </section>
+                                    </div>
+
+                                    <div ng-repeat="section in vm.products.attributeTypeFacets | orderBy : ['sort','nameDisplay']" class="f-cat" ng-if="vm.products.attributeTypeFacets.length > 0">
+                                        <section class="accordion">
+                                            <div>
+                                                <input type="checkbox" id="accord-{{$index + 3}}" class="accord-check" />
+                                                <label for="accord-{{$index + 3}}" class="accord-head">{{section.nameDisplay}}</label>
+                                                <article class="accord-content">
+                                                    <div class="f-wrap">
+                                                        <ul>
+                                                            <li class="view-all"><a href="javascript:;"><span>View All</span></a></li>
+                                                            <li id="tst_productList_categoryLeftNav_attributeValueFacet_{{attributeValue.attributeValueId}}"
+                                                                ng-repeat="attributeValue in section.attributeValueFacets | orderBy : ['sortOrder','valueDisplay']"
+                                                                ng-class="{'f-selected' : vm.isAttributeValueFacetSelected(attributeValue)}"
+                                                                ng-click="vm.toggleFilter(attributeValue.attributeValueId)">
+                                                                <a href="javascript:;">
+                                                                    <span class="f-name">{{attributeValue.valueDisplay}}</span>
+                                                                    <span class="f-count">({{attributeValue.count}})</span>
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </article>
+                                            </div>
+                                        </section>
+                                    </div>
+
+                                    <!-- hidden div to force load of checked image -->
+                                    <div class="f-cat" style="display:none;">
+                                        <ul class="accordion">
+                                            <li class="current active">
+                                                <ul> <li class="f-selected"></li></ul>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="filter-select-wrap product-list-filters">
+                                    <div>
+                                        <section class="accordion">
+                                            <div>
+                                                <input type="checkbox" id="accord-11" class="accord-check">
+                                                <label for="accord-11" class="accord-head">Edit Filters</label>
+                                                <article class="accord-content">
+                                                    <div class="f-wrap">
+                                                        <ul>
+                                                            <li id="tst_productList_categoryLeftNav_attributeValueFacet_b8318efc-87fd-e711-a98c-a3e0f1200094">
+                                                                <a href="javascript:;">
+                                                                    <span class="f-name">Colors</span>
+                                                                </a>
+                                                            </li><!-- end ngRepeat: attributeValue in section.attributeValueFacets | orderBy : ['sortOrder','valueDisplay'] -->
+                                                            <li id="tst_productList_categoryLeftNav_attributeValueFacet_bc318efc-87fd-e711-a98c-a3e0f1200094">
+                                                                <a href="javascript:;">
+                                                                    <span class="f-name">Matrials</span>
+                                                                </a>
+                                                            </li><!-- end ngRepeat: attributeValue in section.attributeValueFacets | orderBy : ['sortOrder','valueDisplay'] -->
+                                                            <li id="tst_productList_categoryLeftNav_attributeValueFacet_bd318efc-87fd-e711-a98c-a3e0f1200094">
+                                                                <a href="javascript:;">
+                                                                    <span class="f-name">Rooms</span>
+                                                                </a>
+                                                            </li><!-- end ngRepeat: attributeValue in section.attributeValueFacets | orderBy : ['sortOrder','valueDisplay'] -->
+                                                        </ul>
+                                                    </div>
+                                                </article>
+                                            </div>
+                                        </section>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                </section>
+            </div>
+
+            <!-- narrow version filters -->
+            <div class="f-cat" role="mobile-filters" style="display:none;">
+                <section class="accordion">
+                    <div>
+                        <input type="checkbox" id="accord-10000" class="accord-check" checked="checked" />
+                        <label id="tst_productList_tableView_filterButton" for="accord-10000" class="accord-head mobile-title">[% translate 'Filters' %]</label>
                         <article class="accord-content">
                             <form>
                                 <div class="row">

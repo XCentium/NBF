@@ -119,6 +119,18 @@ module insite.catalog {
             });
 
             this.initBackButton();
+
+
+            $(document).ready(function () {
+                var windowsize = $(window).width();
+                if (windowsize < 767) {
+                    setTimeout(
+                        function () {
+                            $('#accord-10000').prop('checked', false);
+                        }, 2000);                    
+                    $('#accord-10000').removeAttr('checked');
+                }
+            })
         }
 
         protected getQueryStringValues(): void {

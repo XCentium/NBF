@@ -588,6 +588,7 @@
     <Content Include="Views\Widgets\HeaderView\NBF.cshtml" />
     <Content Include="Views\Widgets\ProductListView\NBF.cshtml" />
     <Content Include="Styles\custom\product-filters.scss" />
+    <Content Include="Styles\custom\main-nav.scss" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
