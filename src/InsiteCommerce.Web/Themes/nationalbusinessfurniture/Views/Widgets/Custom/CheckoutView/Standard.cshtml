@@ -31,7 +31,7 @@
                                             </div>
                                         </div>
                                     </section>
-                                    <section class="bill-to" ng-if="vm.selectedShipTo.label != 'Use Billing Address' && !vm.isGuest">
+                                    <section class="bill-to" ng-hide="vm.selectedShipTo.label == 'Use Billing Address' && !vm.isGuest">
                                         <h3>[% translate 'Billing Address' %]</h3>
                                         <div>
                                             <label for="sameAsShipping">[% translate 'Same as shipping' %]</label>

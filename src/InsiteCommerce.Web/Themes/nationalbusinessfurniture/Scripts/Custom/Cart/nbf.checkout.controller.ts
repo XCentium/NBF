@@ -54,7 +54,7 @@
         createError: string;
         userFound = false;
         newUser = false;
-        hideSignIn = true;
+        hideSignIn = false;
 
         static $inject = [
             "$scope",
