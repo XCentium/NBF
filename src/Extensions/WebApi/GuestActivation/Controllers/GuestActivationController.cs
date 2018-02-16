@@ -2,14 +2,14 @@
 using System.Linq;
 using System.Web.Http;
 using System.Web.Http.Description;
-using Extensions.WebApi.GuestCheckout.Models;
+using Extensions.WebApi.GuestActivation.Models;
 using Insite.Account.WebApi.V1.ApiModels;
 using Insite.Core.Interfaces.Data;
 using Insite.Core.Plugins.Utilities;
 using Insite.Core.WebApi;
 using Insite.Data.Entities;
 
-namespace Extensions.WebApi.GuestCheckout.Controllers
+namespace Extensions.WebApi.GuestActivation.Controllers
 {
     [RoutePrefix("api/nbf/guestActivation")]
     public class GuestActivationController : BaseApiController
@@ -25,7 +25,7 @@ namespace Extensions.WebApi.GuestCheckout.Controllers
         [HttpPost]
         [Route("", Name = "UpdateGuestAccount")]
         [ResponseType(typeof(AccountModel))]
-        public AccountModel Post([FromBody] GuestCheckoutParameter model)
+        public AccountModel Post([FromBody] GuestActivationParameter model)
         {
             var unitOfWork = _unitOfWorkFactory.GetUnitOfWork();
             

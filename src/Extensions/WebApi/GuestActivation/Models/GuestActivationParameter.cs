@@ -1,9 +1,9 @@
 ﻿using Insite.Account.WebApi.V1.ApiModels;
 using Insite.Core.Services;
 
-namespace Extensions.WebApi.GuestCheckout.Models
+namespace Extensions.WebApi.GuestActivation.Models
 {
-    public class GuestCheckoutParameter : ParameterBase
+    public class GuestActivationParameter : ParameterBase
     {
         public string GuestId { get; set; }
 
