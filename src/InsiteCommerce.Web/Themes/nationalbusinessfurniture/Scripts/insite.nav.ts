@@ -30,7 +30,7 @@
         const $activeNav = $(".isc-primary-nav ul.active-nav");
         $activeNav.scrollTop(0);
 
-        $(".isc-primary-nav ul").removeClass("active-nav");
+        $(".isc-primary-nav .active-nav").removeClass("active-nav");
 
         const self = $(navArrow);
         self.closest("li").find("div.subnav:first").addClass("active-nav");
@@ -39,14 +39,14 @@
     };
 
     that.goBack = () => {
-        const $activeNav = $(".isc-primary-nav ul.active-nav");
+        const $activeNav = $(".isc-primary-nav .active-nav");
 
         $activeNav.closest("li").find(".subnav-check:first").click();
 
         $activeNav.removeClass("active-nav");
-        $activeNav.closest("li").closest("ul").addClass("active-nav");
+        $activeNav.closest("li").closest(".subnav").addClass("active-nav");
 
-        if (!$(".isc-primary-nav ul.active-nav").hasClass("subnav")) {
+        if (!$(".isc-primary-nav .active-nav").hasClass("subnav")) {
             $(".isc-primary-nav-back").addClass("isc-hidden");
         }
     };

@@ -80,6 +80,28 @@
     .header-zone.rt .widget-linklist.list-horizontal {
         display: none;
     }
+
+    .isc-primary-nav > ul li {
+        border-bottom:1px solid $divider-gray;
+
+    }
+
+    .isc-primary-nav > ul > li > a, .isc-primary-nav > ul > li a {
+        display: block;
+        color: $nbf-nav-navy;
+        text-decoration: none;
+
+        padding: 0 25px;
+        white-space: normal;
+        font-family: $ProximaNova;
+        width: 78%;
+        height: 100%;
+        font-weight: 500;
+    }
+
+    .isc-primary-nav ul .res-nav {
+        display: none;
+    }
 }
 
 #main-nav-check, .isc-primary-nav .subnav-check {
@@ -106,9 +128,11 @@
     &.container-wide {
         max-width: 100%;
     }
+
     &.wide-container {
         max-width: 1440px;
     }
+
     &[role="main"] {
         max-width: 1440px;
     }
@@ -144,18 +168,21 @@
     white-space: nowrap;
 }
 
-.isc-primary-nav > ul > li > a, .isc-primary-nav > ul > li > span > a  {
-    display: block;
-    color: $nbf-nav-navy;
-    text-decoration: none;
-    line-height: 80px;
-    min-height: 3em;
-    padding: 0 25px;
-    white-space: normal;
-    font-family:$ProximaNova;
-    width: 78%;
-    height: 100%;
-    font-weight:500;
+@media (min-width: 48em) {
+
+    .isc-primary-nav > ul > li > a, .isc-primary-nav > ul > li > span > a {
+        display: block;
+        color: $nbf-nav-navy;
+        text-decoration: none;
+        line-height: 80px;
+        min-height: 3em;
+        padding: 0 25px;
+        white-space: normal;
+        font-family: $ProximaNova;
+        width: 78%;
+        height: 100%;
+        font-weight: 500;
+    }
 }
 
 .isc-primary-nav .subnav {
@@ -246,12 +273,12 @@
         height: 0;
         width: 100%;
         top: -80px;
-        padding-left:25px;
+        padding-left: 25px;
     }
 
     .isc-primary-nav .toggle-sub {
         margin-right: 0;
-        display:none;
+        display: none;
     }
 
     .isc-primary-nav .toggle-sub, .isc-primary-nav .toggle-sub:hover {
@@ -351,28 +378,30 @@
 
     .isc-primary-nav > ul {
         ul.level-1 {
-            float:left;
-            width:178px;
-            border-right:1px solid $divider-gray;
-            margin-top:0;
+            float: left;
+            width: 178px;
+            border-right: 1px solid $divider-gray;
+            margin-top: 0;
             padding-top: 15px;
             padding-bottom: 15px;
-                position: relative;
+            position: relative;
         }
     }
 
 
     .isc-primary-nav > ul ul.level-1 > li {
-        
+
         &.currently-hovered {
-            background-color:$nbf-navy;
+            background-color: $nbf-navy;
+
             & > span > a {
-               color:#fff;
-                text-decoration:none;
+                color: #fff;
+                text-decoration: none;
             }
+
             & > a {
-                color:#fff;
-                text-decoration:none;
+                color: #fff;
+                text-decoration: none;
             }
         }
     }
@@ -384,15 +413,16 @@
 
 
         &:hover {
-            background-color:$nbf-navy;
+            background-color: $nbf-navy;
 
-           & > span > a {
-               color:#fff;
-                text-decoration:none;
+            & > span > a {
+                color: #fff;
+                text-decoration: none;
             }
+
             & > a {
-                color:#fff;
-                text-decoration:none;
+                color: #fff;
+                text-decoration: none;
             }
         }
     }
@@ -421,32 +451,32 @@
         min-width: 100%;
         font-size: 1em;
 
-        
+
         div.subnav {
             border: none;
             top: 1px;
             margin-left: 1px;
             width: 943px;
-            padding:15px 0; 
-            
+            padding: 15px 0;
 
-          & > ul{
-            columns: 2;
-          -webkit-columns: 2;
-          -moz-columns: 2;
-          float: left;
-          margin-top:0;
-           }
 
-          li {
-              &:hover {
-                  background-color:transparent;
+            & > ul {
+                columns: 2;
+                -webkit-columns: 2;
+                -moz-columns: 2;
+                float: left;
+                margin-top: 0;
+            }
 
-                  a{
-                      color:$nbf-black;
-                  }
-              }
-          }
+            li {
+                &:hover {
+                    background-color: transparent;
+
+                    a {
+                        color: $nbf-black;
+                    }
+                }
+            }
         }
     }
 
@@ -475,49 +505,47 @@
     }
 
     .isc-primary-nav ul .res-nav {
-        float:right;
-        width:504px;
-        margin:0 30px 0 0;
-        display:flex;
+        float: right;
+        width: 504px;
+        margin: 0 30px 0 0;
+        display: flex;
 
         ul {
-            float:left;
-            width:242px;
+            float: left;
+            width: 242px;
             background-color: #F8F8F8;
-            margin:0;
+            margin: 0;
+
             &:first-child {
-                margin-right:20px;
+                margin-right: 20px;
             }
 
             li {
-                a{
+                a {
 
-                     &:hover {
-                            color:$nbf-black;
-                        }
-
+                    &:hover {
+                        color: $nbf-black;
+                    }
                 }
 
                 &:hover {
-                    background-color:transparent;
-                    color:$nbf-black;
+                    background-color: transparent;
+                    color: $nbf-black;
                 }
             }
 
             .sub-heading {
-                display:block;
-                font-family:$ProximaNova-bold;
-                color:$nbf-black;
-                text-transform:none;
-                padding:15px 3em .85em 1em;
-                margin:0;
-                font-size:16px;
+                display: block;
+                font-family: $ProximaNova-bold;
+                color: $nbf-black;
+                text-transform: none;
+                padding: 15px 3em .85em 1em;
+                margin: 0;
+                font-size: 16px;
                 pointer-events: none;
-
             }
         }
     }
-
 }
 
 /* Nav Theme styles */
@@ -630,6 +658,10 @@
         overflow-y: auto;
     }
 
+    .isc-primary-nav .active-nav > ul {
+        overflow-y: auto;
+    }
+
     .isc-primary-nav .subnav .subnav {
         top: 0;
     }
@@ -686,7 +718,7 @@
     .isc-primary-nav .isc-primary-nav-back:before {
         content: "\e604";
         font-size: 2rem;
-        color: #fff;
+        color: $nbf-navy;
         top: 0;
         left: .35rem;
     }
