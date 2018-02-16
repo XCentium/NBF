@@ -14,6 +14,7 @@ begin
 	declare @brand int
 	set @brand = 1
 
+	-- copy down dependent tables from insite
 	insert into Theme
 	select * from [Insite.NBF].dbo.Theme s
 	where not exists (select Id from Theme where Id = s.Id)
@@ -25,6 +26,7 @@ begin
 	declare @WebSiteId uniqueidentifier
 	select top 1 @WebSiteId = Id from WebSite where Name like '%_main%'
 
+	-- level one categories
 	insert into Category 
 	(WebSiteId, [Name], ShortDescription, UrlSegment, 
 	ContentManagerId, CreatedBy, ModifiedBy)	
@@ -48,7 +50,7 @@ begin
 	where 
 		ShortDescription != sic.[Name]
 
-
+	-- level two
 	insert into Category 
 	(WebSiteId, ParentId, [Name], ShortDescription, UrlSegment, 
 	ContentManagerId, CreatedBy, ModifiedBy)	
@@ -76,7 +78,9 @@ begin
 		ShortDescription != swc.DisplayName
 
 
-	-- reverse it
+	-- NOW, reverse it - every child is now a parent and every parent is now a child
+
+	-- level one
 	insert into Category 
 	(WebSiteId, [Name], ShortDescription, UrlSegment, 
 	ContentManagerId, CreatedBy, ModifiedBy)	
@@ -100,7 +104,7 @@ begin
 	where 
 		ShortDescription != swc.DisplayName
 
-
+	-- level 2
 	insert into Category 
 	(WebSiteId, ParentId, [Name], ShortDescription, UrlSegment, 
 	ContentManagerId, CreatedBy, ModifiedBy)	

@@ -9,6 +9,9 @@ create procedure ETLAttributeValue_FromOEG
 as
 begin
 
+	-- helper function becuase we realize that a lot of attributes come from 
+	-- LookupItemAttributeValues in the source
+
 	declare @brand int
 	set @brand = 1
 

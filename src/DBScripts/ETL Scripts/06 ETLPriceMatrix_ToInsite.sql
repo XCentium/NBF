@@ -7,6 +7,9 @@ create procedure ETLPriceMatrix_ToInsite
 
 as
 begin
+
+	-- replace the entire price matrix
+
 	truncate table [Insite.NBF].dbo.PriceMatrix
 
 	insert into [Insite.NBF].dbo.PriceMatrix 

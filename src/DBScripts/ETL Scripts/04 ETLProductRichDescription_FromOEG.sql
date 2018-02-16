@@ -35,7 +35,8 @@ begin
 	declare @PersonaId uniqueidentifier
 	select top 1 @PersonaId = p.Id from Persona p where [Name] = 'Default'
 
-	-- replace from source always
+	-- replace from source always - we don't take revisions from the users, the master is OEG
+
 	delete Content 
 	from Content ct
 		join product p on p.ContentManagerId = ct.ContentManagerId

@@ -10,6 +10,8 @@ create procedure ETLAttribute_FromOEG
 as
 begin
 
+	-- helper function to crate the attribute name and ensure that every 
+	-- category can access it so we can assign it to child products as needed 
 	declare @attributeTypeId uniqueidentifier
 
 

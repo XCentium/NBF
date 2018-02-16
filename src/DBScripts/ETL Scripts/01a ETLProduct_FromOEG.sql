@@ -216,6 +216,7 @@ begin
 		p.ERPNumber like '%[_]%'
 
 
+	-- we can truncate these tables as they have no dependencies and can be added and removed from source
 	truncate table StyleTraitValueProduct
 	delete from StyleTraitValue
 	delete from StyleTrait

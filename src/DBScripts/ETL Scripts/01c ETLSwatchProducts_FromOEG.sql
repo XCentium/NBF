@@ -27,7 +27,7 @@ begin
 
 	declare @SwatchCategoryId uniqueidentifier
 
-	-- create a swacthes category if it doesn't exists
+	-- create a swatches category if it doesn't exists
 	if not exists (select Id from Category where [Name] = 'Swatches')
 	begin
 		set @SwatchCategoryId = newid()

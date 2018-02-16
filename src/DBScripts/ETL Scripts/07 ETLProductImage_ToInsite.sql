@@ -7,6 +7,9 @@ create procedure ETLProductImage_ToInsite
 
 as
 begin
+
+	-- replace all images
+
 	truncate table [Insite.NBF].dbo.ProductImage
 
 	insert into [Insite.NBF].dbo.ProductImage 

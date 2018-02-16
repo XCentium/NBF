@@ -9,7 +9,7 @@ create procedure ETLPriceMatrix_ByPriceCode_FromOEG
 	@break int
 as
 begin
-
+	-- helper function for loading the price triers per pricing code (regular, gsa, sale, medical)
 
 	if @break = 1
 	begin

@@ -6,7 +6,7 @@ create procedure ETLProduct_ToInsite
 as
 begin
 	
-
+	-- load style class records (root of product that has styles)
 	insert into [Insite.NBF].dbo.StyleClass
 	(
 		[Id],[Name],[Description],[IsActive],
@@ -20,6 +20,7 @@ begin
 	where 
 		not exists (select Id from [Insite.NBF].dbo.StyleClass where Id = etl.Id)
 
+	-- insert new products
 	insert into [Insite.NBF].dbo.Product
 	(
 		[Id],[Name],[ShortDescription],[ERPDescription],[UnitOfMeasure],[Sku],[ActivateOn],[DeactivateOn],
@@ -54,6 +55,7 @@ begin
 	from ContentManager etl
 	where etl.Id not in (select Id from [Insite.NBF].dbo.ContentManager)
 
+	-- update any product base data
 	update [Insite.NBF].dbo.Product  set
 	
 		[ShortDescription] = etl.[ShortDescription],
@@ -108,7 +110,7 @@ begin
 	from Content etl
 	where etl.Id not in (select Id from [Insite.NBF].dbo.Content)
 
-
+	-- these tables have no dependencies and can be wiped and created with new guids every time
 	truncate table [Insite.NBF].dbo.StyleTraitValueProduct
 	delete from [Insite.NBF].dbo.StyleTraitValue
 	delete from [Insite.NBF].dbo.StyleTrait
