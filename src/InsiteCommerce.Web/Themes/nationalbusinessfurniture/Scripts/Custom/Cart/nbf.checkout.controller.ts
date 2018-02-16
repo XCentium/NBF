@@ -675,6 +675,50 @@
             }
         }
 
+        determineCardType() {
+            // visa
+            var re = new RegExp("^4");
+            if (this.cart.paymentOptions.creditCard.cardNumber.match(re) != null)
+                this.cart.paymentOptions.creditCard.cardType = this.cart.paymentOptions.cardTypes[0];
+            // Mastercard 
+            // Updated for Mastercard 2017 BINs expansion
+            if (/^(5[1-5][0-9]{14}|2(22[1-9][0-9]{12}|2[3-9][0-9]{13}|[3-6][0-9]{14}|7[0-1][0-9]{13}|720[0-9]{12}))$/.test(this.cart.paymentOptions.creditCard.cardNumber))
+                this.cart.paymentOptions.creditCard.cardType = this.cart.paymentOptions.cardTypes[1];
+
+            // AMEX
+            re = new RegExp("^3[47]");
+            if (this.cart.paymentOptions.creditCard.cardNumber.match(re) != null)
+                this.cart.paymentOptions.creditCard.cardType = this.cart.paymentOptions.cardTypes[2];
+
+            // Discover
+            re = new RegExp("^(6011|622(12[6-9]|1[3-9][0-9]|[2-8][0-9]{2}|9[0-1][0-9]|92[0-5]|64[4-9])|65)");
+            if (this.cart.paymentOptions.creditCard.cardNumber.match(re) != null)
+                this.cart.paymentOptions.creditCard.cardType = this.cart.paymentOptions.cardTypes[3];
+
+            if (this.cart.paymentOptions.creditCard.cardNumber === "")
+                this.cart.paymentOptions.creditCard.cardType = null;
+
+            //// Diners
+            //re = new RegExp("^36");
+            //if (this.cart.paymentOptions.creditCard.cardNumber.match(re) != null)
+            //    return "Diners";
+
+            //// Diners - Carte Blanche
+            //re = new RegExp("^30[0-5]");
+            //if (this.cart.paymentOptions.creditCard.cardNumber.match(re) != null)
+            //    return "Diners - Carte Blanche";
+
+            //// JCB
+            //re = new RegExp("^35(2[89]|[3-8][0-9])");
+            //if (this.cart.paymentOptions.creditCard.cardNumber.match(re) != null)
+            //    return "JCB";
+
+            //// Visa Electron
+            //re = new RegExp("^(4026|417500|4508|4844|491(3|7))");
+            //if (this.cart.paymentOptions.creditCard.cardNumber.match(re) != null)
+            //    return "Visa Electron";
+        }
+
         protected getCartSettingsCompleted(settingsCollection: insite.core.SettingsCollection): void {
             this.cartSettings = settingsCollection.cartSettings;
         }
@@ -921,6 +965,8 @@
 
         protected submitCompleted(cart: CartModel): void {
             this.cart.id = cart.id;
+            this.cartService.getCart();
+
             if (this.newUser) {
                 this.$window.location.href = `${this.$window.location.href}?cartid=${this.cart.id}`;
             } else {
