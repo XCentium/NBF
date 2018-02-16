@@ -96,10 +96,18 @@ namespace Extensions.Plugins.Cart
                     productByVendor.VendorTotalShippingCharges = ApplyShippingDiscount(productByVendor);
 
                 }
+
+                if (result.Cart.ShipVia != null && !string.IsNullOrEmpty(result.Cart.ShipVia.ShipCode) && result.Cart.ShipVia.ShipCode.ToLower() != "standard")
+                {
+                    productByVendor.VendorTotalShippingCharges += ApplyAdditionalCharges(productByVendor, result.Cart.ShipVia.ShipCode);
+
+
+                }
+
             }
 
-            if (result.Cart.ShipCode)
-            var additionalChargeRules = GetAdditionalChargesJson();
+
+            
 
             result.Cart.ShippingCharges = Convert.ToDecimal(productsByVendor.Sum(x => x.VendorTotalShippingCharges));
             //result.Cart.ShippingCharges = this.ApplyShippingDiscount(result);
@@ -108,6 +116,40 @@ namespace Extensions.Plugins.Cart
             {
             }
             return this.NextHandler.Execute(unitOfWork, parameter, result);
+        }
+
+        private decimal? ApplyAdditionalCharges(ProductsByVendor productsByVendor, string shipCode)
+        {
+            decimal? additionalCharge = 0.0m;
+            if (productsByVendor.IsTruck)
+            {
+
+                var additionalChargesList = GetAdditionalChargesJson();
+                var totalVendorWeight = productsByVendor.OrderLines.Sum(x => x.Product.ShippingWeight);
+                if (totalVendorWeight < 900)
+                {
+                    shipCode = "F";
+                }
+                var currentService = additionalChargesList.Where(x => x.Type.ToLower() == shipCode.ToLower() && totalVendorWeight > x.MinWeight && totalVendorWeight < x.MaxWeight).FirstOrDefault();
+                
+                if (currentService != null)
+                {
+                    if (currentService.PoundCharge != null)
+                    {
+                        additionalCharge = (totalVendorWeight / currentService.PoundCharge) * currentService.PricePerPound;
+                    } else
+                    {
+                        additionalCharge = currentService.DeliveryCharge;
+                    }
+                    if (currentService.Markup != null)
+                    {
+                        additionalCharge = additionalCharge * currentService.Markup;
+                    }
+                }
+            }
+            
+
+            return additionalCharge;
         }
 
         private decimal? GetWeightBasedShippingCharges(ProductsByVendor productsByVendor)
@@ -135,13 +177,7 @@ namespace Extensions.Plugins.Cart
             }
             return result;
         }
-
-        private decimal? GetAdditionalCharges(GetCartResult result)
-        {
-
-
-            return 0.0m;
-        }
+        
         private decimal? GetShippingCharges(ProductsByVendor vendorLines)
         {
             decimal? lineCharges = 0.0m;
