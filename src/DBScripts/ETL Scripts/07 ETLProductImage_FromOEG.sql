@@ -157,6 +157,33 @@ begin
 	order by h.Id, h.RowNumber	
 
 
+
+
+--  insert swatch images
+
+	insert into ProductImage 
+	([ProductId], [Name],
+	[SmallImagePath], 
+	[MediumImagePath],
+	[LargeImagePath],
+	[AltText], 
+	[SortOrder],
+	[CreatedBy], [ModifiedBy]
+	)
+	select p.id, isnull(sis.WebPath,'') [Name],
+	isnull(sis.WebPath,'') [SmallImagePath],
+	isnull(sis.WebPath,'') [MediumImagePath],
+	isnull(sis.WebPath,'') [LargeImagePath],
+	p.Name [AltText],
+	1 [SortOrder],
+	'etl','etl'
+	from 
+		Product p 
+		join OEGSystemStaging.dbo.ItemSwatches sis on convert(nvarchar(max),sis.SwatchId) = RIGHT(p.ERPNumber,CHARINDEX(':',REVERSE(p.ERPNumber))-1) 
+	where
+		p.ContentManagerId = '00000000-0000-0000-0000-000000000000'
+		and not exists (select Id from ProductImage where ProductId = p.Id)
+
 /*
 exec ETLProductImage_FromOEG
 exec ETLProductImage_ToInsite
