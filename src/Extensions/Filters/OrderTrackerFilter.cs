@@ -22,8 +22,7 @@ namespace Extensions.Filters
 
         public override FilterResult Execute(ContentPage page)
         {
-            //Only for InvoiceUserRole.  Other roles will supercede this.
-            if (SiteContext.Current.UserProfileDto != null)
+            if (SiteContext.Current.UserProfileDto != null && !SiteContext.Current.UserProfileDto.IsGuest)
             {
                 var orderTrackerUrl = _orderTrackerSettings.OrderTrackerUrl;
                 var orderTrackerDetailUrl = _orderTrackerSettings.OrderTrackerDetailUrl;

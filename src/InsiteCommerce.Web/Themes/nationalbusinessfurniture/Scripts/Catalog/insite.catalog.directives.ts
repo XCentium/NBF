@@ -93,7 +93,8 @@
                 product: "=",
                 alternateUnitsOfMeasure: "@",
                 displayPack: "@",
-                changeUnitOfMeasure: "&"
+                changeUnitOfMeasure: "&",
+                readOnly: "@"
             }
         }))
         .directive("iscUnitOfMeasureDisplay", () => ({

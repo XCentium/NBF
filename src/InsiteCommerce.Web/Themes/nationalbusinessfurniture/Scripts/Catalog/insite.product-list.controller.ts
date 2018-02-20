@@ -51,6 +51,7 @@ module insite.catalog {
         productFilterLoaded = false;
         filterType: string;
         addingToCart = false;
+        initialAttributeTypeFacets: AttributeTypeFacetDto[];
 
         static $inject = [
             "$scope",
@@ -131,6 +132,36 @@ module insite.catalog {
                     $('#accord-10000').removeAttr('checked');
                 }
             })
+            this.$scope.$watch(() => this.category, (newCategory) => {
+                if (!newCategory) {
+                    return;
+                }
+
+                this.getFacets(newCategory.id);
+            });
+
+        }
+
+        protected getFacets(categoryId: string): void {
+            const params = {
+                priceFilters: this.priceFilterMinimums,
+                categoryId: categoryId,
+                includeSuggestions: this.includeSuggestions
+            };
+
+            const expand = ["onlyfacets"];
+            this.productService.getProducts(params, expand).then(
+                (productCollection: ProductCollectionModel) => { this.getFacetsCompleted(productCollection)},
+                (error: any) => { this.getFacetsFailed(error); });
+        }
+
+        protected getFacetsCompleted(productCollection: ProductCollectionModel): void {
+            this.initialAttributeTypeFacets = productCollection.attributeTypeFacets;
+            this.resetVisibleColumnNames(productCollection);
+            this.customPagerContext.sortedTableColumns = this.sortedTableColumns(productCollection);
+        }
+
+        protected getFacetsFailed(error: any): void {
         }
 
         protected getQueryStringValues(): void {
@@ -258,7 +289,7 @@ module insite.catalog {
                 selectView: this.selectView,
                 attributeTypeFacets: this.products.attributeTypeFacets,
                 changeTableColumn: ((attr) => this.changeTableColumn(attr)),
-                sortedTableColumns: this.sortedTableColumns(this.products)
+                sortedTableColumns: null
             };
 
             this.customPagerContext.selectView(this.customPagerContext.view);
@@ -334,7 +365,9 @@ module insite.catalog {
                 return;
             }
 
-            this.loadProductFilter(productCollection, expand);
+            if (!this.pageChanged) {
+                this.loadProductFilter(productCollection, expand);
+            }
 
             this.products = productCollection;
             this.products.products.forEach(product => {
@@ -359,16 +392,9 @@ module insite.catalog {
 
             this.searchService.addSearchHistory(this.query, this.searchHistoryLimit, this.includeSuggestions.toLowerCase() === "true");
 
-            if (this.settings.realTimePricing) {
-                this.productService.getProductRealTimePrices(this.products.products).then(
-                    (pricingResult: RealTimePricingModel) => this.getProductRealTimePricesCompleted(pricingResult),
-                    (error: any) => this.getProductRealTimePricesFailed(error));
-            }
-
-            if (this.settings.realTimeInventory) {
-                this.productService.getProductRealTimeInventory(this.products.products).then(
-                    (realTimeInventory: RealTimeInventoryModel) => this.getProductRealTimeInventoryCompleted(realTimeInventory),
-                    (error: any) => this.getProductRealTimeInventoryFailed(error));
+            this.getRealTimePrices();
+            if (!this.settings.inventoryIncludedWithPricing) {
+                this.getRealTimeInventory();
             }
 
             this.imagesLoaded = 0;
@@ -383,11 +409,30 @@ module insite.catalog {
             this.noResults = true;
         }
 
+        protected getRealTimePrices(): void {
+            if (this.settings.realTimePricing) {
+                this.productService.getProductRealTimePrices(this.products.products).then(
+                    (pricingResult: RealTimePricingModel) => this.getProductRealTimePricesCompleted(pricingResult),
+                    (error: any) => this.getProductRealTimePricesFailed(error));
+            }
+        }
+
         protected getProductRealTimePricesCompleted(result: RealTimePricingModel): void {
+            if (this.settings.inventoryIncludedWithPricing) {
+                this.getRealTimeInventory();
+            }
         }
 
         protected getProductRealTimePricesFailed(error: any): void {
             this.failedToGetRealTimePrices = true;
+        }
+
+        protected getRealTimeInventory(): void {
+            if (this.settings.realTimeInventory) {
+                this.productService.getProductRealTimeInventory(this.products.products).then(
+                    (realTimeInventory: RealTimeInventoryModel) => this.getProductRealTimeInventoryCompleted(realTimeInventory),
+                    (error: any) => this.getProductRealTimeInventoryFailed(error));
+            }
         }
 
         protected getProductRealTimeInventoryCompleted(realTimeInventory: RealTimeInventoryModel): void {
@@ -417,10 +462,8 @@ module insite.catalog {
             if (!expand || !expand.some(e => e === "pricing")) {
                 result.priceRange = this.products.priceRange;
             }
-            if (!expand || !expand.some(e => e === "attributes")) {
-                result.attributeTypeFacets = this.products.attributeTypeFacets;
-            }
             if (!expand || !expand.some(e => e === "facets")) {
+                result.attributeTypeFacets = this.products.attributeTypeFacets;
                 result.categoryFacets = this.products.categoryFacets;
             }
 
@@ -443,47 +486,14 @@ module insite.catalog {
                     });
                 }
 
-                if (this.category == null && this.products.categoryFacets) {
-                    const categoryFacet = lodash.first(lodash.where(this.products.categoryFacets, { "selected": true }));
+                if (this.category == null && result.categoryFacets) {
+                    const categoryFacet = lodash.first(lodash.where(result.categoryFacets, { "selected": true }));
                     if (categoryFacet) {
                         this.filterCategory.categoryId = categoryFacet.categoryId;
                         this.filterCategory.shortDescription = categoryFacet.shortDescription;
                         this.filterCategory.selected = true;
                         this.searchCategory = null;
                     }
-                }
-            }
-
-            // context for custom pager to handle view selection
-            if (!this.ready) {
-                lodash.chain(this.sortedTableColumns(result))
-                    .first(3)
-                    .forEach(facet => {
-                        this.visibleColumnNames.push(facet.name);
-                        (<any>facet).checked = true;
-                    });
-            }
-
-            if (this.customPagerContext) {
-                this.customPagerContext.attributeTypeFacets = this.products.attributeTypeFacets;
-                this.customPagerContext.sortedTableColumns = this.sortedTableColumns(result);
-
-                const visibleColumns = this.visibleTableColumns(result);
-                const sortedTableColumns = this.customPagerContext.sortedTableColumns;
-                sortedTableColumns.forEach((facet: any) => {
-                    facet.checked = false;
-                });
-
-                if (visibleColumns.length === this.visibleColumnNames.length) {
-                    visibleColumns.forEach((facet: any) => {
-                        facet.checked = true;
-                    });
-                } else {
-                    this.visibleColumnNames = [];
-                    visibleColumns.forEach((facet: any) => {
-                        this.visibleColumnNames.push(facet.name);
-                        facet.checked = true;
-                    });
                 }
             }
 
@@ -662,7 +672,7 @@ module insite.catalog {
         changeTableColumn(attribute: AttributeTypeFacetDto): void {
             const columnNameIndex = this.visibleColumnNames.indexOf(attribute.name);
             if (columnNameIndex === -1) {
-                if (this.visibleTableColumns(null).length >= 3) {
+                if (this.visibleTableColumns().length >= 3) {
                     (attribute as any).checked = false;
                     this.coreService.displayModal("#popup-columns-limit");
                 } else {
@@ -685,13 +695,8 @@ module insite.catalog {
         }
 
         // visible (checked) columns for table view
-        protected visibleTableColumns(products: ProductCollectionModel): any[] {
-            products = products || this.products;
-            if (!products) {
-                return [];
-            }
-
-            return lodash.chain(products.attributeTypeFacets)
+        protected visibleTableColumns(): any[] {
+            return lodash.chain(this.initialAttributeTypeFacets)
                 .sortBy(["sort", "name"])
                 .filter(atf => this.visibleColumnNames.indexOf(atf.name) !== -1)
                 .value();
@@ -729,6 +734,16 @@ module insite.catalog {
             if ((this.$window as any).insiteMicrositeUriPrefix) {
                 setTimeout(() => { this.init(); }, 50);
             }
+        }
+
+        resetVisibleColumnNames(products: ProductCollectionModel): void {
+            this.visibleColumnNames = [];
+            lodash.chain(this.sortedTableColumns(products))
+                .first(3)
+                .forEach(facet => {
+                    this.visibleColumnNames.push(facet.name);
+                    (<any>facet).checked = true;
+                });
         }
     }
 

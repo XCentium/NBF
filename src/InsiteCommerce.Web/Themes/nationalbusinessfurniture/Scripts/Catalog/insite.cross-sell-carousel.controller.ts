@@ -340,9 +340,9 @@
 
         protected showCarouselArrows(shouldShowArrows: boolean): void {
             if (shouldShowArrows) {
-                $(".carousel-control-prev,.carousel-control-next").show();
+                $(".carousel-control-nav").show();
             } else {
-                $(".carousel-control-prev,.carousel-control-next").hide();
+                $(".carousel-control-nav").hide();
             }
         }
     }

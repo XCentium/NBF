@@ -1,26 +1,33 @@
 ﻿module insite.cart {
     "use strict";
+    import StateModel = Insite.Websites.WebApi.V1.ApiModels.StateModel;
+    import CountryModel = Insite.Websites.WebApi.V1.ApiModels.CountryModel;
 
     export class OrderConfirmationController {
         cart: CartModel;
+        creditCardBillingAddress: BaseAddressModel;
         promotions: PromotionModel[];
         showRfqMessage: boolean;
         order: OrderModel;
+        settings: AccountSettingsModel;
+        isGuestUser: boolean;
 
-        static $inject = ["cartService", "promotionService", "queryString", "orderService"];
+        static $inject = ["cartService", "promotionService", "queryString", "orderService", "sessionService", "settingsService"];
 
         constructor(
             protected cartService: ICartService,
             protected promotionService: promotions.IPromotionService,
             protected queryString: common.IQueryStringService,
-            protected orderService: order.IOrderService) {
+            protected orderService: order.IOrderService,
+            protected sessionService: account.ISessionService,
+            protected settingsService: core.ISettingsService) {
             this.init();
         }
 
         init(): void {
             const confirmedCartId = this.queryString.get("cartId");
 
-            this.cartService.expand = "cartlines,carriers";
+            this.cartService.expand = "cartlines,carriers,creditCardBillingAddress";
 
             this.cartService.getCart(confirmedCartId).then(
                 (confirmedCart: CartModel) => { this.getConfirmedCartCompleted(confirmedCart); },
@@ -32,10 +39,24 @@
             this.cartService.getCart().then(
                 (cart: CartModel) => { this.getCartCompleted(cart); },
                 (error: any) => { this.getCartFailed(error); });
+
+            this.sessionService.getSession().then(
+                (session: SessionModel) => { this.getSessionCompleted(session); },
+                (error: any) => { this.getSessionFailed(error); });
+
+            this.settingsService.getSettings().then(
+                (settingsCollection: core.SettingsCollection) => { this.getSettingsCompleted(settingsCollection); },
+                (error: any) => { this.getSettingsFailed(error); });
         }
 
         protected getConfirmedCartCompleted(confirmedCart: CartModel): void {
             this.cart = confirmedCart;
+
+            if (this.cart.creditCardBillingAddress) {
+                this.creditCardBillingAddress = <any>this.cart.creditCardBillingAddress;
+                this.creditCardBillingAddress.state = ({ abbreviation: this.cart.creditCardBillingAddress.stateAbbreviation } as StateModel);
+                this.creditCardBillingAddress.country = ({ abbreviation: this.cart.creditCardBillingAddress.countryAbbreviation } as CountryModel);
+            }
 
             if (window.hasOwnProperty("dataLayer")) {
                 const data = {
@@ -95,6 +116,20 @@
         }
 
         protected getCartFailed(error: any): void {
+        }
+
+        protected getSessionCompleted(session: SessionModel): void {
+            this.isGuestUser = session.isAuthenticated && session.isGuest;
+        }
+
+        protected getSessionFailed(error: any): void {
+        }
+
+        protected getSettingsCompleted(settingsCollection: core.SettingsCollection): void {
+            this.settings = settingsCollection.accountSettings;
+        }
+
+        protected getSettingsFailed(error: any): void {
         }
     }
 

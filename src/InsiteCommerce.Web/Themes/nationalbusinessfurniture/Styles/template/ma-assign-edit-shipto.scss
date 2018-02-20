@@ -5,7 +5,7 @@
     }
 
     .tbl-assign-shipto .col-shipto .ship-num {
-        min-width: 60px;
+        min-width: 20px;
     }
 
     .tbl-assign-shipto .col-shipto select {
@@ -16,27 +16,12 @@
 
 @media all and (max-width: 767px) {
     .ma-assign-edit-shipto {
-        div.table-wrapper .pinned {
-            width: 25%;
-        }
-
-        div.table-wrapper div.scrollable {
-            margin-left: 25%;
-        }
-
         .tbl-assign-shipto .col-default input {
             margin-left: 1em;
         }
 
         .tbl-assign-shipto .col-shipto {
-            min-width: 200px;
-        }
-
-        .tbl-assign-shipto .col-shipto .cost-code {
-            display: block;
-            margin-top: 1em;
-            margin-bottom: 0.5em;
-            width: 100%;
+            min-width: 270px;
         }
 
         .btns .btn {

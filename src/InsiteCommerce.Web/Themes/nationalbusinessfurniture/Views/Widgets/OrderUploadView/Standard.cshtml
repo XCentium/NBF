@@ -89,7 +89,7 @@
                     </table>
                 </div>
                 <div class="button-container">
-                    <button id="tst_orderUploadIssues_continueToCart" class="btn primary dark-blue slim no-margin-bottom" ng-disabled="!vm.products || vm.products.length === 0" ng-click="vm.continueToCart('#orderUploadingIssuesPopup')">[% translate 'Continue to Cart' %]</button>
+                    <button id="tst_orderUploadIssues_continueToCart" class="btn primary dark-blue slim no-margin-bottom" ng-disabled="!vm.products || vm.products.length === 0" ng-click="vm.uploadProducts('#orderUploadingIssuesPopup')">[% translate 'Continue to Cart' %]</button>
                     <button id="tst_orderUploadIssues_cancelUpload" class="btn tertiary slim no-margin-bottom" ng-click="vm.closeIssuesPopup()">[% translate 'Cancel Upload' %]</button>
                 </div>
                 <div class="clearfix"></div>
@@ -100,14 +100,14 @@
             <div class="ou-modal modal-wrap success">
                 <i class="fa fa-check"></i>
                 <h3>{{vm.uploadedItemsCount}} [% translate 'items uploaded' %].</h3>
-                <a id="tst_orderUploadSuccess_continueToCart" class="btn primary dark-blue slim no-margin-bottom" href="[% urlForPage 'CartPage' %]" ng-click="vm.hideOrderUploadSuccessPopup()">[% translate 'Continue to Cart' %]</a>
+                <a id="tst_orderUploadSuccess_continueToCart" class="btn primary dark-blue slim no-margin-bottom" href="[% urlForPage 'CartPage' %]" ng-click="vm.hideUploadSuccessPopup()">[% translate 'Continue to Cart' %]</a>
             </div>
         </div>
 
         <div id="orderUploadingPopup" class="reveal-modal address-error-popup ma-order-upload" data-reveal data-options="close_on_background_click: false;" data-reveal-init>
             <div class="modal-wrap ou-modal">
                 <div class="loader"></div>
-                <h3>{{(!vm.uploadCancelled) ? '[% translate 'Uploading Order' %]' : '[% translate 'Cancelling Order' %]'}}</h3>
+                <h3>{{(!vm.uploadCancelled) ? "[% translate 'Uploading Order' %]" : "[% translate 'Cancelling Order' %]"}}</h3>
                 <button id="tst_orderUpload_cancelUpload" class="btn tertiary slim no-margin-bottom" ng-click="vm.cancelUpload()" ng-show="vm.allowCancel" ng-enable="!vm.uploadCancelled">[% translate 'Cancel Upload' %]</button>
             </div>
         </div>

@@ -16,6 +16,7 @@
         }
 
         init(): void {
+            this.show = this.show && this.show.toString() === "true";
             // Register with the spinner service by default if not specified.
             if (!this.hasOwnProperty("register")) {
                 this.register = true;

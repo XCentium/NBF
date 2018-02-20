@@ -1,4 +1,4 @@
-﻿import DashboardPanelModel = Insite.Dashboard.WepApi.V1.ApiModels.DashboardPanelModel;
+﻿import DashboardPanelModel = Insite.Dashboard.WebApi.V1.ApiModels.DashboardPanelModel;
 
 module insite.dashboard {
     "use strict";

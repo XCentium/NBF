@@ -86,8 +86,8 @@
                         <th class="col-date">
                             <span class="sticky-first">
                             <a href="javascript:void(0)" class="sort" id="tst_myaccount_orders_sort_orderdate"
-                               ng-class="{'sort-ascending': vm.searchFilter.sort === 'OrderDate,ErpOrderNumber', 'sort-descending': vm.searchFilter.sort === 'OrderDate DESC,ErpOrderNumber DESC'}"
-                               ng-click="vm.changeSort('OrderDate,ErpOrderNumber')">
+                               ng-class="{'sort-ascending': vm.searchFilter.sort === 'OrderDate,ErpOrderNumber,WebOrderNumber', 'sort-descending': vm.searchFilter.sort === 'OrderDate DESC,ErpOrderNumber DESC,WebOrderNumber DESC'}"
+                               ng-click="vm.changeSort('OrderDate,ErpOrderNumber,WebOrderNumber')">
                                 [% translate 'Date' %]
                             </a>
                             </span>

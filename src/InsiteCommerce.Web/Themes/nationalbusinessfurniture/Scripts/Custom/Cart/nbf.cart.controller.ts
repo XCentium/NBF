@@ -19,7 +19,7 @@
             protected sessionService: account.ISessionService,
             protected accessToken: common.IAccessTokenService,
             protected $window: ng.IWindowService ) {
-            super($scope, cartService, promotionService, settingsService, coreService, $localStorage);
+            super($scope, cartService, promotionService, settingsService, coreService, $localStorage, addToWishlistPopupService, spinnerService);
             
         }
 

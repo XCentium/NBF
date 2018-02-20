@@ -94,8 +94,8 @@ module insite.catalog {
         }
 
         protected getProductData(productId: string): void {
-            const expand = ["documents", "specifications", "styledproducts", "htmlcontent", "attributes", "crosssells", "pricing"];
-            this.productService.getProduct(null, productId, expand).then(
+            const expand = ["documents", "specifications", "styledproducts", "htmlcontent", "attributes", "crosssells", "pricing", "relatedproducts"];
+            this.productService.getProduct(null, productId, expand, true).then(
                 (productModel: ProductModel) => { this.getProductCompleted(productModel); },
                 (error: any) => { this.getProductFailed(error); });
         }
@@ -119,8 +119,14 @@ module insite.catalog {
             }
 
             this.getRealTimePrices();
-            this.getRealTimeInventory();
+            if (!this.settings.inventoryIncludedWithPricing) {
+                this.getRealTimeInventory();
+            }
 
+            this.setTabs();
+        }
+
+        protected setTabs() {
             setTimeout(() => {
                 ($(".easy-resp-tabs") as any).easyResponsiveTabs();
             }, 10);
@@ -154,6 +160,10 @@ module insite.catalog {
             // product.pricing is already updated
             if (this.product.isStyleProductParent) {
                 this.parentProduct = angular.copy(this.product);
+            }
+
+            if (this.settings.inventoryIncludedWithPricing) {
+                this.getRealTimeInventory();
             }
         }
 
@@ -197,7 +207,7 @@ module insite.catalog {
         }
 
         protected initStyleSelection(styleTraits: StyleTraitDto[]): void {
-            angular.forEach(styleTraits.sort(s => s.sortOrder), (styleTrait: StyleTraitDto) => {
+            angular.forEach(styleTraits.sort((a, b) => a.sortOrder - b.sortOrder), (styleTrait: StyleTraitDto) => {
                 const result = this.coreService.getObjectByPropertyValue(styleTrait.styleValues, { isDefault: true });
                 this.styleSelection.push(result);
             });
@@ -309,11 +319,13 @@ module insite.catalog {
                                 (error: any) => { this.styleChangeGetProductPriceFailed(error); });
                         } else {
                             this.product = angular.copy(this.parentProduct);
+                            this.setTabs();
                         }
 
                     } else {
                         this.product = angular.copy(this.parentProduct);
                         this.product.unitOfMeasureDisplay = "";
+                        this.setTabs();
                     }
                 }
             }
@@ -321,6 +333,7 @@ module insite.catalog {
 
         protected styleChangeGetProductPriceCompleted(productPrice: ProductPriceModel): void {
             this.product = angular.copy(this.parentProduct);
+            this.setTabs();
         }
 
         protected styleChangeGetProductPriceFailed(error: any): void {

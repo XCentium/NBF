@@ -17,7 +17,7 @@ module insite.order {
 
     export interface IOrderService {
         getOrders(filter: ISearchFilter, pagination: PaginationModel): ng.IPromise<OrderCollectionModel>;
-        getOrder(orderId: string, expand: string): ng.IPromise<OrderModel>;
+        getOrder(orderId: string, expand: string, stEmail?: string, stPostalCode?: string): ng.IPromise<OrderModel>;
         getOrderStatusMappings(): ng.IPromise<OrderStatusMappingCollectionModel>;
         updateOrder(orderId: string, orderModel: OrderModel): ng.IPromise<OrderModel>;
         addRma(rmaModel: RmaModel): ng.IPromise<RmaModel>;
@@ -61,19 +61,29 @@ module insite.order {
         protected getOrdersFailed(error: ng.IHttpPromiseCallbackArg<any>): void {
         }
 
-        getOrder(orderId: string, expand: string): ng.IPromise<OrderModel> {
+        getOrder(orderId: string, expand: string, stEmail?: string, stPostalCode?: string): ng.IPromise<OrderModel> {
             const uri = `${this.serviceUri}/${orderId}`;
 
             return this.httpWrapperService.executeHttpRequest(
                 this,
-                this.$http({ url: uri, method: "GET", params: this.getOrderParams(expand) }),
+                this.$http({ url: uri, method: "GET", params: this.getOrderParams(expand, stEmail, stPostalCode) }),
                 this.getOrderCompleted,
                 this.getOrderFailed
             );
         }
 
-        protected getOrderParams(expand: string): any {
-            return expand ? { expand: expand } : {};
+        protected getOrderParams(expand: string, stEmail: string, stPostalCode: string): any {
+            const params: any = expand ? { expand: expand } : {};
+
+            if (typeof (stEmail) === "string" && stEmail !== null && stEmail !== "") {
+                params.stEmail = stEmail;
+            }
+
+            if (typeof (stPostalCode) === "string" && stPostalCode !== null && stPostalCode !== "") {
+                params.stPostalCode = stPostalCode;
+            }
+
+            return params;
         }
 
         protected getOrderCompleted(response: ng.IHttpPromiseCallbackArg<OrderModel>): void {

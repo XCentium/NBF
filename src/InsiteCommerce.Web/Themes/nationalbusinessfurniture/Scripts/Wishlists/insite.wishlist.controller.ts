@@ -31,7 +31,7 @@
 
             this.settingsService.getSettings().then(
                 (settingsCollection: core.SettingsCollection) => { this.getSettingsCompleted(settingsCollection); },
-                (error: any) => {this.getSettingsFailed(error); });
+                (error: any) => { this.getSettingsFailed(error); });
         }
 
         protected getSettingsCompleted(settingsCollection: core.SettingsCollection): void {
@@ -48,7 +48,7 @@
             if (this.wishListCount > 0) {
                 this.wishListCollection = data.wishListCollection;
 
-                const wishListId = this.queryString.get("wishListId");
+                const wishListId = this.queryString.get("wishListId") || this.queryString.get("id");
 
                 if (wishListId.length > 0) {
                     this.selectedWishList = this.wishListCollection.filter(x => x.id.toLowerCase() === wishListId.toLowerCase())[0];
@@ -85,11 +85,22 @@
             this.selectedWishList = wishList;
             this.inProgress = false;
 
+            this.getRealTimePrices();
+            if (!this.productSettings.inventoryIncludedWithPricing) {
+                this.getRealTimeInventory();
+            }
+        }
+
+        protected getWishListFailed(error: any): void {
+        }
+
+        protected getRealTimePrices(): void {
             if (this.productSettings.realTimePricing && this.selectedWishList.wishListLineCollection != null) {
                 const products = this.selectedWishList.wishListLineCollection.map((wishlistLine) => {
                     return {
                         id: wishlistLine.productId,
                         unitOfMeasure: wishlistLine.unitOfMeasure,
+                        selectedUnitOfMeasure: wishlistLine.unitOfMeasure,
                         qtyOrdered: wishlistLine.qtyOrdered
                     };
                 }) as any as ProductDto[];
@@ -98,7 +109,28 @@
                     (pricingResult: RealTimePricingModel) => { this.handleRealTimePricesCompleted(pricingResult); },
                     (reason: any) => { this.handleRealtimePricesFailed(reason); });
             }
+        }
 
+        protected handleRealTimePricesCompleted(result: RealTimePricingModel): void {
+            result.realTimePricingResults.forEach((productPrice: ProductPriceDto) => {
+                const wishlistLine = this.selectedWishList.wishListLineCollection.find((p: WishListLineModel) => p.productId === productPrice.productId && p.unitOfMeasure === productPrice.unitOfMeasure);
+                wishlistLine.pricing = productPrice;
+            });
+
+            if (this.productSettings.inventoryIncludedWithPricing) {
+                this.getRealTimeInventory();
+            }
+        }
+
+        protected handleRealtimePricesFailed(reason: any): void {
+            this.selectedWishList.wishListLineCollection.forEach(p => {
+                if (p.pricing) {
+                    (p.pricing as any).failedToGetRealTimePrices = true;
+                }
+            });
+        }
+
+        protected getRealTimeInventory(): void {
             if (this.productSettings.realTimeInventory && this.selectedWishList.wishListLineCollection != null) {
                 const products = this.selectedWishList.wishListLineCollection.map(wishlistLine => this.mapWishlistLineToProduct(wishlistLine));
 
@@ -106,24 +138,6 @@
                     (inventoryResult: RealTimeInventoryModel) => { this.handleRealTimeInventoryCompleted(inventoryResult); },
                     (reason: any) => { this.handleRealtimeInventoryFailed(reason); });
             }
-        }
-
-        protected getWishListFailed(error: any): void {
-        }
-
-        protected handleRealTimePricesCompleted(result: RealTimePricingModel): void {
-            result.realTimePricingResults.forEach((productPrice: ProductPriceDto) => {
-                const wishlistLine = this.selectedWishList.wishListLineCollection.find((p: WishListLineModel) => p.productId === productPrice.productId);
-                wishlistLine.pricing = productPrice;
-            });
-        }
-
-        protected  handleRealtimePricesFailed(reason: any): void {
-            this.selectedWishList.wishListLineCollection.forEach(p => {
-                if (p.pricing) {
-                    (p.pricing as any).failedToGetRealTimePrices = true;
-                }
-            });
         }
 
         protected handleRealTimeInventoryCompleted(result: RealTimeInventoryModel): void {
@@ -193,18 +207,12 @@
             } else {
                 this.wishListService.updateLine(line).then(
                     (wishListLine: WishListLineModel) => { this.updateLineCompleted(wishListLine); },
-                    (error: any) => {this.updateLineFailed(error); });
+                    (error: any) => { this.updateLineFailed(error); });
             }
         }
 
         protected updateLineCompleted(wishListLine: WishListLineModel): void {
-            const sameProductLines = this.selectedWishList.wishListLineCollection.filter((wl: WishListLineModel) => {
-                return wl.productId === wishListLine.productId;
-            });
-
-            if (sameProductLines.length > 1) {
-                this.getSelectedWishListDetails();
-            }
+            this.getSelectedWishListDetails();
         }
 
         protected updateLineFailed(error: any): void {
@@ -255,7 +263,7 @@
             const product = this.mapWishlistLineToProduct(line);
             this.productService.changeUnitOfMeasure(product).then(
                 (productDto: ProductDto) => { this.changeUnitOfMeasureCompleted(line, productDto); },
-                (error: any) => {this.changeUnitOfMeasureFailed(error); });
+                (error: any) => { this.changeUnitOfMeasureFailed(error); });
         }
 
         protected changeUnitOfMeasureCompleted(line: WishListLineModel, productDto: ProductDto): void {

@@ -3,6 +3,7 @@
     import SessionService = insite.account.ISessionService;
     import ShipToModel = Insite.Customers.WebApi.V1.ApiModels.ShipToModel;
     import StateModel = Insite.Websites.WebApi.V1.ApiModels.StateModel;
+    import CountryModel = Insite.Websites.WebApi.V1.ApiModels.CountryModel;
 
     export interface INbfCheckoutControllerAttributes extends ng.IAttributes {
         cartUrl: string;
@@ -12,18 +13,23 @@
         //Address Variables
         cart: CartModel;
         cartId: string;
+        queryCartId: string;
         countries: CountryModel[];
         selectedShipTo: ShipToModel;
+        originalBillTo: BillToModel;
         shipTos: ShipToModel[];
         continueCheckoutInProgress = false;
-        isReadOnly = false;
+        shipToIsReadOnly = false;
         account: AccountModel;
         initialIsSubscribed: boolean;
         addressFields: AddressFieldCollectionModel;
         customerSettings: any;
         cartUri: string;
         initialShipToId: string;
-        step: number = 0;
+        step = 0;
+        billToSameAsShipToSelected = true;
+        isGuest: boolean;
+        emailReadOnly = true;
 
         //Review and Pay Variables
         cartIdParam: string;
@@ -46,6 +52,9 @@
 
         //Account Creation Variables
         createError: string;
+        userFound = false;
+        newUser = false;
+        hideSignIn = false;
 
         static $inject = [
             "$scope",
@@ -64,7 +73,7 @@
             "$timeout",
             "sessionService",
             "$localStorage",
-            "nbfCheckoutService"
+            "nbfGuestActivationService"
         ];
 
         constructor(
@@ -84,12 +93,13 @@
             protected $timeout: ng.ITimeoutService,
             protected sessionService: SessionService,
             protected $localStorage: insite.common.IWindowStorage,
-            protected nbfCheckoutService: Checkout.INbfCheckoutService) {
+            protected nbfGuestActivationService: guest.INbfGuestActivationService) {
             this.init();
         }
 
         init(): void {
-            this.cartId = this.queryString.get("cartId");
+            this.queryCartId = this.queryString.get("cartId");
+            this.cartUrl = this.$attrs.cartUrl;
 
             this.websiteService.getAddressFields().then(
                 (model: AddressFieldCollectionModel) => { this.getAddressFieldsCompleted(model); });
@@ -98,8 +108,10 @@
                 (account: AccountModel) => { this.getAccountCompleted(account); });
 
             this.settingsService.getSettings().then(
-                (settingsCollection: insite.core.SettingsCollection) => { this.getSettingsCompleted(settingsCollection); });
-            
+                (settingsCollection: insite.core.SettingsCollection) => {
+                    this.getSettingsCompleted(settingsCollection);
+                });
+
             ($(document) as any).foundation({
                 accordion: {
                     // specify the class used for accordion panels
@@ -120,6 +132,14 @@
                     e.preventDefault();
                 }
             });
+
+            $("#addressForm").change(() => {
+                if (this.billToSameAsShipToSelected) {
+                    this.updateBillTo();
+                }
+            });
+
+            $(".masked-phone").mask("999-999-9999", { autoclear: false });
         }
 
         protected getSettingsCompleted(settingsCollection: insite.core.SettingsCollection): void {
@@ -127,9 +147,25 @@
         }
 
         protected getAddressFieldsCompleted(addressFields: AddressFieldCollectionModel): void {
-            this.addressFields = addressFields;
+            this.addressFields = addressFields; 
 
-            this.cartService.expand = "shiptos,validation";
+            this.cartService.expand = "shiptos,validation,cartlines";
+
+            if (this.queryCartId) {
+                this.cartService.getCart(this.queryCartId).then(
+                    (cart: CartModel) => {
+                        if (cart.status === "Submitted") {
+                            this.getCartCompleted(cart);
+                            this.loadStep4();
+                        }
+                    },
+                    () => { this.getCartInitial(this.cartId) });
+            } else {
+                this.getCartInitial(this.cartId);
+            }
+        }
+
+        protected getCartInitial(cartId: string) {
             this.cartService.getCart(this.cartId).then(
                 (cart: CartModel) => { this.getCartCompleted(cart); },
                 (error: any) => { this.getCartFailed(error); });
@@ -138,8 +174,18 @@
         protected getCartCompleted(cart: CartModel): void {
             this.cartService.expand = "";
             this.cart = cart;
+
+            this.originalBillTo = cart.billTo;
+            this.isGuest = cart.billTo.isGuest;
+
             if (this.cart.shipTo && this.cart.shipTo.id) {
                 this.initialShipToId = this.cart.shipTo.id;
+            }
+
+            const hasRestrictions = cart.cartLines.some(o => o.isRestricted);
+            // if cart does not have cartLines or any cartLine is restricted, go to Cart page
+            if (!this.cart.cartLines || this.cart.cartLines.length === 0 || hasRestrictions) {
+                this.coreService.redirectToPath(this.cartUrl);
             }
 
             this.websiteService.getCountries("states").then(
@@ -178,7 +224,12 @@
             this.shipTos = angular.copy(this.cart.billTo.shipTos);
 
             let shipToBillTo: ShipToModel = null;
+            //handle guest ship tos
+            var shipTos = [];
             this.shipTos.forEach(shipTo => {
+                //if (!shipTo.country && !shipTo.state) {
+                //    shipTo.country = this.countries[0];
+                //}
                 if (shipTo.country && shipTo.country.states) {
                     this.replaceObjectWithReference(shipTo, this.countries, "country");
                     this.replaceObjectWithReference(shipTo, shipTo.country.states, "state");
@@ -187,6 +238,18 @@
                 if (shipTo.id === this.cart.billTo.id) {
                     shipToBillTo = shipTo;
                 }
+
+                //if (this.cart.billTo.isGuest) {
+                //    if (shipTo.isNew) {
+                //        shipTos.push(shipTo);
+                //        //Only show new ship to option for guest users
+                //        this.shipTos = shipTos;
+                //    }
+                //} else {
+                //    if (shipTo.id === this.cart.billTo.id) {
+                //        shipToBillTo = shipTo;
+                //    }
+                //}
             });
 
             // if this billTo was returned in the shipTos, replace the billTo in the shipTos array
@@ -202,23 +265,53 @@
             this.selectedShipTo = this.cart.shipTo;
 
             this.shipTos.forEach(shipTo => {
+
                 if (this.cart.shipTo && shipTo.id === this.cart.shipTo.id || !this.selectedShipTo && shipTo.isNew) {
                     this.selectedShipTo = shipTo;
                 }
+                //if (this.cart.billTo.isGuest) {
+                //    if (shipTo.isNew) {
+                //        this.selectedShipTo = shipTo;
+                //    }
+                //} else {
+                //    if (this.cart.shipTo && shipTo.id === this.cart.shipTo.id || !this.selectedShipTo && shipTo.isNew) {
+                //        this.selectedShipTo = shipTo;
+                //    }
+                //}
             });
 
             if (this.selectedShipTo && this.selectedShipTo.id === this.cart.billTo.id) {
                 // don't allow editing the billTo from the shipTo side if the billTo is selected as the shipTo
-                this.isReadOnly = true;
+                this.billToSameAsShipToSelected = true;
             }
+
+            this.updateBillTo();
         }
 
         checkSelectedShipTo(): void {
-            if (this.billToAndShipToAreSameCustomer()) {
-                this.isReadOnly = true;
-            } else {
-                this.isReadOnly = false;
+            if (this.isGuest){
+                if (!this.billToSameAsShipToSelected) {
+                    this.shipTos.forEach(shipTo => {
+                        if (shipTo.isNew) {
+                            shipTo.email = this.selectedShipTo.email;
+                            shipTo.firstName = this.selectedShipTo.firstName;
+                            shipTo.lastName = this.selectedShipTo.lastName;
+                            shipTo.companyName = this.selectedShipTo.companyName;
+                            shipTo.address1 = this.selectedShipTo.address1;
+                            shipTo.address2 = this.selectedShipTo.address2;
+                            shipTo.city = this.selectedShipTo.city;
+                            shipTo.state = this.selectedShipTo.state;
+                            shipTo.postalCode = this.selectedShipTo.postalCode;
+                            shipTo.phone = this.selectedShipTo.phone;
+                            this.selectedShipTo = shipTo;
+                        }
+                    });
+                } else {
+                    this.selectedShipTo = this.shipTos[0];
+                }
             }
+
+            this.updateBillTo();
 
             if (this.onlyOneCountryToSelect()) {
                 this.selectFirstCountryForAddress(this.selectedShipTo);
@@ -226,6 +319,33 @@
             }
 
             this.updateAddressFormValidation();
+        }
+
+        protected updateBillTo(): void {
+            if (this.billToAndShipToAreSameCustomer() && !this.isGuest) {
+                this.shipToIsReadOnly = true;
+            } else {
+                this.shipToIsReadOnly = false;
+            }
+
+            if (this.isGuest) {
+                this.cart.billTo.email = this.selectedShipTo.email;
+                if (this.billToSameAsShipToSelected) {
+                    this.cart.billTo.firstName = this.selectedShipTo.firstName;
+                    this.cart.billTo.lastName = this.selectedShipTo.lastName;
+                    this.cart.billTo.companyName = this.selectedShipTo.companyName;
+                    this.cart.billTo.address1 = this.selectedShipTo.address1;
+                    this.cart.billTo.address2 = this.selectedShipTo.address2;
+                    this.cart.billTo.city = this.selectedShipTo.city;
+                    this.cart.billTo.state = this.selectedShipTo.state;
+                    this.cart.billTo.postalCode = this.selectedShipTo.postalCode;
+                    this.cart.billTo.phone = this.selectedShipTo.phone;
+                }
+            }
+        }
+
+        protected billToAndShipToAreSameCustomer(): boolean {
+            return this.selectedShipTo.id === this.cart.billTo.id;
         }
 
         protected onlyOneCountryToSelect(): boolean {
@@ -236,10 +356,6 @@
             if (!address.country) {
                 address.country = this.countries[0];
             }
-        }
-
-        protected billToAndShipToAreSameCustomer(): boolean {
-            return this.selectedShipTo.id === this.cart.billTo.id;
         }
 
         protected updateAddressFormValidation(): void {
@@ -288,8 +404,22 @@
         }
 
         setStateRequiredRule(prefix: string, address: any): void {
-            const isRequired = address.country != null && address.country.states.length > 0;
-            $(`#${prefix}state`).rules("add", { required: isRequired });
+            //if (!address.country) {
+            //    return;
+            //}
+
+            //const country = this.countries.filter((elem) => {
+            //   return elem.id === address.country.id;
+            //});
+
+            //const isRequired = country != null && country.length > 0 && country[0].states.length > 0;
+            //setTimeout(() => {
+            //    if (!isRequired) {
+            //        address.state = null;
+            //    }
+            //    $(`#${prefix}state`).validate();
+            //    $(`#${prefix}state`).rules("add", { required: isRequired });
+            //}, 100);
         }
 
         continueToStep2(cartUri: string): void {
@@ -317,13 +447,22 @@
                 this.cart.shipVia = null;
             }
 
-            if (this.customerSettings.allowBillToAddressEdit) {
-                this.customerService.updateBillTo(this.cart.billTo).then(
-                    (billTo: BillToModel) => { this.updateBillToCompleted(billTo); },
-                    (error: any) => { this.updateBillToFailed(error); });
-            } else {
-                this.updateShipTo();
+            this.customerService.updateBillTo(this.cart.billTo).then(
+                (billTo: BillToModel) => { this.updateBillToCompleted(billTo); },
+                (error: any) => { this.updateBillToFailed(error); });
+        }
+
+        continueToStep3(cartUri: string): void {
+            const valid = $("#reviewAndPayForm").validate().form();
+            if (!valid) {
+                angular.element("html, body").animate({
+                    scrollTop: angular.element(".error:visible").offset().top
+                }, 300);
+
+                return;
             }
+
+            this.loadStep3();
         }
 
         protected updateBillToCompleted(billTo: BillToModel): void {
@@ -335,19 +474,15 @@
         }
 
         protected updateShipTo(customerWasUpdated?: boolean): void {
-            if (this.customerSettings.allowShipToAddressEdit) {
-                const shipToMatches = this.cart.billTo.shipTos.filter(shipTo => { return shipTo.id === this.selectedShipTo.id; });
-                if (shipToMatches.length === 1) {
-                    this.cart.shipTo = this.selectedShipTo;
-                }
+            const shipToMatches = this.cart.billTo.shipTos.filter(shipTo => { return shipTo.id === this.selectedShipTo.id; });
+            if (shipToMatches.length === 1) {
+                this.cart.shipTo = this.selectedShipTo;
+            }
 
-                if (this.cart.shipTo.id !== this.cart.billTo.id) {
-                    this.customerService.addOrUpdateShipTo(this.cart.shipTo).then(
-                        (shipTo: ShipToModel) => { this.addOrUpdateShipToCompleted(shipTo, customerWasUpdated); },
-                        (error: any) => { this.addOrUpdateShipToFailed(error); });
-                } else {
-                    this.updateSession(this.cart, customerWasUpdated);
-                }
+            if (this.cart.shipTo.id !== this.cart.billTo.id) {
+                this.customerService.addOrUpdateShipTo(this.cart.shipTo).then(
+                    (shipTo: ShipToModel) => { this.addOrUpdateShipToCompleted(shipTo, customerWasUpdated); },
+                    (error: any) => { this.addOrUpdateShipToFailed(error); });
             } else {
                 this.updateSession(this.cart, customerWasUpdated);
             }
@@ -442,29 +577,31 @@
             }
         }
 
-        protected loadStep2() {
-            this.spinnerService.hide("mainLayout");
+        editAddresses(e) {
+            e.stopPropagation();
+            e.preventDefault();
+            this.userFound = false;
 
-            $("#nav1expanded").hide();
-            $("#nav1min").show();
+            $("#nav1expanded,#nav2expanded").show();
+            $("#nav1min,#nav2min,#nav1 .edit,#nav2 .edit").hide();
 
-            this.step = 2;
-
-            $("#payment").addClass("active");
-            $("html:not(:animated), body:not(:animated)").animate({
-                scrollTop: $("#nav1").offset().top
-            }, 200);
-            this.continueCheckoutInProgress = false;
-
-            this.reviewAndPayInit();
-        }
-
-        editAddresses() {
-            $("#nav1expanded").show();
-            $("#nav1min").hide();
+            $("#shipping").removeClass("active");
             $("#payment").removeClass("active");
             $("html:not(:animated), body:not(:animated)").animate({
                 scrollTop: $("#nav1").offset().top
+            }, 200);
+        }
+
+        editShipping(e) {
+            e.stopPropagation();
+            e.preventDefault();
+
+            $("#nav2expanded").show();
+            $("#nav2min, #nav2 .edit").hide();
+
+            $("#payment").removeClass("active");
+            $("html:not(:animated), body:not(:animated)").animate({
+                scrollTop: $("#nav2").offset().top
             }, 200);
         }
 
@@ -473,7 +610,6 @@
         reviewAndPayInit(): void {
             this.$scope.$on("cartChanged", (event: ng.IAngularEvent) => this.onCartChanged(event));
 
-            this.cartUrl = this.$attrs.cartUrl;
             this.cartId = this.queryString.get("cartId") || "current";
 
             this.getCart(true);
@@ -596,6 +732,14 @@
             if (!isInit) {
                 this.pageIsReady = true;
             }
+
+            $("#nav1expanded").hide();
+            $("#nav1min, #nav1 .edit").show();
+
+            $("#shipping").addClass("active");
+            $("html:not(:animated), body:not(:animated)").animate({
+                scrollTop: $("#nav1").offset().top
+            }, 200);
         }
 
         protected saveTransientCard(): Insite.Core.Plugins.PaymentGateway.Dtos.CreditCardDto {
@@ -671,7 +815,7 @@
                 this.cart.paymentMethod = null;
             }
         }
-        
+
         protected getCartPromotionsCompleted(promotionCollection: PromotionCollectionModel): void {
             this.promotions = promotionCollection.promotions;
         }
@@ -715,19 +859,29 @@
             var pass = $("#CreateNewAccountInfo_Password").val();
 
             if (pass) {
-                const newAccount = {
-                    email: this.cart.billTo.email,
-                    userName: this.cart.billTo.email,
-                    password: pass,
-                    isSubscribed: true,
-                    firstName: this.cart.billTo.firstName,
-                    lastName: this.cart.billTo.lastName
-                } as AccountModel;
+                this.userFound = false;
+                this.nbfGuestActivationService.checkUserName(this.cart.billTo.email).then(
+                    (response) => {
+                        if (response) {
+                            this.userFound = true;
+                            this.submitting = false;
+                        } else {
+                            const newAccount = {
+                                email: this.cart.billTo.email,
+                                userName: this.cart.billTo.email,
+                                password: pass,
+                                isSubscribed: true,
+                                firstName: this.cart.billTo.firstName,
+                                lastName: this.cart.billTo.lastName
+                            } as AccountModel;
 
-                this.nbfCheckoutService.createAccountFromGuest(this.account.id, newAccount, this.cart.billTo, this.cart.shipTo, pass).then(
-                () => {
-                    this.submitOrder(signInUri);
-                });
+                            this.nbfGuestActivationService.createAccountFromGuest(this.account.id, newAccount, this.cart.billTo, this.cart.shipTo).then(
+                                () => {
+                                    this.newUser = true;
+                                    this.submitOrder(signInUri);
+                                });
+                        }
+                    });
             } else {
                 this.submitOrder(signInUri);
             }
@@ -751,7 +905,7 @@
             }
 
             this.cart.requestedDeliveryDate = this.formatWithTimezone(this.cart.requestedDeliveryDate);
-            
+
             this.spinnerService.show("mainLayout", true);
             this.cartService.updateCart(this.cart, true).then(
                 (cart: CartModel) => { this.submitCompleted(cart); },
@@ -767,9 +921,17 @@
 
         protected submitCompleted(cart: CartModel): void {
             this.cart.id = cart.id;
-            this.cartService.getCart();
-            this.loadStep3();
-            this.spinnerService.hide();
+            if (this.newUser) {
+                this.$window.location.href = `${this.$window.location.href}?cartid=${this.cart.id}`;
+            } else {
+                if (history.pushState) {
+                    var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + "?cartid=" + this.cart.id;
+                    window.history.pushState({ path: newurl }, "", newurl);
+                }
+                this.cartService.getCart();
+                this.loadStep4();
+                this.spinnerService.hide();
+            }
         }
 
         protected submitFailed(error: any): void {
@@ -866,16 +1028,37 @@
             this.getCart();
         }
 
+        protected loadStep2() {
+            this.continueCheckoutInProgress = false;
+            this.hideSignIn = true;
+
+            this.reviewAndPayInit();
+        }
+
         protected loadStep3() {
             $("#nav2expanded").hide();
-            $(".edit").hide();
-            $("#nav2min").show();
+            $("#nav2min, #nav2 .edit").show();
+
+            $("#payment").addClass("active");
+            $("html:not(:animated), body:not(:animated)").animate({
+                scrollTop: $("#nav2").offset().top
+            }, 200);
+
+            this.continueCheckoutInProgress = false;
+        }
+
+        protected loadStep4() {
+            this.hideSignIn = true;
+            $("#nav1expanded,#nav2expanded,#nav3expanded,.edit").hide();
+            $("#nav1min,#nav2min,#nav3min,#thankYou").show();
+            $("#address,#shipping,#payment").addClass("active");
 
             $("#confirmation").addClass("active");
+
             $("html:not(:animated), body:not(:animated)").animate({
-                scrollTop: $("#nav1").offset().top
+                scrollTop: $("#nav4").offset().top
             }, 200);
-            
+
             this.orderConfirmationInit();
         }
 
@@ -933,7 +1116,7 @@
         protected getOrderCompleted(orderHistory: OrderModel): void {
             this.order = orderHistory;
         }
-        
+
         protected getCartCompletedOrderConfirmed(cart: CartModel): void {
             this.showRfqMessage = cart.canRequestQuote && cart.quoteRequiredCount > 0;
         }

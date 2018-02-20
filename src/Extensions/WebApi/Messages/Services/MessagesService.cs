@@ -4,6 +4,7 @@ using Insite.Core.Interfaces.Data;
 using Insite.Core.Services;
 using Insite.Core.Services.Handlers;
 using Insite.Order.Services.Results;
+using System.Threading.Tasks;
 
 namespace Extensions.WebApi.Messages.Services
 {
@@ -11,7 +12,7 @@ namespace Extensions.WebApi.Messages.Services
     {
         private readonly IMessageRepository _repository;
 
-        public MessagesService(IUnitOfWorkFactory unitOfWorkFactory, IMessageRepository repository) : base(unitOfWorkFactory)
+        public  MessagesService(IUnitOfWorkFactory unitOfWorkFactory, IMessageRepository repository) : base(unitOfWorkFactory)
         {
             _repository = repository;
         }
