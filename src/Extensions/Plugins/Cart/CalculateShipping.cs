@@ -61,7 +61,7 @@ namespace Extensions.Plugins.Cart
             foreach (var productByVendor in productsByVendor)
             {
                 var vendorMerchTotal = productByVendor.OrderLines.Sum(x => x.TotalNetPrice);
-                productByVendor.IsTruck = (productByVendor.OrderLines.Where(x => x.QtyOrdered > Convert.ToDecimal(x.Product.QtyPerShippingPackage)).FirstOrDefault() != null);
+                productByVendor.IsTruck = (productByVendor.OrderLines.Where(x => x.QtyOrdered >= Convert.ToDecimal(x.Product.QtyPerShippingPackage)).FirstOrDefault() != null);
 
                 productByVendor.VendorTotalShippingCharges = GetShippingCharges(productByVendor);
 
@@ -87,7 +87,7 @@ namespace Extensions.Plugins.Cart
 
                 if (!productByVendor.IsTruck)
                 {
-                    productByVendor.IsTruck = (productByVendor.OrderLines.Where(x => x.QtyOrdered > Convert.ToDecimal(x.Product.QtyPerShippingPackage)).FirstOrDefault() != null);
+                    productByVendor.IsTruck = (productByVendor.OrderLines.Where(x => x.QtyOrdered >= Convert.ToDecimal(x.Product.QtyPerShippingPackage)).FirstOrDefault() != null);
                 }
                 
                 if (productByVendor.IsTruck)
@@ -99,7 +99,7 @@ namespace Extensions.Plugins.Cart
 
                 if (result.Cart.ShipVia != null && !string.IsNullOrEmpty(result.Cart.ShipVia.ShipCode) && result.Cart.ShipVia.ShipCode.ToLower() != "standard")
                 {
-                    productByVendor.VendorTotalShippingCharges += ApplyAdditionalCharges(productByVendor, result.Cart.ShipVia.ShipCode);
+                    productByVendor.VendorTotalShippingCharges += ApplyAdditionalCharges(productByVendor, result.Cart);
 
 
                 }
@@ -109,7 +109,7 @@ namespace Extensions.Plugins.Cart
 
             
 
-            result.Cart.ShippingCharges = Convert.ToDecimal(productsByVendor.Sum(x => x.VendorTotalShippingCharges));
+            result.Cart.ShippingCharges = Math.Ceiling(Convert.ToDecimal(productsByVendor.Sum(x => x.VendorTotalShippingCharges)));
             //result.Cart.ShippingCharges = this.ApplyShippingDiscount(result);
 
             if (cartPricing.ResultCode != ResultCode.Success)
@@ -118,19 +118,27 @@ namespace Extensions.Plugins.Cart
             return this.NextHandler.Execute(unitOfWork, parameter, result);
         }
 
-        private decimal? ApplyAdditionalCharges(ProductsByVendor productsByVendor, string shipCode)
+        private decimal? ApplyAdditionalCharges(ProductsByVendor productsByVendor, CustomerOrder cart)
         {
             decimal? additionalCharge = 0.0m;
             if (productsByVendor.IsTruck)
             {
 
                 var additionalChargesList = GetAdditionalChargesJson();
-                var totalVendorWeight = productsByVendor.OrderLines.Sum(x => x.Product.ShippingWeight);
-                if (totalVendorWeight < 900)
+                var totalVendorWeight = productsByVendor.OrderLines.Sum(x => x.Product.ShippingWeight * x.QtyOrdered);
+                if (cart.ShipVia.ShipCode.ToLower() == "i")  // handle inside/front door delivery
                 {
-                    shipCode = "F";
+                    if (cart.OrderLines.Where(x => x.Product.ShippingWeight >= 125).FirstOrDefault() != null || totalVendorWeight >= 900)
+                    {
+                        cart.ShipVia.ShipCode = "I";
+                    }
+                    else
+                    {
+                        cart.ShipVia.ShipCode = "F";
+                    }
                 }
-                var currentService = additionalChargesList.Where(x => x.Type.ToLower() == shipCode.ToLower() && totalVendorWeight > x.MinWeight && totalVendorWeight < x.MaxWeight).FirstOrDefault();
+                
+                var currentService = additionalChargesList.Where(x => x.Type.ToLower() == cart.ShipVia.ShipCode.ToLower() && totalVendorWeight > x.MinWeight && totalVendorWeight < x.MaxWeight).FirstOrDefault();
                 
                 if (currentService != null)
                 {
@@ -143,7 +151,7 @@ namespace Extensions.Plugins.Cart
                     }
                     if (currentService.Markup != null)
                     {
-                        additionalCharge = additionalCharge * currentService.Markup;
+                        additionalCharge += additionalCharge * currentService.Markup;
                     }
                 }
             }
@@ -155,7 +163,7 @@ namespace Extensions.Plugins.Cart
         private decimal? GetWeightBasedShippingCharges(ProductsByVendor productsByVendor)
         {
             var vendorMerchTotal = productsByVendor.OrderLines.Sum(x => x.TotalNetPrice);
-            var totalVendorWeight = productsByVendor.OrderLines.Sum(x => x.Product.ShippingWeight);
+            var totalVendorWeight = productsByVendor.OrderLines.Sum(x => x.Product.ShippingWeight * x.QtyOrdered);
             var totalPricePerLb = totalVendorWeight * ShippingChargePerPound;
             return GetFinalVendorShippingByWeight(totalPricePerLb, vendorMerchTotal);
         }
