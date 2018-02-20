@@ -11,15 +11,10 @@
 
 <div ng-controller="NbfTopNavController as vm" class="top-nav-container" ng-cloak dashboard-url="[% urlForPage 'MyAccountPage' %]">
     <input type="hidden" id="tst_currentLanguage" value="{{::vm.session.language.id}}" />
-<<<<<<< HEAD
     <div class="top-content">
         [% zone 'Top' %]
     </div>
-
-    <div class="head-msg-wrap" ng-cloak>
-=======
     <div class="head-msg-wrap" ng-cloak ng-if="vm.showTopMessage">
->>>>>>> develop
         <div class="container wide-container">
             <div class="head-msg">
                 <span>
