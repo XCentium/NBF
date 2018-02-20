@@ -151,7 +151,9 @@
                                                                 <div class="item-block__product__ships-today"><span class="ico-Truck"></span> Ships Today!</div>
                                                             </div>
                                                         </div>
-                                                        <isc-sorted-attribute-value-list ng-if="product.attributeTypes.length > 0" attribute-types="product.attributeTypes" maximum-number="3" class="attribute-list"></isc-sorted-attribute-value-list>
+                                                        <div style="display:none;">
+                                                            <nbf-sorted-attribute-value-list ng-if="product.attributeTypes.length > 0" attribute-types="product.attributeTypes" maximum-number="3" class="attribute-list"></nbf-sorted-attribute-value-list>
+                                                        </div>
                                                     </div>
 
                                                     <div class="item-price" ng-if="!vm.failedToGetRealTimePrices" style="display:none;">
