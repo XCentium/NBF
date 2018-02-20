@@ -1,4 +1,4 @@
-﻿module insite.catalog {
+﻿module nbf.catalog {
     "use strict";
 
     angular
