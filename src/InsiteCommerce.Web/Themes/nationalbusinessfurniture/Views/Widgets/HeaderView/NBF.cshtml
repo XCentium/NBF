@@ -252,6 +252,16 @@
                                 <li><a href="#" onclick="insite.nav.hideMenu();">Partitions</a></li>
                                 <li><a href="#" onclick="insite.nav.hideMenu();">Boards</a></li>
                             </ul>
+                            <div class="login-from">
+                                <div class="sub-heading">Welcome</div>
+                                <label class="login-from__email__label">Email</label>
+                                <input type="email" class="login-from__email__input" placeholder="email">
+                                <label class="login-from__password__label">Password</label>
+                                <input type="password" class="login-from__password__input" placeholder="password">
+                                <a class="login-from__forgotpassword" href="#">Forgot password?</a>
+                                <button class="login-from__btn btn btn-login">Log in</button>
+                                <a class="login-from__newaccount" href="#">Click Here To Create An Account</a>
+                            </div>
                         </div>
                     </li>
                     <li ng-cloak ng-show="::(vm.session.isAuthenticated && !vm.session.billTo.isGuest) || vm.session.rememberMe">
