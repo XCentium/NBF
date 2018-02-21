@@ -51,7 +51,7 @@
     </Reference>
     <Reference Include="DotLiquid, Version=1.0.0.0, Culture=neutral, PublicKeyToken=82e46016ecf9f07c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Insite.Commerce.Private.4.3.2.38064\lib\net452\DotLiquid.dll</HintPath>
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.0.38481\lib\net452\DotLiquid.dll</HintPath>
     </Reference>
     <Reference Include="Insite.Account, Version=4.4.0.38481, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Insite.Commerce.Public.4.4.0.38481\lib\net452\Insite.Account.dll</HintPath>
@@ -307,6 +307,7 @@
     <Compile Include="Widgets\ArticlePageViewDrop.cs" />
     <Compile Include="Widgets\ArticlePageViewPreparer.cs" />
     <Compile Include="Widgets\CategoriesList.cs" />
+    <Compile Include="Widgets\LinkListWithTitle.cs" />
     <Compile Include="Widgets\PopularCategories.cs" />
     <Compile Include="Widgets\FeaturedProducts.cs" />
     <Compile Include="Widgets\Latest BlogPosts.cs" />

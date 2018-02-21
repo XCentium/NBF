@@ -25,6 +25,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -465,6 +466,7 @@
     <Content Include="Views\Widgets\CreateAccountView\NBF.cshtml" />
     <None Include="Views\Widgets\CreateAccountView\Standard.cshtml" />
     <None Include="Views\Widgets\CurrencySelector\Standard.cshtml" />
+    <Content Include="Views\Widgets\Custom\LinkListWithTitle\Standard.cshtml" />
     <None Include="Views\Widgets\DealerDirectionsView\Standard.cshtml" />
     <None Include="Views\Widgets\DealerLocatorView\Standard.cshtml" />
     <None Include="Views\Widgets\DealerView\Standard.cshtml" />
@@ -652,7 +654,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>52642</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
