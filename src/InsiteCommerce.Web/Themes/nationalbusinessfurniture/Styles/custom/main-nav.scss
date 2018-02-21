@@ -607,6 +607,16 @@
 
     .isc-primary-nav > ul > li {
         border-bottom: 1px solid transparent;
+
+         &:hover > a:after, &:hover > span > a:after  {
+                content: "";
+                display: block;
+                border-bottom: 1px solid $nbf-orange;
+                height: 1px;
+                width: 100%;
+                bottom: 26px;
+                position: relative;
+            }
     }
 
     .isc-primary-nav > ul {
