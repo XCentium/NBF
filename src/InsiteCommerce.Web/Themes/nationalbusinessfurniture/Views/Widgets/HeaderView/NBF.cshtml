@@ -11,6 +11,9 @@
 
 <div ng-controller="NbfTopNavController as vm" class="top-nav-container" ng-cloak dashboard-url="[% urlForPage 'MyAccountPage' %]">
     <input type="hidden" id="tst_currentLanguage" value="{{::vm.session.language.id}}" />
+    <div class="top-content">
+        [% zone 'Top' %]
+    </div>
     <div class="head-msg-wrap" ng-cloak ng-if="vm.showTopMessage">
         <div class="container wide-container">
             <div class="head-msg">
@@ -37,9 +40,6 @@
         </nav>
     </div>
 
-    <div class="top-content">
-        [% zone 'Top' %]
-    </div>
 
     <div role="top-panel">
         <div class="top-slide">
@@ -266,7 +266,399 @@
         <input type="checkbox" name="nav" id="main-nav-check" />
         <!-- Remove the class 'prevent-li-below-window' to stop insite.nav.js from modifying position of sub ULs -->
         <div class="isc-primary-nav prevent-li-below-window">
-            [% navigationMenu %]
+            <ul>
+                <li>
+                    <span class="nav-item-container">
+                        <a id="tst_productMenu_00000000-0000-0000-0000-000000000000" onclick="$(this).next().click(); return false;">Products</a>
+                        <label for="nav-cat" class="toggle-sub" onclick="insite.nav.goToSubnav(this)">►</label>
+                    </span>
+                    <input type="checkbox" name="nav" id="nav-cat" class="subnav-check">
+                    <div id="sub-cat" class="subnav sub-tier-panel">
+                        <ul class="level-1">
+                            <li class="sub-heading">Products</li>
+                            <li class="currently-hovered">
+                                <span class="nav-item-container">
+                                    <a id="tst_productMenu_097523f5-87fd-e711-a98c-a3e0f1200094" href="/Catalog/accessories-1955" onclick="$(this).next().click(); return false;">Accessories</a>
+                                    <label for="nav-cat222" class="toggle-sub" onclick="insite.nav.goToSubnav(this)">►</label>
+                                </span>
+                                <input type="checkbox" name="nav" id="nav-cat222" class="subnav-check">
+                                <div class="sub-tier-panel subnav level-2">
+                                    <ul id="sub-cat2" class="sub-tier-panel">
+                                        <li class="sub-heading">Accessories</li>
+                                        <li><a href="#" onclick="insite.nav.hideMenu();">Big &amp; Tall</a></li>
+                                        <li><a href="#" onclick="insite.nav.hideMenu();">Computer</a></li>
+                                        <li><a href="#" onclick="insite.nav.hideMenu();">Ergonmics</a></li>
+                                        <li><a href="#" onclick="insite.nav.hideMenu();">Executive</a></li>
+                                        <li><a href="#" onclick="insite.nav.hideMenu();">Sofas/Love-seats</a></li>
+                                        <li><a href="#" onclick="insite.nav.hideMenu();">Leather</a></li>
+                                        <li><a href="#" onclick="insite.nav.hideMenu();">Conference Seating </a></li>
+                                        <li><a href="#" onclick="insite.nav.hideMenu();">Chairs table sets</a></li>
+                                        <li><a href="#" onclick="insite.nav.hideMenu();">Top Rated</a></li>
+                                        <li><a href="#" onclick="insite.nav.hideMenu();">Best Sellers</a></li>
+                                        <li><a href="#" onclick="insite.nav.hideMenu();">New Products</a></li>
+                                        <li><a href="#" onclick="insite.nav.hideMenu();">On Sale</a></li>
+                                        <li><a href="#" onclick="insite.nav.hideMenu();">Ships Today</a></li>
+                                        <li><a href="#" onclick="insite.nav.hideMenu();">Stacking</a></li>
+                                        <li><a href="#" onclick="insite.nav.hideMenu();">Guest</a></li>
+                                        <li><a href="#" onclick="insite.nav.hideMenu();">Reception</a></li>
+                                        <li><a href="#" onclick="insite.nav.hideMenu();">Mesh</a></li>
+                                    </ul>
+                                    <div class="res-nav">
+                                        <ul class="res-nav-group sub-tier-panel">
+                                            <li class="sub-heading">By Area:</li>
+                                            <li><a href="#" onclick="insite.nav.hideMenu();">Public Spaces/ Reception</a></li>
+                                            <li><a href="#" onclick="insite.nav.hideMenu();">Conference Room</a></li>
+                                            <li><a href="#" onclick="insite.nav.hideMenu();">Break Room</a></li>
+                                            <li><a href="#" onclick="insite.nav.hideMenu();">Out Door Furniture</a></li>
+                                            <li><a href="#" onclick="insite.nav.hideMenu();">Class & Training Room</a></li>
+                                            <li><a href="#" onclick="insite.nav.hideMenu();">Collaborative Spaces</a></li>
+                                        </ul>
+                                        <ul class="res-nav-group sub-tier-panel">
+                                            <li class="sub-heading">Resources:</li>
+                                            <li><a href="#" onclick="insite.nav.hideMenu();">Space Planning Guides</a></li>
+                                            <li><a href="#" onclick="insite.nav.hideMenu();">Design Guides</a></li>
+                                            <li><a href="#" onclick="insite.nav.hideMenu();">Samples Requests</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <span class="nav-item-container">
+                                    <a id="tst_productMenu_097523f5-87fd-e711-a98c-a3e0f1200094" href="/Catalog/accessories-1955" onclick="insite.nav.hideMenu();">Accessories</a>
+                                    <label for="nav-cat22" class="toggle-sub" onclick="insite.nav.goToSubnav(this)">►</label>
+                                </span>
+                                <input type="checkbox" name="nav" id="nav-cat22" class="subnav-check">
+                                <div class="sub-tier-panel subnav level-2">
+                                    <ul id="sub-cat2" class="level-2 sub-tier-panel">
+                                        <li class="sub-heading">Accessories</li>
+                                        <li><a href="#" onclick="insite.nav.hideMenu();">Computer</a></li>
+                                        <li><a href="#" onclick="insite.nav.hideMenu();">Ergonmics</a></li>
+                                        <li><a href="#" onclick="insite.nav.hideMenu();">Executive</a></li>
+                                        <li><a href="#" onclick="insite.nav.hideMenu();">Sofas/Love-seats</a></li>
+                                        <li><a href="#" onclick="insite.nav.hideMenu();">Leather</a></li>
+                                        <li><a href="#" onclick="insite.nav.hideMenu();">Conference Seating </a></li>
+                                        <li><a href="#" onclick="insite.nav.hideMenu();">Chairs table sets</a></li>
+                                        <li><a href="#" onclick="insite.nav.hideMenu();">Top Rated</a></li>
+                                        <li><a href="#" onclick="insite.nav.hideMenu();">Best Sellers</a></li>
+                                        <li><a href="#" onclick="insite.nav.hideMenu();">New Products</a></li>
+                                        <li><a href="#" onclick="insite.nav.hideMenu();">On Sale</a></li>
+                                        <li><a href="#" onclick="insite.nav.hideMenu();">Ships Today</a></li>
+                                        <li><a href="#" onclick="insite.nav.hideMenu();">Stacking</a></li>
+                                        <li><a href="#" onclick="insite.nav.hideMenu();">Guest</a></li>
+                                        <li><a href="#" onclick="insite.nav.hideMenu();">Reception</a></li>
+                                        <li><a href="#" onclick="insite.nav.hideMenu();">Mesh</a></li>
+                                    </ul>
+                                    <div class="res-nav">
+                                        <ul class="res-nav-group sub-tier-panel">
+                                            <li class="sub-heading">By Area:</li>
+                                            <li><a href="#" onclick="insite.nav.hideMenu();">Public Spaces/ Reception</a></li>
+                                            <li><a href="#" onclick="insite.nav.hideMenu();">Conference Room</a></li>
+                                            <li><a href="#" onclick="insite.nav.hideMenu();">Break Room</a></li>
+                                            <li><a href="#" onclick="insite.nav.hideMenu();">Out Door Furniture</a></li>
+                                            <li><a href="#" onclick="insite.nav.hideMenu();">Class & Training Room</a></li>
+                                        </ul>
+                                        <ul class="res-nav-group sub-tier-panel">
+                                            <li class="sub-heading">Resources:</li>
+                                            <li><a href="#" onclick="insite.nav.hideMenu();">Space Planning Guides</a></li>
+                                            <li><a href="#" onclick="insite.nav.hideMenu();">Design Guides</a></li>
+                                            <li><a href="#" onclick="insite.nav.hideMenu();">Samples Requests</a></li>
+                                            <li><a href="#" onclick="insite.nav.hideMenu();">Collaborative Spaces</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <span class="nav-item-container">
+                                    <a id="tst_productMenu_097523f5-87fd-e711-a98c-a3e0f1200094" href="/Catalog/accessories-1955" onclick="insite.nav.hideMenu();">Accessories</a>
+                                    <label for="nav-cat12" class="toggle-sub" onclick="insite.nav.goToSubnav(this)">►</label>
+                                </span>
+                                <input type="checkbox" name="nav" id="nav-cat2" class="subnav-check">
+                                <div class="sub-tier-panel subnav level-2">
+                                    <ul id="sub-cat12" class="level-2 sub-tier-panel">
+                                        <li class="sub-heading">Accessories</li>
+                                        <li><a href="#" onclick="insite.nav.hideMenu();">Ergonmics</a></li>
+                                        <li><a href="#" onclick="insite.nav.hideMenu();">Executive</a></li>
+                                        <li><a href="#" onclick="insite.nav.hideMenu();">Sofas/Love-seats</a></li>
+                                        <li><a href="#" onclick="insite.nav.hideMenu();">Leather</a></li>
+                                        <li><a href="#" onclick="insite.nav.hideMenu();">Conference Seating </a></li>
+                                        <li><a href="#" onclick="insite.nav.hideMenu();">Chairs table sets</a></li>
+                                        <li><a href="#" onclick="insite.nav.hideMenu();">Top Rated</a></li>
+                                        <li><a href="#" onclick="insite.nav.hideMenu();">Best Sellers</a></li>
+                                        <li><a href="#" onclick="insite.nav.hideMenu();">New Products</a></li>
+                                        <li><a href="#" onclick="insite.nav.hideMenu();">On Sale</a></li>
+                                        <li><a href="#" onclick="insite.nav.hideMenu();">Ships Today</a></li>
+                                        <li><a href="#" onclick="insite.nav.hideMenu();">Stacking</a></li>
+                                        <li><a href="#" onclick="insite.nav.hideMenu();">Guest</a></li>
+                                        <li><a href="#" onclick="insite.nav.hideMenu();">Reception</a></li>
+                                        <li><a href="#" onclick="insite.nav.hideMenu();">Mesh</a></li>
+                                    </ul>
+                                    <div class="res-nav">
+                                        <ul class="res-nav-group sub-tier-panel">
+                                            <li class="sub-heading">By Area:</li>
+                                            <li><a href="#" onclick="insite.nav.hideMenu();">Public Spaces/ Reception</a></li>
+                                            <li><a href="#" onclick="insite.nav.hideMenu();">Conference Room</a></li>
+                                            <li><a href="#" onclick="insite.nav.hideMenu();">Break Room</a></li>
+                                            <li><a href="#" onclick="insite.nav.hideMenu();">Out Door Furniture</a></li>
+                                            <li><a href="#" onclick="insite.nav.hideMenu();">Class & Training Room</a></li>
+                                            <li><a href="#" onclick="insite.nav.hideMenu();">Collaborative Spaces</a></li>
+                                        </ul>
+                                        <ul class="res-nav-group sub-tier-panel">
+                                            <li class="sub-heading">Resources:</li>
+                                            <li><a href="#" onclick="insite.nav.hideMenu();">Space Planning Guides</a></li>
+                                            <li><a href="#" onclick="insite.nav.hideMenu();">Design Guides</a></li>
+                                            <li><a href="#" onclick="insite.nav.hideMenu();">Samples Requests</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <span class="nav-item-container">
+                                    <a id="tst_productMenu_097523f5-87fd-e711-a98c-a3e0f1200094" href="/Catalog/accessories-1955" onclick="insite.nav.hideMenu();">Accessories</a>
+                                    <label for="nav-cat200" class="toggle-sub" onclick="insite.nav.goToSubnav(this)">►</label>
+                                </span>
+                                <input type="checkbox" name="nav" id="nav-cat200" class="subnav-check">
+                                <div class="sub-tier-panel subnav level-2">
+                                    <ul id="sub-cat2" class="level-2 sub-tier-panel">
+                                        <li class="sub-heading">Accessories</li>
+                                        <li><a href="#" onclick="insite.nav.hideMenu();">Executive</a></li>
+                                        <li><a href="#" onclick="insite.nav.hideMenu();">Sofas/Love-seats</a></li>
+                                        <li><a href="#" onclick="insite.nav.hideMenu();">Leather</a></li>
+                                        <li><a href="#" onclick="insite.nav.hideMenu();">Conference Seating </a></li>
+                                        <li><a href="#" onclick="insite.nav.hideMenu();">Chairs table sets</a></li>
+                                        <li><a href="#" onclick="insite.nav.hideMenu();">Top Rated</a></li>
+                                        <li><a href="#" onclick="insite.nav.hideMenu();">Best Sellers</a></li>
+                                        <li><a href="#" onclick="insite.nav.hideMenu();">New Products</a></li>
+                                        <li><a href="#" onclick="insite.nav.hideMenu();">On Sale</a></li>
+                                        <li><a href="#" onclick="insite.nav.hideMenu();">Ships Today</a></li>
+                                        <li><a href="#" onclick="insite.nav.hideMenu();">Stacking</a></li>
+                                        <li><a href="#" onclick="insite.nav.hideMenu();">Guest</a></li>
+                                        <li><a href="#" onclick="insite.nav.hideMenu();">Reception</a></li>
+                                        <li><a href="#" onclick="insite.nav.hideMenu();">Mesh</a></li>
+                                    </ul>
+                                    <div class="res-nav">
+                                        <ul class="res-nav-group sub-tier-panel">
+                                            <li class="sub-heading">By Area:</li>
+                                            <li><a href="#" onclick="insite.nav.hideMenu();">Public Spaces/ Reception</a></li>
+                                            <li><a href="#" onclick="insite.nav.hideMenu();">Conference Room</a></li>
+                                            <li><a href="#" onclick="insite.nav.hideMenu();">Break Room</a></li>
+                                            <li><a href="#" onclick="insite.nav.hideMenu();">Out Door Furniture</a></li>
+                                            <li><a href="#" onclick="insite.nav.hideMenu();">Class & Training Room</a></li>
+                                        </ul>
+                                        <ul class="res-nav-group sub-tier-panel">
+                                            <li class="sub-heading">Resources:</li>
+                                            <li><a href="#" onclick="insite.nav.hideMenu();">Space Planning Guides</a></li>
+                                            <li><a href="#" onclick="insite.nav.hideMenu();">Design Guides</a></li>
+                                            <li><a href="#" onclick="insite.nav.hideMenu();">Samples Requests</a></li>
+                                            <li><a href="#" onclick="insite.nav.hideMenu();">Collaborative Spaces</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <span class="nav-item-container">
+                                    <a id="tst_productMenu_097523f5-87fd-e711-a98c-a3e0f1200094" href="/Catalog/accessories-1955" onclick="insite.nav.hideMenu();">Accessories</a>
+                                    <label for="nav-cat2" class="toggle-sub" onclick="insite.nav.goToSubnav(this)">►</label>
+                                </span>
+                                <input type="checkbox" name="nav" id="nav-cat2" class="subnav-check">
+                                <div class="sub-tier-panel subnav level-2">
+                                    <ul id="sub-cat2" class="level-2 sub-tier-panel">
+                                        <li class="sub-heading">Accessories</li>
+                                        <li><a href="#" onclick="insite.nav.hideMenu();">Sofas/Love-seats</a></li>
+                                        <li><a href="#" onclick="insite.nav.hideMenu();">Leather</a></li>
+                                        <li><a href="#" onclick="insite.nav.hideMenu();">Conference Seating </a></li>
+                                        <li><a href="#" onclick="insite.nav.hideMenu();">Chairs table sets</a></li>
+                                        <li><a href="#" onclick="insite.nav.hideMenu();">Top Rated</a></li>
+                                        <li><a href="#" onclick="insite.nav.hideMenu();">Best Sellers</a></li>
+                                        <li><a href="#" onclick="insite.nav.hideMenu();">New Products</a></li>
+                                        <li><a href="#" onclick="insite.nav.hideMenu();">On Sale</a></li>
+                                        <li><a href="#" onclick="insite.nav.hideMenu();">Ships Today</a></li>
+                                        <li><a href="#" onclick="insite.nav.hideMenu();">Stacking</a></li>
+                                        <li><a href="#" onclick="insite.nav.hideMenu();">Guest</a></li>
+                                        <li><a href="#" onclick="insite.nav.hideMenu();">Reception</a></li>
+                                        <li><a href="#" onclick="insite.nav.hideMenu();">Mesh</a></li>
+                                    </ul>
+                                    <div class="res-nav">
+                                        <ul class="res-nav-group sub-tier-panel">
+                                            <li class="sub-heading">By Area:</li>
+                                            <li><a href="#" onclick="insite.nav.hideMenu();">Public Spaces/ Reception</a></li>
+                                            <li><a href="#" onclick="insite.nav.hideMenu();">Conference Room</a></li>
+                                            <li><a href="#" onclick="insite.nav.hideMenu();">Break Room</a></li>
+                                            <li><a href="#" onclick="insite.nav.hideMenu();">Out Door Furniture</a></li>
+                                            <li><a href="#" onclick="insite.nav.hideMenu();">Class & Training Room</a></li>
+                                            <li><a href="#" onclick="insite.nav.hideMenu();">Collaborative Spaces</a></li>
+                                        </ul>
+                                        <ul class="res-nav-group sub-tier-panel">
+                                            <li class="sub-heading">Resources:</li>
+                                            <li><a href="#" onclick="insite.nav.hideMenu();">Space Planning Guides</a></li>
+                                            <li><a href="#" onclick="insite.nav.hideMenu();">Design Guides</a></li>
+                                            <li><a href="#" onclick="insite.nav.hideMenu();">Samples Requests</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <span class="nav-item-container">
+                                    <a id="tst_productMenu_097523f5-87fd-e711-a98c-a3e0f1200094" href="/Catalog/accessories-1955" onclick="insite.nav.hideMenu();">Accessories</a>
+                                    <label for="nav-cat2" class="toggle-sub" onclick="insite.nav.goToSubnav(this)">►</label>
+                                </span>
+                                <input type="checkbox" name="nav" id="nav-cat2" class="subnav-check">
+                                <div class="sub-tier-panel subnav level-2">
+                                    <ul id="sub-cat2" class="level-2 sub-tier-panel">
+                                        <li class="sub-heading">Accessories</li>
+                                        <li><a href="#" onclick="insite.nav.hideMenu();">Conference Seating </a></li>
+                                        <li><a href="#" onclick="insite.nav.hideMenu();">Chairs table sets</a></li>
+                                        <li><a href="#" onclick="insite.nav.hideMenu();">Top Rated</a></li>
+                                        <li><a href="#" onclick="insite.nav.hideMenu();">Best Sellers</a></li>
+                                        <li><a href="#" onclick="insite.nav.hideMenu();">New Products</a></li>
+                                        <li><a href="#" onclick="insite.nav.hideMenu();">On Sale</a></li>
+                                        <li><a href="#" onclick="insite.nav.hideMenu();">Ships Today</a></li>
+                                        <li><a href="#" onclick="insite.nav.hideMenu();">Stacking</a></li>
+                                        <li><a href="#" onclick="insite.nav.hideMenu();">Guest</a></li>
+                                        <li><a href="#" onclick="insite.nav.hideMenu();">Reception</a></li>
+                                        <li><a href="#" onclick="insite.nav.hideMenu();">Mesh</a></li>
+                                    </ul>
+                                    <div class="res-nav">
+                                        <ul class="res-nav-group sub-tier-panel">
+                                            <li class="sub-heading">By Area:</li>
+                                            <li><a href="#" onclick="insite.nav.hideMenu();">Public Spaces/ Reception</a></li>
+                                            <li><a href="#" onclick="insite.nav.hideMenu();">Conference Room</a></li>
+                                            <li><a href="#" onclick="insite.nav.hideMenu();">Break Room</a></li>
+                                            <li><a href="#" onclick="insite.nav.hideMenu();">Out Door Furniture</a></li>
+                                            <li><a href="#" onclick="insite.nav.hideMenu();">Class & Training Room</a></li>
+                                            <li><a href="#" onclick="insite.nav.hideMenu();">Collaborative Spaces</a></li>
+                                        </ul>
+                                        <ul class="res-nav-group sub-tier-panel">
+                                            <li class="sub-heading">Resources:</li>
+                                            <li><a href="#" onclick="insite.nav.hideMenu();">Space Planning Guides</a></li>
+                                            <li><a href="#" onclick="insite.nav.hideMenu();">Design Guides</a></li>
+                                            <li><a href="#" onclick="insite.nav.hideMenu();">Samples Requests</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <span class="nav-item-container">
+                                    <a id="tst_productMenu_097523f5-87fd-e711-a98c-a3e0f1200094" href="/Catalog/accessories-1955" onclick="insite.nav.hideMenu();">Accessories</a>
+                                    <label for="nav-cat2" class="toggle-sub" onclick="insite.nav.goToSubnav(this)">►</label>
+                                </span>
+                                <input type="checkbox" name="nav" id="nav-cat2" class="subnav-check">
+                                <div class="sub-tier-panel subnav level-2">
+                                    <ul id="sub-cat2" class="level-2 sub-tier-panel">
+                                        <li class="sub-heading">Accessories</li>
+                                        <li><a href="#" onclick="insite.nav.hideMenu();">Chairs table sets</a></li>
+                                        <li><a href="#" onclick="insite.nav.hideMenu();">Top Rated</a></li>
+                                        <li><a href="#" onclick="insite.nav.hideMenu();">Best Sellers</a></li>
+                                        <li><a href="#" onclick="insite.nav.hideMenu();">New Products</a></li>
+                                        <li><a href="#" onclick="insite.nav.hideMenu();">On Sale</a></li>
+                                        <li><a href="#" onclick="insite.nav.hideMenu();">Ships Today</a></li>
+                                        <li><a href="#" onclick="insite.nav.hideMenu();">Stacking</a></li>
+                                        <li><a href="#" onclick="insite.nav.hideMenu();">Guest</a></li>
+                                        <li><a href="#" onclick="insite.nav.hideMenu();">Reception</a></li>
+                                        <li><a href="#" onclick="insite.nav.hideMenu();">Mesh</a></li>
+                                    </ul>
+                                    <div class="res-nav">
+                                        <ul class="res-nav-group sub-tier-panel">
+                                            <li class="sub-heading">By Area:</li>
+                                            <li><a href="#" onclick="insite.nav.hideMenu();">Public Spaces/ Reception</a></li>
+                                            <li><a href="#" onclick="insite.nav.hideMenu();">Conference Room</a></li>
+                                            <li><a href="#" onclick="insite.nav.hideMenu();">Break Room</a></li>
+                                            <li><a href="#" onclick="insite.nav.hideMenu();">Out Door Furniture</a></li>
+                                            <li><a href="#" onclick="insite.nav.hideMenu();">Class & Training Room</a></li>
+                                        </ul>
+                                        <ul class="res-nav-group sub-tier-panel">
+                                            <li class="sub-heading">Resources:</li>
+                                            <li><a href="#" onclick="insite.nav.hideMenu();">Space Planning Guides</a></li>
+                                            <li><a href="#" onclick="insite.nav.hideMenu();">Design Guides</a></li>
+                                            <li><a href="#" onclick="insite.nav.hideMenu();">Samples Requests</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <span class="nav-item-container">
+                                    <a id="tst_productMenu_097523f5-87fd-e711-a98c-a3e0f1200094" href="/Catalog/accessories-1955" onclick="insite.nav.hideMenu();">Accessories</a>
+                                    <label for="nav-cat2" class="toggle-sub" onclick="insite.nav.goToSubnav(this)">►</label>
+                                </span>
+                                <input type="checkbox" name="nav" id="nav-cat2" class="subnav-check">
+                                <div class="sub-tier-panel subnav level-2">
+                                    <ul id="sub-cat2" class="level-2 sub-tier-panel">
+                                        <li class="sub-heading">Accessories</li>
+                                        <li><a href="#" onclick="insite.nav.hideMenu();">Chairs table sets</a></li>
+                                        <li><a href="#" onclick="insite.nav.hideMenu();">Top Rated</a></li>
+                                        <li><a href="#" onclick="insite.nav.hideMenu();">Best Sellers</a></li>
+                                        <li><a href="#" onclick="insite.nav.hideMenu();">New Products</a></li>
+                                        <li><a href="#" onclick="insite.nav.hideMenu();">On Sale</a></li>
+                                        <li><a href="#" onclick="insite.nav.hideMenu();">Ships Today</a></li>
+                                        <li><a href="#" onclick="insite.nav.hideMenu();">Stacking</a></li>
+                                        <li><a href="#" onclick="insite.nav.hideMenu();">Guest</a></li>
+                                        <li><a href="#" onclick="insite.nav.hideMenu();">Reception</a></li>
+                                        <li><a href="#" onclick="insite.nav.hideMenu();">Mesh</a></li>
+                                    </ul>
+                                    <div class="res-nav">
+                                        <ul class="res-nav-group sub-tier-panel">
+                                            <li class="sub-heading">By Area:</li>
+                                            <li><a href="#" onclick="insite.nav.hideMenu();">Public Spaces/ Reception</a></li>
+                                            <li><a href="#" onclick="insite.nav.hideMenu();">Conference Room</a></li>
+                                            <li><a href="#" onclick="insite.nav.hideMenu();">Break Room</a></li>
+                                            <li><a href="#" onclick="insite.nav.hideMenu();">Out Door Furniture</a></li>
+                                            <li><a href="#" onclick="insite.nav.hideMenu();">Class & Training Room</a></li>
+                                            <li><a href="#" onclick="insite.nav.hideMenu();">Collaborative Spaces</a></li>
+                                        </ul>
+                                        <ul class="res-nav-group sub-tier-panel">
+                                            <li class="sub-heading">Resources:</li>
+                                            <li><a href="#" onclick="insite.nav.hideMenu();">Space Planning Guides</a></li>
+                                            <li><a href="#" onclick="insite.nav.hideMenu();">Design Guides</a></li>
+                                            <li><a href="#" onclick="insite.nav.hideMenu();">Samples Requests</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <span class="nav-item-container">
+                                    <a id="tst_productMenu_097523f5-87fd-e711-a98c-a3e0f1200094" href="/Catalog/accessories-1955" onclick="insite.nav.hideMenu();">Accessories</a>
+                                    <label for="nav-cat2" class="toggle-sub" onclick="insite.nav.goToSubnav(this)">►</label>
+                                </span>
+                                <input type="checkbox" name="nav" id="nav-cat2" class="subnav-check">
+                                <div class="sub-tier-panel subnav level-2">
+                                    <ul id="sub-cat2" class="level-2 sub-tier-panel">
+                                        <li class="sub-heading">Accessories</li>
+                                        <li><a href="#" onclick="insite.nav.hideMenu();">Partitions</a></li>
+                                        <li><a href="#" onclick="insite.nav.hideMenu();">Boards</a></li>
+                                        <li><a href="#" onclick="insite.nav.hideMenu();">Partitions</a></li>
+                                        <li><a href="#" onclick="insite.nav.hideMenu();">Boards</a></li>
+                                        <li><a href="#" onclick="insite.nav.hideMenu();">Partitions</a></li>
+                                        <li><a href="#" onclick="insite.nav.hideMenu();">Boards</a></li>
+                                        <li><a href="#" onclick="insite.nav.hideMenu();">Partitions</a></li>
+                                        <li><a href="#" onclick="insite.nav.hideMenu();">Boards</a></li>
+                                    </ul>
+                                    <div class="res-nav">
+                                        <ul class="res-nav-group sub-tier-panel">
+                                            <li class="sub-heading">By Area:</li>
+                                            <li><a href="#" onclick="insite.nav.hideMenu();">Public Spaces/ Reception</a></li>
+                                            <li><a href="#" onclick="insite.nav.hideMenu();">Conference Room</a></li>
+                                            <li><a href="#" onclick="insite.nav.hideMenu();">Break Room</a></li>
+                                            <li><a href="#" onclick="insite.nav.hideMenu();">Out Door Furniture</a></li>
+                                            <li><a href="#" onclick="insite.nav.hideMenu();">Class & Training Room</a></li>
+                                            <li><a href="#" onclick="insite.nav.hideMenu();">Collaborative Spaces</a></li>
+                                        </ul>
+                                        <ul class="res-nav-group sub-tier-panel">
+                                            <li class="sub-heading">Resources:</li>
+                                            <li><a href="#" onclick="insite.nav.hideMenu();">Design Guides</a></li>
+                                            <li><a href="#" onclick="insite.nav.hideMenu();">Samples Requests</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+
+                    </div>
+                </li>
+                <li><a href="/AboutUs">By Area</a></li>
+                <li><a href="/AboutUs">Resources</a></li>
+                <li><a href="/AboutUs">Design Services</a></li>
+                <li><a href="/AboutUs">About Us</a></li>
+            </ul>
+            <div style="display:block;">[% navigationMenu %]</div>
             <div class="isc-primary-nav-top">
                 <!-- To Do 3.7.1 - change navigation back function to use below label element -->
                 <label class="toggle isc-primary-nav-back isc-hidden" onclick="insite.nav.goBack()" title="Back">&#9668;</label>
