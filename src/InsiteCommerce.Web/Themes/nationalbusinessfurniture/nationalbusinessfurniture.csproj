@@ -465,6 +465,8 @@
     <Content Include="Views\Widgets\CreateAccountView\NBF.cshtml" />
     <None Include="Views\Widgets\CreateAccountView\Standard.cshtml" />
     <None Include="Views\Widgets\CurrencySelector\Standard.cshtml" />
+    <Content Include="Views\Widgets\Custom\WebCode\Standard.cshtml" />
+    <Content Include="Views\Widgets\Custom\BetterBusinessBureau\Standard.cshtml" />
     <None Include="Views\Widgets\DealerDirectionsView\Standard.cshtml" />
     <None Include="Views\Widgets\DealerLocatorView\Standard.cshtml" />
     <None Include="Views\Widgets\DealerView\Standard.cshtml" />
