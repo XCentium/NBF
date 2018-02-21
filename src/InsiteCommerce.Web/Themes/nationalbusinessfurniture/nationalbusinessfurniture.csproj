@@ -160,9 +160,12 @@
     <TypeScriptCompile Include="Scripts\Custom\Cart\nbf.cart-total-display.directive.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Cart\nbf.cart-lines.directive.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Cart\nbf.checkout.controller.ts" />
+    <TypeScriptCompile Include="Scripts\Custom\Catalog\nbf.catalog.directives.ts" />
+    <TypeScriptCompile Include="Scripts\Custom\Catalog\nbf.product-list.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Comments\nbf.commentmessage.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Comments\nbf.commentmessage.service.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Footer\nbf.footer.controller.ts" />
+    <TypeScriptCompile Include="Scripts\Custom\nbf.nav.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Layout\nbf.top-nav.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\OrderTracker\nbf.order-tracker.order-detail.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\OrderTracker\nbf.order-tracker.service.ts" />
@@ -373,6 +376,7 @@
     <Content Include="Styles\flexslider.css" />
     <Content Include="Styles\foundation.css" />
     <Content Include="Styles\normalize.css" />
+    <Content Include="Styles\custom\product-details-page.scss" />
     <None Include="Styles\template\category-list.scss" />
     <None Include="Styles\template\change-cust-ship-to.scss" />
     <None Include="Styles\template\checkout-addresses.scss" />
@@ -441,6 +445,7 @@
     <Content Include="Views\Directives\Core\Pager.cshtml" />
     <Content Include="Views\Directives\History\RecentOrders.cshtml" />
     <Content Include="Views\Directives\Messages\MessageList.cshtml" />
+    <Content Include="Views\Directives\Custom\Catalog\SortedAttributeValueList.cshtml" />
     <None Include="Views\Directives\PdfViews\InvoiceDetails.cshtml" />
     <None Include="Views\Directives\PdfViews\OrderDetails.cshtml" />
     <Content Include="Views\Directives\Rfq\ProposedDetailsGrid.cshtml" />
@@ -499,6 +504,7 @@
     <None Include="Views\Widgets\OrderUploadView\Standard.cshtml" />
     <None Include="Views\Widgets\PageTitle\Standard.cshtml" />
     <None Include="Views\Widgets\ProductComparisonView\Standard.cshtml" />
+    <Content Include="Views\Widgets\ProductDetailView\NBF.cshtml" />
     <None Include="Views\Widgets\ProductDetailView\Standard.cshtml" />
     <None Include="Views\Widgets\ProductListView\B2C.cshtml" />
     <None Include="Views\Widgets\ProductListView\Standard.cshtml" />
@@ -640,6 +646,12 @@
     <Content Include="Styles\utilities.scss" />
     <Content Include="Views\Widgets\HeaderView\NBF.cshtml" />
     <Content Include="Views\Widgets\ProductListView\NBF.cshtml" />
+    <Content Include="Styles\custom\product-filters.scss" />
+    <Content Include="Styles\custom\main-nav.scss" />
+    <Content Include="Styles\custom\article-page.scss" />
+    <Content Include="Views\Widgets\RichContent\article-quote.cshtml" />
+    <Content Include="Views\Widgets\Carousel\ProductCarousel.cshtml" />
+    <Content Include="Styles\custom\flex-slider.scss" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

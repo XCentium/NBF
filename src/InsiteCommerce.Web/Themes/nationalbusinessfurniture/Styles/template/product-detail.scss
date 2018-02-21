@@ -27,7 +27,8 @@
 
     .detail-info h1 {
         margin-top: 0;
-        font-size: 1.5em;
+        font-size: 24px;
+        line-height:36px;
     }
 
     .detail-info .pd-price-um {
@@ -86,8 +87,6 @@
     }
 
     .detail-image {
-        float: left;
-        text-align: center;
         margin-bottom: 20px;
     }
 
@@ -230,6 +229,7 @@
         max-height: 80vh;
     }
 
+    
     .zoom-carousel-wrapper {
         height: 56px;
 
@@ -299,20 +299,10 @@
         }
 
         .detail-image {
-            max-width: 300px !important;
-            float: left;
-            width: 43% !important;
-        }
-
-        .detail-info {
-            width: 75% !important;
-            float: left;
         }
 
         .name-price, .pd-grid .pd-cm-wrap, .pd-grid .doclinks {
-            float: right;
-            width: 54%;
-            color: inherit;
+
         }
 
         .detail-specs {
