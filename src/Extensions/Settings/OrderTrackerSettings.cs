@@ -8,9 +8,9 @@ namespace Extensions.Settings
     public class OrderTrackerSettings : BaseSettingsGroup, IExtension
     {
         [SettingsField(Description = "URL for the page containing Order Tracker Widget to be used for filtering authorized users", DisplayName = "Order Tracking URL")]
-        public virtual string OrderTrackerUrl => this.GetValue("/OrderTracker");
+        public virtual string OrderTrackerUrl => GetValue("/OrderTracker");
 
         [SettingsField(Description = "URL for the page containing Order Tracker Detail View Widget to be used for filtering authorized users", DisplayName = "Order Tracking Detail URL")]
-        public virtual string OrderTrackerDetailUrl => this.GetValue("/OrderTracker/Order");
+        public virtual string OrderTrackerDetailUrl => GetValue("/OrderTracker/Order");
     }
 }

@@ -14,7 +14,7 @@ namespace Extensions.Widgets
         {
             get
             {
-                return GetValue("Text", "Web Code: ", FieldType.Contextual);
+                return GetValue("Text", "Web Code:", FieldType.Contextual);
             }
             set
             {

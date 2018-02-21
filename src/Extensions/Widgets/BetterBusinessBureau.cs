@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using Insite.ContentLibrary.ContentFields;
 using Insite.ContentLibrary.Widgets;
 using Insite.Data.Entities;
@@ -13,11 +14,11 @@ namespace Extensions.Widgets
         {
             get
             {
-                return this.GetValue<string>("Link", "http://www.bbb.org/wisconsin/business-reviews/office-furniture-and-equipment/national-business-furniture-llc-in-milwaukee-wi-23000085/#bbbonlineclick", FieldType.Contextual);
+                return GetValue("Link", "http://www.bbb.org/wisconsin/business-reviews/office-furniture-and-equipment/national-business-furniture-llc-in-milwaukee-wi-23000085/#bbbonlineclick", FieldType.Contextual);
             }
             set
             {
-                this.SetValue<string>("Link", value, FieldType.Contextual);
+                SetValue("Link", value, FieldType.Contextual);
             }
         }
 
@@ -26,11 +27,11 @@ namespace Extensions.Widgets
         {
             get
             {
-                return this.GetValue<string>("ImageSource", "https://seal-wisconsin.bbb.org/seals/blue-seal-250-52-national-business-furniture-llc-23000085.png", FieldType.Contextual);
+                return GetValue("ImageSource", "https://seal-wisconsin.bbb.org/seals/blue-seal-250-52-national-business-furniture-llc-23000085.png", FieldType.Contextual);
             }
             set
             {
-                this.SetValue<string>("ImageSource", value, FieldType.Contextual);
+                SetValue("ImageSource", value, FieldType.Contextual);
             }
         }
 
@@ -39,12 +40,14 @@ namespace Extensions.Widgets
         {
             get
             {
-                return this.GetValue<string>("AltText", "National Business Furniture, LLC BBB Business Review", FieldType.Contextual);
+                return GetValue("AltText", "National Business Furniture, LLC BBB Business Review", FieldType.Contextual);
             }
             set
             {
-                this.SetValue<string>("AltText", value, FieldType.Contextual);
+                SetValue("AltText", value, FieldType.Contextual);
             }
         }
+
+        public virtual bool IsLinkProvided => !Link.IsBlank();
     }
 }
