@@ -478,7 +478,7 @@
     <Content Include="Views\Widgets\Custom\CallUs\Header.cshtml" />
     <Content Include="Views\Widgets\Custom\LiveChat\Standard.cshtml" />
     <Content Include="Views\Widgets\Custom\ProductFlyOut\Standard.cshtml" />
-    <Content Include="Views\Widgets\Custom\NavigationFlyOut\Standard.cshtml" />
+    <Content Include="Views\Widgets\Custom\NavigationFlyOut\Header.cshtml" />
     <None Include="Views\Widgets\DealerDirectionsView\Standard.cshtml" />
     <None Include="Views\Widgets\DealerLocatorView\Standard.cshtml" />
     <None Include="Views\Widgets\DealerView\Standard.cshtml" />
@@ -501,6 +501,7 @@
     <None Include="Views\Widgets\MyAccountAddressView\Standard.cshtml" />
     <None Include="Views\Widgets\MyAccountView\Standard.cshtml" />
     <None Include="Views\Widgets\MyJobQuotesView\Standard.cshtml" />
+    <Content Include="Views\Widgets\NavigationList\Header.cshtml" />
     <None Include="Views\Widgets\NavigationList\Standard.cshtml" />
     <None Include="Views\Widgets\NewsListView\Standard.cshtml" />
     <None Include="Views\Widgets\NewsPageView\Standard.cshtml" />

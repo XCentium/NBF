@@ -1,8 +1,14 @@
-﻿using Insite.ContentLibrary.ContentFields;
+﻿using System.ComponentModel;
+using Insite.ContentLibrary.ContentFields;
+using Insite.ContentLibrary.Pages;
+using Insite.ContentLibrary.Widgets;
 using Insite.Data.Entities;
+using Insite.WebFramework.Content.Attributes;
 
-namespace Insite.ContentLibrary.Widgets
+namespace Extensions.Widgets
 {
+    [AllowedParents(typeof(Header))]
+    [DisplayName("NBF - Navigation Fly Out")]
     public class NavigationFlyOut : NavigationList
     {
         [RichTextContentField(DisplayName = "Additional Content", IsRequired = false)]

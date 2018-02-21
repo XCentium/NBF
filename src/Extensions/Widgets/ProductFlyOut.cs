@@ -1,4 +1,5 @@
-﻿using Insite.ContentLibrary.ContentFields;
+﻿using System.ComponentModel;
+using Insite.ContentLibrary.ContentFields;
 using Insite.ContentLibrary.Pages;
 using Insite.ContentLibrary.Widgets;
 using Insite.Data.Entities;
@@ -7,6 +8,7 @@ using Insite.WebFramework.Content.Attributes;
 namespace Extensions.Widgets
 {
     [AllowedParents(typeof(Header))]
+    [DisplayName("NBF - Product Catalog Fly Out")]
     public class ProductFlyOut : ContentWidget
     {
         public virtual ProductFlyOutDrop Drop
