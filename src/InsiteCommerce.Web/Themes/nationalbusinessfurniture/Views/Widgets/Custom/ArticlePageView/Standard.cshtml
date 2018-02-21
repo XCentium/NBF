@@ -32,7 +32,7 @@
                 </a>
                 [% endif -%]
                 [% if Model.Drop.PreviousArticle == string.Empty -%]
-                <a class="next eq-item" href="@Model.ViewModel.NextArticle">
+                <a class="next eq-item" href="@Model.ViewModel.NextArticle" style="display:none;">
                     <span class="btn-text">Next Article</span>
                     <span class="event-title">@Model.ViewModel.NextArticleTitle</span>
                     <span class="btnCircle">

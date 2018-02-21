@@ -524,6 +524,20 @@
         font-size: 1rem;
         color: #ccc;
         vertical-align: bottom;
+        position:relative;
+        z-index:1;
+    }
+
+    a.compare-link:after {
+        content: "";
+        position: absolute;
+        left: 7px;
+        background-color: white;
+        display: block;
+        height: 11px;
+        width: 10px;
+        top: 6px;
+        z-index: 0;
     }
 
     .vm-list {
@@ -962,6 +976,7 @@
             width: 100%;
             max-width: none;
             margin: 0;
+            overflow: hidden;
             padding:0 !important;
             margin-bottom: 10px;
             img {
@@ -1570,6 +1585,8 @@
         top: 0;
         left: 0;
     }
+
+    
 
     .compare-tray {
         background: #e0e0e0;

@@ -376,6 +376,7 @@
     <Content Include="Styles\flexslider.css" />
     <Content Include="Styles\foundation.css" />
     <Content Include="Styles\normalize.css" />
+    <Content Include="Styles\custom\product-details-page.scss" />
     <None Include="Styles\template\category-list.scss" />
     <None Include="Styles\template\change-cust-ship-to.scss" />
     <None Include="Styles\template\checkout-addresses.scss" />
@@ -501,6 +502,7 @@
     <None Include="Views\Widgets\OrderUploadView\Standard.cshtml" />
     <None Include="Views\Widgets\PageTitle\Standard.cshtml" />
     <None Include="Views\Widgets\ProductComparisonView\Standard.cshtml" />
+    <Content Include="Views\Widgets\ProductDetailView\NBF.cshtml" />
     <None Include="Views\Widgets\ProductDetailView\Standard.cshtml" />
     <None Include="Views\Widgets\ProductListView\B2C.cshtml" />
     <None Include="Views\Widgets\ProductListView\Standard.cshtml" />

@@ -86,6 +86,22 @@
             display: inline;
             float: right;
 
+            &.gsa {
+                background-color:#1D418A;
+                padding:4px;
+                color:#fff;
+                font-weight:bold;
+                line-height: 16px;
+            }
+
+            &.save {
+                background-color:$nbf-orange;
+                padding:4px;
+                color:#fff;
+                font-weight:bold;
+                line-height: 16px;
+            }
+
             .vm-list & {
                 float: none;
                 display: blcok;
