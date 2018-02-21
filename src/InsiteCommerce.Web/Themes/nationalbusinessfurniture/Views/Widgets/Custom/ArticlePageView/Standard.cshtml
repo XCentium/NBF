@@ -1,46 +1,114 @@
 ﻿
-<div class="medium-12 large-12 columns">
-    <div class="news-list-header">
-        [% zone 'News Header' %]
-    </div>
-    <div class="news-page-full">
-        <h2 class="news-heading">[[Model.Drop.Title]]</h2>
-        <div class="news-publish-info">
-            <strong>[[Model.Drop.Author]]</strong>
-            <em>[[Model.Drop.PublishDate]]</em>
+<div class="row">
+    <div class="medium-12 large-12 columns widget-1column article-container">
+        <div class="row">
+            <div class="medium-12 large-12 columns">
+                <div class="news-list-header">
+                    [% zone 'News Header' %]
+                </div>
+                <div class="news-page-full">
+                    <h2 class="news-heading">[[Model.Drop.Title]]</h2>
+                    <div class="news-publish-info">
+                        <strong>[[Model.Drop.Author]]</strong>
+                        <em>[[Model.Drop.PublishDate]]</em>
+                    </div>
+                    <div class="news-page-content">
+                        [[Model.Drop.NewsContents]]
+                    </div>
+                </div>
+                [% zone 'Content' %]
+
+
+                [% if Model.Drop.PreviousArticle != string.Empty -%]
+                <a class="prev eq-item" href="@Model.ViewModel.PreviousArticle">
+                    <span class="btn-text">Previous Article</span>
+                    <span class="event-title">@Model.ViewModel.PreviousArticleTitle</span>
+                    <span class="btnCircle">
+                        <span class="fa-stack">
+                            <i class="fa fa-circle-thin fa-stack-2x"></i>
+                            <i class="fa fa-angle-left fa-stack-1x"></i>
+                        </span>
+                    </span>
+                </a>
+                [% endif -%]
+                [% if Model.Drop.PreviousArticle == string.Empty -%]
+                <a class="next eq-item" href="@Model.ViewModel.NextArticle" style="display:none;">
+                    <span class="btn-text">Next Article</span>
+                    <span class="event-title">@Model.ViewModel.NextArticleTitle</span>
+                    <span class="btnCircle">
+                        <span class="fa-stack">
+                            <i class="fa fa-circle-thin fa-stack-2x"></i>
+                            <i class="fa fa-angle-right fa-stack-1x"></i>
+                        </span>
+                    </span>
+                </a>
+                [% endif -%]
+            </div>
         </div>
-        <div class="news-page-content">
-            [[Model.Drop.NewsContents]]
+    </div>
+
+    <div class="medium-12 large-12 columns widget-1column narrow-container featured-product">
+        <div class="row">
+            <div class="medium-12 large-12 columns">
+                <div class="news-list-footer">
+                    [% zone 'News Footer' %]
+                </div>
+            </div>
         </div>
     </div>
-    <div class="news-list-footer">
-        [% zone 'News Footer' %]
+    <div class="medium-12 large-12 columns widget-1column article-container">
+        <div class="row">
+            <div class="medium-12 large-12 columns">
+                <div class="comments">
+                    <h4 class="comments__title">3 Comments</h4>
+                    <ul>
+                        <li>
+                            <div class="comments__info"><span class="comments__author">Trinity Fitzggrald</span><span class="comments__post-time"><i class="fa fa-clock-o"></i> 12 minutes ago</span></div>
+                            <div class="comments__comment">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar tempor.
+                            </div>
+                        </li>
+                        <li>
+                            <div class="comments__info"><span class="comments__author">Trinity Fitzggrald</span><span class="comments__post-time"><i class="fa fa-clock-o"></i> 12 minutes ago</span></div>
+                            <div class="comments__comment">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar tempor.
+                            </div>
+                        </li>
+                        <li>
+                            <div class="comments__info"><span class="comments__author">Trinity Fitzggrald</span><span class="comments__post-time"><i class="fa fa-clock-o"></i> 12 minutes ago</span></div>
+                            <div class="comments__comment">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar tempor.
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="news-list-comments">
-        [% zone 'Comments' %]
+    <div class="medium-12 large-12 columns widget-1column article-container featured-product">
+        <div class="row">
+            <div class="medium-12 large-12 columns">
+                <div class="news-list-comments">
+                    [% zone 'Comments' %]
+                </div>
+            </div>
+        </div>
     </div>
-    [% if Model.Drop.PreviousArticle != string.Empty -%]
-    <a class="prev eq-item" href="@Model.ViewModel.PreviousArticle">
-        <span class="btn-text">Previous Article</span>
-        <span class="event-title">@Model.ViewModel.PreviousArticleTitle</span>
-        <span class="btnCircle">
-            <span class="fa-stack">
-                <i class="fa fa-circle-thin fa-stack-2x"></i>
-                <i class="fa fa-angle-left fa-stack-1x"></i>
-            </span>
-        </span>
-    </a>
-    [% endif -%]
-    [% if Model.Drop.PreviousArticle == string.Empty -%]
-    <a class="next eq-item" href="@Model.ViewModel.NextArticle">
-        <span class="btn-text">Next Article</span>
-        <span class="event-title">@Model.ViewModel.NextArticleTitle</span>
-        <span class="btnCircle">
-            <span class="fa-stack">
-                <i class="fa fa-circle-thin fa-stack-2x"></i>
-                <i class="fa fa-angle-right fa-stack-1x"></i>
-            </span>
-        </span>
-    </a>
-    [% endif -%]
+    <div class="medium-12 large-12 columns widget-1column narrow-container featured-product">
+        <div class="row">
+            <div class="medium-12 large-12 columns">
+                <div class="about-author">
+                    <div class="about-author__img-wrap">
+                        <img class="about-author__img" src="https://support.zendesk.com/system/photos/0009/5314/0587/avatar-1498654408.png" />
+                    </div>
+                    <div class="about-author__content">
+                        <h4>Todd Smith</h4>
+                        <div class="about-author__desc">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar tempor. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar tempor.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

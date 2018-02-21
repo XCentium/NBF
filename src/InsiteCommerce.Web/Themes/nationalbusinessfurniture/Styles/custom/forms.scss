@@ -10,11 +10,12 @@ label {
 }
 
 
-input, select {
+input[type="text"], select {
     border: 1px solid #D5D5D5;
     background-color: $nbf-white;
     height: 46px;
     padding: 0px 20px;
+    margin-bottom:30px;
 
     &:focus {
         border-color: $nbf-charcoal;
@@ -31,13 +32,16 @@ input, select {
         color: #333;
         right: 5px;
         /*Adjust for position however you want*/
-        top: 50%;
+        top: 48%;
         -webkit-transform: translateY(-50%);
         -ms-transform: translateY(-50%);
         transform: translateY(-50%);
         /*left line */
         position: absolute;
         pointer-events: none;
+    }
+    &:focus:after {
+        content: '\f077';
     }
 
     select {
