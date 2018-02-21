@@ -240,6 +240,19 @@
                 <ul class="user-nav">
                     <li ng-cloak ng-show="::(vm.session && (!vm.session.isAuthenticated || vm.session.billTo.isGuest) && !vm.session.rememberMe)">
                         <a href="[% urlForPage 'SignInPage' %]" isc-redirect-to-sign-in return-to-url="true" class="btn sign-in fastClick tst_header_signInButton"><span class="ico-LoginIcon"></span> <span>[% translate 'Login' %]</span></a>
+                        <div class="sub-tier-panel single show-heading subnav level-2">
+                            <ul id="sub-cat2" class="level-2 sub-tier-panel">
+                                <li class="sub-heading">Accessories</li>
+                                <li><a href="#" onclick="insite.nav.hideMenu();">Partitions</a></li>
+                                <li><a href="#" onclick="insite.nav.hideMenu();">Boards</a></li>
+                                <li><a href="#" onclick="insite.nav.hideMenu();">Partitions</a></li>
+                                <li><a href="#" onclick="insite.nav.hideMenu();">Boards</a></li>
+                                <li><a href="#" onclick="insite.nav.hideMenu();">Partitions</a></li>
+                                <li><a href="#" onclick="insite.nav.hideMenu();">Boards</a></li>
+                                <li><a href="#" onclick="insite.nav.hideMenu();">Partitions</a></li>
+                                <li><a href="#" onclick="insite.nav.hideMenu();">Boards</a></li>
+                            </ul>
+                        </div>
                     </li>
                     <li ng-cloak ng-show="::(vm.session.isAuthenticated && !vm.session.billTo.isGuest) || vm.session.rememberMe">
                         <a href="" ng-click="vm.signOut('[[Model.Drop.SignOutReturnUrl]]')" class="btn sign-in fastClick tst_header_signInButton"><span class="ico-LoginIcon"></span> <span>[% translate 'Log Out' %]</span></a>
@@ -656,9 +669,28 @@
                 <li><a href="/AboutUs">By Area</a></li>
                 <li><a href="/AboutUs">Resources</a></li>
                 <li><a href="/AboutUs">Design Services</a></li>
-                <li><a href="/AboutUs">About Us</a></li>
+                <li>
+                    <span class="nav-item-container">
+                        <a id="tst_productMenu_097523f5-87fd-e711-a98c-a3e0f1200094" href="/Catalog/accessories-1955" onclick="insite.nav.hideMenu();">Accessories</a>
+                        <label for="nav-cat2" class="toggle-sub" onclick="insite.nav.goToSubnav(this)">►</label>
+                    </span>
+                    <input type="checkbox" name="nav" id="nav-cat2" class="subnav-check">
+                    <div class="sub-tier-panel single show-heading subnav level-2">
+                        <ul id="sub-cat2" class="level-2 sub-tier-panel">
+                            <li class="sub-heading">Accessories</li>
+                            <li><a href="#" onclick="insite.nav.hideMenu();">Partitions</a></li>
+                            <li><a href="#" onclick="insite.nav.hideMenu();">Boards</a></li>
+                            <li><a href="#" onclick="insite.nav.hideMenu();">Partitions</a></li>
+                            <li><a href="#" onclick="insite.nav.hideMenu();">Boards</a></li>
+                            <li><a href="#" onclick="insite.nav.hideMenu();">Partitions</a></li>
+                            <li><a href="#" onclick="insite.nav.hideMenu();">Boards</a></li>
+                            <li><a href="#" onclick="insite.nav.hideMenu();">Partitions</a></li>
+                            <li><a href="#" onclick="insite.nav.hideMenu();">Boards</a></li>
+                        </ul>
+                    </div>
+                </li>
             </ul>
-            <div style="display:block;">[% navigationMenu %]</div>
+            <div style="display:none;">[% navigationMenu %]</div>
             <div class="isc-primary-nav-top">
                 <!-- To Do 3.7.1 - change navigation back function to use below label element -->
                 <label class="toggle isc-primary-nav-back isc-hidden" onclick="insite.nav.goBack()" title="Back">&#9668;</label>
