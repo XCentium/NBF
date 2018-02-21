@@ -312,6 +312,8 @@
     <Compile Include="Widgets\CallUs.cs" />
     <Compile Include="Widgets\CategoriesList.cs" />
     <Compile Include="Widgets\LiveChat.cs" />
+    <Compile Include="Widgets\Models\NbfChildPageDrop.cs" />
+    <Compile Include="Widgets\NavigationFlyOut.cs" />
     <Compile Include="Widgets\PopularCategories.cs" />
     <Compile Include="Widgets\FeaturedProducts.cs" />
     <Compile Include="Widgets\Latest BlogPosts.cs" />
@@ -320,6 +322,9 @@
     <Compile Include="Widgets\FooterView.cs" />
     <Compile Include="Widgets\CheckoutView.cs" />
     <Compile Include="Widgets\CommentForm.cs" />
+    <Compile Include="Widgets\ProductFlyOutDrop.cs" />
+    <Compile Include="Widgets\ProductFlyOutPreparer.cs" />
+    <Compile Include="Widgets\ProductFlyOut.cs" />
     <Compile Include="Widgets\RequestCatalogLink.cs" />
     <Compile Include="Widgets\SocialMediaView.cs" />
     <Compile Include="Widgets\OrderTrackerDetailView.cs" />

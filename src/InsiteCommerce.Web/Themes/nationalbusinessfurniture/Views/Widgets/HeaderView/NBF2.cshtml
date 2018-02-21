@@ -254,16 +254,17 @@
         <input type="checkbox" name="nav" id="main-nav-check" />
         <!-- Remove the class 'prevent-li-below-window' to stop insite.nav.js from modifying position of sub ULs -->
         <div class="isc-primary-nav prevent-li-below-window">
-            <ul>
-                <li>
-                    <span class="nav-item-container">
-                        <a id="tst_productMenu_00000000-0000-0000-0000-000000000000" onclick="$(this).next().click(); return false;">Products</a>
-                        <label for="nav-cat" class="toggle-sub" onclick="insite.nav.goToSubnav(this)">►</label>
-                    </span>
-                    <input type="checkbox" name="nav" id="nav-cat" class="subnav-check">
-                    <div id="sub-cat" class="subnav sub-tier-panel">
-                        <ul class="level-1">
-                            <li class="sub-heading">Products</li>
+        <ul>
+        [% zone 'Nav' %]
+        <li>
+        <span class="nav-item-container">
+            <a id="tst_productMenu_00000000-0000-0000-0000-000000000000" onclick="$(this).next().click();return false;">Products</a>
+            <label for="nav-cat" class="toggle-sub" onclick="insite.nav.goToSubnav(this)">►</label>
+        </span>
+        <input type="checkbox" name="nav" id="nav-cat" class="subnav-check">
+        <div id="sub-cat" class="subnav sub-tier-panel">
+        <ul class="level-1">
+        <li class="sub-heading">Products</li>
                             <li class="currently-hovered">
                                 <span class="nav-item-container">
                                     <a id="tst_productMenu_097523f5-87fd-e711-a98c-a3e0f1200094" href="/Catalog/accessories-1955" onclick="$(this).next().click(); return false;">Accessories</a>
@@ -637,15 +638,10 @@
                                     </div>
                                 </div>
                             </li>
-                        </ul>
-
-                    </div>
-                </li>
-                <li><a href="/AboutUs">By Area</a></li>
-                <li><a href="/AboutUs">Resources</a></li>
-                <li><a href="/AboutUs">Design Services</a></li>
-                <li><a href="/AboutUs">About Us</a></li>
-            </ul>
+        </ul>
+        </div>
+        </li>
+        </ul>
             <div style="display:block;">[% navigationMenu %]</div>
             <div class="isc-primary-nav-top">
                 <!-- To Do 3.7.1 - change navigation back function to use below label element -->

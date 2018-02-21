@@ -1,0 +1,27 @@
+﻿[% if Model.Drop.RootPageExists -%]
+    <li class="[[Model.CssClass]]">
+        <span class="nav-item-container">
+            <a id="tst_navMenu_[[Model.Drop.RootPageTitle]]" onclick="$(this).next().click();return false;">[[Model.Drop.RootPageTitle]]</a>
+            <label for="nav-cat" class="toggle-sub" onclick="insite.nav.goToSubnav(this)">►</label>
+        </span>
+        <input type="checkbox" name="nav" id="nav-cat" class="subnav-check">
+        <div id="sub-cat" class="subnav sub-tier-panel single">
+            <ul class="level-1">
+                <li class="sub-heading">[[Model.Drop.RootPageTitle]]</li>
+                [% for childPage in Model.Drop.ChildPages -%]
+                <li>
+                    <span class="nav-item-container">
+                        <a id="tst_productMenu_[[forloop.index]]" href="[[childPage.Url]]" onclick="$(this).next().click(); return false;">[[childPage.Title]]</a>
+                        <label for="nav-cat[[forloop.index]]" class="toggle-sub" onclick="insite.nav.goToSubnav(this)">►</label>
+                    </span>
+                    <input type="checkbox" name="nav" id="nav-cat[[forloop.index]]" class="subnav-check">
+                </li>
+                [% endfor -%]
+            </ul>
+        </div>
+    </li>
+[% else -%]
+    [% if IsViewingMode == false -%]
+    <p>There was no page found for the content name '[[Model.RootPageName]]', edit this item to resolve the issue</p>
+    [% endif -%]
+[% endif -%]
