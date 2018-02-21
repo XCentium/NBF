@@ -2,9 +2,9 @@
 <img src="[[Model.ImageSource]]" alt="[[Model.AltText]]" style="" />
 [% endcapture %]
 
-<div class="widget-image [[Model.CssClass]]">
+<div class="bbb-wrap [[Model.CssClass]]">
     [%- if Model.IsLinkProvided -%]
-        <a class="cms-imageLink" href="[[Model.Link]]">[[Image]]</a>
+        <a href="[[Model.Link]]">[[Image]]</a>
     [%- else -%]
         [[Image]]
     [%- endif -%]
