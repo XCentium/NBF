@@ -174,4 +174,22 @@
             margin: 0;
         }
     }
+
+    .video-link {
+        @include center;
+        width:200px;
+        height:200px;
+        color: #fff;
+        font-size: 80px;
+        @include opacity(.5);
+        text-decoration:none;
+
+        &:before {
+            @include center;
+        }
+
+        &:hover {
+            @include opacity(1);
+        }
+    }
 }
