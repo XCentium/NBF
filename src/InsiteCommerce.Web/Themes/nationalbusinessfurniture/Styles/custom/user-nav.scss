@@ -88,6 +88,16 @@ div.cart-button a.cart-link:before {
 
         & > li {
             position: relative;
+
+            &:hover > a:after {
+                content: "";
+                display: block;
+                border-bottom: 1px solid $nbf-orange;
+                height: 1px;
+                width: 100%;
+                bottom: 26px;
+                position: relative;
+            }
         }
 
         .subnav {
@@ -152,6 +162,8 @@ div.cart-button a.cart-link:before {
                         a {
                             color: #fff;
                             text-decoration: none;
+
+                            
                         }
                     }
                 }
