@@ -117,6 +117,7 @@
     <Content Include="Scripts\Libraries\jquery.maskedinput\jquery.maskedinput.js" />
     <Content Include="Scripts\Libraries\sticky.js" />
     <!--<Content Include="Scripts\sticky.js" />-->
+    <Content Include="Styles\custom\cta-link-widget.scss" />
     <None Include="Styles\custom\font-awesome.scss" />
     <None Include="Styles\custom\font-icomoon.scss" />
     <Content Include="Styles\fonts\fontawesome-webfont.svg" />
@@ -160,6 +161,7 @@
     <TypeScriptCompile Include="Scripts\Custom\Cart\nbf.cart-total-display.directive.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Cart\nbf.cart-lines.directive.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Cart\nbf.checkout.controller.ts" />
+    <TypeScriptCompile Include="Scripts\Custom\Catalog\nbf.product-image-carousel.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Catalog\nbf.catalog.directives.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Catalog\nbf.product-list.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Comments\nbf.commentmessage.controller.ts" />
@@ -377,6 +379,7 @@
     <Content Include="Styles\foundation.css" />
     <Content Include="Styles\normalize.css" />
     <Content Include="Styles\custom\product-details-page.scss" />
+    <Content Include="Styles\custom\product-image-carousel.scss" />
     <None Include="Styles\template\category-list.scss" />
     <None Include="Styles\template\change-cust-ship-to.scss" />
     <None Include="Styles\template\checkout-addresses.scss" />
@@ -470,6 +473,7 @@
     <Content Include="Views\Widgets\CreateAccountView\NBF.cshtml" />
     <None Include="Views\Widgets\CreateAccountView\Standard.cshtml" />
     <None Include="Views\Widgets\CurrencySelector\Standard.cshtml" />
+    <Content Include="Views\Widgets\Custom\Ctalinks\Standard.cshtml" />
     <None Include="Views\Widgets\DealerDirectionsView\Standard.cshtml" />
     <None Include="Views\Widgets\DealerLocatorView\Standard.cshtml" />
     <None Include="Views\Widgets\DealerView\Standard.cshtml" />

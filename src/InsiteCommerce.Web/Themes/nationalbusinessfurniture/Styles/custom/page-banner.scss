@@ -128,7 +128,7 @@
                 }
             }
 
-            h3 {
+            &__title {
                 margin: 0;
                 line-height: 1.5;
                 padding: 30px;
@@ -170,7 +170,7 @@
             padding: 15px;
         }
 
-        h2 {
+        &__default__title {
             margin: 0;
         }
     }
