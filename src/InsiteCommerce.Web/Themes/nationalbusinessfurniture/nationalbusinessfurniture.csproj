@@ -25,6 +25,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -477,6 +478,9 @@
     <Content Include="Views\Widgets\Custom\CallUs\Standard.cshtml" />
     <Content Include="Views\Widgets\Custom\CallUs\Header.cshtml" />
     <Content Include="Views\Widgets\Custom\LiveChat\Standard.cshtml" />
+    <Content Include="Views\Widgets\Custom\EmailSubscriptionWithTitle\Standard.cshtml" />
+    <Content Include="Views\Widgets\Custom\LinkListWithTitle\Standard.cshtml" />
+    <Content Include="Views\Widgets\Custom\SocialMediaLinkListWithTitle\Standard.cshtml" />
     <None Include="Views\Widgets\DealerDirectionsView\Standard.cshtml" />
     <None Include="Views\Widgets\DealerLocatorView\Standard.cshtml" />
     <None Include="Views\Widgets\DealerView\Standard.cshtml" />
