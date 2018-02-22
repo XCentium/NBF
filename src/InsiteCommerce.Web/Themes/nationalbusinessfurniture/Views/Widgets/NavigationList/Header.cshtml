@@ -6,7 +6,7 @@
         </span>
         <input type="checkbox" name="nav" id="nav-cat" class="subnav-check">
         <div id="sub-cat" class="subnav sub-tier-panel single">
-            <ul class="level-1">
+            <ul class="level-2">
                 <li class="sub-heading">[[Model.Drop.RootPageTitle]]</li>
                 [% for childPage in Model.Drop.ChildPages -%]
                     [% if forloop.index == 1 -%]
@@ -14,12 +14,9 @@
                     [% else -%]
                         <li>
                     [% endif -%]
-                        <span class="nav-item-container">
                             <a id="tst_productMenu_[[forloop.index]]" href="[[childPage.Url]]" onclick="insite.nav.hideMenu();">[[childPage.Title]]</a>
                             <label for="nav-cat[[forloop.index]]" class="toggle-sub" onclick="insite.nav.goToSubnav(this)">►</label>
-                        </span>
-                        <input type="checkbox" name="nav" id="nav-cat[[forloop.index]]" class="subnav-check">
-                </li>
+                        </li>
                 [% endfor -%]
             </ul>
         </div>

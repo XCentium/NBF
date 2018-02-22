@@ -2,8 +2,9 @@
 using Insite.ContentLibrary.ContentFields;
 using Insite.ContentLibrary.Pages;
 using Insite.ContentLibrary.Widgets;
-using Insite.Data.Entities;
 using Insite.WebFramework.Content.Attributes;
+using Microsoft.Ajax.Utilities;
+using FieldType = Insite.Data.Entities.FieldType;
 
 namespace Extensions.Widgets
 {
@@ -36,5 +37,21 @@ namespace Extensions.Widgets
                 SetValue("AdditionalContent", value, FieldType.Contextual);
             }
         }
+        public bool AdditionalContentExists => !AdditionalContent.IsNullOrWhiteSpace();
+
+        [TextContentField]
+        public virtual string Text
+        {
+            get
+            {
+                return GetValue("Text", "Welcome", FieldType.Contextual);
+            }
+            set
+            {
+                SetValue("Text", value, FieldType.Contextual);
+            }
+        }
+
+        public bool TextExists => !Text.IsNullOrWhiteSpace();
     }
 }

@@ -6,7 +6,7 @@ namespace Extensions.Widgets
 {
     public class Banner : ContentWidget
     {
-        [DropDownContentField(new string[] { "Bottom Right", "bottom Left", "Top Left", "Top Right" }, IsRequired = true, SortOrder = 110)]
+        [DropDownContentField(new string[] { "Bottom Right", "Bottom Left", "Top Left", "Top Right" }, IsRequired = true, SortOrder = 110)]
         public virtual string Position
         {
             get
@@ -18,7 +18,7 @@ namespace Extensions.Widgets
                 this.SetValue<string>("Position", value, FieldType.General);
             }
         }
-        [DropDownContentField(new string[] { "Default", "square" }, IsRequired = true, SortOrder = 110)]
+        [DropDownContentField(new string[] { "Default", "Square" }, IsRequired = true, SortOrder = 110)]
         public virtual string Style
         {
             get

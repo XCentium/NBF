@@ -6,26 +6,26 @@
     </span>
     <input type="checkbox" name="nav" id="nav-cat" class="subnav-check">
     <div id="sub-cat" class="subnav sub-tier-panel single">
-        <ul class="level-1">
+        [% if Model.TextExists -%]
+        <h4>[[Model.Text]]</h4>
+        [% endif -%]
+        <ul class="level-2">
             <li class="sub-heading">[[Model.Drop.RootPageTitle]]</li>
             [% for childPage in Model.Drop.ChildPages -%]
             [% if forloop.index == 1 -%]
             <li class="currently-hovered">
-                [% else -%]
+            [% else -%]
             <li>
                 [% endif -%]
-                <span class="nav-item-container">
-                    <a id="tst_productMenu_[[forloop.index]]" href="[[childPage.Url]]" onclick="insite.nav.hideMenu();">[[childPage.Title]]</a>
-                    <label for="nav-cat[[forloop.index]]" class="toggle-sub" onclick="insite.nav.goToSubnav(this)">►</label>
-                </span>
-                <input type="checkbox" name="nav" id="nav-cat[[forloop.index]]" class="subnav-check">
+                <a id="tst_navMenu_[[forloop.index]]" href="[[childPage.Url]]" onclick="insite.nav.hideMenu();">[[childPage.Title]]</a>
+                <label for="nav-cat[[forloop.index]]" class="toggle-sub" onclick="insite.nav.goToSubnav(this)">►</label>
             </li>
             [% endfor -%]
         </ul>
     </div>
 </li>
 [% else -%]
-    [% if IsViewingMode == false -%]
+[% if IsViewingMode == false -%]
 <p>There was no page found for the content name '[[Model.RootPageName]]', edit this item to resolve the issue</p>
-    [% endif -%]
+[% endif -%]
 [% endif -%]

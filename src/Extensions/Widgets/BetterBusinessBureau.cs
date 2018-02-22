@@ -22,7 +22,7 @@ namespace Extensions.Widgets
             }
         }
 
-        [TextContentField]
+        [TextContentField(IsRequired = true)]
         public virtual string ImageSource
         {
             get
@@ -35,7 +35,7 @@ namespace Extensions.Widgets
             }
         }
 
-        [TextContentField]
+        [TextContentField(IsRequired = true)]
         public virtual string AltText
         {
             get
