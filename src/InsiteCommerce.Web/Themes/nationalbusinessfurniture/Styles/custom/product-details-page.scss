@@ -8,10 +8,22 @@
             border:1px solid $divider-gray;
             height: 558px;
             overflow: hidden;
+            
             img {
                 width:100%;
                 max-width:100%;
             }
+        }
+    }
+
+    .image-buttons {
+         @include flexbox();
+        @include flex-wrap(wrap);
+        margin: -10px !important;
+
+        & > button {
+            @include flex(1 1 210px);
+            margin: 10px;
         }
     }
 
@@ -21,6 +33,7 @@
         padding:20px;
         height:558px;
         overflow:auto;
+        margin-bottom:20px;
     }
 
     .item-num {
@@ -139,6 +152,34 @@
                margin:0 auto;
            }
         }
+
+    }
+
+    .detail-options {
+                .pd-buttons {
+            margin-right:20px;
+        }
+
+        a.btn.btn-add-to-list:link {
+                width: auto;
+        }
+
+    }
+
+    .detail-options-wrap {
+        @include flexbox();
+        @include flex-wrap(wrap);
+        margin: -10px !important;
+
+        select {
+            margin-bottom:0;
+        }
+
+        & > div {
+            @include flex(1 1 210px);
+            margin: 10px;
+        }
+
 
     }
 }

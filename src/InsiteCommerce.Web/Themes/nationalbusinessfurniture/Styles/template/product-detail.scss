@@ -78,12 +78,10 @@
     }
 
     .detail-options {
-        float: left;
-        width: 100%;
+       
     }
 
     .detail-options .fc-qty label {
-        font-size: .875rem;
     }
 
     .detail-image {
@@ -97,11 +95,13 @@
     .pd-grid .fc-um, .pd-grid .fc-qty {
         float: left;
         padding: 0;
-        width: 50% !important;
+        //width: 50% !important;
     }
 
     .pd-grid .fc-qty input {
-        max-width: 100px;
+        max-width: 110px;
+        text-align: center;
+        margin-right:20px;
     }
 
     .pd-buttons div {
@@ -148,13 +148,13 @@
     }
 
     .detail-options .panel {
-        border: 1px solid #e0e7ea;
+        border:none;
         background: none;
+        padding:0;
     }
 
     .pd-buttons, .secondary-button {
         float: left;
-        width: 100%;
     }
 
     .pd-item-link {
@@ -283,7 +283,7 @@
         }
 
         .pd-grid .fc-qty {
-            width: 30% !important;
+            //width: 30% !important;
         }
 
         [role="main"] .detail-options .btn.btn-add-to-cart, [role="main"] .detail-options a.btn.btn-add-to-list {
@@ -313,11 +313,10 @@
 
         .detail-options {
             float: right;
-            width: 20%;
         }
 
         .fc-um, .fc-qty {
-            width: 100% !important;
+           // width: 100% !important;
         }
 
         #imgZoom .modal-wrap img {
