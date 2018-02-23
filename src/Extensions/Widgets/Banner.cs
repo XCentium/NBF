@@ -6,28 +6,144 @@ namespace Extensions.Widgets
 {
     public class Banner : ContentWidget
     {
-        [DropDownContentField(new string[] { "Bottom Right", "bottom Left", "Top Left", "Top Right" }, IsRequired = true, SortOrder = 110)]
-        public virtual string Position
+        [FilePickerField(IsRequired = true, ResourceType = "ImageFiles", SortOrder = 10)]
+        public virtual string BackgroundImage
         {
             get
             {
-                return this.GetValue<string>("Position", "Bottom Right", FieldType.General).Replace(" ", "").ToLower();
+                return this.GetValue<string>(nameof(BackgroundImage), string.Empty, FieldType.Contextual);
             }
             set
             {
-                this.SetValue<string>("Position", value, FieldType.General);
+                this.SetValue<string>(nameof(BackgroundImage), value, FieldType.Contextual);
             }
         }
-        [DropDownContentField(new string[] { "Default", "square" }, IsRequired = true, SortOrder = 110)]
-        public virtual string Style
+
+        [DropDownContentField(new string[] { "Bottom Right", "Bottom Left", "Top Left", "Top Right" }, SortOrder = 20)]
+        public virtual string Position1
         {
             get
             {
-                return this.GetValue<string>("Style", "Default", FieldType.General);
+                return this.GetValue<string>(nameof(Position1), "Bottom Right", FieldType.General).Replace(" ", "").ToLower();
             }
             set
             {
-                this.SetValue<string>("Style", value, FieldType.General);
+                this.SetValue<string>(nameof(Position1), value, FieldType.General);
+            }
+        }
+        [DropDownContentField(new string[] { "Default", "Square" }, SortOrder = 30)]
+        public virtual string Style1
+        {
+            get
+            {
+                return this.GetValue<string>(nameof(Style1), "Default", FieldType.General);
+            }
+            set
+            {
+                this.SetValue<string>(nameof(Style1), value, FieldType.General);
+            }
+        }
+
+        [TextContentField(SortOrder = 40)]
+        public virtual string Title1
+        {
+            get
+            {
+                return this.GetValue<string>(nameof(Title1), string.Empty, FieldType.Contextual);
+            }
+            set
+            {
+                this.SetValue<string>(nameof(Title1), value, FieldType.Contextual);
+            }
+        }
+
+        [TextContentField(SortOrder = 50)]
+        public virtual string SubTitle1
+        {
+            get
+            {
+                return this.GetValue<string>(nameof(SubTitle1), string.Empty, FieldType.Contextual);
+            }
+            set
+            {
+                this.SetValue<string>(nameof(SubTitle1), value, FieldType.Contextual);
+            }
+        }
+
+        [TextContentField(SortOrder = 60)]
+        public virtual string ButtonText1
+        {
+            get
+            {
+                return this.GetValue<string>(nameof(ButtonText1), string.Empty, FieldType.Contextual);
+            }
+            set
+            {
+                this.SetValue<string>(nameof(ButtonText1), value, FieldType.Contextual);
+            }
+        }
+
+        [DropDownContentField(new string[] { "Bottom Right", "Bottom Left", "Top Left", "Top Right" }, SortOrder = 70)]
+        public virtual string Position2
+        {
+            get
+            {
+                return this.GetValue<string>(nameof(Position2), "Bottom Right", FieldType.General).Replace(" ", "").ToLower();
+            }
+            set
+            {
+                this.SetValue<string>(nameof(Position2), value, FieldType.General);
+            }
+        }
+        [DropDownContentField(new string[] { "Default", "Square" }, SortOrder = 80)]
+        public virtual string Style2
+        {
+            get
+            {
+                return this.GetValue<string>(nameof(Style2), "Default", FieldType.General);
+            }
+            set
+            {
+                this.SetValue<string>(nameof(Style2), value, FieldType.General);
+            }
+        }
+
+        [TextContentField(SortOrder = 90)]
+        public virtual string Title2
+        {
+            get
+            {
+                return this.GetValue<string>(nameof(Title2), string.Empty, FieldType.Contextual);
+            }
+            set
+            {
+                this.SetValue<string>(nameof(Title2), value, FieldType.Contextual);
+            }
+        }
+
+        [TextContentField(SortOrder = 100)]
+        public virtual string SubTitle2
+        {
+            get
+            {
+                return this.GetValue<string>(nameof(SubTitle2), string.Empty, FieldType.Contextual);
+            }
+            set
+            {
+                this.SetValue<string>(nameof(SubTitle2), value, FieldType.Contextual);
+            }
+        }
+
+        [TextContentField(SortOrder = 110)]
+        public virtual string ButtonText2
+        {
+            get
+            {
+                return this.GetValue<string>(nameof(ButtonText2), string.Empty, FieldType.Contextual);
+            }
+            set
+            {
+                this.SetValue<string>(nameof(ButtonText2), value, FieldType.Contextual);
             }
         }
     }
