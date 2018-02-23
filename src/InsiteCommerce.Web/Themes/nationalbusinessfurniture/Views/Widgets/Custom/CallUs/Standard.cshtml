@@ -1,0 +1,11 @@
+﻿<div class="[[Model.CssClass]]">
+    [%- if Model.TextExists -%]
+        <span>[[Model.Text]]</span><br/>
+    [%- endif -%]
+
+    [%- if Model.LinkPhoneNumber -%]
+    <a href="tel:[[Model.CustomerServicePhone]]" alt="[[Model.Text]]"><span>[[Model.CustomerServicePhone]]</span></a>
+    [%- else -%]
+        <span>[[Model.CustomerServicePhone]]</span>
+    [%- endif -%]
+</div>

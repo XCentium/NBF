@@ -3,9 +3,8 @@ using Insite.ContentLibrary.Widgets;
 
 namespace Extensions.Widgets
 {
-    [DisplayName("NBF - Order Tracker Detail View")]
-    public class OrderTrackerDetailView : ContentWidget
+    [DisplayName("NBF - Live Chat")]
+    public class LiveChat : ContentWidget
     {
-
     }
 }

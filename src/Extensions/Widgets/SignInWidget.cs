@@ -1,9 +1,11 @@
-﻿using Insite.ContentLibrary.ContentFields;
+﻿using System.ComponentModel;
+using Insite.ContentLibrary.ContentFields;
 using Insite.ContentLibrary.Widgets;
 using Insite.Data.Entities;
 
 namespace Extensions.Widgets
 {
+    [DisplayName("NBF - Sign In Widget")]
     public class SignInWidget : ContentWidget
     {
         [CheckBoxContentField]
