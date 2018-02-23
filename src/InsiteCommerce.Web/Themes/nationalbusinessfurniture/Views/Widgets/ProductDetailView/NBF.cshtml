@@ -155,7 +155,7 @@
                                         <span class="ico-CartIcon"></span> [% translate 'Add To Cart' %]
                                     </button>
                                 </div>
-                                
+
                                 <div ng-if="vm.product.canConfigure && (vm.product.styleTraits.length === 0 || vm.styleSelectionCompleted)" class="small-12 primary-button">
                                     <a id="tst_productDetail_configure" href="[% urlFor '/Configuration/Configure' %]/{{vm.product.erpNumber}}" role="button" class="btn primary btn-configure">[% translate 'Configure' %]</a>
                                 </div>
@@ -172,7 +172,7 @@
                                class="btn secondary btn-add-to-list" href="javascript:;">[% translate 'Add to List' %]</a>
                         </div>
                         <div class="small-12 secondary-button">
-                            
+
                             <div ng-show="vm.product" class="small-12 detail-share">
                                 <a id="tst_productDetail_share" href="javascript:;" class="pd-zoom" data-reveal-id="TellAFriendDialogContainer">[% translate 'Share' %]</a>
                                 <isc-tell-a-friend-popup product="vm.product" data-reveal></isc-tell-a-friend-popup>
@@ -221,29 +221,69 @@
                             </section>
                         </div>
                     </div>
-                   
-                    
+
+
                     <div class="product-reviews"></div>
-                    <ul ng-if="vm.product.documents.length > 0" class="doclinks">
+                    <ul ng-if="!vm.settings.displayDocumentsInTabs && vm.product.documents.length > 0" class="doclinks">
                         <li ng-if="vm.languageId === document.languageId" ng-repeat="document in vm.product.documents" class="doc-{{$index}}">
                             <a id="tst_productDetail_{{document.id}}" ng-href="{{document.filePath}}" target="_new">{{document.name}} <em ng-if="document.documentType">({{document.documentType}})</em></a>
                         </li>
                     </ul>
                 </div>
-                
+
             </div>
         </div>
     </div>
 
-    <div ng-show="vm.product.specifications.length > 0" class="row pd-specs">
+    <div ng-show="vm.product.specifications.length > 0 || vm.product.attributeTypes.length > 0 || vm.product.documents.length > 0" class="row pd-specs">
         <div id="tst_productDetail_specifications" class="detail-specs easy-resp-tabs">
             <ul class="resp-tabs-list">
+                <li ng-if="vm.settings.displayAttributesInTabs && vm.settings.attributesTabSortOrder === 'DisplayFirst' && vm.product.attributeTypes.length > 0">[% translate 'Attributes' %]</li>
+                <li ng-if="vm.settings.displayDocumentsInTabs && vm.settings.documentsTabSortOrder === 'DisplayFirst' && vm.product.documents.length > 0">[% translate 'Documents' %]</li>
                 <li ng-repeat="specification in vm.product.specifications | filter: { isActive: 'true' } | orderBy: 'sortOrder'" ng-class="{active: ($first)}">
                     {{specification.nameDisplay}}
                 </li>
+                <li ng-if="vm.settings.displayAttributesInTabs && vm.settings.attributesTabSortOrder === 'DisplayLast' && vm.product.attributeTypes.length > 0">[% translate 'Attributes' %]</li>
+                <li ng-if="vm.settings.displayDocumentsInTabs && vm.settings.documentsTabSortOrder === 'DisplayLast' && vm.product.documents.length > 0">[% translate 'Documents' %]</li>
             </ul>
             <div class="resp-tabs-container">
+                <div ng-if="vm.settings.displayAttributesInTabs && vm.settings.attributesTabSortOrder === 'DisplayFirst' && vm.product.attributeTypes.length > 0">
+                    <table class="info-tbl spec-attributes">
+                        <tbody>
+                        <tr ng-repeat="attributeType in vm.product.attributeTypes | orderBy : ['label', 'name'] | limitTo: (maximumNumber || 100)" class="row">
+                            <td class="col-label columns small-4" ng-bind="attributeType.label || attributeType.name"></td>
+                            <td class="col-value columns small-8"><isc-no-element ng-repeat="attributeValue in attributeType.attributeValues | orderBy  : ['sortOrder','valueDisplay']">{{attributeValue.valueDisplay}}{{$last ? '' : ', '}}</isc-no-element></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div ng-if="vm.settings.displayDocumentsInTabs && vm.settings.documentsTabSortOrder === 'DisplayFirst' && vm.product.documents.length > 0">
+                    <ul class="spec-documents">
+                        <li ng-if="vm.languageId === document.languageId" ng-repeat="document in (orderedDocuments = (vm.product.documents | orderBy : 'documentType'))" class="doc-{{$index}}">
+                            <div ng-if="document.documentType && document.documentType !== orderedDocuments[$index - 1].documentType" class="doc-type"><strong ng-bind="document.documentType"></strong></div>
+                            <a ng-href="{{document.filePath}}" target="_new">{{document.name}}</a>
+                        </li>
+                    </ul>
+                </div>
                 <div ng-repeat="specification in vm.product.specifications | filter: { isActive: 'true' } | orderBy: 'sortOrder'" ng-bind-html="specification.htmlContent|trusted"></div>
+                <div ng-if="vm.settings.displayAttributesInTabs && vm.settings.attributesTabSortOrder === 'DisplayLast' && vm.product.attributeTypes.length > 0">
+                    <table class="info-tbl spec-attributes">
+                        <tbody>
+                        <tr ng-repeat="attributeType in vm.product.attributeTypes | orderBy : ['label', 'name'] | limitTo: (maximumNumber || 100)" class="row">
+                            <td class="col-label columns small-4" ng-bind="attributeType.label || attributeType.name"></td>
+                            <td class="col-value columns small-8"><isc-no-element ng-repeat="attributeValue in attributeType.attributeValues | orderBy  : ['sortOrder','valueDisplay']">{{attributeValue.valueDisplay}}{{$last ? '' : ', '}}</isc-no-element></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div ng-if="vm.settings.displayDocumentsInTabs && vm.settings.documentsTabSortOrder === 'DisplayLast' && vm.product.documents.length > 0">
+                    <ul class="spec-documents">
+                        <li ng-if="vm.languageId === document.languageId" ng-repeat="document in (orderedDocuments = (vm.product.documents | orderBy : 'documentType'))" class="doc-{{$index}}">
+                            <div ng-if="document.documentType && document.documentType !== orderedDocuments[$index - 1].documentType" class="doc-type"><strong ng-bind="document.documentType"></strong></div>
+                            <a ng-href="{{document.filePath}}" target="_new">{{document.name}}</a>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
@@ -338,4 +378,10 @@
 
 <script type="text/ng-template" id="/PartialViews/Catalog-CrossSellCarousel">
     [% partialView 'Catalog-CrossSellCarousel' %]
+</script>
+<script type="text/ng-template" id="/PartialViews/Catalog-ProductImages">
+    [% partialView 'Catalog-ProductImages' %]
+</script>
+<script type="text/ng-template" id="/PartialViews/Catalog-ProductImageCarousel">
+    [% partialView 'Catalog-ProductImageCarousel' %]
 </script>

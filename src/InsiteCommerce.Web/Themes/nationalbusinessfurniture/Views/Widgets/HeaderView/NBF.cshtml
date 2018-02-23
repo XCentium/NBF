@@ -82,7 +82,7 @@
                         <div class="small-12 columns user-info" ng-if="::vm.session.isAuthenticated">
                             <div class="user-button">
                                 <i class="social foundicon-torso"></i>
-                                <span class="cust-name" ng-bind="::vm.session.userLabel"></span>
+                                <span class="cust-name" ng-bind="vm.session.userLabel"></span>
                                 <span class="user-role" ng-if="::vm.session.userRoles" ng-bind="::('(' + vm.session.userRoles + ')')"></span>
                             </div>
                             [[SignOutLink]]
@@ -130,7 +130,7 @@
                 <li role="user-options" ng-show="::vm.session.isAuthenticated || vm.session.rememberMe">
                     <a href="#" class="user-button fastClick" id="tst_userNav_userName_button">
                         <i ng-cloak class="social foundicon-torso"></i>
-                        <span class="cust-name" ng-bind="::vm.session.userLabel"></span>
+                        <span class="cust-name" ng-bind="vm.session.userLabel"></span>
                         <span class="user-role" ng-if="::vm.session.userRoles" ng-bind="::('(' + vm.session.userRoles + ')')"></span>
                     </a>
                     <a class="ex fastClick"><i class="foundicon-remove"></i></a>
