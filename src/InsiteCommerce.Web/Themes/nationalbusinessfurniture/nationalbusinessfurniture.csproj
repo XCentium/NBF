@@ -380,6 +380,7 @@
     <Content Include="Styles\foundation.css" />
     <Content Include="Styles\normalize.css" />
     <Content Include="Styles\custom\product-details-page.scss" />
+    <Content Include="Styles\custom\product-image-carousel.scss" />
     <None Include="Styles\template\category-list.scss" />
     <None Include="Styles\template\change-cust-ship-to.scss" />
     <None Include="Styles\template\checkout-addresses.scss" />
