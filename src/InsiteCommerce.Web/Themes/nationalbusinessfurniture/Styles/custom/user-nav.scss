@@ -14,26 +14,27 @@
 
     li {
         display: inline-block;
-        width:49%;
-        text-align:center;
+        width: 49%;
+        text-align: center;
 
         a {
-            font-size:18px;
-            font-family:$ProximaNova;
+            font-size: 18px;
+            font-family: $ProximaNova;
         }
 
         a.sign-in {
             background-color: transparent;
             color: $nbf-black;
-            font-weight:normal;
-            line-height:80px;
+            font-weight: normal;
+            line-height: 80px;
             padding: 0;
+            max-height: 78px;
 
             .ico-LoginIcon {
                 vertical-align: text-bottom;
                 font-size: 20px;
                 line-height: normal;
-                color:$nbf-orange;
+                color: $nbf-orange;
                 margin-right: 2px;
             }
         }
@@ -56,12 +57,11 @@ div.cart-button a.cart-link {
     text-decoration: none;
     display: inline-block;
     height: 100%;
-    line-height:80px;
-
+    line-height: 80px;
+    max-height: 78px;
 }
 
 a.cart-link {
-
 }
 
 div.cart-button a.cart-link > * {
@@ -81,4 +81,134 @@ div.cart-button a.cart-link:before {
     display: inline-block;
     padding-right: .25em;
     text-indent: 0;
+}
+
+@media ( min-width:48em ) {
+    .user-nav {
+
+        & > li {
+            position: relative;
+
+            &:hover > a:after {
+                content: "";
+                display: block;
+                border-bottom: 1px solid $nbf-orange;
+                height: 1px;
+                width: 100%;
+                bottom: 26px;
+                position: relative;
+            }
+        }
+
+        .subnav {
+            position: absolute;
+            left: 0;
+            margin-left: -1px;
+            top: auto;
+            bottom: auto;
+            left: auto;
+            width: auto;
+            min-width: 215px;
+            border: 1px solid #D5D5D5;
+            -webkit-transform: none !important;
+            -ms-transform: none !important;
+            transform: none !important;
+            font-size: 1em;
+            display: none;
+            background: #fff;
+            z-index: 4;
+            margin-top: 0;
+            overflow: visible;
+
+            .sibheading {
+                display: none;
+            }
+
+            &.show-heading .sub-heading {
+                display: block;
+                pointer-events: none;
+                margin-top: 0;
+                font-weight: 800;
+                padding-left: 0;
+                padding: .85em 1em .85em 1em;
+            }
+
+            ul {
+                line-height: 2.75em;
+                text-decoration: none;
+                padding: 0;
+                list-style: none;
+                margin: 0;
+                margin-top: 0;
+                padding-top: 15px;
+                padding-bottom: 15px;
+
+                li {
+                    text-align: left;
+                    display: list-item;
+                    margin: 0;
+                    width: 100%;
+                    white-space: nowrap;
+                    line-height: .6em;
+
+                    a {
+                        padding: .85em 1em .85em 1em;
+                        display: block;
+                    }
+
+                    &:hover {
+                        background-color: #333E48;
+
+                        a {
+                            color: #fff;
+                            text-decoration: none;
+
+                            
+                        }
+                    }
+                }
+            }
+        }
+
+        & > li:hover {
+            & > .subnav {
+                display: block;
+            }
+        }
+    }
+
+    .login-from {
+        width: 302px;
+        padding: 20px;
+        text-align: left;
+
+        .sub-heading {
+            font-size:24px;
+            padding:0 0 10px 0 !important;
+            line-height:36px;
+        }
+
+        &__email__label, &__password__label {
+            display: block !important;
+            margin-bottom: 0.1875em;
+            font-size: 18px !important;
+            font-family:$ProximaNova !important;
+            text-align: left;
+            line-height: 27px !important;
+            padding: 0 !important;
+        }
+        &__password__input {
+            margin-bottom:10px !important;
+        }
+
+        &__forgotpassword {
+                margin-bottom: 20px;
+                display: block;
+        }
+
+        &__btn {
+            width:100%;
+            margin-bottom:10px;
+        }
+    }
 }

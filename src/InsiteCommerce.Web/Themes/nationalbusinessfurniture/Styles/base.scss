@@ -3761,9 +3761,8 @@ a.btn.isc-addToWishlistPopup, a.btn.btn-add-list, a.btn.btn-add-to-list {
     box-shadow: none !important;
     padding-left: 0;
     padding-right: 0;
-    color: slategray;
-    font-size: .87em;
-    font-weight: 600;
+    color: $nbf-black;
+    font-weight: normal;
 }
 
 a.btn.btn-add-list:before, a.btn.btn-add-to-list:before {
@@ -8004,6 +8003,7 @@ header label.toggle.burger:after {
 
 #header {
     position: relative;
+    z-index: 10;
 }
 
 .isc-nav-bar label {

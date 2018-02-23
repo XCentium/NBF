@@ -27,5 +27,16 @@
             },
             controller: "SignInWidgetController",
             controllerAs: "vm"
+        }))
+        .directive("nbfSignInFlyOut", () => ({
+            restrict: "E",
+            replace: true,
+            templateUrl: "/PartialViews/Custom-Account-NbfSignInFlyOut",
+            scope: {
+                includeForgotPasswordLink: "=",
+                allowCreateAccount: "="
+            },
+            controller: "SignInFlyOutController",
+            controllerAs: "vm"
         }));
 }

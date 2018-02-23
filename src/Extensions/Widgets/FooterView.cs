@@ -1,13 +1,11 @@
-﻿using Insite.ContentLibrary.ContentFields;
-using Insite.ContentLibrary.Pages;
+using System.ComponentModel;
 using Insite.ContentLibrary.Widgets;
-using Insite.Data.Entities;
-using Insite.WebFramework.Content.Attributes;
-using System;
 
 namespace Extensions.Widgets
 {
     [AllowedParents(new Type[] { typeof(Footer) })]
+    [DisplayName("NBF - Footer View")]
+
     public class FooterView : ContentWidget
     {
     }

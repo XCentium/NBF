@@ -1,3 +1,6 @@
+@import "../variables";
+
+
 .product-detail {
     .breadcrumbs .current {
         display: none;
@@ -78,12 +81,10 @@
     }
 
     .detail-options {
-        float: left;
-        width: 100%;
+       
     }
 
     .detail-options .fc-qty label {
-        font-size: .875rem;
     }
 
     .detail-image {
@@ -97,11 +98,13 @@
     .pd-grid .fc-um, .pd-grid .fc-qty {
         float: left;
         padding: 0;
-        width: 50% !important;
+        //width: 50% !important;
     }
 
     .pd-grid .fc-qty input {
-        max-width: 100px;
+        max-width: 110px;
+        text-align: center;
+        margin-right:20px;
     }
 
     .pd-buttons div {
@@ -148,13 +151,13 @@
     }
 
     .detail-options .panel {
-        border: 1px solid #e0e7ea;
+        border:none;
         background: none;
+        padding:0;
     }
 
     .pd-buttons, .secondary-button {
         float: left;
-        width: 100%;
     }
 
     .pd-item-link {
@@ -162,7 +165,7 @@
     }
 
     .images-carousel-wrapper {
-        padding: 0.6em 0;
+        padding: 20px 0 10px;
         visibility: hidden;
         position: absolute;
         margin: 0 auto;
@@ -172,7 +175,6 @@
                 border: 1px solid #d5d5d5;
 
                 &.active {
-                    border-color: #555555;
                 }
             }
         }
@@ -180,18 +182,19 @@
         ul {
             li {
                 margin: 0 4.8px 0 0;
-                width: 46px;
-                height: 46px;
                 line-height: 44px;
                 cursor: pointer;
+                max-width:120px;
             }
         }
 
         .img-carousel-control-prev, .img-carousel-control-next {
-            top: 0.3em;
+            @include center(false, true);
+            //top: 0.3em;
             width: 0.7em;
             height: 2em;
             background: none;
+            border:none;
 
             span {
                 font-size: 0.8em;
@@ -231,7 +234,6 @@
 
     
     .zoom-carousel-wrapper {
-        height: 56px;
 
         .images-carousel-wrapper {
             margin: 0 auto;
@@ -283,7 +285,7 @@
         }
 
         .pd-grid .fc-qty {
-            width: 30% !important;
+            //width: 30% !important;
         }
 
         [role="main"] .detail-options .btn.btn-add-to-cart, [role="main"] .detail-options a.btn.btn-add-to-list {
@@ -313,11 +315,10 @@
 
         .detail-options {
             float: right;
-            width: 20%;
         }
 
         .fc-um, .fc-qty {
-            width: 100% !important;
+           // width: 100% !important;
         }
 
         #imgZoom .modal-wrap img {

@@ -146,6 +146,16 @@
         }
     }
 
+     .talk-to-specialists-title {
+            color: $nbf-navy;
+            display: block;
+            line-height: 1.2;
+        }
+
+        .phone {
+            display: block;
+        }
+
     .contact {
         color: $nbf-navy;
 
@@ -156,15 +166,7 @@
             text-transform: uppercase;
         }
 
-        .talk-to-specialists-title {
-            color: $nbf-navy;
-            display: block;
-            line-height: 1.2;
-        }
-
-        .phone {
-            display: block;
-        }
+       
 
         &__social-links {
             display: flex;

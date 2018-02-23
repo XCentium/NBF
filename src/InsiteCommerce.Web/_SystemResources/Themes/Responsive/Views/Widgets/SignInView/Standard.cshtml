@@ -14,14 +14,14 @@
             <p style="color: red;">[% siteMessage 'SignIn_SessionExpiredOnCheckout' %]</p>
         </div>
 
-        <div class="medium-6 large-6 columns si-form">
+        <div class="medium-6 large-6 columns si-form" ng-if="vm.settings">
             <div class="si-step-1">
                 <form id="signInForm" name="vm.signInForm" novalidate>
                     <div class="row">
                         <div class="medium-6 large-6 columns">
-                            <label for="SignInInfo_UserName">[% translate 'Username' %]</label>
+                            <label for="SignInInfo_UserName" ng-bind="vm.settings.useEmailAsUserName ? '[% translate 'Email' %]' : '[% translate 'Username' %]'"></label>
                             <input type="text" id="SignInInfo_UserName" name="userName"
-                                   placeholder="[% translate 'Username' %]"
+                                   placeholder="{{vm.settings.useEmailAsUserName ? '[% translate 'Email' %]' : '[% translate 'Username' %]'}}"
                                    required
                                    maxlength="75"
                                    ng-model="vm.userName" />

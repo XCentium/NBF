@@ -218,6 +218,27 @@
         overflow: auto;
         height: 93vh;
     }
+
+    .pd-specs {
+        .spec-attributes {
+            width: 500px;
+
+            td {
+                padding: .5625rem .625rem;
+                line-height: 1.25rem;
+            }
+        }
+
+        .spec-documents {
+            margin-left: 0;
+
+            li {
+                list-style-type: none;
+                line-height: 2.2em;
+                margin-bottom: 5px;
+            }
+        }
+    }
 }
 
 #imgZoom .modal-wrap {

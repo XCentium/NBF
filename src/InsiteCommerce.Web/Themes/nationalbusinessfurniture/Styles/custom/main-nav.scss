@@ -68,7 +68,7 @@
 
 @media ( min-width:48em ) {
     #header label:hover, .isc-primary-nav label:hover, #header label:hover:before, .isc-primary-nav label:hover:before {
-        color: rgba(255, 255, 255, .5);
+        //color: rgba(255, 255, 255, .5);
     }
 
     .isc-primary-nav ul li.header-secondary-menu {
@@ -194,7 +194,10 @@
     margin-top: 2.9em;
     padding-left: 1.3125em;
     font-weight: 800;
-    text-transform: uppercase;
+    @media (min-width: 48em) {
+        pointer-events:none;
+    }
+    
 }
 
 .isc-primary-nav .toggle-sub {
@@ -451,6 +454,26 @@
         min-width: 100%;
         font-size: 1em;
 
+        &.single {
+            width:auto;
+            min-width:215px;
+
+            ul {
+                margin-top: 0;
+                padding-top: 15px;
+                padding-bottom: 15px;
+
+            }
+        }
+
+        &.show-heading {
+            .sub-heading{
+                display:block;
+                margin-top: 0;
+                padding: .85em 1em .85em 1em;
+            }
+        }
+
 
         div.subnav {
             border: none;
@@ -584,6 +607,16 @@
 
     .isc-primary-nav > ul > li {
         border-bottom: 1px solid transparent;
+
+         &:hover > a:after, &:hover > span > a:after  {
+                content: "";
+                display: block;
+                border-bottom: 1px solid $nbf-orange;
+                height: 1px;
+                width: 100%;
+                bottom: 26px;
+                position: relative;
+            }
     }
 
     .isc-primary-nav > ul {
