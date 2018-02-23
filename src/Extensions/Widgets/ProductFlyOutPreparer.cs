@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Extensions.Widgets.Models;
@@ -57,6 +58,7 @@ namespace Extensions.Widgets
                     CatNum = catId
                 };
 
+                //Add child elements
                 if (categoryMenuLink.NavLinks != null && categoryMenuLink.NavLinks.Count > 0)
                 {
                     child.NbfChildPages = new List<NbfChildPageDrop>();
@@ -71,6 +73,15 @@ namespace Extensions.Widgets
                         });
                         grandCatId++;
                     }
+                    //Add other stuff
+                    child.NbfChildPages.Add( new NbfChildPageDrop()
+                    {
+                        Title = "On sale",
+                        Url = "/Search?category=" + categoryMenuLink.Category.Name + "&something=OnSale",
+                        CatNum = grandCatId,
+                        Id = new Guid()
+                    });
+                    grandCatId++;
                 }
                 
                 childPageDropList.Add(child);
