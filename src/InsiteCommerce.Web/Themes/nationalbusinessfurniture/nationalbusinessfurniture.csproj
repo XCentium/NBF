@@ -504,7 +504,6 @@
     <None Include="Views\Widgets\MyAccountAddressView\Standard.cshtml" />
     <None Include="Views\Widgets\MyAccountView\Standard.cshtml" />
     <None Include="Views\Widgets\MyJobQuotesView\Standard.cshtml" />
-    <Content Include="Views\Widgets\NavigationList\Header.cshtml" />
     <None Include="Views\Widgets\NavigationList\Standard.cshtml" />
     <None Include="Views\Widgets\NewsListView\Standard.cshtml" />
     <None Include="Views\Widgets\NewsPageView\Standard.cshtml" />
