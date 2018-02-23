@@ -154,6 +154,7 @@
     <TypeScriptCompile Include="Scripts\Common\insite.base-upload.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Account\nbf.create-account.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Account\nbf.guest-activation.service.ts" />
+    <TypeScriptCompile Include="Scripts\Custom\Account\nbf.sign-in-fly-out.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Account\nbf.sign-in-widget.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Account\nbf.account.directives.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Cart\nbf.cart.controller.ts" />
@@ -446,6 +447,7 @@
     <Content Include="Views\Directives\History\RecentOrders.cshtml" />
     <Content Include="Views\Directives\Messages\MessageList.cshtml" />
     <Content Include="Views\Directives\Custom\Catalog\SortedAttributeValueList.cshtml" />
+    <Content Include="Views\Directives\Custom\Account\NbfSignInFlyOut.cshtml" />
     <None Include="Views\Directives\PdfViews\InvoiceDetails.cshtml" />
     <None Include="Views\Directives\PdfViews\OrderDetails.cshtml" />
     <Content Include="Views\Directives\Rfq\ProposedDetailsGrid.cshtml" />
@@ -479,6 +481,7 @@
     <Content Include="Views\Widgets\Custom\LiveChat\Standard.cshtml" />
     <Content Include="Views\Widgets\Custom\ProductFlyOut\Standard.cshtml" />
     <Content Include="Views\Widgets\Custom\NavigationFlyOut\Header.cshtml" />
+    <Content Include="Views\Widgets\Custom\NavigationFlyOut\MyAccount.cshtml" />
     <None Include="Views\Widgets\DealerDirectionsView\Standard.cshtml" />
     <None Include="Views\Widgets\DealerLocatorView\Standard.cshtml" />
     <None Include="Views\Widgets\DealerView\Standard.cshtml" />
