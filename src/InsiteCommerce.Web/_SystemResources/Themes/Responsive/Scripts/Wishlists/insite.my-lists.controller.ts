@@ -51,6 +51,7 @@
 
         protected getSettingsCompleted(settingsCollection: core.SettingsCollection): void {
             this.listSettings = settingsCollection.wishListSettings;
+            this.$timeout(() => (angular.element(document) as any).foundation(), 0);
             this.redirectToMyListDetails();
         }
 

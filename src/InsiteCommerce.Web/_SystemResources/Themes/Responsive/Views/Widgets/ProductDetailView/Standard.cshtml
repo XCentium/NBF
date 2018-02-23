@@ -35,12 +35,12 @@
                         </div>
                     </div>
                 </div>
-                <isc-sorted-attribute-value-list ng-if="vm.product.attributeTypes.length > 0" attribute-types="vm.product.attributeTypes" class="attribute-list"></isc-sorted-attribute-value-list>
+                <isc-sorted-attribute-value-list ng-if="!vm.settings.displayAttributesInTabs && vm.product.attributeTypes.length > 0" attribute-types="vm.product.attributeTypes" class="attribute-list"></isc-sorted-attribute-value-list>
 
                 <div id="tst_productDetail_htmlContent" class="product-cm" ng-bind-html="vm.product.htmlContent|trusted"></div>
             </div>
             <div class="product-reviews"></div>
-            <ul ng-if="vm.product.documents.length > 0" class="doclinks">
+            <ul ng-if="!vm.settings.displayDocumentsInTabs && vm.product.documents.length > 0" class="doclinks">
                 <li ng-if="vm.languageId === document.languageId" ng-repeat="document in vm.product.documents" class="doc-{{$index}}">
                     <a id="tst_productDetail_{{document.id}}" ng-href="{{document.filePath}}" target="_new">{{document.name}} <em ng-if="document.documentType">({{document.documentType}})</em></a>
                 </li>
@@ -94,9 +94,9 @@
                     </div>
                     <div class="small-12 primary-button">
                         <a id="tst_productDetail_productSubscription" href="" class="btn primary btn-product-subscription"
-                                ng-show="vm.product.isSubscription && (vm.product.availability.messageType != 2 || vm.product.canBackOrder) && vm.product.allowedAddToCart && (vm.product.canAddToCart || vm.configurationCompleted || vm.styleSelectionCompleted && !vm.product.canConfigure)"
-                                ng-click="vm.openProductSubscriptionPopup(vm.product)"
-                                ng-disabled="!vm.product.qtyOrdered || vm.product.qtyOrdered == 0 || vm.showUnitError">
+                           ng-show="vm.product.isSubscription && (vm.product.availability.messageType != 2 || vm.product.canBackOrder) && vm.product.allowedAddToCart && (vm.product.canAddToCart || vm.configurationCompleted || vm.styleSelectionCompleted && !vm.product.canConfigure)"
+                           ng-click="vm.openProductSubscriptionPopup(vm.product)"
+                           ng-disabled="!vm.product.qtyOrdered || vm.product.qtyOrdered == 0 || vm.showUnitError">
                             [% translate 'Delivery Schedule' %]
                         </a>
                     </div>
@@ -113,15 +113,55 @@
         </div>
     </div>
 
-    <div ng-show="vm.product.specifications.length > 0" class="row pd-specs">
+    <div ng-show="vm.product.specifications.length > 0 || vm.product.attributeTypes.length > 0 || vm.product.documents.length > 0" class="row pd-specs">
         <div id="tst_productDetail_specifications" class="detail-specs easy-resp-tabs">
             <ul class="resp-tabs-list">
+                <li ng-if="vm.settings.displayAttributesInTabs && vm.settings.attributesTabSortOrder === 'DisplayFirst' && vm.product.attributeTypes.length > 0">[% translate 'Attributes' %]</li>
+                <li ng-if="vm.settings.displayDocumentsInTabs && vm.settings.documentsTabSortOrder === 'DisplayFirst' && vm.product.documents.length > 0">[% translate 'Documents' %]</li>
                 <li ng-repeat="specification in vm.product.specifications | filter: { isActive: 'true' } | orderBy: 'sortOrder'" ng-class="{active: ($first)}">
                     {{specification.nameDisplay}}
                 </li>
+                <li ng-if="vm.settings.displayAttributesInTabs && vm.settings.attributesTabSortOrder === 'DisplayLast' && vm.product.attributeTypes.length > 0">[% translate 'Attributes' %]</li>
+                <li ng-if="vm.settings.displayDocumentsInTabs && vm.settings.documentsTabSortOrder === 'DisplayLast' && vm.product.documents.length > 0">[% translate 'Documents' %]</li>
             </ul>
             <div class="resp-tabs-container">
+                <div ng-if="vm.settings.displayAttributesInTabs && vm.settings.attributesTabSortOrder === 'DisplayFirst' && vm.product.attributeTypes.length > 0">
+                    <table class="info-tbl spec-attributes">
+                        <tbody>
+                            <tr ng-repeat="attributeType in vm.product.attributeTypes | orderBy : ['label', 'name'] | limitTo: (maximumNumber || 100)" class="row">
+                                <td class="col-label columns small-4" ng-bind="attributeType.label || attributeType.name"></td>
+                                <td class="col-value columns small-8"><isc-no-element ng-repeat="attributeValue in attributeType.attributeValues | orderBy  : ['sortOrder','valueDisplay']">{{attributeValue.valueDisplay}}{{$last ? '' : ', '}}</isc-no-element></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div ng-if="vm.settings.displayDocumentsInTabs && vm.settings.documentsTabSortOrder === 'DisplayFirst' && vm.product.documents.length > 0">
+                    <ul class="spec-documents">
+                        <li ng-if="vm.languageId === document.languageId" ng-repeat="document in (orderedDocuments = (vm.product.documents | orderBy : 'documentType'))" class="doc-{{$index}}">
+                            <div ng-if="document.documentType && document.documentType !== orderedDocuments[$index - 1].documentType" class="doc-type"><strong ng-bind="document.documentType"></strong></div>
+                            <a ng-href="{{document.filePath}}" target="_new">{{document.name}}</a>
+                        </li>
+                    </ul>
+                </div>
                 <div ng-repeat="specification in vm.product.specifications | filter: { isActive: 'true' } | orderBy: 'sortOrder'" ng-bind-html="specification.htmlContent|trusted"></div>
+                <div ng-if="vm.settings.displayAttributesInTabs && vm.settings.attributesTabSortOrder === 'DisplayLast' && vm.product.attributeTypes.length > 0">
+                    <table class="info-tbl spec-attributes">
+                        <tbody>
+                        <tr ng-repeat="attributeType in vm.product.attributeTypes | orderBy : ['label', 'name'] | limitTo: (maximumNumber || 100)" class="row">
+                            <td class="col-label columns small-4" ng-bind="attributeType.label || attributeType.name"></td>
+                            <td class="col-value columns small-8"><isc-no-element ng-repeat="attributeValue in attributeType.attributeValues | orderBy  : ['sortOrder','valueDisplay']">{{attributeValue.valueDisplay}}{{$last ? '' : ', '}}</isc-no-element></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div ng-if="vm.settings.displayDocumentsInTabs && vm.settings.documentsTabSortOrder === 'DisplayLast' && vm.product.documents.length > 0">
+                    <ul class="spec-documents">
+                        <li ng-if="vm.languageId === document.languageId" ng-repeat="document in (orderedDocuments = (vm.product.documents | orderBy : 'documentType'))" class="doc-{{$index}}">
+                            <div ng-if="document.documentType && document.documentType !== orderedDocuments[$index - 1].documentType" class="doc-type"><strong ng-bind="document.documentType"></strong></div>
+                            <a ng-href="{{document.filePath}}" target="_new">{{document.name}}</a>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
@@ -135,34 +175,34 @@
                 <form novalidate id="tellAFriendForm" class="custom">
                     <div class="row share-name">
                         <isc-tell-a-friend-field field-label="[% translate 'Friend's Name' %]"
-                                            field-name="friendsName"
-                                            field-value="vm.tellAFriendModel.friendsName"
-                                            is-required="true"
-                                            is-email="false">
+                                                 field-name="friendsName"
+                                                 field-value="vm.tellAFriendModel.friendsName"
+                                                 is-required="true"
+                                                 is-email="false">
                         </isc-tell-a-friend-field>
                     </div>
                     <div class="row share-email">
                         <isc-tell-a-friend-field field-label="[% translate 'Friend's Email' %]"
-                                            field-name="friendsEmail"
-                                            field-value="vm.tellAFriendModel.friendsEmailAddress"
-                                            is-required="true"
-                                            is-email="true">
+                                                 field-name="friendsEmail"
+                                                 field-value="vm.tellAFriendModel.friendsEmailAddress"
+                                                 is-required="true"
+                                                 is-email="true">
                         </isc-tell-a-friend-field>
                     </div>
                     <div class="row share-you">
                         <isc-tell-a-friend-field field-label="[% translate 'Your Name' %]"
-                                            field-name="yourName"
-                                            field-value="vm.tellAFriendModel.yourName"
-                                            is-required="true"
-                                            is-email="false">
+                                                 field-name="yourName"
+                                                 field-value="vm.tellAFriendModel.yourName"
+                                                 is-required="true"
+                                                 is-email="false">
                         </isc-tell-a-friend-field>
                     </div>
                     <div class="row share-youmail">
                         <isc-tell-a-friend-field field-label="[% translate 'Your Email' %]"
-                                            field-name="yourEmail"
-                                            field-value="vm.tellAFriendModel.yourEmailAddress"
-                                            is-required="true"
-                                            is-email="true">
+                                                 field-name="yourEmail"
+                                                 field-value="vm.tellAFriendModel.yourEmailAddress"
+                                                 is-required="true"
+                                                 is-email="true">
                         </isc-tell-a-friend-field>
                     </div>
                     <div class="row share-msg">
@@ -216,4 +256,10 @@
 
 <script type="text/ng-template" id="/PartialViews/Catalog-CrossSellCarousel">
     [% partialView 'Catalog-CrossSellCarousel' %]
+</script>
+<script type="text/ng-template" id="/PartialViews/Catalog-ProductImages">
+    [% partialView 'Catalog-ProductImages' %]
+</script>
+<script type="text/ng-template" id="/PartialViews/Catalog-ProductImageCarousel">
+    [% partialView 'Catalog-ProductImageCarousel' %]
 </script>

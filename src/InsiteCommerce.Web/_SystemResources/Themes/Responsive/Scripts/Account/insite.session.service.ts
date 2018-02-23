@@ -31,6 +31,9 @@ module insite.account {
         authRetryCount = 0;
         checkForSessionTimeout = false;
         accountSettings: AccountSettingsModel;
+        getSessionPromise: ng.IPromise<SessionModel>;
+        lastGetSessionCallTime: Date;
+        isAuthenticated: boolean;
 
         static $inject = ["$http", "$rootScope", "$q", "$localStorage", "$window", "ipCookie", "accessToken", "$location", "httpWrapperService", "coreService", "settingsService"];
 
@@ -87,6 +90,20 @@ module insite.account {
         }
 
         getSession(): ng.IPromise<SessionModel> {
+            if (typeof (this.getSessionPromise) !== "undefined" && this.getSessionPromise !== null) {
+                if (!this.isAuthenticated) {
+                    return this.getSessionPromise;
+                }
+
+                const lastGetSessionCallTime = this.lastGetSessionCallTime;
+                if (lastGetSessionCallTime instanceof Date && !isNaN(lastGetSessionCallTime.valueOf())) {
+                    if ((new Date()).getTime() - lastGetSessionCallTime.getTime() < 5000) {
+                        return this.getSessionPromise;
+                    }
+                }
+            }
+
+            this.lastGetSessionCallTime = new Date();
             const deferred = this.$q.defer();
 
             this.getIsAuthenticatedOnServer().then(
@@ -94,10 +111,12 @@ module insite.account {
                 (error: any) => { this.getSessionIsAuthenticatedOnServerFailed(error, deferred); }
             );
 
-            return deferred.promise;
+            this.getSessionPromise = (deferred.promise as ng.IPromise<SessionModel>);
+            return this.getSessionPromise;
         }
 
         protected getSessionIsAuthenticatedOnServerCompleted(isAuthenticatedOnServer: boolean, deferred: ng.IDeferred<{}>): void {
+            this.isAuthenticated = isAuthenticatedOnServer;
             if (!isAuthenticatedOnServer && this.accessToken.exists()) {
                 this.notAuthenticatedOnServerButHasAccessToken(deferred);
             } else if (isAuthenticatedOnServer && !this.accessToken.exists()) {
@@ -390,6 +409,7 @@ module insite.account {
         }
 
         protected updateSessionCompleted(response: ng.IHttpPromiseCallbackArg<SessionModel>): void {
+            this.$rootScope.$broadcast("sessionUpdated", response.data);
         }
 
         protected updateSessionFailed(error: ng.IHttpPromiseCallbackArg<any>): void {
