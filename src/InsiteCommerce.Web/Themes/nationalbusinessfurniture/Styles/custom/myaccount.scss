@@ -1,0 +1,27 @@
+﻿@import "../variables";
+
+
+.dash-title-bar {
+    background-color:$nbf-navy;
+    padding: 0.5em 1.25em;
+    color: #fff;
+    margin-bottom:20px;
+}
+
+.myaccount {
+    .dashboard {
+        margin-bottom:40px;
+        margin-top:10px;
+    }
+
+    .info-tbl {
+        th, td, .col-tot {
+            text-align:center;
+        }
+    }
+}
+
+.myaccount__title {
+    margin-bottom:80px;
+    margin-top:40px;
+}
