@@ -384,6 +384,7 @@
     <Content Include="Styles\normalize.css" />
     <Content Include="Styles\custom\product-details-page.scss" />
     <Content Include="Styles\custom\product-image-carousel.scss" />
+    <Content Include="Styles\custom\myaccount.scss" />
     <None Include="Styles\template\category-list.scss" />
     <None Include="Styles\template\change-cust-ship-to.scss" />
     <None Include="Styles\template\checkout-addresses.scss" />
@@ -512,6 +513,7 @@
     <Content Include="Views\Widgets\LinkList\HeaderTopLinks.cshtml" />
     <None Include="Views\Widgets\LinkList\Standard.cshtml" />
     <None Include="Views\Widgets\MyAccountAddressView\Standard.cshtml" />
+    <Content Include="Views\Widgets\MyAccountView\nbf.cshtml" />
     <None Include="Views\Widgets\MyAccountView\Standard.cshtml" />
     <None Include="Views\Widgets\MyJobQuotesView\Standard.cshtml" />
     <None Include="Views\Widgets\NavigationList\Standard.cshtml" />
@@ -525,6 +527,7 @@
     <None Include="Views\Widgets\OrderHistory\Standard.cshtml" />
     <None Include="Views\Widgets\OrdersView\Standard.cshtml" />
     <None Include="Views\Widgets\OrderUploadView\Standard.cshtml" />
+    <Content Include="Views\Widgets\PageTitle\nbf.cshtml" />
     <None Include="Views\Widgets\PageTitle\Standard.cshtml" />
     <None Include="Views\Widgets\ProductComparisonView\Standard.cshtml" />
     <Content Include="Views\Widgets\ProductDetailView\NBF.cshtml" />
