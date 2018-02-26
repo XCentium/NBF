@@ -1,6 +1,6 @@
 .ma-order-history {
     .btns {
-        margin-top: .5em;
+        margin-top: 25px;
         float: left;
         width: 100%;
     }
@@ -125,7 +125,6 @@
         }
 
         .btns .btn {
-            margin-left: 1em;
         }
 
         label.accord-head {
@@ -152,17 +151,17 @@
         }
 
         .search-orders .search-date input {
-            width: 100px;
+            width: 65px;
             display: inline-block;
+                padding: 0 5px;
+
         }
 
         .search-orders .search-date .row .small-6 {
-            width: auto;
         }
 
         .search-orders .search-date [class*="column"] + [class*="column"]:last-child {
-            float: left;
-            padding: 0;
+
         }
     }
 }
