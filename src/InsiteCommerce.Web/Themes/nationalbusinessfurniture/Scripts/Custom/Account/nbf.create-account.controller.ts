@@ -145,6 +145,7 @@
                 (response) => {
                     if (response) {
                         this.createError = "User name already exists";
+                        this.spinnerService.hide("mainLayout");
                     } else {
                         this.accountService.getAccount().then(
                             (account: AccountModel) => {
@@ -161,7 +162,9 @@
 
                                 //AccountModel has no value for phone, assign to user's billto address
                                 this.billTo.phone = this.userPhone;
+                                this.shipTo.phone = this.userPhone;
                                 this.billTo.email = this.email;
+                                this.shipTo.email = this.email;
 
                                 this.nbfGuestActivationService
                                     .createAccountFromGuest(account.id, newAccount, this.billTo, this.shipTo).then(
@@ -175,7 +178,14 @@
         }
 
         protected createAccountCompleted(account: AccountModel): void {
-            this.coreService.redirectToPathAndRefreshPage(this.returnUrl);
+            const currentContext = this.sessionService.getContext();
+            currentContext.billToId = account.billToId;
+            currentContext.shipToId = account.shipToId;
+
+            this.sessionService.setContext(currentContext);
+            this.sessionService.getSession().then(() => {
+                this.coreService.redirectToPathAndRefreshPage(this.returnUrl);
+            });
         }
 
         protected createAccountFailed(error: any): void {

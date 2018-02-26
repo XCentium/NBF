@@ -1,6 +1,3 @@
-@import "../variables";
-
-
 .product-detail {
     .breadcrumbs .current {
         display: none;
@@ -30,8 +27,7 @@
 
     .detail-info h1 {
         margin-top: 0;
-        font-size: 24px;
-        line-height:36px;
+        font-size: 1.5em;
     }
 
     .detail-info .pd-price-um {
@@ -81,13 +77,17 @@
     }
 
     .detail-options {
-       
+        float: left;
+        width: 100%;
     }
 
     .detail-options .fc-qty label {
+        font-size: .875rem;
     }
 
     .detail-image {
+        float: left;
+        text-align: center;
         margin-bottom: 20px;
     }
 
@@ -98,13 +98,11 @@
     .pd-grid .fc-um, .pd-grid .fc-qty {
         float: left;
         padding: 0;
-        //width: 50% !important;
+        width: 50% !important;
     }
 
     .pd-grid .fc-qty input {
-        max-width: 110px;
-        text-align: center;
-        margin-right:20px;
+        max-width: 100px;
     }
 
     .pd-buttons div {
@@ -151,13 +149,13 @@
     }
 
     .detail-options .panel {
-        border:none;
+        border: 1px solid #e0e7ea;
         background: none;
-        padding:0;
     }
 
     .pd-buttons, .secondary-button {
         float: left;
+        width: 100%;
     }
 
     .pd-item-link {
@@ -165,7 +163,7 @@
     }
 
     .images-carousel-wrapper {
-        padding: 20px 0 10px;
+        padding: 0.6em 0;
         visibility: hidden;
         position: absolute;
         margin: 0 auto;
@@ -175,6 +173,7 @@
                 border: 1px solid #d5d5d5;
 
                 &.active {
+                    border-color: #555555;
                 }
             }
         }
@@ -182,19 +181,18 @@
         ul {
             li {
                 margin: 0 4.8px 0 0;
+                width: 46px;
+                height: 46px;
                 line-height: 44px;
                 cursor: pointer;
-                max-width:120px;
             }
         }
 
         .img-carousel-control-prev, .img-carousel-control-next {
-            @include center(false, true);
-            //top: 0.3em;
+            top: 0.3em;
             width: 0.7em;
             height: 2em;
             background: none;
-            border:none;
 
             span {
                 font-size: 0.8em;
@@ -220,6 +218,27 @@
         overflow: auto;
         height: 93vh;
     }
+
+    .pd-specs {
+        .spec-attributes {
+            width: 500px;
+
+            td {
+                padding: .5625rem .625rem;
+                line-height: 1.25rem;
+            }
+        }
+
+        .spec-documents {
+            margin-left: 0;
+
+            li {
+                list-style-type: none;
+                line-height: 2.2em;
+                margin-bottom: 5px;
+            }
+        }
+    }
 }
 
 #imgZoom .modal-wrap {
@@ -232,8 +251,8 @@
         max-height: 80vh;
     }
 
-    
     .zoom-carousel-wrapper {
+        height: 56px;
 
         .images-carousel-wrapper {
             margin: 0 auto;
@@ -285,7 +304,7 @@
         }
 
         .pd-grid .fc-qty {
-            //width: 30% !important;
+            width: 30% !important;
         }
 
         [role="main"] .detail-options .btn.btn-add-to-cart, [role="main"] .detail-options a.btn.btn-add-to-list {
@@ -301,10 +320,20 @@
         }
 
         .detail-image {
+            max-width: 300px !important;
+            float: left;
+            width: 43% !important;
+        }
+
+        .detail-info {
+            width: 75% !important;
+            float: left;
         }
 
         .name-price, .pd-grid .pd-cm-wrap, .pd-grid .doclinks {
-
+            float: right;
+            width: 54%;
+            color: inherit;
         }
 
         .detail-specs {
@@ -315,10 +344,11 @@
 
         .detail-options {
             float: right;
+            width: 20%;
         }
 
         .fc-um, .fc-qty {
-           // width: 100% !important;
+            width: 100% !important;
         }
 
         #imgZoom .modal-wrap img {

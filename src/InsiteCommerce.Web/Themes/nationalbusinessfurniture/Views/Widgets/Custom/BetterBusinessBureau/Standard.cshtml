@@ -1,0 +1,11 @@
+﻿[% capture Image %]
+<img src="[[Model.ImageSource]]" alt="[[Model.AltText]]" style="" />
+[% endcapture %]
+
+<div class="bbb-wrap [[Model.CssClass]]">
+    [%- if Model.IsLinkProvided -%]
+        <a href="[[Model.Link]]">[[Image]]</a>
+    [%- else -%]
+        [[Image]]
+    [%- endif -%]
+</div>

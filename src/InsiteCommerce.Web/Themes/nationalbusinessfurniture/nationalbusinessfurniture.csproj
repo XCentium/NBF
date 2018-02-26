@@ -25,6 +25,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -156,6 +157,7 @@
     <TypeScriptCompile Include="Scripts\Common\insite.base-upload.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Account\nbf.create-account.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Account\nbf.guest-activation.service.ts" />
+    <TypeScriptCompile Include="Scripts\Custom\Account\nbf.sign-in-fly-out.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Account\nbf.sign-in-widget.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Account\nbf.account.directives.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Cart\nbf.cart.controller.ts" />
@@ -164,6 +166,7 @@
     <TypeScriptCompile Include="Scripts\Custom\Cart\nbf.checkout.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Catalog\nbf.product-image-carousel.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Catalog\nbf.catalog.directives.ts" />
+    <TypeScriptCompile Include="Scripts\Custom\Catalog\nbf.product-image-carousel.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Catalog\nbf.product-list.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Comments\nbf.commentmessage.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Comments\nbf.commentmessage.service.ts" />
@@ -450,6 +453,7 @@
     <Content Include="Views\Directives\History\RecentOrders.cshtml" />
     <Content Include="Views\Directives\Messages\MessageList.cshtml" />
     <Content Include="Views\Directives\Custom\Catalog\SortedAttributeValueList.cshtml" />
+    <Content Include="Views\Directives\Custom\Account\NbfSignInFlyOut.cshtml" />
     <None Include="Views\Directives\PdfViews\InvoiceDetails.cshtml" />
     <None Include="Views\Directives\PdfViews\OrderDetails.cshtml" />
     <Content Include="Views\Directives\Rfq\ProposedDetailsGrid.cshtml" />
@@ -475,13 +479,28 @@
     <None Include="Views\Widgets\CreateAccountView\Standard.cshtml" />
     <None Include="Views\Widgets\CurrencySelector\Standard.cshtml" />
     <Content Include="Views\Widgets\Custom\Ctalinks\Standard.cshtml" />
+    <Content Include="Views\Widgets\Custom\WebCode\Standard.cshtml" />
+    <Content Include="Views\Widgets\Custom\BetterBusinessBureau\Standard.cshtml" />
+    <Content Include="Views\Widgets\Custom\RequestCatalogLink\Standard.cshtml" />
+    <Content Include="Views\Widgets\Custom\WebCode\Header.cshtml" />
+    <Content Include="Views\Widgets\Custom\CallUs\Standard.cshtml" />
+    <Content Include="Views\Widgets\Custom\CallUs\Header.cshtml" />
+    <Content Include="Views\Widgets\Custom\LiveChat\Standard.cshtml" />
+    <Content Include="Views\Widgets\Custom\EmailSubscriptionWithTitle\Standard.cshtml" />
+    <Content Include="Views\Widgets\Custom\LinkListWithTitle\Standard.cshtml" />
+    <Content Include="Views\Widgets\Custom\SocialMediaLinkListWithTitle\Standard.cshtml" />
+    <Content Include="Views\Widgets\Custom\ProductFlyOut\Standard.cshtml" />
+    <Content Include="Views\Widgets\Custom\NavigationFlyOut\Header.cshtml" />
+    <Content Include="Views\Widgets\Custom\NavigationFlyOut\MyAccount.cshtml" />
     <None Include="Views\Widgets\DealerDirectionsView\Standard.cshtml" />
     <None Include="Views\Widgets\DealerLocatorView\Standard.cshtml" />
     <None Include="Views\Widgets\DealerView\Standard.cshtml" />
     <None Include="Views\Widgets\EmailSubscription\Standard.cshtml" />
     <None Include="Views\Widgets\FourColumn\Standard.cshtml" />
     <None Include="Views\Widgets\HeaderView\B2C.cshtml" />
+    <Content Include="Views\Widgets\HeaderView\NBF2.cshtml" />
     <None Include="Views\Widgets\HeaderView\Standard.cshtml" />
+    <Content Include="Views\Widgets\Image\HeaderLogo.cshtml" />
     <None Include="Views\Widgets\Image\Standard.cshtml" />
     <None Include="Views\Widgets\InvoiceDetailView\Standard.cshtml" />
     <None Include="Views\Widgets\InvoiceHistory\Standard.cshtml" />
@@ -490,6 +509,7 @@
     <None Include="Views\Widgets\ItemList\Standard.cshtml" />
     <None Include="Views\Widgets\JobQuoteDetailsView\Standard.cshtml" />
     <None Include="Views\Widgets\LanguageSelector\Standard.cshtml" />
+    <Content Include="Views\Widgets\LinkList\HeaderTopLinks.cshtml" />
     <None Include="Views\Widgets\LinkList\Standard.cshtml" />
     <None Include="Views\Widgets\MyAccountAddressView\Standard.cshtml" />
     <None Include="Views\Widgets\MyAccountView\Standard.cshtml" />
