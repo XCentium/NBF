@@ -1,26 +1,26 @@
 ﻿<div ng-controller="CommentMessagesController as vm" class="widget-contactform" ng-cloak
      comment-subject="[[Model.Subject]]">
-    <div class="cf-form [[Model.CssClass]]">
+    <div class="cf-form [[Model.CssClass]] comment-from">
         <form>
-            <div @*ng-show="!vm.submitted"*@>
-                <span>Comment on this article</span>
+            <div ng-show="!vm.submitted">
+                <h4 class="comment-from__title">Leave a Comment</h4>
 
-                <label for="name[[Model.ContentKey]]">[[Model.Instructions]]</label>
+                <label class="comment-from__label" for="name[[Model.ContentKey]]">[[Model.Instructions]]</label>
                 <input type="text" class="" name="name" id="name[[Model.ContentKey]]" placeholder="Name"
                        data-val-required="[[Model.NameIsRequiredErrorMessage]]" data-val="true"
                        ng-model="vm.name" />
 
-                <label for="email[[Model.ContentKey]]">[[Model.Instructions]]</label>
+                <label class="comment-from__label" for="email[[Model.ContentKey]]">[[Model.Instructions]]</label>
                 <input type="text" class="" name="email" id="email[[Model.ContentKey]]" placeholder="Email"
                        data-val-required="[[Model.EmailIsRequiredErrorMessage]]" data-val="true"
                        ng-model="vm.email" />
 
-                <label for="message[[Model.ContentKey]]">[[Model.Instructions]]</label>
+                <label class="comment-from__label" for="message[[Model.ContentKey]]">[[Model.Instructions]]</label>
                 <input type="text" class="" name="message" id="message[[Model.ContentKey]]" placeholder="Comment"
                        data-val-required="[[Model.MessageIsRequiredErrorMessage]]" data-val="true"
                        ng-model="vm.message" />
                 <p>
-                    <button class="btn primary btn-subscribe" type="submit" ng-click="vm.submit()">Submit</button>
+                    <button class="btn primary btn-subscribe comment-from__btn" type="submit" ng-click="vm.submit()">Submit</button>
                 </p>
             </div>
             <div ng-show="vm.submitted" id="tst_contactUsPage_successMessage" class="successMessage">

@@ -59,10 +59,10 @@
                             <div class="small-9 columns item-details">
                                 <div class="item-name">
                                     <a ng-if="orderLine.productUri" ng-href="{{ orderLine.productUri }}">{{ orderLine.shortDescription }}</a>
-                                    <span ng-if="!orderLine.productUri" ng-bind="orderLine.productERPNumber"></span>
+                                    <span ng-if="!orderLine.productUri" ng-bind="orderLine.productErpNumber"></span>
                                 </div>
                                 <div class="item-num">
-                                    <span class="item-num-sku" ng-if="orderLine.productERPNumber" ng-bind="orderLine.productERPNumber"></span>
+                                    <span class="item-num-sku" ng-if="orderLine.productErpNumber" ng-bind="orderLine.productErpNumber"></span>
                                     <span class="item-num-mfg" ng-if="orderLine.manufacturerItem">[% translate 'MFG #' %]:{{ orderLine.manufacturerItem }}</span>
                                     <span class="item-num-my" ng-if="orderLine.customerProductNumber">[% translate 'My Part #' %]: {{ orderLine.customerProductNumber }}</span>
                                 </div>

@@ -20,6 +20,18 @@
     }
 }
 
+.article-container {
+    & > .row {
+        margin-left: -0.9375rem;
+        margin-right: -0.9375rem;
+        max-width: 1024px;
+
+        @media all and (min-width: 1230px) {
+            margin: 0 auto;
+        }
+    }
+}
+
 
 .four-col {
     margin-bottom: 80px;

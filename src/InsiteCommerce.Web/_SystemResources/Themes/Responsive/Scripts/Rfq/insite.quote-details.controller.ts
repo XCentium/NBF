@@ -94,7 +94,14 @@
             }
 
             if (this.realTimePricing && this.quote.quoteLineCollection && this.quote.quoteLineCollection.length > 0) {
-                var products = this.quote.quoteLineCollection.map(o => ({ id: o.productId, qtyOrdered: o.qtyOrdered, selectedUnitOfMeasure: o.unitOfMeasure })) as any;
+                var products = this.quote.quoteLineCollection
+                    .filter(o => !o.pricing || o.pricing && o.pricing.requiresRealTimePrice)
+                    .map(o => ({ id: o.productId, qtyOrdered: o.qtyOrdered, selectedUnitOfMeasure: o.unitOfMeasure })) as any;
+
+                if (products.length === 0) {
+                    return;
+                }
+
                 this.productService.getProductRealTimePrices(products).then(
                     (realTimePricing: RealTimePricingModel) => this.getProductRealTimePricesCompleted(realTimePricing),
                     (error: any) => this.getProductRealTimePricesFailed(error));

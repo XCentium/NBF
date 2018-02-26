@@ -1,9 +1,9 @@
-﻿using Insite.ContentLibrary.ContentFields;
+﻿using System.ComponentModel;
 using Insite.ContentLibrary.Widgets;
-using Insite.Data.Entities;
 
 namespace Extensions.Widgets
 {
+    [DisplayName("NBF - Footer View")]
     public class FooterView : ContentWidget
     {
     }

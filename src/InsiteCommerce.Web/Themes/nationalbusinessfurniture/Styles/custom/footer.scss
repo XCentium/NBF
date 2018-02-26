@@ -32,7 +32,7 @@
         }
 
         .bbb-wrap {
-            @media all and (max-width: 767px) {
+            @media all and (max-width: 641px) {
                 padding:30px;
                 text-align:center;
             }
@@ -43,7 +43,7 @@
             list-style: none;
             margin-bottom: 1em;
 
-            @media all and (max-width: 767px){
+            @media all and (max-width: 641px){
                 margin-left: -15px;
                 margin-right: -15px;
                 margin-bottom: 0;
@@ -73,7 +73,7 @@
                 margin-bottom: 10px;
 
 
-                @media all and (max-width: 767px) {
+                @media all and (max-width: 641px) {
                     border-bottom:1px solid $divider-gray;
                     margin-bottom: 0;
 
@@ -92,11 +92,11 @@
                 font-size: 18px;
                 position: relative;
 
-                @media all and (min-width: 768px) {
+                @media all and (min-width: 642px) {
                     pointer-events:none;
                 }
 
-                @media all and (max-width: 767px) {
+                @media all and (max-width: 641px) {
                     padding: 15px 15px;
                     margin-bottom: 0;
 
@@ -146,6 +146,16 @@
         }
     }
 
+     .talk-to-specialists-title {
+            color: $nbf-navy;
+            display: block;
+            line-height: 1.2;
+        }
+
+        .phone {
+            display: block;
+        }
+
     .contact {
         color: $nbf-navy;
 
@@ -156,15 +166,7 @@
             text-transform: uppercase;
         }
 
-        .talk-to-specialists-title {
-            color: $nbf-navy;
-            display: block;
-            line-height: 1.2;
-        }
-
-        .phone {
-            display: block;
-        }
+       
 
         &__social-links {
             display: flex;
