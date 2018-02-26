@@ -752,6 +752,7 @@
     <Content Include="gruntfile.js" />
     <Content Include="config\appSettings.config">
       <SubType>Designer</SubType>
+      <TransformOnBuild>true</TransformOnBuild>
     </Content>
     <Content Include="ImportExport\SampleImports\SampleImport_Categories.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -826,6 +827,26 @@
       <DependentUpon>Web.config</DependentUpon>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="config\appSettings.Dev.config">
+      <DependentUpon>appSettings.config</DependentUpon>
+      <IsTransformFile>True</IsTransformFile>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="config\appSettings.QA.config">
+      <DependentUpon>appSettings.config</DependentUpon>
+      <IsTransformFile>True</IsTransformFile>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="config\connectionStrings.Dev.config">
+      <DependentUpon>connectionStrings.config</DependentUpon>
+      <IsTransformFile>True</IsTransformFile>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="config\connectionStrings.QA.config">
+      <DependentUpon>connectionStrings.config</DependentUpon>
+      <IsTransformFile>True</IsTransformFile>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="_SystemResources\readme.txt" />
     <None Include="_SystemResources\**\*.css" />
     <None Include="_SystemResources\**\*.scss" />
@@ -834,6 +855,7 @@
   <ItemGroup>
     <Content Include="config\connectionStrings.config">
       <SubType>Designer</SubType>
+      <TransformOnBuild>true</TransformOnBuild>
     </Content>
     <Content Include="packages.config">
       <SubType>Designer</SubType>
@@ -985,6 +1007,8 @@
     <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.3\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.3\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
     <Error Condition="!Exists('..\packages\LibGit2Sharp-SSH.NativeBinaries.1.0.14\build\LibGit2Sharp-SSH.NativeBinaries.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\LibGit2Sharp-SSH.NativeBinaries.1.0.14\build\LibGit2Sharp-SSH.NativeBinaries.props'))" />
     <Error Condition="!Exists('..\packages\OctoPack.3.6.3\build\OctoPack.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\OctoPack.3.6.3\build\OctoPack.targets'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.VisualStudio.SlowCheetah.3.0.61\build\Microsoft.VisualStudio.SlowCheetah.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.VisualStudio.SlowCheetah.3.0.61\build\Microsoft.VisualStudio.SlowCheetah.targets'))" />
   </Target>
   <Import Project="..\packages\OctoPack.3.6.3\build\OctoPack.targets" Condition="Exists('..\packages\OctoPack.3.6.3\build\OctoPack.targets')" />
+  <Import Project="..\packages\Microsoft.VisualStudio.SlowCheetah.3.0.61\build\Microsoft.VisualStudio.SlowCheetah.targets" Condition="Exists('..\packages\Microsoft.VisualStudio.SlowCheetah.3.0.61\build\Microsoft.VisualStudio.SlowCheetah.targets')" />
 </Project>
