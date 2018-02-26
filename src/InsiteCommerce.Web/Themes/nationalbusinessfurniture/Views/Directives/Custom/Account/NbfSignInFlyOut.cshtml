@@ -12,31 +12,31 @@
      class="login-from">
 
     <div class="sub-heading">[% siteMessage 'Navigation_MyAccountDropDownText' 'Welcome' %]</div>
-    <form id="signInForm" name="vm.signInForm" novalidate>
+    <form id="signInFormFlyOut" name="vm.signInForm" novalidate>
 
-        <label for="SignInInfo_UserName" class="login-from__email__label">[% translate 'Username' %]</label>
-        <input type="text" id="SignInInfo_UserName" name="userName" class="login-from__email__input"
+        <label for="SignInInfo_FlyOut_UserName" class="login-from__email__label">[% translate 'Username' %]</label>
+        <input type="text" id="SignInInfo_FlyOut_UserName" name="userName" class="login-from__email__input"
                placeholder="[% translate 'Username' %]"
                required
                maxlength="75"
                ng-model="vm.userName" />
-        <label for="SignInInfo_Password" class="login-from__password__label">[% translate 'Password' %]</label>
-        <input type="password" id="SignInInfo_Password" name="password" class="login-from__password__input"
+        <label for="SignInInfo_FlyOut_Password" class="login-from__password__label">[% translate 'Password' %]</label>
+        <input type="password" id="SignInInfo_FlyOut_Password" name="password" class="login-from__password__input"
                placeholder="[% translate 'Password' %]"
                required
                maxlength="75"
                ng-model="vm.password" />
 
 
-        <a href="#" ng-click="vm.resetForgotPasswordPopup()" class="login-from__forgotpassword" id="tst_signIn_openForgotPassword" data-reveal-id="forgotPasswordPopup">[% translate 'Forgot Password?' EscapeSingleQuotes %]</a>
+        <a href="#" ng-click="vm.resetForgotPasswordPopup()" class="login-from__forgotpassword" id="tst_signIn_flyOut_openForgotPassword" data-reveal-id="forgotPasswordPopup">[% translate 'Forgot Password?' EscapeSingleQuotes %]</a>
 
         <p class="error">
             <span class="field-validation-error" ng-if="vm.signInForm.$submitted && vm.signInForm.userName.$error.required">[% siteMessage 'SignInInfo_UserName_Required' %]</span>
             <span class="field-validation-error" ng-if="vm.signInForm.$submitted && vm.signInForm.password.$error.required">[% siteMessage 'SignInInfo_Password_Required' %]</span>
-            <span class="field-validation-error" ng-if="vm.signInError" id="tst_signIn_generalError">{{vm.signInError}}</span>
+            <span class="field-validation-error" ng-if="vm.signInError" id="tst_signIn_flyOut_generalError">{{vm.signInError}}</span>
         </p>
 
-        <button id="tst_signIn_submit" type="submit" ng-disabled="vm.disableSignIn" class="login-from__btn btn btn-login" ng-click="vm.signIn('[% siteMessage 'SignInInfo_UserNamePassword_Combination' EscapeSingleQuotes %]')">[% translate 'Sign In' %]</button>
+        <button id="tst_signIn_flyOut_submit" type="submit" ng-disabled="vm.disableSignIn" class="login-from__btn btn btn-login" ng-click="vm.signIn('[% siteMessage 'SignInInfo_UserNamePassword_Combination' EscapeSingleQuotes %]')">[% translate 'Sign In' %]</button>
 
     </form>
 
