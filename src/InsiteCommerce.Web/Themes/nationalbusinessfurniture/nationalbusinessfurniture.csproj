@@ -113,6 +113,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Scripts\foundation.equalizer.js" />
+    <Content Include="Scripts\foundation.tooltip.js" />
     <Content Include="Scripts\Libraries\jquery.inputmask\0.0.0\jquery.inputmask.js" />
     <Content Include="Scripts\Libraries\jquery.inputmask\0.0.0\jquery.inputmask.numeric.extensions.js" />
     <Content Include="Scripts\Libraries\jquery.maskedinput\jquery.maskedinput.js" />
@@ -163,6 +164,7 @@
     <TypeScriptCompile Include="Scripts\Custom\Cart\nbf.cart-total-display.directive.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Cart\nbf.cart-lines.directive.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Cart\nbf.checkout.controller.ts" />
+    <TypeScriptCompile Include="Scripts\Custom\Catalog\nbf.product-image-carousel.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Catalog\nbf.catalog.directives.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Catalog\nbf.product-image-carousel.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Catalog\nbf.product-list.controller.ts" />
@@ -476,6 +478,7 @@
     <Content Include="Views\Widgets\CreateAccountView\NBF.cshtml" />
     <None Include="Views\Widgets\CreateAccountView\Standard.cshtml" />
     <None Include="Views\Widgets\CurrencySelector\Standard.cshtml" />
+    <Content Include="Views\Widgets\Custom\Ctalinks\Standard.cshtml" />
     <Content Include="Views\Widgets\Custom\WebCode\Standard.cshtml" />
     <Content Include="Views\Widgets\Custom\BetterBusinessBureau\Standard.cshtml" />
     <Content Include="Views\Widgets\Custom\RequestCatalogLink\Standard.cshtml" />
