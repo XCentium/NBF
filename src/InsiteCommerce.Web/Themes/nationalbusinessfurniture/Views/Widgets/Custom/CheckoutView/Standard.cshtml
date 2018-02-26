@@ -31,7 +31,7 @@
                                             </div>
                                         </div>
                                     </section>
-                                    <section class="bill-to" ng-if="vm.selectedShipTo.label != 'Use Billing Address' && !vm.isGuest">
+                                    <section class="bill-to" ng-hide="vm.selectedShipTo.label == 'Use Billing Address' && !vm.isGuest">
                                         <h3>[% translate 'Billing Address' %]</h3>
                                         <div>
                                             <label for="sameAsShipping">[% translate 'Same as shipping' %]</label>
@@ -90,21 +90,13 @@
                                     <section class="ship-method large-6 columns">
                                         <h3>[% translate 'Shipping Method' %]</h3>
                                         <div>
-                                            <div class="select-carrier" ng-show="vm.cart.carriers.length > 0">
-                                                <label for="carrier">[% translate 'Select Carrier' %]</label>
-                                                <select name="carrier" id="carrier"
-                                                        ng-model="vm.cart.carrier"
-                                                        ng-change="vm.updateCarrier()"
-                                                        ng-options="carrier.description for carrier in vm.cart.carriers"></select>
-                                            </div>
                                             <div class="select-method" ng-show="vm.cart.carriers.length > 0">
-                                                <label for="shippingMethod">[% translate 'Select Options' %]</label>
+                                                <label for="shippingMethod">[% translate 'Select Shipping Options' %]</label>
                                                 <select id="shippingMethod" name="shippingMethod"
                                                         data-rule-required="true" data-msg-required="[% translate 'Shipping Method is required.' %]"
                                                         ng-model="vm.cart.shipVia"
                                                         ng-options="shipVia.description for shipVia in vm.cart.carrier.shipVias"
                                                         ng-change="vm.updateShipVia()">
-                                                    <option value="">[% translate 'Select Method' %]</option>
                                                 </select>
                                                 <span class="field-validation-valid" data-valmsg-for="shippingMethod" data-valmsg-replace="true"></span>
                                             </div>
@@ -143,7 +135,6 @@
                                             <h3>[% translate 'Shipping Method' %]</h3>
                                         </div>
                                         <div class="oc-ship-meth">
-                                            <span ng-bind="vm.cart.carrier.description"></span><br />
                                             <span ng-bind="vm.cart.shipVia.description"></span>
                                         </div>
                                         <div class="oc-order-notes" ng-if="vm.cart.notes.trim().length > 0">

@@ -87,6 +87,7 @@
                     this.addList(this.newListName);
                 } else {
                     this.showListNameErrorMessage = true;
+                    this.copyInProgress = false;
                 }
             }
         }

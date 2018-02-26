@@ -289,7 +289,7 @@ module insite.catalog {
         }
 
         protected getAutocompleteSearchHistoryTemplate(suggestion: any): string {
-            return `<div class="group-${suggestion.type}">${suggestion.q}</div>`;
+            return `<div class="group-${suggestion.type}">${suggestion.q.replace(/</g, "&lt").replace(/>/g, "&gt")}</div>`;
         }
 
         protected getAutocompleteCategoryTemplate(suggestion: any, pattern: string): string {

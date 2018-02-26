@@ -104,7 +104,7 @@
         }
 
         protected createAccountCompleted(account: AccountModel): void {
-            this.accessToken.generate(this.userName, this.password).then(
+            this.accessToken.generate(account.userName, this.password).then(
                 (accessToken: common.IAccessTokenDto) => { this.generateAccessTokenCompleted(account, accessToken); },
                 (error: any) => { this.generateAccessTokenFailed(error); });
         }

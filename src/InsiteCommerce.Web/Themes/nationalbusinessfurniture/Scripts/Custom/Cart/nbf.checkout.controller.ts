@@ -1094,6 +1094,7 @@
         }
 
         protected loadStep4() {
+            this.hideSignIn = true;
             $("#nav1expanded,#nav2expanded,#nav3expanded,.edit").hide();
             $("#nav1min,#nav2min,#nav3min,#thankYou").show();
             $("#address,#shipping,#payment").addClass("active");

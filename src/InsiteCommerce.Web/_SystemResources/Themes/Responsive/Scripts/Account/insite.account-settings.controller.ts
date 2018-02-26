@@ -6,15 +6,19 @@
         account: AccountModel;
         isAccountPasswordChanged = false;
         changeSubscriptionError = "";
-        manageSubscriptionsForm: any;
         savedAccountEmail: string;
+        newAccountEmail: string;
+        changeEmailAddressForm: any;
+        changeEmailAddressError = "";
 
-        static $inject = ["accountService", "$localStorage", "settingsService"];
+        static $inject = ["accountService", "$localStorage", "settingsService", "coreService", "sessionService"];
 
         constructor(
             protected accountService: account.IAccountService,
             protected $localStorage: common.IWindowStorage,
-            protected settingsService: core.ISettingsService) {
+            protected settingsService: core.ISettingsService,
+            protected coreService: core.ICoreService,
+            protected sessionService: account.ISessionService) {
             this.init();
         }
 
@@ -40,6 +44,7 @@
         protected getAccountCompleted(account: AccountModel): void {
             this.account = account;
             this.savedAccountEmail = account.email;
+            this.newAccountEmail = account.email;
         }
 
         protected getAccountFailed(error: any): void {
@@ -62,24 +67,65 @@
         }
 
         changeSubscription(): void {
-            if (!this.manageSubscriptionsForm.$valid) {
+            this.accountService.updateAccount(this.account).then(
+                (account: AccountModel) => { this.updateSubscriptionCompleted(account); },
+                (error: any) => { this.updateSubscriptionFailed(error); });
+        }
+
+        protected updateSubscriptionCompleted(account: AccountModel): void {
+            (angular.element("#manageSubscriptionSuccess") as any).foundation("reveal", "open");
+        }
+
+        protected updateSubscriptionFailed(error: any): void {
+            this.changeSubscriptionError = error.message;
+        }
+
+        showChangeEmailAddressPopup() {
+            this.coreService.displayModal(angular.element("#changeEmailAddressPopup"));
+        }
+
+        hideChangeEmailAddressPopup() {
+            this.coreService.closeModal("#changeEmailAddressPopup");
+        }
+
+        changeEmailAddress(): void {
+            if (!this.changeEmailAddressForm.$valid) {
                 return;
             }
 
-            this.changeSubscriptionError = "";
+            this.changeEmailAddressError = "";
+            this.account.email = this.newAccountEmail;
 
             this.accountService.updateAccount(this.account).then(
-                (account: AccountModel) => { this.updateAccountCompleted(account); },
-                (error: any) => { this.updateAccountFailed(error); });
+                (account: AccountModel) => { this.updateEmailAddressCompleted(account); },
+                (error: any) => { this.updateEmailAddressFailed(error); });
         }
 
-        protected updateAccountCompleted(account: AccountModel): void {
-            (angular.element("#manageSubscriptionSuccess") as any).foundation("reveal", "open");
+        protected updateEmailAddressCompleted(account: AccountModel): void {
+            this.hideChangeEmailAddressPopup();
             this.savedAccountEmail = account.email;
+            this.newAccountEmail = account.email;
+
+            if (this.settings.useEmailAsUserName) {
+                this.updateSession();
+            }
         }
 
-        protected updateAccountFailed(error: any): void {
-            this.changeSubscriptionError = error.message;
+        protected updateEmailAddressFailed(error: any): void {
+            this.changeEmailAddressError = error.message;
+            this.account.email = this.savedAccountEmail;
+        }
+
+        protected updateSession(): void {
+            this.sessionService.updateSession({} as SessionModel).then(
+                (session: SessionModel) => { this.updateSessionCompleted(session); },
+                (error: any) => { this.updateSessionFailed(error); });
+        }
+
+        protected updateSessionCompleted(session: SessionModel): void {   
+        }
+
+        protected updateSessionFailed(error: any): void {
         }
     }
 
