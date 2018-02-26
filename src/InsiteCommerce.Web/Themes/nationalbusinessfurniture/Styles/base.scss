@@ -773,10 +773,10 @@ ul.resp-tabs-list {
     list-style: none;
     cursor: pointer;
     float: left;
-    background-color: SlateGray;
+    background-color: $nbf-navy;
     color: #fff;
-    border-left: 1px solid SlateGray;
-    border-right: 1px solid SlateGray;
+    border-left: 1px solid $nbf-navy;
+    border-right: 1px solid $nbf-navy;
 }
 
 .resp-tabs-list li + li {
@@ -806,7 +806,7 @@ h2.resp-accordion {
     margin-bottom: -1px;
     padding: .5em 1.5em;
     background-color: #fff;
-    color: SlateGray;
+    color: $nbf-navy;
 }
 
 .resp-tab-active {
@@ -828,9 +828,9 @@ h2.resp-accordion {
     margin: 0px;
     margin-top: 2px;
     padding: 0.5em 1.25em;
-    background-color: SlateGray;
+    background-color: $nbf-navy;
     color: #fff;
-    border: 1px solid SlateGray;
+    border: 1px solid $nbf-navy;
 }
 
 h2.resp-tab-active {
@@ -916,7 +916,7 @@ h2.resp-tab-active span.resp-arrow:before {
 h2.resp-tab-active {
     background: #fff;
     border: 1px solid $divider-gray;
-    color: SlateGray;
+    color: $nbf-navy;
 }
 
 .resp-easy-accordion h2.resp-accordion {
@@ -973,8 +973,8 @@ h2.resp-tab-active {
 }
 
 .accordion label.accord-head {
-    background: SlateGray;
-    border: 1px solid SlateGray;
+    background: $nbf-navy;
+    border: 1px solid $nbf-navy;
     color: #fff;
     cursor: pointer;
     display: block;
@@ -989,7 +989,7 @@ h2.resp-tab-active {
 
 .accordion input.accord-check:checked + label.accord-head {
     background: #fff;
-    color: SlateGray;
+    color: $nbf-navy;
     border-color: $divider-gray;
 }
 
@@ -2840,7 +2840,7 @@ ul.attribute-list span.attrib-name {
 }
 
 div.remove a.btn {
-    color: SlateGray;
+    color: $nbf-navy;
 }
 
 .item-block .item-opt .item-actions {
