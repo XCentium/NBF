@@ -24,11 +24,11 @@ namespace Extensions.Widgets
         {
             get
             {
-                return this.GetValue<string>(nameof(Position1), "Bottom Right", FieldType.General).Replace(" ", "").ToLower();
+                return this.GetValue<string>(nameof(Position1), "Bottom Right", FieldType.Contextual).Replace(" ", "").ToLower();
             }
             set
             {
-                this.SetValue<string>(nameof(Position1), value, FieldType.General);
+                this.SetValue<string>(nameof(Position1), value, FieldType.Contextual);
             }
         }
         [DropDownContentField(new string[] { "Default", "Square" }, SortOrder = 30)]
@@ -36,11 +36,11 @@ namespace Extensions.Widgets
         {
             get
             {
-                return this.GetValue<string>(nameof(Style1), "Default", FieldType.General);
+                return this.GetValue<string>(nameof(Style1), "Default", FieldType.Contextual);
             }
             set
             {
-                this.SetValue<string>(nameof(Style1), value, FieldType.General);
+                this.SetValue<string>(nameof(Style1), value, FieldType.Contextual);
             }
         }
 
@@ -88,11 +88,11 @@ namespace Extensions.Widgets
         {
             get
             {
-                return this.GetValue<string>(nameof(Position2), "Bottom Right", FieldType.General).Replace(" ", "").ToLower();
+                return this.GetValue<string>(nameof(Position2), "Bottom Right", FieldType.Contextual).Replace(" ", "").ToLower();
             }
             set
             {
-                this.SetValue<string>(nameof(Position2), value, FieldType.General);
+                this.SetValue<string>(nameof(Position2), value, FieldType.Contextual);
             }
         }
         [DropDownContentField(new string[] { "Default", "Square" }, SortOrder = 80)]
@@ -100,11 +100,11 @@ namespace Extensions.Widgets
         {
             get
             {
-                return this.GetValue<string>(nameof(Style2), "Default", FieldType.General);
+                return this.GetValue<string>(nameof(Style2), "Default", FieldType.Contextual);
             }
             set
             {
-                this.SetValue<string>(nameof(Style2), value, FieldType.General);
+                this.SetValue<string>(nameof(Style2), value, FieldType.Contextual);
             }
         }
 
