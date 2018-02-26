@@ -269,7 +269,7 @@
                     </li>
                     <li>
                         <div class="cart-button">
-                            <a id="tst_cartLink" class="cart-link" href="[% urlForPage 'CartPage' %]"><span class="ico-CartIcon"></span> <span ng-bind="vm.cart.totalCountDisplay"></span><span>[% translate 'Cart' %]</span></a>
+                            <a id="tst_cartLink" class="cart-link" href="[% urlForPage 'CartPage' %]"><span class="ico-CartIcon"></span>&nbsp;&nbsp;<span ng-show="vm.cart.totalCountDisplay > 0" ng-bind="vm.cart.totalCountDisplay"></span><span ng-show="vm.cart.totalCountDisplay < 1">[% translate 'Cart' %]</span></a>
                         </div>
                     </li>
                 </ul>
