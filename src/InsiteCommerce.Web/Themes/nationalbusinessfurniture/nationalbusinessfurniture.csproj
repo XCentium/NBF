@@ -176,6 +176,7 @@
     <TypeScriptCompile Include="Scripts\Custom\OrderTracker\nbf.order-tracker.order-detail.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\OrderTracker\nbf.order-tracker.service.ts" />
     <TypeScriptCompile Include="Scripts\Custom\OrderTracker\nbf.order-tracker.controller.ts" />
+    <TypeScriptCompile Include="Scripts\Custom\ShopTheLook\nbf.ShopTheLook.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\SocialMediaSharing\nbf.social-media.controller.ts" />
     <TypeScriptCompile Include="Scripts\insite.config.ts" />
     <TypeScriptCompile Include="Scripts\insite.content-pager.controller.ts" />
@@ -385,6 +386,7 @@
     <Content Include="Styles\custom\product-details-page.scss" />
     <Content Include="Styles\custom\product-image-carousel.scss" />
     <Content Include="Styles\custom\myaccount.scss" />
+    <Content Include="Styles\custom\order-history.scss" />
     <None Include="Styles\template\category-list.scss" />
     <None Include="Styles\template\change-cust-ship-to.scss" />
     <None Include="Styles\template\checkout-addresses.scss" />
@@ -493,6 +495,7 @@
     <Content Include="Views\Widgets\Custom\ProductFlyOut\Standard.cshtml" />
     <Content Include="Views\Widgets\Custom\NavigationFlyOut\Header.cshtml" />
     <Content Include="Views\Widgets\Custom\NavigationFlyOut\MyAccount.cshtml" />
+    <Content Include="Views\Widgets\Custom\ShopTheLook\Standard.cshtml" />
     <None Include="Views\Widgets\DealerDirectionsView\Standard.cshtml" />
     <None Include="Views\Widgets\DealerLocatorView\Standard.cshtml" />
     <None Include="Views\Widgets\DealerView\Standard.cshtml" />
@@ -525,6 +528,7 @@
     <None Include="Views\Widgets\OrderConfirmationView\Standard.cshtml" />
     <None Include="Views\Widgets\OrderDetailView\Standard.cshtml" />
     <None Include="Views\Widgets\OrderHistory\Standard.cshtml" />
+    <Content Include="Views\Widgets\OrdersView\nbf.cshtml" />
     <None Include="Views\Widgets\OrdersView\Standard.cshtml" />
     <None Include="Views\Widgets\OrderUploadView\Standard.cshtml" />
     <Content Include="Views\Widgets\PageTitle\nbf.cshtml" />
