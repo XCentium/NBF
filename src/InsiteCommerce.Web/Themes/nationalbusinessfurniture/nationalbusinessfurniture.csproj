@@ -177,6 +177,7 @@
     <TypeScriptCompile Include="Scripts\Custom\OrderTracker\nbf.order-tracker.order-detail.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\OrderTracker\nbf.order-tracker.service.ts" />
     <TypeScriptCompile Include="Scripts\Custom\OrderTracker\nbf.order-tracker.controller.ts" />
+    <TypeScriptCompile Include="Scripts\Custom\ShopTheLookDetails\nbf.ShopTheLookDetails.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\ShopTheLook\nbf.ShopTheLook.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\SocialMediaSharing\nbf.social-media.controller.ts" />
     <TypeScriptCompile Include="Scripts\insite.config.ts" />
@@ -498,6 +499,7 @@
     <Content Include="Views\Widgets\Custom\NavigationFlyOut\Header.cshtml" />
     <Content Include="Views\Widgets\Custom\NavigationFlyOut\MyAccount.cshtml" />
     <Content Include="Views\Widgets\Custom\ShopTheLook\Standard.cshtml" />
+    <Content Include="Views\Widgets\Custom\ShopTheLookDetails\Standard.cshtml" />
     <None Include="Views\Widgets\DealerDirectionsView\Standard.cshtml" />
     <None Include="Views\Widgets\DealerLocatorView\Standard.cshtml" />
     <None Include="Views\Widgets\DealerView\Standard.cshtml" />
