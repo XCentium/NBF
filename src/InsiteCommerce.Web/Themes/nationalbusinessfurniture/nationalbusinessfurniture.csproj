@@ -502,7 +502,6 @@
     <None Include="Views\Widgets\EmailSubscription\Standard.cshtml" />
     <None Include="Views\Widgets\FourColumn\Standard.cshtml" />
     <None Include="Views\Widgets\HeaderView\B2C.cshtml" />
-    <Content Include="Views\Widgets\HeaderView\NBF2.cshtml" />
     <None Include="Views\Widgets\HeaderView\Standard.cshtml" />
     <Content Include="Views\Widgets\Image\HeaderLogo.cshtml" />
     <None Include="Views\Widgets\Image\Standard.cshtml" />
