@@ -322,6 +322,9 @@
     <Compile Include="Widgets\ArticleListViewDrop.cs" />
     <Compile Include="Widgets\ArticleListViewPageDrop.cs" />
     <Compile Include="Widgets\ArticleListViewPreparer.cs" />
+    <Compile Include="Widgets\ArticlePageCommentsViewPreparer.cs" />
+    <Compile Include="Widgets\ArticlePageCommentsView.cs" />
+    <Compile Include="Widgets\ArticlePageCommentPreparer.cs" />
     <Compile Include="Widgets\ArticlePageView.cs" />
     <Compile Include="Widgets\ArticlePageViewDrop.cs" />
     <Compile Include="Widgets\ArticlePageViewPreparer.cs" />
@@ -329,6 +332,7 @@
     <Compile Include="Widgets\CallUsPreparer.cs" />
     <Compile Include="Widgets\CallUs.cs" />
     <Compile Include="Widgets\CategoriesList.cs" />
+    <Compile Include="Widgets\ArticlePageComment.cs" />
     <Compile Include="Widgets\link-CTA.cs" />
     <Compile Include="Widgets\EmailSubscriptionWithTitle.cs" />
     <Compile Include="Widgets\SocialMediaLinkListWithTitle.cs" />
