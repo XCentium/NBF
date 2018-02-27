@@ -23,6 +23,19 @@ namespace Extensions.Widgets
             }
         }
 
+        [FilePickerField(IsRequired = false, ResourceType = "ImageFiles",DisplayName = "Article Image used for Article Widgets")]
+        public virtual string ArticleImageUrl
+        {
+            get
+            {
+                return GetValue("ArticleImageUrl", string.Empty, FieldType.Contextual);
+            }
+            set
+            {
+                SetValue("ArticleImageUrl", value, FieldType.Contextual);
+            }
+        }
+
         [RichTextContentField(IsRequired = false)]
         public virtual string AuthorInfo
         {
