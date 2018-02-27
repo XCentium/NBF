@@ -1,9 +1,11 @@
 ﻿using Insite.ContentLibrary.ContentFields;
 using Insite.ContentLibrary.Widgets;
 using Insite.Data.Entities;
+using System.ComponentModel;
 
 namespace Extensions.Widgets
 {
+    [DisplayName("NBF - Banner")]
     public class Banner : ContentWidget
     {
         [FilePickerField(IsRequired = true, ResourceType = "ImageFiles", SortOrder = 10)]
@@ -36,7 +38,7 @@ namespace Extensions.Widgets
         {
             get
             {
-                return this.GetValue<string>(nameof(Style1), "Default", FieldType.Contextual);
+                return this.GetValue<string>(nameof(Style1), "Default", FieldType.Contextual).Replace(" ", "").ToLower();
             }
             set
             {
@@ -100,7 +102,7 @@ namespace Extensions.Widgets
         {
             get
             {
-                return this.GetValue<string>(nameof(Style2), "Default", FieldType.Contextual);
+                return this.GetValue<string>(nameof(Style2), "Default", FieldType.Contextual).Replace(" ", "").ToLower();
             }
             set
             {

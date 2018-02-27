@@ -1,22 +1,30 @@
 ﻿
 <style type="text/css">
     .cell-one {
-        background-image: url(https://assets.iamsteve.me/placeholder/1.jpg);
+        [% if Model.BackgroundImage1 != null and Model.BackgroundImage1 != "" -%] 
+        background-image: url('[[Model.BackgroundImage1]]');
+        [% endif -%] 
         background-color: #fff;
     }
 
     .cell-two {
+        [% if Model.BackgroundImage2 != null and Model.BackgroundImage2 != "" -%] 
+        background-image: url('[[Model.BackgroundImage2]]');
+        [% endif -%] 
         background-color: #fff;
-        background-image:;
     }
 
     .cell-three {
+        [% if Model.BackgroundImage3 != null and Model.BackgroundImage3 != "" -%] 
+        background-image: url('[[Model.BackgroundImage3]]');
+        [% endif -%] 
         background-color: #fff;
-        background-image:;
     }
 
     .cell-four {
-        background-image: url(https://assets.iamsteve.me/placeholder/4.jpg);
+        [% if Model.BackgroundImage4 != null and Model.BackgroundImage4 != "" -%] 
+        background-image: url('[[Model.BackgroundImage4]]');
+        [% endif -%] 
         background-color: #fff;
     }
 </style>
@@ -29,8 +37,8 @@
                         <div class="square cell-one square-100 style-1 bottomleft">
                             <div class="content">
                                 <div class="v-center">
-                                    <h4 class="text-orange">New Product</h4>
-                                    <h4>Racetrack Conference Table</h4>
+                                    <h4 class="text-orange">[[Model.Title1]]</h4>
+                                    <h4>[[Model.SubTitle1]]</h4>
                                 </div>
                             </div>
                         </div>
@@ -39,8 +47,8 @@
                         <div class="square cell-two square-100 style-2 block-text">
                             <div class="content">
                                 <div class="v-center">
-                                    <h3>Transform your conference room with our striking Tabella Collection from NBF Signature Series. </h3>
-                                    <a href="#" class="btn btn-secondary">Shop Conference</a>
+                                    <h3>[[Model.Title2]]</h3>
+                                    <a href="#" class="btn btn-secondary">[[Model.ButtonText2]]</a>
                                 </div>
                             </div>
                         </div>
@@ -49,8 +57,8 @@
                         <div class="square cell-three square-100 style-2 block-text">
                             <div class="content">
                                 <div class="v-center">
-                                    <h3>NBF exclusive vertical mesh makes this chair a perfect fit for the NBF Signature Series - and for your office.</h3>
-                                    <a href="#" class="btn btn-secondary">Shop Signature Series</a>
+                                    <h3>[[Model.Title3]]</h3>
+                                    <a href="#" class="btn btn-secondary">[[Model.ButtonText3]]</a>
                                 </div>
                             </div>
                         </div>
@@ -59,7 +67,8 @@
                         <div class="square cell-four bottomright style-1 square-100">
                             <div class="content">
                                 <div class="v-center">
-                                    <h4 class="text-orange">Racetrack Conference Table</h4>
+                                    <h4 class="text-orange">[[Model.Title4]]</h4>
+                                    <h4>[[Model.SubTitle4]]</h4>
                                 </div>
                             </div>
                         </div>

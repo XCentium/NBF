@@ -318,6 +318,7 @@
     <Compile Include="Widgets\FeaturedProducts.cs" />
     <Compile Include="Widgets\Latest BlogPosts.cs" />
     <Compile Include="Widgets\Banner.cs" />
+    <Compile Include="Widgets\ProductCTAFoursquares.cs" />
     <Compile Include="Widgets\ProductCTA.cs" />
     <Compile Include="Widgets\FooterView.cs" />
     <Compile Include="Widgets\CheckoutView.cs" />

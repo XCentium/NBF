@@ -25,6 +25,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -482,6 +483,7 @@
     <Content Include="Views\Widgets\Custom\ProductFlyOut\Standard.cshtml" />
     <Content Include="Views\Widgets\Custom\NavigationFlyOut\Header.cshtml" />
     <Content Include="Views\Widgets\Custom\NavigationFlyOut\MyAccount.cshtml" />
+    <Content Include="Views\Widgets\Custom\ProductCTAFourSquares\Standard.cshtml" />
     <None Include="Views\Widgets\DealerDirectionsView\Standard.cshtml" />
     <None Include="Views\Widgets\DealerLocatorView\Standard.cshtml" />
     <None Include="Views\Widgets\DealerView\Standard.cshtml" />
@@ -646,7 +648,6 @@
     <Content Include="Views\Widgets\Custom\Banner\Standard.cshtml" />
     <Content Include="Styles\custom\breadcrumbs.scss" />
     <Content Include="Styles\custom\callouts.scss" />
-    <Content Include="Views\Widgets\Custom\ProductCTA\four-square.cshtml" />
     <Content Include="Views\Widgets\Custom\LatestBlogPosts\Standard.cshtml" />
     <Content Include="Styles\custom\latest-blog-posts.scss" />
     <Content Include="Views\Widgets\Custom\FeaturedProducts\Standard.cshtml" />
