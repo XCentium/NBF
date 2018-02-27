@@ -312,7 +312,7 @@
     <Compile Include="Widgets\CallUs.cs" />
     <Compile Include="Widgets\CategoriesList.cs" />
     <Compile Include="Widgets\ShopTheLook.cs" />
-    <Compile Include="Widgets\link-CTA.cs" />
+    <Compile Include="Widgets\Ctalinks.cs" />
     <Compile Include="Widgets\EmailSubscriptionWithTitle.cs" />
     <Compile Include="Widgets\SocialMediaLinkListWithTitle.cs" />
     <Compile Include="Widgets\LinkListWithTitle.cs" />

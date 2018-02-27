@@ -1,38 +1,52 @@
-﻿module nbf.Checkout {
+﻿module nbf.ShopTheLook {
     "use strict";
 
     export class NbfShopTheLookController {
 
+
+        constructor(
+        ) {
+            this.init();
+        }
+
         init(): void {
 
-            ($(document) as any).foundation({
-                accordion: {
-                    // specify the class used for accordion panels
-                    content_class: "content",
-                    // specify the class used for active (or open) accordion panels
-                    active_class: "active",
-                    // allow multiple accordion panels to be active at the same time
-                    multi_expand: true,
-                    // allow accordion panels to be closed by clicking on their headers
-                    // setting to false only closes accordion panels when another is opened
-                    toggleable: false
+            $('.shopthelook__dropdown').on('click', function (e) {
+                e.preventDefault();
+                var p = $(this);
+                if (p.hasClass('open')) {
+                    p.removeClass('open');
+                } else {
+                    p.addClass('open');
                 }
             });
 
-            $(".accordion-navigation a").click(e => {
-                if (e.target.id.indexOf(this.step.toString()) === -1) {
-                    e.stopPropagation();
-                    e.preventDefault();
-                }
+            $(document).ready(function () {
+                var $grid = $('.shopthelook__gird').isotope({
+                    itemSelector: '.grid-item',
+                    masonry: {
+                        horizontalOrder: true,
+                        gutter: '.gutter-sizer',
+                    }
+                });
+
+
+            // bind filter button click
+                $('.shopthelook__filter-group').on('click', 'button', function () {
+                var filterValue = $(this).attr('data-filter');
+                // use filterFn if matches value
+                $grid.isotope({ filter: filterValue });
             });
 
-            $("#addressForm").change(() => {
-                if (this.billToSameAsShipToSelected) {
-                    this.updateBillTo();
-                }
+            // change is-checked class on buttons
+            $('.button-group').each(function (i, buttonGroup) {
+                var $buttonGroup = $(buttonGroup);
+                $buttonGroup.on('click', 'button', function () {
+                    $buttonGroup.find('.is-checked').removeClass('is-checked');
+                    $(this).addClass('is-checked');
+                });
             });
-
-            $(".masked-phone").mask("999-999-9999", { autoclear: false });
+            });
         }
 
        
@@ -41,5 +55,5 @@
 
     angular
         .module("insite")
-        .controller("NbfCheckoutController", NbfShopTheLookController);
+        .controller("NbfShopTheLookController", NbfShopTheLookController);
 }

@@ -1,29 +1,77 @@
 ﻿
-<style type="text/css">
-    .banner__bg {
-        background-image: url('/userfiles/images/bannerimages/1440x600.png');
-    }
-</style>
-<div class="row">
-    <div class="medium-12 large-12 columns widget-1column no-margin [[Model.CssClass]]">
-        <div class="banner video-link">
-            <div class="banner__bg banner-bg"></div>
-            <div class="banner__content banner__content--[[Model.Position]] banner__content--[[Model.Style]]">
-                [% if Model.Style == "Default" -%]
-                <h1 class="banner__content__default__title">Seating</h1>
-                <p>Looking to take a comfortable seat at your workstation? Computer chairs come in a huge variety to suit your needs. Check out our Complete Guide to Office Chair.</p>
-                <a href="#" class="btn btn-primary">Get The Guide</a>
-                [% else -%]
-                <div class="square-padding-bottom">
-                    <div class="square-conatiner">
-                        <div class="v-center">
-                            <h2 class="banner__content--square__title">Contemporary Computer Desk</h2>
+<div class="row"  ng-controller="NbfShopTheLookController as vm">
+    <div class="medium-12 large-12 columns widget-1column narrow-container shopthelook [[Model.CssClass]]">
+        <div class="row">
+            <div class="medium-12 large-12 columns">
+                <div>
+                    <h1 class="shopthelook__title">Shop The Look</h1>
+                </div>
+                <p class="shopthelook__page-desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet.</p>
+                <div class="shopthelook__filters clearfix">
+                    <div class="shopthelook__dropdown">
+                        <label>Style</label>
+                        <div id="filters" class="button-group  shopthelook__filter-group">
+                            <button class="button is-checked" data-filter="*">show all</button>
+                            <button class="button" data-filter=".blue">Blue</button>
+                            <button class="button" data-filter=".red">Red</button>
+                            <button class="button" data-filter=".orange">Orange</button>
+                            <button class="button" data-filter=".green">Green</button>
+                            <button class="button" data-filter=".black">Black</button>
+                        </div>
+                    </div>
+                    <div class="shopthelook__dropdown">
+                        <label>Room</label>
+                        <div id="filters" class="button-group shopthelook__filter-group">
+                            <button class="button is-checked" data-filter="*">show all</button>
+                            <button class="button" data-filter=".bedroom">Bedroom</button>
+                            <button class="button" data-filter=".bathroom">Bathroom</button>
+                            <button class="button" data-filter=".homeoffice">Home Office</button>
                         </div>
                     </div>
                 </div>
-                [% endif -%]
+                <div class="shopthelook__wrapper">
+                    <div class="shopthelook__gird">
+                        
+                        <div class="shopthelook__item grid-item bedroom black">
+                            <img src="http://www.portersofaccrington.co.uk/wpimages/wpbe847065_05_06.jpg" />
+                            <a href="#" class="btn btn-secondary">See Room</a>
+                        </div>
+                        <div class="shopthelook__item grid-item bedroom black">
+                            <img src="https://media.cymaxstores.com/buyguides/MKT-875-CYM-commercial-office-P1_18.jpg" />
+                            <a href="#" class="btn btn-secondary">See Room</a>
+                        </div>
+                        <div class="shopthelook__item grid-item homeoffice green">
+                            <img src="http://www.portersofaccrington.co.uk/wpimages/wpbe847065_05_06.jpg" />
+                            <a href="#" class="btn btn-secondary">See Room</a>
+                        </div>
+                        <div class="shopthelook__item grid-item homeoffice green">
+                            <img src="https://media.cymaxstores.com/buyguides/MKT-875-CYM-commercial-office-P1_18.jpg" />
+                            <a href="#" class="btn btn-secondary">See Room</a>
+                        </div>
+                        <div class="shopthelook__item grid-item homeoffice orange">
+                            <img src="http://www.portersofaccrington.co.uk/wpimages/wpbe847065_05_06.jpg" />
+                            <a href="#" class="btn btn-secondary">See Room</a>
+                        </div>
+                        <div class="shopthelook__item grid-item blue">
+                            <img src="http://www.portersofaccrington.co.uk/wpimages/wpbe847065_05_06.jpg" />
+                            <a href="#" class="btn btn-secondary">See Room</a>
+                        </div>
+                        <div class="shopthelook__item grid-item bathroom orange">
+                            <img src="https://media.cymaxstores.com/buyguides/MKT-875-CYM-commercial-office-P1_18.jpg" />
+                            <a href="#" class="btn btn-secondary">See Room</a>
+                        </div>
+                        <div class="shopthelook__item grid-item homeoffice red">
+                            <img src="http://www.portersofaccrington.co.uk/wpimages/wpbe847065_05_06.jpg" />
+                            <a href="#" class="btn btn-secondary">See Room</a>
+                        </div>
+                        <div class="shopthelook__item grid-item bathroom blue">
+                            <img src="https://media.cymaxstores.com/buyguides/MKT-875-CYM-commercial-office-P1_18.jpg" />
+                            <a href="#" class="btn btn-secondary">See Room</a>
+                        </div>
+                        <div class="gutter-sizer"></div>
+                    </div>
+                </div>
             </div>
-            <a href="#" class="video-link ico-Play-BTN"></a>
         </div>
     </div>
 </div>

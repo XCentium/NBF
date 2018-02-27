@@ -114,6 +114,7 @@
   <ItemGroup>
     <Content Include="Scripts\foundation.equalizer.js" />
     <Content Include="Scripts\foundation.tooltip.js" />
+    <Content Include="Scripts\isotope.pkgd.min.js" />
     <Content Include="Scripts\Libraries\jquery.inputmask\0.0.0\jquery.inputmask.js" />
     <Content Include="Scripts\Libraries\jquery.inputmask\0.0.0\jquery.inputmask.numeric.extensions.js" />
     <Content Include="Scripts\Libraries\jquery.maskedinput\jquery.maskedinput.js" />
@@ -387,6 +388,7 @@
     <Content Include="Styles\custom\product-image-carousel.scss" />
     <Content Include="Styles\custom\myaccount.scss" />
     <Content Include="Styles\custom\order-history.scss" />
+    <Content Include="Styles\custom\shopthelook.scss" />
     <None Include="Styles\template\category-list.scss" />
     <None Include="Styles\template\change-cust-ship-to.scss" />
     <None Include="Styles\template\checkout-addresses.scss" />
