@@ -1,4 +1,6 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
+using Extensions.Widgets.ContentFields;
 using Insite.ContentLibrary.ContentFields;
 using Insite.ContentLibrary.Widgets;
 using Microsoft.Ajax.Utilities;
@@ -47,6 +49,6 @@ namespace Extensions.Widgets
             {
                 SetPerRequestValue("CustomerServicePhone", value);
             }
-        }
+        }        
     }
 }

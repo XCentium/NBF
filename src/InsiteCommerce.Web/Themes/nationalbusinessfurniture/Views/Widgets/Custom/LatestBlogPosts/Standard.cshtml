@@ -1,59 +1,36 @@
 ﻿
 <style type="text/css">
-    .blog-1 {
-        background-image: url('/userfiles/images/callouts/1200x480.gif');
+    [% for page in Model.Drop.PageLinks -%] 
+    .blog-[[page.Number]] {
+        background-image: url('[[page.BackgroundImageUrl]]');
     }
-
-    .blog-2 {
-        background-image: url('https://assets.iamsteve.me/placeholder/1.jpg');
-    }
-
-    .blog-3 {
-        background-image: url('/userfiles/images/callouts/1200x480.gif');
-    }
+    [% endfor -%]    
 </style>
 <div class="row">
     <div class="medium-12 large-12 columns widget-1column narrow-container">
         <div class="row">
             <div class="medium-12 large-12 columns widget-1column">
                 <div class="latest-blog-title">
-                    <h1>Latest Blog Posts</h1>
+                    <h2>[[Model.Title]]</h2>
                 </div>
             </div>
         </div>
     </div>
     <div class="latest-blog medium-12 large-12 columns widget-1column no-margin [[Model.CssClass]]">
         <div class="latest-blog__container">
+
+            [% for page in Model.Drop.PageLinks -%]
             <div class="latest-blog__item">
-                <a href="#">
-                    <div class="latest-blog__image blog-1">
+                <a href="[[page.Url]]">
+                    <div class="latest-blog__image blog-[[page.Number]]">
                     </div>
                     <div class="latest-blog__desc">
-                        <h3>6 Tips for Staying Warm at Work</h3>
-                        <p>Always cold at work? When it comes to building temperature, it doesn't seem...</p>
+                        <h4>[[page.Title]]</h4>
+                        <p>[[page.Summary]]</p>
                     </div>
                 </a>
             </div>
-            <div class="latest-blog__item">
-                <a href="#">
-                    <div class="latest-blog__image blog-2">
-                    </div>
-                    <div class="latest-blog__desc">
-                        <h3>New Year, New Chair</h3>
-                        <p>Whether your old office chair is sinking and falling apart or you just want to make a change, a new office..</p>
-                    </div>
-                </a>
-            </div>
-            <div class="latest-blog__item">
-                <a href="#">
-                    <div class="latest-blog__image blog-3">
-                    </div>
-                    <div class="latest-blog__desc">
-                        <h3>Tips For Making The Most Of A Small Workspace</h3>
-                        <p>Whether you’re working in a tight cubicle or a small home office, conserving what little space you have...</p>
-                    </div>
-                </a>
-            </div>
+            [% endfor -%]            
         </div>
     </div>
 </div>
