@@ -1,4 +1,4 @@
-﻿module insite.account {
+﻿module nbf.account {
     "use strict";
 
     angular
@@ -13,7 +13,30 @@
                 countries: "=",
                 setStateRequiredRule: "&",
                 isReadOnly: "=",
+                isEmailReadOnly: "=",
                 addressFields: "="
             }
+        }))
+        .directive("nbfSignInWidget", () => ({
+            restrict: "E",
+            replace: true,
+            templateUrl: "/PartialViews/Custom-Account-NbfSignInWidget",
+            scope: {
+                includeForgotPasswordLink: "=",
+                allowCreateAccount: "="
+            },
+            controller: "SignInWidgetController",
+            controllerAs: "vm"
+        }))
+        .directive("nbfSignInFlyOut", () => ({
+            restrict: "E",
+            replace: true,
+            templateUrl: "/PartialViews/Custom-Account-NbfSignInFlyOut",
+            scope: {
+                includeForgotPasswordLink: "=",
+                allowCreateAccount: "="
+            },
+            controller: "SignInFlyOutController",
+            controllerAs: "vm"
         }));
 }

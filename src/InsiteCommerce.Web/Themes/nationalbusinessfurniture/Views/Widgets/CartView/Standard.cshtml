@@ -13,7 +13,8 @@
    ng-bind="vm.cart.isSalesperson ? '[% translate 'Create a Quote' %]' : '[% translate 'Request a Quote' %]'" ng-disabled="vm.cart.isAwaitingApproval"></a>
 <a ng-if="vm.cart.properties['isPunchout']" ng-href="/punchout/punchoutsubmitporequisition.isch?operation=cancel" isc-full-redirect class="btn primary btn-checkout">[% translate 'Cancel PunchOut' %]</a>
 <a ng-if="vm.cart.canSaveOrder" href="javascript: void(0);" class="btn secondary btn-save-order tst_cartPage_saveOrder" ng-click="vm.saveCart('[% urlForPage 'SavedOrderDetailPage' %]', '[% urlForPage 'SignInPage' %]')">[% translate 'Save Order' %]</a>
-<a ng-if="vm.cart.canRequisition" href="#" class="btn primary btn-submit-requisition tst_cartPage_submitRequisition" ng-click="vm.submitRequisition('[% urlForPage 'RequisitionConfirmationPage' %]')">[% translate 'Submit Requisition' %]</a>
+<a ng-if="vm.canAddAllToList" href="javascript: void(0);" class="btn primary" ng-click="vm.addAllToList()">[% translate 'Add All to List' %]</a>
+<a ng-if="vm.cart.canRequisition" href="#" class="btn primary btn-submit-requisition tst_cartPage_submitRequisition" ng-class="{'disabled': vm.requisitionSubmitting}" ng-click="vm.submitRequisition('[% urlForPage 'RequisitionConfirmationPage' %]')">[% translate 'Submit Requisition' %]</a>
 <a href="javascript:void(0);" class="btn secondary btn-clear-all tst_cartPage_removeAll" ng-click="vm.emptyCart('[% urlForPage 'CartPage' %]')">[% translate 'Remove All' %]</a>
 [% endcapture %]
 
@@ -53,6 +54,8 @@
                                     failed-to-get-real-time-inventory="vm.failedToGetRealTimeInventory"
                                     inventory-check="true"
                                     promotions="vm.promotions"
+                                    is-cart-page="true"
+                                    show-add-to-list="true"
                                     class="item-list cart-items">
                     </isc-cart-lines>
                 </div>

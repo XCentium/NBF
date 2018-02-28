@@ -1,0 +1,122 @@
+﻿
+@import "../variables";
+
+.callout {
+    position: relative;
+    margin-bottom: 80px;
+    padding-bottom: 40%;
+
+    @media all and (max-width: 767px) {
+        margin-bottom: 40px;
+    }
+
+
+    &__img-wrap {
+
+        @media all and (max-width: 767px) {
+            padding-bottom: 0;
+            position: relative;
+            height: 300px;
+        }
+    }
+
+    &__img {
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
+        position: absolute;
+        top: 0;
+        right: 0;
+        left: 0;
+        bottom: 0;
+    }
+
+
+    @media all and (max-width: 767px) {
+        padding-bottom: 0;
+    }
+
+    h3 {
+        margin-bottom: .5em;
+    }
+
+    &__link {
+        text-decoration:none;
+
+        &:after {
+            content: "\e903";
+            font-family: $icomoon;
+            color: $nbf-orange;
+            left: 15px;
+            position: relative;
+                top: 2px;
+        }
+    }
+
+    &__content {
+        position: absolute;
+        padding: 30px 40px;
+        background-color: $nbf-white-95;
+        width: 486px;
+
+        @media all and (max-width: 767px) {
+            position: relative;
+            width: 100%;
+            padding:15px 20px;
+        }
+    }
+
+
+    &--navy {
+
+        .callout__content {
+            background-color: $nbf-navy-95;
+            color: $nbf-white;
+
+            .callout__link {
+                color: $nbf-white;
+
+                &:after {
+                    color: $nbf-white;
+                }
+            }
+        }
+    }
+
+    &--bottomright {
+
+        .callout__content {
+            @media all and (min-width: 768px) {
+                bottom: 40px;
+                right: 0;
+            }
+        }
+    }
+
+    &--topleft {
+        .callout__content {
+            @media all and (min-width: 768px) {
+                top: 40px;
+                left: 0;
+            }
+        }
+    }
+
+    &--bottomleft {
+        .callout__content {
+            @media all and (min-width: 768px) {
+                bottom: 40px;
+                left: 0;
+            }
+        }
+    }
+
+    &--topright {
+        .callout__content {
+            @media all and (min-width: 768px) {
+                top: 40px;
+                right: 0;
+            }
+        }
+    }
+}

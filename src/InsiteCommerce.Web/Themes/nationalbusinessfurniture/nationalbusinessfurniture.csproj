@@ -25,6 +25,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -111,14 +112,71 @@
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Scripts\sticky.js" />
+    <Content Include="Scripts\foundation.equalizer.js" />
+    <Content Include="Scripts\foundation.tooltip.js" />
+    <Content Include="Scripts\Libraries\jquery.inputmask\0.0.0\jquery.inputmask.js" />
+    <Content Include="Scripts\Libraries\jquery.inputmask\0.0.0\jquery.inputmask.numeric.extensions.js" />
+    <Content Include="Scripts\Libraries\jquery.maskedinput\jquery.maskedinput.js" />
+    <Content Include="Scripts\Libraries\sticky.js" />
+    <!--<Content Include="Scripts\sticky.js" />-->
+    <Content Include="Styles\custom\cta-link-widget.scss" />
+    <None Include="Styles\custom\font-awesome.scss" />
+    <None Include="Styles\custom\font-icomoon.scss" />
+    <Content Include="Styles\fonts\fontawesome-webfont.svg" />
+    <Content Include="Styles\img\sprocket.png" />
     <Content Include="theme.json" />
+    <Content Include="Styles\template\ma-frequently-purchased.scss" />
+    <Content Include="Styles\template\ma-my-list-details.scss" />
+    <Content Include="Styles\template\ma-my-lists.scss" />
+    <Content Include="Styles\template\ma-static-list.scss" />
+    <Content Include="Views\Directives\Account\AddressDisplay.cshtml" />
+    <Content Include="Views\Directives\Cart\CartLines.cshtml" />
+    <Content Include="Views\Directives\Common\ShareEntityModal.cshtml" />
+    <Content Include="Views\Directives\Core\Spinner.cshtml" />
+    <Content Include="Views\Directives\Catalog\UnitOfMeasureSelectList.cshtml" />
+    <Content Include="Views\Directives\List\CopyToListPopup.cshtml" />
+    <Content Include="Views\Directives\List\CreateListPopup.cshtml" />
+    <Content Include="Views\Directives\List\DeleteListPopup.cshtml" />
+    <Content Include="Views\Directives\List\LeaveListPopup.cshtml" />
+    <Content Include="Views\Directives\List\ManageSharingPopup.cshtml" />
+    <Content Include="Views\Directives\List\ShareDetailsPopup.cshtml" />
+    <Content Include="Views\Directives\List\SharedList.cshtml" />
+    <Content Include="Views\Directives\List\ShareListPopup.cshtml" />
+    <Content Include="Views\Directives\List\UploadToListPopup.cshtml" />
+    <Content Include="Views\Directives\PdfViews\ListDetails.cshtml" />
+    <Content Include="Views\Widgets\FrequentlyPurchased\Standard.cshtml" />
+    <Content Include="Views\Widgets\MyListDetailView\Standard.cshtml" />
+    <Content Include="Views\Widgets\MyListsView\Standard.cshtml" />
+    <Content Include="Views\Widgets\OrderStatusLookupView\Standard.cshtml" />
+    <Content Include="Views\Widgets\RecentlyViewed\Standard.cshtml" />
+    <Content Include="Views\Widgets\RelatedProducts\Standard.cshtml" />
+    <Content Include="Views\Widgets\StaticListView\Standard.cshtml" />
+    <TypeScriptCompile Include="Scripts\Catalog\insite.frequently-purchased.controller.ts" />
+    <TypeScriptCompile Include="Scripts\Catalog\insite.recently-viewed.controller.ts" />
+    <TypeScriptCompile Include="Scripts\Catalog\insite.related-products.controller.ts" />
+    <TypeScriptCompile Include="Scripts\Common\insite.base-upload.ts" />
+    <TypeScriptCompile Include="Scripts\Custom\Account\nbf.create-account.controller.ts" />
+    <TypeScriptCompile Include="Scripts\Custom\Account\nbf.guest-activation.service.ts" />
+    <TypeScriptCompile Include="Scripts\Custom\Account\nbf.sign-in-fly-out.controller.ts" />
+    <TypeScriptCompile Include="Scripts\Custom\Account\nbf.sign-in-widget.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Account\nbf.account.directives.ts" />
+    <TypeScriptCompile Include="Scripts\Custom\Cart\nbf.cart.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Cart\nbf.cart-total-display.directive.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Cart\nbf.cart-lines.directive.ts" />
-    <TypeScriptCompile Include="Scripts\Custom\Cart\nbf.order-confirmation.controller.ts" />
-    <TypeScriptCompile Include="Scripts\Custom\Cart\nbf.review-and-pay.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Cart\nbf.checkout.controller.ts" />
+    <TypeScriptCompile Include="Scripts\Custom\Catalog\nbf.product-image-carousel.controller.ts" />
+    <TypeScriptCompile Include="Scripts\Custom\Catalog\nbf.catalog.directives.ts" />
+    <TypeScriptCompile Include="Scripts\Custom\Catalog\nbf.product-image-carousel.controller.ts" />
+    <TypeScriptCompile Include="Scripts\Custom\Catalog\nbf.product-list.controller.ts" />
+    <TypeScriptCompile Include="Scripts\Custom\Comments\nbf.commentmessage.controller.ts" />
+    <TypeScriptCompile Include="Scripts\Custom\Comments\nbf.commentmessage.service.ts" />
+    <TypeScriptCompile Include="Scripts\Custom\Footer\nbf.footer.controller.ts" />
+    <TypeScriptCompile Include="Scripts\Custom\nbf.nav.ts" />
+    <TypeScriptCompile Include="Scripts\Custom\Layout\nbf.top-nav.controller.ts" />
+    <TypeScriptCompile Include="Scripts\Custom\OrderTracker\nbf.order-tracker.order-detail.controller.ts" />
+    <TypeScriptCompile Include="Scripts\Custom\OrderTracker\nbf.order-tracker.service.ts" />
+    <TypeScriptCompile Include="Scripts\Custom\OrderTracker\nbf.order-tracker.controller.ts" />
+    <TypeScriptCompile Include="Scripts\Custom\SocialMediaSharing\nbf.social-media.controller.ts" />
     <TypeScriptCompile Include="Scripts\insite.config.ts" />
     <TypeScriptCompile Include="Scripts\insite.content-pager.controller.ts" />
     <TypeScriptCompile Include="Scripts\insite.content.directives.ts" />
@@ -129,6 +187,7 @@
     <TypeScriptCompile Include="Scripts\insite.module.ts" />
     <TypeScriptCompile Include="Scripts\insite.nav.ts" />
     <TypeScriptCompile Include="Scripts\insite.responsive.ts" />
+    <TypeScriptCompile Include="Scripts\Orders\insite.order-status-lookup.controller.ts" />
     <TypeScriptCompile Include="Scripts\PageTags\nbf.pagetags.controller.ts" />
     <TypeScriptCompile Include="Scripts\PageTags\nbf.pagetags.service.ts" />
     <TypeScriptCompile Include="Scripts\polyfills.ts" />
@@ -285,6 +344,7 @@
     <TypeScriptCompile Include="Scripts\Typings\google.analytics\ga.d.ts" />
     <TypeScriptCompile Include="Scripts\Typings\google.maps\google.maps-plus.d.ts" />
     <TypeScriptCompile Include="Scripts\Typings\google.maps\google.maps.d.ts" />
+    <TypeScriptCompile Include="Scripts\Typings\jquery.maskedinput\jquery.maskedinput.d.ts" />
     <TypeScriptCompile Include="Scripts\Typings\jquery\jquery.d.ts" />
     <TypeScriptCompile Include="Scripts\Typings\jquery.validation\jquery-validation-unobtrusive.d.ts" />
     <TypeScriptCompile Include="Scripts\Typings\jquery.validation\jquery.validation.d.ts" />
@@ -301,6 +361,20 @@
     <TypeScriptCompile Include="Scripts\UserAdministration\insite.user.service.ts" />
     <TypeScriptCompile Include="Scripts\Websites\insite.website.service.ts" />
     <TypeScriptCompile Include="Scripts\Wishlists\insite.add-to-wishlist-popup.controller.ts" />
+    <TypeScriptCompile Include="Scripts\Wishlists\insite.characters-left-counter.controller.ts" />
+    <TypeScriptCompile Include="Scripts\Wishlists\insite.copy-to-list-popup.controller.ts" />
+    <TypeScriptCompile Include="Scripts\Wishlists\insite.create-list-popup.controller.ts" />
+    <TypeScriptCompile Include="Scripts\Wishlists\insite.delete-list-popup.directive.ts" />
+    <TypeScriptCompile Include="Scripts\Wishlists\insite.leave-list-popup.directive.ts" />
+    <TypeScriptCompile Include="Scripts\Wishlists\insite.manage-sharing-popup.controller.ts" />
+    <TypeScriptCompile Include="Scripts\Wishlists\insite.my-list-detail.controller.ts" />
+    <TypeScriptCompile Include="Scripts\Wishlists\insite.my-lists.controller.ts" />
+    <TypeScriptCompile Include="Scripts\Wishlists\insite.share-details-popup.controller.ts" />
+    <TypeScriptCompile Include="Scripts\Wishlists\insite.share-list-popup.controller.ts" />
+    <TypeScriptCompile Include="Scripts\Wishlists\insite.shared-list.controller.ts" />
+    <TypeScriptCompile Include="Scripts\Wishlists\insite.shared-list.directive.ts" />
+    <TypeScriptCompile Include="Scripts\Wishlists\insite.static-list.controller.ts" />
+    <TypeScriptCompile Include="Scripts\Wishlists\insite.upload-to-list-popup.controller.ts" />
     <TypeScriptCompile Include="Scripts\Wishlists\insite.wishlist.controller.ts" />
     <TypeScriptCompile Include="Scripts\Wishlists\insite.wishlist.service.ts" />
     <TypeScriptCompile Include="Scripts\_typelite\insite.models.d.ts" />
@@ -308,55 +382,56 @@
     <Content Include="Styles\flexslider.css" />
     <Content Include="Styles\foundation.css" />
     <Content Include="Styles\normalize.css" />
-    <Content Include="Styles\template\category-list.scss" />
-    <Content Include="Styles\template\change-cust-ship-to.scss" />
-    <Content Include="Styles\template\checkout-addresses.scss" />
-    <Content Include="Styles\template\checkout-cart.scss" />
-    <Content Include="Styles\template\checkout-order-confirm.scss" />
-    <Content Include="Styles\template\checkout-review-pay.scss" />
-    <Content Include="Styles\template\compare-hopper.scss" />
-    <Content Include="Styles\template\create-account.scss" />
-    <Content Include="Styles\template\dealer-locator.scss" />
-    <Content Include="Styles\template\expired-link.scss" />
-    <Content Include="Styles\template\ma-addresses.scss" />
-    <Content Include="Styles\template\ma-assign-edit-shipto.scss" />
-    <Content Include="Styles\template\ma-budget-management.scss" />
-    <Content Include="Styles\template\ma-dashboard.scss" />
-    <Content Include="Styles\template\ma-invoice-details.scss" />
-    <Content Include="Styles\template\ma-invoice-history.scss" />
-    <Content Include="Styles\template\ma-job-quotes.scss" />
-    <Content Include="Styles\template\ma-my-quotes.scss" />
-    <Content Include="Styles\template\ma-order-approval-details.scss" />
-    <Content Include="Styles\template\ma-order-approval.scss" />
-    <Content Include="Styles\template\ma-order-details.scss" />
-    <Content Include="Styles\template\ma-order-history.scss" />
-    <Content Include="Styles\template\ma-order-upload.scss" />
-    <Content Include="Styles\template\ma-quote-details.scss" />
-    <Content Include="Styles\template\ma-recently-purchased.scss" />
-    <Content Include="Styles\template\ma-requisition-approval.scss" />
-    <Content Include="Styles\template\ma-rma.scss" />
-    <Content Include="Styles\template\ma-saved-order-details.scss" />
-    <Content Include="Styles\template\ma-saved-orders.scss" />
-    <Content Include="Styles\template\ma-settings.scss" />
-    <Content Include="Styles\template\ma-user-administration.scss" />
-    <Content Include="Styles\template\ma-user-setup.scss" />
-    <Content Include="Styles\template\ma-wishlist.scss" />
-    <Content Include="Styles\template\news-list.scss" />
-    <Content Include="Styles\template\news-page.scss" />
-    <Content Include="Styles\template\product-category.scss" />
-    <Content Include="Styles\template\product-comparison.scss" />
-    <Content Include="Styles\template\product-detail.scss" />
-    <Content Include="Styles\template\product-list.scss" />
-    <Content Include="Styles\template\quick-order-2.scss" />
-    <Content Include="Styles\template\rfq.scss" />
-    <Content Include="Styles\template\sign-in.scss" />
-    <Content Include="Views\Directives\Account\AddressDisplay.cshtml" />
+    <Content Include="Styles\custom\product-details-page.scss" />
+    <Content Include="Styles\custom\product-image-carousel.scss" />
+    <Content Include="Styles\custom\myaccount.scss" />
+    <None Include="Styles\template\category-list.scss" />
+    <None Include="Styles\template\change-cust-ship-to.scss" />
+    <None Include="Styles\template\checkout-addresses.scss" />
+    <None Include="Styles\template\checkout-cart.scss" />
+    <None Include="Styles\template\checkout-order-confirm.scss" />
+    <None Include="Styles\template\checkout-review-pay.scss" />
+    <None Include="Styles\template\compare-hopper.scss" />
+    <None Include="Styles\template\create-account.scss" />
+    <None Include="Styles\template\dealer-locator.scss" />
+    <None Include="Styles\template\expired-link.scss" />
+    <None Include="Styles\template\ma-addresses.scss" />
+    <None Include="Styles\template\ma-assign-edit-shipto.scss" />
+    <None Include="Styles\template\ma-budget-management.scss" />
+    <None Include="Styles\template\ma-dashboard.scss" />
+    <None Include="Styles\template\ma-invoice-details.scss" />
+    <None Include="Styles\template\ma-invoice-history.scss" />
+    <None Include="Styles\template\ma-job-quotes.scss" />
+    <None Include="Styles\template\ma-my-quotes.scss" />
+    <None Include="Styles\template\ma-order-approval-details.scss" />
+    <None Include="Styles\template\ma-order-approval.scss" />
+    <None Include="Styles\template\ma-order-details.scss" />
+    <None Include="Styles\template\ma-order-history.scss" />
+    <None Include="Styles\template\ma-order-upload.scss" />
+    <None Include="Styles\template\ma-quote-details.scss" />
+    <None Include="Styles\template\ma-recently-purchased.scss" />
+    <None Include="Styles\template\ma-requisition-approval.scss" />
+    <None Include="Styles\template\ma-rma.scss" />
+    <None Include="Styles\template\ma-saved-order-details.scss" />
+    <None Include="Styles\template\ma-saved-orders.scss" />
+    <None Include="Styles\template\ma-settings.scss" />
+    <None Include="Styles\template\ma-user-administration.scss" />
+    <None Include="Styles\template\ma-user-setup.scss" />
+    <None Include="Styles\template\ma-wishlist.scss" />
+    <None Include="Styles\template\news-list.scss" />
+    <None Include="Styles\template\news-page.scss" />
+    <None Include="Styles\template\product-category.scss" />
+    <None Include="Styles\template\product-comparison.scss" />
+    <None Include="Styles\template\product-detail.scss" />
+    <None Include="Styles\template\product-list.scss" />
+    <None Include="Styles\template\quick-order-2.scss" />
+    <None Include="Styles\template\rfq.scss" />
+    <None Include="Styles\template\sign-in.scss" />
     <Content Include="Views\Directives\Account\AddressEdit.cshtml" />
     <Content Include="Views\Directives\Account\AddressField.cshtml" />
     <Content Include="Views\Directives\Account\SelectDefaultCustomer.cshtml" />
     <Content Include="Views\Directives\Cart\AddressErrorPopup.cshtml" />
     <Content Include="Views\Directives\Cart\AddToCartPopup.cshtml" />
-    <Content Include="Views\Directives\Cart\CartLines.cshtml" />
     <Content Include="Views\Directives\Cart\CartTotalDisplay.cshtml" />
     <Content Include="Views\Directives\Catalog\AvailabilityMessage.cshtml" />
     <Content Include="Views\Directives\Catalog\BreadCrumb.cshtml" />
@@ -372,17 +447,16 @@
     <Content Include="Views\Directives\Catalog\QuantityBreakPricing.cshtml" />
     <Content Include="Views\Directives\Catalog\SortedAttributeValueList.cshtml" />
     <Content Include="Views\Directives\Catalog\UnitOfMeasureDisplay.cshtml" />
-    <Content Include="Views\Directives\Catalog\UnitOfMeasureSelectList.cshtml" />
     <Content Include="Views\Directives\Common\ShareEntityField.cshtml" />
-    <Content Include="Views\Directives\Common\ShareEntityModal.cshtml" />
     <Content Include="Views\Directives\Content\ContentPager.cshtml" />
     <Content Include="Views\Directives\Core\ApiErrorPopup.cshtml" />
     <Content Include="Views\Directives\Core\Pager.cshtml" />
-    <Content Include="Views\Directives\Core\Spinner.cshtml" />
     <Content Include="Views\Directives\History\RecentOrders.cshtml" />
     <Content Include="Views\Directives\Messages\MessageList.cshtml" />
-    <Content Include="Views\Directives\PdfViews\InvoiceDetails.cshtml" />
-    <Content Include="Views\Directives\PdfViews\OrderDetails.cshtml" />
+    <Content Include="Views\Directives\Custom\Catalog\SortedAttributeValueList.cshtml" />
+    <Content Include="Views\Directives\Custom\Account\NbfSignInFlyOut.cshtml" />
+    <None Include="Views\Directives\PdfViews\InvoiceDetails.cshtml" />
+    <None Include="Views\Directives\PdfViews\OrderDetails.cshtml" />
     <Content Include="Views\Directives\Rfq\ProposedDetailsGrid.cshtml" />
     <Content Include="Views\Directives\Rfq\QuoteDetailHeader.cshtml" />
     <Content Include="Views\Directives\Rfq\QuoteLineCalculator.cshtml" />
@@ -391,83 +465,110 @@
     <Content Include="Views\Directives\Rfq\RequestedDetailsGrid.cshtml" />
     <Content Include="Views\Directives\Rfq\RfqMessageList.cshtml" />
     <Content Include="Views\Directives\Rfq\RfqMessages.cshtml" />
-    <Content Include="Views\Directives\WishList\AddToWishlistPopup.cshtml" />
-    <Content Include="Views\Widgets\AccountSettingsView\Standard.cshtml" />
-    <Content Include="Views\Widgets\Breadcrumb\Standard.cshtml" />
-    <Content Include="Views\Widgets\BudgetView\Standard.cshtml" />
-    <Content Include="Views\Widgets\Carousel\Standard.cshtml" />
-    <Content Include="Views\Widgets\CartView\Standard.cshtml" />
-    <Content Include="Views\Widgets\ChangeAccountPasswordView\Standard.cshtml" />
-    <Content Include="Views\Widgets\ChangeCustomerView\Standard.cshtml" />
-    <Content Include="Views\Widgets\CheckoutAddressView\Standard.cshtml" />
-    <Content Include="Views\Widgets\ContactUsForm\Standard.cshtml" />
-    <Content Include="Views\Widgets\CreateAccountView\Standard.cshtml" />
-    <Content Include="Views\Widgets\CurrencySelector\Standard.cshtml" />
-    <Content Include="Views\Widgets\DealerDirectionsView\Standard.cshtml" />
-    <Content Include="Views\Widgets\DealerLocatorView\Standard.cshtml" />
-    <Content Include="Views\Widgets\DealerView\Standard.cshtml" />
-    <Content Include="Views\Widgets\EmailSubscription\Standard.cshtml" />
-    <Content Include="Views\Widgets\FourColumn\Standard.cshtml" />
-    <Content Include="Views\Widgets\HeaderView\B2C.cshtml" />
-    <Content Include="Views\Widgets\HeaderView\Standard.cshtml" />
-    <Content Include="Views\Widgets\Image\Standard.cshtml" />
-    <Content Include="Views\Widgets\InvoiceDetailView\Standard.cshtml" />
-    <Content Include="Views\Widgets\InvoiceHistory\Standard.cshtml" />
-    <Content Include="Views\Widgets\InvoicesView\Standard.cshtml" />
-    <Content Include="Views\Widgets\ItemLink\Standard.cshtml" />
-    <Content Include="Views\Widgets\ItemList\Standard.cshtml" />
-    <Content Include="Views\Widgets\JobQuoteDetailsView\Standard.cshtml" />
-    <Content Include="Views\Widgets\LanguageSelector\Standard.cshtml" />
-    <Content Include="Views\Widgets\LinkList\Standard.cshtml" />
-    <Content Include="Views\Widgets\MyAccountAddressView\Standard.cshtml" />
-    <Content Include="Views\Widgets\MyAccountView\Standard.cshtml" />
-    <Content Include="Views\Widgets\MyJobQuotesView\Standard.cshtml" />
-    <Content Include="Views\Widgets\NavigationList\Standard.cshtml" />
-    <Content Include="Views\Widgets\NewsListView\Standard.cshtml" />
-    <Content Include="Views\Widgets\NewsPageView\Standard.cshtml" />
-    <Content Include="Views\Widgets\OneColumn\Standard.cshtml" />
-    <Content Include="Views\Widgets\OrderApprovalDetailView\Standard.cshtml" />
-    <Content Include="Views\Widgets\OrderApprovalListView\Standard.cshtml" />
-    <Content Include="Views\Widgets\OrderConfirmationView\Standard.cshtml" />
-    <Content Include="Views\Widgets\OrderDetailView\Standard.cshtml" />
-    <Content Include="Views\Widgets\OrderHistory\Standard.cshtml" />
-    <Content Include="Views\Widgets\OrdersView\Standard.cshtml" />
-    <Content Include="Views\Widgets\OrderUploadView\Standard.cshtml" />
-    <Content Include="Views\Widgets\PageTitle\Standard.cshtml" />
-    <Content Include="Views\Widgets\ProductComparisonView\Standard.cshtml" />
-    <Content Include="Views\Widgets\ProductDetailView\Standard.cshtml" />
-    <Content Include="Views\Widgets\ProductListView\B2C.cshtml" />
-    <Content Include="Views\Widgets\ProductListView\Standard.cshtml" />
-    <Content Include="Views\Widgets\QuickOrder\Standard.cshtml" />
-    <Content Include="Views\Widgets\QuickOrderView\Standard.cshtml" />
-    <Content Include="Views\Widgets\RecentlyPurchased\Standard.cshtml" />
-    <Content Include="Views\Widgets\RequestRmaView\Standard.cshtml" />
-    <Content Include="Views\Widgets\RequisitionView\Standard.cshtml" />
-    <Content Include="Views\Widgets\ResetPasswordView\Standard.cshtml" />
-    <Content Include="Views\Widgets\ReviewAndPayView\Standard.cshtml" />
-    <Content Include="Views\Widgets\RfqConfirmationView\Standard.cshtml" />
-    <Content Include="Views\Widgets\RfqMyQuotesView\Standard.cshtml" />
-    <Content Include="Views\Widgets\RfqQuoteDetailsView\Standard.cshtml" />
-    <Content Include="Views\Widgets\RfqRequestQuoteView\Standard.cshtml" />
-    <Content Include="Views\Widgets\RichContent\Standard.cshtml" />
-    <Content Include="Views\Widgets\SavedOrderDetailView\Standard.cshtml" />
-    <Content Include="Views\Widgets\SavedOrderListView\Standard.cshtml" />
-    <Content Include="Views\Widgets\SignInView\Standard.cshtml" />
-    <Content Include="Views\Widgets\ThreeColumn\Standard.cshtml" />
-    <Content Include="Views\Widgets\TwoColumn\Standard.cshtml" />
-    <Content Include="Views\Widgets\UserListView\Standard.cshtml" />
-    <Content Include="Views\Widgets\UserSetupShipToView\Standard.cshtml" />
-    <Content Include="Views\Widgets\UserSetupView\Standard.cshtml" />
-    <Content Include="Views\Widgets\WebCrossSells\Standard.cshtml" />
-    <Content Include="Views\Widgets\Wishlists\Standard.cshtml" />
-    <Content Include="Views\Widgets\WishListView\Standard.cshtml" />
-    <Content Include="Views\Widgets\Zone\Standard.cshtml" />
+    <None Include="Views\Directives\WishList\AddToWishlistPopup.cshtml" />
+    <None Include="Views\Widgets\AccountSettingsView\Standard.cshtml" />
+    <None Include="Views\Widgets\Breadcrumb\Standard.cshtml" />
+    <None Include="Views\Widgets\BudgetView\Standard.cshtml" />
+    <None Include="Views\Widgets\Carousel\Standard.cshtml" />
+    <Content Include="Views\Widgets\CartView\NBF.cshtml" />
+    <None Include="Views\Widgets\CartView\Standard.cshtml" />
+    <None Include="Views\Widgets\ChangeAccountPasswordView\Standard.cshtml" />
+    <None Include="Views\Widgets\ChangeCustomerView\Standard.cshtml" />
+    <None Include="Views\Widgets\CheckoutAddressView\Standard.cshtml" />
+    <None Include="Views\Widgets\ContactUsForm\Standard.cshtml" />
+    <Content Include="Views\Widgets\CreateAccountView\NBF.cshtml" />
+    <None Include="Views\Widgets\CreateAccountView\Standard.cshtml" />
+    <None Include="Views\Widgets\CurrencySelector\Standard.cshtml" />
+    <Content Include="Views\Widgets\Custom\Ctalinks\Standard.cshtml" />
+    <Content Include="Views\Widgets\Custom\WebCode\Standard.cshtml" />
+    <Content Include="Views\Widgets\Custom\BetterBusinessBureau\Standard.cshtml" />
+    <Content Include="Views\Widgets\Custom\RequestCatalogLink\Standard.cshtml" />
+    <Content Include="Views\Widgets\Custom\WebCode\Header.cshtml" />
+    <Content Include="Views\Widgets\Custom\CallUs\Standard.cshtml" />
+    <Content Include="Views\Widgets\Custom\CallUs\Header.cshtml" />
+    <Content Include="Views\Widgets\Custom\LiveChat\Standard.cshtml" />
+    <Content Include="Views\Widgets\Custom\EmailSubscriptionWithTitle\Standard.cshtml" />
+    <Content Include="Views\Widgets\Custom\LinkListWithTitle\Footer.cshtml" />
+    <Content Include="Views\Widgets\Custom\SocialMediaLinkListWithTitle\Standard.cshtml" />
+    <Content Include="Views\Widgets\Custom\ProductFlyOut\Standard.cshtml" />
+    <Content Include="Views\Widgets\Custom\NavigationFlyOut\Header.cshtml" />
+    <Content Include="Views\Widgets\Custom\NavigationFlyOut\MyAccount.cshtml" />
+    <Content Include="Views\Widgets\Custom\ProductCTAFourSquares\Standard.cshtml" />
+    <Content Include="Views\Widgets\Custom\ArticlePageView\Standard2.cshtml" />
+    <Content Include="Views\Widgets\Custom\ArticlePageComment\Standard.cshtml" />
+    <Content Include="Views\Widgets\Custom\ArticlePageCommentsView\Standard.cshtml" />
+    <Content Include="Views\Widgets\Custom\LinkListWithTitle\NavigationFlyOut.cshtml" />
+    <Content Include="Views\Widgets\Custom\LinkListWithTitle\Standard.cshtml" />
+    <None Include="Views\Widgets\DealerDirectionsView\Standard.cshtml" />
+    <None Include="Views\Widgets\DealerLocatorView\Standard.cshtml" />
+    <None Include="Views\Widgets\DealerView\Standard.cshtml" />
+    <None Include="Views\Widgets\EmailSubscription\Standard.cshtml" />
+    <None Include="Views\Widgets\FourColumn\Standard.cshtml" />
+    <None Include="Views\Widgets\HeaderView\B2C.cshtml" />
+    <None Include="Views\Widgets\HeaderView\Standard.cshtml" />
+    <Content Include="Views\Widgets\Image\HeaderLogo.cshtml" />
+    <None Include="Views\Widgets\Image\Standard.cshtml" />
+    <None Include="Views\Widgets\InvoiceDetailView\Standard.cshtml" />
+    <None Include="Views\Widgets\InvoiceHistory\Standard.cshtml" />
+    <None Include="Views\Widgets\InvoicesView\Standard.cshtml" />
+    <None Include="Views\Widgets\ItemLink\Standard.cshtml" />
+    <None Include="Views\Widgets\ItemList\Standard.cshtml" />
+    <None Include="Views\Widgets\JobQuoteDetailsView\Standard.cshtml" />
+    <None Include="Views\Widgets\LanguageSelector\Standard.cshtml" />
+    <Content Include="Views\Widgets\LinkList\HeaderTopLinks.cshtml" />
+    <None Include="Views\Widgets\LinkList\Standard.cshtml" />
+    <None Include="Views\Widgets\MyAccountAddressView\Standard.cshtml" />
+    <Content Include="Views\Widgets\MyAccountView\nbf.cshtml" />
+    <None Include="Views\Widgets\MyAccountView\Standard.cshtml" />
+    <None Include="Views\Widgets\MyJobQuotesView\Standard.cshtml" />
+    <None Include="Views\Widgets\NavigationList\Standard.cshtml" />
+    <None Include="Views\Widgets\NewsListView\Standard.cshtml" />
+    <None Include="Views\Widgets\NewsPageView\Standard.cshtml" />
+    <None Include="Views\Widgets\OneColumn\Standard.cshtml" />
+    <None Include="Views\Widgets\OrderApprovalDetailView\Standard.cshtml" />
+    <None Include="Views\Widgets\OrderApprovalListView\Standard.cshtml" />
+    <None Include="Views\Widgets\OrderConfirmationView\Standard.cshtml" />
+    <None Include="Views\Widgets\OrderDetailView\Standard.cshtml" />
+    <None Include="Views\Widgets\OrderHistory\Standard.cshtml" />
+    <None Include="Views\Widgets\OrdersView\Standard.cshtml" />
+    <None Include="Views\Widgets\OrderUploadView\Standard.cshtml" />
+    <Content Include="Views\Widgets\PageTitle\nbf.cshtml" />
+    <None Include="Views\Widgets\PageTitle\Standard.cshtml" />
+    <None Include="Views\Widgets\ProductComparisonView\Standard.cshtml" />
+    <Content Include="Views\Widgets\ProductDetailView\NBF.cshtml" />
+    <None Include="Views\Widgets\ProductDetailView\Standard.cshtml" />
+    <None Include="Views\Widgets\ProductListView\B2C.cshtml" />
+    <None Include="Views\Widgets\ProductListView\Standard.cshtml" />
+    <None Include="Views\Widgets\QuickOrder\Standard.cshtml" />
+    <None Include="Views\Widgets\QuickOrderView\Standard.cshtml" />
+    <None Include="Views\Widgets\RecentlyPurchased\Standard.cshtml" />
+    <None Include="Views\Widgets\RequestRmaView\Standard.cshtml" />
+    <None Include="Views\Widgets\RequisitionView\Standard.cshtml" />
+    <None Include="Views\Widgets\ResetPasswordView\Standard.cshtml" />
+    <None Include="Views\Widgets\ReviewAndPayView\Standard.cshtml" />
+    <None Include="Views\Widgets\RfqConfirmationView\Standard.cshtml" />
+    <None Include="Views\Widgets\RfqMyQuotesView\Standard.cshtml" />
+    <None Include="Views\Widgets\RfqQuoteDetailsView\Standard.cshtml" />
+    <None Include="Views\Widgets\RfqRequestQuoteView\Standard.cshtml" />
+    <None Include="Views\Widgets\RichContent\Standard.cshtml" />
+    <None Include="Views\Widgets\SavedOrderDetailView\Standard.cshtml" />
+    <None Include="Views\Widgets\SavedOrderListView\Standard.cshtml" />
+    <None Include="Views\Widgets\SignInView\Standard.cshtml" />
+    <None Include="Views\Widgets\ThreeColumn\Standard.cshtml" />
+    <None Include="Views\Widgets\TwoColumn\Standard.cshtml" />
+    <None Include="Views\Widgets\UserListView\Standard.cshtml" />
+    <None Include="Views\Widgets\UserSetupShipToView\Standard.cshtml" />
+    <None Include="Views\Widgets\UserSetupView\Standard.cshtml" />
+    <None Include="Views\Widgets\WebCrossSells\Standard.cshtml" />
+    <None Include="Views\Widgets\Wishlists\Standard.cshtml" />
+    <None Include="Views\Widgets\WishListView\Standard.cshtml" />
+    <None Include="Views\Widgets\Zone\Standard.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Widgets\Custom\CheckoutView\Standard.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Directives\Custom\Cart\CheckoutCartTotalDisplay.cshtml" />
+    <Content Include="Views\Directives\Custom\Cart\NbfCheckoutCartTotalDisplay.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Widgets\Custom\ArticleListView\Standard.cshtml" />
@@ -476,7 +577,7 @@
     <Content Include="Views\Widgets\Custom\ArticlePageView\Standard.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Directives\Custom\Cart\CheckoutCartLines.cshtml" />
+    <Content Include="Views\Directives\Custom\Cart\NbfCheckoutCartLines.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Directives\Custom\Account\NbfAddressEdit.cshtml" />
@@ -494,10 +595,117 @@
   <ItemGroup>
     <Content Include="Views\Widgets\Custom\CommentForm\Standard.cshtml" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Widgets\Custom\SignInWidget\Standard.cshtml" />
+    <Content Include="Views\Directives\Custom\Account\NbfSignInWidget.cshtml" />
+    <Content Include="Views\Widgets\Custom\SocialMediaView\Standard.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Widgets\Custom\OrderTracker\Standard.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Widgets\Custom\OrderTrackerDetailView\Standard.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Styles\custom\footer.scss" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Styles\variables.scss" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Styles\custom\top-nav-container.scss" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Styles\custom\buttons.scss" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Styles\custom\forms.scss" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Styles\custom\header.scss" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Widgets\Custom\FooterView\Standard.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Styles\fonts\fontawesome-webfont.eot" />
+    <Content Include="Styles\fonts\fontawesome-webfont.ttf" />
+    <Content Include="Styles\fonts\fontawesome-webfont.woff" />
+    <Content Include="Styles\fonts\fontawesome-webfont.woff2" />
+    <Content Include="Styles\fonts\FontAwesome.otf" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Styles\fonts\proximanova-bold-italic.woff" />
+    <Content Include="Styles\fonts\proximanova-bold.woff" />
+    <Content Include="Styles\fonts\proximanova-extrabold.woff" />
+    <Content Include="Styles\fonts\proximanova-light-italic.woff" />
+    <Content Include="Styles\fonts\proximanova-light.woff" />
+    <Content Include="Styles\fonts\proximanova-regular-italic.woff" />
+    <Content Include="Styles\fonts\proximanova-regular.woff" />
+    <Content Include="Styles\fonts\proximanova-semibold.woff" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Styles\custom\user-nav.scss" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="compilerconfig.json" />
+    <None Include="compilerconfig.json.defaults">
+      <DependentUpon>compilerconfig.json</DependentUpon>
+    </None>
+    <Content Include="Styles\custom\column-widget.scss" />
+    <Content Include="Styles\custom\page-banner.scss" />
+    <Content Include="Styles\custom\header-message.scss" />
+    <Content Include="Styles\custom\square-grid.scss" />
+    <Content Include="Views\Widgets\Custom\ProductCTA\Standard.cshtml" />
+    <Content Include="Views\Widgets\Custom\Banner\Standard.cshtml" />
+    <Content Include="Styles\custom\breadcrumbs.scss" />
+    <Content Include="Styles\custom\callouts.scss" />
+    <Content Include="Views\Widgets\Custom\LatestBlogPosts\Standard.cshtml" />
+    <Content Include="Styles\custom\latest-blog-posts.scss" />
+    <Content Include="Views\Widgets\Custom\FeaturedProducts\Standard.cshtml" />
+    <Content Include="Styles\custom\featured-product-widget.scss" />
+    <Content Include="Views\Widgets\Custom\PopularCategories\Standard.cshtml" />
+    <Content Include="Styles\custom\popular-cat-widget.scss" />
+    <Content Include="Views\Widgets\Custom\Banner\Homepage-banner.cshtml" />
+    <Content Include="Views\Widgets\Custom\CategoriesList\Standard.cshtml" />
+    <Content Include="Styles\custom\category-list.scss" />
+    <Content Include="Styles\custom\paginater.scss" />
+    <Content Include="Styles\utilities.scss" />
+    <Content Include="Views\Widgets\HeaderView\NBF.cshtml" />
+    <Content Include="Views\Widgets\ProductListView\NBF.cshtml" />
+    <Content Include="Styles\custom\product-filters.scss" />
+    <Content Include="Styles\custom\main-nav.scss" />
+    <Content Include="Styles\custom\article-page.scss" />
+    <Content Include="Views\Widgets\RichContent\article-quote.cshtml" />
+    <Content Include="Views\Widgets\Carousel\ProductCarousel.cshtml" />
+    <Content Include="Styles\custom\flex-slider.scss" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
     <TypeScriptToolsVersion>1.8</TypeScriptToolsVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Dev|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'QA|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')" />

@@ -1,0 +1,23 @@
+﻿[% if Model.Drop.RootPageExists -%]
+<a href="" class="btn sign-in fastClick tst_header_signInButton" onclick="$(this).next().click();return false;"><span class="ico-LoginIcon"></span><span>[[Model.Drop.RootPageTitle]]</span></a>
+<div class="sub-tier-panel single show-heading subnav level-2">
+    <ul id="sub-cat2" class="level-2 sub-tier-panel">
+        <li class="sub-heading">[% siteMessage 'Navigation_MyAccountDropDownText' 'Welcome' %]</li>
+        [% for childPage in Model.Drop.ChildPages -%]
+        [% if forloop.index == 1 -%]
+        <li class="currently-hovered">
+        [% else -%]
+        <li>
+            [% endif -%]
+            <a id="tst_navMenu_[[forloop.index]]" href="[[childPage.Url]]" onclick="insite.nav.hideMenu();">[[childPage.Title]]</a>
+            <label for="nav-cat[[forloop.index]]" class="toggle-sub" onclick="insite.nav.goToSubnav(this)">►</label>
+        </li>
+        [% endfor -%]
+        <li><a href="" ng-click="vm.signOut('[[Model.Drop.SignOutReturnUrl]]')"><span>[% translate 'Log Out' %]</span></a></li>
+    </ul>
+    </div>
+[% else -%]
+[% if IsViewingMode == false -%]
+<p>There was no page found for the content name '[[Model.RootPageName]]', edit this item to resolve the issue</p>
+[% endif -%]
+[% endif -%]

@@ -1,0 +1,45 @@
+﻿[% if Model.Drop.RootPageExists -%]
+<li class="[[Model.CssClass]]">
+    <span class="nav-item-container">
+        <a id="tst_productMenu_[[Model.Drop.Id]]" onclick="$(this).next().click();return false;">[[Model.Drop.RootPageTitle]]</a>
+        <label for="nav-cat" class="toggle-sub" onclick="insite.nav.goToSubnav(this)">►</label>
+    </span>
+    <input type="checkbox" name="nav" id="nav-cat" class="subnav-check">
+    <div id="sub-cat" class="subnav sub-tier-panel">
+        <ul class="level-1">
+            <li class="sub-heading">[[Model.Drop.RootPageTitle]]</li>
+            [% for childPage in Model.Drop.ChildPages -%]
+            [% if forloop.index == 1 -%]
+            <li class="currently-hovered">
+                [% else -%]
+            <li>
+                [% endif -%]
+                <span class="nav-item-container">
+                    <a id="tst_productMenu_[[childPage.Id]]" href="[[childPage.Url]]" onclick="insite.nav.hideMenu();">[[childPage.Title]]</a>
+                    <label for="nav-cat[[childPage.CatNum]]" class="toggle-sub" onclick="insite.nav.goToSubnav(this)">►</label>
+                </span>
+                <input type="checkbox" name="nav" id="nav-cat[[childPage.CatNum]]" class="subnav-check">
+
+                <div class="sub-tier-panel subnav level-2">
+                    [% if childPage.NbfChildPages %]
+                    <ul id="sub-cat2" class="sub-tier-panel">
+                        <li class="sub-heading">[[childPage.Title]]</li>
+                        [% for grandChildPage in childPage.NbfChildPages -%]
+                        <li><a href="[[grandChildPage.Url]]" onclick="insite.nav.hideMenu();">[[grandChildPage.Title]]</a></li>
+                        [% endfor %]
+                    </ul>
+                    [% endif %]
+                    <div class="res-nav" style="min-width: 200px;">
+                        [[childPage.NavigationContent]]
+                    </div>
+                </div>
+            </li>
+            [% endfor -%]
+        </ul>
+    </div>
+</li>
+[% else -%]
+    [% if IsViewingMode == false -%]
+<p>There was no page found for the content name '[[Model.RootPageName]]', edit this item to resolve the issue</p>
+    [% endif -%]
+[% endif -%]

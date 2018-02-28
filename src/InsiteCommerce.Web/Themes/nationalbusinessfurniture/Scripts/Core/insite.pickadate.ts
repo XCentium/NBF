@@ -75,6 +75,10 @@ module insite.core {
                     if (!newValue) {
                         element.prop("value", "");
                     } else {
+                        if (newValue.indexOf("T") === -1) {
+                            newValue += "T00:00:00";
+                        }
+
                         // allow set up initial date from parent scope
                         const date = new Date(currentScope.innerDate || newValue);
                         element.pickadate("picker").set("select", date);

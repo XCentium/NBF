@@ -71,9 +71,10 @@ module insite.catalog {
          * @param productId Id of the product
          * @param expand Specifies which optional data to bring back. valid values are ["documents", "specifications", "styledproducts", "htmlcontent", "attributes", "crosssells", "pricing"]
          */
-        getProduct(categoryId: string, productId: string, expand?: string[]): ng.IPromise<ProductModel>;
+        getProduct(categoryId: string, productId: string, expand?: string[], addToRecentlyViewed?: boolean): ng.IPromise<ProductModel>;
         getProductSettings(): ng.IPromise<ProductSettingsModel>;
         getCrossSells(productId: string): ng.IPromise<CrossSellCollectionModel>;
+        batchGet(extendedNames: string[]): ng.IPromise<ProductDto[]>;
     }
 
     export class ProductService implements IProductService {
@@ -87,10 +88,11 @@ module insite.catalog {
 
         productSettings: ProductSettingsModel;
 
-        static $inject = ["$http", "$q", "coreService", "settingsService", "httpWrapperService"];
+        static $inject = ["$http", "$rootScope", "$q", "coreService", "settingsService", "httpWrapperService"];
 
         constructor(
             protected $http: ng.IHttpService,
+            protected $rootScope: ng.IRootScopeService,
             protected $q: ng.IQService,
             protected coreService: core.ICoreService,
             protected settingsService: core.ISettingsService,
@@ -124,8 +126,8 @@ module insite.catalog {
                         this.changeUnitOfMeasureGetProductRealTimePriceCompleted(product, selectedUnitOfMeasure, realTimePrice, deferred);
                     });
                 } else {
-                    this.getProductPrice(product).then((productPrice: ProductPriceModel) => {
-                        this.changeUnitOfMeasureGetProductPriceCompleted(product, selectedUnitOfMeasure, productPrice, deferred);
+                    this.getProductPrice(product).finally(() => {
+                        this.changeUnitOfMeasureGetProductPriceCompleted(product, selectedUnitOfMeasure, null, deferred);
                     });
                 }
             } else {
@@ -377,15 +379,15 @@ module insite.catalog {
             deferred.reject(error);
         }
 
-        getProduct(categoryId: string, productId: string, expand?: string[]): ng.IPromise<ProductModel> {
+        getProduct(categoryId: string, productId: string, expand?: string[], addToRecentlyViewed?: boolean): ng.IPromise<ProductModel> {
             return this.httpWrapperService.executeHttpRequest(
                 this,
-                this.$http({ method: "GET", url: `${this.productServiceUri}${productId}`, params: this.getProductParams(categoryId, expand) }),
+                this.$http({ method: "GET", url: `${this.productServiceUri}${productId}`, params: this.getProductParams(categoryId, expand, addToRecentlyViewed) }),
                 this.getProductCompleted,
                 this.getProductFailed);
         }
 
-        protected getProductParams(categoryId: string, expand?: string[]): any {
+        protected getProductParams(categoryId: string, expand?: string[], addToRecentlyViewed?: boolean): any {
             const params = {} as any;
 
             if (expand) {
@@ -394,11 +396,15 @@ module insite.catalog {
             if (categoryId) {
                 params.categoryId = categoryId;
             }
+            if (addToRecentlyViewed) {
+                params.addToRecentlyViewed = true;
+            }
 
             return params;
         }
 
         protected getProductCompleted(response: ng.IHttpPromiseCallbackArg<ProductModel>): void {
+            this.$rootScope.$broadcast("productLoaded", response.data.product);
         }
 
         protected getProductFailed(error: ng.IHttpPromiseCallbackArg<any>): void {
@@ -437,6 +443,20 @@ module insite.catalog {
         }
 
         protected getCrossSellsFailed(error: ng.IHttpPromiseCallbackArg<any>): void {
+        }
+
+        batchGet(extendedNames: string[]): ng.IPromise<ProductDto[]> {
+            return this.httpWrapperService.executeHttpRequest(
+                this,
+                this.$http.post(`${this.productServiceUri}/batchget`, { extendedNames }),
+                this.bulkSearchCompleted,
+                this.bulkSearchFailed);
+        }
+
+        protected bulkSearchCompleted(response: ng.IHttpPromiseCallbackArg<ProductDto[]>): void {
+        }
+
+        protected bulkSearchFailed(error: ng.IHttpPromiseCallbackArg<any>): void {
         }
     }
 

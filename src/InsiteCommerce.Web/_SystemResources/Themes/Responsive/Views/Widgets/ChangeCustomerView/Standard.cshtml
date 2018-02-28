@@ -11,7 +11,7 @@
             <label>[% translate 'Select Bill To' %]</label>
             <input type="text" class="billto-selector tst_billto_selector" id="selectBillTo" name="selectedBillTo"
                    ng-init="vm.billToOptionsPlaceholder = '[% translate 'Search or Select Bill To' %]'" ng-click="vm.totalBillTosCount && vm.openAutocomplete($event, '#selectBillTo')"
-                   ng-model="vm.billToSearch" ng-change="vm.changeBillTo()" kendo-auto-complete k-options="vm.billToOptions" />
+                   ng-model="vm.billToSearch" kendo-auto-complete k-options="vm.billToOptions" />
             <span class="icon-arw-down-5" ng-click="vm.totalBillTosCount && vm.openAutocomplete($event, '#selectBillTo')"></span>
             <div ng-show="vm.noShipToAndCantCreate" class="messaging--error">
                 [% siteMessage 'SignIn_NoShipToAndCantCreate' %]

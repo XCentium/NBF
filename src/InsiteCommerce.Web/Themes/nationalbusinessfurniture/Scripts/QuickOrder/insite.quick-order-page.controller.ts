@@ -8,16 +8,19 @@
         settings: ProductSettingsModel;
         orderSettings: Insite.Order.WebApi.V1.ApiModels.OrderSettingsModel;
         autocompleteOptions: AutoCompleteOptions;
+        canAddAllToList = false;
 
-        static $inject = ["$filter", "coreService", "cartService", "productService", "searchService", "settingsService"];
+        static $inject = ["$scope", "$filter", "coreService", "cartService", "productService", "searchService", "settingsService", "addToWishlistPopupService"];
 
         constructor(
+            protected $scope: ng.IScope,
             protected $filter: ng.IFilterService,
             protected coreService: core.ICoreService,
             protected cartService: cart.ICartService,
             protected productService: catalog.IProductService,
             protected searchService: catalog.ISearchService,
-            protected settingsService: core.ISettingsService) {
+            protected settingsService: core.ISettingsService,
+            protected addToWishlistPopupService: wishlist.AddToWishlistPopupService) {
             this.init();
         }
 
@@ -26,6 +29,25 @@
             this.getSettings();
 
             this.initializeAutocomplete();
+            this.initCanAddAllToList();
+        }
+
+        initCanAddAllToList(): void {
+            this.$scope.$watch(() => this.products, (newValue) => {
+                this.canAddAllToList = this.products.every(l => l.canAddToWishlist);
+            }, true);
+        }
+
+        addAllToList(): void {
+            let products = [];
+            for (let i = 0; i < this.products.length; i++) {
+                if (!this.products[i].canAddToWishlist) {
+                    continue;
+                }
+                products.push(this.products[i]);
+            }
+
+            this.addToWishlistPopupService.display(products);
         }
 
         protected initializeAutocomplete(): void {
@@ -244,26 +266,9 @@
 
         protected getTotal(): number {
             let total = 0;
-            let decimalSymbol = ".";
-            let delimiterSymbol = "";
             angular.forEach(this.products, product => {
                 if (!product.quoteRequired) {
-                    let fullPrice = product.pricing.extendedUnitNetPriceDisplay;
-                    // this code assumes decimal/thousands separators are either , or .
-                    decimalSymbol = fullPrice[fullPrice.length - 3];
-
-                    let matches = fullPrice.substring(1, fullPrice.length - 3).match(/[\D]/g);
-                    if (matches && matches.length > 0) {
-                        delimiterSymbol = `${matches[0]}`;
-                    }
-
-                    if (decimalSymbol === ".") {
-                        let regex = delimiterSymbol !== String.fromCharCode(160) ? /,/g : /\s/g;
-                        total += parseFloat(fullPrice.substring(1).replace(regex, ""));
-                    } else {
-                        let regex = delimiterSymbol !== String.fromCharCode(160) ? /\./g : /\s/g;
-                        total += parseFloat(fullPrice.substring(1).replace(regex, "").replace(",", "."));
-                    }
+                    total += product.pricing.extendedUnitNetPrice;
                 }
             });
 
@@ -275,8 +280,7 @@
 
             const productsWithPricing = this.$filter("filter")(this.products, { quoteRequired: false });
             if (productsWithPricing.length) {
-                const productPriceDisplay = productsWithPricing[0].pricing.extendedUnitNetPriceDisplay;
-                currencySymbol = productPriceDisplay.substring(0, 1);
+                currencySymbol = productsWithPricing[0].currencySymbol;
             }
 
             return currencySymbol;
@@ -332,6 +336,10 @@
             return product.canShowUnitOfMeasure
                 && !!product.unitOfMeasureDisplay
                 && !product.quoteRequired;
+        }
+
+        openWishListPopup(product: ProductDto): void {
+            this.addToWishlistPopupService.display([product]);
         }
     }
 

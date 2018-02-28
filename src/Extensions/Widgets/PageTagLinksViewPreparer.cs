@@ -44,16 +44,22 @@ namespace Extensions.Widgets
         {
             var tagSet = new HashSet<string>();
             var tagField = this.UnitOfWork.GetRepository<ContentItemField>().GetTable()
-                    .Where(x => x.FieldName == "PageTags" && x.PublishOn != null && x.IsRetracted == false);
+                    .Where(x => x.FieldName == "PageTags" && x.PublishOn != null && x.IsRetracted == false).OrderByDescending(x => x.PublishOn);
+            var keyList = new List<int>();
             foreach (var tagList in tagField)
             {
-                if (tagList.FieldName == "PageTags")
+                if (!keyList.Contains(tagList.ContentKey))
                 {
-                    foreach(var tag in tagList.ObjectValue.ToObject() as List<string>)
+                    keyList.Add(tagList.ContentKey);
+                    if (tagList.FieldName == "PageTags")
                     {
-                        tagSet.Add(tag);
+                        foreach (var tag in tagList.ObjectValue.ToObject() as List<string>)
+                        {
+                            tagSet.Add(tag);
+                        }
                     }
                 }
+                
             }
             model.PageTags = tagSet.ToList();
         }

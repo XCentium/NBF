@@ -1,3 +1,6 @@
+@import "../variables";
+
+
 @font-face {
     font-family: 'ISC-Dashboard-Icon-Pack';
     src: url('/SystemResources/Styles/Fonts/ISC-Dashboard-Icon-Pack/ISC-Dashboard-Icon-Pack.eot');
@@ -186,22 +189,32 @@
     }
 
     ul.tiles-list li {
-        padding: .625em;
+        padding: 10px;
         position: relative;
+        &:hover {
+            color:#fff;
+        }
     }
 
     ul.tiles-list li a {
         list-style: none;
         float: left;
+        font-weight:bold;
         position: relative;
         top: 0;
         border-bottom: 0;
         padding: 0 !important;
-        background: #333;
+        background-color: #EFEFF0;
         white-space: nowrap;
-        min-height: 150px;
+        color:$nbf-black;
+        min-height: 192px;
         width: 100%;
         text-align: left !important;
+
+        &:hover {
+           background-color: $nbf-orange;
+           color:#fff;
+        }
     }
 
     ul.tiles-list li a span {
@@ -209,11 +222,10 @@
         bottom: 0;
         left: 0;
         width: 100%;
-        padding: 10px 0;
+        padding: 10px 0 30px;
         white-space: normal;
         font-size: 115%;
         min-height: 2.5em;
-        color: #fff;
         text-align: center;
     }
 
@@ -222,7 +234,6 @@
         top: 5%;
         left: 5%;
         display: block;
-        color: #fff;
         font-size: 25px;
         padding: 10px;
         text-align: center;
@@ -243,24 +254,23 @@
         text-transform: none;
         line-height: 1;
         -webkit-font-smoothing: antialiased;
-        color: #fff;
         top: 56%;
         position: absolute;
     }
 
     .db-li-quotes a:before {
         content: "\e600";
-        font-size: 45px;
+        font-size: 65px;
     }
 
     .db-li-oapp a:before {
         content: "\e004";
-        font-size: 45px;
+        font-size: 65px;
     }
 
     .db-li-req a:before {
         content: "\e006";
-        font-size: 45px;
+        font-size: 65px;
     }
     /* Account Links */
     .account-links li a.btn {
@@ -270,6 +280,7 @@
     .dash-left ul {
         list-style: none;
         margin-left: 0;
+        overflow: hidden;
     }
 
     .dash-left ul h3 {
@@ -292,7 +303,7 @@
     }
 
     .dash-tiles .db-counter {
-        top: 0;
+        top: 6px;
         left: 15px;
     }
 
@@ -301,12 +312,10 @@
         display: inline-block;
     }
 
-    .dash-orders a.btn-view-all,
-    .dash-quotes a.btn-view-all {
+    a.btn-view-all,
+    a.btn-view-all {
         float: right;
-        font-size: .875rem;
-        margin-top: 1.75em;
-        padding: 0.5em .75em;
+        margin-bottom:40px;
     }
 
     .dash-right {
@@ -407,7 +416,7 @@
 @media all and (min-width: 1040px) {
     .ma-dashboard {
         .dash-tiles ul li {
-            width: 33.33%;
+            width: 20%;
         }
     }
 }
