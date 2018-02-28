@@ -14,16 +14,23 @@ begin
 	declare @brand int
 	set @brand = 1
 
-	insert into Theme
-	select * from [Insite.NBF].dbo.Theme s
-	where not exists (select Id from Theme where Id = s.Id)
+	--insert into Theme
+	--select * from [Insite.NBF].dbo.Theme s
+	--where not exists (select Id from Theme where Id = s.Id)
 	
-	insert into WebSite
-	select * from [Insite.NBF].dbo.WebSite s
-	where not exists (select Id from WebSite where Id = s.Id)
+	--insert into WebSite
+	--select * from [Insite.NBF].dbo.WebSite s
+	--where not exists (select Id from WebSite where Id = s.Id)
 
 	declare @WebSiteId uniqueidentifier
-	select top 1 @WebSiteId = Id from WebSite where Name like '%_main%'
+	select top 1 @WebSiteId = Id from WebSite where Name like '%National Business Furniture%'
+
+	if @WebSiteId is null
+	begin
+		select '@WebSiteId is null'
+	end
+	else
+	begin
 
 	declare @SwatchCategoryId uniqueidentifier
 
@@ -86,6 +93,8 @@ begin
 		not exists (select Id from CategoryProduct where CategoryId = @SwatchCategoryId and ProductId = p.Id)
 		and p.ContentManagerId = '00000000-0000-0000-0000-000000000000'
 
+
+	end
 
 /*
 

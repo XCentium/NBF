@@ -12,14 +12,14 @@ begin
 	declare @brand int
 	set @brand = 1
 	
-	insert into Language
-	select * from [Insite.NBF].dbo.[Language]
-	where Id not in (select Id from Language)
+	--insert into Language
+	--select * from [Insite.NBF].dbo.[Language]
+	--where Id not in (select Id from Language)
 
 
-	insert into Persona
-	select * from [Insite.NBF].dbo.Persona
-	where Id not in (select Id from Persona)
+	--insert into Persona
+	--select * from [Insite.NBF].dbo.Persona
+	--where Id not in (select Id from Persona)
 
 	declare @LanguageId uniqueidentifier
 	select top 1 @LanguageId = l.Id from [Language] l where LanguageCode = 'en-us'
@@ -27,6 +27,13 @@ begin
 	declare @PersonaId uniqueidentifier
 	select top 1 @PersonaId = p.Id from Persona p where [Name] = 'Default'
 
+
+	if @LanguageId is null or @PersonaId is null 
+	begin
+		select '@LanguageId is null or @PersonaId is null'
+	end
+	else
+	begin
 
 	/*
 	Dimensions
@@ -139,7 +146,7 @@ begin
 	where s.ContentManagerId not in (select ContentManagerId from Content)
 	and isnull(sic.[Name],'') != ''
 
-
+	end
 
 /*
 exec ETLProductSpecification_FromOEG

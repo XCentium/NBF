@@ -15,17 +15,23 @@ begin
 	set @brand = 1
 
 	-- copy down dependent tables from insite
-	insert into Theme
-	select * from [Insite.NBF].dbo.Theme s
-	where not exists (select Id from Theme where Id = s.Id)
+	--insert into Theme
+	--select * from [Insite.NBF].dbo.Theme s
+	--where not exists (select Id from Theme where Id = s.Id)
 
-	insert into WebSite
-	select * from [Insite.NBF].dbo.WebSite s
-	where not exists (select Id from WebSite where Id = s.Id)
+	--insert into WebSite
+	--select * from [Insite.NBF].dbo.WebSite s
+	--where not exists (select Id from WebSite where Id = s.Id)
 
 	declare @WebSiteId uniqueidentifier
-	select top 1 @WebSiteId = Id from WebSite where Name like '%_main%'
+	select top 1 @WebSiteId = Id from WebSite where Name like '%National Business Furniture%'
 
+	if @WebSiteId is null
+	begin
+		select '@WebSiteId is null'
+	end
+	else
+	begin
 	-- level one categories
 	insert into Category 
 	(WebSiteId, [Name], ShortDescription, UrlSegment, 
@@ -131,6 +137,8 @@ begin
 		join Category c on c.[Name] = convert(nvarchar(max), swc.Id) + '-' + convert(nvarchar(max), sic.ClassId)
 	where 
 		ShortDescription != sic.[Name]	
+
+	end
 /*
 
 exec ETLCategory_FromOEG

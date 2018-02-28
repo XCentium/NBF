@@ -1,0 +1,1 @@
+select 's.' + column_name + ',' from INFORMATION_SCHEMA.columns where TABLE_NAME = 'styleclass'
