@@ -15,7 +15,7 @@
                ng-model="vm.phoneNumber" />
         <span data-valmsg-replace="true" data-valmsg-for="phoneNumber"></span>
         <p>
-            <button class="btn primary btn-subscribe" type="submit" ng-click="vm.submit($event, '[% urlForPage 'OrderDetailPage' %]')">[[Model.ButtonText]]</button>
+            <button class="btn primary btn-subscribe" type="submit" ng-click="vm.submit($event, '[[Model.OrderTrackerDetailsUrl]]')">[[Model.ButtonText]]</button>
         </p>
         <span ng-if="vm.orderNotFound">[[Model.OrderNotFoundErrorMessage]]</span>
         [[Model.ContentBelow]]

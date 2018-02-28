@@ -46,51 +46,10 @@
             </div>
         </div>
     </div>
-
-    <div class="medium-12 large-12 columns widget-1column narrow-container featured-product">
-        <div class="row">
-            <div class="medium-12 large-12 columns">
-                <div class="news-list-footer">
-                    [% zone 'News Footer' %]
-                </div>
-            </div>
-        </div>
-    </div>
     <div class="medium-12 large-12 columns widget-1column article-container">
         <div class="row">
             <div class="medium-12 large-12 columns">
-                <div class="comments">
-                    <h3 class="comments__title">3 Comments</h3>
-                    <ul>
-                        <li>
-                            <div class="comments__info"><span class="comments__author">Trinity Fitzggrald</span><span class="comments__post-time"><i class="fa fa-clock-o"></i> 12 minutes ago</span></div>
-                            <div class="comments__comment">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar tempor.
-                            </div>
-                        </li>
-                        <li>
-                            <div class="comments__info"><span class="comments__author">Trinity Fitzggrald</span><span class="comments__post-time"><i class="fa fa-clock-o"></i> 12 minutes ago</span></div>
-                            <div class="comments__comment">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar tempor.
-                            </div>
-                        </li>
-                        <li>
-                            <div class="comments__info"><span class="comments__author">Trinity Fitzggrald</span><span class="comments__post-time"><i class="fa fa-clock-o"></i> 12 minutes ago</span></div>
-                            <div class="comments__comment">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar tempor.
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="medium-12 large-12 columns widget-1column article-container featured-product">
-        <div class="row">
-            <div class="medium-12 large-12 columns">
-                <div class="news-list-comments">
-                    [% zone 'Comments' %]
-                </div>
+                [% zone 'Comments View' %]
             </div>
         </div>
     </div>
@@ -98,14 +57,18 @@
         <div class="row">
             <div class="medium-12 large-12 columns">
                 <div class="about-author">
+                    [% if Model.ImageExists -%]
                     <div class="about-author__img-wrap">
-                        <img class="about-author__img" src="https://support.zendesk.com/system/photos/0009/5314/0587/avatar-1498654408.png" />
+                        <img class="about-author__img" src="[[Model.AuthorImageUrl]]" />
                     </div>
+                    [% endif -%]
                     <div class="about-author__content">
-                        <h3>Todd Smith</h3>
+                        <h3>[[Model.Drop.Author]]</h3>
+                        [% if Model.InfoExists -%]
                         <div class="about-author__desc">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar tempor. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar tempor.
+                            [[Model.AuthorInfo]]
                         </div>
+                        [% endif -%]
                     </div>
                 </div>
             </div>

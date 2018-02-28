@@ -72,6 +72,18 @@ namespace Extensions.Widgets
             }
         }
 
+        public virtual string OrderTrackerDetailsUrl
+        {
+            get
+            {
+                return GetPerRequestValue<string>("OrderTrackerDetailsUrl");
+            }
+            set
+            {
+                SetPerRequestValue("OrderTrackerDetailsUrl", value);
+            }
+        }
+
         public virtual string PhoneIsRequiredErrorMessage =>
             _phoneIsRequiredErrorMessage ?? (_phoneIsRequiredErrorMessage = _messageProvider.GetMessage("OrderTracker_PhoneRequired", "Phone Required", ""));
         public virtual string PhoneIsInvalidErrorMessage =>
