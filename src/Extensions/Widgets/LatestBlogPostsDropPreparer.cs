@@ -57,6 +57,9 @@ namespace Extensions.Widgets
                     && pageByVariantKey.DisplayLink)
                 {
                     var blogPage = pageByVariantKey.Page as NewsPage;
+                    var articlePageView = ContentHelper.GetWidgets(blogPage.ContentKey, "Content")
+                        .FirstOrDefault(x => x is ArticlePageView);
+
                     pageLinkDropList.Add(new LatestBlogPostDrop()
                     {
                         Url = PageContext.Current.GenerateUrl(blogPage),
@@ -64,7 +67,8 @@ namespace Extensions.Widgets
                         Summary = blogPage.Summary,
                         PublishDate = blogPage.PublishDate.Value.UtcDateTime.ToShortDateString(),
                         Author = blogPage.Author,
-                        Number = counter
+                        Number = counter,
+                        BackgroundImageUrl = articlePageView != null ? articlePageView.ArticleImageUrl : string.Empty
                     });
                 }
             }

@@ -26,11 +26,19 @@ namespace Extensions.Widgets
         {
             get
             {
-                return this.GetValue<string>("Position", "Bottom Right", FieldType.General).Replace(" ", "").ToLower();
+                return this.GetValue<string>("Position", "Bottom Right", FieldType.General);
             }
             set
             {
                 this.SetValue<string>("Position", value, FieldType.General);
+            }
+        }
+
+        public virtual string PositionFormatted
+        {
+            get
+            {
+                return Position.Replace(" ", "").ToLower();
             }
         }
         [DropDownContentField(new string[] { "White", "Navy" }, IsRequired = true, SortOrder = 30)]
@@ -38,7 +46,7 @@ namespace Extensions.Widgets
         {
             get
             {
-                return this.GetValue<string>("Style", "Navy", FieldType.General);
+                return this.GetValue<string>("Style", "Navy", FieldType.General).Replace(" ", "").ToLower();
             }
             set
             {
@@ -69,6 +77,19 @@ namespace Extensions.Widgets
             set
             {
                 this.SetValue<string>(nameof(SubTitle), value, FieldType.Contextual);
+            }
+        }
+
+        [TextContentField(IsRequired = true, SortOrder = 60)]
+        public virtual string Url
+        {
+            get
+            {
+                return this.GetValue<string>(nameof(Url), string.Empty, FieldType.Contextual);
+            }
+            set
+            {
+                this.SetValue<string>(nameof(Url), value, FieldType.Contextual);
             }
         }
     }

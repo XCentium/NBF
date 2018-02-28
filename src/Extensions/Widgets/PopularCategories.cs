@@ -48,6 +48,20 @@ namespace Extensions.Widgets
             }
         }
 
+        [TextContentField(IsRequired = true, SortOrder = 35)]
+        [DisplayName("Category #1 URL")]
+        public virtual string Category1Url
+        {
+            get
+            {
+                return this.GetValue<string>(nameof(Category1Url), string.Empty, FieldType.Contextual);
+            }
+            set
+            {
+                this.SetValue<string>(nameof(Category1Url), value, FieldType.Contextual);
+            }
+        }
+
         [FilePickerField(IsRequired = true, ResourceType = "ImageFiles", SortOrder = 40)]
         [DisplayName("Background Image for Category #2")]
         public virtual string BackgroundImage2
@@ -73,6 +87,20 @@ namespace Extensions.Widgets
             set
             {
                 this.SetValue<string>(nameof(Category2), value, FieldType.Contextual);
+            }
+        }
+
+        [TextContentField(IsRequired = true, SortOrder = 55)]
+        [DisplayName("Category #2 URL")]
+        public virtual string Category2Url
+        {
+            get
+            {
+                return this.GetValue<string>(nameof(Category2Url), string.Empty, FieldType.Contextual);
+            }
+            set
+            {
+                this.SetValue<string>(nameof(Category2Url), value, FieldType.Contextual);
             }
         }
 
@@ -104,6 +132,20 @@ namespace Extensions.Widgets
             }
         }
 
+        [TextContentField(IsRequired = true, SortOrder = 75)]
+        [DisplayName("Category #3 URL")]
+        public virtual string Category3Url
+        {
+            get
+            {
+                return this.GetValue<string>(nameof(Category3Url), string.Empty, FieldType.Contextual);
+            }
+            set
+            {
+                this.SetValue<string>(nameof(Category3Url), value, FieldType.Contextual);
+            }
+        }
+
         [FilePickerField(IsRequired = true, ResourceType = "ImageFiles", SortOrder = 80)]
         [DisplayName("Background Image for Category #4")]
         public virtual string BackgroundImage4
@@ -129,6 +171,48 @@ namespace Extensions.Widgets
             set
             {
                 this.SetValue<string>(nameof(Category4), value, FieldType.Contextual);
+            }
+        }
+
+        [TextContentField(IsRequired = true, SortOrder = 95)]
+        [DisplayName("Category #4 URL")]
+        public virtual string Category4Url
+        {
+            get
+            {
+                return this.GetValue<string>(nameof(Category4Url), string.Empty, FieldType.Contextual);
+            }
+            set
+            {
+                this.SetValue<string>(nameof(Category4Url), value, FieldType.Contextual);
+            }
+        }
+
+        [TextContentField(IsRequired = true, SortOrder = 100)]
+        [DisplayName("All Categories Text")]
+        public virtual string AllCategoriesText
+        {
+            get
+            {
+                return this.GetValue<string>(nameof(AllCategoriesText), string.Empty, FieldType.Contextual);
+            }
+            set
+            {
+                this.SetValue<string>(nameof(AllCategoriesText), value, FieldType.Contextual);
+            }
+        }
+
+        [TextContentField(IsRequired = true, SortOrder = 105)]
+        [DisplayName("All Categories URL")]
+        public virtual string AllCategoriesUrl
+        {
+            get
+            {
+                return this.GetValue<string>(nameof(AllCategoriesUrl), string.Empty, FieldType.Contextual);
+            }
+            set
+            {
+                this.SetValue<string>(nameof(AllCategoriesUrl), value, FieldType.Contextual);
             }
         }
     }

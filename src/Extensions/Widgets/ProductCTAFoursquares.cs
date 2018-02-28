@@ -9,6 +9,7 @@ namespace Extensions.Widgets
     public class ProductCTAFourSquares : ContentWidget
     {
         [FilePickerField( ResourceType = "ImageFiles", SortOrder = 10)]
+        [DisplayName("Background Image for Square #1")]
         public virtual string BackgroundImage1
         {
             get
@@ -22,6 +23,7 @@ namespace Extensions.Widgets
         }
               
         [TextContentField( SortOrder = 20)]
+        [DisplayName("Title for Square #1")]
         public virtual string Title1
         {
             get
@@ -35,6 +37,7 @@ namespace Extensions.Widgets
         }
 
         [TextContentField( SortOrder = 30)]
+        [DisplayName("Sub Title for Square #1")]
         public virtual string SubTitle1
         {
             get
@@ -48,6 +51,7 @@ namespace Extensions.Widgets
         }
 
         [TextContentField( SortOrder = 40)]
+        [DisplayName("Button Text for Square #1")]
         public virtual string ButtonText1
         {
             get
@@ -60,7 +64,22 @@ namespace Extensions.Widgets
             }
         }
 
+        [TextContentField(SortOrder = 45)]
+        [DisplayName("Url for Square #1")]
+        public virtual string Url1
+        {
+            get
+            {
+                return this.GetValue<string>(nameof(Url1), string.Empty, FieldType.Contextual);
+            }
+            set
+            {
+                this.SetValue<string>(nameof(Url1), value, FieldType.Contextual);
+            }
+        }
+
         [FilePickerField(ResourceType = "ImageFiles", SortOrder = 50)]
+        [DisplayName("Background Image for Square #2")]
         public virtual string BackgroundImage2
         {
             get
@@ -74,6 +93,7 @@ namespace Extensions.Widgets
         }
 
         [TextContentField(SortOrder = 60)]
+        [DisplayName("Title for Square #2")]
         public virtual string Title2
         {
             get
@@ -87,6 +107,7 @@ namespace Extensions.Widgets
         }
 
         [TextContentField(SortOrder = 70)]
+        [DisplayName("Sub Title for Square #2")]
         public virtual string SubTitle2
         {
             get
@@ -100,6 +121,7 @@ namespace Extensions.Widgets
         }
 
         [TextContentField(SortOrder = 80)]
+        [DisplayName("Button Text for Square #2")]
         public virtual string ButtonText2
         {
             get
@@ -112,7 +134,22 @@ namespace Extensions.Widgets
             }
         }
 
+        [TextContentField(SortOrder = 85)]
+        [DisplayName("Url for Square #2")]
+        public virtual string Url2
+        {
+            get
+            {
+                return this.GetValue<string>(nameof(Url2), string.Empty, FieldType.Contextual);
+            }
+            set
+            {
+                this.SetValue<string>(nameof(Url2), value, FieldType.Contextual);
+            }
+        }
+
         [FilePickerField(ResourceType = "ImageFiles", SortOrder = 90)]
+        [DisplayName("Background Image for Square #3")]
         public virtual string BackgroundImage3
         {
             get
@@ -126,6 +163,7 @@ namespace Extensions.Widgets
         }
 
         [TextContentField(SortOrder = 100)]
+        [DisplayName("Title for Square #3")]
         public virtual string Title3
         {
             get
@@ -139,6 +177,7 @@ namespace Extensions.Widgets
         }
 
         [TextContentField(SortOrder = 120)]
+        [DisplayName("Sub Title for Square #3")]
         public virtual string SubTitle3
         {
             get
@@ -152,6 +191,7 @@ namespace Extensions.Widgets
         }
 
         [TextContentField(SortOrder = 130)]
+        [DisplayName("Button Text for Square #3")]
         public virtual string ButtonText3
         {
             get
@@ -164,7 +204,22 @@ namespace Extensions.Widgets
             }
         }
 
+        [TextContentField(SortOrder = 135)]
+        [DisplayName("Url for Square #3")]
+        public virtual string Url3
+        {
+            get
+            {
+                return this.GetValue<string>(nameof(Url3), string.Empty, FieldType.Contextual);
+            }
+            set
+            {
+                this.SetValue<string>(nameof(Url3), value, FieldType.Contextual);
+            }
+        }
+
         [FilePickerField(ResourceType = "ImageFiles", SortOrder = 140)]
+        [DisplayName("Background Image for Square #4")]
         public virtual string BackgroundImage4
         {
             get
@@ -178,6 +233,7 @@ namespace Extensions.Widgets
         }
 
         [TextContentField(SortOrder = 150)]
+        [DisplayName("Title for Square #4")]
         public virtual string Title4
         {
             get
@@ -191,6 +247,7 @@ namespace Extensions.Widgets
         }
 
         [TextContentField(SortOrder = 160)]
+        [DisplayName("Sub Title for Square #4")]
         public virtual string SubTitle4
         {
             get
@@ -204,6 +261,7 @@ namespace Extensions.Widgets
         }
 
         [TextContentField(SortOrder = 170)]
+        [DisplayName("Button Text for Square #4")]
         public virtual string ButtonText4
         {
             get
@@ -213,6 +271,20 @@ namespace Extensions.Widgets
             set
             {
                 this.SetValue<string>(nameof(ButtonText4), value, FieldType.Contextual);
+            }
+        }
+
+        [TextContentField(SortOrder = 175)]
+        [DisplayName("Url for Square #4")]
+        public virtual string Url4
+        {
+            get
+            {
+                return this.GetValue<string>(nameof(Url4), string.Empty, FieldType.Contextual);
+            }
+            set
+            {
+                this.SetValue<string>(nameof(Url4), value, FieldType.Contextual);
             }
         }
     }
