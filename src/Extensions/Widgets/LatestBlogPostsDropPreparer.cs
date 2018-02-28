@@ -58,7 +58,7 @@ namespace Extensions.Widgets
                 {
                     var blogPage = pageByVariantKey.Page as NewsPage;
                     var articlePageView = ContentHelper.GetWidgets(blogPage.ContentKey, "Content")
-                        .FirstOrDefault(x => x is ArticlePageView);
+                        .FirstOrDefault(x => x is ArticlePageView) as ArticlePageView;
 
                     pageLinkDropList.Add(new LatestBlogPostDrop()
                     {

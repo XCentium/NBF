@@ -1,23 +1,17 @@
 ﻿
 <style type="text/css">
-    .blog-1 {
-        background-image: url('/userfiles/images/callouts/1200x480.gif');
+    [% for page in Model.Drop.PageLinks -%] 
+    .blog-[[page.Number]] {
+        background-image: url('[[page.BackgroundImageUrl]]');
     }
-
-    .blog-2 {
-        background-image: url('https://assets.iamsteve.me/placeholder/1.jpg');
-    }
-
-    .blog-3 {
-        background-image: url('/userfiles/images/callouts/1200x480.gif');
-    }
+    [% endfor -%]    
 </style>
 <div class="row">
     <div class="medium-12 large-12 columns widget-1column narrow-container">
         <div class="row">
             <div class="medium-12 large-12 columns widget-1column">
                 <div class="latest-blog-title">
-                    <h2>Latest Blog Posts</h2>
+                    <h2>[[Model.Title]]</h2>
                 </div>
             </div>
         </div>

@@ -20,5 +20,7 @@ namespace Extensions.Widgets
         public string PublishDate { get; set; }
 
         public string Summary { get; set; }
+
+        public string BackgroundImageUrl { get; set; }
     }
 }
