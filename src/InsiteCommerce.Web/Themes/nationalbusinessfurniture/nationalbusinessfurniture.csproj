@@ -164,6 +164,7 @@
     <TypeScriptCompile Include="Scripts\Custom\Cart\nbf.cart-total-display.directive.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Cart\nbf.cart-lines.directive.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Cart\nbf.checkout.controller.ts" />
+    <TypeScriptCompile Include="Scripts\Custom\Catalog\nbf.category-widget.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Catalog\nbf.product-image-carousel.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Catalog\nbf.catalog.directives.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Catalog\nbf.product-image-carousel.controller.ts" />
@@ -472,6 +473,7 @@
     <None Include="Views\Widgets\Carousel\Standard.cshtml" />
     <Content Include="Views\Widgets\CartView\NBF.cshtml" />
     <None Include="Views\Widgets\CartView\Standard.cshtml" />
+    <Content Include="Views\Widgets\CategoryWidget\Standard.cshtml" />
     <None Include="Views\Widgets\ChangeAccountPasswordView\Standard.cshtml" />
     <None Include="Views\Widgets\ChangeCustomerView\Standard.cshtml" />
     <None Include="Views\Widgets\CheckoutAddressView\Standard.cshtml" />
@@ -494,7 +496,6 @@
     <Content Include="Views\Widgets\Custom\NavigationFlyOut\Header.cshtml" />
     <Content Include="Views\Widgets\Custom\NavigationFlyOut\MyAccount.cshtml" />
     <Content Include="Views\Widgets\Custom\ProductCTAFourSquares\Standard.cshtml" />
-    <Content Include="Views\Widgets\Custom\ArticlePageView\Standard2.cshtml" />
     <Content Include="Views\Widgets\Custom\ArticlePageComment\Standard.cshtml" />
     <Content Include="Views\Widgets\Custom\ArticlePageCommentsView\Standard.cshtml" />
     <Content Include="Views\Widgets\Custom\LinkListWithTitle\NavigationFlyOut.cshtml" />
