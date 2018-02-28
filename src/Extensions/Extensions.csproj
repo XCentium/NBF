@@ -335,6 +335,7 @@
     <Compile Include="Widgets\ArticlePageComment.cs" />
     <Compile Include="Widgets\link-CTA.cs" />
     <Compile Include="Widgets\EmailSubscriptionWithTitle.cs" />
+    <Compile Include="Widgets\OrderTrackerPreparer.cs" />
     <Compile Include="Widgets\SocialMediaLinkListWithTitle.cs" />
     <Compile Include="Widgets\LinkListWithTitle.cs" />
     <Compile Include="Widgets\ContentFields\ListOfNewsPagesContentFieldAttribute.cs" />
