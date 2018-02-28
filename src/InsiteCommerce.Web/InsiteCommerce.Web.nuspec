@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>InSiteCommerce.Web</id>
+    <title>NBF InSiteCommerce</title>
+    <version>1.0.0.0</version>
+    <authors>XCentium</authors>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>NBF InSiteCommerce</description>
+  </metadata>
+  <files>
+    <file src="Themes\**" target="Themes" />
+  </files>
+</package>
