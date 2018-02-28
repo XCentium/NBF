@@ -66,9 +66,9 @@ namespace Extensions.Widgets
 
                     if (byAreaOnly)
                     {
+                        navigationListDrop1.RootPageTitle = "By Area";
                         if (isByArea)
                         {
-                            navigationListDrop1.RootPageTitle = "By Area";
                             childPageDropList.Add(CreateChildPageDrop(categoryMenuLink));
                         }
                     }
