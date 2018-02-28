@@ -26,23 +26,40 @@ namespace Extensions.Widgets
         {
             get
             {
-                return this.GetValue<string>(nameof(Position1), "Bottom Right", FieldType.Contextual).Replace(" ", "").ToLower();
+                return this.GetValue<string>(nameof(Position1), "Bottom Right", FieldType.Contextual);
             }
             set
             {
                 this.SetValue<string>(nameof(Position1), value, FieldType.Contextual);
             }
         }
+
+        public virtual string Position1Formatted
+        {
+            get
+            {
+                return Position1.Replace(" ", "").ToLower();
+            }
+        }
+
         [DropDownContentField(new string[] { "Default", "Square" }, SortOrder = 30)]
         public virtual string Style1
         {
             get
             {
-                return this.GetValue<string>(nameof(Style1), "Default", FieldType.Contextual).Replace(" ", "").ToLower();
+                return this.GetValue<string>(nameof(Style1), "Default", FieldType.Contextual);
             }
             set
             {
                 this.SetValue<string>(nameof(Style1), value, FieldType.Contextual);
+            }
+        }
+
+        public virtual string Style1Formatted
+        {
+            get
+            {
+                return Style1.Replace(" ", "").ToLower();
             }
         }
 
@@ -90,23 +107,40 @@ namespace Extensions.Widgets
         {
             get
             {
-                return this.GetValue<string>(nameof(Position2), "Bottom Right", FieldType.Contextual).Replace(" ", "").ToLower();
+                return this.GetValue<string>(nameof(Position2), "Bottom Right", FieldType.Contextual);
             }
             set
             {
                 this.SetValue<string>(nameof(Position2), value, FieldType.Contextual);
             }
         }
+
+        public virtual string Position2Formatted
+        {
+            get
+            {
+                return Position2.Replace(" ", "").ToLower();
+            }
+        }
+
         [DropDownContentField(new string[] { "Default", "Square" }, SortOrder = 80)]
         public virtual string Style2
         {
             get
             {
-                return this.GetValue<string>(nameof(Style2), "Default", FieldType.Contextual).Replace(" ", "").ToLower();
+                return this.GetValue<string>(nameof(Style2), "Default", FieldType.Contextual);
             }
             set
             {
                 this.SetValue<string>(nameof(Style2), value, FieldType.Contextual);
+            }
+        }
+
+        public virtual string Style2Formatted
+        {
+            get
+            {
+                return Style2.Replace(" ", "").ToLower();
             }
         }
 

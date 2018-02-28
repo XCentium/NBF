@@ -41,16 +41,25 @@ namespace Extensions.Widgets
                 return Position.Replace(" ", "").ToLower();
             }
         }
+
         [DropDownContentField(new string[] { "White", "Navy" }, IsRequired = true, SortOrder = 30)]
         public virtual string Style
         {
             get
             {
-                return this.GetValue<string>("Style", "Navy", FieldType.General).Replace(" ", "").ToLower();
+                return this.GetValue<string>("Style", "Navy", FieldType.General);
             }
             set
             {
                 this.SetValue<string>("Style", value, FieldType.General);
+            }
+        }
+
+        public virtual string StyleFormatted
+        {
+            get
+            {
+                return Style.Replace(" ", "").ToLower();
             }
         }
 

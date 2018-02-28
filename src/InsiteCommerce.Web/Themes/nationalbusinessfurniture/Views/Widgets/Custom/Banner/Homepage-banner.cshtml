@@ -9,8 +9,8 @@
         <div class="banner banner--homepage">
             <div class="banner__bg--homepage homepage__banner-bg"></div>
             [% if Model.Title1 != null and Model.Title1 != "" -%]
-            <div class="banner__content banner__content--[[Model.Position1]]  banner__content--[[Model.Style1 | downcase]]">
-                [% if Model.Style1 == "Default" -%]
+            <div class="banner__content banner__content--[[Model.Position1Formatted]]  banner__content--[[Model.Style1Formatted | downcase]]">
+                [% if Model.Style1Formatted == "Default" -%]
                 <h2>[[Model.Title1]]</h2>
                 <p>[[Model.SubTitle1]]</p>
                 <a href="#" class="btn btn-primary">[[Model.ButtonText1]]</a>
@@ -26,8 +26,8 @@
             </div>
             [% endif -%]
             [% if Model.Title2 != null and Model.Title2 != "" -%]
-            <div class="banner__content banner__content--[[Model.Position2]]  banner__content--[[Model.Style2 | downcase]]">
-                [% if Model.Style2 == "Default" -%]
+            <div class="banner__content banner__content--[[Model.Position2Formatted]]  banner__content--[[Model.Style2Formatted | downcase]]">
+                [% if Model.Style2Formatted == "Default" -%]
                 <h2>[[Model.Title2]]</h2>
                 <p>[[Model.SubTitle2]]</p>
                 <a href="#" class="btn btn-primary">[[Model.ButtonText2]]</a>
