@@ -19,84 +19,14 @@ module insite.catalog {
     //};
 
     export class NbfProductListController extends ProductListController{
-        //view: string;
-        //attributeValueIds: string[] = [];
-        //priceFilterMinimums: string[] = [];
-        //filterCategory: CategoryFacetDto;
-        //searchWithinTerms = [];
-        //query: string;
-        //ready = false;
-        //products: ProductCollectionModel = {} as any;
-        //settings: ProductSettingsModel;
-        //category: CategoryModel;  // regular category page
-        //breadCrumbs: BreadCrumbModel[];
-        //searchCategory: CategoryModel; // searching within a category
-        //page: number = null; // query string page
-        //pageSize: number = null; // query string pageSize
-        //sort: string = null; // query string sort
-        //isSearch: boolean;
-        //visibleTableProduct: ProductDto;
-        //visibleColumnNames: string[] = [];
-        //customPagerContext: ICustomPagerContext;
-        //paginationStorageKey = "DefaultPagination-ProductList";
-        //noResults: boolean;
-        //pageChanged = false; // true when the pager has done something to change pages.
-        //imagesLoaded: number;
-        //originalQuery: string;
-        //autoCorrectedQuery: boolean;
-        //includeSuggestions: string;
-        //searchHistoryLimit: number;
-        //failedToGetRealTimePrices = false;
-        //failedToGetRealTimeInventory = false;
-        //productFilterLoaded = false;
-        //filterType: string;
-        //addingToCart = false;
-        //initialAttributeTypeFacets: AttributeTypeFacetDto[];
-
-        //static $inject = [
-        //    "$scope",
-        //    "coreService",
-        //    "cartService",
-        //    "productService",
-        //    "compareProductsService",
-        //    "$rootScope",
-        //    "$window",
-        //    "$localStorage",
-        //    "paginationService",
-        //    "searchService",
-        //    "spinnerService",
-        //    "addToWishlistPopupService",
-        //    "settingsService",
-        //    "$stateParams",
-        //    "queryString",
-        //    "$location"
-        //];
-
-        //constructor(
-        //    protected $scope: ng.IScope,
-        //    protected coreService: core.ICoreService,
-        //    protected cartService: cart.ICartService,
-        //    protected productService: IProductService,
-        //    protected compareProductsService: ICompareProductsService,
-        //    protected $rootScope: ng.IRootScopeService,
-        //    protected $window: ng.IWindowService,
-        //    protected $localStorage: common.IWindowStorage,
-        //    protected paginationService: core.IPaginationService,
-        //    protected searchService: ISearchService,
-        //    protected spinnerService: core.ISpinnerService,
-        //    protected addToWishlistPopupService: wishlist.AddToWishlistPopupService,
-        //    protected settingsService: core.ISettingsService,
-        //    protected $stateParams: IProductListStateParams,
-        //    protected queryString: common.IQueryStringService,
-        //    protected $location: ng.ILocationService) {
-        //    this.init();
-        //}
+        categoryAttr: string;
 
         init(): void {
             this.products.pagination = this.paginationService.getDefaultPagination(this.paginationStorageKey);
             this.filterCategory = { categoryId: null, selected: false, shortDescription: "", count: 0, subCategoryDtos: null, websiteId: null };
             this.view = this.$localStorage.get("productListViewName");
 
+            
             this.getQueryStringValues();
             this.getHistoryValues();
 
@@ -140,6 +70,34 @@ module insite.catalog {
                 this.getFacets(newCategory.id);
             });
 
+        }
+
+        // params: object with query string parameters for the products REST service
+        protected getProductData(params: IProductCollectionParameters, expand?: string[]): void {
+            if (this.ready) {
+                this.spinnerService.show("productlist");
+            }
+            if (this.categoryAttr != '') {
+                if (!params.names) {
+                    params.names = [];
+                }
+                params.names.push(this.categoryAttr);
+            }
+            window.console.dir(params);
+            expand = expand ? expand : ["pricing", "attributes", "facets"];
+            this.productService.getProducts(params, expand).then(
+                (productCollection: ProductCollectionModel) => { this.getProductsCompleted(productCollection, params, expand); },
+                (error: any) => { this.getProductsFailed(error); });
+        }
+
+        protected getQueryStringValues(): void {
+            this.query = this.$stateParams.criteria || this.queryString.get("criteria") || "";
+            this.page = this.queryString.get("page") || null;
+            this.pageSize = this.queryString.get("pageSize") || null;
+            this.sort = this.queryString.get("sort") || null;
+            this.includeSuggestions = this.queryString.get("includeSuggestions") || "true";
+            //this.attributeValueIds = this.queryString.get("attributeValues");
+            this.categoryAttr = this.queryString.get("attr");
         }
     }
 
