@@ -50,15 +50,13 @@ select IsDiscontinued,* from Product where id = 'A2FA08BF-87FD-E711-A98C-A3E0F12
 select * from StyleTraitValue where id = '520A5CA1-D91B-E811-A98F-EF3518E6D53C'
 select * from StyleTrait where id = 'E0F635A1-D91B-E811-A98F-EF3518E6D53C'
 
---SELECT 
---	stvp.ProductId,
---	stvp.StyleTraitValueId,
---	sc.Name StyleClassName,
---	st.Name StyleTraitName,
---	stv.Value StyleTraitValue
---FROM
---	dbo.StyleTraitValueProduct stvp
---	join dbo.StyleTraitValue stv on stv.Id = stvp.StyleTraitValueId
---	join StyleTrait st on st.Id = stv.StyleTraitId
---	join StyleClass sc on sc.Id = st.StyleClassId
---	where sc.Name = '53527' and st.Name = 'Wood Finishes' and stv.Value = 'Cherry'
+
+select * from [Insite.NBF].dbo.CategoryProduct where ProductId = 'B0CD38A9-DD0B-E811-A98C-A3E0F1200094'
+select * from CategoryProduct where ProductId = 'B0CD38A9-DD0B-E811-A98C-A3E0F1200094'
+
+
+--delete from [Insite.NBF].dbo.CategoryProduct where CategoryId = 'CA7612FC-C80B-E811-A98C-A3E0F1200094' and ProductId='B0CD38A9-DD0B-E811-A98C-A3E0F1200094'
+
+select * from [Insite.NBF].dbo.Category where id = '0F7423F5-87FD-E711-A98C-A3E0F1200094'
+select * from Category where id = '0F7423F5-87FD-E711-A98C-A3E0F1200094'
+--update Category set ShortDescription = 'School Furniture2' where id = '0F7423F5-87FD-E711-A98C-A3E0F1200094'
