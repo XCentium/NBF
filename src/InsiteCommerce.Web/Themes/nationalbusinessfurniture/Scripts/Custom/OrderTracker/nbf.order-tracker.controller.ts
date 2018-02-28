@@ -51,7 +51,7 @@
         protected getOrderIdCompleted(orderId: string, orderDetailUrl: string): void {
             if (orderId != null) {
                 this.orderId = orderId;
-                this.$window.location.href = "/OrderTracker/Order?orderId=" + this.orderId;
+                this.$window.location.href = orderDetailUrl +"?orderId=" + this.orderId;
             } else {
                 this.getOrderIdFailed();
             }
