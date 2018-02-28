@@ -81,13 +81,7 @@ src/InSiteCommerce.Web/_SystemResources/Themes/**/base.css
 src/InSiteCommerce.Web/_SystemResources/Themes/**/base.css.map
 src/InSiteCommerce.Web/_SystemResources/Themes/**/template/*.css
 src/InSiteCommerce.Web/_SystemResources/Themes/**/template/*.css.map
-src/InSiteCommerce.Web/config/connectionStrings.config
+src/InSiteCommerce.Web/config/*.config
 src/InSiteCommerce.Web/App_Data/luceneindex/
-<<<<<<< HEAD
 src/InsiteCommerce.Web/Themes/**/*.css
-=======
-
-
 /src/InSiteCommerce.Web/App_Data/insiteidentity.pfx
-
->>>>>>> upstream/master
