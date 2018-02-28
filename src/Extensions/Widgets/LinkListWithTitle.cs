@@ -13,14 +13,14 @@ namespace Extensions.Widgets
         {
             get
             {
-                return this.GetValue<string>(nameof(Title), "", FieldType.Contextual);
+                return GetValue(nameof(Title), "", FieldType.Contextual);
             }
             set
             {
-                this.SetValue<string>(nameof(Title), value, FieldType.Contextual);
+                SetValue(nameof(Title), value, FieldType.Contextual);
             }
         }
 
-        public override string Direction { get => "Vertical" ; }
+        public override string Direction => "Vertical";
     }
 }

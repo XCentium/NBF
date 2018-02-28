@@ -113,11 +113,13 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Scripts\foundation.equalizer.js" />
+    <Content Include="Scripts\foundation.tooltip.js" />
     <Content Include="Scripts\Libraries\jquery.inputmask\0.0.0\jquery.inputmask.js" />
     <Content Include="Scripts\Libraries\jquery.inputmask\0.0.0\jquery.inputmask.numeric.extensions.js" />
     <Content Include="Scripts\Libraries\jquery.maskedinput\jquery.maskedinput.js" />
     <Content Include="Scripts\Libraries\sticky.js" />
     <!--<Content Include="Scripts\sticky.js" />-->
+    <Content Include="Styles\custom\cta-link-widget.scss" />
     <None Include="Styles\custom\font-awesome.scss" />
     <None Include="Styles\custom\font-icomoon.scss" />
     <Content Include="Styles\fonts\fontawesome-webfont.svg" />
@@ -162,7 +164,9 @@
     <TypeScriptCompile Include="Scripts\Custom\Cart\nbf.cart-total-display.directive.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Cart\nbf.cart-lines.directive.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Cart\nbf.checkout.controller.ts" />
+    <TypeScriptCompile Include="Scripts\Custom\Catalog\nbf.product-image-carousel.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Catalog\nbf.catalog.directives.ts" />
+    <TypeScriptCompile Include="Scripts\Custom\Catalog\nbf.product-image-carousel.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Catalog\nbf.product-list.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Comments\nbf.commentmessage.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Comments\nbf.commentmessage.service.ts" />
@@ -379,6 +383,8 @@
     <Content Include="Styles\foundation.css" />
     <Content Include="Styles\normalize.css" />
     <Content Include="Styles\custom\product-details-page.scss" />
+    <Content Include="Styles\custom\product-image-carousel.scss" />
+    <Content Include="Styles\custom\myaccount.scss" />
     <None Include="Styles\template\category-list.scss" />
     <None Include="Styles\template\change-cust-ship-to.scss" />
     <None Include="Styles\template\checkout-addresses.scss" />
@@ -473,6 +479,7 @@
     <Content Include="Views\Widgets\CreateAccountView\NBF.cshtml" />
     <None Include="Views\Widgets\CreateAccountView\Standard.cshtml" />
     <None Include="Views\Widgets\CurrencySelector\Standard.cshtml" />
+    <Content Include="Views\Widgets\Custom\Ctalinks\Standard.cshtml" />
     <Content Include="Views\Widgets\Custom\WebCode\Standard.cshtml" />
     <Content Include="Views\Widgets\Custom\BetterBusinessBureau\Standard.cshtml" />
     <Content Include="Views\Widgets\Custom\RequestCatalogLink\Standard.cshtml" />
@@ -487,13 +494,15 @@
     <Content Include="Views\Widgets\Custom\NavigationFlyOut\Header.cshtml" />
     <Content Include="Views\Widgets\Custom\NavigationFlyOut\MyAccount.cshtml" />
     <Content Include="Views\Widgets\Custom\ProductCTAFourSquares\Standard.cshtml" />
+    <Content Include="Views\Widgets\Custom\ArticlePageView\Standard2.cshtml" />
+    <Content Include="Views\Widgets\Custom\ArticlePageComment\Standard.cshtml" />
+    <Content Include="Views\Widgets\Custom\ArticlePageCommentsView\Standard.cshtml" />
     <None Include="Views\Widgets\DealerDirectionsView\Standard.cshtml" />
     <None Include="Views\Widgets\DealerLocatorView\Standard.cshtml" />
     <None Include="Views\Widgets\DealerView\Standard.cshtml" />
     <None Include="Views\Widgets\EmailSubscription\Standard.cshtml" />
     <None Include="Views\Widgets\FourColumn\Standard.cshtml" />
     <None Include="Views\Widgets\HeaderView\B2C.cshtml" />
-    <Content Include="Views\Widgets\HeaderView\NBF2.cshtml" />
     <None Include="Views\Widgets\HeaderView\Standard.cshtml" />
     <Content Include="Views\Widgets\Image\HeaderLogo.cshtml" />
     <None Include="Views\Widgets\Image\Standard.cshtml" />
@@ -507,9 +516,9 @@
     <Content Include="Views\Widgets\LinkList\HeaderTopLinks.cshtml" />
     <None Include="Views\Widgets\LinkList\Standard.cshtml" />
     <None Include="Views\Widgets\MyAccountAddressView\Standard.cshtml" />
+    <Content Include="Views\Widgets\MyAccountView\nbf.cshtml" />
     <None Include="Views\Widgets\MyAccountView\Standard.cshtml" />
     <None Include="Views\Widgets\MyJobQuotesView\Standard.cshtml" />
-    <Content Include="Views\Widgets\NavigationList\Header.cshtml" />
     <None Include="Views\Widgets\NavigationList\Standard.cshtml" />
     <None Include="Views\Widgets\NewsListView\Standard.cshtml" />
     <None Include="Views\Widgets\NewsPageView\Standard.cshtml" />
@@ -521,6 +530,7 @@
     <None Include="Views\Widgets\OrderHistory\Standard.cshtml" />
     <None Include="Views\Widgets\OrdersView\Standard.cshtml" />
     <None Include="Views\Widgets\OrderUploadView\Standard.cshtml" />
+    <Content Include="Views\Widgets\PageTitle\nbf.cshtml" />
     <None Include="Views\Widgets\PageTitle\Standard.cshtml" />
     <None Include="Views\Widgets\ProductComparisonView\Standard.cshtml" />
     <Content Include="Views\Widgets\ProductDetailView\NBF.cshtml" />
@@ -675,6 +685,25 @@
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
     <TypeScriptToolsVersion>1.8</TypeScriptToolsVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Dev|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'QA|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')" />

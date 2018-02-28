@@ -128,7 +128,7 @@
                 }
             }
 
-            h3 {
+            &__title {
                 margin: 0;
                 line-height: 1.5;
                 padding: 30px;
@@ -170,8 +170,26 @@
             padding: 15px;
         }
 
-        h2 {
+        &__default__title {
             margin: 0;
+        }
+    }
+
+    .video-link {
+        @include center;
+        width:200px;
+        height:200px;
+        color: #fff;
+        font-size: 80px;
+        @include opacity(.5);
+        text-decoration:none;
+
+        &:before {
+            @include center;
+        }
+
+        &:hover {
+            @include opacity(1);
         }
     }
 }

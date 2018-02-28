@@ -8,7 +8,8 @@
                 <h3>[% translate 'Quick Links' %]</h3>
             </li>
             <li ng-repeat="quickLink in vm.quickLinks | orderBy:'quickLinkOrder'">
-                <a ng-href="{{quickLink.url}}">{{quickLink.quickLinkText}}</a>
+                <a ng-href="{{quickLink.url}}" ng-attr-target="{{quickLink.openInNewTab ? '_blank' : undefined}}"
+                   ng-attr-rel="{{quickLink.openInNewTab ? 'noopener noreferrer' : undefined}}">{{quickLink.quickLinkText}}</a>
             </li>
         </ul>
         <ul class="user-lists">

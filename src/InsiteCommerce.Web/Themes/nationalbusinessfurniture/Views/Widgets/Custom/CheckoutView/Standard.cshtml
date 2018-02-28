@@ -204,17 +204,6 @@
                                                     </div>
                                                 </div>
                                                 <div ng-show="vm.cart.showCreditCard && vm.cart.paymentMethod.isCreditCard">
-                                                    <div class="card-type">
-                                                        <label for="cardType">[% translate 'Card Type' %]</label>
-                                                        <select id="cardType" name="cardType"
-                                                                data-rule-required="true"
-                                                                data-msg-required="[% translate 'Credit card type is required.' %]"
-                                                                ng-model="vm.cart.paymentOptions.creditCard.cardType"
-                                                                ng-options="cardType.value as cardType.key for cardType in vm.cart.paymentOptions.cardTypes">
-                                                            <option value="">[% translate 'Select Card' %]</option>
-                                                        </select>
-                                                        <span class="field-validation-valid" data-valmsg-for="cardType" data-valmsg-replace="true"></span>
-                                                    </div>
                                                     <div class="card-name">
                                                         <label for="cardHolderName">[% translate 'Name on Card' %]</label>
                                                         <input id="cardHolderName" name="cardHolderName" type="text" maxlength="30"
@@ -228,8 +217,14 @@
                                                         <input id="cardNumber" name="cardNumber" maxlength="16" type="text" style="display: block;" value="4111111111111111"
                                                                data-rule-required="true" data-msg-required="[% translate 'Credit card number is required.' %]"
                                                                data-rule-creditcard="true" data-msg-creditcard="[% translate 'Credit card number is invalid.' %]"
-                                                               ng-model="vm.cart.paymentOptions.creditCard.cardNumber">
+                                                               ng-model="vm.cart.paymentOptions.creditCard.cardNumber"
+                                                               ng-change="vm.determineCardType()">
                                                         <span class="field-validation-valid" data-valmsg-for="cardNumber" data-valmsg-replace="true"></span>
+                                                    </div>
+                                                    <div class="card-type">
+                                                        <label for="cardType">[% translate 'Card Type' %]</label>
+                                                        <div style="min-height: 28px;">{{vm.cart.paymentOptions.creditCard.cardType}}</div>
+                                                        <span class="field-validation-valid" data-valmsg-for="cardType" data-valmsg-replace="true"></span>
                                                     </div>
                                                     <div class="exp-date">
                                                         <label>[% translate 'Expiration Date' %]</label>

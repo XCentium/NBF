@@ -374,9 +374,17 @@ h1, h2, h3, h4, h5, h6 {
     font-weight: bold;
 }
 
+h1.large {
+    font-size: 80px;
+
+    @media all and (max-width: 767px) {
+        font-size: 36px;
+    }
+}
+
 h1 {
     font-family: inherit;
-    font-size: 80px;
+    font-size: 54px;
     line-height:  1.2em;
     margin-bottom: .5em;
     letter-spacing: 1px;
@@ -389,7 +397,7 @@ h1 {
 
 h2 {
     font-family: inherit;
-    font-size: 54px;
+    font-size: 36px;
     font-weight:bold;
     font-family: $ProximaNova-bold;
     line-height:  1.2em;
@@ -403,7 +411,7 @@ h2 {
 
 h3 {
     font-family: $ProximaNova;
-    font-size: 36px;
+    font-size: 24px;
     line-height:  1.2em;
     margin-bottom: 1em;
     font-weight: normal;
@@ -765,10 +773,10 @@ ul.resp-tabs-list {
     list-style: none;
     cursor: pointer;
     float: left;
-    background-color: SlateGray;
+    background-color: $nbf-navy;
     color: #fff;
-    border-left: 1px solid SlateGray;
-    border-right: 1px solid SlateGray;
+    border-left: 1px solid $nbf-navy;
+    border-right: 1px solid $nbf-navy;
 }
 
 .resp-tabs-list li + li {
@@ -798,7 +806,7 @@ h2.resp-accordion {
     margin-bottom: -1px;
     padding: .5em 1.5em;
     background-color: #fff;
-    color: SlateGray;
+    color: $nbf-navy;
 }
 
 .resp-tab-active {
@@ -820,9 +828,9 @@ h2.resp-accordion {
     margin: 0px;
     margin-top: 2px;
     padding: 0.5em 1.25em;
-    background-color: SlateGray;
+    background-color: $nbf-navy;
     color: #fff;
-    border: 1px solid SlateGray;
+    border: 1px solid $nbf-navy;
 }
 
 h2.resp-tab-active {
@@ -908,7 +916,7 @@ h2.resp-tab-active span.resp-arrow:before {
 h2.resp-tab-active {
     background: #fff;
     border: 1px solid $divider-gray;
-    color: SlateGray;
+    color: $nbf-navy;
 }
 
 .resp-easy-accordion h2.resp-accordion {
@@ -965,8 +973,8 @@ h2.resp-tab-active {
 }
 
 .accordion label.accord-head {
-    background: SlateGray;
-    border: 1px solid SlateGray;
+    background: $nbf-navy;
+    border: 1px solid $nbf-navy;
     color: #fff;
     cursor: pointer;
     display: block;
@@ -981,7 +989,7 @@ h2.resp-tab-active {
 
 .accordion input.accord-check:checked + label.accord-head {
     background: #fff;
-    color: SlateGray;
+    color: $nbf-navy;
     border-color: $divider-gray;
 }
 
@@ -2832,7 +2840,7 @@ ul.attribute-list span.attrib-name {
 }
 
 div.remove a.btn {
-    color: SlateGray;
+    color: $nbf-navy;
 }
 
 .item-block .item-opt .item-actions {
@@ -4884,216 +4892,6 @@ a.btn.btn-add-to-cart:link, a.btn.btn-add-to-cart:visited {
     text-align: center;
 }
 
-/* Cross Sells */
-
-[role="cross-sells"] {
-}
-
-[role="cross-sells"] ul {
-    list-style: none;
-    margin: 0;
-}
-
-[role="cross-sells"] .item-wrap {
-    position: relative;
-    margin: 0 auto;
-    max-width: 80%;
-}
-
-[role="cross-sells"] .item-wrap .thumb-wrap,
-[role="cross-sells"] .item-wrap .item-name,
-[role="cross-sells"] .item-wrap .item-num,
-[role="cross-sells"] .item-wrap > div.price,
-[role="cross-sells"] .item-wrap .quantity-pricing,
-.product-comparison .item-wrap .thumb-wrap,
-.product-comparison .item-wrap .item-name,
-.product-comparison .item-wrap .item-num,
-.product-comparison .item-wrap > div.price,
-.product-comparison .item-wrap .quantity-pricing {
-    margin-bottom: .5em;
-    line-height: 1.25em;
-}
-
-[role="cross-sells"] .item-wrap > div.price {
-    font-size: 0.875rem;
-}
-
-[role="cross-sells"] .item-wrap > div.price span {
-    margin-right: 0.5em;
-}
-
-[role="cross-sells"] .item-wrap .item-num {
-    font-size: 0.875rem;
-    margin-bottom: 1em;
-}
-
-[role="cross-sells"] .item-wrap .thumb-wrap,
-.product-comparison .item-wrap .thumb-wrap {
-    margin-bottom: 1em;
-}
-
-div.quantity-pricing {
-    display: inline-block;
-    position: relative;
-    z-index: 3;
-    font-size: 0.825em;
-}
-
-div.quantity-pricing-popup {
-    overflow: auto;
-    max-height: 180px;
-    padding-right: 0.5em;
-}
-
-.carousel-wrapper .quantity-pricing .f-dropdown table {
-    min-width: 150px !important;
-}
-
-.carousel-wrapper .quantity-pricing .f-dropdown table tr th,
-.carousel-wrapper .quantity-pricing .f-dropdown table tr td {
-    padding-left: .25em;
-    padding-right: .25em;
-}
-
-[role="cross-sells"] .item-wrap .p-opt {
-    position: relative;
-    z-index: 2;
-}
-
-[role="cross-sells"] .carousel-wrapper,
-.images-carousel-wrapper {
-    position: relative;
-}
-
-[role="cross-sells"] .cs-carousel {
-    position: relative; // Necessary for slider control positioning
-    overflow: hidden;
-    margin: 0 30px;
-}
-
-[role="cross-sells"] .cs-carousel ul {
-    width: 20000em;
-    position: relative;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-}
-
-[role="cross-sells"] .cs-carousel > li {
-    border: 1px solid #f6f6f6;
-    position: relative;
-    float: left;
-    text-align: center;
-    padding: .8em;
-}
-
-[role="cross-sells"] {
-    .product-info .um {
-        .pack-container {
-            display: initial;
-
-            .pack {
-                width: 100%;
-            }
-        }
-    }
-}
-
-[role="cross-sells"] .cs-carousel [class*="column"] + [class*="column"]:last-child {
-    float: left;
-}
-
-[role="cross-sells"] .cs-carousel > li:hover {
-    cursor: pointer;
-    border-color: #b8b8b8;
-}
-
-[role="cross-sells"] .cs-carousel > li img {
-    display: inline-block;
-    max-width: 100%;
-    height: auto !important;
-    width: 160px;
-}
-
-[role="cross-sells"] .carousel-control-box-prev, [role="cross-sells"] .carousel-control-box-next {
-    position: absolute;
-}
-
-[role="cross-sells"] .carousel-control-prev,
-[role="cross-sells"] .carousel-control-next,
-.product-comparison .carousel-control-prev,
-.product-comparison .carousel-control-next,
-.product-detail .img-carousel-control-prev,
-.product-detail .img-carousel-control-next {
-    position: absolute;
-    top: 0;
-    width: 8%;
-    height: 100%;
-    line-height: 1em;
-    text-align: center;
-    text-decoration: none;
-    font-size: 1.5em;
-    z-index: 200;
-    background: #fff;
-}
-
-[role="cross-sells"] .carousel-control-prev,
-[role="cross-sells"] .carousel-control-next {
-    width: 30px;
-    background: none;
-}
-
-[role="cross-sells"] .carousel-control-prev span,
-[role="cross-sells"] .carousel-control-next span,
-.product-comparison .carousel-control-prev span,
-.product-comparison .carousel-control-next span,
-.product-detail .img-carousel-control-prev span,
-.product-detail .img-carousel-control-next span {
-    position: absolute;
-    height: 1em;
-    width: 100%;
-    top: 50%;
-    margin-top: -.5em;
-    left: 0;
-    font-family: 'good-oatmeal-v2';
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-}
-
-[role="cross-sells"] .carousel-control-prev span:before,
-.product-comparison .carousel-control-prev span:before,
-.product-detail .img-carousel-control-prev span:before {
-    content: "\e011";
-}
-
-[role="cross-sells"] .carousel-control-next span:before,
-.product-comparison .carousel-control-next span:before,
-.product-detail .img-carousel-control-next span:before {
-    content: "\e012";
-}
-
-[role="cross-sells"] .carousel-control-prev {
-    left: 0;
-}
-
-[role="cross-sells"] .carousel-control-next {
-    right: 0;
-}
-
-[role="cross-sells"] .carousel-control-prev:hover, [role="cross-sells"] .carousel-control-next:hover {
-    text-decoration: none;
-    background: #f6f6f6;
-}
-
-[role="cross-sells"] .action > .btn {
-    float: right;
-    clear: right;
-    width: 100%;
-}
-
-[role="cross-sells"] .f-dropdown.content {
-    padding: 10px;
-}
 
 /* Tooltips */
 
