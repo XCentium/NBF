@@ -1,0 +1,22 @@
+﻿<li class="[[Model.CssClass]]">
+    <span class="nav-item-container">
+        <a id="tst_navMenu_[[Model.Title]]" onclick="$(this).next().click();return false;">[[Model.Title]]</a>
+        <label for="nav-cat" class="toggle-sub" onclick="insite.nav.goToSubnav(this)">►</label>
+    </span>
+    <input type="checkbox" name="nav" id="nav-cat" class="subnav-check">
+    <div id="sub-cat" class="subnav sub-tier-panel single">
+        <ul class="level-2">
+            <li class="sub-heading">[[Model.Title]]</li>
+            [% for currentPageLink in Model.Drop.PageLinks -%]
+            [% if forloop.index == 1 -%]
+            <li class="currently-hovered">
+                [% else -%]
+            <li>
+                [% endif -%]
+                <a id="tst_navMenu_[[forloop.index]]" href="[[currentPageLink.Url]]" onclick="insite.nav.hideMenu();">[[currentPageLink.PageTitle]]</a>
+                <label for="nav-cat[[forloop.index]]" class="toggle-sub" onclick="insite.nav.goToSubnav(this)">►</label>
+            </li>
+            [% endfor -%]
+        </ul>
+    </div>
+</li>

@@ -276,7 +276,7 @@
                 <label for="criteria">[% translate 'Search' %]</label>
 
                 <input ng-model="vm.criteria" type="text" class="isc-searchAutoComplete tst_header_searchInput"
-                       ng-init="vm.autocompleteOptions.placeholder = '[% translate 'Enter keyword or item #' %]';
+                       ng-init="vm.autocompleteOptions.placeholder = '[% siteMessage 'Autocomplete_PlaceHolder' 'Search By Product Name, Item Number, Etc.' %]';
                             vm.translations = [
                                 {key: 'category', text: '[% translate 'Categories' %]'},
                                 {key: 'content', text: '[% translate 'Content' %]'},
