@@ -35,6 +35,7 @@
                     (category: CategoryModel) => {
                         if (category) {
                             this.categories.push(category);
+                            //console.log(category.smallImagePath);
                         }
                     },
                     (error: any) => {
