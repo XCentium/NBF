@@ -74,3 +74,9 @@ select * from CategoryAttributeType where id = 'B82B8EFC-87FD-E711-A98C-A3E0F120
 select * from [Insite.NBF].dbo.ProductAttributeValue where ProductId = 'CDA872B9-87FD-E711-A98C-A3E0F1200094'
 select * from ProductAttributeValue where ProductId = 'CDA872B9-87FD-E711-A98C-A3E0F1200094'
 --delete from [Insite.NBF].dbo.ProductAttributeValue where ProductId = 'CDA872B9-87FD-E711-A98C-A3E0F1200094' and AttributeValueId = 'AE2D8EFC-87FD-E711-A98C-A3E0F1200094'
+
+select * from [Insite.NBF].dbo.PriceMatrix where ProductKeyPart = '62DE46BA-87FD-E711-A98C-A3E0F1200094'
+select * from PriceMatrix where ProductKeyPart = '62DE46BA-87FD-E711-A98C-A3E0F1200094'
+
+select count(*) from [Insite.NBF].dbo.PriceMatrix --380335
+select count(*) from PriceMatrix -- 380333

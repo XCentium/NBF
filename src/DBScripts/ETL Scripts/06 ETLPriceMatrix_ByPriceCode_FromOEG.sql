@@ -42,7 +42,7 @@ begin
 		[BreakQty01], [Amount01], [CreatedBy], [ModifiedBy])
 		select 
 			case when @pricecode = '' then 'Product' else 'Customer Price Code/Product' end, 
-			'USD', '', '', @pricecode, p.Id, dateadd(day, -1, SYSDATETIMEOFFSET()), null, '', 'O', 'A', 0,
+			'USD', '', '', @pricecode, p.Id, '1/1/2010', null, '', 'O', 'A', 0,
 			h.Quantity, h.Price, 'etl','etl'
 		from
 			helper h
@@ -76,7 +76,7 @@ begin
 		[BreakQty01], [Amount01], [CreatedBy], [ModifiedBy])
 		select 
 			case when @pricecode = '' then 'Product' else 'Customer Price Code/Product' end, 
-			'USD', '', '', @pricecode, p.Id, dateadd(day, -1, SYSDATETIMEOFFSET()), null, '', 'O', 'A', 0,
+			'USD', '', '', @pricecode, p.Id, '1/1/2010', null, '', 'O', 'A', 0,
 			h.Quantity, h.Price, 'etl','etl'
 		from
 			helper h
