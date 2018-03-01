@@ -45,6 +45,22 @@ $nbf-white: #fff;
 $nbf-white-95:rgba(255, 255, 255, 0.95);
 $nbf-black:#2E2A2B;
 $nbf-nav-navy:#28313B;
+
+
+
+@mixin brandcolor {
+  background: $nbf-orange;
+
+  body.blue & {
+    background: $nbf-black;
+  }
+  body.red & {
+    background: $nbf-yellow;
+  }
+}
+
+
+
 // Font Colors
 $base-font-color: $nbf-black;
 $action-color: $nbf-orange;

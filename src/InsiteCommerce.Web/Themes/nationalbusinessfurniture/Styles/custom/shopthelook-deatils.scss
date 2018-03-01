@@ -1,0 +1,209 @@
+﻿@import "../variables";
+
+
+.shopthelookdetail {
+    &__title {
+        margin-bottom: 30px;
+        display: inline-block;
+        position: relative;
+
+        &:after {
+            content: "";
+            display: block;
+            position: absolute;
+            width: 100%;
+            height: 1px;
+            bottom: -10px;
+            border-bottom: 1px solid $nbf-orange;
+        }
+    }
+
+    &__page-desc {
+        max-width: 685px;
+    }
+
+    &__image-col {
+        position: relative;
+        margin-bottom: 40px;
+
+        img {
+            width: 100%;
+            max-width: 100%;
+        }
+    }
+
+    &__list-title {
+    }
+
+    &__list-col {
+        border: 1px solid $divider-gray;
+        height: 786px;
+        overflow-y: auto;
+        overflow-x: hidden;
+        padding: 20px;
+        margin-bottom: 40px;
+
+        ul {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+    }
+
+    &__list-item {
+        @include clearfix();
+        padding: 20px 0;
+        border-bottom: 1px solid $divider-gray;
+        position: relative;
+
+        &__image {
+            width: 45%;
+            min-height: 188px;
+            float: left;
+            margin-right: 10px;
+
+            @media all and (max-width: 1025px) {
+                width: 21%;
+            }
+
+            img {
+                border: 1px solid $divider-gray;
+            }
+        }
+
+        &__details {
+        }
+
+        &__desc {
+            font-weight: bold;
+            line-height: 24px;
+            min-height: 48px;
+            overflow: hidden;
+        }
+
+        &__price {
+            h4 {
+                display: inline;
+                margin: 0;
+            }
+        }
+
+        &__details-wrap {
+            width: auto;
+        }
+
+        &__btn {
+            button {
+                padding: 11px 0;
+                width:53%;
+                margin-bottom: 0;
+                position: absolute;
+                bottom: 20px;
+                @media all and (max-width: 787px) {
+                    width:100%;
+                    left:0;
+                }
+            }
+        }
+    }
+
+    .has-tip {
+        &.open {
+            .tooltip {
+                display: block;
+            }
+        }
+    }
+
+    .hotspot {
+        display: block;
+        height: 0;
+        width: 9%;
+        padding-bottom:9%;
+        background-color: rgba(255, 255, 255, 0.5);
+        @include border-radius(50px);
+        position: absolute;
+        cursor:pointer;
+
+        &:before {
+            @include center(true,true);
+            content:"\f067";
+            font-family: $FontAwesome;
+            font-size:20px;
+            color:$nbf-font-gray;
+        }
+        &.open {
+            background-color:$nbf-orange;
+
+            &:before {
+                content:"\f00d";
+                color:#fff;
+            }
+        }
+    }
+
+    .tooltip {
+        height: 200px;
+        width: 365px;
+        top: -222px;
+        max-width: 365px;
+        color: $nbf-black;
+        @include center(true,false);
+         border: 1px solid $divider-gray;
+
+        &:after {
+            @include center(true,false);
+            content:'';
+            position: absolute;
+            top: 100%;
+            width: 0;
+            height: 0;
+            border-top: solid 20px #fff;
+            border-left: solid 20px transparent;
+            border-right: solid 20px transparent;
+        }
+
+        
+
+        &__img {
+            width: 115px;
+            height: 115px;
+            overflow: hidden;
+            border: 1px solid $divider-gray;
+            float: left;
+
+            img {
+                width: 100%;
+                max-width: 100%;
+            }
+        }
+
+        &__details {
+            width: 200px;
+            height: 115px;
+            overflow: hidden;
+            float: right;
+
+            &__desc {
+                height: 48px;
+                overflow: hidden;
+                font-weight: bold;
+            }
+
+            &__price {
+                font-weight: bold;
+                font-size: 24px;
+                line-height: 36px;
+            }
+
+            &__btn {
+                clear: both;
+                padding-top: 10px;
+
+                a.btn {
+                    width: 100%;
+                }
+            }
+        }
+    }
+}
