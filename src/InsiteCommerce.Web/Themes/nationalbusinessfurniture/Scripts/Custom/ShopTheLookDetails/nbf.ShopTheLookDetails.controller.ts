@@ -14,11 +14,18 @@
             $('.hotspot').on('click', function (e) {
                 e.preventDefault();
                 var p = $(this);
-                if (p.hasClass('open')) {
-                    p.removeClass('open');
-                } else {
-                    $('.hotspot').removeClass('open');
-                    p.addClass('open');
+                var windowsize = $(window).width();
+                if (windowsize > 1220) {
+                    if (p.hasClass('open')) {
+                        p.removeClass('open');
+                    } else {
+                        $('.hotspot').removeClass('open');
+                        p.addClass('open');
+                    }
+                }
+                else {
+                    window.location = p.find('a.btn').attr("href");
+                    return false;
                 }
             });
 
