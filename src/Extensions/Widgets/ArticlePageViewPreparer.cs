@@ -61,14 +61,14 @@ namespace Extensions.Widgets
             //}
 
             NewsPage page = PageContext.Current.Page as NewsPage;
-            model.Author = page.Author;
+            model.Author = page != null ? page.Author : string.Empty;
             ArticlePageViewDrop newsPageViewDrop = model;
-            DateTimeOffset? publishDate = page.PublishDate;
+            DateTimeOffset? publishDate = page != null ? page.PublishDate : null;
 
             string str = ((publishDate).HasValue ? (publishDate).GetValueOrDefault().LocalDateTime.ToShortDateString() : (string)null) ?? string.Empty;
             newsPageViewDrop.PublishDate = str;
-            model.NewsContents = page.NewsContents;
-            model.Title = page.Title;
+            model.NewsContents = page?.NewsContents;
+            model.Title = page?.Title;
         }
     }
 }

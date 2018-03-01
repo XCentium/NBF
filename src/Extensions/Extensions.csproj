@@ -45,6 +45,24 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Dev|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'QA|AnyCPU'">
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Antlr3.Runtime, Version=3.4.1.9004, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
       <HintPath>..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
@@ -304,6 +322,9 @@
     <Compile Include="Widgets\ArticleListViewDrop.cs" />
     <Compile Include="Widgets\ArticleListViewPageDrop.cs" />
     <Compile Include="Widgets\ArticleListViewPreparer.cs" />
+    <Compile Include="Widgets\ArticlePageCommentsViewPreparer.cs" />
+    <Compile Include="Widgets\ArticlePageCommentsView.cs" />
+    <Compile Include="Widgets\ArticlePageCommentPreparer.cs" />
     <Compile Include="Widgets\ArticlePageView.cs" />
     <Compile Include="Widgets\ArticlePageViewDrop.cs" />
     <Compile Include="Widgets\ArticlePageViewPreparer.cs" />
@@ -314,16 +335,25 @@
     <Compile Include="Widgets\ShopTheLookDetails.cs" />
     <Compile Include="Widgets\ShopTheLook.cs" />
     <Compile Include="Widgets\Ctalinks.cs" />
+    <Compile Include="Widgets\ArticlePageComment.cs" />
+    <Compile Include="Widgets\CategoryWidget.cs" />
+    <Compile Include="Widgets\link-CTA.cs" />
     <Compile Include="Widgets\EmailSubscriptionWithTitle.cs" />
+    <Compile Include="Widgets\OrderTrackerPreparer.cs" />
     <Compile Include="Widgets\SocialMediaLinkListWithTitle.cs" />
     <Compile Include="Widgets\LinkListWithTitle.cs" />
+    <Compile Include="Widgets\ContentFields\ListOfNewsPagesContentFieldAttribute.cs" />
+    <Compile Include="Widgets\LatestBlogPostDrop.cs" />
+    <Compile Include="Widgets\LatestBlogPostsDropPreparer.cs" />
+    <Compile Include="Widgets\LatestBlogPostsDrop.cs" />
     <Compile Include="Widgets\LiveChat.cs" />
     <Compile Include="Widgets\Models\NbfChildPageDrop.cs" />
     <Compile Include="Widgets\NavigationFlyOut.cs" />
     <Compile Include="Widgets\PopularCategories.cs" />
     <Compile Include="Widgets\FeaturedProducts.cs" />
-    <Compile Include="Widgets\Latest BlogPosts.cs" />
+    <Compile Include="Widgets\LatestBlogPosts.cs" />
     <Compile Include="Widgets\Banner.cs" />
+    <Compile Include="Widgets\ProductCTAFoursquares.cs" />
     <Compile Include="Widgets\ProductCTA.cs" />
     <Compile Include="Widgets\FooterView.cs" />
     <Compile Include="Widgets\CheckoutView.cs" />
@@ -355,8 +385,9 @@
       <SubType>Designer</SubType>
     </Content>
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="Views\ContentItemFields\" />
+    <Content Include="Views\ContentItemFields\ListOfNewsPages.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
