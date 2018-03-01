@@ -80,3 +80,6 @@ select * from PriceMatrix where ProductKeyPart = '62DE46BA-87FD-E711-A98C-A3E0F1
 
 select count(*) from [Insite.NBF].dbo.PriceMatrix --380335
 select count(*) from PriceMatrix -- 380333
+
+select * from [Insite.NBF].dbo.ProductImage where ProductId = 'CDA872B9-87FD-E711-A98C-A3E0F1200094'
+select * from ProductImage where ProductId = 'CDA872B9-87FD-E711-A98C-A3E0F1200094'
