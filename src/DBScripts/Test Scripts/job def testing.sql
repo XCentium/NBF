@@ -60,3 +60,17 @@ select * from CategoryProduct where ProductId = 'B0CD38A9-DD0B-E811-A98C-A3E0F12
 select * from [Insite.NBF].dbo.Category where id = '0F7423F5-87FD-E711-A98C-A3E0F1200094'
 select * from Category where id = '0F7423F5-87FD-E711-A98C-A3E0F1200094'
 --update Category set ShortDescription = 'School Furniture2' where id = '0F7423F5-87FD-E711-A98C-A3E0F1200094'
+
+select * from [Insite.NBF].dbo.AttributeType where id = 'B72B8EFC-87FD-E711-A98C-A3E0F1200094'
+select * from AttributeType where id = 'B72B8EFC-87FD-E711-A98C-A3E0F1200094'
+
+
+select * from [Insite.NBF].dbo.AttributeValue where id = 'A82D8EFC-87FD-E711-A98C-A3E0F1200094'
+select * from AttributeValue where id = 'A82D8EFC-87FD-E711-A98C-A3E0F1200094'
+
+select * from [Insite.NBF].dbo.CategoryAttributeType where id = 'B82B8EFC-87FD-E711-A98C-A3E0F1200094'
+select * from CategoryAttributeType where id = 'B82B8EFC-87FD-E711-A98C-A3E0F1200094'
+
+select * from [Insite.NBF].dbo.ProductAttributeValue where ProductId = 'CDA872B9-87FD-E711-A98C-A3E0F1200094'
+select * from ProductAttributeValue where ProductId = 'CDA872B9-87FD-E711-A98C-A3E0F1200094'
+--delete from [Insite.NBF].dbo.ProductAttributeValue where ProductId = 'CDA872B9-87FD-E711-A98C-A3E0F1200094' and AttributeValueId = 'AE2D8EFC-87FD-E711-A98C-A3E0F1200094'

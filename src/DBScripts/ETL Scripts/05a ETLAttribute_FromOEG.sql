@@ -33,7 +33,7 @@ begin
 		Category c
 	where 
 		c.CreatedBy = 'etl'
-		and c.Id  not in (select distinct ParentId from Category where ParentId is not null)
+		--and c.Id  not in (select distinct ParentId from Category where ParentId is not null)
 		and not exists (select Id from CategoryAttributeType where CategoryId = c.Id and AttributeTypeId = @attributeTypeId)
 
 
