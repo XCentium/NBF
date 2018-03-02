@@ -509,6 +509,7 @@
     <Content Include="Views\Widgets\Custom\ArticlePageCommentsView\Standard.cshtml" />
     <Content Include="Views\Widgets\Custom\LinkListWithTitle\NavigationFlyOut.cshtml" />
     <Content Include="Views\Widgets\Custom\LinkListWithTitle\Standard.cshtml" />
+    <Content Include="Views\Widgets\Custom\ShopTheLookWidget\Standard.cshtml" />
     <None Include="Views\Widgets\DealerDirectionsView\Standard.cshtml" />
     <None Include="Views\Widgets\DealerLocatorView\Standard.cshtml" />
     <None Include="Views\Widgets\DealerView\Standard.cshtml" />
