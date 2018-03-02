@@ -3,24 +3,29 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Extensions.Widgets.Models;
+using Insite.ContentLibrary.Pages;
 using Insite.ContentLibrary.Providers;
 using Insite.Core.Interfaces.Localization;
 using Insite.WebFramework.Content;
+using Insite.WebFramework.Content.Interfaces;
 using Insite.WebFramework.Mvc;
+using Microsoft.Ajax.Utilities;
 
 namespace Extensions.Widgets
 {
     public class ProductFlyOutPreparer : GenericPreparer<ProductFlyOut>
     {
         protected readonly ICatalogLinkProvider CatalogLinkProvider;
+        protected readonly IContentHelper ContentHelper;
         protected int CatId;
         protected int GrandCatId = 1000;
 
 
-        public ProductFlyOutPreparer(ITranslationLocalizer translationLocalizer, ICatalogLinkProvider catalogLinkProvider)
+        public ProductFlyOutPreparer(ITranslationLocalizer translationLocalizer, ICatalogLinkProvider catalogLinkProvider, IContentHelper contentHelper)
             : base(translationLocalizer)
         {
             CatalogLinkProvider = catalogLinkProvider;
+            ContentHelper = contentHelper;
         }
 
         public override void Prepare(ProductFlyOut contentItem)
@@ -81,8 +86,12 @@ namespace Extensions.Widgets
                     }
                 }
             }
-
             navigationListDrop4.ChildPages = childPageDropList;
+
+            if (!contentItem.LandingPageName.IsNullOrWhiteSpace())
+            {
+                contentItem.LandingPageUrl = ContentHelper.GetPage<ContentPage>(contentItem.LandingPageName).Page.Url;
+            }
         }
 
         protected virtual NbfChildPageDrop CreateChildPageDrop(NavLinkDto navLink)

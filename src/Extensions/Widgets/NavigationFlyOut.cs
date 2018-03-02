@@ -26,5 +26,30 @@ namespace Extensions.Widgets
         }
 
         public bool TextExists => !Text.IsNullOrWhiteSpace();
+
+        [CheckBoxContentField(DisplayName = "Link To Root Page", SortOrder = 110)]
+        public virtual bool LinkRootPage
+        {
+            get
+            {
+                return GetValue("LinkRootPage", true, FieldType.General);
+            }
+            set
+            {
+                SetValue("LinkRootPage", value, FieldType.General);
+            }
+        }
+
+        public virtual string RootPageUrl
+        {
+            get
+            {
+                return GetPerRequestValue<string>("RootPageUrl");
+            }
+            set
+            {
+                SetPerRequestValue("RootPageUrl", value);
+            }
+        }
     }
 }
