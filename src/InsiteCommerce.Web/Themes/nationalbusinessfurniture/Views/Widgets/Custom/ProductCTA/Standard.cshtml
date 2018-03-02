@@ -1,5 +1,5 @@
 ﻿<style type="text/css">
-.callout__img { background-image: url('[[Model.BackgroundImage]]'); }
+.callout_[[Model.Id]] { background-image: url('[[Model.BackgroundImage]]'); }
 </style>
 <div class="row">
     <div class="medium-12 large-12 columns widget-1column narrow-container [[Model.CssClass]]">
@@ -7,7 +7,7 @@
             <div class="medium-12 large-12 columns">
                 <div class="callout callout--[[Model.StyleFormatted]] callout--[[Model.PositionFormatted]]">
                     <div class="callout__img-wrap">
-                        <div class="callout__img"></div>
+                        <div class="callout__img callout_[[Model.Id]]"></div>
                     </div>
                     <div class="callout__content">
                         <h3>[[Model.Title]]</h3>

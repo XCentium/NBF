@@ -13,7 +13,7 @@
     };
 
     that.hideMenu = () => {
-        $("#sub-cat").addClass("hide-item t1");
+        $("#sub-cat").addClass("hide-item test1");
     };
 
     that.activatePanel = () => {

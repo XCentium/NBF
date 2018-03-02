@@ -29,7 +29,9 @@
         right: 0;
         left: 0;
         bottom: 0;
+        max-width: 994px;
     }
+
 
 
     @media all and (max-width: 767px) {
@@ -100,6 +102,11 @@
                 left: 0;
             }
         }
+        @media all and (min-width: 1080px) {
+            .callout__img {
+                margin-left: 177px;
+            }
+        }
     }
 
     &--bottomleft {
@@ -107,6 +114,11 @@
             @media all and (min-width: 768px) {
                 bottom: 40px;
                 left: 0;
+            }
+        }
+        @media all and (min-width: 1080px) {
+            .callout__img {
+                margin-left: 177px;
             }
         }
     }
@@ -118,5 +130,7 @@
                 right: 0;
             }
         }
+
+        
     }
 }

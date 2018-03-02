@@ -282,6 +282,7 @@
     <Compile Include="Filters\OrderTrackerFilter.cs" />
     <Compile Include="Handlers\AddSessionHandlerNBF.cs" />
     <Compile Include="Handlers\AddCustomer.cs" />
+    <Compile Include="Handlers\GetProductCollectionHandler\FindProductsWithSearch.cs" />
     <Compile Include="Handlers\Helpers\NBFHtmlHelper.cs" />
     <Compile Include="Handlers\Helpers\NBFListrakHelper.cs" />
     <Compile Include="Handlers\Helpers\NBFGetOrderHelper.cs" />
@@ -332,9 +333,14 @@
     <Compile Include="Widgets\CallUsPreparer.cs" />
     <Compile Include="Widgets\CallUs.cs" />
     <Compile Include="Widgets\CategoriesList.cs" />
+    <Compile Include="Widgets\LinkListWithTitlePreparer.cs" />
+    <Compile Include="Widgets\NavigationFlyOutPreparer.cs" />
+    <Compile Include="Widgets\ShopTheLookWidget.cs" />
+    <Compile Include="Widgets\ShopTheLookDetails.cs" />
+    <Compile Include="Widgets\ShopTheLook.cs" />
+    <Compile Include="Widgets\Ctalinks.cs" />
     <Compile Include="Widgets\ArticlePageComment.cs" />
     <Compile Include="Widgets\CategoryWidget.cs" />
-    <Compile Include="Widgets\link-CTA.cs" />
     <Compile Include="Widgets\EmailSubscriptionWithTitle.cs" />
     <Compile Include="Widgets\OrderTrackerPreparer.cs" />
     <Compile Include="Widgets\SocialMediaLinkListWithTitle.cs" />

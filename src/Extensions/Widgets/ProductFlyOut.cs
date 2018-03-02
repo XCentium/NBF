@@ -2,8 +2,9 @@
 using Insite.ContentLibrary.ContentFields;
 using Insite.ContentLibrary.Pages;
 using Insite.ContentLibrary.Widgets;
-using Insite.Data.Entities;
 using Insite.WebFramework.Content.Attributes;
+using Microsoft.Ajax.Utilities;
+using FieldType = Insite.Data.Entities.FieldType;
 
 namespace Extensions.Widgets
 {
@@ -35,5 +36,32 @@ namespace Extensions.Widgets
                 SetValue("CategoryFilter", value, FieldType.General);
             }
         }
+
+        [SelectedPageContentField(DisplayName = "Landing Page", IsRequired = false)]
+        public virtual string LandingPageName
+        {
+            get
+            {
+                return GetValue("LandingPageName", string.Empty, FieldType.General);
+            }
+            set
+            {
+                SetValue("LandingPageName", value, FieldType.General);
+            }
+        }
+
+        public virtual string LandingPageUrl
+        {
+            get
+            {
+                return GetPerRequestValue<string>("LandingPageUrl");
+            }
+            set
+            {
+                SetPerRequestValue("LandingPageUrl", value);
+            }
+        }
+
+        public virtual bool HasUrl => !LandingPageUrl.IsNullOrWhiteSpace();
     }
 }

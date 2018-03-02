@@ -3,24 +3,29 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Extensions.Widgets.Models;
+using Insite.ContentLibrary.Pages;
 using Insite.ContentLibrary.Providers;
 using Insite.Core.Interfaces.Localization;
 using Insite.WebFramework.Content;
+using Insite.WebFramework.Content.Interfaces;
 using Insite.WebFramework.Mvc;
+using Microsoft.Ajax.Utilities;
 
 namespace Extensions.Widgets
 {
     public class ProductFlyOutPreparer : GenericPreparer<ProductFlyOut>
     {
         protected readonly ICatalogLinkProvider CatalogLinkProvider;
+        protected readonly IContentHelper ContentHelper;
         protected int CatId;
         protected int GrandCatId = 1000;
 
 
-        public ProductFlyOutPreparer(ITranslationLocalizer translationLocalizer, ICatalogLinkProvider catalogLinkProvider)
+        public ProductFlyOutPreparer(ITranslationLocalizer translationLocalizer, ICatalogLinkProvider catalogLinkProvider, IContentHelper contentHelper)
             : base(translationLocalizer)
         {
             CatalogLinkProvider = catalogLinkProvider;
+            ContentHelper = contentHelper;
         }
 
         public override void Prepare(ProductFlyOut contentItem)
@@ -81,8 +86,12 @@ namespace Extensions.Widgets
                     }
                 }
             }
-
             navigationListDrop4.ChildPages = childPageDropList;
+
+            if (!contentItem.LandingPageName.IsNullOrWhiteSpace())
+            {
+                contentItem.LandingPageUrl = ContentHelper.GetPage<ContentPage>(contentItem.LandingPageName).Page.Url;
+            }
         }
 
         protected virtual NbfChildPageDrop CreateChildPageDrop(NavLinkDto navLink)
@@ -116,7 +125,55 @@ namespace Extensions.Widgets
                 child.NbfChildPages.Add(new NbfChildPageDrop()
                 {
                     Title = "On sale",
-                    Url = "/Search?category=" + navLink.Category.Name + "&something=OnSale",
+                    Url = child.Url + "?attr=onsale",
+                    CatNum = GrandCatId,
+                    Id = new Guid()
+                });
+                GrandCatId++;
+                child.NbfChildPages.Add(new NbfChildPageDrop()
+                {
+                    Title = "Ships Today",
+                    Url = child.Url + "?attr=shipstoday",
+                    CatNum = GrandCatId,
+                    Id = new Guid()
+                });
+                GrandCatId++;
+                child.NbfChildPages.Add(new NbfChildPageDrop()
+                {
+                    Title = "Top Rated",
+                    Url = child.Url + "?attr=toprated",
+                    CatNum = GrandCatId,
+                    Id = new Guid()
+                });
+                GrandCatId++;
+                child.NbfChildPages.Add(new NbfChildPageDrop()
+                {
+                    Title = "New Products",
+                    Url = child.Url + "?attr=newproducts",
+                    CatNum = GrandCatId,
+                    Id = new Guid()
+                });
+                GrandCatId++;
+                child.NbfChildPages.Add(new NbfChildPageDrop()
+                {
+                    Title = "Best Selling",
+                    Url = child.Url + "?attr=bestselling",
+                    CatNum = GrandCatId,
+                    Id = new Guid()
+                });
+                GrandCatId++;
+                child.NbfChildPages.Add(new NbfChildPageDrop()
+                {
+                    Title = "Clearance",
+                    Url = child.Url + "?attr=clearance",
+                    CatNum = GrandCatId,
+                    Id = new Guid()
+                });
+                GrandCatId++;
+                child.NbfChildPages.Add(new NbfChildPageDrop()
+                {
+                    Title = "GSA",
+                    Url = child.Url + "?attr=gsa",
                     CatNum = GrandCatId,
                     Id = new Guid()
                 });
