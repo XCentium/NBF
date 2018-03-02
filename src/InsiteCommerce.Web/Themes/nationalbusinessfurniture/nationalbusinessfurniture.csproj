@@ -357,6 +357,7 @@
     <TypeScriptCompile Include="Scripts\Typings\moment\moment-node.d.ts" />
     <TypeScriptCompile Include="Scripts\Typings\moment\moment.d.ts" />
     <TypeScriptCompile Include="Scripts\Typings\papaparse\papaparse.d.ts" />
+    <TypeScriptCompile Include="Scripts\Typings\isotope\isotope.d.ts" />
     <TypeScriptCompile Include="Scripts\Typings\sticky\sticky.d.ts" />
     <TypeScriptCompile Include="Scripts\Typings\xlsx\xlsx.d.ts" />
     <TypeScriptCompile Include="Scripts\UserAdministration\insite.user-detail.controller.ts" />
