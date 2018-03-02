@@ -1,29 +1,47 @@
 ﻿
 <style type="text/css">
-    .banner__bg {
-        background-image: url('/userfiles/images/bannerimages/1440x600.png');
+    .homepage__banner-bg {
+        background-image: url('[[Model.BackgroundImage]]');
     }
 </style>
 <div class="row">
     <div class="medium-12 large-12 columns widget-1column no-margin [[Model.CssClass]]">
-        <div class="banner video-link">
-            <div class="banner__bg banner-bg"></div>
-            <div class="banner__content banner__content--[[Model.Position]] banner__content--[[Model.Style]]">
-                [% if Model.Style == "Default" -%]
-                <h1 class="banner__content__default__title">Seating</h1>
-                <p>Looking to take a comfortable seat at your workstation? Computer chairs come in a huge variety to suit your needs. Check out our Complete Guide to Office Chair.</p>
-                <a href="#" class="btn btn-primary">Get The Guide</a>
+        <div class="banner banner--homepage">
+            <div class="banner__bg--homepage homepage__banner-bg"></div>
+            [% if Model.Title1 != null and Model.Title1 != "" -%]
+            <div class="banner__content banner__content--[[Model.Position1Formatted]]  banner__content--[[Model.Style1Formatted]]">
+                [% if Model.Style1Formatted == "default" -%]
+                <h2>[[Model.Title1]]</h2>
+                <p>[[Model.SubTitle1]]</p>
+                <a href="[[Model.ButtonUrl1]]" class="btn btn-primary">[[Model.ButtonText1]]</a>
                 [% else -%]
                 <div class="square-padding-bottom">
                     <div class="square-conatiner">
                         <div class="v-center">
-                            <h2 class="banner__content--square__title">Contemporary Computer Desk</h2>
+                            <h3>[[Model.Title1]]</h3>
                         </div>
                     </div>
                 </div>
                 [% endif -%]
             </div>
-            <a href="#" class="video-link ico-Play-BTN"></a>
+            [% endif -%]
+            [% if Model.Title2 != null and Model.Title2 != "" -%]
+            <div class="banner__content banner__content--[[Model.Position2Formatted]]  banner__content--[[Model.Style2Formatted]]">
+                [% if Model.Style2Formatted == "default" -%]
+                <h2>[[Model.Title2]]</h2>
+                <p>[[Model.SubTitle2]]</p>
+                <a href="[[Model.ButtonUrl2]]" class="btn btn-primary">[[Model.ButtonText2]]</a>
+                [% else -%]
+                <div class="square-padding-bottom">
+                    <div class="square-conatiner">
+                        <div class="v-center">
+                            <h3>[[Model.Title2]]</h3>
+                        </div>
+                    </div>
+                </div>
+                [% endif -%]
+            </div>
+            [% endif -%]
         </div>
     </div>
 </div>

@@ -102,6 +102,19 @@ namespace Extensions.Widgets
             }
         }
 
+        [TextContentField(SortOrder = 65)]
+        public virtual string ButtonUrl1
+        {
+            get
+            {
+                return this.GetValue<string>(nameof(ButtonUrl1), string.Empty, FieldType.Contextual);
+            }
+            set
+            {
+                this.SetValue<string>(nameof(ButtonUrl1), value, FieldType.Contextual);
+            }
+        }
+
         [DropDownContentField(new string[] { "Bottom Right", "Bottom Left", "Top Left", "Top Right" }, SortOrder = 70)]
         public virtual string Position2
         {
@@ -180,6 +193,19 @@ namespace Extensions.Widgets
             set
             {
                 this.SetValue<string>(nameof(ButtonText2), value, FieldType.Contextual);
+            }
+        }
+
+        [TextContentField(SortOrder = 120)]
+        public virtual string ButtonUrl2
+        {
+            get
+            {
+                return this.GetValue<string>(nameof(ButtonUrl2), string.Empty, FieldType.Contextual);
+            }
+            set
+            {
+                this.SetValue<string>(nameof(ButtonUrl2), value, FieldType.Contextual);
             }
         }
     }
