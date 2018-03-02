@@ -49,21 +49,7 @@ namespace Extensions.Widgets
                 this.SetValue<string>(nameof(SubTitle1), value, FieldType.Contextual);
             }
         }
-
-        [TextContentField( SortOrder = 40)]
-        [DisplayName("Button Text for Square #1")]
-        public virtual string ButtonText1
-        {
-            get
-            {
-                return this.GetValue<string>(nameof(ButtonText1), string.Empty, FieldType.Contextual);
-            }
-            set
-            {
-                this.SetValue<string>(nameof(ButtonText1), value, FieldType.Contextual);
-            }
-        }
-
+        
         [TextContentField(SortOrder = 45)]
         [DisplayName("Url for Square #1")]
         public virtual string Url1
@@ -77,21 +63,7 @@ namespace Extensions.Widgets
                 this.SetValue<string>(nameof(Url1), value, FieldType.Contextual);
             }
         }
-
-        [FilePickerField(ResourceType = "ImageFiles", SortOrder = 50)]
-        [DisplayName("Background Image for Square #2")]
-        public virtual string BackgroundImage2
-        {
-            get
-            {
-                return this.GetValue<string>(nameof(BackgroundImage2), string.Empty, FieldType.Contextual);
-            }
-            set
-            {
-                this.SetValue<string>(nameof(BackgroundImage2), value, FieldType.Contextual);
-            }
-        }
-
+       
         [TextContentField(SortOrder = 60)]
         [DisplayName("Title for Square #2")]
         public virtual string Title2
@@ -103,20 +75,6 @@ namespace Extensions.Widgets
             set
             {
                 this.SetValue<string>(nameof(Title2), value, FieldType.Contextual);
-            }
-        }
-
-        [TextContentField(SortOrder = 70)]
-        [DisplayName("Sub Title for Square #2")]
-        public virtual string SubTitle2
-        {
-            get
-            {
-                return this.GetValue<string>(nameof(SubTitle2), string.Empty, FieldType.Contextual);
-            }
-            set
-            {
-                this.SetValue<string>(nameof(SubTitle2), value, FieldType.Contextual);
             }
         }
 
@@ -147,20 +105,7 @@ namespace Extensions.Widgets
                 this.SetValue<string>(nameof(Url2), value, FieldType.Contextual);
             }
         }
-
-        [FilePickerField(ResourceType = "ImageFiles", SortOrder = 90)]
-        [DisplayName("Background Image for Square #3")]
-        public virtual string BackgroundImage3
-        {
-            get
-            {
-                return this.GetValue<string>(nameof(BackgroundImage3), string.Empty, FieldType.Contextual);
-            }
-            set
-            {
-                this.SetValue<string>(nameof(BackgroundImage3), value, FieldType.Contextual);
-            }
-        }
+        
 
         [TextContentField(SortOrder = 100)]
         [DisplayName("Title for Square #3")]
@@ -173,20 +118,6 @@ namespace Extensions.Widgets
             set
             {
                 this.SetValue<string>(nameof(Title3), value, FieldType.Contextual);
-            }
-        }
-
-        [TextContentField(SortOrder = 120)]
-        [DisplayName("Sub Title for Square #3")]
-        public virtual string SubTitle3
-        {
-            get
-            {
-                return this.GetValue<string>(nameof(SubTitle3), string.Empty, FieldType.Contextual);
-            }
-            set
-            {
-                this.SetValue<string>(nameof(SubTitle3), value, FieldType.Contextual);
             }
         }
 
@@ -244,35 +175,7 @@ namespace Extensions.Widgets
             {
                 this.SetValue<string>(nameof(Title4), value, FieldType.Contextual);
             }
-        }
-
-        [TextContentField(SortOrder = 160)]
-        [DisplayName("Sub Title for Square #4")]
-        public virtual string SubTitle4
-        {
-            get
-            {
-                return this.GetValue<string>(nameof(SubTitle4), string.Empty, FieldType.Contextual);
-            }
-            set
-            {
-                this.SetValue<string>(nameof(SubTitle4), value, FieldType.Contextual);
-            }
-        }
-
-        [TextContentField(SortOrder = 170)]
-        [DisplayName("Button Text for Square #4")]
-        public virtual string ButtonText4
-        {
-            get
-            {
-                return this.GetValue<string>(nameof(ButtonText4), string.Empty, FieldType.Contextual);
-            }
-            set
-            {
-                this.SetValue<string>(nameof(ButtonText4), value, FieldType.Contextual);
-            }
-        }
+        }        
 
         [TextContentField(SortOrder = 175)]
         [DisplayName("Url for Square #4")]

@@ -13,11 +13,11 @@ namespace Extensions.Widgets
         {
             get
             {
-                return this.GetValue<string>(nameof(BackgroundImage), string.Empty, FieldType.Contextual);
+                return this.GetValue<string>(nameof(BackgroundImage), string.Empty, FieldType.General);
             }
             set
             {
-                this.SetValue<string>(nameof(BackgroundImage), value, FieldType.Contextual);
+                this.SetValue<string>(nameof(BackgroundImage), value, FieldType.General);
             }
         }
 

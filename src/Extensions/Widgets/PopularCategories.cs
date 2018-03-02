@@ -6,6 +6,7 @@ using System.ComponentModel;
 
 namespace Extensions.Widgets
 {
+    [DisplayName("NBF - Popular Categories")]
     public class PopularCategories : ContentWidget
     {
         [TextContentField(IsRequired = true, SortOrder = 10)]
