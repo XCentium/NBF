@@ -1,16 +1,12 @@
 ﻿module nbf.ShopTheLookDetails {
     "use strict";
-
     export class NbfShopTheLookDetailsController {
-
-
-        constructor(
-        ) {
+        static $inject = ["$window"];
+        constructor(protected $window: ng.IWindowService) {
             this.init();
         }
-
         init(): void {
-
+            var self = this;
             $('.hotspot').on('click', function (e) {
                 e.preventDefault();
                 var p = $(this);
@@ -24,18 +20,12 @@
                     }
                 }
                 else {
-                    window.location = p.find('a.btn').attr("href");
+                    self.$window.location.href = p.find('a.btn').attr("href");
                     return false;
                 }
             });
-
-           
         }
-
-       
-        
     }
-
     angular
         .module("insite")
         .controller("NbfShopTheLookDetailsController", NbfShopTheLookDetailsController);
