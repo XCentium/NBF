@@ -75,11 +75,19 @@ select * from [Insite.NBF].dbo.ProductAttributeValue where ProductId = 'CDA872B9
 select * from ProductAttributeValue where ProductId = 'CDA872B9-87FD-E711-A98C-A3E0F1200094'
 --delete from [Insite.NBF].dbo.ProductAttributeValue where ProductId = 'CDA872B9-87FD-E711-A98C-A3E0F1200094' and AttributeValueId = 'AE2D8EFC-87FD-E711-A98C-A3E0F1200094'
 
-select * from [Insite.NBF].dbo.PriceMatrix where ProductKeyPart = '62DE46BA-87FD-E711-A98C-A3E0F1200094'
-select * from PriceMatrix where ProductKeyPart = '62DE46BA-87FD-E711-A98C-A3E0F1200094'
+select Amount01,* from [Insite.NBF].dbo.PriceMatrix where ProductKeyPart = '62DE46BA-87FD-E711-A98C-A3E0F1200094'
+select Amount01,* from PriceMatrix where ProductKeyPart = '62DE46BA-87FD-E711-A98C-A3E0F1200094'
+update pricematrix set Amount01 = 778 where ProductKeyPart = '62DE46BA-87FD-E711-A98C-A3E0F1200094' and CustomerKeyPart = ''
 
 select count(*) from [Insite.NBF].dbo.PriceMatrix --380335
 select count(*) from PriceMatrix -- 380333
 
+
 select * from [Insite.NBF].dbo.ProductImage where ProductId = 'CDA872B9-87FD-E711-A98C-A3E0F1200094'
 select * from ProductImage where ProductId = 'CDA872B9-87FD-E711-A98C-A3E0F1200094'
+
+
+
+select distinct ProductKeyPart from PriceMatrix 
+
+--delete from [Insite.NBF].dbo.PriceMatrix where ActivateOn != '2009-12-31 18:00:00.0000000 -06:00'
