@@ -125,7 +125,55 @@ namespace Extensions.Widgets
                 child.NbfChildPages.Add(new NbfChildPageDrop()
                 {
                     Title = "On sale",
-                    Url = "/Search?category=" + navLink.Category.Name + "&something=OnSale",
+                    Url = child.Url + "?attr=onsale",
+                    CatNum = GrandCatId,
+                    Id = new Guid()
+                });
+                GrandCatId++;
+                child.NbfChildPages.Add(new NbfChildPageDrop()
+                {
+                    Title = "Ships Today",
+                    Url = child.Url + "?attr=shipstoday",
+                    CatNum = GrandCatId,
+                    Id = new Guid()
+                });
+                GrandCatId++;
+                child.NbfChildPages.Add(new NbfChildPageDrop()
+                {
+                    Title = "Top Rated",
+                    Url = child.Url + "?attr=toprated",
+                    CatNum = GrandCatId,
+                    Id = new Guid()
+                });
+                GrandCatId++;
+                child.NbfChildPages.Add(new NbfChildPageDrop()
+                {
+                    Title = "New Products",
+                    Url = child.Url + "?attr=newproducts",
+                    CatNum = GrandCatId,
+                    Id = new Guid()
+                });
+                GrandCatId++;
+                child.NbfChildPages.Add(new NbfChildPageDrop()
+                {
+                    Title = "Best Selling",
+                    Url = child.Url + "?attr=bestselling",
+                    CatNum = GrandCatId,
+                    Id = new Guid()
+                });
+                GrandCatId++;
+                child.NbfChildPages.Add(new NbfChildPageDrop()
+                {
+                    Title = "Clearance",
+                    Url = child.Url + "?attr=clearance",
+                    CatNum = GrandCatId,
+                    Id = new Guid()
+                });
+                GrandCatId++;
+                child.NbfChildPages.Add(new NbfChildPageDrop()
+                {
+                    Title = "GSA",
+                    Url = child.Url + "?attr=gsa",
                     CatNum = GrandCatId,
                     Id = new Guid()
                 });
