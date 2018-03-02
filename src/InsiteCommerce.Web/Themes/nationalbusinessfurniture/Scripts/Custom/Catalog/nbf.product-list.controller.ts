@@ -20,6 +20,7 @@ module insite.catalog {
 
     export class NbfProductListController extends ProductListController{
         categoryAttr: string;
+        filteredResults: boolean = false;
 
         init(): void {
             this.products.pagination = this.paginationService.getDefaultPagination(this.paginationStorageKey);
@@ -78,6 +79,7 @@ module insite.catalog {
                 this.spinnerService.show("productlist");
             }
             if (this.categoryAttr != '') {
+                this.filteredResults = true;
                 if (!params.names) {
                     params.names = [];
                 }
@@ -88,6 +90,94 @@ module insite.catalog {
             this.productService.getProducts(params, expand).then(
                 (productCollection: ProductCollectionModel) => { this.getProductsCompleted(productCollection, params, expand); },
                 (error: any) => { this.getProductsFailed(error); });
+        }
+
+        protected getProductsCompleted(productCollection: ProductCollectionModel, params: IProductCollectionParameters, expand?: string[]): void {
+            if (productCollection.searchTermRedirectUrl) {
+                // use replace to prevent back button from returning to this page
+                if (productCollection.searchTermRedirectUrl.lastIndexOf("http", 0) === 0) {
+                    this.$window.location.replace(productCollection.searchTermRedirectUrl);
+                } else {
+                    this.$location.replace();
+                    this.coreService.redirectToPath(productCollection.searchTermRedirectUrl);
+                }
+                return;
+            }
+            if (this.filteredResults) {
+                this.attributeValueIds = [];
+                productCollection.attributeTypeFacets.forEach(attribute => {
+                    attribute.attributeValueFacets.forEach(attValue => {
+                        if (attValue.selected) {
+                            this.attributeValueIds.push(attValue.attributeValueId.toString());
+                        }
+                    });
+                });
+            }
+            this.$scope.$broadcast("ProductListController-filterLoaded");
+            // got product data
+            if (productCollection.exactMatch) {
+                this.searchService.addSearchHistory(this.query, this.searchHistoryLimit, this.includeSuggestions.toLowerCase() === "true");
+                this.coreService.redirectToPath(`${productCollection.products[0].productDetailUrl}?criteria=${encodeURIComponent(params.query)}`);
+                return;
+            }
+
+            if (!this.pageChanged) {
+                this.loadProductFilter(productCollection, expand);
+            }
+
+            this.products = productCollection;
+            this.products.products.forEach(product => {
+                product.qtyOrdered = product.minimumOrderQty || 1;
+            });
+
+            this.reloadCompareProducts();
+
+            //// allow the page to show
+            this.ready = true;
+            this.noResults = productCollection.products.length === 0;
+
+            if (this.includeSuggestions === "true") {
+                if (productCollection.originalQuery) {
+                    this.query = productCollection.correctedQuery || productCollection.originalQuery;
+                    this.originalQuery = productCollection.originalQuery;
+                    this.autoCorrectedQuery = productCollection.correctedQuery != null && productCollection.correctedQuery !== productCollection.originalQuery;
+                } else {
+                    this.autoCorrectedQuery = false;
+                }
+            }
+
+            this.searchService.addSearchHistory(this.query, this.searchHistoryLimit, this.includeSuggestions.toLowerCase() === "true");
+
+            this.getRealTimePrices();
+            if (!this.settings.inventoryIncludedWithPricing) {
+                this.getRealTimeInventory();
+            }
+
+            this.imagesLoaded = 0;
+            if (this.view === "grid") {
+                this.waitForDom();
+            }
+        }
+
+        protected getFacets(categoryId: string): void {
+            const params = {
+                priceFilters: this.priceFilterMinimums,
+                categoryId: categoryId,
+                includeSuggestions: this.includeSuggestions,
+                names: null
+            };
+            if (this.categoryAttr != '') {
+                this.filteredResults = true;
+                if (!params.names) {
+                    params.names = [];
+                }
+                params.names.push(this.categoryAttr);
+            }
+
+            const expand = ["onlyfacets"];
+            this.productService.getProducts(params, expand).then(
+                (productCollection: ProductCollectionModel) => { this.getFacetsCompleted(productCollection) },
+                (error: any) => { this.getFacetsFailed(error); });
         }
 
         protected getQueryStringValues(): void {

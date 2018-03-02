@@ -16,7 +16,7 @@
         <ul>
 
             <li class="result-count">
-                <span class="items-count">43 [% translate 'Items' %]</span>
+                <span class="items-count">{{vm.pagination.totalItemCount}}  [% translate 'Items' %]</span>
             </li>
             <li class="pagination" ng-if="vm.showPagination()">
                 <div ng-if="vm.pagination.page > 1" class="arrow page-prev">

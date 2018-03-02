@@ -139,7 +139,7 @@ namespace Extensions.Widgets
                 GrandCatId++;
                 child.NbfChildPages.Add(new NbfChildPageDrop()
                 {
-                    Title = "Top Rated",
+                    Title = "New Products",
                     Url = child.Url + "?attr=newproducts",
                     CatNum = GrandCatId,
                     Id = new Guid()
@@ -147,7 +147,7 @@ namespace Extensions.Widgets
                 GrandCatId++;
                 child.NbfChildPages.Add(new NbfChildPageDrop()
                 {
-                    Title = "Top Rated",
+                    Title = "Best Selling",
                     Url = child.Url + "?attr=bestselling",
                     CatNum = GrandCatId,
                     Id = new Guid()
@@ -155,7 +155,7 @@ namespace Extensions.Widgets
                 GrandCatId++;
                 child.NbfChildPages.Add(new NbfChildPageDrop()
                 {
-                    Title = "Top Rated",
+                    Title = "Clearance",
                     Url = child.Url + "?attr=clearance",
                     CatNum = GrandCatId,
                     Id = new Guid()
@@ -163,7 +163,7 @@ namespace Extensions.Widgets
                 GrandCatId++;
                 child.NbfChildPages.Add(new NbfChildPageDrop()
                 {
-                    Title = "Top Rated",
+                    Title = "GSA",
                     Url = child.Url + "?attr=gsa",
                     CatNum = GrandCatId,
                     Id = new Guid()

@@ -10,10 +10,10 @@
 
         <div class="large-12 columns">
             <div class="cm">
-                <div ng-if="vm.isCategoryPage()" class="category-list">
+                <div ng-if="vm.isCategoryPage() && !vm.filteredResults" class="category-list">
                     <isc-catalog-breadcrumb breadcrumbs="vm.breadCrumbs"></isc-catalog-breadcrumb>
                 </div>
-                <div ng-if="vm.isCategoryPage()" class="columns left-nav-2 category-list">
+                <div ng-if="vm.isCategoryPage() && !vm.filteredResults" class="columns left-nav-2 category-list">
                     <div class="ln2-wrap">
                         <div class="nav-head">
                             <h2>{{vm.category.shortDescription}}</h2>
@@ -25,7 +25,7 @@
                         </div>
                     </div>
                 </div>
-                <div ng-if="vm.isCategoryPage()" class="right small-12 columns cl1-wrapper category-list">
+                <div ng-if="vm.isCategoryPage() && !vm.filteredResults" class="right small-12 columns cl1-wrapper category-list">
                     <div class="contentWrapper2">
                         <div class="content2">
                             <div ng-bind-html="vm.category.htmlContent|trusted" class="cm cat-cm"></div>
@@ -41,7 +41,7 @@
                     </div>
                 </div>
 
-                <div ng-if="!vm.isCategoryPage()" class="content-wrapper">
+                <div ng-if="!vm.isCategoryPage() || vm.filteredResults" class="content-wrapper">
                     <isc-catalog-breadcrumb breadcrumbs="vm.breadCrumbs" search-query="vm.query"></isc-catalog-breadcrumb>
 
                     <div ng-if="vm.category != null && vm.category.largeImagePath" class="pl4-cm">
@@ -65,9 +65,7 @@
 
 
                                     <h3 class="results-count" ng-class="{ messaging: vm.noResults && vm.searchWithinTerms.length }">
-                                        <span class="result-num" ng-if="!vm.noResults">{{vm.products.pagination.totalItemCount}}</span>
-                                        <span class="result-lbl" ng-if="!vm.noResults && vm.products">{{'[% translate 'Items_pager' %]'.toLowerCase()}}</span>
-
+                                        
                                         <span ng-if="vm.query && !(vm.searchCategory || vm.filterCategory.categoryId)" class="search-lbl">
                                             {{ vm.noResults ? "[% translate 'No results found for' %]" : "[% translate 'results for' %]" }} <strong>{{vm.query}}</strong>
                                         </span>
