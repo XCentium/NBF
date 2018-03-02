@@ -334,6 +334,7 @@
     <Compile Include="Widgets\CategoriesList.cs" />
     <Compile Include="Widgets\LinkListWithTitlePreparer.cs" />
     <Compile Include="Widgets\NavigationFlyOutPreparer.cs" />
+    <Compile Include="Widgets\ShopTheLookWidget.cs" />
     <Compile Include="Widgets\ShopTheLookDetails.cs" />
     <Compile Include="Widgets\ShopTheLook.cs" />
     <Compile Include="Widgets\Ctalinks.cs" />
