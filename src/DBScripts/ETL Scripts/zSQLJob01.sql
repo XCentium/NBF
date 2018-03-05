@@ -1,0 +1,365 @@
+/****** Object:  Job [Insite Data Load]    Script Date: 2/16/2018 6:35:32 AM ******/
+BEGIN TRANSACTION
+DECLARE @ReturnCode INT
+SELECT @ReturnCode = 0
+/****** Object:  JobCategory [[Uncategorized (Local)]]    Script Date: 2/16/2018 6:35:32 AM ******/
+IF NOT EXISTS (SELECT name FROM msdb.dbo.syscategories WHERE name=N'[Uncategorized (Local)]' AND category_class=1)
+BEGIN
+EXEC @ReturnCode = msdb.dbo.sp_add_category @class=N'JOB', @type=N'LOCAL', @name=N'[Uncategorized (Local)]'
+IF (@@ERROR <> 0 OR @ReturnCode <> 0) GOTO QuitWithRollback
+
+END
+
+DECLARE @jobId BINARY(16)
+EXEC @ReturnCode =  msdb.dbo.sp_add_job @job_name=N'Insite Data Load', 
+		@enabled=1, 
+		@notify_level_eventlog=0, 
+		@notify_level_email=0, 
+		@notify_level_netsend=0, 
+		@notify_level_page=0, 
+		@delete_level=0, 
+		@description=N'tranforms data into InsiteETL and updates Insite.NBF', 
+		@category_name=N'[Uncategorized (Local)]', 
+		@owner_login_name=N'MOSHERCO\Carlos.Gonzales', @job_id = @jobId OUTPUT
+IF (@@ERROR <> 0 OR @ReturnCode <> 0) GOTO QuitWithRollback
+/****** Object:  Step [vendors from oeg]    Script Date: 2/16/2018 6:35:32 AM ******/
+EXEC @ReturnCode = msdb.dbo.sp_add_jobstep @job_id=@jobId, @step_name=N'vendors from oeg', 
+		@step_id=1, 
+		@cmdexec_success_code=0, 
+		@on_success_action=3, 
+		@on_success_step_id=0, 
+		@on_fail_action=2, 
+		@on_fail_step_id=0, 
+		@retry_attempts=0, 
+		@retry_interval=0, 
+		@os_run_priority=0, @subsystem=N'TSQL', 
+		@command=N'-- loads vendors
+exec ETLVendor_FromOEG ', 
+		@database_name=N'InsiteETL', 
+		@flags=0
+IF (@@ERROR <> 0 OR @ReturnCode <> 0) GOTO QuitWithRollback
+/****** Object:  Step [basic product data  from oeg]    Script Date: 2/16/2018 6:35:32 AM ******/
+EXEC @ReturnCode = msdb.dbo.sp_add_jobstep @job_id=@jobId, @step_name=N'basic product data  from oeg', 
+		@step_id=2, 
+		@cmdexec_success_code=0, 
+		@on_success_action=3, 
+		@on_success_step_id=0, 
+		@on_fail_action=2, 
+		@on_fail_step_id=0, 
+		@retry_attempts=0, 
+		@retry_interval=0, 
+		@os_run_priority=0, @subsystem=N'TSQL', 
+		@command=N'-- base product styles per website
+-- base product info per website
+-- variant product info per website
+-- specification records for each specification
+-- content manager record for each of the specifications
+-- content manager record for each of the products
+-- tie up the style parent for each of the variants
+-- reload style traits/values and assign them to products
+exec ETLProduct_FromOEG', 
+		@database_name=N'InsiteETL', 
+		@flags=0
+IF (@@ERROR <> 0 OR @ReturnCode <> 0) GOTO QuitWithRollback
+/****** Object:  Step [product specifications from oeg]    Script Date: 2/16/2018 6:35:32 AM ******/
+EXEC @ReturnCode = msdb.dbo.sp_add_jobstep @job_id=@jobId, @step_name=N'product specifications from oeg', 
+		@step_id=3, 
+		@cmdexec_success_code=0, 
+		@on_success_action=3, 
+		@on_success_step_id=0, 
+		@on_fail_action=2, 
+		@on_fail_step_id=0, 
+		@retry_attempts=0, 
+		@retry_interval=0, 
+		@os_run_priority=0, @subsystem=N'TSQL', 
+		@command=N'-- dimensions, vendor codes, collections
+exec ETLProductSpecification_FromOEG', 
+		@database_name=N'InsiteETL', 
+		@flags=0
+IF (@@ERROR <> 0 OR @ReturnCode <> 0) GOTO QuitWithRollback
+/****** Object:  Step [swatches as products from oeg]    Script Date: 2/16/2018 6:35:32 AM ******/
+EXEC @ReturnCode = msdb.dbo.sp_add_jobstep @job_id=@jobId, @step_name=N'swatches as products from oeg', 
+		@step_id=4, 
+		@cmdexec_success_code=0, 
+		@on_success_action=3, 
+		@on_success_step_id=0, 
+		@on_fail_action=2, 
+		@on_fail_step_id=0, 
+		@retry_attempts=0, 
+		@retry_interval=0, 
+		@os_run_priority=0, @subsystem=N'TSQL', 
+		@command=N'-- using the styles/traits/products structure, build swatches as products
+-- associate each swatch product with a swatch category
+exec ETLSwatchProducts_FromOEG', 
+		@database_name=N'InsiteETL', 
+		@flags=0
+IF (@@ERROR <> 0 OR @ReturnCode <> 0) GOTO QuitWithRollback
+/****** Object:  Step [categories from oeg]    Script Date: 2/16/2018 6:35:32 AM ******/
+EXEC @ReturnCode = msdb.dbo.sp_add_jobstep @job_id=@jobId, @step_name=N'categories from oeg', 
+		@step_id=5, 
+		@cmdexec_success_code=0, 
+		@on_success_action=3, 
+		@on_success_step_id=0, 
+		@on_fail_action=2, 
+		@on_fail_step_id=0, 
+		@retry_attempts=0, 
+		@retry_interval=0, 
+		@os_run_priority=0, @subsystem=N'TSQL', 
+		@command=N'-- LookupItemClasses and ItemWebCategoryDisplayNames to 
+-- create hierachy of categories
+exec ETLCategory_FromOEG', 
+		@database_name=N'InsiteETL', 
+		@flags=0
+IF (@@ERROR <> 0 OR @ReturnCode <> 0) GOTO QuitWithRollback
+/****** Object:  Step [tie products to categories from oeg]    Script Date: 2/16/2018 6:35:32 AM ******/
+EXEC @ReturnCode = msdb.dbo.sp_add_jobstep @job_id=@jobId, @step_name=N'tie products to categories from oeg', 
+		@step_id=6, 
+		@cmdexec_success_code=0, 
+		@on_success_action=3, 
+		@on_success_step_id=0, 
+		@on_fail_action=2, 
+		@on_fail_step_id=0, 
+		@retry_attempts=0, 
+		@retry_interval=0, 
+		@os_run_priority=0, @subsystem=N'TSQL', 
+		@command=N'-- associates products to every possible category
+exec ETLCategoryProduct_FromOEG', 
+		@database_name=N'InsiteETL', 
+		@flags=0
+IF (@@ERROR <> 0 OR @ReturnCode <> 0) GOTO QuitWithRollback
+/****** Object:  Step [product rich descriptions from oeg]    Script Date: 2/16/2018 6:35:32 AM ******/
+EXEC @ReturnCode = msdb.dbo.sp_add_jobstep @job_id=@jobId, @step_name=N'product rich descriptions from oeg', 
+		@step_id=7, 
+		@cmdexec_success_code=0, 
+		@on_success_action=3, 
+		@on_success_step_id=0, 
+		@on_fail_action=2, 
+		@on_fail_step_id=0, 
+		@retry_attempts=0, 
+		@retry_interval=0, 
+		@os_run_priority=0, @subsystem=N'TSQL', 
+		@command=N'-- loads product descriptions as rich content
+exec ETLProductRichDescription_FromOEG', 
+		@database_name=N'InsiteETL', 
+		@flags=0
+IF (@@ERROR <> 0 OR @ReturnCode <> 0) GOTO QuitWithRollback
+/****** Object:  Step [product attributes from oeg]    Script Date: 2/16/2018 6:35:32 AM ******/
+EXEC @ReturnCode = msdb.dbo.sp_add_jobstep @job_id=@jobId, @step_name=N'product attributes from oeg', 
+		@step_id=8, 
+		@cmdexec_success_code=0, 
+		@on_success_action=3, 
+		@on_success_step_id=0, 
+		@on_fail_action=2, 
+		@on_fail_step_id=0, 
+		@retry_attempts=0, 
+		@retry_interval=0, 
+		@os_run_priority=0, @subsystem=N'TSQL', 
+		@command=N'-- loads product attributes (facets) 
+exec ETLProductAttribute_FromOEG', 
+		@database_name=N'InsiteETL', 
+		@flags=0
+IF (@@ERROR <> 0 OR @ReturnCode <> 0) GOTO QuitWithRollback
+/****** Object:  Step [price matrix from oeg]    Script Date: 2/16/2018 6:35:32 AM ******/
+EXEC @ReturnCode = msdb.dbo.sp_add_jobstep @job_id=@jobId, @step_name=N'price matrix from oeg', 
+		@step_id=9, 
+		@cmdexec_success_code=0, 
+		@on_success_action=3, 
+		@on_success_step_id=0, 
+		@on_fail_action=2, 
+		@on_fail_step_id=0, 
+		@retry_attempts=0, 
+		@retry_interval=0, 
+		@os_run_priority=0, @subsystem=N'TSQL', 
+		@command=N'-- loads all pricing tiers
+exec ETLPriceMatrix_FromOEG', 
+		@database_name=N'InsiteETL', 
+		@flags=0
+IF (@@ERROR <> 0 OR @ReturnCode <> 0) GOTO QuitWithRollback
+/****** Object:  Step [product images from oeg]    Script Date: 2/16/2018 6:35:32 AM ******/
+EXEC @ReturnCode = msdb.dbo.sp_add_jobstep @job_id=@jobId, @step_name=N'product images from oeg', 
+		@step_id=10, 
+		@cmdexec_success_code=0, 
+		@on_success_action=3, 
+		@on_success_step_id=0, 
+		@on_fail_action=2, 
+		@on_fail_step_id=0, 
+		@retry_attempts=0, 
+		@retry_interval=0, 
+		@os_run_priority=0, @subsystem=N'TSQL', 
+		@command=N'-- loads all product images for base and variants
+exec ETLProductImage_FromOEG', 
+		@database_name=N'InsiteETL', 
+		@flags=0
+IF (@@ERROR <> 0 OR @ReturnCode <> 0) GOTO QuitWithRollback
+/****** Object:  Step [vendors to insite]    Script Date: 2/16/2018 6:35:32 AM ******/
+EXEC @ReturnCode = msdb.dbo.sp_add_jobstep @job_id=@jobId, @step_name=N'vendors to insite', 
+		@step_id=11, 
+		@cmdexec_success_code=0, 
+		@on_success_action=3, 
+		@on_success_step_id=0, 
+		@on_fail_action=2, 
+		@on_fail_step_id=0, 
+		@retry_attempts=0, 
+		@retry_interval=0, 
+		@os_run_priority=0, @subsystem=N'TSQL', 
+		@command=N'-- merge vendor data into insite
+exec ETLVendor_ToInsite ', 
+		@database_name=N'InsiteETL', 
+		@flags=0
+IF (@@ERROR <> 0 OR @ReturnCode <> 0) GOTO QuitWithRollback
+/****** Object:  Step [basic product data to insite]    Script Date: 2/16/2018 6:35:32 AM ******/
+EXEC @ReturnCode = msdb.dbo.sp_add_jobstep @job_id=@jobId, @step_name=N'basic product data to insite', 
+		@step_id=12, 
+		@cmdexec_success_code=0, 
+		@on_success_action=3, 
+		@on_success_step_id=0, 
+		@on_fail_action=2, 
+		@on_fail_step_id=0, 
+		@retry_attempts=0, 
+		@retry_interval=0, 
+		@os_run_priority=0, @subsystem=N'TSQL', 
+		@command=N'-- merge base product data into insite
+-- includes product table (base and variant), styles and specifications
+exec ETLProduct_ToInsite ', 
+		@database_name=N'InsiteETL', 
+		@flags=0
+IF (@@ERROR <> 0 OR @ReturnCode <> 0) GOTO QuitWithRollback
+/****** Object:  Step [categories to insite]    Script Date: 2/16/2018 6:35:32 AM ******/
+EXEC @ReturnCode = msdb.dbo.sp_add_jobstep @job_id=@jobId, @step_name=N'categories to insite', 
+		@step_id=13, 
+		@cmdexec_success_code=0, 
+		@on_success_action=3, 
+		@on_success_step_id=0, 
+		@on_fail_action=2, 
+		@on_fail_step_id=0, 
+		@retry_attempts=0, 
+		@retry_interval=0, 
+		@os_run_priority=0, @subsystem=N'TSQL', 
+		@command=N'-- categories
+exec ETLCategory_ToInsite', 
+		@database_name=N'InsiteETL', 
+		@flags=0
+IF (@@ERROR <> 0 OR @ReturnCode <> 0) GOTO QuitWithRollback
+/****** Object:  Step [tie products to categories to insite]    Script Date: 2/16/2018 6:35:32 AM ******/
+EXEC @ReturnCode = msdb.dbo.sp_add_jobstep @job_id=@jobId, @step_name=N'tie products to categories to insite', 
+		@step_id=14, 
+		@cmdexec_success_code=0, 
+		@on_success_action=3, 
+		@on_success_step_id=0, 
+		@on_fail_action=2, 
+		@on_fail_step_id=0, 
+		@retry_attempts=0, 
+		@retry_interval=0, 
+		@os_run_priority=0, @subsystem=N'TSQL', 
+		@command=N'-- tying products to categories
+exec ETLCategoryProduct_ToInsite', 
+		@database_name=N'InsiteETL', 
+		@flags=0
+IF (@@ERROR <> 0 OR @ReturnCode <> 0) GOTO QuitWithRollback
+/****** Object:  Step [product rich descriptions to insite]    Script Date: 2/16/2018 6:35:32 AM ******/
+EXEC @ReturnCode = msdb.dbo.sp_add_jobstep @job_id=@jobId, @step_name=N'product rich descriptions to insite', 
+		@step_id=15, 
+		@cmdexec_success_code=0, 
+		@on_success_action=3, 
+		@on_success_step_id=0, 
+		@on_fail_action=2, 
+		@on_fail_step_id=0, 
+		@retry_attempts=0, 
+		@retry_interval=0, 
+		@os_run_priority=0, @subsystem=N'TSQL', 
+		@command=N'-- replaces product descriptions
+exec ETLProductRichDescription_ToInsite', 
+		@database_name=N'InsiteETL', 
+		@flags=0
+IF (@@ERROR <> 0 OR @ReturnCode <> 0) GOTO QuitWithRollback
+/****** Object:  Step [product attributes to insite]    Script Date: 2/16/2018 6:35:32 AM ******/
+EXEC @ReturnCode = msdb.dbo.sp_add_jobstep @job_id=@jobId, @step_name=N'product attributes to insite', 
+		@step_id=16, 
+		@cmdexec_success_code=0, 
+		@on_success_action=3, 
+		@on_success_step_id=0, 
+		@on_fail_action=2, 
+		@on_fail_step_id=0, 
+		@retry_attempts=0, 
+		@retry_interval=0, 
+		@os_run_priority=0, @subsystem=N'TSQL', 
+		@command=N'-- reloads the latest product attributes
+exec ETLProductAttribute_ToInsite ', 
+		@database_name=N'InsiteETL', 
+		@flags=0
+IF (@@ERROR <> 0 OR @ReturnCode <> 0) GOTO QuitWithRollback
+/****** Object:  Step [price matrix to insite]    Script Date: 2/16/2018 6:35:32 AM ******/
+EXEC @ReturnCode = msdb.dbo.sp_add_jobstep @job_id=@jobId, @step_name=N'price matrix to insite', 
+		@step_id=17, 
+		@cmdexec_success_code=0, 
+		@on_success_action=3, 
+		@on_success_step_id=0, 
+		@on_fail_action=2, 
+		@on_fail_step_id=0, 
+		@retry_attempts=0, 
+		@retry_interval=0, 
+		@os_run_priority=0, @subsystem=N'TSQL', 
+		@command=N'-- replaces entire pricing matrix
+exec ETLPriceMatrix_ToInsite ', 
+		@database_name=N'InsiteETL', 
+		@flags=0
+IF (@@ERROR <> 0 OR @ReturnCode <> 0) GOTO QuitWithRollback
+/****** Object:  Step [product images to insite]    Script Date: 2/16/2018 6:35:32 AM ******/
+EXEC @ReturnCode = msdb.dbo.sp_add_jobstep @job_id=@jobId, @step_name=N'product images to insite', 
+		@step_id=18, 
+		@cmdexec_success_code=0, 
+		@on_success_action=3, 
+		@on_success_step_id=0, 
+		@on_fail_action=2, 
+		@on_fail_step_id=0, 
+		@retry_attempts=0, 
+		@retry_interval=0, 
+		@os_run_priority=0, @subsystem=N'TSQL', 
+		@command=N'-- replaces all product images
+exec ETLProductImage_ToInsite', 
+		@database_name=N'InsiteETL', 
+		@flags=0
+IF (@@ERROR <> 0 OR @ReturnCode <> 0) GOTO QuitWithRollback
+/****** Object:  Step [rebuild the index]    Script Date: 2/16/2018 6:35:32 AM ******/
+EXEC @ReturnCode = msdb.dbo.sp_add_jobstep @job_id=@jobId, @step_name=N'rebuild the index', 
+		@step_id=19, 
+		@cmdexec_success_code=0, 
+		@on_success_action=1, 
+		@on_success_step_id=0, 
+		@on_fail_action=2, 
+		@on_fail_step_id=0, 
+		@retry_attempts=0, 
+		@retry_interval=0, 
+		@os_run_priority=0, @subsystem=N'TSQL', 
+		@command=N'-- inserts record into DB that is monitored by the service that re-builds
+-- the index
+exec nbfRebuildSearchIndex ''etl''', 
+		@database_name=N'Insite.NBF', 
+		@flags=0
+IF (@@ERROR <> 0 OR @ReturnCode <> 0) GOTO QuitWithRollback
+EXEC @ReturnCode = msdb.dbo.sp_update_job @job_id = @jobId, @start_step_id = 1
+IF (@@ERROR <> 0 OR @ReturnCode <> 0) GOTO QuitWithRollback
+EXEC @ReturnCode = msdb.dbo.sp_add_jobschedule @job_id=@jobId, @name=N'once a day', 
+		@enabled=1, 
+		@freq_type=4, 
+		@freq_interval=1, 
+		@freq_subday_type=1, 
+		@freq_subday_interval=0, 
+		@freq_relative_interval=0, 
+		@freq_recurrence_factor=0, 
+		@active_start_date=20180216, 
+		@active_end_date=99991231, 
+		@active_start_time=101500, 
+		@active_end_time=235959, 
+		@schedule_uid=N'fb6a6384-2ac0-4d0f-97f7-dd43e6abce80'
+IF (@@ERROR <> 0 OR @ReturnCode <> 0) GOTO QuitWithRollback
+EXEC @ReturnCode = msdb.dbo.sp_add_jobserver @job_id = @jobId, @server_name = N'(local)'
+IF (@@ERROR <> 0 OR @ReturnCode <> 0) GOTO QuitWithRollback
+COMMIT TRANSACTION
+GOTO EndSave
+QuitWithRollback:
+    IF (@@TRANCOUNT > 0) ROLLBACK TRANSACTION
+EndSave:
+GO
+
+

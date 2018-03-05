@@ -70,10 +70,11 @@ begin
 		ShippingLength = isnull(scd.[Length],0),
 		ShippingWidth = isnull(scd.[Width],0),
 		ShippingHeight = isnull(scd.[Height],0),
-		QtyPerShippingPackage = isnull(si.QtyPerCarton,0),
+		ShippingAmountOverride = isnull(sp.DeliveryAmount,0),
+		QtyPerShippingPackage = 0,
 		UrlSegment = LOWER(replace(dbo.UrlFriendlyString(ltrim(rtrim(isnull(spwd.[Description],''))) + '-' + sp.Number),'/','-')),
 		IsDiscontinued = case when luStatus.Name = 'Active' then 0 else 1 end,
-		ActivateOn = sp.FirstAvailableDate,
+		ActivateOn = isnull(sp.FirstAvailableDate,dateadd(day, 10, SYSDATETIMEOFFSET())),
 		DeactivateOn = case when luStatus.Name = 'Active' then null else dateadd(day, -1, SYSDATETIMEOFFSET()) end,
 		VendorId = v.Id,
 		CreatedOn = isnull(sp.CreatedDate,SYSDATETIMEOFFSET()),
@@ -103,12 +104,14 @@ begin
 		sp.Number + '_' + spsku.OptionCode ERPNumber,
 		'',
 		ltrim(rtrim(isnull(sisku.[Description],''))) ERPDescription,
-		ltrim(rtrim(isnull(spsku.[Description],''))) ShortDescription,
+		ltrim(rtrim(isnull(spwd.[Description],''))) + ' - ' + ltrim(rtrim(isnull(spsku.[Description],''))) ShortDescription,
 		sp.Number + '-' + convert(nvarchar(max),spsku.ProductSKUId) UrlSegment,
 		NEWID() ContentManagerId
 	from 
 		OEGSystemStaging.dbo.Products sp
 		join OEGSystemStaging.dbo.Items si on si.ItemId = sp.ItemId
+		left join OEGSystemStaging.dbo.ProductsWebDescriptions spwd on spwd.ProductId = sp.ProductId
+			and spwd.TypeId = 1
 		join OEGSystemStaging.dbo.ProductSKUs spsku on spsku.ProductId = sp.ProductId
 		join OEGSystemStaging.dbo.ItemSKUs sisku on sisku.ItemSKUId = spsku.ItemSKUId
 		join OEGSystemStaging.dbo.LookupItemClasses sic on sic.ClassId = si.ClassId
@@ -122,7 +125,7 @@ begin
 
 	update Product set
 		ERPDescription = ltrim(rtrim(isnull(sisku.[Description],''))),
-		ShortDescription = ltrim(rtrim(isnull(spsku.[Description],''))),
+		ShortDescription = ltrim(rtrim(isnull(spwd.[Description],''))) + ' - ' + ltrim(rtrim(isnull(spsku.[Description],''))),
 		UnitOfMeasure = isnull(luUOM.Code,''),
 		UnitOfMeasureDescription = isnull(luUOM.[Name],''),
 		Sku = isnull(sisku.SKUNumber,''),
@@ -130,11 +133,12 @@ begin
 		ShippingLength = isnull(scd.[Length],0),
 		ShippingWidth = isnull(scd.[Width],0),
 		ShippingHeight = isnull(scd.[Height],0),
-		QtyPerShippingPackage = isnull(si.QtyPerCarton,0),
+		ShippingAmountOverride = isnull(sp.DeliveryAmount,0),
+		QtyPerShippingPackage = case when isnull(si.RequireTruck,0) > 0 then si.RequireTruck when isnull(sisku.ShipTypeId,0) = 12 then 1 else 0 end,
 		UrlSegment = sp.Number + '-' + convert(nvarchar(max),spsku.ProductSKUId),
-		IsDiscontinued = case when luStatus.Name = 'Active' then 0 else case when spsku.EffEndDate > getdate() then 0 else 1 end end,
-		ActivateOn = spsku.EffStartDate,
-		DeactivateOn = case when luStatus.Name = 'Active' then spsku.EffEndDate else dateadd(day, -1, SYSDATETIMEOFFSET()) end,
+		IsDiscontinued = case when luStatus.Name = 'Active' and spsku.EffEndDate > getdate() and spsku.IsWebEnabled=1 then 0 else 1 end,
+		ActivateOn = isnull(spsku.EffStartDate,dateadd(day, 10, SYSDATETIMEOFFSET())),
+		DeactivateOn = case when luStatus.Name = 'Active' and spsku.IsWebEnabled=1 then spsku.EffEndDate else dateadd(day, -1, SYSDATETIMEOFFSET()) end,
 		VendorId = v.Id,
 		UPCCode = isnull(sisku.UPCCode,''),
 		ManufacturerItem = spsku.OptionCode,
@@ -145,6 +149,8 @@ begin
 	from 
 		OEGSystemStaging.dbo.Products sp
 		join OEGSystemStaging.dbo.Items si on si.ItemId = sp.ItemId
+		left join OEGSystemStaging.dbo.ProductsWebDescriptions spwd on spwd.ProductId = sp.ProductId
+			and spwd.TypeId = 1
 		join OEGSystemStaging.dbo.ProductSKUs spsku on spsku.ProductId = sp.ProductId
 		join OEGSystemStaging.dbo.ItemSKUs sisku on sisku.ItemSKUId = spsku.ItemSKUId
 		left join OEGSystemStaging.dbo.LookupUnitOfMeasures luUOM on luUOM.Id = si.UnitOfMeasureId
@@ -163,6 +169,18 @@ begin
 	from Product
 	where Id not in (select ProductId from Specification where [Name] = 'Dimensions')
 	
+	insert into Specification
+	(ContentManagerId, [Name], [Description], IsActive, CreatedBy, ModifiedBy, ProductId)
+	select newid(), 'Vendor Code', 'Vendor Code', 0, 'etl', 'etl', Id
+	from Product
+	where Id not in (select ProductId from Specification where [Name] = 'Vendor Code')
+
+	insert into Specification
+	(ContentManagerId, [Name], [Description], IsActive, CreatedBy, ModifiedBy, ProductId)
+	select newid(), 'Collection', 'Collection', 1, 'etl', 'etl', Id
+	from Product
+	where Id not in (select ProductId from Specification where [Name] = 'Collection')
+
 	-- make sure we have a content manager record for each of the specifications
 
 	insert into ContentManager
@@ -178,7 +196,7 @@ begin
 	select ContentManagerId, 'Product', 'etl', 'etl'
 	from Product
 	where ContentManagerId not in (select Id from ContentManager)
-
+	and ContentManagerId != '00000000-0000-0000-0000-000000000000'
 
 	-- tie up the style parent for each of the variants
 	;with parentProduct as
@@ -198,6 +216,11 @@ begin
 		p.ERPNumber like '%[_]%'
 
 
+	-- we can truncate these tables as they have no dependencies and can be added and removed from source
+	truncate table StyleTraitValueProduct
+	delete from StyleTraitValue
+	delete from StyleTrait
+
 	insert into StyleTrait
 	([StyleClassId], [Name], [SortOrder], [Description], CreatedBy, ModifiedBy)
 	select 
@@ -208,9 +231,10 @@ begin
 		join OEGSystemStaging.dbo.Items si on si.ItemId = sp.ItemId
 		join Product p on p.ERPNumber = sp.Number
 		join StyleClass styles on styles.[Name] = sp.Number 
+		join OEGSystemStaging.dbo.LookupItemStatuses luStatus on luStatus.Id = sp.StatusId
+			and luStatus.Name = 'Active'
 	where 
 		sp.BrandId = @brand
-		and not exists (select Id from StyleTrait where [StyleClassId] = styles.Id and [Description] = convert(nvarchar(max),sisg.Id))
 
 	insert into StyleTraitValue
 	([StyleTraitId], [Description] , [SortOrder], [IsDefault], [Value], CreatedBy, ModifiedBy)
@@ -222,7 +246,6 @@ begin
 		join StyleTrait trait on trait.[Description] = convert(nvarchar(max),sisg.Id)
 	where 
 		isnull(sis.[Name],'') != ''
-		and not exists (select Id from StyleTraitValue where [StyleTraitId] = trait.Id and [Description] = convert(nvarchar(max),sis.SwatchId))
 
 	insert into StyleTraitValueProduct
 	(StyleTraitValueId,ProductId)
@@ -232,20 +255,21 @@ begin
 		OEGSystemStaging.dbo.ItemSKUsSwatches siskus
 		join OEGSystemStaging.dbo.ItemSwatches sis on sis.SwatchId = siskus.SwatchId
 		join OEGSystemStaging.dbo.ProductSKUs spsku on spsku.ItemSKUId = siskus.ItemSKUId
+			and spsku.EffEndDate > getdate() and spsku.IsWebEnabled = 1
 		join OEGSystemStaging.dbo.Products sp on sp.ProductId = spsku.ProductId
 		join Product p on p.ERPNumber = sp.Number + '_' + spsku.OptionCode
 		join StyleTraitValue traitValue on traitValue.[Description] = convert(nvarchar(max),sis.SwatchId)
+		join OEGSystemStaging.dbo.LookupItemStatuses luStatus on luStatus.Id = sp.StatusId
+			and luStatus.Name = 'Active'
 	where
 		sp.BrandId = @brand
-		and not exists (select [StyleTraitValueId] from StyleTraitValueProduct where StyleTraitValueId = traitValue.Id and ProductId = p.Id)
-
 
 /*
 
 exec ETLProduct_FromOEG
 exec ETLProduct_ToInsite
 
-select styleclassid,vendorid,* from product
+select styleclassid,vendorid,ShippingAmountOverride,QtyPerShippingPackage,* from product
 select * from styleclass
 select * from styletrait
 

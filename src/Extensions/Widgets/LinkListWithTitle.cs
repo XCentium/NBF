@@ -24,9 +24,7 @@ namespace Extensions.Widgets
 
         public override string Direction => "Vertical";
 
-
-        [DisplayName("Landing Page - Navigation Fly Out Template Only")]
-        [SelectedPageContentField(DisplayName = "Landing Page", IsRequired = false)]
+        [SelectedPageContentField(DisplayName = "Landing Page - Navigation Fly Out Template Only", IsRequired = false)]
         public virtual string LandingPageName
         {
             get

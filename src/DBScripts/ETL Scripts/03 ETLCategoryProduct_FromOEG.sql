@@ -13,6 +13,8 @@ begin
 	declare @brand int
 	set @brand = 1
 
+	-- this ties a product to a category
+
 	insert into CategoryProduct
 	(CategoryId, ProductId, CreatedBy, ModifiedBy)
 	select 
@@ -31,6 +33,8 @@ begin
 
 	where
 		not exists (select Id from CategoryProduct where CategoryId = c.Id and ProductId = p.Id)
+
+	-- because parents and children are reversible, we have to do this twice (in reverse)
 
 	insert into CategoryProduct
 	(CategoryId, ProductId, CreatedBy, ModifiedBy)

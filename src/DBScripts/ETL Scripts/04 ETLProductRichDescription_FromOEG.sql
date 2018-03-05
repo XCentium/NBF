@@ -12,22 +12,22 @@ begin
 	if @IsReady = 0	return;
 
 	-- copy dependency tables
-	insert into RuleType
-	select * from [Insite.NBF].dbo.RuleType
-	where id not in (select id from RuleType)
+	--insert into RuleType
+	--select * from [Insite.NBF].dbo.RuleType
+	--where id not in (select id from RuleType)
 
-	insert into RuleManager
-	select * from [Insite.NBF].dbo.RuleManager
-	where id not in (select id from RuleManager)
+	--insert into RuleManager
+	--select * from [Insite.NBF].dbo.RuleManager
+	--where id not in (select id from RuleManager)
 
-	insert into Language
-	select * from [Insite.NBF].dbo.[Language]
-	where Id not in (select Id from Language)
+	--insert into Language
+	--select * from [Insite.NBF].dbo.[Language]
+	--where Id not in (select Id from Language)
 
 
-	insert into Persona
-	select * from [Insite.NBF].dbo.Persona
-	where Id not in (select Id from Persona)
+	--insert into Persona
+	--select * from [Insite.NBF].dbo.Persona
+	--where Id not in (select Id from Persona)
 
 	declare @LanguageId uniqueidentifier
 	select top 1 @LanguageId = l.Id from [Language] l where LanguageCode = 'en-us'
@@ -35,7 +35,16 @@ begin
 	declare @PersonaId uniqueidentifier
 	select top 1 @PersonaId = p.Id from Persona p where [Name] = 'Default'
 
-	-- replace from source always
+
+	if @PersonaId is null or @LanguageId is null
+	begin
+		select '@PersonaId is null or @LanguageId is null'
+	end
+	else
+	begin
+
+	-- replace from source always - we don't take revisions from the users, the master is OEG
+
 	delete Content 
 	from Content ct
 		join product p on p.ContentManagerId = ct.ContentManagerId
@@ -62,6 +71,7 @@ begin
 		p.ContentManagerId not in (select ContentManagerId from Content)
 
 
+	end
 
 /*
 

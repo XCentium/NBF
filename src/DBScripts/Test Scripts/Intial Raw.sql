@@ -55,8 +55,9 @@ select * from ProductSKUs where productid = 221538
 
 
 select top 1000 * from ItemSwatchGroups where itemid = 126022
-select top 1000 * from [ItemSwatches] where GroupId = 2605
+select top 1000 * from [ItemSwatches] where GroupId = 47123
 select top 1000 * from ItemSKUsSwatches where SwatchId =172049 
+select * from ItemSKUs where ItemSKUId = 612112 
 
 select * from LookupSwatchTypes
 select top 100 * from ProductSKUs

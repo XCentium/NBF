@@ -30,6 +30,13 @@
             width: 100%;
             max-width: 100%;
         }
+
+
+        @media all and (max-width: 1079px) {
+            & > div {
+                position: relative;
+            }
+        }
     }
 
     &__list-title {
@@ -58,7 +65,7 @@
 
         &__image {
             width: 45%;
-            min-height: 188px;
+            //min-height: 188px;
             float: left;
             margin-right: 10px;
 
@@ -95,13 +102,14 @@
         &__btn {
             button {
                 padding: 11px 0;
-                width:53%;
+                width: 53%;
                 margin-bottom: 0;
                 position: absolute;
                 bottom: 20px;
+
                 @media all and (max-width: 787px) {
-                    width:100%;
-                    left:0;
+                    width: 100%;
+                    left: 0;
                 }
             }
         }
@@ -119,25 +127,26 @@
         display: block;
         height: 0;
         width: 9%;
-        padding-bottom:9%;
+        padding-bottom: 9%;
         background-color: rgba(255, 255, 255, 0.5);
         @include border-radius(50px);
         position: absolute;
-        cursor:pointer;
+        cursor: pointer;
 
         &:before {
             @include center(true,true);
-            content:"\f067";
+            content: "\f067";
             font-family: $FontAwesome;
-            font-size:20px;
-            color:$nbf-font-gray;
+            font-size: 20px;
+            color: $nbf-font-gray;
         }
+
         &.open {
-            background-color:$nbf-orange;
+            background-color: $nbf-orange;
 
             &:before {
-                content:"\f00d";
-                color:#fff;
+                content: "\f00d";
+                color: #fff;
             }
         }
     }
@@ -149,11 +158,11 @@
         max-width: 365px;
         color: $nbf-black;
         @include center(true,false);
-         border: 1px solid $divider-gray;
+        border: 1px solid $divider-gray;
 
         &:after {
             @include center(true,false);
-            content:'';
+            content: '';
             position: absolute;
             top: 100%;
             width: 0;
@@ -163,7 +172,7 @@
             border-right: solid 20px transparent;
         }
 
-        
+
 
         &__img {
             width: 115px;
@@ -189,6 +198,9 @@
                 overflow: hidden;
                 font-weight: bold;
             }
+            &__number {
+                font-size:18px;
+            }
 
             &__price {
                 font-weight: bold;
@@ -204,6 +216,66 @@
                     width: 100%;
                 }
             }
+        }
+    }
+
+    &.shopthelookwidget {
+        .hotspot {
+            width: 4%;
+            padding-bottom: 4%;
+
+            @media all and (max-width: 767px) {
+                width: 9%;
+                padding-bottom: 9%;
+            }
+        }
+    }
+}
+
+.shopthelookwidget {
+    &__content {
+        position: absolute;
+        padding: 40px;
+        background-color: rgba(255, 255, 255, .95);
+        width: 568px;
+
+        &--topleft {
+            top: 40px;
+            left: 40px;
+        }
+
+        &--topright {
+            top: 40px;
+            right: 40px;
+        }
+
+        &--bottomleft {
+            bottom: 40px;
+            left: 40px;
+        }
+
+        &--bottomright {
+            bottom: 40px;
+            right: 40px;
+        }
+
+        @media all and (max-width: 1079px) {
+            position: relative;
+            height: auto;
+            width: 100%;
+            bottom: auto;
+            right: auto;
+            left: auto;
+            top: auto;
+            padding: 30px;
+        }
+
+        @media all and (max-width: 767px) {
+            padding: 15px;
+        }
+
+        &__default__title {
+            margin: 0;
         }
     }
 }

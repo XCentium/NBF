@@ -509,6 +509,7 @@
     <Content Include="Views\Widgets\Custom\ArticlePageCommentsView\Standard.cshtml" />
     <Content Include="Views\Widgets\Custom\LinkListWithTitle\NavigationFlyOut.cshtml" />
     <Content Include="Views\Widgets\Custom\LinkListWithTitle\Standard.cshtml" />
+    <Content Include="Views\Widgets\Custom\ShopTheLookWidget\Standard.cshtml" />
     <None Include="Views\Widgets\DealerDirectionsView\Standard.cshtml" />
     <None Include="Views\Widgets\DealerLocatorView\Standard.cshtml" />
     <None Include="Views\Widgets\DealerView\Standard.cshtml" />
@@ -521,6 +522,7 @@
     <None Include="Views\Widgets\InvoiceDetailView\Standard.cshtml" />
     <None Include="Views\Widgets\InvoiceHistory\Standard.cshtml" />
     <None Include="Views\Widgets\InvoicesView\Standard.cshtml" />
+    <Content Include="Views\Widgets\ItemLink\Header.cshtml" />
     <None Include="Views\Widgets\ItemLink\Standard.cshtml" />
     <None Include="Views\Widgets\ItemList\Standard.cshtml" />
     <None Include="Views\Widgets\JobQuoteDetailsView\Standard.cshtml" />
@@ -745,7 +747,9 @@
     </PropertyGroup>
     <Error Condition="!Exists('..\..\..\packages\Microsoft.Net.Compilers.1.3.2\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\packages\Microsoft.Net.Compilers.1.3.2\build\Microsoft.Net.Compilers.props'))" />
     <Error Condition="!Exists('..\..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.3\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.3\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+    <Error Condition="!Exists('..\..\..\packages\OctoPack.3.6.3\build\OctoPack.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\packages\OctoPack.3.6.3\build\OctoPack.targets'))" />
   </Target>
+  <Import Project="..\..\..\packages\OctoPack.3.6.3\build\OctoPack.targets" Condition="Exists('..\..\..\packages\OctoPack.3.6.3\build\OctoPack.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

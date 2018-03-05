@@ -6,7 +6,7 @@ create procedure ETLProduct_ToInsite
 as
 begin
 	
-
+	-- load style class records (root of product that has styles)
 	insert into [Insite.NBF].dbo.StyleClass
 	(
 		[Id],[Name],[Description],[IsActive],
@@ -20,18 +20,19 @@ begin
 	where 
 		not exists (select Id from [Insite.NBF].dbo.StyleClass where Id = etl.Id)
 
+	-- insert new products
 	insert into [Insite.NBF].dbo.Product
 	(
 		[Id],[Name],[ShortDescription],[ERPDescription],[UnitOfMeasure],[Sku],[ActivateOn],[DeactivateOn],
 		[ShippingWeight],[ShippingLength],[ShippingWidth],[ShippingHeight],
-		[QtyPerShippingPackage],[UrlSegment],[ContentManagerId],[ERPNumber],[UPCCode],
+		[QtyPerShippingPackage],[ShippingAmountOverride],[UrlSegment],[ContentManagerId],[ERPNumber],[UPCCode],
 		[StyleClassId],[StyleParentId],[IsDiscontinued],[ManufacturerItem],[Unspsc],[UnitOfMeasureDescription],[VendorId],
 		[CreatedOn],[CreatedBy],[ModifiedOn],[ModifiedBy]
 	)
 	select 
 		[Id],[Name],[ShortDescription],[ERPDescription],[UnitOfMeasure],[Sku],[ActivateOn],[DeactivateOn],
 		[ShippingWeight],[ShippingLength],[ShippingWidth],[ShippingHeight],
-		[QtyPerShippingPackage],[UrlSegment],[ContentManagerId],[ERPNumber],[UPCCode],
+		[QtyPerShippingPackage],[ShippingAmountOverride],[UrlSegment],[ContentManagerId],[ERPNumber],[UPCCode],
 		[StyleClassId],[StyleParentId],[IsDiscontinued],[ManufacturerItem],[Unspsc],[UnitOfMeasureDescription],[VendorId],
 		[CreatedOn],[CreatedBy],[ModifiedOn],[ModifiedBy]
 	from
@@ -54,6 +55,7 @@ begin
 	from ContentManager etl
 	where etl.Id not in (select Id from [Insite.NBF].dbo.ContentManager)
 
+	-- update any product base data
 	update [Insite.NBF].dbo.Product  set
 	
 		[ShortDescription] = etl.[ShortDescription],
@@ -68,6 +70,7 @@ begin
 		ShippingWidth = etl.ShippingWidth,
 		ShippingHeight = etl.ShippingHeight,
 		[QtyPerShippingPackage] = etl.[QtyPerShippingPackage],
+		[ShippingAmountOverride] = etl.[ShippingAmountOverride],
 		[UrlSegment] = etl.[UrlSegment],
 		[ContentManagerId] =etl.[ContentManagerId],
 		[ERPNumber] = etl.[ERPNumber],
@@ -107,6 +110,10 @@ begin
 	from Content etl
 	where etl.Id not in (select Id from [Insite.NBF].dbo.Content)
 
+	-- these tables have no dependencies and can be wiped and created with new guids every time
+	truncate table [Insite.NBF].dbo.StyleTraitValueProduct
+	delete from [Insite.NBF].dbo.StyleTraitValue
+	delete from [Insite.NBF].dbo.StyleTrait
 
 	insert into [Insite.NBF].dbo.StyleTrait
 	(
@@ -118,8 +125,6 @@ begin
 		[CreatedOn],[CreatedBy],[ModifiedOn],[ModifiedBy]
 	from
 		StyleTrait etl
-	where 
-		not exists (select Id from [Insite.NBF].dbo.StyleTrait where Id = etl.Id)
 
 	insert into [Insite.NBF].dbo.StyleTraitValue
 	(
@@ -131,9 +136,8 @@ begin
 		[CreatedOn],[CreatedBy],[ModifiedOn],[ModifiedBy]
 	from
 		StyleTraitValue etl
-	where 
-		not exists (select Id from [Insite.NBF].dbo.StyleTraitValue where Id = etl.Id)
-		
+
+
 	insert into [Insite.NBF].dbo.StyleTraitValueProduct
 	(
 		[StyleTraitValueId],[ProductId]
@@ -142,9 +146,6 @@ begin
 		[StyleTraitValueId],[ProductId]
 	from
 		StyleTraitValueProduct etl
-	where 
-		not exists (select [StyleTraitValueId] from [Insite.NBF].dbo.StyleTraitValueProduct 
-		where [StyleTraitValueId] = etl.[StyleTraitValueId] and [ProductId] = etl.[ProductId])
 
 /*
 
