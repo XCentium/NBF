@@ -63,6 +63,7 @@ namespace Extensions.Widgets
         }
 
         public bool InfoExists => !AuthorInfo.IsNullOrWhiteSpace();
-        public bool ImageExists => !AuthorImageUrl.IsNullOrWhiteSpace();
+        public bool AuthorImageExists => !AuthorImageUrl.IsNullOrWhiteSpace();
+        public bool ArticleImageExists => !ArticleImageUrl.IsNullOrWhiteSpace();
     }
 }

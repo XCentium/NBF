@@ -11,6 +11,8 @@ namespace Extensions.Widgets
 
         public string NewsContents { get; set; }
 
+        public string Summary { get; set; }
+
         public string Title { get; set; }
 
         public string PreviousArticle { get; set; }

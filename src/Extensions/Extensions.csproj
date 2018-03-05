@@ -389,9 +389,6 @@
     </Content>
   </ItemGroup>
   <ItemGroup />
-  <ItemGroup>
-    <None Include="Views\ContentItemFields\ListOfNewsPages.cshtml" />
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
   <Target Name="EmbedViews" AfterTargets="BeforeBuild">
