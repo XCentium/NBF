@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0"?>
 <package >
   <metadata>
-    <id>InsiteCommerce.Web</id>
-    <title>InsiteCommerce.Web</title>
+    <id>NBF</id>
+    <title>NBF</title>
     <version>1.0.0.0</version>
     <authors>XCentium</authors>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>InsiteCommerce.Web</description>
+    <description>Themes folder content</description>
   </metadata>
 </package>
