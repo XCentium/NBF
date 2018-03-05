@@ -40,19 +40,13 @@ namespace Extensions.Widgets
         }
 
         protected virtual void PopulateViewModel(LatestBlogPostsDrop model, LatestBlogPosts articleList)
-        {
-            var tagSet = new HashSet<string>();
-            
-            var contentKeyList = this.ContentHelper.GetChildPages<NewsPage>(articleList.PageContentKey, true)
-                .OrderByDescending<NewsPage, DateTimeOffset?>((Func<NewsPage, DateTimeOffset?>)(o => o.PublishDate))
-                .ToList<NewsPage>();
-
+        {           
             var pageLinkDropList = new List<LatestBlogPostDrop>();
             int counter = 0;
             foreach (int page in articleList.BlogPosts)
             {
                 counter++;
-                GetPageResult<AbstractPage> pageByVariantKey = PageContext.Current.ContentHelper.GetPageByVariantKey(page, false);
+                GetPageResult<AbstractPage> pageByVariantKey = this.ContentHelper.GetPageByVariantKey(page, false);
                 if (pageByVariantKey.Page != null && !pageByVariantKey.Page.IsRetracted
                     && pageByVariantKey.DisplayLink)
                 {
