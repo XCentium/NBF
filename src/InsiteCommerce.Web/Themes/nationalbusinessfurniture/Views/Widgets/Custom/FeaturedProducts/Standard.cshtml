@@ -17,16 +17,18 @@
                                 </div>
                             </div>
                             <div class="item-block__product__details">
-                                <div class="item-block__product__swatch">
-                                    <ul>
-                                        <li ng-repeat="productImg in product.productImages">
-                                            <div class="item-block__product__swatch__img-wrap">
-                                                <img class="item-block__product__swatch" ng-src="https://s7d9.scene7.com/is/image/NationalBusinessFurniture/{{productImg.smallImagePath ? productImg.smallImagePath : productImg.mediumImagePath}}?hei=200&id=5-zsy2&fmt=jpg&fit=constrain,1&wid=344&hei=344" alt="{{productImg.altText}}" increment-images-loaded />
-                                            </div>
-                                        </li>                                        
-                                        <li class="right"><u>More</u></li>
-                                    </ul>
-                                </div>
+                                <!--
+    <div class="item-block__product__swatch">
+        <ul>
+            <li ng-repeat="productImg in product.productImages">
+                <div class="item-block__product__swatch__img-wrap">
+                    <img class="item-block__product__swatch" ng-src="https://s7d9.scene7.com/is/image/NationalBusinessFurniture/{{productImg.smallImagePath ? productImg.smallImagePath : productImg.mediumImagePath}}?hei=200&id=5-zsy2&fmt=jpg&fit=constrain,1&wid=344&hei=344" alt="{{productImg.altText}}" increment-images-loaded />
+                </div>
+            </li>
+            <li class="right"><u>More</u></li>
+        </ul>
+    </div>
+        -->
                                 <div class="item-block__product__desc">
                                     {{product.shortDescription}}
                                 </div>
