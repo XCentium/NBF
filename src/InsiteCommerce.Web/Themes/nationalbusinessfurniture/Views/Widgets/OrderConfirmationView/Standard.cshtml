@@ -22,11 +22,18 @@
 
     <div class="cm">[% zone 'TopContent' %]</div>
 
-    <div class="oc-num-date">
-        <h2>[% translate 'Order Number' %]: <span id="tst_orderConfirmation_orderNumber" ng-bind="vm.cart.orderNumber"></span></h2>
-        <h2 ng-if="vm.order.statusDisplay">[% translate 'Status' %]: <span id="tst_orderConfirmation_orderStatus" ng-bind="vm.order.statusDisplay"></span></h2>
-        <h2>[% translate 'Order Date' %]: <span ng-bind="vm.cart.orderDate | date:'shortDate'"></span></h2>
-        <h2 ng-if="vm.cart.poNumber.length > 0">[% translate 'PO #' %]: <span ng-bind="vm.cart.poNumber"></span></h2>
+    <div class="oc-num-date row">
+        <div class="large-6 columns">
+            <h2>[% translate 'Order Number' %]: <span id="tst_orderConfirmation_orderNumber" ng-bind="vm.cart.orderNumber"></span></h2>
+            <h2 ng-if="vm.order.statusDisplay">[% translate 'Status' %]: <span id="tst_orderConfirmation_orderStatus" ng-bind="vm.order.statusDisplay"></span></h2>
+            <h2>[% translate 'Order Date' %]: <span ng-bind="vm.cart.orderDate | date:'shortDate'"></span></h2>
+            <h2 ng-if="vm.cart.poNumber.length > 0">[% translate 'PO #' %]: <span ng-bind="vm.cart.poNumber"></span></h2>
+        </div>
+        <div class="large-6 columns message-box" ng-if="vm.isGuestUser && vm.settings.allowCreateAccount">
+            <div>[% siteMessage 'OrderConfirmation_AddAccountMessage' %]</div>
+            <br/>
+            <a href="[% urlForPage 'CreateAccountPage' %]" class="btn primary btn-continue-shopping">[% translate 'Create Account' %]</a>
+        </div>
     </div>
 
     <div class="row order-bill-ship">
@@ -49,6 +56,12 @@
             <div class="oc-ship-meth">
                 <span ng-bind="vm.cart.carrier.description"></span>
                 <span ng-bind="vm.cart.shipVia.description"></span>
+            </div>
+            <div class="oc-head" ng-if="vm.cart.creditCardBillingAddress">
+                <h3>[% translate 'Credit Card Billing Address' %]</h3>
+            </div>
+            <div class="oc-cc-billing-address" ng-if="vm.cart.creditCardBillingAddress">
+                <isc-address-display address="vm.creditCardBillingAddress" show-email="false"></isc-address-display>
             </div>
             <div class="oc-order-notes" ng-if="vm.cart.notes.trim().length > 0">
                 <h4>[% translate 'Order Notes' %]:</h4>

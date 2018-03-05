@@ -1,4 +1,4 @@
-﻿module insite.cart {
+﻿module nbf.cart {
     "use strict";
 
     angular
@@ -6,7 +6,7 @@
         .directive("nbfCartTotalDisplay", () => ({
             restrict: "E",
             replace: true,
-            templateUrl: "/PartialViews/Custom-Cart-CheckoutCartTotalDisplay",
+            templateUrl: "/PartialViews/Custom-Cart-NbfCheckoutCartTotalDisplay",
             scope: {
                 cart: "=",
                 promotions: "=",

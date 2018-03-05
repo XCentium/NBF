@@ -11,9 +11,10 @@
         session: any;
         dashboardUrl: string;
 
-        static $inject = ["$window", "$attrs", "sessionService", "websiteService", "coreService"];
+        static $inject = ["$scope", "$window", "$attrs", "sessionService", "websiteService", "coreService"];
 
         constructor(
+            protected $scope: ng.IScope,
             protected $window: ng.IWindowService,
             protected $attrs: ITopNavControllerAttributes,
             protected sessionService: account.ISessionService,
@@ -28,6 +29,14 @@
             // TODO ISC-2937 SPA kill all of the things that depend on broadcast for session and convert them to this, assuming we can properly cache this call
             // otherwise determine some method for a child to say "I expect my parent to have a session, and I want to use it" broadcast will not work for that
             this.getSession();
+
+            this.$scope.$on("sessionUpdated", (event, session) => {
+                this.onSessionUpdated(session);
+            });
+        }
+
+        protected onSessionUpdated(session: SessionModel): void {
+            this.session = session;
         }
 
         protected getSession(): void {

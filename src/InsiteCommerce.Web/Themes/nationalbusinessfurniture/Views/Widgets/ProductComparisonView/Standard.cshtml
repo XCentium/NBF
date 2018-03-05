@@ -57,7 +57,7 @@
                                                     <a href="#">{{product.shortDescription}}</a>
                                                 </div>
                                                 <div class="item-num">
-                                                    <span class="item-num-sku">{{product.name}}</span>
+                                                    <span class="item-num-sku">{{product.erpNumber}}</span>
                                                 </div>
                                             </div>
                                         </li>
@@ -101,7 +101,7 @@
                         </div>
                         <div class="product-info">
                             <div class="item-num">
-                                <span class="item-num-sku">{{::product.name}}</span>
+                                <span class="item-num-sku">{{::product.erpNumber}}</span>
                             </div>
 
                             <div ng-if="product.canShowPrice && !product.pricing.failedToGetRealTimePrices">

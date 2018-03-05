@@ -10,6 +10,9 @@ create procedure dbo.IsDataReady
 as
 begin
 
+	-- determines if the data in OEG is finished loading
+	-- used by other ETL procs to determin if they should run
+
 	set @IsReady = 0
 
 	declare @EndDateTime datetime

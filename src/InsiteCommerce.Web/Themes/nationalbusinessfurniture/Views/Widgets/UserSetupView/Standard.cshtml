@@ -23,32 +23,32 @@
                     <span ng-show="usersetupform.emailAddress.$invalid && !usersetupform.emailAddress.$pristine" class="field-validation-error">[% siteMessage 'CreateNewAccountInfo_EmailAddress_ValidEmail' %]</span>
                     <span id="tst_userSetupView_generalErrorMessage" ng-show="vm.generalError" class="field-validation-error">{{vm.generalError}}</span>
                 </div>
-                <div class="usersetup-form-username">
+                <div class="usersetup-form-username" ng-if="!vm.settings.useEmailAsUserName">
                     <label>[% translate 'Username' %]<span class="redTxt" ng-if="vm.isNewUser">*</span></label>
-                    <input id="tst_userSetupView_userName" type="text" ng-if="vm.isNewUser" ng-model="vm.user.userName" name="userName" required/>
+                    <input id="tst_userSetupView_userName" type="text" ng-if="vm.isNewUser" ng-model="vm.user.userName" name="userName" required />
                     <div ng-if="!vm.isNewUser">
-                        <input type="text" ng-model="vm.user.userName" readonly="readonly" disabled="disabled"/>
-                        <input type="hidden" ng-model="vm.user.userName"/>
+                        <input id="tst_userSetupView_edit_userName" type="text" ng-model="vm.user.userName" readonly="readonly" disabled="disabled" />
+                        <input type="hidden" ng-model="vm.user.userName" />
                     </div>
-                </div>
-                <div class="usersetup-form-firstname">
-                    <label>[% translate 'First Name' %] <span class="redTxt">*</span></label>
-                    <input id="tst_userSetupView_firstName" type="text" ng-model="vm.user.firstName" name="firstName" required/>
-                </div>
-                <div class="usersetup-form-lastname">
-                    <label>[% translate 'Last Name' %] <span class="redTxt">*</span></label>
-                    <input id="tst_userSetupView_lastName" type="text" ng-model="vm.user.lastName" name="lastName" required/>
                 </div>
                 <div class="usersetup-form-email">
                     <label>[% translate 'Email Address' %] <span class="redTxt">*</span></label>
-                    <input id="tst_userSetupView_emailAddress" type="email" ng-model="vm.user.email" name="emailAddress" required/>
+                    <input id="tst_userSetupView_emailAddress" type="email" ng-model="vm.user.email" name="emailAddress" required />
+                </div>
+                <div class="usersetup-form-firstname">
+                    <label>[% translate 'First Name' %] <span class="redTxt">*</span></label>
+                    <input id="tst_userSetupView_firstName" type="text" ng-model="vm.user.firstName" name="firstName" required />
+                </div>
+                <div class="usersetup-form-lastname">
+                    <label>[% translate 'Last Name' %] <span class="redTxt">*</span></label>
+                    <input id="tst_userSetupView_lastName" type="text" ng-model="vm.user.lastName" name="lastName" required />
                 </div>
                 <div ng-if="!vm.isNewUser">
                     <div class="usersetup-form-user-section-heading">[% translate 'Status' %]</div>
                     <div class="usersetup-form-lastloginon">
                         <label>[% translate 'Last Sign In' %]</label>
                         <div>
-                            <input id="tst_userSetupView_lastLoginOn" type="text" ng-value="vm.user.lastLoginOn | date:'short'" readonly="readonly" disabled="disabled"/>
+                            <input id="tst_userSetupView_lastLoginOn" type="text" ng-value="vm.user.lastLoginOn | date:'short'" readonly="readonly" disabled="disabled" />
                         </div>
                         <span>{{insite.core.fullDateTimeFormat}}</span>
                     </div>
@@ -69,7 +69,7 @@
                     <div class="usersetup-form-user-section-heading">[% translate 'Account Activation' %]</div>
                     <div class="usersetup-form-send-activation-email">
                         <label>[% translate 'Send Activation Email' %]</label>
-                        <input id="tst_userSetupView_autoSendActivationEmail" type="checkbox" ng-model="vm.autoSendActivationEmail"/>
+                        <input id="tst_userSetupView_autoSendActivationEmail" type="checkbox" ng-model="vm.autoSendActivationEmail" />
                     </div>
                 </div>
                 <div class="usersetup-form-user-section-heading">[% translate 'Settings' %]</div>

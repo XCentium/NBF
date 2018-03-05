@@ -60,10 +60,10 @@
                             <span class="result-lbl" ng-if="!vm.noResults && vm.products">{{'[% translate 'Items_pager' %]'.toLowerCase()}}</span>
 
                             <span ng-if="vm.query && !(vm.searchCategory || vm.filterCategory.categoryId)" class="search-lbl">
-                                {{ vm.noResults ? "[% translate 'No results found for' %]" : "[% translate 'results for' %]" }} <strong>{{vm.query}}</strong>
+                                {{ vm.noResults ? "[% translate 'No results found for' %]" : "[% translate 'results for' %]" }} <strong id="tst_productList_query">{{vm.query}}</strong>
                             </span>
                             <span ng-if="vm.query && (vm.searchCategory || vm.filterCategory.categoryId)" class="search-lbl">
-                                {{ vm.noResults ? "[% translate 'No results found for' %]" : "[% translate 'results for' %]" }} <strong>{{vm.query}}</strong> [% translate 'in_category' %] {{vm.searchCategory.shortDescription || vm.filterCategory.shortDescription}}
+                                {{ vm.noResults ? "[% translate 'No results found for' %]" : "[% translate 'results for' %]" }} <strong id="tst_productList_query">{{vm.query}}</strong> [% translate 'in_category' %] {{vm.searchCategory.shortDescription || vm.filterCategory.shortDescription}}
                             </span>
                         </h3>
 
@@ -71,7 +71,7 @@
                             [% translate 'Did you mean ' %] <a ng-click="vm.goToSearchCriteria(vm.products.didYouMeanSuggestions[0].suggestion)" ng-bind="vm.products.didYouMeanSuggestions[0].suggestion"></a>
                         </div>
                         <div class="search-autocorrect-original" ng-if="vm.autoCorrectedQuery">
-                            [% translate 'Search instead for' %] <a ng-click="vm.goToSearchCriteria(vm.originalQuery, false)">{{vm.originalQuery}}</a>
+                            [% translate 'Search instead for' %] <a id="tst_productList_originalQuery" ng-click="vm.goToSearchCriteria(vm.originalQuery, false)">{{vm.originalQuery}}</a>
                         </div>
 
                         <div ng-show="vm.products.products.length > 0">

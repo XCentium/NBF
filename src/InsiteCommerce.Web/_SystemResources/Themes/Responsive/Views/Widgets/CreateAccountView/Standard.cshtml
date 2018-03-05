@@ -19,7 +19,7 @@
                         <span class="field-validation-valid" data-valmsg-for="CreateNewAccountInfo.EmailAddress" data-valmsg-replace="true"></span>
                     </div>
                 </div>
-                <div class="row ca-form-username">
+                <div class="row ca-form-username" ng-if="!vm.settings.useEmailAsUserName">
                     <div class="medium-5 large-5 columns">
                         <label for="CreateNewAccountInfo_UserName">[% translate 'Username' %] <span class="redTxt">*</span></label>
                     </div>

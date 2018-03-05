@@ -1,0 +1,31 @@
+﻿
+<div class="row">
+    <div class="medium-12 large-12 columns widget-1column narrow-container popular-cat four-col">
+        <div class="row">
+            <div class="medium-12 large-12 columns widget-1column">
+                <div class="">
+                    <h2>[[Model.Title]]</h2>
+                </div>
+            </div>
+            <div class="medium-12 large-12 columns widget-1column">
+                <div class="popular-cat__wrap four-col__item-container" ng-controller="CategoryWidgetController as vm" category-id-string="[[Model.CategoryString]]" ng-cloak>
+                    <div class="popular-cat__item four-col__item" ng-repeat="category in vm.categories">
+                        <a href="{{category.path}}">
+                            <div class="popular-cat__img-wrap">
+                                <img class="popular-cat__img" ng-src="{{category.smallImagePath}}" ng-if="category.smallImagePath" />
+                            </div>
+                            <div class="popular-cat__title">
+                                <h3>{{category.shortDescription}}</h3>
+                            </div>
+                        </a>
+                    </div>                    
+                </div>
+                <div class="medium-12 large-12 columns widget-1column">
+                    <div class="float-md-right">
+                        <a href="[[Model.AllCategoriesUrl]]">[[Model.AllCategoriesText]] <i class="ico-RightArrow ico-RightArrow--orange"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+ </div>

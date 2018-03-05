@@ -9,6 +9,11 @@ create procedure ETLAttributeValue_FromOEG
 as
 begin
 
+	-- helper function becuase we realize that a lot of attributes come from 
+	-- LookupItemAttributeValues in the source
+
+	declare @brand int
+	set @brand = 1
 
 	declare @attributeTypeId uniqueidentifier
 	
@@ -33,6 +38,7 @@ begin
 	select distinct p.Id, avalue.Id 
 	from Product p
 	join OEGSystemStaging.dbo.Products sp on sp.Number = p.ERPNumber
+		and sp.BrandId = @brand
 	join OEGSystemStaging.dbo.ItemsAttributeValues sd on sd.ItemId = sp.ItemId
 	join OEGSystemStaging.dbo.LookupItemAttributeValues slu on slu.AttributeValueId = sd.AttributeValueId
 	join OEGSystemStaging.dbo.LookupItemAttributes sluName on sluName.AttributeId = slu.AttributeId

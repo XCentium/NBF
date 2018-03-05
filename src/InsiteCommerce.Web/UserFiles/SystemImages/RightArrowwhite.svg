@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="28px" height="19px" viewBox="0 0 28 19" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 48.2 (47327) - http://www.bohemiancoding.com/sketch -->
+    <title>Right Arrow</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="NBF_Home" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" transform="translate(-284.000000, -2654.000000)">
+        <g id="GSA-Promo" transform="translate(120.000000, 2273.000000)" fill="#fff" fill-rule="nonzero">
+            <g id="Group-27">
+                <g id="Group-4-Copy" transform="translate(0.000000, 210.000000)">
+                    <g id="Link" transform="translate(30.000000, 168.000000)">
+                        <g id="Group-54">
+                            <path d="M152.854875,3.28574655 C152.47342,2.90475115 151.838552,2.90475115 151.44376,3.28574655 C151.062305,3.65387047 151.062305,4.26655225 151.44376,4.63381808 L158.59892,11.5389305 L134.987869,11.5389305 C134.437472,11.5397886 134,11.9619727 134,12.4931352 C134,13.0242977 134.437472,13.4602114 134.987869,13.4602114 L158.59892,13.4602114 L151.44376,20.3524524 C151.062305,20.7334477 151.062305,21.3469876 151.44376,21.7142535 C151.838552,22.0952488 152.474309,22.0952488 152.854875,21.7142535 L161.703906,13.1744648 C162.098698,12.8063409 162.098698,12.1936591 161.703906,11.8263933 L152.854875,3.28574655 Z" id="Right-Arrow"></path>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -5,7 +5,7 @@
         </div>
         <form novalidate id="shareEntityForm_{{vm.entityId}}" class="custom">
             <div class="columns">
-                <h3><a href="{{vm.fileLink}}" ng-bind="vm.fileName" class="link" target="blank"></a></h3>
+                <h3><a id="tst_shareEntityModal_fileLink" href="{{vm.fileLink}}" ng-bind="vm.fileName" class="link" target="blank"></a></h3>
                 <div class="required-label">
                     <span class="redTxt">*</span>
                     <span>[% translate 'required' %]</span>

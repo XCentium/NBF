@@ -6,6 +6,9 @@ create procedure ETLProductRichDescription_ToInsite
 as
 begin
 
+
+	-- we can delete the old descriptions every night and reload from fresh data
+
 	delete [Insite.NBF].dbo.Content 
 	from [Insite.NBF].dbo.Content ct
 		join product p on p.ContentManagerId = ct.ContentManagerId

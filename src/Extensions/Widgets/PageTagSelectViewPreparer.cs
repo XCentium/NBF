@@ -40,11 +40,12 @@ namespace Extensions.Widgets
         protected virtual void PopulateViewModel(PageTagSelectViewDrop model, PageTagSelectView pageTagView)
         {
 
-            var parent = PageContext.Current.Page;
+            //var parent = PageContext.Current.Page;
+            var parent = this.ContentHelper.GetPage(pageTagView.PageContentKey).Page;
             int? nullable = parent.ParentKey;
             nullable = parent.ParentKey;
-            int variantKey = nullable.Value;
-            int num1 = 0;
+            int variantKey = nullable.HasValue ? nullable.Value : 0;
+            int num1 = 0;           
             parent = this.ContentHelper.GetPageByVariantKey(variantKey, num1 != 0).Page;
             model.ParentUrl = PageContext.Current.GenerateUrl(parent);
             model.PageUrl = PageContext.Current.GenerateUrl(PageContext.Current.Page);

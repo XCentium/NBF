@@ -8,6 +8,8 @@ create procedure ETLProductAttribute_ToInsite
 as
 begin
 
+	-- repalces all attributes so that we don't have to worry about add/remove
+
 	insert into [Insite.NBF].dbo.AttributeType 
 	(Id, [Name], IsActive, Label, IsFilter, IsComparable, CreatedBy, CreatedOn, ModifiedOn, ModifiedBy)
 	select Id, [Name], IsActive, Label, IsFilter, IsComparable, CreatedBy, CreatedOn, ModifiedOn, ModifiedBy

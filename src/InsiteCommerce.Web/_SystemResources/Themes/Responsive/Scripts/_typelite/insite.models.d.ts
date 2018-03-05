@@ -42,6 +42,7 @@ declare module Insite.Account.WebApi.V1.ApiModels {
 		passwordRequiresLowercase: boolean;
 		passwordRequiresDigit: boolean;
 		daysToRetainUser: number;
+		useEmailAsUserName: boolean;
 	}
 	interface AccountCollectionModel extends Insite.Core.WebApi.BaseModel {
 		accounts: Insite.Account.WebApi.V1.ApiModels.AccountModel[];
@@ -982,6 +983,10 @@ declare module Insite.Catalog.WebApi.V1.ApiModels {
 		realTimeInventory: boolean;
 		inventoryIncludedWithPricing: boolean;
 		storefrontAccess: string;
+		displayAttributesInTabs: boolean;
+		attributesTabSortOrder: string;
+		displayDocumentsInTabs: boolean;
+		documentsTabSortOrder: string;
 	}
 }
 declare module Insite.Core.Plugins.Search.Dtos {
@@ -1040,6 +1045,7 @@ declare module Insite.Dashboard.WebApi.V1.ApiModels {
 		panelType: string;
 		order: number;
 		quickLinkOrder: number;
+		openInNewTab: boolean;
 	}
 }
 declare module Insite.Dealers.WebApi.V1.ApiModels {
@@ -1425,6 +1431,16 @@ declare module Insite.Order.Services.Dtos {
 		trackingUrl: string;
 		trackingNumber: string;
 		packSlip: string;
+		shipmentPackageLines: Insite.Order.Services.Dtos.ShipmentPackageLineDto[];
+	}
+	interface ShipmentPackageLineDto {
+		id: System.Guid;
+		productName: string;
+		productDescription: string;
+		productCode: string;
+		qtyOrdered: number;
+		qtyShipped: number;
+		price: number;
 	}
 	interface OrderHistoryTaxDto {
 		taxCode: string;

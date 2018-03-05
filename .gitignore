@@ -33,6 +33,7 @@ ipch/
 [Rr]elease*/
 Ankh.NoLoad
 src/.vs
+src/.idea
 
 #MonoDevelop
 *.pidb
@@ -73,12 +74,14 @@ packages/
 src/InSiteCommerce.Web/node_modules/
 *.map
 src/InSiteCommerce.Web/Themes/**/Scripts/**/*.js
+!src/InSiteCommerce.Web/Themes/**/Scripts/Libraries/**/*
 src/InSiteCommerce.Web/_SystemResources/Themes/**/*.js
 src/InSiteCommerce.Web/_SystemResources/Themes/**/*.js.map
 src/InSiteCommerce.Web/_SystemResources/Themes/**/base.css
 src/InSiteCommerce.Web/_SystemResources/Themes/**/base.css.map
 src/InSiteCommerce.Web/_SystemResources/Themes/**/template/*.css
 src/InSiteCommerce.Web/_SystemResources/Themes/**/template/*.css.map
-src/InSiteCommerce.Web/config/connectionStrings.config
+src/InSiteCommerce.Web/config/*.config
 src/InSiteCommerce.Web/App_Data/luceneindex/
 src/InsiteCommerce.Web/Themes/**/*.css
+/src/InSiteCommerce.Web/App_Data/insiteidentity.pfx

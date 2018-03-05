@@ -10,6 +10,8 @@ create procedure ETLAttribute_FromOEG
 as
 begin
 
+	-- helper function to crate the attribute name and ensure that every 
+	-- category can access it so we can assign it to child products as needed 
 	declare @attributeTypeId uniqueidentifier
 
 
@@ -31,7 +33,7 @@ begin
 		Category c
 	where 
 		c.CreatedBy = 'etl'
-		and c.Id  not in (select distinct ParentId from Category where ParentId is not null)
+		--and c.Id  not in (select distinct ParentId from Category where ParentId is not null)
 		and not exists (select Id from CategoryAttributeType where CategoryId = c.Id and AttributeTypeId = @attributeTypeId)
 
 

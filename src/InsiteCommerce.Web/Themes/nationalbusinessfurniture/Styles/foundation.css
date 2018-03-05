@@ -1105,18 +1105,8 @@ button, .button {
   border-color: #007095;
   color: white;
   transition: background-color 300ms ease-out; }
-  button:hover, button:focus, .button:hover, .button:focus {
-    background-color: #007095; }
-  button:hover, button:focus, .button:hover, .button:focus {
-    color: white; }
-  button.secondary, .button.secondary {
-    background-color: #e7e7e7;
-    border-color: #b9b9b9;
-    color: #333333; }
     button.secondary:hover, button.secondary:focus, .button.secondary:hover, .button.secondary:focus {
       background-color: #b9b9b9; }
-    button.secondary:hover, button.secondary:focus, .button.secondary:hover, .button.secondary:focus {
-      color: #333333; }
   button.success, .button.success {
     background-color: #43ac6a;
     border-color: #368a55;
@@ -3642,11 +3632,10 @@ td {
 
 /* Default Link Styles */
 a {
-  color: #008cba;
   text-decoration: none;
   line-height: inherit; }
   a:hover, a:focus {
-    color: #0078a0; }
+ }
   a img {
     border: none; }
 
@@ -3668,17 +3657,14 @@ p {
 
 /* Default header styles */
 h1, h2, h3, h4, h5, h6 {
-  font-family: "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
   font-weight: normal;
   font-style: normal;
-  color: #222222;
   text-rendering: optimizeLegibility;
   margin-top: 0.2rem;
   margin-bottom: 0.5rem;
   line-height: 1.4; }
   h1 small, h2 small, h3 small, h4 small, h5 small, h6 small {
     font-size: 60%;
-    color: #6f6f6f;
     line-height: 0; }
 
 h1 {
@@ -3742,8 +3728,6 @@ code {
 ul,
 ol,
 dl {
-  font-size: 1rem;
-  line-height: 1.6;
   margin-bottom: 1.25rem;
   list-style-position: outside;
   font-family: inherit; }
@@ -4176,7 +4160,7 @@ dialog {
   left: 50%;
   width: 100%;
   color: white;
-  background: #333333; }
+  background: #FFF; }
   .tooltip > .nub {
     display: block;
     left: 5px;
@@ -5313,7 +5297,6 @@ table {
   table-layout: auto; }
   table caption {
     background: transparent;
-    color: #222222;
     font-size: 1rem;
     font-weight: bold; }
   table thead {
@@ -5321,9 +5304,8 @@ table {
     table thead tr th,
     table thead tr td {
       padding: 0.5rem 0.625rem 0.625rem;
-      font-size: 0.875rem;
       font-weight: bold;
-      color: #222222; }
+    }
   table tfoot {
     background: whitesmoke; }
     table tfoot tr th,
@@ -5331,12 +5313,10 @@ table {
       padding: 0.5rem 0.625rem 0.625rem;
       font-size: 0.875rem;
       font-weight: bold;
-      color: #222222; }
+ }
   table tr th,
   table tr td {
     padding: 0.5625rem 0.625rem;
-    font-size: 0.875rem;
-    color: #222222;
     text-align: left; }
   table tr.even, table tr.alt, table tr:nth-of-type(even) {
     background: #f9f9f9; }
