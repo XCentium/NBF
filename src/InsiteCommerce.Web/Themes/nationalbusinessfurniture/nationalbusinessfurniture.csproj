@@ -463,6 +463,7 @@
     <Content Include="Views\Directives\Messages\MessageList.cshtml" />
     <Content Include="Views\Directives\Custom\Catalog\SortedAttributeValueList.cshtml" />
     <Content Include="Views\Directives\Custom\Account\NbfSignInFlyOut.cshtml" />
+    <Content Include="Views\ContentItemFields\ListOfNewsPages.cshtml" />
     <None Include="Views\Directives\PdfViews\InvoiceDetails.cshtml" />
     <None Include="Views\Directives\PdfViews\OrderDetails.cshtml" />
     <Content Include="Views\Directives\Rfq\ProposedDetailsGrid.cshtml" />
