@@ -522,6 +522,7 @@
     <None Include="Views\Widgets\InvoiceDetailView\Standard.cshtml" />
     <None Include="Views\Widgets\InvoiceHistory\Standard.cshtml" />
     <None Include="Views\Widgets\InvoicesView\Standard.cshtml" />
+    <Content Include="Views\Widgets\ItemLink\Header.cshtml" />
     <None Include="Views\Widgets\ItemLink\Standard.cshtml" />
     <None Include="Views\Widgets\ItemList\Standard.cshtml" />
     <None Include="Views\Widgets\JobQuoteDetailsView\Standard.cshtml" />
