@@ -2,10 +2,13 @@
 <package >
   <metadata>
     <id>NBF</id>
-    <title>NBF</title>
+    <title>NBF InsiteCommerce</title>
     <version>1.0.0.0</version>
     <authors>XCentium</authors>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>Themes folder content</description>
+    <description>NBF InsiteCommerce</description>
   </metadata>
+  <files>
+    <file src="Themes\**" target="Themes" />
+  </files>
 </package>
