@@ -1,9 +1,9 @@
 ﻿<li class="[[Model.CssClass]]">
     <span class="nav-item-container">
         [% if Model.HasUrl -%]
-        <a id="tst_productMenu_[[Model.Title]]" href="[[Model.LandingPageUrl]]">[[Model.Drop.Title]]</a>
+        <a id="tst_productMenu_[[Model.Title]]" href="[[Model.LandingPageUrl]]">[[Model.Title]]</a>
         [% else -%]
-        <a id="tst_productMenu_[[Model.Title]]" onclick="$(this).next().click();return false;">[[Model.Drop.Title]]</a>
+        <a id="tst_productMenu_[[Model.Title]]" onclick="$(this).next().click();return false;">[[Model.Title]]</a>
         [% endif %]
         <label for="nav-cat" class="toggle-sub" onclick="insite.nav.goToSubnav(this)">►</label>
     </span>
