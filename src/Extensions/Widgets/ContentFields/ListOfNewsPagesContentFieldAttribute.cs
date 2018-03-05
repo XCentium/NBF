@@ -1,9 +1,4 @@
-﻿using Insite.ContentLibrary.Pages;
-using Insite.WebFramework.Content.Attributes;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using Insite.WebFramework.Content.Attributes;
 
 namespace Extensions.Widgets.ContentFields
 {
@@ -11,7 +6,7 @@ namespace Extensions.Widgets.ContentFields
     {
         public ListOfNewsPagesContentFieldAttribute()
         {
-            this.Template = "~/Extensions/Views/ContentItemFields/ListOfNewsPages.cshtml";            
+            Template = "~/Themes/NationalBusinessFurniture/Views/ContentItemFields/ListOfNewsPages.cshtml";            
         }
     }
 }
