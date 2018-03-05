@@ -847,6 +847,9 @@
       <IsTransformFile>True</IsTransformFile>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="nbf.nuspec">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="_SystemResources\readme.txt" />
     <None Include="_SystemResources\**\*.css" />
     <None Include="_SystemResources\**\*.scss" />
