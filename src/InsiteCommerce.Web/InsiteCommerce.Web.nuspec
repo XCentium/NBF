@@ -1,0 +1,11 @@
+﻿<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>InsiteCommerce.Web</id>
+    <title>InsiteCommerce.Web</title>
+    <version>1.0.0.0</version>
+    <authors>XCentium</authors>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>InsiteCommerce.Web</description>
+  </metadata>
+</package>
