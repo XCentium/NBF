@@ -1,5 +1,4 @@
-﻿
-<style type="text/css">
+﻿<style type="text/css">
     .homepage__banner-bg {
         background-image: url('[[Model.BackgroundImage]]');
     }
@@ -13,7 +12,9 @@
                 [% if Model.Style1Formatted == "default" -%]
                 <h2>[[Model.Title1]]</h2>
                 <p>[[Model.SubTitle1]]</p>
+                [% if Model.ButtonReady1 == "default" -%]
                 <a href="[[Model.ButtonUrl1]]" class="btn btn-primary">[[Model.ButtonText1]]</a>
+                [% endif -%]
                 [% else -%]
                 <div class="square-padding-bottom">
                     <div class="square-conatiner">
@@ -30,7 +31,9 @@
                 [% if Model.Style2Formatted == "default" -%]
                 <h2>[[Model.Title2]]</h2>
                 <p>[[Model.SubTitle2]]</p>
+                [% if Model.ButtonReady2 == "default" -%]
                 <a href="[[Model.ButtonUrl2]]" class="btn btn-primary">[[Model.ButtonText2]]</a>
+                [% endif -%]
                 [% else -%]
                 <div class="square-padding-bottom">
                     <div class="square-conatiner">
