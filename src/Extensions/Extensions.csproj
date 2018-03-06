@@ -312,6 +312,11 @@
     <Compile Include="WebApi\Messages\Models\CreateMessagesParameter.cs" />
     <Compile Include="WebApi\Messages\Repository\MessageRepository.cs" />
     <Compile Include="WebApi\Messages\Services\MessagesService.cs" />
+    <Compile Include="WebApi\WebCode\Controllers\WebCodeController.cs" />
+    <Compile Include="WebApi\WebCode\Interfaces\IWebCodeRepository.cs" />
+    <Compile Include="WebApi\WebCode\Interfaces\IWebCodeService.cs" />
+    <Compile Include="WebApi\WebCode\Repository\WebCodeRepository.cs" />
+    <Compile Include="WebApi\WebCode\Services\WebCodeService.cs" />
     <Compile Include="WebApi\OrderTracking\Interfaces\IOrderTrackingService.cs" />
     <Compile Include="WebApi\OrderTracking\Models\GetTrackingOrderParameter.cs" />
     <Compile Include="WebApi\OrderTracking\Services\OrderTrackingService.cs" />

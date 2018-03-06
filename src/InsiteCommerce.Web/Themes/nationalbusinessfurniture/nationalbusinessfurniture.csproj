@@ -183,6 +183,8 @@
     <TypeScriptCompile Include="Scripts\Custom\ShopTheLookDetails\nbf.ShopTheLookDetails.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\ShopTheLook\nbf.ShopTheLook.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\SocialMediaSharing\nbf.social-media.controller.ts" />
+    <TypeScriptCompile Include="Scripts\Custom\WebCode\nbf.web-code.controller.ts" />
+    <TypeScriptCompile Include="Scripts\Custom\WebCode\nbf.web-code.service.ts" />
     <TypeScriptCompile Include="Scripts\insite.config.ts" />
     <TypeScriptCompile Include="Scripts\insite.content-pager.controller.ts" />
     <TypeScriptCompile Include="Scripts\insite.content.directives.ts" />
