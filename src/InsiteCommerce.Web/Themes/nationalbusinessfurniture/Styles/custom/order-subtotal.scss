@@ -1,0 +1,50 @@
+﻿@import "../variables";
+
+
+/* Subtotal Table */
+
+.order-subtotal {
+    border: 1px solid #DCDCDC;
+    padding: 2em;
+    margin-bottom: 2em;
+
+    .summary-title {
+         font-family: $ProximaNova-bold;
+    }
+    .oc-head {
+        margin-bottom:20px;
+    }
+    .discount-total .sub-amount {
+        float: right;
+        font-weight: bold;
+    }
+
+    .sub-amount, .amount-due {
+        font-family: $ProximaNova-bold;
+    }
+
+    .order-total {
+        border-top: 1px solid $divider-gray;
+        margin-top: 20px;
+        padding-top: 20px;
+    }
+}
+
+@media all and (min-width: 768px) {
+    .order-subtotal {
+    }
+}
+
+.order-subtotal > .row {
+    margin-bottom: .5em;
+}
+
+.order-subtotal .sub-label {
+    text-align: left;
+    width: 60%;
+}
+
+.order-subtotal .sub-amount {
+    padding-left: 0;
+    width: auto !important;
+}

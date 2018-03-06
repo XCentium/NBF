@@ -2,7 +2,7 @@
     usage example:
     <isc-product-name product="productDto" no-link="true"></isc-product-name>
 {% endcomment %}
-<div id="tst_productName_productId_{{::product.id}}">
+<div class="item-number-wrap" id="tst_productName_productId_{{::product.id}}">
     <div ng-if="!noLink" class="item-name"><a ng-href="{{product.productUri}}" ng-bind="product.shortDescription"></a></div>
     <div class="item-num">
         <span class="item-num-sku" ng-bind="product.erpNumber"></span>

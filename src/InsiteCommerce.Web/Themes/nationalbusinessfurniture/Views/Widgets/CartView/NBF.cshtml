@@ -9,70 +9,94 @@
 <a ng-if="vm.cart.canCheckOut && !vm.cart.properties['isPunchout']" class="btn primary btn-checkout tst_cartPage_checkout"
    ng-click="vm.checkout('/Checkout')" href="javascript: void(0);">[% translate 'Checkout' %]</a>
 <a ng-if="!vm.cart.canCheckOut && !vm.cart.properties['isPunchout'] && !vm.cart.canRequisition" class="btn primary btn-checkout tst_cartPage_checkoutDisabled disabled" href="javascript:void(0)">[% translate 'Checkout' %]</a>
-<a ng-if="vm.cart.canRequestQuote" href="[% urlForPage 'RfqRequestQuotePage' %]" class="btn primary btn-request-quote tst_cartPage_submitQuote"
-   ng-bind="vm.cart.isSalesperson ? '[% translate 'Create a Quote' %]' : '[% translate 'Request a Quote' %]'" ng-disabled="vm.cart.isAwaitingApproval"></a>
+<div class="btn-col">
+    <a ng-if="vm.cart.canSaveOrder" href="javascript: void(0);" class="btn btn-secondary btn-save-order tst_cartPage_saveOrder" ng-click="vm.saveCart('[% urlForPage 'SavedOrderDetailPage' %]', '[% urlForPage 'SignInPage' %]')">[% translate 'Save Order' %]</a>
+    <a ng-if="vm.cart.canRequestQuote" href="[% urlForPage 'RfqRequestQuotePage' %]" class="btn btn-secondary btn-request-quote tst_cartPage_submitQuote"
+       ng-bind="vm.cart.isSalesperson ? '[% translate 'Create a Quote' %]' : '[% translate 'Request a Quote' %]'" ng-disabled="vm.cart.isAwaitingApproval"></a>
+</div>
 <a ng-if="vm.cart.properties['isPunchout']" ng-href="/punchout/punchoutsubmitporequisition.isch?operation=cancel" isc-full-redirect class="btn primary btn-checkout">[% translate 'Cancel PunchOut' %]</a>
-<a ng-if="vm.cart.canSaveOrder" href="javascript: void(0);" class="btn secondary btn-save-order tst_cartPage_saveOrder" ng-click="vm.saveCart('[% urlForPage 'SavedOrderDetailPage' %]', '[% urlForPage 'SignInPage' %]')">[% translate 'Save Order' %]</a>
 <a ng-if="vm.cart.canRequisition" href="#" class="btn primary btn-submit-requisition tst_cartPage_submitRequisition" ng-click="vm.submitRequisition('[% urlForPage 'RequisitionConfirmationPage' %]')">[% translate 'Submit Requisition' %]</a>
 <a href="javascript:void(0);" class="btn secondary btn-clear-all tst_cartPage_removeAll" ng-click="vm.emptyCart('[% urlForPage 'CartPage' %]')">[% translate 'Remove All' %]</a>
 [% endcapture %]
-
-<div ng-controller="CartController as vm" ng-cloak ng-show="vm.cart">
-    [[ContinueShoppingButton]]
-    <div>
-        <h3 ng-if="vm.cart.cartLines.length > 0" class="results-count">
-            <span class="result-num" ng-bind="vm.cart.totalCountDisplay"></span> <span class="result-lbl">[% translate 'Items' %]</span>
-        </h3>
-        <div class="cart-left">
-            <div id="tst_cartPage_cartIsEmpty" ng-if="vm.cart.cartLines.length == 0" class="cart-empty">
-                <h3>[% siteMessage 'Cart_NoOrderLines' %]</h3>
+<div class="medium-12 large-12 columns widget-1column narrow-container cart">
+    <div class="row">
+            <div>
+                <h2 class="cart__title">My Shopping Cart</h2>
             </div>
-            <div ng-if="vm.cart.cartLines.length > 0">
-                <div id="tst_cartPage_approvingMessage" ng-if="vm.cart.isAwaitingApproval" class="app-for">
-                    <h3>[% translate 'Approving Order For' %]: <em ng-bind="vm.cart.initiatedByUserName"></em></h3>
+        <div ng-controller="CartController as vm" ng-cloak ng-show="vm.cart">
+            [[ContinueShoppingButton]]
+            <div>
+                <h3 ng-if="vm.cart.cartLines.length > 0" class="results-count">
+                    <span class="result-num" ng-bind="vm.cart.totalCountDisplay"></span> <span class="result-lbl">[% translate 'Items' %]</span>
+                </h3>
+                <div class="cart-left">
+                    <div id="tst_cartPage_cartIsEmpty" ng-if="vm.cart.cartLines.length == 0" class="cart-empty">
+                        <h3>[% siteMessage 'Cart_NoOrderLines' %]</h3>
+                    </div>
+                    <div ng-if="vm.cart.cartLines.length > 0">
+                        <div id="tst_cartPage_approvingMessage" ng-if="vm.cart.isAwaitingApproval" class="app-for">
+                            <h3>[% translate 'Approving Order For' %]: <em ng-bind="vm.cart.initiatedByUserName"></em></h3>
+                        </div>
+                        <div ng-if="vm.cart.quoteRequiredCount > 0" class="quote-items-note messaging">
+                            [% siteMessage 'Rfq_QuoteRequiredMsg' %]
+                        </div>
+                        <div ng-show="vm.cart.hasInsufficientInventory" class="messaging--error" id="tst_cartPage_hasInsufficientInventory_message">
+                            [% siteMessage 'Cart_InsufficientInventoryAtCheckout' %]
+                        </div>
+                        <div ng-show="vm.cart.cartNotPriced" class="messaging--error">
+                            [% siteMessage 'Cart_NoPriceAvailableAtCheckout' %]
+                        </div>
+                        <div ng-show="vm.productsCannotBePurchased" class="messaging--error">
+                            [% siteMessage 'Cart_ProductsCannotBePurchased' %]
+                        </div>
+                        <div class="hide-for-medium-up btns hide-for-print">
+                            [[CheckoutButtons]]
+                        </div>
+                        <div id="cartgrid">
+                            <nbf-cart-lines cart="vm.cart" editable="true"
+                                            include-quote-required="true"
+                                            include-inventory="vm.showInventoryAvailability"
+                                            failed-to-get-real-time-inventory="vm.failedToGetRealTimeInventory"
+                                            inventory-check="true"
+                                            promotions="vm.promotions"
+                                            is-cart-page="true"
+                                            show-add-to-list="true"
+                                            class="item-list cart-items">
+                            </nbf-cart-lines>
+                        </div>
+                    </div>
+                    <div class="btns hide-for-small">
+                        <a id="tst_cartPage_continueShopping" ng-show="vm.cart.displayContinueShoppingLink" href="[% urlForPage 'HomePage' %]" ng-click="vm.continueShopping($event)" class="btn secondary btn-continue-shopping">[% translate 'Continue Shopping' %]</a>
+                    </div>
                 </div>
-                <div ng-if="vm.cart.quoteRequiredCount > 0" class="quote-items-note messaging">
-                    [% siteMessage 'Rfq_QuoteRequiredMsg' %]
-                </div>
-                <div ng-show="vm.cart.hasInsufficientInventory" class="messaging--error" id="tst_cartPage_hasInsufficientInventory_message">
-                    [% siteMessage 'Cart_InsufficientInventoryAtCheckout' %]
-                </div>
-                <div ng-show="vm.cart.cartNotPriced" class="messaging--error">
-                    [% siteMessage 'Cart_NoPriceAvailableAtCheckout' %]
-                </div>
-                <div ng-show="vm.productsCannotBePurchased" class="messaging--error">
-                    [% siteMessage 'Cart_ProductsCannotBePurchased' %]
-                </div>
-                <div class="hide-for-medium-up btns hide-for-print">
-                    [[CheckoutButtons]]
-                </div>
-                <div id="cartgrid">
-                    <isc-cart-lines cart="vm.cart" editable="true"
-                                    include-quote-required="true"
-                                    include-inventory="vm.showInventoryAvailability"
-                                    failed-to-get-real-time-inventory="vm.failedToGetRealTimeInventory"
-                                    inventory-check="true"
-                                    promotions="vm.promotions"
-                                    is-cart-page="true"
-                                    show-add-to-list="true"
-                                    class="item-list cart-items">
-                    </isc-cart-lines>
+                <div ng-if="vm.cart.cartLines.length > 0" class="cart-right">
+                    <nbf-cart-total-display ng-if="!vm.cart.cartNotPriced" cart="vm.cart" promotions="vm.promotions" order-taxes="vm.cart.customerOrderTaxes"></nbf-cart-total-display>
+                    <div class="btns hide-for-print" id="tst_cartPage_buttons">
+                        [[CheckoutButtons]]
+                    </div>
+                    <div class="cc-warp">
+                        <img src="/UserFiles/SystemImages/credit-cards.png" />
+                    </div>
+                    <div class="confidence-box">
+                        <div class="confidence-box__title">Shop With Confidence</div>
+                        <ul>
+                            <li>
+                                <img src="/UserFiles/SystemImages/LifetimeBadge.svg" />
+                            </li>
+                            <li>
+                                <img src="/UserFiles/SystemImages/BBB-logo.png" />
+                            </li>
+                            <li>
+                                <img src="/UserFiles/SystemImages/Mcafee.png" />
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
-            <div class="btns hide-for-small">
-                <a id="tst_cartPage_continueShopping" ng-show="vm.cart.displayContinueShoppingLink" href="[% urlForPage 'HomePage' %]" ng-click="vm.continueShopping($event)" class="btn secondary btn-continue-shopping">[% translate 'Continue Shopping' %]</a>
-            </div>
-        </div>
-        <div ng-if="vm.cart.cartLines.length > 0" class="cart-right">
-            <isc-cart-total-display ng-if="!vm.cart.cartNotPriced" cart="vm.cart" promotions="vm.promotions" order-taxes="vm.cart.customerOrderTaxes" is-cart-page="true"></isc-cart-total-display>
-            <div class="btns hide-for-print" id="tst_cartPage_buttons">
-                [[CheckoutButtons]]
-            </div>
+            [[ContinueShoppingButton]]
         </div>
     </div>
-    [[ContinueShoppingButton]]
 </div>
-
 <script type="text/ng-template" id="/PartialViews/Cart-CartLines">
     [% partialView 'Cart-CartLines' %]
 </script>
