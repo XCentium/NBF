@@ -1,8 +1,6 @@
 ﻿using Insite.ContentLibrary.Pages;
-using Insite.ContentLibrary.Widgets;
 using Insite.Core.Interfaces.Data;
 using Insite.Core.Interfaces.Localization;
-using Insite.Data.Entities;
 using Insite.WebFramework;
 using Insite.WebFramework.Content;
 using Insite.WebFramework.Content.Interfaces;
@@ -22,15 +20,15 @@ namespace Extensions.Widgets
         public LatestBlogPostsDropPreparer(IContentHelper contentHelper, HttpContextBase httpContext, ITranslationLocalizer translationLocalizer, IUnitOfWorkFactory unitOfWorkFactory)
           : base(translationLocalizer)
         {
-            this.UnitOfWork = unitOfWorkFactory.GetUnitOfWork();
-            this.ContentHelper = contentHelper;
-            this.HttpContext = httpContext;
+            UnitOfWork = unitOfWorkFactory.GetUnitOfWork();
+            ContentHelper = contentHelper;
+            HttpContext = httpContext;
         }
 
         public override void Prepare(LatestBlogPosts contentItem)
         {
-            LatestBlogPostsDrop viewModel = this.CreateViewModel();
-            this.PopulateViewModel(viewModel, contentItem);
+            LatestBlogPostsDrop viewModel = CreateViewModel();
+            PopulateViewModel(viewModel, contentItem);
             contentItem.Drop = viewModel;
         }
 
@@ -46,7 +44,7 @@ namespace Extensions.Widgets
             foreach (int page in articleList.BlogPosts)
             {
                 counter++;
-                GetPageResult<AbstractPage> pageByVariantKey = this.ContentHelper.GetPageByVariantKey(page, false);
+                GetPageResult<AbstractPage> pageByVariantKey = ContentHelper.GetPageByVariantKey(page);
                 if (pageByVariantKey.Page != null && !pageByVariantKey.Page.IsRetracted && pageByVariantKey.Page.PublishOn.HasValue && pageByVariantKey.Page.PublishOn <= DateTimeOffset.Now
                     && pageByVariantKey.DisplayLink)
                 {
@@ -62,7 +60,8 @@ namespace Extensions.Widgets
                         PublishDate = blogPage.PublishDate.Value.UtcDateTime.ToShortDateString(),
                         Author = blogPage.Author,
                         Number = counter,
-                        BackgroundImageUrl = articlePageView != null ? articlePageView.ArticleImageUrl : string.Empty
+                        BackgroundImageUrl = articlePageView != null ? articlePageView.ArticleImageUrl : string.Empty,
+                        BackgroundImageFocalPosition = articlePageView != null ? articlePageView.ArticleImageWidgetViewFocalPosition : string.Empty
                     });
                 }
             }

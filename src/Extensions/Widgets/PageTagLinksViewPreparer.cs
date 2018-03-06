@@ -1,10 +1,6 @@
-﻿using Insite.Common.Extensions;
-using Insite.ContentLibrary;
-using Insite.ContentLibrary.Pages;
-using Insite.Core.Interfaces.Data;
+﻿using Insite.Core.Interfaces.Data;
 using Insite.Core.Interfaces.Localization;
 using Insite.Data.Entities;
-using Insite.WebFramework;
 using Insite.WebFramework.Content;
 using Insite.WebFramework.Content.Interfaces;
 using System;
@@ -23,15 +19,15 @@ namespace Extensions.Widgets
         public PageTagLinksViewPreparer(IContentHelper contentHelper, HttpContextBase httpContext, ITranslationLocalizer translationLocalizer, IUnitOfWorkFactory unitOfWorkFactory)
           : base(translationLocalizer)
         {
-            this.UnitOfWork = unitOfWorkFactory.GetUnitOfWork();
-            this.ContentHelper = contentHelper;
-            this.HttpContext = httpContext;
+            UnitOfWork = unitOfWorkFactory.GetUnitOfWork();
+            ContentHelper = contentHelper;
+            HttpContext = httpContext;
         }
 
         public override void Prepare(PageTagLinksView contentItem)
         {
-            PageTagLinksViewDrop viewModel = this.CreateViewModel();
-            this.PopulateViewModel(viewModel, contentItem);
+            PageTagLinksViewDrop viewModel = CreateViewModel();
+            PopulateViewModel(viewModel, contentItem);
             contentItem.Drop = viewModel;
         }
 
@@ -43,7 +39,7 @@ namespace Extensions.Widgets
         protected virtual void PopulateViewModel(PageTagLinksViewDrop model, PageTagLinksView articleList)
         {
             var tagSet = new HashSet<string>();
-            var tagField = this.UnitOfWork.GetRepository<ContentItemField>().GetTable()
+            var tagField = UnitOfWork.GetRepository<ContentItemField>().GetTable()
                     .Where(x => x.FieldName == "PageTags" && x.PublishOn != null && x.IsRetracted == false).OrderByDescending(x => x.PublishOn);
             var keyList = new List<int>();
             foreach (var tagList in tagField)
@@ -53,7 +49,7 @@ namespace Extensions.Widgets
                     keyList.Add(tagList.ContentKey);
                     if (tagList.FieldName == "PageTags")
                     {
-                        foreach (var tag in tagList.ObjectValue.ToObject() as List<string>)
+                        foreach (var tag in (List<string>) tagList.ObjectValue.ToObject())
                         {
                             tagSet.Add(tag);
                         }

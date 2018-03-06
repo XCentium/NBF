@@ -1,12 +1,11 @@
 ﻿using Insite.ContentLibrary.ContentFields;
-using Insite.ContentLibrary.Pages;
 using Insite.ContentLibrary.Widgets;
 using Insite.Data.Entities;
-using Insite.WebFramework.Content.Attributes;
-using System;
+using System.ComponentModel;
 
 namespace Extensions.Widgets
 {
+    [DisplayName("NBF - Article List View")]
     public class ArticleListView : ContentWidget
     {
         [IntegerContentField]
@@ -14,11 +13,11 @@ namespace Extensions.Widgets
         {
             get
             {
-                return this.GetValue<int>(nameof(DefaultPageSize), 5, FieldType.General);
+                return GetValue(nameof(DefaultPageSize), 5, FieldType.General);
             }
             set
             {
-                this.SetValue<int>(nameof(DefaultPageSize), value, FieldType.General);
+                SetValue(nameof(DefaultPageSize), value, FieldType.General);
             }
         }
 
@@ -26,11 +25,11 @@ namespace Extensions.Widgets
         {
             get
             {
-                return this.GetPerRequestValue<ArticleListViewDrop>(nameof(Drop));
+                return GetPerRequestValue<ArticleListViewDrop>(nameof(Drop));
             }
             set
             {
-                this.SetPerRequestValue<ArticleListViewDrop>(nameof(Drop), value);
+                SetPerRequestValue(nameof(Drop), value);
             }
         }
     }
