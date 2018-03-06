@@ -22,5 +22,6 @@ namespace Extensions.Widgets
         public string Summary { get; set; }
 
         public string BackgroundImageUrl { get; set; }
+        public string BackgroundImageFocalPosition { get; set; }
     }
 }
