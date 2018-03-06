@@ -2,7 +2,7 @@
     [% for page in Model.Drop.PageLinks -%] 
     .blog-[[page.Number]] {
         background-image: url('[[page.BackgroundImageUrl]]');
-        background-image: [[page.BackgroundImageFocalPosition]];
+        background-position: [[page.BackgroundImageFocalPosition]];
     }
     [% endfor -%]    
 </style>
