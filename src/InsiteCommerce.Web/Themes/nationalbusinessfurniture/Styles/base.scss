@@ -7191,32 +7191,6 @@ nav ul:not(.side-nav) li a {
     padding-right: 0;
 }
 
-/* Navigation List */
-
-.widget-navlist {
-    display: block;
-    padding: 1em 1.5em 0 1em;
-    border: 1px solid #ddd;
-}
-
-.widget-navlist h4 {
-    margin-top: 0;
-    margin-bottom: .25em;
-}
-
-.widget-navlist > ul {
-    margin-left: 0;
-}
-
-.widget-navlist ul {
-    list-style-type: none;
-    width: auto;
-}
-
-.widget-navlist ul .active {
-    font-weight: bold;
-}
-
 /* Newsletter Subscription */
 
 .widget-emailsubscription {
