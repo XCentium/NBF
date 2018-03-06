@@ -394,6 +394,7 @@
     <Content Include="Styles\custom\order-history.scss" />
     <Content Include="Styles\custom\shopthelook.scss" />
     <Content Include="Styles\custom\shopthelook-deatils.scss" />
+    <Content Include="Styles\custom\order-subtotal.scss" />
     <None Include="Styles\template\category-list.scss" />
     <None Include="Styles\template\change-cust-ship-to.scss" />
     <None Include="Styles\template\checkout-addresses.scss" />

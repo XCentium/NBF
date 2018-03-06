@@ -786,11 +786,15 @@
     <Content Include="UserFiles\Images\Products\LG_NotFound.jpg" />
     <Content Include="UserFiles\Images\Products\MD_NotFound.jpg" />
     <Content Include="UserFiles\Images\Products\SM_NotFound.jpg" />
+    <Content Include="UserFiles\SystemImages\BBB-logo.png" />
     <Content Include="UserFiles\SystemImages\bbb.png" />
     <Content Include="UserFiles\SystemImages\CartIcon.svg" />
     <Content Include="UserFiles\SystemImages\chat.svg" />
+    <Content Include="UserFiles\SystemImages\credit-cards.png" />
     <Content Include="UserFiles\SystemImages\EmailIcon.svg" />
+    <Content Include="UserFiles\SystemImages\LifetimeBadge.svg" />
     <Content Include="UserFiles\SystemImages\LoginIcon.svg" />
+    <Content Include="UserFiles\SystemImages\Mcafee.png" />
     <Content Include="UserFiles\SystemImages\NBFLOGO.png" />
     <Content Include="UserFiles\SystemImages\RightArrowOrange.svg" />
     <Content Include="UserFiles\SystemImages\RightArrowwhite.svg" />
