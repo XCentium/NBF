@@ -1,7 +1,8 @@
 ﻿using Insite.ContentLibrary.ContentFields;
 using Insite.ContentLibrary.Widgets;
-using Insite.Data.Entities;
 using System.ComponentModel;
+using Microsoft.Ajax.Utilities;
+using FieldType = Insite.Data.Entities.FieldType;
 
 namespace Extensions.Widgets
 {
@@ -13,66 +14,54 @@ namespace Extensions.Widgets
         {
             get
             {
-                return this.GetValue<string>(nameof(BackgroundImage), string.Empty, FieldType.Contextual);
+                return GetValue(nameof(BackgroundImage), string.Empty, FieldType.Contextual);
             }
             set
             {
-                this.SetValue<string>(nameof(BackgroundImage), value, FieldType.Contextual);
+                SetValue(nameof(BackgroundImage), value, FieldType.Contextual);
             }
         }
 
-        [DropDownContentField(new string[] { "Bottom Right", "Bottom Left", "Top Left", "Top Right" }, SortOrder = 20)]
+        [DropDownContentField(new[] { "Bottom Right", "Bottom Left", "Top Left", "Top Right" }, SortOrder = 20)]
         public virtual string Position1
         {
             get
             {
-                return this.GetValue<string>(nameof(Position1), "Bottom Right", FieldType.Contextual);
+                return GetValue(nameof(Position1), "Bottom Right", FieldType.Contextual);
             }
             set
             {
-                this.SetValue<string>(nameof(Position1), value, FieldType.Contextual);
+                SetValue(nameof(Position1), value, FieldType.Contextual);
             }
         }
 
-        public virtual string Position1Formatted
-        {
-            get
-            {
-                return Position1.Replace(" ", "").ToLower();
-            }
-        }
+        public virtual string Position1Formatted => Position1.Replace(" ", "").ToLower();
 
-        [DropDownContentField(new string[] { "Default", "Square" }, SortOrder = 30)]
+        [DropDownContentField(new[] { "Default", "Square" }, SortOrder = 30)]
         public virtual string Style1
         {
             get
             {
-                return this.GetValue<string>(nameof(Style1), "Default", FieldType.Contextual);
+                return GetValue(nameof(Style1), "Default", FieldType.Contextual);
             }
             set
             {
-                this.SetValue<string>(nameof(Style1), value, FieldType.Contextual);
+                SetValue(nameof(Style1), value, FieldType.Contextual);
             }
         }
 
-        public virtual string Style1Formatted
-        {
-            get
-            {
-                return Style1.Replace(" ", "").ToLower();
-            }
-        }
+        public virtual string Style1Formatted => Style1.Replace(" ", "").ToLower();
 
         [TextContentField(SortOrder = 40)]
         public virtual string Title1
         {
             get
             {
-                return this.GetValue<string>(nameof(Title1), string.Empty, FieldType.Contextual);
+                return GetValue(nameof(Title1), string.Empty, FieldType.Contextual);
             }
             set
             {
-                this.SetValue<string>(nameof(Title1), value, FieldType.Contextual);
+                SetValue(nameof(Title1), value, FieldType.Contextual);
             }
         }
 
@@ -81,11 +70,11 @@ namespace Extensions.Widgets
         {
             get
             {
-                return this.GetValue<string>(nameof(SubTitle1), string.Empty, FieldType.Contextual);
+                return GetValue(nameof(SubTitle1), string.Empty, FieldType.Contextual);
             }
             set
             {
-                this.SetValue<string>(nameof(SubTitle1), value, FieldType.Contextual);
+                SetValue(nameof(SubTitle1), value, FieldType.Contextual);
             }
         }
 
@@ -94,11 +83,11 @@ namespace Extensions.Widgets
         {
             get
             {
-                return this.GetValue<string>(nameof(ButtonText1), string.Empty, FieldType.Contextual);
+                return GetValue(nameof(ButtonText1), string.Empty, FieldType.Contextual);
             }
             set
             {
-                this.SetValue<string>(nameof(ButtonText1), value, FieldType.Contextual);
+                SetValue(nameof(ButtonText1), value, FieldType.Contextual);
             }
         }
 
@@ -107,66 +96,54 @@ namespace Extensions.Widgets
         {
             get
             {
-                return this.GetValue<string>(nameof(ButtonUrl1), string.Empty, FieldType.Contextual);
+                return GetValue(nameof(ButtonUrl1), string.Empty, FieldType.Contextual);
             }
             set
             {
-                this.SetValue<string>(nameof(ButtonUrl1), value, FieldType.Contextual);
+                SetValue(nameof(ButtonUrl1), value, FieldType.Contextual);
             }
         }
 
-        [DropDownContentField(new string[] { "Bottom Right", "Bottom Left", "Top Left", "Top Right" }, SortOrder = 70)]
+        [DropDownContentField(new[] { "Bottom Right", "Bottom Left", "Top Left", "Top Right" }, SortOrder = 70)]
         public virtual string Position2
         {
             get
             {
-                return this.GetValue<string>(nameof(Position2), "Bottom Right", FieldType.Contextual);
+                return GetValue(nameof(Position2), "Bottom Right", FieldType.Contextual);
             }
             set
             {
-                this.SetValue<string>(nameof(Position2), value, FieldType.Contextual);
+                SetValue(nameof(Position2), value, FieldType.Contextual);
             }
         }
 
-        public virtual string Position2Formatted
-        {
-            get
-            {
-                return Position2.Replace(" ", "").ToLower();
-            }
-        }
+        public virtual string Position2Formatted => Position2.Replace(" ", "").ToLower();
 
-        [DropDownContentField(new string[] { "Default", "Square" }, SortOrder = 80)]
+        [DropDownContentField(new[] { "Default", "Square" }, SortOrder = 80)]
         public virtual string Style2
         {
             get
             {
-                return this.GetValue<string>(nameof(Style2), "Default", FieldType.Contextual);
+                return GetValue(nameof(Style2), "Default", FieldType.Contextual);
             }
             set
             {
-                this.SetValue<string>(nameof(Style2), value, FieldType.Contextual);
+                SetValue(nameof(Style2), value, FieldType.Contextual);
             }
         }
 
-        public virtual string Style2Formatted
-        {
-            get
-            {
-                return Style2.Replace(" ", "").ToLower();
-            }
-        }
+        public virtual string Style2Formatted => Style2.Replace(" ", "").ToLower();
 
         [TextContentField(SortOrder = 90)]
         public virtual string Title2
         {
             get
             {
-                return this.GetValue<string>(nameof(Title2), string.Empty, FieldType.Contextual);
+                return GetValue(nameof(Title2), string.Empty, FieldType.Contextual);
             }
             set
             {
-                this.SetValue<string>(nameof(Title2), value, FieldType.Contextual);
+                SetValue(nameof(Title2), value, FieldType.Contextual);
             }
         }
 
@@ -175,11 +152,11 @@ namespace Extensions.Widgets
         {
             get
             {
-                return this.GetValue<string>(nameof(SubTitle2), string.Empty, FieldType.Contextual);
+                return GetValue(nameof(SubTitle2), string.Empty, FieldType.Contextual);
             }
             set
             {
-                this.SetValue<string>(nameof(SubTitle2), value, FieldType.Contextual);
+                SetValue(nameof(SubTitle2), value, FieldType.Contextual);
             }
         }
 
@@ -188,11 +165,11 @@ namespace Extensions.Widgets
         {
             get
             {
-                return this.GetValue<string>(nameof(ButtonText2), string.Empty, FieldType.Contextual);
+                return GetValue(nameof(ButtonText2), string.Empty, FieldType.Contextual);
             }
             set
             {
-                this.SetValue<string>(nameof(ButtonText2), value, FieldType.Contextual);
+                SetValue(nameof(ButtonText2), value, FieldType.Contextual);
             }
         }
 
@@ -201,12 +178,15 @@ namespace Extensions.Widgets
         {
             get
             {
-                return this.GetValue<string>(nameof(ButtonUrl2), string.Empty, FieldType.Contextual);
+                return GetValue(nameof(ButtonUrl2), string.Empty, FieldType.Contextual);
             }
             set
             {
-                this.SetValue<string>(nameof(ButtonUrl2), value, FieldType.Contextual);
+                SetValue(nameof(ButtonUrl2), value, FieldType.Contextual);
             }
         }
+
+        public virtual bool ButtonReady1 => !ButtonText1.IsNullOrWhiteSpace() && !ButtonUrl1.IsNullOrWhiteSpace();
+        public virtual bool ButtonReady2 => !ButtonText2.IsNullOrWhiteSpace() && !ButtonUrl2.IsNullOrWhiteSpace();
     }
 }

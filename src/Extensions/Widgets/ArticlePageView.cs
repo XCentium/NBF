@@ -1,13 +1,14 @@
-﻿using Insite.ContentLibrary.ContentFields;
+﻿using System.ComponentModel;
+using Insite.ContentLibrary.ContentFields;
 using Insite.ContentLibrary.Pages;
 using Insite.ContentLibrary.Widgets;
-using Insite.Data.Entities;
 using Insite.WebFramework.Content.Attributes;
 using Microsoft.Ajax.Utilities;
 using FieldType = Insite.Data.Entities.FieldType;
 
 namespace Extensions.Widgets
 {
+    [DisplayName("NBF - Article Page View")]
     [AllowedParents(typeof(NewsPage))]
     public class ArticlePageView : ContentWidget
     {
@@ -33,6 +34,19 @@ namespace Extensions.Widgets
             set
             {
                 SetValue("ArticleImageUrl", value, FieldType.Contextual);
+            }
+        }
+
+        [DropDownContentField(new[] { "Left", "Center", "Right" }, SortOrder = 20)]
+        public virtual string ArticleImageWidgetViewFocalPosition
+        {
+            get
+            {
+                return GetValue(nameof(ArticleImageWidgetViewFocalPosition), "Center", FieldType.Contextual);
+            }
+            set
+            {
+                SetValue(nameof(ArticleImageWidgetViewFocalPosition), value, FieldType.Contextual);
             }
         }
 
@@ -63,6 +77,7 @@ namespace Extensions.Widgets
         }
 
         public bool InfoExists => !AuthorInfo.IsNullOrWhiteSpace();
-        public bool ImageExists => !AuthorImageUrl.IsNullOrWhiteSpace();
+        public bool AuthorImageExists => !AuthorImageUrl.IsNullOrWhiteSpace();
+        public bool ArticleImageExists => !ArticleImageUrl.IsNullOrWhiteSpace();
     }
 }

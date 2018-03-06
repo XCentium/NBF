@@ -64,11 +64,12 @@
   "Styles": [
     "Styles/normalize.css",
     "Styles/foundation.css",
+    "Styles/variables.scss",
     "~/SystemResources/Scripts/Libraries/pickadate/3.5.0-custom/themes/classic.css",
     "~/SystemResources/Scripts/Libraries/pickadate/3.5.0-custom/themes/classic.date.css",
     "~/SystemResources/Scripts/Libraries/jquery-ui/1.9.2/jquery-ui.custom.css",
     "Styles/flexslider.css",
-    "Styles/custom/font-awesome.css",
+    "Styles/custom/font-awesome.scss",
     "Styles/utilities.scss",
     "Styles/base.scss",
     "Styles/custom/buttons.scss",
