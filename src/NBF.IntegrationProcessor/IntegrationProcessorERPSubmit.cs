@@ -54,7 +54,6 @@ namespace NBF.IntegrationProcessor
                 {
                     erpnumber = lineProduct[Data.ErpNumberColumn].ToString();
                 }
-                
             }
 
 
