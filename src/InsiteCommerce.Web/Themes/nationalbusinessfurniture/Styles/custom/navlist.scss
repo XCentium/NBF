@@ -1,0 +1,68 @@
+﻿@import "../variables";
+
+
+
+/* Navigation List */
+
+.widget-navlist {
+    display: block;
+    padding: 1em 1.5em 0 1em;
+    border: 1px solid #ddd;
+
+    & > ul {
+        margin-left: 0;
+    }
+
+    ul {
+        list-style-type: none;
+        width: auto;
+
+        .active {
+            font-weight: bold;
+        }
+    }
+
+    h4 {
+        margin-top: 0;
+        margin-bottom: .25em;
+    }
+
+    &.blog-nav {
+        border: none;
+        border-bottom: 1px solid $divider-gray;
+        padding: 28px 25px;
+
+        & > ul {
+            margin-bottom: 0;
+
+            li {
+                display: inline-block;
+                padding: 0 25px;
+
+                &:hover a:after {
+                    content: "";
+                    display: block;
+                    border-bottom: 1px solid #CB563E;
+                    height: 1px;
+                    width: 100%;
+                    bottom: 0;
+                    position: absolute;
+                }
+
+                a {
+                    display: block;
+                    text-decoration: none;
+                    position:relative;
+                }
+            }
+
+            ul {
+                display: none;
+            }
+        }
+
+        h4 {
+            display: none;
+        }
+    }
+}

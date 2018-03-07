@@ -1,0 +1,13 @@
+﻿
+@import "../variables";
+
+
+table.nostyle {
+    border: none;
+
+
+    tr.odd, tr.alt, tr:nth-of-type(odd) {
+        background-color: transparent;
+    }
+}
+
