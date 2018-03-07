@@ -554,6 +554,7 @@
     <None Include="Views\Widgets\PageTitle\Standard.cshtml" />
     <None Include="Views\Widgets\ProductComparisonView\Standard.cshtml" />
     <Content Include="Views\Widgets\ProductDetailView\NBF.cshtml" />
+    <Content Include="Views\Widgets\ProductDetailView\Mark.cshtml" />
     <None Include="Views\Widgets\ProductDetailView\Standard.cshtml" />
     <None Include="Views\Widgets\ProductListView\B2C.cshtml" />
     <None Include="Views\Widgets\ProductListView\Standard.cshtml" />
