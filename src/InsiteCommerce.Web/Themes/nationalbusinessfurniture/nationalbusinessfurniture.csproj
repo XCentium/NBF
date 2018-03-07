@@ -396,6 +396,8 @@
     <Content Include="Styles\custom\shopthelook.scss" />
     <Content Include="Styles\custom\shopthelook-deatils.scss" />
     <Content Include="Styles\custom\order-subtotal.scss" />
+    <Content Include="Styles\custom\navlist.scss" />
+    <Content Include="Styles\custom\tables.scss" />
     <None Include="Styles\template\category-list.scss" />
     <None Include="Styles\template\change-cust-ship-to.scss" />
     <None Include="Styles\template\checkout-addresses.scss" />
@@ -538,6 +540,7 @@
     <Content Include="Views\Widgets\MyAccountView\nbf.cshtml" />
     <None Include="Views\Widgets\MyAccountView\Standard.cshtml" />
     <None Include="Views\Widgets\MyJobQuotesView\Standard.cshtml" />
+    <Content Include="Views\Widgets\NavigationList\NBF.cshtml" />
     <None Include="Views\Widgets\NavigationList\Standard.cshtml" />
     <None Include="Views\Widgets\NewsListView\Standard.cshtml" />
     <None Include="Views\Widgets\NewsPageView\Standard.cshtml" />
