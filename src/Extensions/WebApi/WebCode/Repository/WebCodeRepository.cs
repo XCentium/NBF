@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Extensions.WebApi.Base;
 using Extensions.WebApi.WebCode.Interfaces;
 using Insite.Catalog.Services;
@@ -23,13 +21,7 @@ namespace Extensions.WebApi.WebCode.Repository
 
         public async Task<string> GetWebCode(string siteId)
         {
-            var random = new Random();
-
-            const string chars = "ABCDEFGHIJKLMNPQRSTUVWXYZ123456789";
-            return new string(Enumerable.Repeat(chars, 6)
-            .Select(s => s[random.Next(s.Length)]).ToArray());
-
-            return "16735";
+            return siteId;
         }
     }
 }
