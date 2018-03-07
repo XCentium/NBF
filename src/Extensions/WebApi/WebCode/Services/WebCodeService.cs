@@ -24,7 +24,7 @@ namespace Extensions.WebApi.WebCode.Services
         [Transaction]
         public async Task<string> GetWebCode(string siteId)
         {
-            var result = await this._webCodeRepository.GetWebCode(siteId);
+            var result = await _webCodeRepository.GetWebCode(siteId);
             return result;
         }
     }
