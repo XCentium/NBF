@@ -4,6 +4,7 @@ using System.Web.Http.Description;
 using Extensions.WebApi.WebCode.Interfaces;
 using Insite.Core.Plugins.Utilities;
 using Insite.Core.WebApi;
+using Microsoft.Ajax.Utilities;
 
 namespace Extensions.WebApi.WebCode.Controllers
 {
@@ -18,10 +19,15 @@ namespace Extensions.WebApi.WebCode.Controllers
             _webCodeService = webCodeService;
         }
 
-        [Route("GetWebCode", Name = "getwebcode"), HttpPost]
+        [Route("", Name = "getwebcode")]
         [ResponseType(typeof(string))]
-        public async Task<IHttpActionResult> GetWebCode(string siteId)
+        public async Task<IHttpActionResult> Get(string siteId)
         {
+            if (siteId.IsNullOrWhiteSpace())
+            {
+                return null;
+            }
+
             var a = await _webCodeService.GetWebCode(siteId);
 
             return Ok(a);
