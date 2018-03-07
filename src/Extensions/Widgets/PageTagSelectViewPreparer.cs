@@ -1,5 +1,4 @@
-﻿using Insite.ContentLibrary.Widgets;
-using Insite.Core.Interfaces.Data;
+﻿using Insite.Core.Interfaces.Data;
 using Insite.Core.Interfaces.Localization;
 using Insite.WebFramework;
 using Insite.WebFramework.Content;
@@ -20,15 +19,15 @@ namespace Extensions.Widgets
             IUnitOfWorkFactory unitOfWorkFactory)
           : base(translationLocalizer)
         {
-            this.UnitOfWork = unitOfWorkFactory.GetUnitOfWork();
-            this.ContentHelper = contentHelper;
-            this.HttpContext = httpContext;
+            UnitOfWork = unitOfWorkFactory.GetUnitOfWork();
+            ContentHelper = contentHelper;
+            HttpContext = httpContext;
         }
 
         public override void Prepare(PageTagSelectView contentItem)
         {
-            PageTagSelectViewDrop viewModel = this.CreateViewModel();
-            this.PopulateViewModel(viewModel, contentItem);
+            var viewModel = CreateViewModel();
+            PopulateViewModel(viewModel, contentItem);
             contentItem.Drop = viewModel;
         }
 
@@ -39,14 +38,10 @@ namespace Extensions.Widgets
 
         protected virtual void PopulateViewModel(PageTagSelectViewDrop model, PageTagSelectView pageTagView)
         {
-
-            //var parent = PageContext.Current.Page;
-            var parent = this.ContentHelper.GetPage(pageTagView.PageContentKey).Page;
-            int? nullable = parent.ParentKey;
-            nullable = parent.ParentKey;
-            int variantKey = nullable.HasValue ? nullable.Value : 0;
-            int num1 = 0;           
-            parent = this.ContentHelper.GetPageByVariantKey(variantKey, num1 != 0).Page;
+            var parent = ContentHelper.GetPage(pageTagView.PageContentKey).Page;
+            var nullable = parent.ParentKey;
+            var variantKey = nullable ?? 0;
+            parent = ContentHelper.GetPageByVariantKey(variantKey).Page;
             model.ParentUrl = PageContext.Current.GenerateUrl(parent);
             model.PageUrl = PageContext.Current.GenerateUrl(PageContext.Current.Page);
 
@@ -58,7 +53,6 @@ namespace Extensions.Widgets
             }
             
             model.PageTags = tagSet.ToList();
-
         }
     }
 }

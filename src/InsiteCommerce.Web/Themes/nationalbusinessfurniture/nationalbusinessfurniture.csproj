@@ -121,6 +121,7 @@
     <Content Include="Scripts\Libraries\sticky.js" />
     <!--<Content Include="Scripts\sticky.js" />-->
     <Content Include="Styles\custom\cta-link-widget.scss" />
+    <Content Include="Styles\custom\cart.scss" />
     <None Include="Styles\custom\font-awesome.scss" />
     <None Include="Styles\custom\font-icomoon.scss" />
     <Content Include="Styles\fonts\fontawesome-webfont.svg" />
@@ -165,6 +166,7 @@
     <TypeScriptCompile Include="Scripts\Custom\Cart\nbf.cart-total-display.directive.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Cart\nbf.cart-lines.directive.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Cart\nbf.checkout.controller.ts" />
+    <TypeScriptCompile Include="Scripts\Custom\Catalog\nbf.featuredproducts-widget.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Catalog\nbf.category-widget.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Catalog\nbf.product-image-carousel.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Catalog\nbf.catalog.directives.ts" />
@@ -393,6 +395,7 @@
     <Content Include="Styles\custom\order-history.scss" />
     <Content Include="Styles\custom\shopthelook.scss" />
     <Content Include="Styles\custom\shopthelook-deatils.scss" />
+    <Content Include="Styles\custom\order-subtotal.scss" />
     <None Include="Styles\template\category-list.scss" />
     <None Include="Styles\template\change-cust-ship-to.scss" />
     <None Include="Styles\template\checkout-addresses.scss" />
@@ -463,6 +466,7 @@
     <Content Include="Views\Directives\Messages\MessageList.cshtml" />
     <Content Include="Views\Directives\Custom\Catalog\SortedAttributeValueList.cshtml" />
     <Content Include="Views\Directives\Custom\Account\NbfSignInFlyOut.cshtml" />
+    <Content Include="Views\Directives\Custom\Cart\NbfCartLines.cshtml" />
     <Content Include="Views\ContentItemFields\ListOfNewsPages.cshtml" />
     <None Include="Views\Directives\PdfViews\InvoiceDetails.cshtml" />
     <None Include="Views\Directives\PdfViews\OrderDetails.cshtml" />
