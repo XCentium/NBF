@@ -31,13 +31,13 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Insite.Common">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.0.38481\lib\net452\Insite.Common.dll</HintPath>
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.1.39151\lib\net452\Insite.Common.dll</HintPath>
     </Reference>
     <Reference Include="Insite.Integration">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.0.38481\lib\net452\Insite.Integration.dll</HintPath>
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.1.39151\lib\net452\Insite.Integration.dll</HintPath>
     </Reference>
     <Reference Include="Insite.WIS.Broker">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.0.38481\lib\net452\Insite.WIS.Broker.dll</HintPath>
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.1.39151\lib\net452\Insite.WIS.Broker.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
