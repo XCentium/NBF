@@ -121,6 +121,7 @@
     <Content Include="Scripts\Libraries\sticky.js" />
     <!--<Content Include="Scripts\sticky.js" />-->
     <Content Include="Styles\custom\cta-link-widget.scss" />
+    <Content Include="Styles\custom\cart.scss" />
     <None Include="Styles\custom\font-awesome.scss" />
     <None Include="Styles\custom\font-icomoon.scss" />
     <Content Include="Styles\fonts\fontawesome-webfont.svg" />
@@ -394,6 +395,9 @@
     <Content Include="Styles\custom\order-history.scss" />
     <Content Include="Styles\custom\shopthelook.scss" />
     <Content Include="Styles\custom\shopthelook-deatils.scss" />
+    <Content Include="Styles\custom\order-subtotal.scss" />
+    <Content Include="Styles\custom\navlist.scss" />
+    <Content Include="Styles\custom\tables.scss" />
     <None Include="Styles\template\category-list.scss" />
     <None Include="Styles\template\change-cust-ship-to.scss" />
     <None Include="Styles\template\checkout-addresses.scss" />
@@ -464,6 +468,7 @@
     <Content Include="Views\Directives\Messages\MessageList.cshtml" />
     <Content Include="Views\Directives\Custom\Catalog\SortedAttributeValueList.cshtml" />
     <Content Include="Views\Directives\Custom\Account\NbfSignInFlyOut.cshtml" />
+    <Content Include="Views\Directives\Custom\Cart\NbfCartLines.cshtml" />
     <Content Include="Views\ContentItemFields\ListOfNewsPages.cshtml" />
     <None Include="Views\Directives\PdfViews\InvoiceDetails.cshtml" />
     <None Include="Views\Directives\PdfViews\OrderDetails.cshtml" />
@@ -535,6 +540,7 @@
     <Content Include="Views\Widgets\MyAccountView\nbf.cshtml" />
     <None Include="Views\Widgets\MyAccountView\Standard.cshtml" />
     <None Include="Views\Widgets\MyJobQuotesView\Standard.cshtml" />
+    <Content Include="Views\Widgets\NavigationList\NBF.cshtml" />
     <None Include="Views\Widgets\NavigationList\Standard.cshtml" />
     <None Include="Views\Widgets\NewsListView\Standard.cshtml" />
     <None Include="Views\Widgets\NewsPageView\Standard.cshtml" />
@@ -569,6 +575,7 @@
     <None Include="Views\Widgets\SavedOrderDetailView\Standard.cshtml" />
     <None Include="Views\Widgets\SavedOrderListView\Standard.cshtml" />
     <None Include="Views\Widgets\SignInView\Standard.cshtml" />
+    <Content Include="Views\Widgets\ThreeColumn\NBF-no-margin.cshtml" />
     <None Include="Views\Widgets\ThreeColumn\Standard.cshtml" />
     <None Include="Views\Widgets\TwoColumn\Standard.cshtml" />
     <None Include="Views\Widgets\UserListView\Standard.cshtml" />

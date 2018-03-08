@@ -4,9 +4,11 @@ using Insite.ContentLibrary.Widgets;
 using Insite.Data.Entities;
 using Insite.WebFramework.Content.Attributes;
 using System;
+using System.ComponentModel;
 
 namespace Extensions.Widgets
 {
+    [DisplayName("NBF - Page Tag Links View")]
     public class PageTagLinksView : ContentWidget
     {
         [IntegerContentField]

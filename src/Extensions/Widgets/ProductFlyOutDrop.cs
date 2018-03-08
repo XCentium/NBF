@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using DotLiquid;
 using Extensions.Widgets.Models;
-using Insite.ContentLibrary.Widgets;
-using Insite.WebFramework.Content;
 
 namespace Extensions.Widgets
 {

@@ -8,7 +8,7 @@ using System.ComponentModel;
 namespace Extensions.Widgets
 {
     /// <summary>The contact us form.</summary>
-    [DisplayName("Form - Comment")]
+    [DisplayName("NBF - Comment Form")]
     public class CommentForm : ContentWidget
     {
         private string emailIsInvalidErrorMessage;

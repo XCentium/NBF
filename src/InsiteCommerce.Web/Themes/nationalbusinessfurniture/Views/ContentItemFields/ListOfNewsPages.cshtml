@@ -10,7 +10,7 @@
 @helper RenderNode(AbstractPage abstractPage)
     {
         <li>
-            @{if (abstractPage is NewsPage)
+            @{if (abstractPage is NewsPage && !abstractPage.IsRetracted && abstractPage.PublishOn.HasValue && abstractPage.PublishOn <= DateTimeOffset.Now)
                 {
                 <a href="#" data-variantKey="@abstractPage.VariantKey">@abstractPage.Title</a>
                 }

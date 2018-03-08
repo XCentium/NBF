@@ -64,6 +64,7 @@
   "Styles": [
     "Styles/normalize.css",
     "Styles/foundation.css",
+    "Styles/variables.scss",
     "~/SystemResources/Scripts/Libraries/pickadate/3.5.0-custom/themes/classic.css",
     "~/SystemResources/Scripts/Libraries/pickadate/3.5.0-custom/themes/classic.date.css",
     "~/SystemResources/Scripts/Libraries/jquery-ui/1.9.2/jquery-ui.custom.css",
@@ -132,6 +133,7 @@
     // "Cart-CartLines": "~/Themes/MyTheme/Views/Directives/Cart/MyCustomCartLines.cshtml"
     "Custom-Cart-NbfCheckoutCartLines": "views/directives/custom/cart/nbfcheckoutcartlines.cshtml",
     "Custom-Cart-NbfCheckoutCartTotalDisplay": "views/directives/custom/cart/nbfcheckoutcarttotaldisplay.cshtml",
+    "Custom-Cart-NbfCartLines": "views/directives/custom/cart/NbfCartLines.cshtml",
     "Custom-Account-NbfAddressEdit": "views/directives/custom/account/nbfaddressedit.cshtml",
     "Custom-Account-NbfSignInWidget": "views/directives/custom/account/nbfsigninwidget.cshtml",
     "Custom-Account-NbfSignInFlyOut": "views/directives/custom/account/nbfsigninflyout.cshtml",

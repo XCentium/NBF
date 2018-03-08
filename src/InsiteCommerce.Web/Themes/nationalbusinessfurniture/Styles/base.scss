@@ -384,6 +384,7 @@ h1.large {
 
 h1 {
     font-family: inherit;
+    font-family: $ProximaNova-bold;
     font-size: 54px;
     line-height:  1.2em;
     margin-bottom: .5em;
@@ -7153,45 +7154,6 @@ nav ul:not(.side-nav) li a {
     }
 }
 
-/* Subtotal Table */
-
-.order-subtotal {
-    border: 1px solid #DCDCDC;
-    padding: 1em;
-    margin-bottom: 1.5em;
-    text-align: right;
-
-    .discount-total .sub-amount {
-        float: right;
-        font-weight: bold;
-    }
-}
-
-@media all and (min-width: 768px) {
-    .order-subtotal {
-        font-size: 0.875rem;
-        line-height: 1.25em;
-    }
-}
-
-.order-subtotal > .row {
-    margin-bottom: .5em;
-}
-
-.order-subtotal .sub-label {
-    text-align: left;
-    width: 60%;
-}
-
-.order-subtotal .sub-amount {
-    padding-left: 0;
-    width: auto !important;
-}
-
-.order-subtotal .order-total, .order-subtotal .amount-due {
-    font-weight: bold;
-}
-
 /* Link List */
 
 .widget-linklist {
@@ -7227,32 +7189,6 @@ nav ul:not(.side-nav) li a {
     border-right: 0;
     margin-right: 0;
     padding-right: 0;
-}
-
-/* Navigation List */
-
-.widget-navlist {
-    display: block;
-    padding: 1em 1.5em 0 1em;
-    border: 1px solid #ddd;
-}
-
-.widget-navlist h4 {
-    margin-top: 0;
-    margin-bottom: .25em;
-}
-
-.widget-navlist > ul {
-    margin-left: 0;
-}
-
-.widget-navlist ul {
-    list-style-type: none;
-    width: auto;
-}
-
-.widget-navlist ul .active {
-    font-weight: bold;
 }
 
 /* Newsletter Subscription */
