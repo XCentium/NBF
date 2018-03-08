@@ -1,0 +1,61 @@
+﻿<div>
+    <isc-spinner name="productlist" show="false" id="tst_productList_spinner"></isc-spinner>
+    <div class="row product-list category-list"
+         ng-class="{
+             'vm-list': vm.isCategoryPage() || vm.view == 'list' || vm.view == 'List' || vm.view == undefined,
+             'vm-grid': !vm.isCategoryPage() && vm.view == 'grid',
+             'vm-table': !vm.isCategoryPage() && vm.view == 'table'
+         }"
+         ng-controller="ProductListController as vm" ng-show="vm.ready" ng-cloak>
+
+        <div class="large-12 columns">
+            <div class="cm">
+                <div ng-if="vm.isCategoryPage() && !vm.filteredResults" class="category-list">
+                    <isc-catalog-breadcrumb breadcrumbs="vm.breadCrumbs"></isc-catalog-breadcrumb>
+                </div>
+            </div>
+            <div ng-if="vm.category != null" class="pl4-cm">
+                <div class="row">
+                    <div class="medium-12 large-12 columns widget-1column no-margin [[Model.CssClass]]" ng-if="vm.category.largeImagePath">
+                        <div class="banner banner--homepage">
+                            <div class="banner__bg--homepage homepage__banner-bg" style="background-image: url('{{vm.category.largeImagePath}}');'"></div>
+                            <div class="banner__content banner__content--bottomleft  banner__content--default">
+                                <h1>{{vm.category.shortDescription}}</h1>
+                                <p ng-bind-html="vm.category.htmlContent|trusted"></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div ng-if="!vm.category.largeImagePath" class="small-12 medium-10 push-1 columns widget-1column no-margin">
+                        <h1>{{vm.category.shortDescription}}</h1>
+                        <p ng-bind-html="vm.category.htmlContent|trusted"></p>
+                    </div>
+                </div>
+            </div>
+            <div class="cat-list row" ng-if="vm.isCategoryPage() && !vm.filteredResults">
+                <div class="medium-12 large-12 columns widget-1column narrow-container category-list">
+                    <div class="row">
+                        <div class="medium-12 large-12 columns widget-1column">
+                            <ul class="category-list__wrap  row" data-equalizer>
+                                <li class="large-3 medium-4 small-12 column category-list__item" data-equalizer-watch ng-repeat="subCategory in vm.category.subCategories">
+                                    <a ng-href="{{subCategory.path}}">
+                                        <div class="category-list__img-wrap">
+                                            <img class="category-list__img" ng-src="{{vm.subCategory.largeImagePath}}" alt="{{subCategory.imageAltText}}" />
+                                        </div>
+                                        <div class="category-list__title">
+                                            <h2>{{subCategory.shortDescription}}</h2>
+                                        </div>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="medium-12 large-12 columns widget-1column">
+                            <div class="right">
+                                <a href="#">See All Categories <i class="fas fa-long-arrow-alt-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
