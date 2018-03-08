@@ -1,11 +1,12 @@
 ﻿{% comment %}
     usage example:
-    <isc-product-price product="product" id-key=""></isc-product-price>
+<isc-product-price product="product" id-key=""></isc-product-price>
 
     product is of format ProductDto, CartLineModel, or WishListLineModel
     ***id-key is required only for table view on product list***
 {% endcomment %}
 
+{% comment %}
 <div ng-if="::product.quoteRequired" class="quote-required">
     <span>[% translate 'Requires Quote' %]</span>
     <div class="quote-tip">
@@ -20,3 +21,7 @@
     <isc-product-sale-price-label product="product" hide-sale-price-label="hideSalePriceLabel"></isc-product-sale-price-label>
     <span class="unit-net-price" ng-class="{'price-sale' : product.pricing.isOnSale || product.isDiscounted || product.isPromotionItem}" ng-bind-html="vm.getUnitNetPriceDisplay(product)"></span>
 </span>
+{% endcomment %}
+
+<h3 class="text-orange" ng-bind-html="vm.getUnitNetPriceDisplay(product)"></h3>
+
