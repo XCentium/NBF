@@ -16,9 +16,12 @@
                         <isc-product-name product="vm.product" no-link="true"></isc-product-name>
                         <div class="item-block__product__price-wrap">
                             <div class="item-block__product__price">
-                                <h3 class="text-orange item-block__price"></h3> <span class="strike ori-price-tag">Was $200</span>
+                                <isc-product-price product="vm.product"></isc-product-price>
+                                <isc-product-price-saving product="vm.product"></isc-product-price-saving>
+                                <isc-product-price-saving-label product="vm.product"></isc-product-price-saving-label>
+                                <span class="strike ori-price-tag">Was $200</span>
                             </div>
-                            <div class="item-block__product__flag gsa">
+                            <div ng-if="vm.isAttributeValue('GSA', 'Yes');" class="item-block__product__flag gsa">
                                 GSA
                             </div>
                             <div class="item-block__product__flag save">
@@ -26,15 +29,11 @@
                             </div>
                         </div>
                         <div class="item-block__product__ships-today"><span class="ico-Truck"></span> Ships Today!</div>
+                        
                         <div class="item-block__product__col-2 clearfix">
                             <div class="col-1">
-                                <div class="item-block__product__bluk-pricing">
-                                    <div class="item-block__product__bluk-pricing__title text-orange">
-                                        <strong>BUY More | Save more</strong>
-                                    </div>
-                                    <div class="line-1"><span><strong>$329</strong></span> <span>If You Buy 1-5</span></div>
-                                    <div class="line-2"><span><strong>$298</strong></span> <span>If You Buy 6 or More</span></div>
-                                </div>
+                                    <isc-quantity-break-pricing product-id="vm.product.id" block="optional" break-prices="vm.product.pricing.unitRegularBreakPrices">
+                                    </isc-quantity-break-pricing>
                             </div>
                             <div class="col-2">
                                 <div class="item-block__product__reviews"><div class="rating"></div>4.8(5 Reviews)</div>
@@ -53,18 +52,7 @@
                                 <li><img src="https://i0.wp.com/www.esotericmeanings.com/wp-content/uploads/2016/07/meditation_visualisation_red_square-256.jpg" /></li>
                                 <li><img src="https://i0.wp.com/www.esotericmeanings.com/wp-content/uploads/2016/07/meditation_visualisation_red_square-256.jpg" /></li>
                                 <li><img src="https://i0.wp.com/www.esotericmeanings.com/wp-content/uploads/2016/07/meditation_visualisation_red_square-256.jpg" /></li>
-                                <li><img src="https://i0.wp.com/www.esotericmeanings.com/wp-content/uploads/2016/07/meditation_visualisation_red_square-256.jpg" /></li>
-                                <li><img src="https://i0.wp.com/www.esotericmeanings.com/wp-content/uploads/2016/07/meditation_visualisation_red_square-256.jpg" /></li>
-                                <li><img src="https://i0.wp.com/www.esotericmeanings.com/wp-content/uploads/2016/07/meditation_visualisation_red_square-256.jpg" /></li>
-                                <li><img src="https://i0.wp.com/www.esotericmeanings.com/wp-content/uploads/2016/07/meditation_visualisation_red_square-256.jpg" /></li>
-                                <li><img src="https://i0.wp.com/www.esotericmeanings.com/wp-content/uploads/2016/07/meditation_visualisation_red_square-256.jpg" /></li>
-                                <li><img src="https://i0.wp.com/www.esotericmeanings.com/wp-content/uploads/2016/07/meditation_visualisation_red_square-256.jpg" /></li>
-                                <li><img src="https://i0.wp.com/www.esotericmeanings.com/wp-content/uploads/2016/07/meditation_visualisation_red_square-256.jpg" /></li>
-                                <li><img src="https://i0.wp.com/www.esotericmeanings.com/wp-content/uploads/2016/07/meditation_visualisation_red_square-256.jpg" /></li>
-                                <li><img src="https://i0.wp.com/www.esotericmeanings.com/wp-content/uploads/2016/07/meditation_visualisation_red_square-256.jpg" /></li>
-                                <li><img src="https://i0.wp.com/www.esotericmeanings.com/wp-content/uploads/2016/07/meditation_visualisation_red_square-256.jpg" /></li>
-                                <li><img src="https://i0.wp.com/www.esotericmeanings.com/wp-content/uploads/2016/07/meditation_visualisation_red_square-256.jpg" /></li>
-                            </ul>
+                             </ul>
                             <div class="item-block__product__swatches__label">Finish:</div>
                             <ul>
                                 <li class="active"><img src="https://i0.wp.com/www.esotericmeanings.com/wp-content/uploads/2016/07/meditation_visualisation_red_square-256.jpg" /></li>
@@ -73,15 +61,7 @@
                                 <li><img src="https://i0.wp.com/www.esotericmeanings.com/wp-content/uploads/2016/07/meditation_visualisation_red_square-256.jpg" /></li>
                                 <li><img src="https://i0.wp.com/www.esotericmeanings.com/wp-content/uploads/2016/07/meditation_visualisation_red_square-256.jpg" /></li>
                                 <li><img src="https://i0.wp.com/www.esotericmeanings.com/wp-content/uploads/2016/07/meditation_visualisation_red_square-256.jpg" /></li>
-                                <li><img src="https://i0.wp.com/www.esotericmeanings.com/wp-content/uploads/2016/07/meditation_visualisation_red_square-256.jpg" /></li>
-                                <li><img src="https://i0.wp.com/www.esotericmeanings.com/wp-content/uploads/2016/07/meditation_visualisation_red_square-256.jpg" /></li>
-                                <li><img src="https://i0.wp.com/www.esotericmeanings.com/wp-content/uploads/2016/07/meditation_visualisation_red_square-256.jpg" /></li>
-                                <li><img src="https://i0.wp.com/www.esotericmeanings.com/wp-content/uploads/2016/07/meditation_visualisation_red_square-256.jpg" /></li>
-                                <li><img src="https://i0.wp.com/www.esotericmeanings.com/wp-content/uploads/2016/07/meditation_visualisation_red_square-256.jpg" /></li>
-                                <li><img src="https://i0.wp.com/www.esotericmeanings.com/wp-content/uploads/2016/07/meditation_visualisation_red_square-256.jpg" /></li>
-                                <li><img src="https://i0.wp.com/www.esotericmeanings.com/wp-content/uploads/2016/07/meditation_visualisation_red_square-256.jpg" /></li>
-                                <li><img src="https://i0.wp.com/www.esotericmeanings.com/wp-content/uploads/2016/07/meditation_visualisation_red_square-256.jpg" /></li>
-                                <li><img src="https://i0.wp.com/www.esotericmeanings.com/wp-content/uploads/2016/07/meditation_visualisation_red_square-256.jpg" /></li>
+                           
                             </ul>
                         </div>
                         <div ng-if="vm.product.canShowPrice && !vm.failedToGetRealTimePrices" class="pd-price-um">

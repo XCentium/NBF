@@ -62,6 +62,25 @@ module insite.catalog {
             });
         }
 
+        protected isAttributeValue(attrName: string, attrValue: string): boolean {            
+            let retVal: boolean = false;
+
+            if (this.product && this.product.attributeTypes) {
+                var attrType = this.product.attributeTypes.find(x => x.name == attrName && x.isActive == true);
+
+                if (attrType) {
+                    var matchingAttrValue = attrType.attributeValues.find(y => y.value == attrValue);
+
+                    if (matchingAttrValue) {
+                        retVal = true;
+                    }
+                }
+                
+            }
+
+            return retVal;
+        }
+
         protected getSettingsCompleted(settingsCollection: core.SettingsCollection): void {
             this.settings = settingsCollection.productSettings;
             const context = this.sessionService.getContext();

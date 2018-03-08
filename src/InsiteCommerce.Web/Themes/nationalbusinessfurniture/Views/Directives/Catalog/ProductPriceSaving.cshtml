@@ -1,4 +1,4 @@
-﻿{% comment %}
+﻿
 <span ng-if="!product.quoteRequired && product.pricing && !product.pricing.requiresRealTimePrice && vm.showPriceSaving(product) || vm.showPriceSavingForOrderHistory(product)" class="price price-saving">
     <span>[% translate 'Regular Price:' %]</span>
     <span ng-bind="vm.unitListPriceDisplay"></span><span ng-if="!(!vm.showSavingsAmount && !vm.showSavingsPercent)">, [% translate 'you save' %] </span>
@@ -6,8 +6,10 @@
     <span ng-if="vm.showSavingsAmount && vm.showSavingsPercent">({{vm.getSavingsPercent()}}%)</span>
     <span ng-if="!vm.showSavingsAmount && vm.showSavingsPercent">{{vm.getSavingsPercent()}}%</span>
 </span>
-{% endcomment %}
 
+
+{% comment %}
 <span class="strike ori-price-tag" ng-if="!product.quoteRequired && product.pricing && !product.pricing.requiresRealTimePrice && vm.showPriceSaving(product) || vm.showPriceSavingForOrderHistory(product)">
     Was <span ng-bind="vm.unitListPriceDisplay"></span>
 </span>
+{% endcomment %}
