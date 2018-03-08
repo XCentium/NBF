@@ -1,22 +1,5 @@
-﻿//import CategoryFacetDto = Insite.Core.Plugins.Search.Dtos.CategoryFacetDto;
-//import AttributeTypeFacetDto = Insite.Core.Plugins.Search.Dtos.AttributeTypeFacetDto;
-//import AttributeValueDto = Insite.Catalog.Services.Dtos.AttributeValueDto;
-
-module insite.catalog {
+﻿module insite.catalog {
     "use strict";
-
-    //export interface IProductListStateParams extends IContentPageStateParams {
-    //    criteria: string;
-    //}
-
-    //export interface ICustomPagerContext {
-    //    isSearch: boolean;
-    //    view: string;
-    //    selectView: (viewName: string) => void;
-    //    attributeTypeFacets: AttributeTypeFacetDto[];
-    //    changeTableColumn: (attribute: AttributeTypeFacetDto) => void;
-    //    sortedTableColumns: AttributeTypeFacetDto[];
-    //};
 
     export class NbfProductListController extends ProductListController{
         categoryAttr: string;
@@ -209,7 +192,7 @@ module insite.catalog {
                 includeSuggestions: this.includeSuggestions,
                 getAllAttributeFacets: true
             });
-            console.dir(this.category);
+
             //Have to do this to get htmlcontent
             this.productService.getCategory(catalogPage.category.id.toString()).then((catalogPageResult) => {
                 this.category.htmlContent = catalogPageResult.htmlContent;
