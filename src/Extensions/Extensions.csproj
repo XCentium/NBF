@@ -334,7 +334,7 @@
     <Compile Include="Widgets\BetterBusinessBureau.cs" />
     <Compile Include="Widgets\CallUsPreparer.cs" />
     <Compile Include="Widgets\CallUs.cs" />
-    <Compile Include="Widgets\CategoriesList.cs" />
+    <Compile Include="Widgets\CategoriesListView.cs" />
     <Compile Include="Widgets\LinkListWithTitlePreparer.cs" />
     <Compile Include="Widgets\NavigationFlyOutPreparer.cs" />
     <Compile Include="Widgets\ShopTheLookWidget.cs" />
