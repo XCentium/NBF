@@ -34,20 +34,25 @@
                                 </div>
                                 <div class="item-block__product__price-wrap">
                                     <div class="item-block__product__price">
-                                        <h3 class="text-orange">{{product.actualPriceDisplay}}</h3> <span class="strike ori-price-tag" ng-if="product.isOnSale">Was {{product.regularPriceDisplay}}</span>
+                                        <isc-product-price product="product"></isc-product-price>
+                                        <isc-product-price-saving product="product"></isc-product-price-saving>                                        
                                     </div>
-                                    <div class="item-block__product__flag">
-                                        flag
-                                    </div>
+                                    <!--
+    <div class="item-block__product__flag">
+        flag
+    </div>
+        -->
                                 </div>
-                                <div class="item-block__product__col-2">
-                                    <div class="col-1">
-                                        <div class="item-block__product__stars"><div class="rating"></div>Stars Here!</div>
-                                    </div>
-                                    <div class="col-2">
-                                        <div class="item-block__product__ships-today"><span class="ico-Truck"></span> Ships Today!</div>
-                                    </div>
-                                </div>
+                                <!--
+    <div class="item-block__product__col-2">
+        <div class="col-1">
+            <div class="item-block__product__stars"><div class="rating"></div>Stars Here!</div>
+        </div>
+        <div class="col-2">
+            <div class="item-block__product__ships-today"><span class="ico-Truck"></span> Ships Today!</div>
+        </div>
+    </div>
+        -->
                             </div>
                         </a>
                     </div>                    
