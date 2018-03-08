@@ -122,6 +122,8 @@
     <!--<Content Include="Scripts\sticky.js" />-->
     <Content Include="Styles\custom\cta-link-widget.scss" />
     <Content Include="Styles\custom\cart.scss" />
+    <Content Include="Styles\custom\checkout-signin.scss" />
+    <Content Include="Styles\custom\checkout-cart.scss" />
     <None Include="Styles\custom\font-awesome.scss" />
     <None Include="Styles\custom\font-icomoon.scss" />
     <Content Include="Styles\fonts\fontawesome-webfont.svg" />

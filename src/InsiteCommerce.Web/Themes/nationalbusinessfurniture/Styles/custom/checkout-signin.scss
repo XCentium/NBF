@@ -1,0 +1,31 @@
+﻿@import "../variables";
+
+
+.checkout-signin {
+    padding: 20px;
+    background-color: #F8F8F8;
+    margin-bottom:40px;
+
+    .btns .btn-sign-in {
+        width: 100%;
+        margin-top: 31px;
+    }
+
+    .si-step-1 {
+        input {
+            margin-bottom: 5px;
+        }
+    }
+
+    .username-label, .password-label {
+        font-size: 18px;
+    }
+
+    .remember-me-label {
+        color:$nbf-navy;
+    }
+    .tiny-link {
+        color: $nbf-navy;
+        font-size: 16px;
+    }
+}

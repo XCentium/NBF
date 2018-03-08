@@ -5,8 +5,31 @@
         .ship-select, .required-msg {
             min-height: 0px;
         }
+
+        .accordion-navigation {
+            margin-bottom: 40px !important;
+            position: relative;
+        }
+
         .nav-header {
-            text-align:center;
+            text-align: center;
+            background: #fff;
+            padding: 11px;
+            border: 1px solid #D5D5D5;
+            /*&:before {
+                position: absolute;
+                left: 20px;
+                content: "\f067";
+                font-family: $FontAwesome;
+            }*/
+            &.active {
+                background: $nbf-navy;
+                color: #fff;
+                border: 1px solid $nbf-navy;
+                /*&:before {
+                    content: "\f068";
+                }*/
+            }
         }
 
         .address-form, .order-bill-ship {
@@ -24,6 +47,10 @@
             }
         }
 
+        .bill-to {
+            margin: 20px 0;
+        }
+
         .bill-to, .bill-info {
             float: left;
             width: 100%;
@@ -31,6 +58,19 @@
 
             .billing-info {
                 width: 50%;
+            }
+
+            .billing-title {
+                display: inline;
+                margin-right: 50px;
+            }
+
+            .samebilling-checkbox {
+                display: inline;
+
+                input {
+                    margin-right: 0;
+                }
             }
         }
 
@@ -61,38 +101,14 @@
         }
     }
 
-    .checkout-cart {
-        -webkit-transform: none !important;
-        transform: none !important;
-
-        .cart-left {
-            width: 100%;
-        }
-
-        .cart-items {
-            max-height: 500px;
-            overflow-y: auto;
-
-            .item-list, .item-details {
-                width: 100%;
-
-                > div {
-                    margin-bottom: 0;
-                }
-            }
-        }
-
-        .item-block div.item-opt .item-qty, .qo-item .qo-qty {
-            float: left;
-        }
-    }
 
     .btns {
-        text-align: center;
+        text-align: left;
 
         .btn {
             margin: 1em 0;
             float: none !important;
+            width: 260px;
         }
     }
 
@@ -149,6 +165,10 @@
                 display: none;
             }
         }
+    }
+
+    h3 {
+        font-family: $ProximaNova-bold;
     }
 }
 
