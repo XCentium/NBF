@@ -16,108 +16,99 @@
                         <isc-product-name product="vm.product" no-link="true"></isc-product-name>
                         <div class="item-block__product__price-wrap">
                             <div class="item-block__product__price">
-                                <isc-product-price product="vm.product"></isc-product-price>
-                                <isc-product-price-saving product="vm.product"></isc-product-price-saving>
-                                <isc-product-price-saving-label product="vm.product"></isc-product-price-saving-label>
-                                <!--
-        <span class="strike ori-price-tag">Was $200</span>
-        -->
+                                <isc-product-price product="vm.product" ng-cloak></isc-product-price>
+                                <isc-product-price-saving product="vm.product" ng-cloak></isc-product-price-saving>
                             </div>
                             <div ng-if="vm.isAttributeValue('GSA', 'Yes');" class="item-block__product__flag gsa">
                                 GSA
                             </div>
-                            <!--
-                                <div class="item-block__product__flag save">
-                                    SAVE 10%
-                                </div>
-                            -->
-        </div>
-        <div class="item-block__product__ships-today"><span class="ico-Truck"></span> Ships Today!</div>
+                        </div>
+                        <div class="item-block__product__ships-today" ng-if="vm.isAttributeValue('Ships Today', 'Yes');"><span class="ico-Truck"></span> Ships Today!</div>
 
-        <div class="item-block__product__col-2 clearfix">
-            <div class="col-1">
-                    <isc-quantity-break-pricing product-id="vm.product.id" block="optional" break-prices="vm.product.pricing.unitRegularBreakPrices">
-                    </isc-quantity-break-pricing>
-            </div>
-            <div class="col-2">
-                <div class="item-block__product__reviews"><div class="rating"></div>4.8(5 Reviews)</div>
-                <a href="#reviews">Read 5 reviews</a>
-                <a href="#">Write a Review</a>
-            </div>
-        </div>
-        <div class="item-block__product__samples-link">
-            <strong>Available Colors/Finishes</strong> <a href="#">Order Free Samples</a>
-        </div>
+                        <div class="item-block__product__col-2 clearfix">
+                            <div class="col-1">
+                                <isc-quantity-break-pricing product-id="vm.product.id" block="optional" break-prices="vm.product.pricing.unitRegularBreakPrices">
+                                </isc-quantity-break-pricing>
+                            </div>
+                            <div class="col-2">
+                                <div class="item-block__product__reviews"><div class="rating"></div>4.8(5 Reviews)</div>
+                                <a href="#reviews">Read 5 reviews</a>
+                                <a href="#">Write a Review</a>
+                            </div>
+                        </div>
+                        <div class="item-block__product__samples-link">
+                            <strong>Available Colors/Finishes</strong> <a href="#">Order Free Samples</a>
+                        </div>
 
-        <div class="item-block__product__swatches">
-            <div class="item-block__product__swatches__label">Color:</div>
-            <ul>
-                <li class="active"><img src="https://i0.wp.com/www.esotericmeanings.com/wp-content/uploads/2016/07/meditation_visualisation_red_square-256.jpg" /></li>
-                <li><img src="https://i0.wp.com/www.esotericmeanings.com/wp-content/uploads/2016/07/meditation_visualisation_red_square-256.jpg" /></li>
-                <li><img src="https://i0.wp.com/www.esotericmeanings.com/wp-content/uploads/2016/07/meditation_visualisation_red_square-256.jpg" /></li>
-                <li><img src="https://i0.wp.com/www.esotericmeanings.com/wp-content/uploads/2016/07/meditation_visualisation_red_square-256.jpg" /></li>
-             </ul>
-            <div class="item-block__product__swatches__label">Finish:</div>
-            <ul>
-                <li class="active"><img src="https://i0.wp.com/www.esotericmeanings.com/wp-content/uploads/2016/07/meditation_visualisation_red_square-256.jpg" /></li>
-                <li><img src="https://i0.wp.com/www.esotericmeanings.com/wp-content/uploads/2016/07/meditation_visualisation_red_square-256.jpg" /></li>
-                <li><img src="https://i0.wp.com/www.esotericmeanings.com/wp-content/uploads/2016/07/meditation_visualisation_red_square-256.jpg" /></li>
-                <li><img src="https://i0.wp.com/www.esotericmeanings.com/wp-content/uploads/2016/07/meditation_visualisation_red_square-256.jpg" /></li>
-                <li><img src="https://i0.wp.com/www.esotericmeanings.com/wp-content/uploads/2016/07/meditation_visualisation_red_square-256.jpg" /></li>
-                <li><img src="https://i0.wp.com/www.esotericmeanings.com/wp-content/uploads/2016/07/meditation_visualisation_red_square-256.jpg" /></li>
+                        <div class="item-block__product__swatches">
+                            <div class="item-block__product__swatches__label">Color:</div>
+                            <ul>
+                                <li class="active"><img src="https://i0.wp.com/www.esotericmeanings.com/wp-content/uploads/2016/07/meditation_visualisation_red_square-256.jpg" /></li>
+                                <li><img src="https://i0.wp.com/www.esotericmeanings.com/wp-content/uploads/2016/07/meditation_visualisation_red_square-256.jpg" /></li>
+                                <li><img src="https://i0.wp.com/www.esotericmeanings.com/wp-content/uploads/2016/07/meditation_visualisation_red_square-256.jpg" /></li>
+                                <li><img src="https://i0.wp.com/www.esotericmeanings.com/wp-content/uploads/2016/07/meditation_visualisation_red_square-256.jpg" /></li>
+                            </ul>
+                            <div class="item-block__product__swatches__label">Finish:</div>
+                            <ul>
+                                <li class="active"><img src="https://i0.wp.com/www.esotericmeanings.com/wp-content/uploads/2016/07/meditation_visualisation_red_square-256.jpg" /></li>
+                                <li><img src="https://i0.wp.com/www.esotericmeanings.com/wp-content/uploads/2016/07/meditation_visualisation_red_square-256.jpg" /></li>
+                                <li><img src="https://i0.wp.com/www.esotericmeanings.com/wp-content/uploads/2016/07/meditation_visualisation_red_square-256.jpg" /></li>
+                                <li><img src="https://i0.wp.com/www.esotericmeanings.com/wp-content/uploads/2016/07/meditation_visualisation_red_square-256.jpg" /></li>
+                                <li><img src="https://i0.wp.com/www.esotericmeanings.com/wp-content/uploads/2016/07/meditation_visualisation_red_square-256.jpg" /></li>
+                                <li><img src="https://i0.wp.com/www.esotericmeanings.com/wp-content/uploads/2016/07/meditation_visualisation_red_square-256.jpg" /></li>
 
-            </ul>
-        </div>
-        <div ng-if="vm.product.canShowPrice && !vm.failedToGetRealTimePrices" class="pd-price-um">
-            <isc-product-price product="vm.product"></isc-product-price>
-            <span id="tst_productDetail_unitOfMeasureLabel" ng-if="vm.product.unitOfMeasureDisplay || vm.product.unitOfMeasureDescription" class="um isc-uomDisplay">
-                / {{vm.product.unitOfMeasureDescription || vm.product.unitOfMeasureDisplay}}
-            </span>
-            <isc-product-price-saving product="vm.product" currency-symbol="vm.product.currencySymbol"></isc-product-price-saving>
-        </div>
-        <div ng-show="vm.product.canShowPrice && !vm.product.quoteRequired && !vm.failedToGetRealTimePrices">
-            <isc-quantity-break-pricing product-id="vm.product.id" break-prices="vm.product.pricing.unitRegularBreakPrices"></isc-quantity-break-pricing>
-        </div>
-        <div class="item-price" ng-if="vm.failedToGetRealTimePrices">
-            <div>[% siteMessage 'RealTimePricing_PriceLoadFailed' %]</div>
-        </div>
-        <div ng-if="vm.settings.showInventoryAvailability" class="availability">
-            <isc-availability-message availability="vm.product.availability" failed-to-get-real-time-inventory="vm.failedToGetRealTimeInventory"></isc-availability-message>
-        </div>
-        <div class="pd-cm-wrap">
-            <div ng-show="vm.product.isConfigured && vm.product.configurationDto && vm.product.configurationDto.isKit">
-                <div ng-repeat="section in vm.product.configurationDto.sections" class="pd-kit">
-                    <div ng-show="section.sectionName" class="pd-kit-name" style="font-weight: bold">{{section.sectionName}}:</div>
-                    <div ng-repeat="option in section.options" class="pd-kit-value">
-                        {{option.description}}
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </div>
-    <div class="detail-options small-12 column medium-6">
-        <div class="panel" ng-show="vm.product.isConfigured && vm.product.configurationDto && !vm.product.configurationDto.isKit || vm.product.styleTraits.length > 0">
-            <div class="row collapse detail-options-wrap">
-                <!-- Configuration part -->
-                            <div ng-show="vm.product.isConfigured && vm.product.configurationDto != null && !vm.product.configurationDto.isKit">
+                            </ul>
+                        </div>
+                        <div ng-if="vm.product.canShowPrice && !vm.failedToGetRealTimePrices" class="pd-price-um">
+                            <isc-product-price product="vm.product"></isc-product-price>
+                            <span id="tst_productDetail_unitOfMeasureLabel" ng-if="vm.product.unitOfMeasureDisplay || vm.product.unitOfMeasureDescription" class="um isc-uomDisplay">
+                                / {{vm.product.unitOfMeasureDescription || vm.product.unitOfMeasureDisplay}}
+                            </span>
+                            <isc-product-price-saving product="vm.product" currency-symbol="vm.product.currencySymbol"></isc-product-price-saving>
+                        </div>
+                        <div ng-show="vm.product.canShowPrice && !vm.product.quoteRequired && !vm.failedToGetRealTimePrices">
+                            <isc-quantity-break-pricing product-id="vm.product.id" break-prices="vm.product.pricing.unitRegularBreakPrices"></isc-quantity-break-pricing>
+                        </div>
+                        <div class="item-price" ng-if="vm.failedToGetRealTimePrices">
+                            <div>[% siteMessage 'RealTimePricing_PriceLoadFailed' %]</div>
+                        </div>
+                        <div ng-if="vm.settings.showInventoryAvailability" class="availability">
+                            <isc-availability-message availability="vm.product.availability" failed-to-get-real-time-inventory="vm.failedToGetRealTimeInventory"></isc-availability-message>
+                        </div>
+                        <div class="pd-cm-wrap">
+                            <div ng-show="vm.product.isConfigured && vm.product.configurationDto && vm.product.configurationDto.isKit">
                                 <div ng-repeat="section in vm.product.configurationDto.sections" class="pd-kit">
-                                    <span>{{section.sectionName}}</span>
-                                    <select ng-model="vm.configurationSelection[$index]" name="tst_productDetail_configurationSection_{{section.sectionName}}" ng-change="vm.configChanged()"
-                                            ng-options="option.description for option in section.options track by option.sectionOptionId">
-                                        <option value="">Select {{section.sectionName}}</option>
+                                    <div ng-show="section.sectionName" class="pd-kit-name" style="font-weight: bold">{{section.sectionName}}:</div>
+                                    <div ng-repeat="option in section.options" class="pd-kit-value">
+                                        {{option.description}}
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="detail-options small-12 column medium-6">
+                        <div class="panel" ng-show="vm.product.isConfigured && vm.product.configurationDto && !vm.product.configurationDto.isKit || vm.product.styleTraits.length > 0">
+                            <div class="row collapse detail-options-wrap">
+                                <!-- Configuration part -->
+                                <div ng-show="vm.product.isConfigured && vm.product.configurationDto != null && !vm.product.configurationDto.isKit">
+                                    <div ng-repeat="section in vm.product.configurationDto.sections" class="pd-kit">
+                                        <span>{{section.sectionName}}</span>
+                                        <select ng-model="vm.configurationSelection[$index]" name="tst_productDetail_configurationSection_{{section.sectionName}}" ng-change="vm.configChanged()"
+                                                ng-options="option.description for option in section.options track by option.sectionOptionId">
+                                            <option value="">Select {{section.sectionName}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <!-- Style part -->
+                                <div class="small-12 columns pd-style-opt" ng-repeat="styleTrait in vm.styleTraitFiltered | orderBy: 'sortOrder'">
+                                    <span>{{styleTrait.nameDisplay}}</span>
+                                    <select name="{{'tst_styleSelect_' + styleTrait.name}}" ng-model="vm.styleSelection[$index]" ng-change="vm.styleChange(vm.styleSelection[$index], {{$index}})"
+                                            ng-options="style.valueDisplay for style in styleTrait.styleValues | orderBy: 'sortOrder' track by style.styleTraitValueId">
+                                        <option value=""> {{styleTrait.unselectedValue ? "" : "Select"}} {{styleTrait.unselectedValue ? styleTrait.unselectedValue : styleTrait.nameDisplay}}</option>
                                     </select>
                                 </div>
                             </div>
-                            <!-- Style part -->
-                            <div class="small-12 columns pd-style-opt" ng-repeat="styleTrait in vm.styleTraitFiltered | orderBy: 'sortOrder'">
-                                <span>{{styleTrait.nameDisplay}}</span>
-                                <select name="{{'tst_styleSelect_' + styleTrait.name}}" ng-model="vm.styleSelection[$index]" ng-change="vm.styleChange(vm.styleSelection[$index], {{$index}})"
-                                        ng-options="style.valueDisplay for style in styleTrait.styleValues | orderBy: 'sortOrder' track by style.styleTraitValueId">
-                                    <option value=""> {{styleTrait.unselectedValue ? "" : "Select"}} {{styleTrait.unselectedValue ? styleTrait.unselectedValue : styleTrait.nameDisplay}}</option>
-                                </select>
-                            </div>
-                        </div>
                         </div>
 
                         <div class="right small-12 detail-add">
@@ -234,10 +225,10 @@
                 <div ng-if="vm.settings.displayAttributesInTabs && vm.settings.attributesTabSortOrder === 'DisplayFirst' && vm.product.attributeTypes.length > 0">
                     <table class="info-tbl spec-attributes">
                         <tbody>
-                        <tr ng-repeat="attributeType in vm.product.attributeTypes | orderBy : ['label', 'name'] | limitTo: (maximumNumber || 100)" class="row">
-                            <td class="col-label columns small-4" ng-bind="attributeType.label || attributeType.name"></td>
-                            <td class="col-value columns small-8"><isc-no-element ng-repeat="attributeValue in attributeType.attributeValues | orderBy  : ['sortOrder','valueDisplay']">{{attributeValue.valueDisplay}}{{$last ? '' : ', '}}</isc-no-element></td>
-                        </tr>
+                            <tr ng-repeat="attributeType in vm.product.attributeTypes | orderBy : ['label', 'name'] | limitTo: (maximumNumber || 100)" class="row">
+                                <td class="col-label columns small-4" ng-bind="attributeType.label || attributeType.name"></td>
+                                <td class="col-value columns small-8"><isc-no-element ng-repeat="attributeValue in attributeType.attributeValues | orderBy  : ['sortOrder','valueDisplay']">{{attributeValue.valueDisplay}}{{$last ? '' : ', '}}</isc-no-element></td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -253,10 +244,10 @@
                 <div ng-if="vm.settings.displayAttributesInTabs && vm.settings.attributesTabSortOrder === 'DisplayLast' && vm.product.attributeTypes.length > 0">
                     <table class="info-tbl spec-attributes">
                         <tbody>
-                        <tr ng-repeat="attributeType in vm.product.attributeTypes | orderBy : ['label', 'name'] | limitTo: (maximumNumber || 100)" class="row">
-                            <td class="col-label columns small-4" ng-bind="attributeType.label || attributeType.name"></td>
-                            <td class="col-value columns small-8"><isc-no-element ng-repeat="attributeValue in attributeType.attributeValues | orderBy  : ['sortOrder','valueDisplay']">{{attributeValue.valueDisplay}}{{$last ? '' : ', '}}</isc-no-element></td>
-                        </tr>
+                            <tr ng-repeat="attributeType in vm.product.attributeTypes | orderBy : ['label', 'name'] | limitTo: (maximumNumber || 100)" class="row">
+                                <td class="col-label columns small-4" ng-bind="attributeType.label || attributeType.name"></td>
+                                <td class="col-value columns small-8"><isc-no-element ng-repeat="attributeValue in attributeType.attributeValues | orderBy  : ['sortOrder','valueDisplay']">{{attributeValue.valueDisplay}}{{$last ? '' : ', '}}</isc-no-element></td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
