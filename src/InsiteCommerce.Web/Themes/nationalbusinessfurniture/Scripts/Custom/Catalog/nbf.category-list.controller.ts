@@ -60,7 +60,9 @@
             var byArea = false;
             var useId = false;
 
-            if (this.categoryId === "By-Area Categories") {
+            if (this.categoryId === "Products Categories") {
+                byArea = false;
+            } else if (this.categoryId === "By-Area Categories") {
                 byArea = true;
             } else {
                 id = this.categoryId;
@@ -73,20 +75,26 @@
         }
 
         //override to get better category information
-        protected getCategoryTreeCompleted(category: CategoryCollectionModel, byArea: boolean, useId: boolean): void {
+        protected getCategoryTreeCompleted(categoryResult: CategoryCollectionModel, byArea: boolean, useId: boolean): void {
             this.category = {} as CategoryModel;
-            this.category.subCategories = category.categories;
+            this.category.subCategories = categoryResult.categories;
 
             if (!useId) {
+                var cats = [];
                 if (byArea) {
-                    this.category.subCategories.filter(category => {
-                        return category.properties["IsAreaCat"];
+                    this.category.subCategories.filter((cat) => {
+                        if (cat.properties["isAreaCat"]) {
+                            cats.push(cat);
+                        }
                     });
                 } else {
-                    this.category.subCategories.filter(category => {
-                        return !category.properties["IsAreaCat"];
+                    this.category.subCategories.filter((cat) => {
+                        if (!cat.properties["isAreaCat"]) {
+                            cats.push(cat);
+                        }
                     });
                 }
+                this.category.subCategories = cats;
             }
         }
 

@@ -37,7 +37,6 @@ namespace Extensions.Widgets
         }
 
         public virtual bool CategoryIdSet => !RootCategoryId.IsNullOrWhiteSpace();
-        public virtual bool IsProducts => RootCategory.Equals("Products Categories", StringComparison.CurrentCultureIgnoreCase);
-        public virtual bool IsByArea => RootCategory.Equals("By-Area Categories", StringComparison.CurrentCultureIgnoreCase);
+        public virtual bool IsProductsOrByArea => RootCategory.Equals("Products Categories", StringComparison.CurrentCultureIgnoreCase) || RootCategory.Equals("By-Area Categories", StringComparison.CurrentCultureIgnoreCase);
     }   
 }
