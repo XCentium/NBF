@@ -738,17 +738,23 @@
         }
 
         protected getCartCompletedForReviewAndPay(cart: CartModel, isInit: boolean): void {
+
             this.cartService.expand = "";
             let paymentMethod: Insite.Cart.Services.Dtos.PaymentMethodDto;
             let transientCard: Insite.Core.Plugins.PaymentGateway.Dtos.CreditCardDto;
-
+            
             if (this.cart && this.cart.paymentOptions) {
                 paymentMethod = this.cart.paymentMethod;
                 transientCard = this.saveTransientCard();
             }
 
             this.cart = cart;
-
+            window.console.log("carriers?");
+            window.console.dir(this.cart.carriers);
+            if (!this.cart.shipVia || this.cart.shipVia.id == null) {
+                this.cart.carrier = this.cart.carriers[0];
+                this.cart.shipVia = this.cart.carrier.shipVias[0];
+            }
             const hasRestrictions = cart.cartLines.some(o => o.isRestricted);
             // if cart does not have cartLines or any cartLine is restricted, go to Cart page
             if (!this.cart.cartLines || this.cart.cartLines.length === 0 || hasRestrictions) {
