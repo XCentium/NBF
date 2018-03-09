@@ -403,6 +403,7 @@
     <Content Include="Styles\custom\order-subtotal.scss" />
     <Content Include="Styles\custom\navlist.scss" />
     <Content Include="Styles\custom\tables.scss" />
+    <Content Include="Styles\custom\mini-cart.scss" />
     <None Include="Styles\template\category-list.scss" />
     <None Include="Styles\template\change-cust-ship-to.scss" />
     <None Include="Styles\template\checkout-addresses.scss" />
