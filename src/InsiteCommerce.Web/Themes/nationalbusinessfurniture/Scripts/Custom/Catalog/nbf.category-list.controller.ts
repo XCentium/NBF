@@ -82,13 +82,13 @@
             if (!useId) {
                 var cats = [];
                 if (byArea) {
-                    this.category.subCategories.filter((cat) => {
+                    this.category.subCategories.forEach((cat: CategoryModel) => {
                         if (cat.properties["isAreaCat"]) {
                             cats.push(cat);
                         }
                     });
                 } else {
-                    this.category.subCategories.filter((cat) => {
+                    this.category.subCategories.forEach((cat: CategoryModel) => {
                         if (!cat.properties["isAreaCat"]) {
                             cats.push(cat);
                         }
