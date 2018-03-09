@@ -1,12 +1,15 @@
 ﻿using Extensions.Plugins.Cart.Models;
 using Insite.Cart.Services.Parameters;
 using Insite.Cart.Services.Results;
+using Insite.Common.Helpers;
 using Insite.Core.Interfaces.Data;
 using Insite.Core.Interfaces.Dependency;
+using Insite.Core.Interfaces.Plugins.Pricing;
 using Insite.Core.Plugins.EntityUtilities;
 using Insite.Core.Plugins.Pipelines.Pricing;
 using Insite.Core.Plugins.Pipelines.Pricing.Parameters;
 using Insite.Core.Plugins.Pipelines.Pricing.Results;
+using Insite.Core.Plugins.Pricing;
 using Insite.Core.Services;
 using Insite.Core.Services.Handlers;
 using Insite.Data.Entities;
@@ -44,30 +47,82 @@ namespace Extensions.Plugins.Cart
         {
             get
             {
-                return 1700;
+                return 1690;
             }
         }
 
         public override GetCartResult Execute(IUnitOfWork unitOfWork, GetCartParameter parameter, GetCartResult result)
         {
-            GetCartPricingResult cartPricing = this.pricingPipeline.GetCartPricing(new GetCartPricingParameter(result.Cart)
-            {
-                CalculateShipping = true,
-                CalculateOrderLines = false
-            });
+            var param = new GetProductPricingParameter();
+
+            //GetCartPricingResult cartPricing = this.pricingPipeline.GetCartPricing(new GetCartPricingParameter(result.Cart)
+            //{
+            //    CalculateShipping = true,
+            //    CalculateOrderLines = false
+            //});
 
             var productsByVendor = this.GroupProductsByVendor(result);
 
+            GetProductPricingParameter getProductPricingParameter = new GetProductPricingParameter(true)
+            {
+                PricingServiceParameters = (IDictionary<Guid, PricingServiceParameter>)new Dictionary<Guid, PricingServiceParameter>()
+            };
             foreach (var productByVendor in productsByVendor)
             {
-                
+                foreach (var orderLine in productByVendor.OrderLines)
+                {
+                    var originalQty = orderLine.QtyOrdered;
+                    var totalqty = productByVendor.OrderLines.Sum(x => x.QtyOrdered);
+                    orderLine.QtyOrdered = totalqty;
+                    getProductPricingParameter.PricingServiceParameters = new Dictionary<Guid, PricingServiceParameter>();
+                      getProductPricingParameter.PricingServiceParameters.Add(orderLine.Id, new PricingServiceParameter(orderLine.Product.Id)
+                    {
+                        CustomerOrderId = new Guid?(orderLine.CustomerOrderId),
+                        OrderLine = orderLine
+                    });
+                    
+                    GetProductPricingResult productPricing = this.pricingPipeline.GetProductPricing(getProductPricingParameter);
+                    if (productPricing.ResultCode != ResultCode.Success)
+                    {
+                        
 
+                    }
+                    orderLine.QtyOrdered = originalQty;
+                    foreach (KeyValuePair<Guid, ProductPriceDto> productPriceDto1 in (IEnumerable<KeyValuePair<Guid, ProductPriceDto>>)productPricing.ProductPriceDtos)
+                    {
+                        KeyValuePair<Guid, ProductPriceDto> pricingResult = productPriceDto1;
+                        OrderLine orderLine1 = result.Cart.OrderLines.FirstOrDefault<OrderLine>((Func<OrderLine, bool>)(o => o.Id.Equals(pricingResult.Key)));
+                        if (orderLine1 != null)
+                        {
+                            ProductPriceDto productPriceDto2 = pricingResult.Value;
+                            orderLine1.UnitListPrice = productPriceDto2.UnitListPrice;
+                            orderLine1.UnitRegularPrice = productPriceDto2.UnitRegularPrice;
+                            orderLine1.UnitNetPrice = productPriceDto2.UnitNetPrice;
+                            
+                            //OrderLine orderLine2 = orderLine1;
+                            //Decimal unitRegularPrice = orderLine2.UnitRegularPrice;
+                            //orderLine2.UnitNetPrice = unitRegularPrice;
+                            orderLine1.TotalRegularPrice = this.GetTotalRegularPrice(orderLine1);
+                            orderLine1.TotalNetPrice = this.GetTotalNetPrice(orderLine1);
+                        }
+                        
+                    }
+                }
             }
-            
-            if (cartPricing.ResultCode != ResultCode.Success)
-            {
-            }
+
+            //if (cartPricing.ResultCode != ResultCode.Success)
+            //{
+            //}
             return this.NextHandler.Execute(unitOfWork, parameter, result);
+        }
+
+        private Decimal GetTotalRegularPrice(OrderLine orderLine)
+        {
+            return NumberHelper.RoundCurrency(orderLine.UnitRegularPrice * orderLine.QtyOrdered);
+        }
+        private Decimal GetTotalNetPrice(OrderLine orderLine)
+        {
+            return NumberHelper.RoundCurrency(orderLine.UnitNetPrice * orderLine.QtyOrdered);
         }
 
         private List<ProductsByVendor> GroupProductsByVendor(GetCartResult result)
@@ -84,6 +139,8 @@ namespace Extensions.Plugins.Cart
                     var productByVendor = new ProductsByVendor();
                     productByVendor.OrderLines = new List<OrderLine>();
                     productByVendor.VendorId = line.Product.VendorId;
+                    var ol = new OrderLine();
+                    ol = line;
                     productByVendor.OrderLines.Add(line);
                     productsByVendor.Add(productByVendor);
                 }
