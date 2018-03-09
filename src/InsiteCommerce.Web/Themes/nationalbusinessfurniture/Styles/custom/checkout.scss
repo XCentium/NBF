@@ -1,6 +1,12 @@
 ﻿@import "../variables";
 
 .checkout {
+    #nav1min, #nav2min, #nav3min {
+        h3{
+            font-family:$ProximaNova;
+            font-weight:normal;
+        }
+    }
     #confirmation {
         display: none;
 

@@ -5,28 +5,25 @@
                 <h1>Secure Checkout</h1>
                 <h1>Order Confirmation</h1>
 
-                <h2 id="thankYou" class="hide">[% siteMessage 'Checkout_Confirmation_Message' 'Thank you for your order!' %]</h2>
-
+                <p>
+                    <strong id="thankYou" class="hide">[% siteMessage 'Checkout_Confirmation_Message' 'Thank you for your order!' %]</strong>
+                </p>
 
                 <nbf-sign-in-widget include-forgot-password-link="false" allow-create-account="false" ng-if="vm.cart.billTo.isGuest && !vm.hideSignIn"></nbf-sign-in-widget>
                 <div id="confirmation" class="content">
                     <div class="row">
-                        <div class="large-6 columns">
+                        <div class="large-12 columns">
                             <div class="oc-num-date">
-                                <h2>[% siteMessage 'Checkout_Confirmation_Message' 'Thank you for your order!' %]</h2>
-                                <h3>
+                                <p>
                                     [% siteMessage 'Checkout_Confirmation_OrderNumber' 'Your order confirmation #: ' %]<span id="tst_orderConfirmation_orderNumber" ng-bind="vm.cart.orderNumber"></span>
-                                </h3>
-                                <h3>
+                                </p>
+                                <P>
                                     [% siteMessage 'Checkout_Confirmation_Date' 'Order Date: ' %]<span ng-bind="vm.cart.orderDate | date:'shortDate'"></span>
-                                </h3>
-                                <h3 ng-if="vm.cart.poNumber.length > 0">
+                                </P>
+                                <strong ng-if="vm.cart.poNumber.length > 0">
                                     [% siteMessage 'Checkout_Confirmation_PONumber' 'PO Number: ' %]<span ng-bind="vm.cart.poNumber"></span>
-                                </h3>
+                                </strong>
                             </div>
-                        </div>
-                        <div class="large-6 columns">
-
                         </div>
                     </div>
                 </div>
@@ -84,15 +81,16 @@
                             </div>
                             <div id="nav1min" class="hide checkout-review-pay">
                                 <div class="order-bill-ship">
+                                    <h3>[% translate 'Shipping & Billing Address' %]</h3>
                                     <div class="large-6 columns bill-info">
                                         <div class="oc-head">
-                                            <h4>[% translate 'Billing Information' %]</h4>
+                                            <p><strong>[% translate 'Billing Information' %]</strong></p>
                                         </div>
                                         <isc-address-display address="vm.cart.billTo" show-email="true"></isc-address-display>
                                     </div>
                                     <div class="large-6 columns ship-info">
                                         <div class="oc-head">
-                                            <h4>[% translate 'Shipping Information' %]</h4>
+                                            <p><strong>[% translate 'Shipping Information' %]</strong></p>
                                         </div>
                                         <isc-address-display address="vm.cart.shipTo" show-email="true"></isc-address-display>
                                     </div>
