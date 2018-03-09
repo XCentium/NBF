@@ -316,6 +316,25 @@ body {
     color:$nbf-navy;
 }
 
+.brand-hr-small {
+    width:30px;
+    margin:20px auto;
+    border-color:$nbf-orange;
+}
+
+.brand-underline {
+    display: inline-block;
+
+    &:after {
+        content: "";
+        display: block;
+        border-bottom: 1px solid $nbf-orange;
+        height: 1px;
+        width: 100%;
+        bottom: 0;
+        position: relative;
+    }
+}
 
 
 @media all and (min-width: 960px) {

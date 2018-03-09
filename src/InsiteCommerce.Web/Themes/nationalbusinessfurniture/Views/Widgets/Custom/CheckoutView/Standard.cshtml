@@ -9,6 +9,27 @@
 
 
                 <nbf-sign-in-widget include-forgot-password-link="false" allow-create-account="false" ng-if="vm.cart.billTo.isGuest && !vm.hideSignIn"></nbf-sign-in-widget>
+                <div id="confirmation" class="content">
+                    <div class="row">
+                        <div class="large-6 columns">
+                            <div class="oc-num-date">
+                                <h2>[% siteMessage 'Checkout_Confirmation_Message' 'Thank you for your order!' %]</h2>
+                                <h3>
+                                    [% siteMessage 'Checkout_Confirmation_OrderNumber' 'Your order confirmation #: ' %]<span id="tst_orderConfirmation_orderNumber" ng-bind="vm.cart.orderNumber"></span>
+                                </h3>
+                                <h3>
+                                    [% siteMessage 'Checkout_Confirmation_Date' 'Order Date: ' %]<span ng-bind="vm.cart.orderDate | date:'shortDate'"></span>
+                                </h3>
+                                <h3 ng-if="vm.cart.poNumber.length > 0">
+                                    [% siteMessage 'Checkout_Confirmation_PONumber' 'PO Number: ' %]<span ng-bind="vm.cart.poNumber"></span>
+                                </h3>
+                            </div>
+                        </div>
+                        <div class="large-6 columns">
+
+                        </div>
+                    </div>
+                </div>
                 <dl class="accordion checkout-accordion" data-accordion id="checkoutAccordion">
                     <dd class="accordion-navigation">
                         <a href="#address" id="nav1" class="nav-header active">
@@ -49,7 +70,7 @@
                                                 </div>
                                             </div>
                                         </section>
-                                        <div class="column small-12">
+                                        <div class="clearfix">
                                             <div class="btns">
                                                 <button id="tst_checkoutAddress_continue" type="button" class="btn primary btn-continue"
                                                         ng-click="vm.continueToStep2('[% urlForPage 'CartPage' %]')"
@@ -391,34 +412,10 @@
                             </div>
                         </dd>
                     </form>
-                    <dd class="accordion-navigation">
-                        <a href="#confirmation" id="nav4" class="nav-header">Confirmation</a>
-                        <div id="confirmation" class="content">
-                            <div class="row">
-                                <div class="large-6 columns">
-                                    <div class="oc-num-date">
-                                        <h2>[% siteMessage 'Checkout_Confirmation_Message' 'Thank you for your order!' %]</h2>
-                                        <h3>
-                                            [% siteMessage 'Checkout_Confirmation_OrderNumber' 'Your order confirmation #: ' %]<span id="tst_orderConfirmation_orderNumber" ng-bind="vm.cart.orderNumber"></span>
-                                        </h3>
-                                        <h3>
-                                            [% siteMessage 'Checkout_Confirmation_Date' 'Order Date: ' %]<span ng-bind="vm.cart.orderDate | date:'shortDate'"></span>
-                                        </h3>
-                                        <h3 ng-if="vm.cart.poNumber.length > 0">
-                                            [% siteMessage 'Checkout_Confirmation_PONumber' 'PO Number: ' %]<span ng-bind="vm.cart.poNumber"></span>
-                                        </h3>
-                                    </div>
-                                </div>
-                                <div class="large-6 columns">
-
-                                </div>
-                            </div>
-                        </div>
-                    </dd>
                 </dl>
             </div>
             <div class="large-4 columns">
-                <div class="">Secure Form</div>
+                <div class="right-top"><span class="ico-lock"></span><strong>Secure Form</strong></div>
                 <div class="checkout-cart" id="sideCart">
                     <div class="row">
                         <div class="large-10 columns">

@@ -781,9 +781,11 @@
             }
 
             $("#nav1expanded").hide();
+            $("#nav1").removeClass("active");
             $("#nav1min, #nav1 .edit").show();
 
             $("#shipping").addClass("active");
+            $("#nav2").addClass("active");
             $("html:not(:animated), body:not(:animated)").animate({
                 scrollTop: $("#nav1").offset().top
             }, 200);
@@ -1100,6 +1102,7 @@
         protected loadStep4() {
             this.hideSignIn = true;
             $("#nav1expanded,#nav2expanded,#nav3expanded,.edit").hide();
+            $("#nav1,#nav2,#nav3").hide();
             $("#nav1min,#nav2min,#nav3min,#thankYou").show();
             $("#address,#shipping,#payment").addClass("active");
 

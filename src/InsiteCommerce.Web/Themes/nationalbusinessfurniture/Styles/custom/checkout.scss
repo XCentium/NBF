@@ -1,6 +1,14 @@
 ﻿@import "../variables";
 
 .checkout {
+    #confirmation {
+        display: none;
+
+        &.active {
+            display: block;
+        }
+    }
+
     .checkout-accordion {
         .ship-select, .required-msg {
             min-height: 0px;
@@ -9,6 +17,10 @@
         .accordion-navigation {
             margin-bottom: 40px !important;
             position: relative;
+
+            .content {
+                padding: 20px 0;
+            }
         }
 
         .nav-header {
