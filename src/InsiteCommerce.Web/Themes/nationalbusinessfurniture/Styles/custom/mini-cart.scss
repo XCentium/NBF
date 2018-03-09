@@ -1,4 +1,125 @@
-﻿.cart-button
- {
+﻿@import "../variables";
 
+.cart-button {
+    .minicart {
+        display: none;
+        width: 421px;
+        position: absolute;
+        border: 1px solid $divider-gray;
+        background-color: #FFFFFF;
+        box-shadow: 0 20px 20px 0 rgba(0,0,0,0.15);
+        padding: 30px;
+        right: 0;
+        text-align: left;
+
+        .mini-cart-item-list {
+            height: 387px;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+
+        .cart-title {
+            margin: 0;
+            font-family: $ProximaNova-bold
+        }
+
+        ul {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+
+            li {
+                width: 100%;
+                padding-top: 30px;
+                padding-bottom: 30px;
+                border-bottom: 1px solid $divider-gray;
+            }
+        }
+
+        .item-image {
+            width: 115px;
+            float: left;
+
+            img {
+                border: 1px solid $divider-gray;
+                width: 100%;
+                max-width: 100%;
+            }
+        }
+
+        .item-details {
+            padding-left: 128px;
+
+
+            .item-name {
+                height: 48px;
+                overflow: hidden;
+            }
+
+            .remove-btn, .item-qty, .item-price {
+                display: inline-block;
+            }
+
+            .item-qty {
+                input {
+                    height: 30px;
+                    width: 50px;
+                    text-align: center;
+                    padding: 2px;
+                    margin-bottom: 0;
+                }
+            }
+
+            .remove-btn {
+                float: right;
+                padding-top: 5px;
+
+                a {
+                    font-size: 16px;
+                }
+            }
+
+            .item-price {
+                font-size: 24px;
+                line-height: 28px;
+                vertical-align: middle;
+
+                .item-units {
+                    color: $nbf-navy;
+                    font-size: 16px;
+                    line-height: 19px;
+                }
+            }
+
+            .item-sku {
+                line-height: 27px;
+                margin: 5px 0;
+            }
+        }
+
+        .item-wrap {
+            text-align: left;
+        }
+    }
+
+    .mini-cart-total {
+        padding: 9px 0;
+
+        & > div {
+            margin-bottom: 10px;
+        }
+    }
+
+    .mini-cart-btns {
+
+        .checkout-btn {
+            width: 100%;
+        }
+    }
+
+    &:hover {
+        .minicart{
+            display:block;
+        }
+    }
 }
