@@ -50,11 +50,11 @@ namespace Extensions.Plugins.Cart
 
         public override GetCartResult Execute(IUnitOfWork unitOfWork, GetCartParameter parameter, GetCartResult result)
         {
-            GetCartPricingResult cartPricing = this.pricingPipeline.GetCartPricing(new GetCartPricingParameter(result.Cart)
-            {
-                CalculateShipping = true,
-                CalculateOrderLines = false
-            });
+            //GetCartPricingResult cartPricing = this.pricingPipeline.GetCartPricing(new GetCartPricingParameter(result.Cart)
+            //{
+            //    CalculateShipping = true,
+            //    CalculateOrderLines = false
+            //});
 
             var productsByVendor = this.GroupProductsByVendor(result);
 
@@ -76,14 +76,12 @@ namespace Extensions.Plugins.Cart
                 }
                 else // Weight based
                 {
-
                     if (result.Cart.ShippingCharges > 0)
                     {
                         productByVendor.VendorTotalShippingCharges = this.ApplyShippingDiscount(productByVendor);
                         GetWeightBasedShippingCharges(productByVendor);
                     }
                 }
-
 
                 if (!productByVendor.IsTruck)
                 {
@@ -94,27 +92,21 @@ namespace Extensions.Plugins.Cart
                 {
                     productByVendor.VendorTotalShippingCharges = GetShippingCharges(productByVendor);
                     productByVendor.VendorTotalShippingCharges = ApplyShippingDiscount(productByVendor);
-
                 }
 
                 if (result.Cart.ShipVia != null && !string.IsNullOrEmpty(result.Cart.ShipVia.ShipCode) && result.Cart.ShipVia.ShipCode.ToLower() != "standard")
                 {
                     productByVendor.VendorTotalShippingCharges += ApplyAdditionalCharges(productByVendor, result.Cart);
-
-
                 }
 
             }
 
-
-            
-
             result.Cart.ShippingCharges = Math.Ceiling(Convert.ToDecimal(productsByVendor.Sum(x => x.VendorTotalShippingCharges)));
             //result.Cart.ShippingCharges = this.ApplyShippingDiscount(result);
 
-            if (cartPricing.ResultCode != ResultCode.Success)
-            {
-            }
+            //if (cartPricing.ResultCode != ResultCode.Success)
+            //{
+            //}
             return this.NextHandler.Execute(unitOfWork, parameter, result);
         }
 
