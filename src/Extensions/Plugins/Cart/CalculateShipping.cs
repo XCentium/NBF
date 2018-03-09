@@ -44,7 +44,7 @@ namespace Extensions.Plugins.Cart
         {
             get
             {
-                return 1700;
+                return 1699;
             }
         }
 
