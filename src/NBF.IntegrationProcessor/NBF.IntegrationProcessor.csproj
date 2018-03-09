@@ -57,6 +57,60 @@
     <None Include="Insite.WindowsIntegrationService.exe.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup Condition="Exists('C:\Program Files\Insite Software\Commerce Integration Service V4.4')">
+    <PostBuildEvent>
+      set integrationPath="C:\Program Files\Insite Software\Commerce Integration Service V4.4
+      set integrationService="Commerce Integration Service V4.4 (x64)"
+
+      REM  Automated WIS Deployment -- FIX IF STATEMENT if not testing WIS
+      REM  Assumes you did 64 bit WIS and used default location.
+      REM  You'll need to start as admin if you do this
+      echo .
+      echo --------------------------------------------------------------------------------
+      echo "WIS Deployment Process -  Postbuild of NBF.IntegrationProcessor
+      echo --------------------------------------------------------------------------------
+
+      net stop %integrationService%
+
+      echo xcopy /y "$(TargetDir)*" %integrationPath%
+      echo ---------------------------------------------------------------------
+      xcopy /y $(TargetDir)* "C:\Program Files\Insite Software\Commerce Integration Service V4.4"
+      echo ---------------------------------------------------------------------
+      move /y "c:\Program Files\Insite Software\Commerce Integration Service V4.4\NBF.IntegrationProcessor.dll" "C:\Program Files\Insite Software\Commerce Integration Service V4.4\Custom"
+      move /y "C:\Program Files\Insite Software\Commerce Integration Service V4.4\NBF.IntegrationProcessor.pdb" "C:\Program Files\Insite Software\Commerce Integration Service V4.4\Custom"
+      echo ---------------------------------------------------------------------
+      net start "Commerce Integration Service V4.4 (x64)"
+    </PostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PostBuildEvent>
+set integrationPath="C:\Program Files\Insite Software\Commerce Integration Service V4.4\"
+set integrationService="Commerce Integration Service V4.4 (x64)"
+
+IF EXIST %25integrationPath%25 (
+
+      REM  Automated WIS Deployment
+      REM  Assumes you did 64 bit WIS v4.4 and used default location.
+      REM  You'll need to start as admin if you do this
+      echo .
+      echo --------------------------------------------------------------------------------
+      echo "WIS Deployment Process -  Postbuild of $(TargetName)
+      echo --------------------------------------------------------------------------------
+
+      net stop %25integrationService%25
+
+      echo xcopy /y "$(TargetDir)*" %25integrationPath%25
+      echo ---------------------------------------------------------------------
+      xcopy /y "$(TargetDir)*" %25integrationPath%25
+      echo ---------------------------------------------------------------------
+      move /y %25integrationPath%25$(TargetName)".*" %25integrationPath%25"Custom"
+      echo ---------------------------------------------------------------------
+      net start %25integrationService%25
+) ELSE (
+      echo "WIS service not installed"
+)
+</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

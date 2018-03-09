@@ -1,22 +1,5 @@
-﻿//import CategoryFacetDto = Insite.Core.Plugins.Search.Dtos.CategoryFacetDto;
-//import AttributeTypeFacetDto = Insite.Core.Plugins.Search.Dtos.AttributeTypeFacetDto;
-//import AttributeValueDto = Insite.Catalog.Services.Dtos.AttributeValueDto;
-
-module insite.catalog {
+﻿module insite.catalog {
     "use strict";
-
-    //export interface IProductListStateParams extends IContentPageStateParams {
-    //    criteria: string;
-    //}
-
-    //export interface ICustomPagerContext {
-    //    isSearch: boolean;
-    //    view: string;
-    //    selectView: (viewName: string) => void;
-    //    attributeTypeFacets: AttributeTypeFacetDto[];
-    //    changeTableColumn: (attribute: AttributeTypeFacetDto) => void;
-    //    sortedTableColumns: AttributeTypeFacetDto[];
-    //};
 
     export class NbfProductListController extends ProductListController{
         categoryAttr: string;
@@ -85,7 +68,6 @@ module insite.catalog {
                 }
                 params.names.push(this.categoryAttr);
             }
-            window.console.dir(params);
             expand = expand ? expand : ["pricing", "attributes", "facets"];
             this.productService.getProducts(params, expand).then(
                 (productCollection: ProductCollectionModel) => { this.getProductsCompleted(productCollection, params, expand); },
@@ -188,6 +170,33 @@ module insite.catalog {
             this.includeSuggestions = this.queryString.get("includeSuggestions") || "true";
             //this.attributeValueIds = this.queryString.get("attributeValues");
             this.categoryAttr = this.queryString.get("attr");
+        }
+
+        //override to get better category information
+        protected getCatalogPageCompleted(catalogPage: CatalogPageModel): void {
+            if (catalogPage.productId) {
+                return;
+            }
+
+            this.category = catalogPage.category;
+            this.breadCrumbs = catalogPage.breadCrumbs;
+
+            this.getProductData({
+                categoryId: this.category.id,
+                pageSize: this.pageSize || (this.products.pagination ? this.products.pagination.pageSize : null),
+                sort: this.sort || this.$localStorage.get("productListSortType", ""),
+                page: this.page,
+                attributeValueIds: this.attributeValueIds,
+                priceFilters: this.priceFilterMinimums,
+                searchWithin: this.searchWithinTerms.join(" "),
+                includeSuggestions: this.includeSuggestions,
+                getAllAttributeFacets: true
+            });
+
+            //Have to do this to get htmlcontent
+            this.productService.getCategory(catalogPage.category.id.toString()).then((catalogPageResult) => {
+                this.category.htmlContent = catalogPageResult.htmlContent;
+            });
         }
     }
 

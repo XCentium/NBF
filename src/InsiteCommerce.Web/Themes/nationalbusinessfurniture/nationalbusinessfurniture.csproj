@@ -173,6 +173,7 @@
     <TypeScriptCompile Include="Scripts\Custom\Catalog\nbf.product-image-carousel.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Catalog\nbf.catalog.directives.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Catalog\nbf.product-image-carousel.controller.ts" />
+    <TypeScriptCompile Include="Scripts\Custom\Catalog\nbf.category-list.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Catalog\nbf.product-list.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Comments\nbf.commentmessage.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Comments\nbf.commentmessage.service.ts" />
@@ -185,6 +186,8 @@
     <TypeScriptCompile Include="Scripts\Custom\ShopTheLookDetails\nbf.ShopTheLookDetails.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\ShopTheLook\nbf.ShopTheLook.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\SocialMediaSharing\nbf.social-media.controller.ts" />
+    <TypeScriptCompile Include="Scripts\Custom\WebCode\nbf.web-code.controller.ts" />
+    <TypeScriptCompile Include="Scripts\Custom\WebCode\nbf.web-code.service.ts" />
     <TypeScriptCompile Include="Scripts\insite.config.ts" />
     <TypeScriptCompile Include="Scripts\insite.content-pager.controller.ts" />
     <TypeScriptCompile Include="Scripts\insite.content.directives.ts" />
@@ -519,6 +522,8 @@
     <Content Include="Views\Widgets\Custom\LinkListWithTitle\NavigationFlyOut.cshtml" />
     <Content Include="Views\Widgets\Custom\LinkListWithTitle\Standard.cshtml" />
     <Content Include="Views\Widgets\Custom\ShopTheLookWidget\Standard.cshtml" />
+    <Content Include="Views\Widgets\Custom\CategoriesListView\Standard.cshtml" />
+    <Content Include="Views\Widgets\Custom\NavigationFlyOut\Standard.cshtml" />
     <None Include="Views\Widgets\DealerDirectionsView\Standard.cshtml" />
     <None Include="Views\Widgets\DealerLocatorView\Standard.cshtml" />
     <None Include="Views\Widgets\DealerView\Standard.cshtml" />
@@ -577,6 +582,7 @@
     <None Include="Views\Widgets\SavedOrderDetailView\Standard.cshtml" />
     <None Include="Views\Widgets\SavedOrderListView\Standard.cshtml" />
     <None Include="Views\Widgets\SignInView\Standard.cshtml" />
+    <Content Include="Views\Widgets\ThreeColumn\NBF-no-margin.cshtml" />
     <None Include="Views\Widgets\ThreeColumn\Standard.cshtml" />
     <None Include="Views\Widgets\TwoColumn\Standard.cshtml" />
     <None Include="Views\Widgets\UserListView\Standard.cshtml" />
@@ -692,7 +698,6 @@
     <Content Include="Styles\custom\featured-product-widget.scss" />
     <Content Include="Views\Widgets\Custom\PopularCategories\Standard.cshtml" />
     <Content Include="Styles\custom\popular-cat-widget.scss" />
-    <Content Include="Views\Widgets\Custom\CategoriesList\Standard.cshtml" />
     <Content Include="Styles\custom\category-list.scss" />
     <Content Include="Styles\custom\paginater.scss" />
     <Content Include="Styles\utilities.scss" />
