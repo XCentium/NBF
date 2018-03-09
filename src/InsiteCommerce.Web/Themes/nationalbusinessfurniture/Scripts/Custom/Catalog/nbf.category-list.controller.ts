@@ -88,6 +88,7 @@
                         }
                     });
                 } else {
+
                     this.category.subCategories.forEach((cat: CategoryModel) => {
                         if (!cat.properties["isAreaCat"]) {
                             cats.push(cat);
