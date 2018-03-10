@@ -248,7 +248,7 @@ begin
 	left join dataRollup dr on dr.ERPNumber = p.ERPNumber
 	join AttributeValue avalue on avalue.[Value] = case when dr.ERPNumber is null then 'No' else 'Yes' end
 	where avalue.AttributeTypeId = @attributeTypeId
-	and p.ERPNumber like '%[_]%' and p.ERPNumber not like '%:%'
+	and p.ERPNumber not like '%[_]%' and p.ERPNumber not like '%:%'
 
 
 	set @attributeName = 'Ships Today'
@@ -290,7 +290,7 @@ begin
 	left join dataRollup dr on dr.ERPNumber = p.ERPNumber
 	join AttributeValue avalue on avalue.[Value] = case when dr.ERPNumber is null then 'No' else 'Yes' end
 	where avalue.AttributeTypeId = @attributeTypeId
-	and p.ERPNumber like '%[_]%' and p.ERPNumber not like '%:%'
+	and p.ERPNumber not like '%[_]%' and p.ERPNumber not like '%:%'
 
 
 
