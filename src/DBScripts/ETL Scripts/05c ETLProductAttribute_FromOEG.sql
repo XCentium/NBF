@@ -232,17 +232,23 @@ begin
 	where AttributeValueId in ( select avalue.Id from AttributeValue avalue
 	join AttributeType atype on atype.Id = avalue.AttributeTypeId and atype.Id = @attributeTypeId)
 
-	
+	;with dataRollup as
+	(
+		select distinct sp.Number ERPNumber
+		from OEGSystemStaging.dbo.Products sp
+		join OEGSystemStaging.dbo.ProductSKUs spsku on spsku.ProductId = sp.ProductId
+		join OEGSystemStaging.dbo.ItemSKUs sisku on sisku.ItemSKUId = spsku.ItemSKUId
+		join Product p on p.ERPNumber = sp.Number + '_' + spsku.OptionCode
+		where sisku.IsGSAEnabled = 1
+		and sp.BrandId = @brand
+	)
 	insert into ProductAttributeValue (ProductId, AttributeValueId) 
 	select distinct p.Id, avalue.Id 
-	from OEGSystemStaging.dbo.Products sp
-	join OEGSystemStaging.dbo.ProductSKUs spsku on spsku.ProductId = sp.ProductId
-	join OEGSystemStaging.dbo.ItemSKUs sisku on sisku.ItemSKUId = spsku.ItemSKUId
-	join Product p on p.ERPNumber = sp.Number + '_' + spsku.OptionCode
-	join AttributeValue avalue on avalue.[Value] = case when sisku.IsGSAEnabled = 0 then 'No' else 'Yes' end
+	from Product p 
+	left join dataRollup dr on dr.ERPNumber = p.ERPNumber
+	join AttributeValue avalue on avalue.[Value] = case when dr.ERPNumber is null then 'No' else 'Yes' end
 	where avalue.AttributeTypeId = @attributeTypeId
-	and sp.BrandId = @brand
-
+	and p.ERPNumber like '%[_]%' and p.ERPNumber not like '%:%'
 
 
 	set @attributeName = 'Ships Today'
@@ -268,15 +274,23 @@ begin
 	join AttributeType atype on atype.Id = avalue.AttributeTypeId and atype.Id = @attributeTypeId)
 
 	
+	;with dataRollup as
+	(
+		select sp.Number ERPNumber 
+		from OEGSystemStaging.dbo.Products sp
+		join OEGSystemStaging.dbo.ProductSKUs spsku on spsku.ProductId = sp.ProductId
+		join OEGSystemStaging.dbo.ItemSKUs sisku on sisku.ItemSKUId = spsku.ItemSKUId
+		join Product p on p.ERPNumber = sp.Number + '_' + spsku.OptionCode
+		where sisku.NormalLeadTimeId = 1 and sisku.CurrentLeadTimeId is null
+		and sp.BrandId = @brand
+	)
 	insert into ProductAttributeValue (ProductId, AttributeValueId) 
 	select distinct p.Id, avalue.Id 
-	from OEGSystemStaging.dbo.Products sp
-	join OEGSystemStaging.dbo.ProductSKUs spsku on spsku.ProductId = sp.ProductId
-	join OEGSystemStaging.dbo.ItemSKUs sisku on sisku.ItemSKUId = spsku.ItemSKUId
-	join Product p on p.ERPNumber = sp.Number + '_' + spsku.OptionCode
-	join AttributeValue avalue on avalue.[Value] = case when sisku.NormalLeadTimeId = 1 and sisku.CurrentLeadTimeId is null then 'Yes' else 'No' end
+	from Product p 
+	left join dataRollup dr on dr.ERPNumber = p.ERPNumber
+	join AttributeValue avalue on avalue.[Value] = case when dr.ERPNumber is null then 'No' else 'Yes' end
 	where avalue.AttributeTypeId = @attributeTypeId
-	and sp.BrandId = @brand
+	and p.ERPNumber like '%[_]%' and p.ERPNumber not like '%:%'
 
 
 

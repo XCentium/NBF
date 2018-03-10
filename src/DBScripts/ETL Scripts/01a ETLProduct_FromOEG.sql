@@ -303,9 +303,9 @@ delete from Specification where ProductId in (select Id from Product where ERPNu
 		join OEGSystemStaging.dbo.ItemSwatches sis on convert(nvarchar(max),sis.SwatchId) = RIGHT(p.ERPNumber,CHARINDEX(':',REVERSE(p.ERPNumber))-1) 
 	where
 		p.ContentManagerId = '00000000-0000-0000-0000-000000000000'
-		and not exists (select Id from ProductImage where ProductId = p.Id)
 		)
 
+delete from customerproduct where productid in (select id from Product where ERPNumber like '%:%')
 delete from Product where ERPNumber like '%:%'
 
 
