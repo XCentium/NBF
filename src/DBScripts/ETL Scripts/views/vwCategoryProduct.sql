@@ -22,8 +22,8 @@ FROM
 	join Product p on p.Id = cp.ProductId
 	join WebSite ws on ws.Id = c.WebSiteId
 	left join Category pc on pc.Id = c.ParentId
-where
-	p.Id = 'B0CD38A9-DD0B-E811-A98C-A3E0F1200094'
+--where
+--	p.Id = 'B0CD38A9-DD0B-E811-A98C-A3E0F1200094'
 /*
 select * from vwCategoryProduct
 */

@@ -7,7 +7,7 @@ CREATE VIEW [dbo].[vwProduct]
 AS
 
 
-SELECT top 100
+SELECT 
 	p.Id,
 	p.Name,
 	p.ShortDescription,
@@ -111,7 +111,7 @@ FROM
 	left join StyleClass sc on sc.Id = p.StyleClassId
 	left join Content c on c.ContentManagerId = p.ContentManagerId
 	left join Vendor v on v.Id = p.VendorId
-where p.id = '62DE46BA-87FD-E711-A98C-A3E0F1200094'
+--where p.id = '62DE46BA-87FD-E711-A98C-A3E0F1200094'
 /*
 select * from vwProduct
 */

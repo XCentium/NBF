@@ -168,18 +168,21 @@ begin
 	select newid(), 'Dimensions', 'Dimensions', 1, 'etl', 'etl', Id
 	from Product
 	where Id not in (select ProductId from Specification where [Name] = 'Dimensions')
-	
+	and ERPNumber not like '%:%' -- ignore swatches
+
 	insert into Specification
 	(ContentManagerId, [Name], [Description], IsActive, CreatedBy, ModifiedBy, ProductId)
 	select newid(), 'Vendor Code', 'Vendor Code', 0, 'etl', 'etl', Id
 	from Product
 	where Id not in (select ProductId from Specification where [Name] = 'Vendor Code')
+	and ERPNumber not like '%:%' -- ignore swatches
 
 	insert into Specification
 	(ContentManagerId, [Name], [Description], IsActive, CreatedBy, ModifiedBy, ProductId)
 	select newid(), 'Collection', 'Collection', 1, 'etl', 'etl', Id
 	from Product
 	where Id not in (select ProductId from Specification where [Name] = 'Collection')
+	and ERPNumber not like '%:%' -- ignore swatches
 
 	-- make sure we have a content manager record for each of the specifications
 
@@ -188,7 +191,8 @@ begin
 	select ContentManagerId, 'Specification', 'etl', 'etl'  
 	from Specification
 	where ContentManagerId not in (select Id from ContentManager)
-	
+	and ProductId not in (select Id from Product where ERPNumber like '%:%') -- ignore swatches
+
 	-- make sure we have a content manager record for each of the products
 
 	insert into ContentManager
@@ -196,7 +200,7 @@ begin
 	select ContentManagerId, 'Product', 'etl', 'etl'
 	from Product
 	where ContentManagerId not in (select Id from ContentManager)
-	and ContentManagerId != '00000000-0000-0000-0000-000000000000'
+	and ERPNumber not like '%:%' -- ignore swatches
 
 	-- tie up the style parent for each of the variants
 	;with parentProduct as
@@ -214,7 +218,7 @@ begin
 	join parentProduct pp on pp.ERPNumber = rtrim(left(p.ERPNumber, CHARINDEX('_', p.ERPNumber) - 1))
 	where 
 		p.ERPNumber like '%[_]%'
-
+		and p.ERPNumber not like '%:%'
 
 	-- we can truncate these tables as they have no dependencies and can be added and removed from source
 	truncate table StyleTraitValueProduct
@@ -278,6 +282,32 @@ select * from styletrait
 --delete from StyleTraitValue where createdby = 'etl'
 --delete from StyleTrait where createdby = 'etl'
 --delete from StyleClass where createdby = 'etl'
+
+
+delete from Content where ContentManagerId in (
+select Id from ContentManager
+where Id in (
+select ContentManagerId from Specification where ProductId in (select Id from Product where ERPNumber like '%:%')
+))
+
+delete from ContentManager
+where Id in (
+select ContentManagerId from Specification where ProductId in (select Id from Product where ERPNumber like '%:%')
+)
+
+delete from Specification where ProductId in (select Id from Product where ERPNumber like '%:%')
+
+	delete from ProductImage where ProductId in (
+	select p.Id from 
+		Product p 
+		join OEGSystemStaging.dbo.ItemSwatches sis on convert(nvarchar(max),sis.SwatchId) = RIGHT(p.ERPNumber,CHARINDEX(':',REVERSE(p.ERPNumber))-1) 
+	where
+		p.ContentManagerId = '00000000-0000-0000-0000-000000000000'
+		and not exists (select Id from ProductImage where ProductId = p.Id)
+		)
+
+delete from Product where ERPNumber like '%:%'
+
 
 */
 
