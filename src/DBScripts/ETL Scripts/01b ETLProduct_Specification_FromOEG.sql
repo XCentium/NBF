@@ -148,6 +148,83 @@ begin
 
 	end
 
+
+	/* 
+	Product Features
+	*/
+
+	-- first update the existing contents
+
+	;with productFeaturesFiltered as
+	(
+		select distinct ProductId 
+		from OEGSystemStaging.dbo.ProductFeatures pf
+		where isnull(pf.Name,'') != '' 
+	),
+	final as
+	(
+	select p.ERPNumber,
+			'<ul class="nbf-product-feature-style"><' + 
+			STUFF((SELECT pf.Name as li
+			FROM OEGSystemStaging.dbo.ProductFeatures pf
+			WHERE pf.ProductId = sp.ProductId
+			order by pf.WebSortOrder
+			FOR XML PATH('')), 1, 1, '') +
+			'</ul>' ProductFeaturesCombined
+	from Product p
+	join OEGSystemStaging.dbo.Products sp on sp.Number = p.ERPNumber
+		and sp.BrandId = @brand
+	join productFeaturesFiltered pff on pff.ProductId = sp.ProductId
+	--where p.ERPNumber = '10011'
+	)
+	update Content set
+	Html = isnull(final.ProductFeaturesCombined,''),
+	ModifiedOn = getdate()
+	--select p.erpnumber, isnull(final.ProductFeaturesCombined,''), c.Html
+	from Product p
+	join Specification s on s.ProductId = p.Id and s.[Name] = 'Features'
+	join Content c on c.ContentManagerId = s.ContentManagerId
+	join final on final.ERPNumber = p.ERPNumber
+	where c.Html != isnull(final.ProductFeaturesCombined,'')
+	and isnull(final.ProductFeaturesCombined,'') != ''
+
+
+	-- now insert any new ones we didn't have before
+	
+	;with productFeaturesFiltered as
+	(
+		select distinct ProductId 
+		from OEGSystemStaging.dbo.ProductFeatures pf
+		where isnull(pf.Name,'') != '' 
+	),
+	final as
+	(
+	select p.ERPNumber,
+			'<ul class="nbf-product-feature-style"><' + 
+			STUFF((SELECT pf.Name as li
+			FROM OEGSystemStaging.dbo.ProductFeatures pf
+			WHERE pf.ProductId = sp.ProductId
+			order by pf.WebSortOrder
+			FOR XML PATH('')), 1, 1, '') +
+			'</ul>' ProductFeaturesCombined
+	from Product p
+	join OEGSystemStaging.dbo.Products sp on sp.Number = p.ERPNumber
+		and sp.BrandId = @brand
+	join productFeaturesFiltered pff on pff.ProductId = sp.ProductId
+	--where p.ERPNumber = '10011'
+	)
+	insert into Content 
+	(ContentManagerId, [Name], Html, Revision, LanguageId, PersonaId, ApprovedOn, PublishToProductionOn, DeviceType, CreatedBy, ModifiedBy)
+	select s.ContentManagerId, 'New Revision', 
+	isnull(final.ProductFeaturesCombined,''), 
+	1, @LanguageId, @PersonaId, getdate(), getdate(), 'Desktop', 'etl', 'etl' 
+	--select p.ERPNumber, final.ProductFeaturesCombined
+	from Product p
+	join Specification s on s.ProductId = p.Id and s.[Name] = 'Features'
+	join final on final.ERPNumber = p.ERPNumber
+	where s.ContentManagerId not in (select ContentManagerId from Content)
+	and isnull(final.ProductFeaturesCombined,'') != ''
+
 /*
 exec ETLProductSpecification_FromOEG
 

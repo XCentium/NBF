@@ -184,6 +184,13 @@ begin
 	where Id not in (select ProductId from Specification where [Name] = 'Collection')
 	and ERPNumber not like '%:%' -- ignore swatches
 
+	insert into Specification
+	(ContentManagerId, [Name], [Description], IsActive, CreatedBy, ModifiedBy, ProductId)
+	select newid(), 'Features', 'Features', 1, 'etl', 'etl', Id
+	from Product
+	where Id not in (select ProductId from Specification where [Name] = 'Features')
+	and ERPNumber not like '%:%' -- ignore swatches
+
 	-- make sure we have a content manager record for each of the specifications
 
 	insert into ContentManager
