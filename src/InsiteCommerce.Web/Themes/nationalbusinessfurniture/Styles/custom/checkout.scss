@@ -2,11 +2,12 @@
 
 .checkout {
     #nav1min, #nav2min, #nav3min {
-        h3{
-            font-family:$ProximaNova;
-            font-weight:normal;
+        h3 {
+            font-family: $ProximaNova;
+            font-weight: normal;
         }
     }
+
     #confirmation {
         display: none;
 
@@ -187,6 +188,39 @@
 
     h3 {
         font-family: $ProximaNova-bold;
+    }
+
+    .exempt {
+        .exempt__label {
+            margin-right: 60px;
+        }
+
+        .doc-tag {
+            font-size: 16px;
+            line-height: 16px;
+            color: $nbf-navy;
+            padding: 5px 20px;
+            display: inline-block;
+            background: #EFEFF0;
+            border: 1px solid #D5D5D5;
+            margin-bottom: 40px;
+        }
+
+        .upload-btn {
+            width: 100%;
+            border: 1px dashed #bababa;
+            padding: 16px 10px;
+            text-align: center;
+            text-transform: uppercase;
+            font-size: 16px;
+            margin: 20px 0 40px;
+            cursor: pointer;
+
+            input {
+                visibility: hidden;
+                position: absolute;
+            }
+        }
     }
 }
 
