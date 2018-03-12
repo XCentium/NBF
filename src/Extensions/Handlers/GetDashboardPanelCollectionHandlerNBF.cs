@@ -3,7 +3,6 @@ using Insite.Account.Content;
 using Insite.Cart.Services;
 using Insite.Cart.Services.Parameters;
 using Insite.ContentLibrary.Pages;
-using Insite.Core.Context;
 using Insite.Core.Interfaces.Data;
 using Insite.Core.Interfaces.Dependency;
 using Insite.Core.Services.Handlers;
@@ -27,7 +26,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Insite.Account.Services;
 using Insite.Account.Services.Parameters;
-using Insite.Data.Entities.Dtos;
 using Insite.Invoice.Services;
 using Insite.Invoice.Services.Parameters;
 using Insite.Order.Services;
@@ -92,8 +90,14 @@ namespace Insite.Dashboard.Services.Handlers
             {
                 dashboardPanelDto.PanelType = "Orders";
                 dashboardPanelDto.IsPanel = true;
-                var orders = OrderService.GetOrderCollection(new GetOrderCollectionParameter());
-                dashboardPanelDto.Count = orders.TotalCount;
+                dashboardPanelDto.Count = OrderService.GetOrderCollection(new GetOrderCollectionParameter()
+                {
+                    CustomerSequence = "-1",
+                    FromDate = DateTime.Now.AddYears(-15),
+                    Sort = "OrderDate DESC",
+                    PageSize = 15000,
+                    Page = 1
+                }).TotalCount;
                 dashboardPanelDto.Order = 100;
             }
             else if (dashboardPanelDto.Type == typeof(RfqMyQuotesPage))
@@ -109,7 +113,7 @@ namespace Insite.Dashboard.Services.Handlers
                 dashboardPanelDto.IsPanel = true;
                 dashboardPanelDto.Count = InvoiceService.GetInvoiceCollection(new GetInvoiceCollectionParameter() {
                     CustomerSequence = "-1",
-                    FromDate = DateTime.Now.AddYears(-1),
+                    FromDate = DateTime.Now.AddYears(-15),
                     Sort = "InvoiceDate DESC",
                     PageSize = 15000,
                     Page = 1
@@ -135,8 +139,7 @@ namespace Insite.Dashboard.Services.Handlers
             {
                 dashboardPanelDto.PanelType = "My Addresses";
                 dashboardPanelDto.IsPanel = true;
-                var count = AccountService.GetAccount(new GetAccountParameter()).UserProfile.Customers;
-                dashboardPanelDto.Count = count.Count;
+                dashboardPanelDto.Count = AccountService.GetAccount(new GetAccountParameter()).UserProfile.Customers.Count;
                 dashboardPanelDto.Order = 160;
             }
             else if (dashboardPanelDto.Type == typeof(AccountSettingsPage))
