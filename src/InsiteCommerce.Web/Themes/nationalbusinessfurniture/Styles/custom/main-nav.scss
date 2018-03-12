@@ -382,12 +382,13 @@
     .isc-primary-nav > ul {
         ul.level-1 {
             float: left;
-            width: 178px;
-            border-right: 1px solid $divider-gray;
+            width: auto;
+            border: 1px solid $divider-gray;
             margin-top: 0;
             padding-top: 15px;
             padding-bottom: 15px;
             position: relative;
+            background-color: #fff;
         }
     }
 
@@ -447,7 +448,7 @@
         bottom: auto;
         left: auto;
         width: 1123px;
-        border: 1px solid $divider-gray;
+        /*border: 1px solid $divider-gray;*/
         -webkit-transform: none !important;
         -ms-transform: none !important;
         transform: none !important;
@@ -455,20 +456,21 @@
         font-size: 1em;
 
         &.single {
-            width:auto;
-            min-width:215px;
+            width: auto;
+            min-width: 215px;
 
             ul {
                 margin-top: 0;
                 padding-top: 15px;
                 padding-bottom: 15px;
-
+                background-color:#fff;
+                border:1px solid $divider-gray;
             }
         }
 
         &.show-heading {
-            .sub-heading{
-                display:block;
+            .sub-heading {
+                display: block;
                 margin-top: 0;
                 padding: .85em 1em .85em 1em;
             }
@@ -477,11 +479,14 @@
 
         div.subnav {
             border: none;
+            border-bottom: 1px solid $divider-gray;
+            border-right: 1px solid $divider-gray;
             top: 1px;
             margin-left: 1px;
             width: 943px;
             padding: 15px 0;
-
+            background: #fff;
+            height: 100%;
 
             & > ul {
                 columns: 2;
@@ -596,7 +601,7 @@
 /* Subnav Colors */
 
 .isc-primary-nav, .isc-primary-nav .subnav {
-    background: #fff;
+    /*background: #fff;*/
 }
 
 @media ( min-width:48em ) {

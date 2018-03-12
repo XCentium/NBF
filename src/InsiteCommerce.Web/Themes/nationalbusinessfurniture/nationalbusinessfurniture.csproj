@@ -122,6 +122,8 @@
     <!--<Content Include="Scripts\sticky.js" />-->
     <Content Include="Styles\custom\cta-link-widget.scss" />
     <Content Include="Styles\custom\cart.scss" />
+    <Content Include="Styles\custom\checkout-signin.scss" />
+    <Content Include="Styles\custom\checkout-cart.scss" />
     <None Include="Styles\custom\font-awesome.scss" />
     <None Include="Styles\custom\font-icomoon.scss" />
     <Content Include="Styles\fonts\fontawesome-webfont.svg" />
@@ -401,6 +403,8 @@
     <Content Include="Styles\custom\order-subtotal.scss" />
     <Content Include="Styles\custom\navlist.scss" />
     <Content Include="Styles\custom\tables.scss" />
+    <Content Include="Styles\custom\mini-cart.scss" />
+    <Content Include="Styles\custom\manage-address.scss" />
     <None Include="Styles\template\category-list.scss" />
     <None Include="Styles\template\change-cust-ship-to.scss" />
     <None Include="Styles\template\checkout-addresses.scss" />
@@ -541,6 +545,8 @@
     <None Include="Views\Widgets\LanguageSelector\Standard.cshtml" />
     <Content Include="Views\Widgets\LinkList\HeaderTopLinks.cshtml" />
     <None Include="Views\Widgets\LinkList\Standard.cshtml" />
+    <Content Include="Views\Widgets\MyAccountAddressView\NBF.cshtml" />
+    <Content Include="Views\Widgets\MyAccountAddressView\NBF-manage-address.cshtml" />
     <None Include="Views\Widgets\MyAccountAddressView\Standard.cshtml" />
     <Content Include="Views\Widgets\MyAccountView\nbf.cshtml" />
     <None Include="Views\Widgets\MyAccountView\Standard.cshtml" />
