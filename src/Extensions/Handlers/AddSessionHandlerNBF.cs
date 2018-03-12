@@ -43,14 +43,7 @@ namespace Extensions.Handlers
         protected readonly StorefrontSecuritySettings StorefrontSecuritySettings;
         protected readonly ICartOrderProviderFactory CartOrderProviderFactory;
         protected readonly ICookieManager CookieManager;
-
-        public override int Order
-        {
-            get
-            {
-                return 500;
-            }
-        }
+        public override int Order => 500;
 
         public AddSessionHandlerNbf(IAuthenticationService authenticationService, ICustomerService customerService, ICartService cartService, IHandlerFactory handlerFactory, ISiteContextServiceFactory siteContextServiceFactory, IUserProfileUtilities userProfileUtilities, StorefrontUserPermissionsSettings storefrontUserPermissionsSettings, StorefrontSecuritySettings storefrontSecuritySettings, ICartOrderProviderFactory cartOrderProviderFactory, ICookieManager cookieManager)
         {

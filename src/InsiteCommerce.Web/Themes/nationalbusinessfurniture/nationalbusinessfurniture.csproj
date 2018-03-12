@@ -490,7 +490,7 @@
     <None Include="Views\Widgets\Carousel\Standard.cshtml" />
     <Content Include="Views\Widgets\CartView\NBF.cshtml" />
     <None Include="Views\Widgets\CartView\Standard.cshtml" />
-    <Content Include="Views\Widgets\CategoryWidget\Standard.cshtml" />
+    <Content Include="Views\Widgets\Custom\CategoryWidget\Standard.cshtml" />
     <None Include="Views\Widgets\ChangeAccountPasswordView\Standard.cshtml" />
     <None Include="Views\Widgets\ChangeCustomerView\Standard.cshtml" />
     <None Include="Views\Widgets\CheckoutAddressView\Standard.cshtml" />
@@ -520,7 +520,7 @@
     <Content Include="Views\Widgets\Custom\LinkListWithTitle\NavigationFlyOut.cshtml" />
     <Content Include="Views\Widgets\Custom\LinkListWithTitle\Standard.cshtml" />
     <Content Include="Views\Widgets\Custom\ShopTheLookWidget\Standard.cshtml" />
-    <Content Include="Views\Widgets\Custom\CategoriesListView\Standard.cshtml" />
+    <Content Include="Views\Widgets\Custom\CategoryListView\Standard.cshtml" />
     <Content Include="Views\Widgets\Custom\NavigationFlyOut\Standard.cshtml" />
     <None Include="Views\Widgets\DealerDirectionsView\Standard.cshtml" />
     <None Include="Views\Widgets\DealerLocatorView\Standard.cshtml" />
@@ -542,7 +542,7 @@
     <Content Include="Views\Widgets\LinkList\HeaderTopLinks.cshtml" />
     <None Include="Views\Widgets\LinkList\Standard.cshtml" />
     <None Include="Views\Widgets\MyAccountAddressView\Standard.cshtml" />
-    <Content Include="Views\Widgets\MyAccountView\nbf.cshtml" />
+    <Content Include="Views\Widgets\MyAccountView\NBF.cshtml" />
     <None Include="Views\Widgets\MyAccountView\Standard.cshtml" />
     <None Include="Views\Widgets\MyJobQuotesView\Standard.cshtml" />
     <Content Include="Views\Widgets\NavigationList\NBF.cshtml" />

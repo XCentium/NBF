@@ -1,13 +1,12 @@
 ﻿using System.ComponentModel;
 using Insite.ContentLibrary.ContentFields;
 using Insite.ContentLibrary.Widgets;
-using Microsoft.Ajax.Utilities;
 using FieldType = Insite.Data.Entities.FieldType;
 
 namespace Extensions.Widgets
 {
     [DisplayName("NBF - Category List View")]
-    public class CategorieslistView : ContentWidget
+    public class CategoryListView : ContentWidget
     {
         [TextContentField]
         public virtual string RootCategoryId
