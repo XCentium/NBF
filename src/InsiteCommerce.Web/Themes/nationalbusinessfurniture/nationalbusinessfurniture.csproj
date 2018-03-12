@@ -406,6 +406,7 @@
     <Content Include="Styles\custom\mini-cart.scss" />
     <Content Include="Styles\custom\manage-address.scss" />
     <Content Include="Styles\custom\models.scss" />
+    <Content Include="Styles\custom\tooltips.scss" />
     <None Include="Styles\template\category-list.scss" />
     <None Include="Styles\template\change-cust-ship-to.scss" />
     <None Include="Styles\template\checkout-addresses.scss" />
