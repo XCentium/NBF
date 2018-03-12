@@ -156,7 +156,7 @@
                                     <div class="section-container row">
                                         <div class="large-6 columns ship-method">
                                             <div class="oc-head">
-                                                <h3>[% translate 'Shipping Method' %]</h3>
+                                                <p><strong>[% translate 'Shipping Method' %]</strong></p>
                                             </div>
                                             <div class="oc-ship-meth">
                                                 <span ng-bind="vm.cart.shipVia.description"></span>
@@ -180,7 +180,18 @@
                                     <input name="paypalpayerid" type="hidden" ng-bind="vm.cart.paymentOptions.payPalPayerId" />
                                     <div class="section-container row" data-section data-section-resized="true" style="min-height: 0px;">
                                         <section class="payment-details large-6 columns" ng-hide="vm.cart.requiresApproval">
-                                            <h3>[% translate 'Payment Details' %]</h3>
+                                            <div class="exempt">
+                                                <span class="exempt__label">Tax Exempt?</span>
+                                                <input id="taxyes" class="customradio" type="radio" name="tax" /><label for="taxyes">Yes</label>
+                                                <input id="taxno" class="customradio" type="radio" name="tax" /><label for="taxno">No</label>
+                                                                      <div class="upload-btn">
+                                                                          UPLOAD YOUR TAX EXEMPT CERTIFICATE
+                                                                          <input type="file" class="upload-btn" />
+                                                                      </div>
+                                                <div class="doc-tag">
+                                                    Your_Tax-file.doc
+                                                </div>
+                                            </div>
                                             <div>
                                                 <span ng-show="vm.cart.paymentOptions.isPayPal">
                                                     [% translate 'Payment Method: ' %] [% translate 'PayPal' %]
@@ -285,15 +296,15 @@
                                                             </div>
                                                         </div>
                                                         <div ng-show="vm.cart.paymentOptions.canStorePaymentProfile && !vm.cart.billTo.isGuest">
+                                                            <input id="savePaymentInfo" class="customcheckbox" type="checkbox" ng-model="vm.cart.paymentOptions.storePaymentProfile" />
                                                             <label for="savePaymentInfo">[% translate 'Save Payment Info' %]</label>
-                                                            <input type="checkbox" ng-model="vm.cart.paymentOptions.storePaymentProfile" />
                                                         </div>
                                                     </div>
                                                     <div ng-show="vm.cart.showCreditCard && vm.cart.paymentMethod.isCreditCard">
                                                         <div class="use-billing-address">
                                                             <h4>[% translate 'Credit Card Address' %]</h4>
-                                                            <label>
-                                                                <input id="tst_reviewAndPayPage_useBillingAddress" type="checkbox" ng-model="vm.cart.paymentOptions.creditCard.useBillingAddress" />
+                                                            <input class="customcheckbox" id="tst_reviewAndPayPage_useBillingAddress" type="checkbox" ng-model="vm.cart.paymentOptions.creditCard.useBillingAddress" />
+                                                            <label for="tst_reviewAndPayPage_useBillingAddress">
                                                                 [% translate 'Use billing address' %]
                                                             </label>
                                                             <div ng-show="!vm.cart.paymentOptions.creditCard.useBillingAddress">
