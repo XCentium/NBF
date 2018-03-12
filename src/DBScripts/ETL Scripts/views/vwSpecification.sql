@@ -27,7 +27,8 @@ FROM
 	dbo.Specification s
 	join Product p on p.Id = s.ProductId
 	left join Content c on c.ContentManagerId = s.ContentManagerId
---where p.id = '62DE46BA-87FD-E711-A98C-A3E0F1200094'
+--where 
+--	p.id = '62DE46BA-87FD-E711-A98C-A3E0F1200094'
 /*
 select * from [vwSpecification]
 */

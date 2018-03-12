@@ -18,8 +18,8 @@ from
 	join Product p on p.Id = pav.ProductId
 	join AttributeValue av on av.Id = pav.AttributeValueId
 	join AttributeType att on att.Id = av.AttributeTypeId
-where
-	pav.ProductId = 'CDA872B9-87FD-E711-A98C-A3E0F1200094'
+--where
+--	pav.ProductId = 'CDA872B9-87FD-E711-A98C-A3E0F1200094'
 
 /*
 select * from vwProductAttributeValue

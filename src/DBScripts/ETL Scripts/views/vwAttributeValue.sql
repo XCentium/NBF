@@ -17,8 +17,8 @@ SELECT
 from
 	AttributeValue atv
 	join AttributeType att on att.Id = atv.AttributeTypeId
-where
-	atv.Id = 'A82D8EFC-87FD-E711-A98C-A3E0F1200094'
+--where
+--	atv.Id = 'A82D8EFC-87FD-E711-A98C-A3E0F1200094'
 
 /*
 select * from vwAttributeValue

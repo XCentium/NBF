@@ -7,7 +7,7 @@ CREATE VIEW [dbo].[vwVendor]
 AS
 
 
-SELECT top 100
+SELECT 
 		v.Id,
 		VendorNumber,
 		case when isnull(v.Name,'') = '' then '<blank>' else v.Name end Name,
