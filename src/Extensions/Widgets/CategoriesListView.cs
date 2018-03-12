@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using Insite.ContentLibrary.ContentFields;
 using Insite.ContentLibrary.Widgets;
 using Microsoft.Ajax.Utilities;
@@ -36,7 +35,17 @@ namespace Extensions.Widgets
             }
         }
 
-        public virtual bool CategoryIdSet => !RootCategoryId.IsNullOrWhiteSpace();
-        public virtual bool IsProductsOrByArea => RootCategory.Equals("Products Categories", StringComparison.CurrentCultureIgnoreCase) || RootCategory.Equals("By-Area Categories", StringComparison.CurrentCultureIgnoreCase);
+        public virtual string CategoryIndicator
+        {
+            get
+            {
+                var indicator = RootCategoryId;
+                if(RootCategory.Equals("Products Categories") || RootCategory.Equals("By-Area Categories"))
+                {
+                    indicator = RootCategory;
+                }
+                return indicator;
+            }
+        }
     }   
 }

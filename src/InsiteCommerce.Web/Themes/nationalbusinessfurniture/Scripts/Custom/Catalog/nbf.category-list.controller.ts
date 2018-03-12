@@ -10,42 +10,12 @@
         category: CategoryModel;
 
         static $inject = [
-            "$scope",
-            "coreService",
-            "cartService",
             "productService",
-            "compareProductsService",
-            "$rootScope",
-            "$window",
-            "$localStorage",
-            "paginationService",
-            "searchService",
-            "spinnerService",
-            "addToWishlistPopupService",
-            "settingsService",
-            "$stateParams",
-            "queryString",
-            "$location",
             "$attrs"
         ];
 
         constructor(
-            protected $scope: ng.IScope,
-            protected coreService: core.ICoreService,
-            protected cartService: cart.ICartService,
             protected productService: IProductService,
-            protected compareProductsService: ICompareProductsService,
-            protected $rootScope: ng.IRootScopeService,
-            protected $window: ng.IWindowService,
-            protected $localStorage: common.IWindowStorage,
-            protected paginationService: core.IPaginationService,
-            protected searchService: ISearchService,
-            protected spinnerService: core.ISpinnerService,
-            protected addToWishlistPopupService: wishlist.AddToWishlistPopupService,
-            protected settingsService: core.ISettingsService,
-            protected $stateParams: IProductListStateParams,
-            protected queryString: common.IQueryStringService,
-            protected $location: ng.ILocationService,
             protected $attrs: INbfCategoryListControllerAttributes) {
             this.init();
         }
@@ -88,6 +58,7 @@
                         }
                     });
                 } else {
+
                     this.category.subCategories.forEach((cat: CategoryModel) => {
                         if (!cat.properties["isAreaCat"]) {
                             cats.push(cat);
