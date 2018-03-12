@@ -87,6 +87,8 @@ begin
 		[Unspsc] = etl.[Unspsc],
 		[UnitOfMeasureDescription] = etl.[UnitOfMeasureDescription],
 		VendorId = etl.VendorId,
+		BasicSalePrice = etl.BasicSalePrice,
+		BasicSaleStartDate = etl.BasicSaleStartDate,
 		CreatedOn = etl.CreatedOn,
 		CreatedBy = etl.CreatedBy,
 		ModifiedBy = etl.ModifiedBy,

@@ -69,6 +69,24 @@ begin
 	exec ETLPriceMatrix_ByPriceCode_FromOEG 1, 'medical', 10
 	exec ETLPriceMatrix_ByPriceCode_FromOEG 1, 'medical', 11
 
+	-- update products with sale prices on the product table to trigger some out of
+	-- the box functionality for Insite
+	update Product set
+		BasicSalePrice = 0,
+		BasicSaleStartDate = null
+
+	update Product set
+		BasicSalePrice = pm.Amount01,
+		BasicSaleStartDate = '1/1/2010'
+	from Product p
+	join PriceMatrix pm on pm.ProductKeyPart = p.Id 
+		and pm.CustomerKeyPart = 'sale'
+	where
+		p.IsDiscontinued = 0
+		and p.Id in (select ProductId from CategoryProduct)
+
+
+
 /*
 exec ETLPriceMatrix_FromOEG
 exec ETLPriceMatrix_ToInsite
