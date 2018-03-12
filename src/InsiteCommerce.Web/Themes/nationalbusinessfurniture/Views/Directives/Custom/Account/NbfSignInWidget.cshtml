@@ -1,4 +1,4 @@
-﻿<div ng-cloak
+﻿<div class="checkout-signin" ng-cloak
      home-page-url="[% urlForPage 'HomePage' %]"
      change-customer-page-url="[% urlForPage 'ChangeCustomerPage' %]"
      dashboard-url="[% urlForPage 'MyAccountPage' %]"
@@ -14,49 +14,50 @@
         <div class="columns " ng-if="vm.isFromReviewAndPay">
             <p style="color: red;">[% siteMessage 'SignIn_SessionExpiredOnCheckout' %]</p>
         </div>
-
-        <div class="medium-6 large-6 columns si-form">
+        <div class="small-12 column">
+            <h4>Have an Account?</h4>
+        </div>
+        <div class="medium-8 large-9 columns si-form">
             <div class="si-step-1">
                 <form id="signInForm" name="vm.signInForm" novalidate>
                     <div class="row">
                         <div class="medium-6 large-6 columns">
-                            <label for="SignInInfo_UserName">[% translate 'Username' %]</label>
-                            <input type="text" id="SignInInfo_UserName" name="userName"
+                            <label class="username-label" for="SignInInfo_UserName">[% translate 'Username' %]</label>
+                            <input class="username" type="text" id="SignInInfo_UserName" name="userName"
                                    placeholder="[% translate 'Username' %]"
                                    required
                                    maxlength="75"
                                    ng-model="vm.userName" />
+                            <div class="remember-me" ng-show="vm.settings.rememberMe">
+                                <input class="customcheckbox" type="checkbox" id="SignInInfo_RememberMe" ng-model="vm.rememberMe" />
+                                <label class="remember-me-label" for="SignInInfo_RememberMe">[% translate 'Remember Me' %]</label>
+                            </div>
                         </div>
                         <div class="medium-6 large-6 columns">
-                            <label for="SignInInfo_Password">[% translate 'Password' %]</label>
+                            <label class="password-label" for="SignInInfo_Password">[% translate 'Password' %]</label>
                             <input type="password" id="SignInInfo_Password" name="password"
                                    placeholder="[% translate 'Password' %]"
                                    required
                                    maxlength="75"
                                    ng-model="vm.password" />
+                            <div ng-if="includeForgotPasswordLink">
+                                <a href="#" ng-click="vm.resetForgotPasswordPopup()" class="tiny-link" id="tst_signIn_openForgotPassword" data-reveal-id="forgotPasswordPopup">[% translate 'Forgot Password?' EscapeSingleQuotes %]</a>
+                            </div>
                         </div>
                     </div>
-                    <div ng-if="includeForgotPasswordLink">
-                        <a href="#" ng-click="vm.resetForgotPasswordPopup()" class="tiny-lnk" id="tst_signIn_openForgotPassword" data-reveal-id="forgotPasswordPopup">[% translate 'Forgot Password?' EscapeSingleQuotes %]</a>
-                    </div>
+
                     <p class="error">
                         <span class="field-validation-error" ng-if="vm.signInForm.$submitted && vm.signInForm.userName.$error.required">[% siteMessage 'SignInInfo_UserName_Required' %]</span>
                         <span class="field-validation-error" ng-if="vm.signInForm.$submitted && vm.signInForm.password.$error.required">[% siteMessage 'SignInInfo_Password_Required' %]</span>
                         <span class="field-validation-error" ng-if="vm.signInError" id="tst_signIn_generalError">{{vm.signInError}}</span>
                     </p>
-                    <div class="row">
-                        <div class="remember-me medium-6 columns" ng-show="vm.settings.rememberMe">
-                            <input type="checkbox" id="SignInInfo_RememberMe" ng-model="vm.rememberMe" />
-                            <label for="SignInInfo_RememberMe">[% translate 'Remember Me' %]</label>
-                        </div>
-                        <div class="btns medium-6 columns">
-                            <button id="tst_signIn_submit" type="submit" ng-disabled="vm.disableSignIn" class="btn primary btn-sign-in" ng-click="vm.signIn('[% siteMessage 'SignInInfo_UserNamePassword_Combination' EscapeSingleQuotes %]')">[% translate 'Sign In' %]</button>
-                        </div>
-                    </div>
                 </form>
             </div>
         </div>
-        
+        <div class="btns medium-4 large-3 columns">
+            <button id="tst_signIn_submit" type="submit" ng-disabled="vm.disableSignIn" class="btn primary btn-sign-in" ng-click="vm.signIn('[% siteMessage 'SignInInfo_UserNamePassword_Combination' EscapeSingleQuotes %]')">[% translate 'Sign In' %]</button>
+        </div>
+
         <div class="medium-6 large-6 columns si-acct" ng-if="vm.settings.allowCreateAccount && allowCreateAccount">
             <h3>[% translate 'Create New Account' %]</h3>
             <div class="btns">

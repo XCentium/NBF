@@ -93,35 +93,56 @@
                            is-read-only="isReadOnly">
         </isc-address-field>
     </div>
-    <div class="address-state-prov" ng-if="address.country && address.country.states.length > 0">
-        {{::addressFields.state.displayName}}
-        <span class="redTxt" ng-show="address.country && address.country.states.length > 0">*</span>
-        <select id="{{prefix}}state" name="{{prefix}}state"
-                ng-disabled="address.validation.state.isDisabled || isReadOnly"
-                ng-model="address.state"
-                ng-options="state.name for state in address.country.states"
-                data-rule-required="{{address.country && address.country.states.length > 0}}"
-                data-msg-required="{{::'[% siteMessage 'Field_Required' EscapeSingleQuotes %]'.replace('{0}', addressFields.state.displayName)}}">
-            <option value="">[% translate 'Select State' %]</option>
-        </select>
+    <div class="row">
+        <div class="small-12 medium-6 column">
+            <div class="address-state-prov" ng-if="address.country && address.country.states.length > 0">
+                {{::addressFields.state.displayName}}
+                <span class="redTxt" ng-show="address.country && address.country.states.length > 0">*</span>
+                <div class="custom-select">
+                    <select id="{{prefix}}state" name="{{prefix}}state"
+                            ng-disabled="address.validation.state.isDisabled || isReadOnly"
+                            ng-model="address.state"
+                            ng-options="state.name for state in address.country.states"
+                            data-rule-required="{{address.country && address.country.states.length > 0}}"
+                            data-msg-required="{{::'[% siteMessage 'Field_Required' EscapeSingleQuotes %]'.replace('{0}', addressFields.state.displayName)}}">
+                        <option value="">[% translate 'Select State' %]</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="small-12 medium-6 column">
+            <div class="address-zip-postal" ng-if="addressFields.postalCode.isVisible">
+                <isc-address-field field-label="{{addressFields.postalCode.displayName}}"
+                                   field-name="{{prefix}}postalcode"
+                                   field-value="address.postalCode"
+                                   validation="address.validation.postalCode"
+                                   is-read-only="isReadOnly">
+                </isc-address-field>
+            </div>
+        </div>
     </div>
-    <div class="address-zip-postal" ng-if="addressFields.postalCode.isVisible">
-        <isc-address-field field-label="{{addressFields.postalCode.displayName}}"
-                           field-name="{{prefix}}postalcode"
-                           field-value="address.postalCode"
-                           validation="address.validation.postalCode"
-                           is-read-only="isReadOnly">
-        </isc-address-field>
+    <div class="row">
+        <div class="small-12 medium-6 column">
+            <div class="address-phone" ng-if="addressFields.phone.isVisible">
+                <isc-address-field field-label="{{addressFields.phone.displayName}}"
+                                   field-name="{{prefix}}phone"
+                                   field-value="address.phone"
+                                   validation="address.validation.phone"
+                                   is-read-only="isReadOnly"
+                                   is-phone="true">
+                </isc-address-field>
+            </div>
+        </div>
+        <div class="small-12 medium-6 column">
+            <div class="address-phoneext" ng-if="addressFields.phone.isVisible">
+                <label>Ext.</label>
+                <input type="text" />
+            </div>
+        </div>
     </div>
-    <div class="address-phone" ng-if="addressFields.phone.isVisible">
-        <isc-address-field field-label="{{addressFields.phone.displayName}}"
-                           field-name="{{prefix}}phone"
-                           field-value="address.phone"
-                           validation="address.validation.phone"
-                           is-read-only="isReadOnly"
-                           is-phone="true">
-        </isc-address-field>
-    </div>
+   
+   
+    
     <div class="address-fax" ng-if="addressFields.fax.isVisible">
         <isc-address-field field-label="{{addressFields.fax.displayName}}"
                            field-name="{{prefix}}fax"
