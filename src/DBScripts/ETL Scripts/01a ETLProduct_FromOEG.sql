@@ -58,6 +58,7 @@ begin
 		sp.BrandId = @brand
 		and isnull(sp.Number,'') != ''
 		and sp.Number not like '%[_]%'
+		and isnull(spwd.[Description],'') != ''
 		and sp.Number not in (select ERPNumber from Product)
 	
 
@@ -94,6 +95,7 @@ begin
 		join Product p on p.ERPNumber = sp.Number
 	where 
 		sp.BrandId = @brand
+		and isnull(spwd.[Description],'') != ''
 
 		
 	--variant product info per website
@@ -120,6 +122,7 @@ begin
 		sp.BrandId = @brand
 		and isnull(sp.Number,'') != ''
 		and sp.Number not like '%[_]%'
+		and isnull(spwd.[Description],'') != ''
 		and sp.Number + '_' + spsku.OptionCode not in (select ERPNumber from Product)
 
 
@@ -161,6 +164,7 @@ begin
 		join Product p on p.ERPNumber = sp.Number + '_' + spsku.OptionCode
 	where 
 		sp.BrandId = @brand
+		and isnull(spwd.[Description],'') != ''
 
 	-- we need specification records for each specification
 	insert into Specification
@@ -274,6 +278,10 @@ begin
 			and luStatus.Name = 'Active'
 	where
 		sp.BrandId = @brand
+
+	-- data fix up
+
+	update Product set ShortDescription = 'need a short description' where ShortDescription = ''
 
 /*
 
