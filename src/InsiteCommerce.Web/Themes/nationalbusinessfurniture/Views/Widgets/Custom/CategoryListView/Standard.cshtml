@@ -1,0 +1,24 @@
+﻿<div class="row product-list category-list vm-list" ng-controller="NbfCategoryListController as vm" category-id="[[Model.CategoryIndicator]]" ng-cloak>
+    <div class="large-12 columns">
+        <div class="cat-list row">
+            <div class="medium-12 large-12 columns widget-1column narrow-container category-list">
+                <div class="row">
+                    <div class="medium-12 large-12 columns widget-1column">
+                        <ul class="category-list__wrap  row" data-equalizer>
+                            <li class="large-3 medium-4 small-12 column category-list__item" data-equalizer-watch ng-repeat="subCategory in vm.category.subCategories">
+                                <a ng-href="{{subCategory.path}}">
+                                    <div class="category-list__img-wrap">
+                                        <img class="category-list__img" ng-src="{{vm.subCategory.largeImagePath}}" alt="{{subCategory.imageAltText}}" />
+                                    </div>
+                                    <div class="category-list__title">
+                                        <h2>{{subCategory.shortDescription}}</h2>
+                                    </div>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
