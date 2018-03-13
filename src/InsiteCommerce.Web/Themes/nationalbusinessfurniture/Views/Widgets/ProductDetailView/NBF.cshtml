@@ -49,23 +49,6 @@
                             </ul>
                         </div>
                        
-
-                        <div ng-if="vm.product.canShowPrice && !vm.failedToGetRealTimePrices" class="pd-price-um">
-                            <isc-product-price product="vm.product"></isc-product-price>
-                            <span id="tst_productDetail_unitOfMeasureLabel" ng-if="vm.product.unitOfMeasureDisplay || vm.product.unitOfMeasureDescription" class="um isc-uomDisplay">
-                                / {{vm.product.unitOfMeasureDescription || vm.product.unitOfMeasureDisplay}}
-                            </span>
-                            <isc-product-price-saving product="vm.product" currency-symbol="vm.product.currencySymbol"></isc-product-price-saving>
-                        </div>
-                        <div ng-show="vm.product.canShowPrice && !vm.product.quoteRequired && !vm.failedToGetRealTimePrices">
-                            <isc-quantity-break-pricing product-id="vm.product.id" break-prices="vm.product.pricing.unitRegularBreakPrices"></isc-quantity-break-pricing>
-                        </div>
-                        <div class="item-price" ng-if="vm.failedToGetRealTimePrices">
-                            <div>[% siteMessage 'RealTimePricing_PriceLoadFailed' %]</div>
-                        </div>
-                        <div ng-if="vm.settings.showInventoryAvailability" class="availability">
-                            <isc-availability-message availability="vm.product.availability" failed-to-get-real-time-inventory="vm.failedToGetRealTimeInventory"></isc-availability-message>
-                        </div>
                         <div class="pd-cm-wrap">
                             <div ng-show="vm.product.isConfigured && vm.product.configurationDto && vm.product.configurationDto.isKit">
                                 <div ng-repeat="section in vm.product.configurationDto.sections" class="pd-kit">
