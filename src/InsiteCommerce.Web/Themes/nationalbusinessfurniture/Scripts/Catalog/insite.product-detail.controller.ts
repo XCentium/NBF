@@ -27,6 +27,7 @@ module insite.catalog {
         productSubscription: ProductSubscriptionDto;
         addingToCart = false;
         languageId: System.Guid;
+        swatches: any[] = [];
 
         static $inject = [
             "$scope",
@@ -79,6 +80,15 @@ module insite.catalog {
             }
 
             return retVal;
+        }
+
+        protected selectInsiteStyleDropdown(styleName: string, styleTraitValueId: string): void {            
+            debugger;
+            let dropdownSelector = "select[name=tst_styleSelect_" + styleName + "]";
+            jQuery("select[name=tst_styleSelect_" + styleName + "]").val(styleTraitValueId);
+                //.change();
+            jQuery(dropdownSelector + " option[value='" + styleTraitValueId + "']").prop({ defaultSelected: true });
+            
         }
 
         protected getSettingsCompleted(settingsCollection: core.SettingsCollection): void {
@@ -140,6 +150,10 @@ module insite.catalog {
             this.getRealTimePrices();
             if (!this.settings.inventoryIncludedWithPricing) {
                 this.getRealTimeInventory();
+            }
+
+            if (this.product.properties && this.product.properties["swatches"]) {
+                this.swatches = JSON.parse(this.product.properties["swatches"]);
             }
 
             this.setTabs();

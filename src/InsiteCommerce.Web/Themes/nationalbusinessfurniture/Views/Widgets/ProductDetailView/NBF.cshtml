@@ -40,23 +40,12 @@
                             <strong>Available Colors/Finishes</strong> <a href="#">Order Free Samples</a>
                         </div>
 
-                        <div class="item-block__product__swatches">
-                            <div class="item-block__product__swatches__label">Color:</div>
-                            <ul>
-                                <li class="active"><img src="https://i0.wp.com/www.esotericmeanings.com/wp-content/uploads/2016/07/meditation_visualisation_red_square-256.jpg" /></li>
-                                <li><img src="https://i0.wp.com/www.esotericmeanings.com/wp-content/uploads/2016/07/meditation_visualisation_red_square-256.jpg" /></li>
-                                <li><img src="https://i0.wp.com/www.esotericmeanings.com/wp-content/uploads/2016/07/meditation_visualisation_red_square-256.jpg" /></li>
-                                <li><img src="https://i0.wp.com/www.esotericmeanings.com/wp-content/uploads/2016/07/meditation_visualisation_red_square-256.jpg" /></li>
-                            </ul>
-                            <div class="item-block__product__swatches__label">Finish:</div>
-                            <ul>
-                                <li class="active"><img src="https://i0.wp.com/www.esotericmeanings.com/wp-content/uploads/2016/07/meditation_visualisation_red_square-256.jpg" /></li>
-                                <li><img src="https://i0.wp.com/www.esotericmeanings.com/wp-content/uploads/2016/07/meditation_visualisation_red_square-256.jpg" /></li>
-                                <li><img src="https://i0.wp.com/www.esotericmeanings.com/wp-content/uploads/2016/07/meditation_visualisation_red_square-256.jpg" /></li>
-                                <li><img src="https://i0.wp.com/www.esotericmeanings.com/wp-content/uploads/2016/07/meditation_visualisation_red_square-256.jpg" /></li>
-                                <li><img src="https://i0.wp.com/www.esotericmeanings.com/wp-content/uploads/2016/07/meditation_visualisation_red_square-256.jpg" /></li>
-                                <li><img src="https://i0.wp.com/www.esotericmeanings.com/wp-content/uploads/2016/07/meditation_visualisation_red_square-256.jpg" /></li>
-
+                        <div class="item-block__product__swatches" ng-if="vm.swatches">
+                            <div class="item-block__product__swatches__label" ng-repeat-start="(key, val) in vm.swatches">{{key}}:</div>
+                            <ul ng-repeat-end>
+                                <li ng-repeat="item in val">
+                                    <img ng-click="vm.selectInsiteStyleDropdown(key, item.StyleTraitValueId);" ng-src="https://s7d9.scene7.com/is/image/NationalBusinessFurniture/{{item.ImageName}}?hei=200&id=5-zsy2&fmt=jpg&fit=constrain,1&wid=344&hei=344" alt="{{item.Name}}" />
+                                </li>
                             </ul>
                         </div>
                         <div ng-if="vm.product.canShowPrice && !vm.failedToGetRealTimePrices" class="pd-price-um">
