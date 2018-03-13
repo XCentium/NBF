@@ -49,7 +49,7 @@ namespace Extensions.Handlers
         protected readonly IRequisitionService RequisitionService;
         protected readonly IUrlProvider UrlProvider;
 
-        public override int Order => 500;
+        public override int Order => 3200;
 
         public GetDashboardPanelCollectionHandlerNbf(IHandlerFactory handlerFactory, IContentHelper contentHelper, IRequisitionService requisitionService, IQuoteService quoteService, IOrderService orderService, IAccountService accountService, IInvoiceService invoiceService, IWishListService wishListService, ICartService cartService, IUrlProvider urlProvider)
         {
@@ -76,15 +76,12 @@ namespace Extensions.Handlers
                     Text = x.Title,
                     Url = UrlProvider.PrepareUrl(x.Url)
                 }).ToList();
-            var panels = new List<DashboardPanelDto>();
             foreach (var dashboardPanelDto in source)
             {
-                if (dashboardPanelDto.Type != typeof(OrderApprovalListPage))
-                    SetUpPanelDto(dashboardPanelDto);
-                    panels.Add(dashboardPanelDto);
+                SetUpPanelDto(dashboardPanelDto);
             }
             
-            result.DashboardPanels = panels.OrderBy(x => x.IsPanel).ThenBy(x => x.Order).ThenBy(x => x.Text).ToList();
+            result.DashboardPanels = source.OrderBy(x => x.IsPanel).ThenBy(x => x.Order).ThenBy(x => x.Text).ToList();
             return NextHandler.Execute(unitOfWork, parameter, result);
         }
 
@@ -132,7 +129,7 @@ namespace Extensions.Handlers
             {
                 dashboardPanelDto.PanelType = "OrderApprovals";
                 dashboardPanelDto.Text = "Order Approval";
-                dashboardPanelDto.IsPanel = true;
+                dashboardPanelDto.IsPanel = false;
                 dashboardPanelDto.Count = CartService.GetCartCollection(new GetCartCollectionParameter() { Status = "AwaitingApproval" }).TotalCount;
                 dashboardPanelDto.Order = 140;
             }
