@@ -507,7 +507,7 @@
     <Content Include="Views\Widgets\CreateAccountView\NBF.cshtml" />
     <None Include="Views\Widgets\CreateAccountView\Standard.cshtml" />
     <None Include="Views\Widgets\CurrencySelector\Standard.cshtml" />
-    <Content Include="Views\Widgets\Custom\Ctalinks\Standard.cshtml" />
+    <Content Include="Views\Widgets\Custom\CTALinkZone\Standard.cshtml" />
     <Content Include="Views\Widgets\Custom\WebCode\Standard.cshtml" />
     <Content Include="Views\Widgets\Custom\BetterBusinessBureau\Standard.cshtml" />
     <Content Include="Views\Widgets\Custom\RequestCatalogLink\Standard.cshtml" />
@@ -531,6 +531,7 @@
     <Content Include="Views\Widgets\Custom\ShopTheLookWidget\Standard.cshtml" />
     <Content Include="Views\Widgets\Custom\CategoryListView\Standard.cshtml" />
     <Content Include="Views\Widgets\Custom\NavigationFlyOut\Standard.cshtml" />
+    <Content Include="Views\Widgets\Custom\CTALinkWidget\Standard.cshtml" />
     <None Include="Views\Widgets\DealerDirectionsView\Standard.cshtml" />
     <None Include="Views\Widgets\DealerLocatorView\Standard.cshtml" />
     <None Include="Views\Widgets\DealerView\Standard.cshtml" />
