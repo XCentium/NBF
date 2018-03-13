@@ -3537,8 +3537,8 @@ a.btn.isc-addToWishlistPopup, a.btn.btn-add-list, a.btn.btn-add-to-list {
 }
 
 a.btn.btn-add-list:before, a.btn.btn-add-to-list:before {
-    content: "\e600";
-    font-family: 'good-oatmeal-v2';
+    content: "\e90c";
+    font-family: $icomoon;
     speak: none;
     font-style: normal;
     font-weight: normal;
@@ -3558,8 +3558,12 @@ a.btn.btn-add-list:before, a.btn.btn-add-to-list:before {
     padding-right: 0.5em;
 }
 
-/* Other Links */
 
+a.btn.btn-add-list.in-favorites:before, a.btn.btn-add-to-list.in-favorites:before {
+    content: "\e9da";
+    color:$nbf-orange;
+}
+/* Other Links */
 .return-link a {
     text-decoration: none !important;
 }
