@@ -89,6 +89,7 @@ namespace Insite.Dashboard.Services.Handlers
             if (dashboardPanelDto.Type == typeof(OrdersPage))
             {
                 dashboardPanelDto.PanelType = "Orders";
+                dashboardPanelDto.Text = "My Orders";
                 dashboardPanelDto.IsPanel = true;
                 dashboardPanelDto.Count = OrderService.GetOrderCollection(new GetOrderCollectionParameter()
                 {
@@ -98,18 +99,20 @@ namespace Insite.Dashboard.Services.Handlers
                     PageSize = 15000,
                     Page = 1
                 }).TotalCount;
-                dashboardPanelDto.Order = 100;
+                dashboardPanelDto.Order = 110;
             }
             else if (dashboardPanelDto.Type == typeof(RfqMyQuotesPage))
             {
                 dashboardPanelDto.PanelType = "RequestForQuote";
+                dashboardPanelDto.Text = "My Quotes";
                 dashboardPanelDto.IsPanel = true;
                 dashboardPanelDto.Count = QuoteService.GetQuoteCollection(new GetQuoteCollectionParameter()).TotalCount;
-                dashboardPanelDto.Order = 110;
+                dashboardPanelDto.Order = 120;
             }
             else if (dashboardPanelDto.Type == typeof(InvoicesPage))
             {
                 dashboardPanelDto.PanelType = "Invoices";
+                dashboardPanelDto.Text = "My Invoices";
                 dashboardPanelDto.IsPanel = true;
                 dashboardPanelDto.Count = InvoiceService.GetInvoiceCollection(new GetInvoiceCollectionParameter() {
                     CustomerSequence = "-1",
@@ -118,14 +121,15 @@ namespace Insite.Dashboard.Services.Handlers
                     PageSize = 15000,
                     Page = 1
                 }).TotalCount;
-                dashboardPanelDto.Order = 120;
+                dashboardPanelDto.Order = 130;
             }
             else if (dashboardPanelDto.Type == typeof(OrderApprovalListPage))
             {
                 dashboardPanelDto.PanelType = "OrderApprovals";
+                dashboardPanelDto.Text = "Order Approval";
                 dashboardPanelDto.IsPanel = true;
                 dashboardPanelDto.Count = CartService.GetCartCollection(new GetCartCollectionParameter() { Status = "AwaitingApproval" }).TotalCount;
-                dashboardPanelDto.Order = 130;
+                dashboardPanelDto.Order = 140;
             }
             else if (dashboardPanelDto.Type == typeof(ContentPage) && dashboardPanelDto.Text == "Payment Options")
             {
@@ -138,6 +142,7 @@ namespace Insite.Dashboard.Services.Handlers
             else if (dashboardPanelDto.Type == typeof(MyAccountAddressPage))
             {
                 dashboardPanelDto.PanelType = "My Addresses";
+                dashboardPanelDto.Text = "My Addresses";
                 dashboardPanelDto.IsPanel = true;
                 dashboardPanelDto.Count = AccountService.GetAccount(new GetAccountParameter()).UserProfile.Customers.Count;
                 dashboardPanelDto.Order = 160;
@@ -153,6 +158,7 @@ namespace Insite.Dashboard.Services.Handlers
             else if (dashboardPanelDto.Type == typeof(MyListsPage))
             {
                 dashboardPanelDto.PanelType = "Favorites";
+                dashboardPanelDto.Text = "My Favorites";
                 dashboardPanelDto.IsPanel = true;
                 dashboardPanelDto.Count = WishListService.GetWishListCollection(new GetWishListCollectionParameter()).WishLists.First().WishListProducts.Count;
                 dashboardPanelDto.Order = 200;

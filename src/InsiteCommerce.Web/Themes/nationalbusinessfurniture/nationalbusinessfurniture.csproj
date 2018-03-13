@@ -178,6 +178,8 @@
     <TypeScriptCompile Include="Scripts\Custom\Comments\nbf.commentmessage.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Comments\nbf.commentmessage.service.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Footer\nbf.footer.controller.ts" />
+    <TypeScriptCompile Include="Scripts\Custom\Invoices\nbf.invoice.directives.ts" />
+    <TypeScriptCompile Include="Scripts\Custom\Invoices\nbf.recent-invoices.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\nbf.nav.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Layout\nbf.top-nav.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\OrderTracker\nbf.order-tracker.order-detail.controller.ts" />
@@ -477,6 +479,7 @@
     <Content Include="Views\Directives\Custom\Account\NbfSignInFlyOut.cshtml" />
     <Content Include="Views\Directives\Custom\Cart\NbfCartLines.cshtml" />
     <Content Include="Views\ContentItemFields\ListOfNewsPages.cshtml" />
+    <Content Include="Views\Directives\Custom\Invoices\RecentInvoices.cshtml" />
     <None Include="Views\Directives\PdfViews\InvoiceDetails.cshtml" />
     <None Include="Views\Directives\PdfViews\OrderDetails.cshtml" />
     <Content Include="Views\Directives\Rfq\ProposedDetailsGrid.cshtml" />
