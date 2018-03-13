@@ -40,14 +40,16 @@
                             <strong>Available Colors/Finishes</strong> <a href="#">Order Free Samples</a>
                         </div>
 
-                        <div class="item-block__product__swatches" ng-if="vm.swatches">
-                            <div class="item-block__product__swatches__label" ng-repeat-start="(key, val) in vm.swatches">{{key}}:</div>
+                        <div class="item-block__product__swatches">
+                            <div class="item-block__product__swatches__label" ng-repeat-start="styleTrait in vm.styleTraitFiltered | orderBy: 'sortOrder'">{{styleTrait.nameDisplay}}:</div>
                             <ul ng-repeat-end>
-                                <li ng-repeat="item in val">
-                                    <img ng-click="vm.selectInsiteStyleDropdown(key, item.StyleTraitValueId);" ng-src="https://s7d9.scene7.com/is/image/NationalBusinessFurniture/{{item.ImageName}}?hei=200&id=5-zsy2&fmt=jpg&fit=constrain,1&wid=344&hei=344" alt="{{item.Name}}" />
+                                <li ng-repeat="style in styleTrait.styleValues | orderBy: 'sortOrder' track by style.styleTraitValueId">
+                                    <img ng-click="vm.selectInsiteStyleDropdown(styleTrait.nameDisplay, style.styleTraitValueId, $index);" ng-src="https://s7d9.scene7.com/is/image/NationalBusinessFurniture/{{vm.getSwatchImageNameFromStyleTraitValueId(style.styleTraitValueId)}}?hei=200&id=5-zsy2&fmt=jpg&fit=constrain,1&wid=344&hei=344" alt="{{style.valueDisplay}}" />
                                 </li>
                             </ul>
                         </div>
+                       
+
                         <div ng-if="vm.product.canShowPrice && !vm.failedToGetRealTimePrices" class="pd-price-um">
                             <isc-product-price product="vm.product"></isc-product-price>
                             <span id="tst_productDetail_unitOfMeasureLabel" ng-if="vm.product.unitOfMeasureDisplay || vm.product.unitOfMeasureDescription" class="um isc-uomDisplay">

@@ -81,13 +81,40 @@ module insite.catalog {
 
             return retVal;
         }
-
-        protected selectInsiteStyleDropdown(styleName: string, styleTraitValueId: string): void {            
+        protected getSwatchImageNameFromStyleTraitValueId(styleTraitValueId: string): string {
             debugger;
-            let dropdownSelector = "select[name=tst_styleSelect_" + styleName + "]";
-            jQuery("select[name=tst_styleSelect_" + styleName + "]").val(styleTraitValueId);
+            let retVal: string = null;
+            let searchValue = styleTraitValueId.toUpperCase();
+
+            if (this.swatches) {
+                var swatch = this.swatches.find(x => x.StyleTraitValueId.toUpperCase() == searchValue);
+
+                if (swatch) {
+                    retVal = swatch.ImageName;
+                }
+
+            }
+
+            return retVal;
+        }
+
+
+        protected selectInsiteStyleDropdown(styleTraitName: string, styleTraitValueId: string, index: number): void {            
+            debugger;
+            let styleTrait = this.styleTraitFiltered.find(x => x.nameDisplay == styleTraitName);
+            if (styleTrait) {
+                let option = styleTrait.styleValues.find(x => x.styleTraitValueId == styleTraitValueId);
+
+                if (option) {
+                    this.styleSelection[index] = option;
+                    this.styleChange();
+                }
+            }
+            //this.configurationSelection[$index] = 
+            //let dropdownSelector = "select[name=tst_styleSelect_" + styleName + "]";
+            //jQuery("select[name=tst_styleSelect_" + styleName + "]").val(styleTraitValueId);
                 //.change();
-            jQuery(dropdownSelector + " option[value='" + styleTraitValueId + "']").prop({ defaultSelected: true });
+            //jQuery(dropdownSelector + " option[value='" + styleTraitValueId + "']").prop({ defaultSelected: true });
             
         }
 

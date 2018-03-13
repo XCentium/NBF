@@ -48,7 +48,7 @@ namespace Extensions.Handlers.GetProductCollectionHandler
                 {
                     var swatchErpNumber = product.ErpNumber + ":";
 
-                    var swatchProductsQuery = unitOfWork.GetRepository<Product>()
+                    var swatchProducts = unitOfWork.GetRepository<Product>()
                                    .GetTable()
                                    .Where(x => x.ErpNumber.StartsWith(swatchErpNumber))
                                    .Select(x => new {x.ModelNumber,
@@ -61,25 +61,7 @@ namespace Extensions.Handlers.GetProductCollectionHandler
                                        ImageName = x.ManufacturerItem,
                                        ProductCode = x.ProductCode
                                    })                                   
-                                   .ToList();
-
-                    var swatchProducts = swatchProductsQuery
-                        .Select(x => x.ModelNumber)
-                        .Distinct()
-                        .OrderBy(x => x)
-                        .ToDictionary(x => x, x => swatchProductsQuery
-                                                   .Where(t => t.ModelNumber == x)                                               
-                                                   .Select(t => new
-                                                   {
-                                                       t.Id,
-                                                       t.ErpNumber,
-                                                       t.Name,
-                                                       t.ShortDescription,
-                                                       StyleTraitId = t.StyleTraitId,
-                                                       StyleTraitValueId = t.StyleTraitValueId,
-                                                       ImageName = t.ImageName,
-                                                       ProductCode = t.ProductCode
-                                                   }));
+                                   .ToList();                    
 
                     if (swatchProducts.Any())
                     {
