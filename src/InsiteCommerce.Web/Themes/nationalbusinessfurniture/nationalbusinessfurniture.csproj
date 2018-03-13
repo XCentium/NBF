@@ -407,6 +407,8 @@
     <Content Include="Styles\custom\tables.scss" />
     <Content Include="Styles\custom\mini-cart.scss" />
     <Content Include="Styles\custom\manage-address.scss" />
+    <Content Include="Styles\custom\models.scss" />
+    <Content Include="Styles\custom\tooltips.scss" />
     <None Include="Styles\template\category-list.scss" />
     <None Include="Styles\template\change-cust-ship-to.scss" />
     <None Include="Styles\template\checkout-addresses.scss" />
@@ -558,6 +560,7 @@
     <None Include="Views\Widgets\NavigationList\Standard.cshtml" />
     <None Include="Views\Widgets\NewsListView\Standard.cshtml" />
     <None Include="Views\Widgets\NewsPageView\Standard.cshtml" />
+    <Content Include="Views\Widgets\OneColumn\Narrow.cshtml" />
     <None Include="Views\Widgets\OneColumn\Standard.cshtml" />
     <None Include="Views\Widgets\OrderApprovalDetailView\Standard.cshtml" />
     <None Include="Views\Widgets\OrderApprovalListView\Standard.cshtml" />
