@@ -1,5 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Insite.Account.Content;
+using Insite.Account.Services;
+using Insite.Account.Services.Parameters;
 using Insite.Cart.Services;
 using Insite.Cart.Services.Parameters;
 using Insite.ContentLibrary.Pages;
@@ -10,8 +14,12 @@ using Insite.Dashboard.Services.Dtos;
 using Insite.Dashboard.Services.Parameters;
 using Insite.Dashboard.Services.Results;
 using Insite.Invoice.Content;
+using Insite.Invoice.Services;
+using Insite.Invoice.Services.Parameters;
 using Insite.JobQuote.Content;
 using Insite.Order.Content;
+using Insite.Order.Services;
+using Insite.Order.Services.Parameters;
 using Insite.OrderApproval.Content;
 using Insite.Requisition.Content;
 using Insite.Requisition.Services;
@@ -19,22 +27,13 @@ using Insite.Requisition.Services.Parameters;
 using Insite.Rfq.Content;
 using Insite.Rfq.Services;
 using Insite.Rfq.Services.Parameters;
-using Insite.WebFramework.Content;
 using Insite.WebFramework.Content.Interfaces;
 using Insite.WebFramework.Routing;
-using System.Collections.Generic;
-using System.Linq;
-using Insite.Account.Services;
-using Insite.Account.Services.Parameters;
-using Insite.Invoice.Services;
-using Insite.Invoice.Services.Parameters;
-using Insite.Order.Services;
-using Insite.Order.Services.Parameters;
 using Insite.WishLists.Content;
 using Insite.WishLists.Services;
 using Insite.WishLists.Services.Parameters;
 
-namespace Insite.Dashboard.Services.Handlers
+namespace Extensions.Handlers
 {
     [DependencyName("GetDashboardsHandler")]
     public class GetDashboardPanelCollectionHandlerNbf : HandlerBase<GetDashboardPanelCollectionParameter, GetDashboardPanelCollectionResult>
@@ -68,8 +67,8 @@ namespace Insite.Dashboard.Services.Handlers
 
         public override GetDashboardPanelCollectionResult Execute(IUnitOfWork unitOfWork, GetDashboardPanelCollectionParameter parameter, GetDashboardPanelCollectionResult result)
         {
-            List<DashboardPanelDto> source = new List<DashboardPanelDto>();
-            GetPageResult<MyAccountPage> page = ContentHelper.GetPage<MyAccountPage>(false);
+            var source = new List<DashboardPanelDto>();
+            var page = ContentHelper.GetPage<MyAccountPage>();
             if (page.Page != null && page.DisplayLink)
                 source = ContentHelper.GetChildPagesForVariantKey<ContentPage>(page.Page.VariantKey.Value, false).Where(x => !x.ExcludeFromNavigation).Select(x => new DashboardPanelDto()
                 {
@@ -77,9 +76,15 @@ namespace Insite.Dashboard.Services.Handlers
                     Text = x.Title,
                     Url = UrlProvider.PrepareUrl(x.Url)
                 }).ToList();
-            foreach (DashboardPanelDto dashboardPanelDto in source)
-                SetUpPanelDto(dashboardPanelDto);
-            result.DashboardPanels = source.OrderBy(x => x.IsPanel).ThenBy(x => x.Order).ThenBy(x => x.Text).ToList();
+            var panels = new List<DashboardPanelDto>();
+            foreach (var dashboardPanelDto in source)
+            {
+                if (dashboardPanelDto.Type != typeof(OrderApprovalListPage))
+                    SetUpPanelDto(dashboardPanelDto);
+                    panels.Add(dashboardPanelDto);
+            }
+            
+            result.DashboardPanels = panels.OrderBy(x => x.IsPanel).ThenBy(x => x.Order).ThenBy(x => x.Text).ToList();
             return NextHandler.Execute(unitOfWork, parameter, result);
         }
 
@@ -178,6 +183,16 @@ namespace Insite.Dashboard.Services.Handlers
                 dashboardPanelDto.QuickLinkText = ContentHelper.T("My Jobs");
                 dashboardPanelDto.QuickLinkOrder = 5;
             }
+        }
+
+        public class DashboardPanelSortOrder
+        {
+            public const int RequestForQuote = 120;
+            public const int OrderApprovals = 140;
+            public const int Requisitions = 200;
+            public const int Orders = 110;
+            public const int Invoices = 130;
+            public const int BudgetReview = 240;
         }
     }
 }

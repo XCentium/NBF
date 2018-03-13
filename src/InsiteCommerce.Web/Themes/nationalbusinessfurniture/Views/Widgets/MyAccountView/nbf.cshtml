@@ -41,7 +41,8 @@
                         <div class="row dashboard">
                             <div class="small-12 columns left dash-tiles">
                                 <ul class="small-block-grid-2 large-block-grid-5 tiles-list">
-                                    <li ng-repeat="panel in vm.panels | orderByObject:'order''" ng-class="vm.getCssClass(panel.panelType)">
+                                    <li ng-repeat="panel in vm.panels | orderBy:'order'" ng-class="vm.getCssClass(panel.panelType)">
+                                        {{panel.order}}
                                         <a ng-href="{{panel.url}}" class="">
                                             <span>{{panel.text}}</span>
                                         </a>
