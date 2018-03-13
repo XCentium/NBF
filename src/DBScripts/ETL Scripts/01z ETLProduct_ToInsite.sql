@@ -66,7 +66,6 @@ begin
 		Sku = etl.Sku,
 		ActivateOn = etl.ActivateOn,
 		DeactivateOn = etl.DeactivateOn,
-		TaxCode1 = etl.TaxCode1,
 		ShippingWeight = etl.ShippingWeight,
 		ShippingLength = etl.ShippingLength,
 		ShippingWidth = etl.ShippingWidth,
