@@ -280,6 +280,7 @@
     <Compile Include="Handlers\AddSessionHandlerNBF.cs" />
     <Compile Include="Handlers\AddCustomer.cs" />
     <Compile Include="Handlers\GetDashboardPanelCollectionHandlerNBF.cs" />
+    <Compile Include="Handlers\GetProductCollectionHandler\AfterProductListRetrived.cs" />
     <Compile Include="Handlers\GetProductCollectionHandler\FindProductsWithSearch.cs" />
     <Compile Include="Handlers\Helpers\NBFHtmlHelper.cs" />
     <Compile Include="Handlers\Helpers\NBFListrakHelper.cs" />
