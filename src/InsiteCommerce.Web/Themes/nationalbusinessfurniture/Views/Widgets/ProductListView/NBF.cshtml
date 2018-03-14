@@ -51,7 +51,6 @@
                     </div>
                 </div>
             </div>
-
             <div ng-if="!vm.isCategoryPage() || vm.filteredResults" class="content-wrapper">
                 <div class="row">
                     <div class="medium-12 large-12 columns widget-1column narrow-container">
@@ -66,10 +65,7 @@
                 <div class="row">
                     <div class="medium-12 large-12 columns widget-1column narrow-container">
                         <div class="row">
-
                             <div id="tst_productList_container" class="right small-12 columns" ng-class="{ 'large-12': !vm.noResults || vm.searchWithinTerms.length > 0}">
-
-
                                 <h3 class="results-count" ng-class="{ messaging: vm.noResults && vm.searchWithinTerms.length }">
 
                                     <span ng-if="vm.query && !(vm.searchCategory || vm.filterCategory.categoryId)" class="search-lbl">
@@ -86,7 +82,6 @@
                                 <div class="search-autocorrect-original" ng-if="vm.autoCorrectedQuery">
                                     [% translate 'Search instead for' %] <a ng-click="vm.goToSearchCriteria(vm.originalQuery, false)">{{vm.originalQuery}}</a>
                                 </div>
-
                                 <div ng-show="vm.products.products.length > 0">
                                     <isc-pager id="tst_productList_topPager" pagination="vm.products.pagination" storage-key="vm.paginationStorageKey" update-data="vm.updateProductData()" select-view="vm.selectView(viewName)" custom-context="vm.customPagerContext" page-changed="vm.pagerPageChanged()"></isc-pager>
                                     <ul class="item-list cart-items" id="tst_productList_nonTable">
@@ -165,7 +160,6 @@
                                                         <nbf-sorted-attribute-value-list ng-if="product.attributeTypes.length > 0" attribute-types="product.attributeTypes" maximum-number="3" class="attribute-list"></nbf-sorted-attribute-value-list>
                                                     </div>
                                                 </div>
-
                                                 <div class="item-price" ng-if="!vm.failedToGetRealTimePrices" style="display: none;">
                                                     <div class="product-info">
                                                         <isc-product-price product="product"></isc-product-price>
@@ -183,7 +177,6 @@
                                                             </div>
                                                         </div>
                                                     </div>
-
                                                     <div class="actions-block">
                                                         <div ng-if="product.canAddToCart" class="product-list-actions">
                                                             <div class="add-to-cart-block">
@@ -207,7 +200,6 @@
                                             </div>
                                         </li>
                                     </ul>
-
                                     <table ng-show="!vm.isSearch" id="tst_productList_table" class="info-tbl tv-table container">
                                         <thead>
                                             <tr>
@@ -280,10 +272,8 @@
                                             </tr>
                                         </tbody>
                                     </table>
-
                                     <isc-pager bottom="true" pagination="vm.products.pagination" storage-key="vm.paginationStorageKey" update-data="vm.updateProductData()" custom-context="vm.customPagerContext"></isc-pager>
                                 </div>
-
                                 <div id="tst_productList_nothingFound" class="clr lfl w100" ng-if="vm.products.products && !(vm.products.products.length > 0)">
                                     <div ng-if="vm.isSearch">
                                         <div>
@@ -309,7 +299,6 @@
             </div>
         </div>
     </div>
-
     <div id="AddToCompareExceedsSixProducts" class="product-list reveal-modal medium" data-reveal data-reveal-init>
         <div class="modal-wrap compare-wrap">
             <strong>[% siteMessage 'ProductionCompare_MaximumItemsReached' %]</strong>
@@ -320,14 +309,11 @@
             <a class="close-reveal-modal">&#215;</a>
         </div>
     </div>
-
     <isc-popup-template container-id="popup-columns-limit" title="[% translate 'Warning' %]">
         [% translate 'You cannot select more than 3 attributes.' %]
     </isc-popup-template>
 </div>
-
 <isc-product-comparison-hopper></isc-product-comparison-hopper>
-
 <script type="text/ng-template" id="productList_productComparisonHopper">
     <div class="compare-hopper" ng-show="vm.canShowCompareHopper()">
         <div class="compare-container">
@@ -345,9 +331,7 @@
         </div>
     </div>
 </script>
-
 <script type="text/ng-template" id="productList_categoryLeftNav">
-
     [% capture filterStatusControls %]
     <div class="n-filtered" ng-if="vm.filterCategory.categoryId || vm.attributeValues.length > 0 || vm.priceFilters.length > 0 || vm.searchWithinTerms.length > 0">
         <ul>
@@ -375,7 +359,6 @@
         <div class="clear-all"><a id="tst_productList_categoryLeftNav_clearFilters" href="#" ng-click="vm.clearFilters() ">[% translate 'Clear All' %]</a></div>
     </div>
     [% endcapture %]
-
     <div class="large-12 column" id="tst_productList_left_nav">
         <div class="ln2-wrap">
             <div ng-if="category" class="nav-head">
@@ -413,7 +396,6 @@
                                             </div>
                                         </div>
                                     </div>
-
                                     <div class="f-cat" ng-if="vm.products.categoryFacets.length > 0">
                                         <section class="accordion">
                                             <div>
@@ -437,7 +419,6 @@
                                             </div>
                                         </section>
                                     </div>
-
                                     <div class="f-cat" ng-if="vm.products.priceRange.priceFacets.length > 0">
                                         <section class="accordion">
                                             <div>
@@ -461,7 +442,6 @@
                                             </div>
                                         </section>
                                     </div>
-
                                     <div ng-repeat="section in vm.products.attributeTypeFacets | orderBy : ['sort','nameDisplay']" class="f-cat" ng-if="vm.products.attributeTypeFacets.length > 0">
                                         <section class="accordion">
                                             <div>
@@ -486,7 +466,6 @@
                                             </div>
                                         </section>
                                     </div>
-
                                     <!-- hidden div to force load of checked image -->
                                     <div class="f-cat" style="display:none;">
                                         <ul class="accordion">
@@ -532,7 +511,6 @@
                     </div>
                 </section>
             </div>
-
             <!-- narrow version filters -->
             <div class="f-cat" role="mobile-filters" style="display:none;">
                 <section class="accordion">
@@ -572,7 +550,6 @@
                                             </option>
                                         </select>
                                     </div>
-
                                     <div ng-if="vm.products.priceRange.priceFacets.length > 0" class="filter-option-container">
                                         <select data-mini="true" ng-model="priceFacetMinimum" ng-change="vm.togglePriceFilter(priceFacetMinimum)" name="tst_productList_priceFacet_select">
                                             <option value="">[% translate 'Price' %]</option>
@@ -583,7 +560,6 @@
                                             </option>
                                         </select>
                                     </div>
-
                                     <div ng-repeat="section in vm.products.attributeTypeFacets | orderBy : ['sort','nameDisplay']" class="filter-option-container">
                                         <select data-mini="true" ng-model="section.attributeValueId" ng-change="vm.toggleFilter(section.attributeValueId || section.attributeTypeId)">
                                             <option value="">{{section.nameDisplay}}</option>
@@ -602,5 +578,4 @@
             </div>
         </div>
     </div>
-
 </script>
