@@ -29,7 +29,7 @@ SELECT
 		v.CreatedBy,
 		v.ModifiedOn,
 		v.ModifiedBy,
-		isnull(c.ISOCode2,'') CountryISOCode2
+		isnull(c.ISOCode2,'US') CountryISOCode2
 FROM
 	dbo.Vendor v
 	left join Country c on c.Id = v.CountryId

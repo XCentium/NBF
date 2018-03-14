@@ -33,7 +33,7 @@ SELECT
 	c.ProductSearchBoost,
 	ws.Name WebsiteName,
 	th.Name ThemeName,
-	pc.Name ParentCategoryName,
+	isnull(pc.Name,'') ParentCategoryName,
 	case when c.ParentId is null then ws.Name + ':' + c.Name  
 	else ws.Name + ':' + pc.Name + ':' + c.Name end  WebsiteCategoryName
 FROM
