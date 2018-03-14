@@ -11,3 +11,6 @@
 <span class="strike ori-price-tag" ng-if="!product.quoteRequired && product.pricing && !product.pricing.requiresRealTimePrice && vm.showPriceSaving(product) || vm.showPriceSavingForOrderHistory(product)">
     Was <span ng-bind="vm.unitListPriceDisplay"></span>
 </span>
+<div ng-if="vm.showSavingsAmount && vm.showSavingsPercent" class="item-block__product__flag save">
+    SAVE {{vm.getSavingsPercent()}}%
+</div>

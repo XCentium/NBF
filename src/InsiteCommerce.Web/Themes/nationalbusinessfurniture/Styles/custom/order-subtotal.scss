@@ -7,13 +7,16 @@
     border: 1px solid #DCDCDC;
     padding: 2em;
     margin-bottom: 2em;
+    clear: both;
 
     .summary-title {
-         font-family: $ProximaNova-bold;
+        font-family: $ProximaNova-bold;
     }
+
     .oc-head {
-        margin-bottom:20px;
+        margin-bottom: 20px;
     }
+
     .discount-total .sub-amount {
         float: right;
         font-weight: bold;

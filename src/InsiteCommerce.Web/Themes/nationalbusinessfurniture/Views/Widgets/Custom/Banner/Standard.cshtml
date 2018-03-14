@@ -12,7 +12,7 @@
                 [% if Model.Style1Formatted == "default" -%]
                 <h2>[[Model.Title1]]</h2>
                 <p>[[Model.SubTitle1]]</p>
-                [% if Model.ButtonReady1 == "default" -%]
+                [% if Model.ButtonReady1 == true -%]
                 <a href="[[Model.ButtonUrl1]]" class="btn btn-primary">[[Model.ButtonText1]]</a>
                 [% endif -%]
                 [% else -%]
@@ -20,6 +20,12 @@
                     <div class="square-conatiner">
                         <div class="v-center">
                             <h3 class="banner__content--[[Model.Style1Formatted]]__title">[[Model.Title1]]</h3>
+                            [% if Model.SubTitle1 != null and Model.SubTitle1 != "" -%]
+                            <p>[[Model.SubTitle1]]</p>
+                            [% endif -%]
+                            [% if Model.ButtonReady1 == true -%]
+                            <a href="[[Model.ButtonUrl1]]" class="btn btn-primary">[[Model.ButtonText1]]</a>
+                            [% endif -%]
                         </div>
                     </div>
                 </div>
@@ -31,7 +37,7 @@
                 [% if Model.Style2Formatted == "default" -%]
                 <h2>[[Model.Title2]]</h2>
                 <p>[[Model.SubTitle2]]</p>
-                [% if Model.ButtonReady2 == "default" -%]
+                [% if Model.ButtonReady2 == true -%]
                 <a href="[[Model.ButtonUrl2]]" class="btn btn-primary">[[Model.ButtonText2]]</a>
                 [% endif -%]
                 [% else -%]
@@ -39,6 +45,12 @@
                     <div class="square-conatiner">
                         <div class="v-center">
                             <h3 class="banner__content--[[Model.Style1Formatted]]__title">[[Model.Title2]]</h3>
+                            [% if Model.SubTitle2 != null and Model.SubTitle2 != "" -%]
+                            <p>[[Model.SubTitle2]]</p>
+                            [% endif -%]
+                            [% if Model.ButtonReady2 == true -%]
+                            <a href="[[Model.ButtonUrl2]]" class="btn btn-primary">[[Model.ButtonText2]]</a>
+                            [% endif -%]
                         </div>
                     </div>
                 </div>

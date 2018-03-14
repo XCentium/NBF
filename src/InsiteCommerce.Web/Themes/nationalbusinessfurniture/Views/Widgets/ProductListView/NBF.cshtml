@@ -39,7 +39,7 @@
                                 <li class="large-3 medium-4 small-12 column category-list__item" data-equalizer-watch ng-repeat="subCategory in vm.category.subCategories">
                                     <a ng-href="{{subCategory.path}}">
                                         <div class="category-list__img-wrap">
-                                            <img class="category-list__img" ng-src="{{vm.subCategory.largeImagePath}}" alt="{{subCategory.imageAltText}}" />
+                                            <img class="category-list__img" ng-src="{{vm.subCategory.smallImagePath}}" alt="{{subCategory.imageAltText}}" />
                                         </div>
                                         <div class="category-list__title">
                                             <h2>{{subCategory.shortDescription}}</h2>
@@ -47,11 +47,6 @@
                                     </a>
                                 </li>
                             </ul>
-                        </div>
-                        <div class="medium-12 large-12 columns widget-1column">
-                            <div class="right">
-                                <a href="#">See All Categories <i class="fas fa-long-arrow-alt-right"></i></a>
-                            </div>
                         </div>
                     </div>
                 </div>

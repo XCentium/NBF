@@ -279,6 +279,7 @@
     <Compile Include="Filters\OrderTrackerFilter.cs" />
     <Compile Include="Handlers\AddSessionHandlerNBF.cs" />
     <Compile Include="Handlers\AddCustomer.cs" />
+    <Compile Include="Handlers\GetProductCollectionHandler\AfterProductListRetrived.cs" />
     <Compile Include="Handlers\GetProductCollectionHandler\FindProductsWithSearch.cs" />
     <Compile Include="Handlers\Helpers\NBFHtmlHelper.cs" />
     <Compile Include="Handlers\Helpers\NBFListrakHelper.cs" />
@@ -334,7 +335,7 @@
     <Compile Include="Widgets\BetterBusinessBureau.cs" />
     <Compile Include="Widgets\CallUsPreparer.cs" />
     <Compile Include="Widgets\CallUs.cs" />
-    <Compile Include="Widgets\CategoriesListView.cs" />
+    <Compile Include="Widgets\CategoryListView.cs" />
     <Compile Include="Widgets\LinkListWithTitlePreparer.cs" />
     <Compile Include="Widgets\NavigationFlyOutPreparer.cs" />
     <Compile Include="Widgets\ShopTheLookWidget.cs" />

@@ -122,6 +122,8 @@
     <!--<Content Include="Scripts\sticky.js" />-->
     <Content Include="Styles\custom\cta-link-widget.scss" />
     <Content Include="Styles\custom\cart.scss" />
+    <Content Include="Styles\custom\checkout-signin.scss" />
+    <Content Include="Styles\custom\checkout-cart.scss" />
     <None Include="Styles\custom\font-awesome.scss" />
     <None Include="Styles\custom\font-icomoon.scss" />
     <Content Include="Styles\fonts\fontawesome-webfont.svg" />
@@ -401,6 +403,10 @@
     <Content Include="Styles\custom\order-subtotal.scss" />
     <Content Include="Styles\custom\navlist.scss" />
     <Content Include="Styles\custom\tables.scss" />
+    <Content Include="Styles\custom\mini-cart.scss" />
+    <Content Include="Styles\custom\manage-address.scss" />
+    <Content Include="Styles\custom\models.scss" />
+    <Content Include="Styles\custom\tooltips.scss" />
     <None Include="Styles\template\category-list.scss" />
     <None Include="Styles\template\change-cust-ship-to.scss" />
     <None Include="Styles\template\checkout-addresses.scss" />
@@ -490,7 +496,7 @@
     <None Include="Views\Widgets\Carousel\Standard.cshtml" />
     <Content Include="Views\Widgets\CartView\NBF.cshtml" />
     <None Include="Views\Widgets\CartView\Standard.cshtml" />
-    <Content Include="Views\Widgets\CategoryWidget\Standard.cshtml" />
+    <Content Include="Views\Widgets\Custom\CategoryWidget\Standard.cshtml" />
     <None Include="Views\Widgets\ChangeAccountPasswordView\Standard.cshtml" />
     <None Include="Views\Widgets\ChangeCustomerView\Standard.cshtml" />
     <None Include="Views\Widgets\CheckoutAddressView\Standard.cshtml" />
@@ -520,7 +526,7 @@
     <Content Include="Views\Widgets\Custom\LinkListWithTitle\NavigationFlyOut.cshtml" />
     <Content Include="Views\Widgets\Custom\LinkListWithTitle\Standard.cshtml" />
     <Content Include="Views\Widgets\Custom\ShopTheLookWidget\Standard.cshtml" />
-    <Content Include="Views\Widgets\Custom\CategoriesListView\Standard.cshtml" />
+    <Content Include="Views\Widgets\Custom\CategoryListView\Standard.cshtml" />
     <Content Include="Views\Widgets\Custom\NavigationFlyOut\Standard.cshtml" />
     <None Include="Views\Widgets\DealerDirectionsView\Standard.cshtml" />
     <None Include="Views\Widgets\DealerLocatorView\Standard.cshtml" />
@@ -541,14 +547,17 @@
     <None Include="Views\Widgets\LanguageSelector\Standard.cshtml" />
     <Content Include="Views\Widgets\LinkList\HeaderTopLinks.cshtml" />
     <None Include="Views\Widgets\LinkList\Standard.cshtml" />
+    <Content Include="Views\Widgets\MyAccountAddressView\NBF.cshtml" />
+    <Content Include="Views\Widgets\MyAccountAddressView\NBF-manage-address.cshtml" />
     <None Include="Views\Widgets\MyAccountAddressView\Standard.cshtml" />
-    <Content Include="Views\Widgets\MyAccountView\nbf.cshtml" />
+    <Content Include="Views\Widgets\MyAccountView\NBF.cshtml" />
     <None Include="Views\Widgets\MyAccountView\Standard.cshtml" />
     <None Include="Views\Widgets\MyJobQuotesView\Standard.cshtml" />
     <Content Include="Views\Widgets\NavigationList\NBF.cshtml" />
     <None Include="Views\Widgets\NavigationList\Standard.cshtml" />
     <None Include="Views\Widgets\NewsListView\Standard.cshtml" />
     <None Include="Views\Widgets\NewsPageView\Standard.cshtml" />
+    <Content Include="Views\Widgets\OneColumn\Narrow.cshtml" />
     <None Include="Views\Widgets\OneColumn\Standard.cshtml" />
     <None Include="Views\Widgets\OrderApprovalDetailView\Standard.cshtml" />
     <None Include="Views\Widgets\OrderApprovalListView\Standard.cshtml" />
@@ -562,6 +571,7 @@
     <None Include="Views\Widgets\PageTitle\Standard.cshtml" />
     <None Include="Views\Widgets\ProductComparisonView\Standard.cshtml" />
     <Content Include="Views\Widgets\ProductDetailView\NBF.cshtml" />
+    <Content Include="Views\Widgets\ProductDetailView\Mark.cshtml" />
     <None Include="Views\Widgets\ProductDetailView\Standard.cshtml" />
     <None Include="Views\Widgets\ProductListView\B2C.cshtml" />
     <None Include="Views\Widgets\ProductListView\Standard.cshtml" />
