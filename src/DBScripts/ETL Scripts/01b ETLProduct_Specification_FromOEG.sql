@@ -41,35 +41,124 @@ begin
 
 	-- first update the existing contents
 
-	update Content set
-	Html = isnull(dim.General,''),
-	ModifiedOn = getdate()
-	--select p.erpnumber, isnull(dim.General,''), c.Html, dim.ItemId
+	;with combinedDimension as
+	(
+	select 
+		p.Id ProductId, p.ERPNumber, s.ContentManagerId, dim.General, dim.Back, dim.Seat, dim.Arm, 
+		'<ul class="nbf-product-custom-dimensions"><' + 
+				STUFF((SELECT dd.DimensionName + ': ' + dd.DimensionValue as li
+				FROM OEGSystemStaging.dbo.ItemDynamicDimensions dd
+				WHERE dd.ItemId = sp.ItemId
+				FOR XML PATH('')), 1, 1, '') +
+				'</ul>' combinedDynamicDimension,
+		'<ul class="nbf-product-carton-dimensions"><' + 
+				STUFF((SELECT format(cartonD.Width,'####.##') + '"W x ' + 
+					format(cartonD.[Length],'####.##') + '"D x ' + 
+					format(cartonD.Height,'####.##') + '"H'
+					as li
+				FROM OEGSystemStaging.dbo.ItemCartonDimensions cartonD
+				WHERE cartonD.ItemId = sp.ItemId
+				FOR XML PATH('')), 1, 1, '') +
+				'</ul>' combinedCartonDimension,
+		max(sisku.[Weight]) [Weight], 
+		max(sisku.GSASIN) GSASIN
 	from Product p
 	join Specification s on s.ProductId = p.Id and s.[Name] = 'Dimensions'
-	join Content c on c.ContentManagerId = s.ContentManagerId
 	join OEGSystemStaging.dbo.Products sp on sp.Number = p.ERPNumber
 		and sp.BrandId = @brand
 	join OEGSystemStaging.dbo.ItemDimensions dim on dim.ItemId = sp.ItemId
-	where c.Html != isnull(dim.General,'')
-	and isnull(dim.General,'') != ''
+	join OEGSystemStaging.dbo.ProductSKUs spsku on spsku.ProductId = sp.ProductId
+	join OEGSystemStaging.dbo.ItemSKUs sisku on sisku.ItemSKUId = spsku.ItemSKUId
+	group by 
+		p.Id, p.ERPNumber, dim.General, dim.Back, dim.Seat, dim.Arm, sp.ItemId, s.ContentManagerId
+	), 
+	final as
+	(
+	select 
+		cd.ProductId, cd.ERPNumber, cd.ContentManagerId,
+		'<ul class="nbf-product-dimensions">' + 
+		'<li>Dimensions: ' + cd.General + '</li>' +
+		case when cd.Seat is null then '' else '<li>Seat Dimensions: ' + cd.Seat + '</li>' end +
+		case when cd.Back is null then '' else '<li>Back Dimensions: ' + cd.Back + '</li>' end +
+		case when cd.Arm is null then '' else '<li>Arm Dimensions: ' + cd.Arm + '</li>' end +
+		case when cd.combinedDynamicDimension is null then '' else '<li>Custom Dimensions: ' + cd.combinedDynamicDimension + '</li>' end +
+		case when cd.[Weight] is null then '' else '<li>Weight: ' + convert(nvarchar(max),cd.[Weight]) + ' lbs.</li>' end +
+		case when cd.GSASIN is null then '' else '<li>SIN#: ' + convert(nvarchar(max),cd.GSASIN) + '</li>' end +
+		case when cd.combinedCartonDimension is null then '' else '<li>Carton Dimensions: ' + cd.combinedCartonDimension + '</li>' end +
+		'</ul>' Dimensions
+	 from combinedDimension cd
+	 --where combinedCartonDimension is not null
+	 --where cd.ERPNumber = '56948'
+	 )
+	update Content set
+	Html = isnull(f.Dimensions,''),
+	ModifiedOn = getdate()
+	--select f.ProductId, f.ERPNumber, f.Dimensions 
+	from final f
+	join Content c on c.ContentManagerId = f.ContentManagerId
+	where c.Html != isnull(f.Dimensions,'')
+	and isnull(f.Dimensions,'') != ''
 
 	-- now insert any new ones we didn't have before
 
-	insert into Content 
-	(ContentManagerId, [Name], Html, Revision, LanguageId, PersonaId, ApprovedOn, PublishToProductionOn, DeviceType, CreatedBy, ModifiedBy)
-	select s.ContentManagerId, 'New Revision', 
-	isnull(dim.General,''), 
-	1, @LanguageId, @PersonaId, getdate(), getdate(), 'Desktop', 'etl', 'etl' 
-	--select p.ERPNumber, dim.General
+	;with combinedDimension as
+	(
+	select 
+		p.Id ProductId, p.ERPNumber, s.ContentManagerId, dim.General, dim.Back, dim.Seat, dim.Arm, 
+		'<ul class="nbf-product-custom-dimensions"><' + 
+				STUFF((SELECT dd.DimensionName + ': ' + dd.DimensionValue as li
+				FROM OEGSystemStaging.dbo.ItemDynamicDimensions dd
+				WHERE dd.ItemId = sp.ItemId
+				FOR XML PATH('')), 1, 1, '') +
+				'</ul>' combinedDynamicDimension,
+		'<ul class="nbf-product-carton-dimensions"><' + 
+				STUFF((SELECT format(cartonD.Width,'####.##') + '"W x ' + 
+					format(cartonD.[Length],'####.##') + '"D x ' + 
+					format(cartonD.Height,'####.##') + '"H'
+					as li
+				FROM OEGSystemStaging.dbo.ItemCartonDimensions cartonD
+				WHERE cartonD.ItemId = sp.ItemId
+				FOR XML PATH('')), 1, 1, '') +
+				'</ul>' combinedCartonDimension,
+		max(sisku.[Weight]) [Weight], 
+		max(sisku.GSASIN) GSASIN
 	from Product p
 	join Specification s on s.ProductId = p.Id and s.[Name] = 'Dimensions'
 	join OEGSystemStaging.dbo.Products sp on sp.Number = p.ERPNumber
 		and sp.BrandId = @brand
 	join OEGSystemStaging.dbo.ItemDimensions dim on dim.ItemId = sp.ItemId
-	where s.ContentManagerId not in (select ContentManagerId from Content)
-	and isnull(dim.General,'') != ''
-
+	join OEGSystemStaging.dbo.ProductSKUs spsku on spsku.ProductId = sp.ProductId
+	join OEGSystemStaging.dbo.ItemSKUs sisku on sisku.ItemSKUId = spsku.ItemSKUId
+	group by 
+		p.Id, p.ERPNumber, dim.General, dim.Back, dim.Seat, dim.Arm, sp.ItemId, s.ContentManagerId
+	), 
+	final as
+	(
+	select 
+		cd.ProductId, cd.ERPNumber, cd.ContentManagerId,
+		'<ul class="nbf-product-dimensions">' + 
+		'<li>Dimensions: ' + cd.General + '</li>' +
+		case when cd.Seat is null then '' else '<li>Seat Dimensions: ' + cd.Seat + '</li>' end +
+		case when cd.Back is null then '' else '<li>Back Dimensions: ' + cd.Back + '</li>' end +
+		case when cd.Arm is null then '' else '<li>Arm Dimensions: ' + cd.Arm + '</li>' end +
+		case when cd.combinedDynamicDimension is null then '' else '<li>Custom Dimensions: ' + cd.combinedDynamicDimension + '</li>' end +
+		case when cd.[Weight] is null then '' else '<li>Weight: ' + convert(nvarchar(max),cd.[Weight]) + ' lbs.</li>' end +
+		case when cd.GSASIN is null then '' else '<li>SIN#: ' + convert(nvarchar(max),cd.GSASIN) + '</li>' end +
+		case when cd.combinedCartonDimension is null then '' else '<li>Carton Dimensions: ' + cd.combinedCartonDimension + '</li>' end +
+		'</ul>' Dimensions
+	 from combinedDimension cd
+	 --where combinedCartonDimension is not null
+	 --where cd.ERPNumber = '56948'
+	 )
+	insert into Content 
+	(ContentManagerId, [Name], Html, Revision, LanguageId, PersonaId, ApprovedOn, PublishToProductionOn, DeviceType, CreatedBy, ModifiedBy)
+	select f.ContentManagerId, 'New Revision', 
+	isnull(f.Dimensions,''), 
+	1, @LanguageId, @PersonaId, getdate(), getdate(), 'Desktop', 'etl', 'etl' 
+	--select f.ProductId, f.ERPNumber, f.Dimensions 
+	from final f
+	where f.ContentManagerId not in (select ContentManagerId from Content)
+	and isnull(f.Dimensions,'') != ''
 
 
 	/*

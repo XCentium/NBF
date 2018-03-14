@@ -65,12 +65,12 @@ begin
 	update Product set
 		ERPDescription = ltrim(rtrim(isnull(si.[Description],''))),
 		ShortDescription = ltrim(rtrim(isnull(spwd.[Description],''))),
-		UnitOfMeasure = isnull(luUOM.Code,''),
-		UnitOfMeasureDescription = isnull(luUOM.[Name],''),
-		ShippingWeight = isnull(scd.[Weight],0),
-		ShippingLength = isnull(scd.[Length],0),
-		ShippingWidth = isnull(scd.[Width],0),
-		ShippingHeight = isnull(scd.[Height],0),
+		UnitOfMeasure = isnull(luUOM.Code,'EA'),
+		UnitOfMeasureDescription = isnull(luUOM.[Name],'Each'),
+		ShippingWeight = 0,
+		ShippingLength = 0,
+		ShippingWidth = 0,
+		ShippingHeight = 0,
 		ShippingAmountOverride = isnull(sp.DeliveryAmount,0),
 		QtyPerShippingPackage = 0,
 		UrlSegment = LOWER(replace(dbo.UrlFriendlyString(ltrim(rtrim(isnull(spwd.[Description],''))) + '-' + sp.Number),'/','-')),
@@ -88,7 +88,6 @@ begin
 		left join OEGSystemStaging.dbo.ProductsWebDescriptions spwd on spwd.ProductId = sp.ProductId
 			and spwd.TypeId = 1
 		left join OEGSystemStaging.dbo.LookupUnitOfMeasures luUOM on luUOM.Id = si.UnitOfMeasureId
-		left join OEGSystemStaging.dbo.ItemCartonDimensions scd on scd.ItemId = si.ItemId
 		left join OEGSystemStaging.dbo.LookupItemStatuses luStatus on luStatus.Id = sp.StatusId
 		left join OEGSystemStaging.dbo.Vendors sv on sv.VendorId = sp.DisplayVendorId
 			join Vendor v on v.VendorNumber = sv.Code
@@ -129,13 +128,13 @@ begin
 	update Product set
 		ERPDescription = ltrim(rtrim(isnull(sisku.[Description],''))),
 		ShortDescription = ltrim(rtrim(isnull(spwd.[Description],''))) + ' - ' + ltrim(rtrim(isnull(spsku.[Description],''))),
-		UnitOfMeasure = isnull(luUOM.Code,''),
-		UnitOfMeasureDescription = isnull(luUOM.[Name],''),
+		UnitOfMeasure = isnull(luUOM.Code,'EA'),
+		UnitOfMeasureDescription = isnull(luUOM.[Name],'Each'),
 		Sku = isnull(sisku.SKUNumber,''),
-		ShippingWeight = isnull(scd.[Weight],0),
-		ShippingLength = isnull(scd.[Length],0),
-		ShippingWidth = isnull(scd.[Width],0),
-		ShippingHeight = isnull(scd.[Height],0),
+		ShippingWeight = isnull(sisku.Weight,0),
+		ShippingLength = 0,
+		ShippingWidth = 0,
+		ShippingHeight = 0,
 		ShippingAmountOverride = isnull(sp.DeliveryAmount,0),
 		QtyPerShippingPackage = case when isnull(si.RequireTruck,0) > 0 then si.RequireTruck when isnull(sisku.ShipTypeId,0) = 12 then 1 else 0 end,
 		UrlSegment = sp.Number + '-' + convert(nvarchar(max),spsku.ProductSKUId),
@@ -157,7 +156,6 @@ begin
 		join OEGSystemStaging.dbo.ProductSKUs spsku on spsku.ProductId = sp.ProductId
 		join OEGSystemStaging.dbo.ItemSKUs sisku on sisku.ItemSKUId = spsku.ItemSKUId
 		left join OEGSystemStaging.dbo.LookupUnitOfMeasures luUOM on luUOM.Id = si.UnitOfMeasureId
-		left join OEGSystemStaging.dbo.ItemCartonDimensions scd on scd.ItemId = si.ItemId
 		left join OEGSystemStaging.dbo.LookupItemStatuses luStatus on luStatus.Id = sp.StatusId
 		left join OEGSystemStaging.dbo.Vendors sv on sv.VendorId = sp.DisplayVendorId
 			join Vendor v on v.VendorNumber = sv.Code
