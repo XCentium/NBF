@@ -1,6 +1,6 @@
-select   * from IntegrationJobLog 
+select top 100  * from IntegrationJobLog 
 where 1=1
-and IntegrationJobId = '55F1A497-79C1-4B77-AB75-A8A200FDFB3F'
+--and IntegrationJobId = '612b5bfe-0b8f-4f2f-b149-a8a2004c6dc3F'
 --and message like '%unique%'
 --and message like '%finished transcr%'
 --and TypeName = 'debug'
