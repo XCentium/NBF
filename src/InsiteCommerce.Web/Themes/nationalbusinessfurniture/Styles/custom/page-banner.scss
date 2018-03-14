@@ -173,6 +173,12 @@
         &__default__title {
             margin: 0;
         }
+
+        &--default {
+            .btn {
+                min-width:200px;
+            }
+        }
     }
 
     .video-link {
