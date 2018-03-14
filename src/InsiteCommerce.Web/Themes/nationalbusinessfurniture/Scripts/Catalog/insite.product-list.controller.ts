@@ -131,6 +131,23 @@ module insite.catalog {
 
         }
 
+        protected isAttributeValue(product: ProductDto, attrName: string, attrValue: string): boolean {
+            let retVal: boolean = false;
+
+            if (product && product.attributeTypes) {
+                var attrType = product.attributeTypes.find(x => x.name == attrName && x.isActive == true);
+
+                if (attrType) {
+                    var matchingAttrValue = attrType.attributeValues.find(y => y.value == attrValue);
+
+                    if (matchingAttrValue) {
+                        retVal = true;
+                    }
+                }
+            }
+            return retVal;
+        }
+
         protected getFacets(categoryId: string): void {
             const params = {
                 priceFilters: this.priceFilterMinimums,

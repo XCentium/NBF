@@ -100,9 +100,11 @@
                                                 <a ng-href="{{product.productDetailUrl}}">
                                                     <img ng-src="https://s7d9.scene7.com/is/image/NationalBusinessFurniture/{{product.mediumImagePath}}?hei=250&id=Iu1rN2&fmt=jpg&fit=constrain,1&wid=250&hei=250" alt="{{product.altText}}" increment-images-loaded />
                                                 </a>
+                                                <!--
                                                 <div ng-if="vm.settings.enableProductComparisons" class="product-compare-add">
                                                     <a href="javascript:void(0);" data-id="{{product.id}}" class="compare-link" ng-class="{ 'compare-active': product.isBeingCompared }" ng-click="vm.compareProduct(product);">[% translate 'Compare' %]</a>
                                                 </div>
+                                                -->
                                             </div>
                                             <div class="item-details">
                                                 <div class="item-inf-wrapper">
@@ -137,28 +139,22 @@
                                                             <span ng-if="product.manufacturerItem" class="item-num-mfg">[% translate 'MFG #' %]: {{product.manufacturerItem}}</span>
                                                             <span ng-if="product.customerName" class="item-num-my">[% translate 'My Part #' %]: {{product.customerName}}</span>
                                                         </div>
-                                                    </div>
-                                                    <div ng-if="vm.settings.showInventoryAvailability" class="availability">
-                                                        <isc-availability-message availability="product.availability" failed-to-get-real-time-inventory="vm.failedToGetRealTimeInventory"></isc-availability-message>
-                                                    </div>
+                                                    </div>                                                    
                                                     <div class="item-block__product__price-wrap">
                                                         <div class="item-block__product__price">
-                                                            <h3 class="text-orange item-block__price">$150</h3> <span class="strike ori-price-tag">Was $200</span>
+                                                            <isc-product-price product="product" ng-cloak></isc-product-price>
+                                                            <isc-product-price-saving product="product" display-savings-percent="false" ng-cloak></isc-product-price-saving>
                                                         </div>
-                                                        <div class="item-block__product__flag">
-                                                            flag
-                                                        </div>
+                                                        <div ng-if="vm.isAttributeValue(product, 'GSA', 'Yes');" class="item-block__product__flag gsa">
+                                                            GSA
+                                                        </div>                                                        
                                                     </div>
                                                     <div class="item-block__product__col-2">
                                                         <div class="col-1">
-                                                            <div class="item-block__product__stars">
-                                                                <div class="rating"></div>Stars Here!
-                                                            </div>
+                                                            <div class="item-block__product__stars"><div class="rating"></div>Stars Here!</div>
                                                         </div>
                                                         <div class="col-2">
-                                                            <div class="item-block__product__ships-today">
-                                                                <span class="ico-Truck"></span> Ships Today!
-                                                            </div>
+                                                            <div class="item-block__product__ships-today" ng-if="vm.isAttributeValue(product, 'Ships Today', 'Yes');"><span class="ico-Truck"></span> Ships Today!</div>
                                                         </div>
                                                     </div>
                                                     <div style="display: none;">
