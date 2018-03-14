@@ -7,10 +7,10 @@
     <span ng-if="!vm.showSavingsAmount && vm.showSavingsPercent">{{vm.getSavingsPercent()}}%</span>
 </span>
 {% endcomment %}
-
-<span class="strike ori-price-tag" ng-if="!product.quoteRequired && product.pricing && !product.pricing.requiresRealTimePrice && vm.showPriceSaving(product) || vm.showPriceSavingForOrderHistory(product)">
-    Was <span ng-bind="vm.unitListPriceDisplay"></span>
-</span>
+<!--
+<span class="strike ori-price-tag">Was $200.00</span>
+-->
+<span class="strike ori-price-tag" ng-if="!product.quoteRequired && product.pricing && !product.pricing.requiresRealTimePrice && vm.showPriceSaving(product) || vm.showPriceSavingForOrderHistory(product)">Was {{vm.unitListPriceDisplay | json}}</span>
 <div ng-if="vm.displaySavingsPercent === true && vm.showSavingsAmount && vm.showSavingsPercent" class="item-block__product__flag save">
     SAVE {{vm.getSavingsPercent()}}%
 </div>
