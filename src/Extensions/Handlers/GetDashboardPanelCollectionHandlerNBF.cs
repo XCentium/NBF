@@ -129,7 +129,8 @@ namespace Extensions.Handlers
             {
                 dashboardPanelDto.PanelType = "OrderApprovals";
                 dashboardPanelDto.Text = "Order Approval";
-                dashboardPanelDto.IsPanel = false;
+                //todo set to false for non- corporate accounts
+                dashboardPanelDto.IsPanel = true;
                 dashboardPanelDto.Count = CartService.GetCartCollection(new GetCartCollectionParameter() { Status = "AwaitingApproval" }).TotalCount;
                 dashboardPanelDto.Order = 140;
             }
