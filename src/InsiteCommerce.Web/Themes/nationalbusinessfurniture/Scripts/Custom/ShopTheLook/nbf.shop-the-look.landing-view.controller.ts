@@ -1,4 +1,4 @@
-﻿module nbf.ShopTheLook {
+﻿module nbf.shopthelook {
     "use strict";
 
     export class NbfShopTheLookLandingViewController {
