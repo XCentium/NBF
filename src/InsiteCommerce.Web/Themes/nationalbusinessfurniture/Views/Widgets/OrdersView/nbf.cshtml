@@ -53,16 +53,8 @@
                                         <div class="row">
                                             <div class="small-6 columns">
                                                 <label>[% translate 'Date Range' %]</label>
-                                                <div class="row">
-                                                    <div class="small-6 columns search-date-from">
-                                                        <em>[% translate 'From' %]</em>
-                                                        <input id="tst_ordersPage_fromDate" name="tst_ordersPage_fromDate" type="text" value="" class="datepicker" isc-pick-a-date="vm.searchFilter.fromDate" />
-                                                    </div>
-                                                    <div class="small-6 columns search-date-to">
-                                                        <em>[% translate 'To_date' %]</em>
-                                                        <input id="tst_ordersPage_toDate" name="tst_ordersPage_toDate" type="text" value="" class="datepicker" isc-pick-a-date="vm.searchFilter.toDate" />
-                                                    </div>
-                                                </div>
+                                                <input id="tst_ordersPage_fromDate" name="tst_ordersPage_fromDate" type="text" value="" class="datepicker" isc-pick-a-date="vm.searchFilter.fromDate"/>
+                                                <input id="tst_ordersPage_toDate" name="tst_ordersPage_toDate" type="text" value="" class="datepicker to-date" isc-pick-a-date="vm.searchFilter.toDate"/>
                                             </div>
                                             <div class="small-6 columns">
                                                 <div class="btns">
@@ -88,7 +80,7 @@
                         <span class="result-lbl">[% translate 'orders' %]</span>
                     </h3>
 
-                    <isc-pager pagination="vm.pagination" storage-key="vm.paginationStorageKey" update-data="vm.getOrders()"></isc-pager>
+                    <nbf-item-list-pager pagination="vm.pagination" storage-key="vm.paginationStorageKey" update-data="vm.getOrders()" per-page="true"></nbf-item-list-pager>
 
                     <div class="overflow-table small">
                         <table class="info-tbl">
@@ -166,7 +158,7 @@
                             </tbody>
                         </table>
                     </div>
-                    <isc-pager pagination="vm.pagination" bottom="true" storage-key="vm.paginationStorageKey" update-data="vm.getOrders()"></isc-pager>
+                    <nbf-item-list-pager pagination="vm.pagination" bottom="true" storage-key="vm.paginationStorageKey" update-data="vm.getOrders()" per-page="true"></nbf-item-list-pager>
                 </div>
 
                 <div class="search-no-results" ng-show="vm.orderHistory.orders.length === 0">

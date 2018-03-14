@@ -177,6 +177,8 @@
     <TypeScriptCompile Include="Scripts\Custom\Catalog\nbf.product-list.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Comments\nbf.commentmessage.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Comments\nbf.commentmessage.service.ts" />
+    <TypeScriptCompile Include="Scripts\Custom\Core\nbf.pager.controller.ts" />
+    <TypeScriptCompile Include="Scripts\Custom\Core\nbf.pager.directives.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Dashboard\nbf.dashboard-view.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Footer\nbf.footer.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Invoices\nbf.invoice.directives.ts" />
@@ -485,6 +487,7 @@
     <Content Include="Views\Directives\Custom\Cart\NbfCartLines.cshtml" />
     <Content Include="Views\ContentItemFields\ListOfNewsPages.cshtml" />
     <Content Include="Views\Directives\Custom\Invoices\RecentInvoices.cshtml" />
+    <Content Include="Views\Directives\Custom\Core\Pager.cshtml" />
     <None Include="Views\Directives\PdfViews\InvoiceDetails.cshtml" />
     <None Include="Views\Directives\PdfViews\OrderDetails.cshtml" />
     <Content Include="Views\Directives\Rfq\ProposedDetailsGrid.cshtml" />
@@ -572,7 +575,7 @@
     <None Include="Views\Widgets\OrderConfirmationView\Standard.cshtml" />
     <None Include="Views\Widgets\OrderDetailView\Standard.cshtml" />
     <None Include="Views\Widgets\OrderHistory\Standard.cshtml" />
-    <Content Include="Views\Widgets\OrdersView\nbf.cshtml" />
+    <Content Include="Views\Widgets\OrdersView\NBF.cshtml" />
     <None Include="Views\Widgets\OrdersView\Standard.cshtml" />
     <None Include="Views\Widgets\OrderUploadView\Standard.cshtml" />
     <Content Include="Views\Widgets\PageTitle\nbf.cshtml" />
@@ -726,6 +729,7 @@
     <Content Include="Views\Widgets\Carousel\ProductCarousel.cshtml" />
     <Content Include="Styles\custom\flex-slider.scss" />
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
