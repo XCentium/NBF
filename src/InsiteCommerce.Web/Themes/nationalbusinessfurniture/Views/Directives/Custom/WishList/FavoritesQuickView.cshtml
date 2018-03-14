@@ -1,4 +1,4 @@
-﻿<div ng-if="vm1.listModel">
+﻿<div ng-if="vm1.listModel && vm1.listModel.wishListLinesCount > 0">
     <div class="dash-title-bar">[% translate 'Favorites' %]</div>
     <div class="ma-my-list-details">
         <div class="row">
@@ -32,9 +32,6 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <div ng-if="vm1.listModel.wishListLinesCount === 0" class="row no-results">
-            [% siteMessage 'Lists_NoItemsInList' %]
         </div>
         <div ng-if="vm1.listModel.wishListLinesCount > 0">
             <div class="sort-parent-container">
