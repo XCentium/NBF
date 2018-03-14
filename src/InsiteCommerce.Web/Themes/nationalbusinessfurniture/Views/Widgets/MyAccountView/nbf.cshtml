@@ -25,18 +25,7 @@
         <div class="medium-12 large-12 columns widget-1column narrow-container [[Model.CssClass]]">
             <div class="row">
                 <div class="dash-right myaccount medium-12 large-12 columns">
-
-                    <div class="btns" style="display:none;">
-                        <label class="input-lbl">
-                            <input type="checkbox" class="isc-dashboardAsHomepage" ng-click="vm.changeDashboardHomepage($event)" ng-checked="vm.dashboardIsHomepage" />
-                            [% siteMessage 'Dashboard_MakeMyHomepage' %]
-                        </label>
-                    </div>
-
                     <h2 class="myaccount__title">[% translate 'My Account' %]</h2>
-
-                    <isc-message-list></isc-message-list>
-
                     <div>
                         <div class="row dashboard">
                             <div class="small-12 columns left dash-tiles">
@@ -45,14 +34,12 @@
                                         <a ng-href="{{panel.url}}" class="">
                                             <span>{{panel.text}}</span>
                                         </a>
-                                        <span class="db-counter" ng-bind="panel.count"></span>
+                                        <span class="db-counter" ng-if="panel.count >= 0" ng-bind="panel.count"></span>
                                     </li>
                                 </ul>
                             </div>
                         </div>
                     </div>
-
-                    [% zone 'DashboardWidgets' %]
 
                     <div class="row dash-orders" ng-show="vm.canViewOrders">
                         <div class="dash-title-bar">[% translate 'Recent Orders' %]</div>
@@ -78,13 +65,8 @@
                         </div>
                     </div>
                     <div class="row dash-favorites">
-                        <div class="dash-title-bar">[% translate 'Favorites' %]</div>
                         <nbf-favorites-quick-view></nbf-favorites-quick-view>
-                        <div class="">
-                            <a href="[% urlForPage 'MyListsPage' %]" class="btn secondary btn-view-all">[% translate 'View All' %]</a>
-                        </div>
                     </div>
-
                 </div>
             </div>
         </div>

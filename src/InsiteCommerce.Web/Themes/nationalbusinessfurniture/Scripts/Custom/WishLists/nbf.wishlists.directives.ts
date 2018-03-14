@@ -7,7 +7,7 @@
             restrict: "E",
             replace: true,
             templateUrl: "/PartialViews/Custom-WishLists-NbfFavoritesQuickView",
-            controller: "MyListDetailController",
-            controllerAs: "vm"
+            controller: "NbfFavoritesQuickViewController",
+            controllerAs: "vm1"
         }));
 }

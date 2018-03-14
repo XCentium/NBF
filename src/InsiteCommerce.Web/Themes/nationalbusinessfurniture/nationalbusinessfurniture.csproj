@@ -191,6 +191,7 @@
     <TypeScriptCompile Include="Scripts\Custom\SocialMediaSharing\nbf.social-media.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\WebCode\nbf.web-code.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\WebCode\nbf.web-code.service.ts" />
+    <TypeScriptCompile Include="Scripts\Custom\WishLists\nbf.favorites-quick-view.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\WishLists\nbf.wishlists.directives.ts" />
     <TypeScriptCompile Include="Scripts\insite.config.ts" />
     <TypeScriptCompile Include="Scripts\insite.content-pager.controller.ts" />
