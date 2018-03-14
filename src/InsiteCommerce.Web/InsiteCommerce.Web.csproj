@@ -802,6 +802,12 @@
     <Content Include="UserFiles\SystemImages\NBFLOGO.png" />
     <Content Include="UserFiles\SystemImages\RightArrowOrange.svg" />
     <Content Include="UserFiles\SystemImages\RightArrowwhite.svg" />
+    <Content Include="UserFiles\SystemImages\SocialIcons\Email.svg" />
+    <Content Include="UserFiles\SystemImages\SocialIcons\Facebook.svg" />
+    <Content Include="UserFiles\SystemImages\SocialIcons\instagram.svg" />
+    <Content Include="UserFiles\SystemImages\SocialIcons\Pin.svg" />
+    <Content Include="UserFiles\SystemImages\SocialIcons\Twitter.svg" />
+    <Content Include="UserFiles\SystemImages\SocialIcons\Youtube.svg" />
     <Content Include="UserFiles\SystemImages\sprocket.png" />
     <Content Include="UserFiles\SystemImages\Truck.svg" />
     <Content Include="_viewstart.cshtml" />
