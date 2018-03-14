@@ -10,7 +10,7 @@ namespace Extensions.Widgets
     [DisplayName("NBF - CTA Link Widget")]
     public class CtaLinkWidget : ContentWidget
     {
-        [FilePickerField(IsRequired = true, ResourceType = "ImageFiles", SortOrder = 10, DisplayName = "CTA Logo Image")]
+        [FilePickerField(ResourceType = "ImageFiles", SortOrder = 10, DisplayName = "CTA Logo Image")]
         public virtual string CtaLogoImage
         {
             get
