@@ -1,6 +1,6 @@
 ﻿module nbf.ShopTheLookDetails {
     "use strict";
-    export class NbfShopTheLookDetailsController {
+    export class NbfShopTheLookWidgetController {
         static $inject = ["$window"];
         constructor(protected $window: ng.IWindowService) {
             this.init();
@@ -46,5 +46,5 @@
     }
     angular
         .module("insite")
-        .controller("NbfShopTheLookDetailsController", NbfShopTheLookDetailsController);
+        .controller("NbfShopTheLookWidgetController", NbfShopTheLookWidgetController);
 }

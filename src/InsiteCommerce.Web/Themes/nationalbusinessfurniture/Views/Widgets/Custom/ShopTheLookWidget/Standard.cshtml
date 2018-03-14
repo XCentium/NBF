@@ -1,52 +1,180 @@
 ﻿
 <style>
     .link1 {
-        [[Model.Product1HotspotPosition]]
+        top:23%;
+        left:78%;
     }
     .link2 {
-        [[Model.Product2HotspotPosition]]
-    }
-    .link3 {
-        [[Model.Product3HotspotPosition]]
+        top:79%;
+        left:23%;
     }
 </style>
 
-<div class="row"  ng-controller="NbfShopTheLookDetailsController as vm">
-    <div class="medium-12 large-12 columns widget-1column no-margin shopthelookdetail shopthelookwidget [[Model.CssClass]]">
+
+<div class="row"  ng-controller="NbfShopTheLookWidgetController as vm">
+    <div class="medium-12 large-12 columns widget-1column narrow-container shopthelookdetail [[Model.CssClass]]">
         <div class="row">
-            <div class="small-12 columns">
+            <div class="medium-12 large-12 columns">
+                <div>
+                    <h1 class="shopthelookdetail__title">Shop The Look- Modern Office</h1>
+                </div>
+                <p class="shopthelookdetail__page-desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar sic tempor.</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="small-12 medium-12 large-7 columns">
                <div class="shopthelookdetail__image-col">
-                   <div ng-controller="FeaturedProductsWidgetController as vm1" product-id-string="[[Model.ProductString]]" ng-cloak>
-                       <img src="[[Model.BackgroundImage]]" />
-                                                                     
-                       <div id="{{product.id}}" ng-click="vm.hotspot_clicked(product.id)" class="hotspot has-tip link{{$index+1}}" ng-repeat="product in vm1.products">
+                   <div>
+                       <img src="http://www.moveschi.com.br/var/www/html/moveschi.com.br/web/img/produtos/m-1503-linho.jpg" />
+                       <div class="hotspot has-tip link1">
                            <div class="tooltip">
                                <div class="tooltip__img">
-                                   <img ng-src="https://s7d9.scene7.com/is/image/NationalBusinessFurniture/{{product.smallImagePath ? product.smallImagePath : product.mediumImagePath}}?hei=200&id=5-zsy2&fmt=jpg&fit=constrain,1&wid=344&hei=344" alt="{{product.altText}}" />
+                                   <img src="https://soimagescdn.azureedge.net/productimage/learniture/lnt-inm3016-so_navy.jpg?width=115&height=115&version=v20171222"/>
                                </div>
                                <div class="tooltip__details">
                                    <div class="tooltip__details__desc">
-                                       {{product.shortDescription}}
+                                       Kreature Mid-Back Desk Chair
                                    </div>
                                    <div class="tooltip__details__number">
-                                       Item No: {{product.erpNumber}}
+                                       Item No: 50586
                                    </div>
                                    <div class="tooltip__details__price">
-                                       <isc-product-price product="product"></isc-product-price>
-                                       <isc-product-price-saving product="product"></isc-product-price-saving>
+                                      $395
                                    </div>
                                </div>
                                <div class="tooltip__details__btn">
-                                   <a href="{{product.productDetailUrl}}" class="btn btn-primary">See Product Details</a>
+                                   <a href="http://www.google.com/" class="btn btn-primary">See Product Details</a>
                                </div>
                            </div>
-                       </div>                       
-                   </div>
-                   <div class="shopthelookwidget__content shopthelookwidget__content--topleft">
-                       <h1>[[Model.Title]]</h1>
-                       <a href="[[Model.ButtonUrl]]" class="">[[Model.SubTitle]] <i class="ico-RightArrow ico-RightArrow--orange"></i></a>
+                       </div>
+                       <div class="hotspot has-tip link2">
+                           <div class="tooltip">
+                               <div class="tooltip__img">
+                                   <img src="https://soimagescdn.azureedge.net/productimage/learniture/lnt-inm3016-so_navy.jpg?width=115&height=115&version=v20171222" />
+                               </div>
+                               <div class="tooltip__details">
+                                   <div class="tooltip__details__desc">
+                                       Kreature Mid-Back Desk Chair
+                                   </div>
+                                   <div class="tooltip__details__number">
+                                       Item No: 50586
+                                   </div>
+                                   <div class="tooltip__details__price">
+                                       $395
+                                   </div>
+                               </div>
+                               <div class="tooltip__details__btn">
+                                   <a href="http://www.google.com/" class="btn btn-primary">See Product Details</a>
+                               </div>
+                           </div>
+                       </div>
                    </div>
                </div>
+            </div>
+            <div class="small-12 medium-12 large-5 columns end">
+                <div class="shopthelookdetail__room-details">
+                    <div class="shopthelookdetail__list-col">
+                        <h4 class="shopthelookdetail__list-title">Shop The Room</h4>
+                        <ul>
+                            <li>
+                                <div class="shopthelookdetail__list-item">
+                                    <div class="shopthelookdetail__list-item__image">
+                                        <img src="https://cdn6.bigcommerce.com/s-8m3z6w215z/products/2308/images/4479/achieve___16463.1478539482.200.200.jpg?c=2" />
+                                    </div>
+                                    <div class="shopthelookdetail__list-item__details-wrap">
+                                        <div class="shopthelookdetail__list-item__details">
+
+                                            <div class="shopthelookdetail__list-item__desc">
+                                                Kreature Mid-Back Desk Chair
+                                            </div>
+                                            <div class="shopthelookdetail__list-item__number">
+                                                Item No: 50586
+                                            </div>
+                                            <div class="shopthelookdetail__list-item__price">
+                                                <h4>$395</h4> <span>and lower</span>
+                                            </div>
+                                            <div class="shopthelookdetail__list-item__btn">
+                                                <button>See Product Details</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="shopthelookdetail__list-item">
+                                    <div class="shopthelookdetail__list-item__image">
+                                        <img src="https://cdn6.bigcommerce.com/s-8m3z6w215z/products/2308/images/4479/achieve___16463.1478539482.200.200.jpg?c=2" />
+                                    </div>
+                                    <div class="shopthelookdetail__list-item__details-wrap">
+                                        <div class="shopthelookdetail__list-item__details">
+
+                                            <div class="shopthelookdetail__list-item__desc">
+                                                Kreature Mid-Back Desk Chair
+                                            </div>
+                                            <div class="shopthelookdetail__list-item__number">
+                                                Item No: 50586
+                                            </div>
+                                            <div class="shopthelookdetail__list-item__price">
+                                                <h4>$395</h4> <span>and lower</span>
+                                            </div>
+                                            <div class="shopthelookdetail__list-item__btn">
+                                                <button>See Product Details</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="shopthelookdetail__list-item">
+                                    <div class="shopthelookdetail__list-item__image">
+                                        <img src="https://cdn6.bigcommerce.com/s-8m3z6w215z/products/2308/images/4479/achieve___16463.1478539482.200.200.jpg?c=2" />
+                                    </div>
+                                    <div class="shopthelookdetail__list-item__details-wrap">
+                                        <div class="shopthelookdetail__list-item__details">
+
+                                            <div class="shopthelookdetail__list-item__desc">
+                                                Kreature Mid-Back Desk Chair
+                                            </div>
+                                            <div class="shopthelookdetail__list-item__number">
+                                                Item No: 50586
+                                            </div>
+                                            <div class="shopthelookdetail__list-item__price">
+                                                <h4>$395</h4> <span>and lower</span>
+                                            </div>
+                                            <div class="shopthelookdetail__list-item__btn">
+                                                <button>See Product Details</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="shopthelookdetail__list-item">
+                                    <div class="shopthelookdetail__list-item__image">
+                                        <img src="https://cdn6.bigcommerce.com/s-8m3z6w215z/products/2308/images/4479/achieve___16463.1478539482.200.200.jpg?c=2" />
+                                    </div>
+                                    <div class="shopthelookdetail__list-item__details-wrap">
+                                        <div class="shopthelookdetail__list-item__details">
+
+                                            <div class="shopthelookdetail__list-item__desc">
+                                                Kreature Mid-Back Desk Chair
+                                            </div>
+                                            <div class="shopthelookdetail__list-item__number">
+                                                Item No: 50586
+                                            </div>
+                                            <div class="shopthelookdetail__list-item__price">
+                                                <h4>$395</h4> <span>and lower</span>
+                                            </div>
+                                            <div class="shopthelookdetail__list-item__btn">
+                                                <button>See Product Details</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
