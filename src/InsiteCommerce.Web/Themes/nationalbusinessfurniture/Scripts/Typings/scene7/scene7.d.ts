@@ -1,0 +1,1 @@
+declare var s7viewers: any;

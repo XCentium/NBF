@@ -68,6 +68,7 @@
                 }
                 params.names.push(this.categoryAttr);
             }
+
             expand = expand ? expand : ["pricing", "attributes", "facets"];
             this.productService.getProducts(params, expand).then(
                 (productCollection: ProductCollectionModel) => { this.getProductsCompleted(productCollection, params, expand); },
