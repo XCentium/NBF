@@ -105,12 +105,14 @@ SELECT
 	p.MinimumOrderQty,
 	sc.Name StyleClassName,
 	c.Html ProductDescription,
-	v.VendorNumber VendorNumber
+	v.VendorNumber VendorNumber,
+	parentStyle.ERPNumber ParentStyleERPNumber
 FROM
 	dbo.Product p
 	left join StyleClass sc on sc.Id = p.StyleClassId
 	left join Content c on c.ContentManagerId = p.ContentManagerId
 	left join Vendor v on v.Id = p.VendorId
+	left join Product parentStyle on parentStyle.Id = p.StyleParentId
 --where p.id = '62DE46BA-87FD-E711-A98C-A3E0F1200094'
 /*
 select * from vwProduct
