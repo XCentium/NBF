@@ -16,19 +16,25 @@
                         <isc-product-name product="vm.product" no-link="true"></isc-product-name>
                         <div class="item-block__product__price-wrap">
                             <div class="item-block__product__price">
-                                <isc-product-price product="vm.product" ng-cloak></isc-product-price>
-                                <isc-product-price-saving product="vm.product" ng-cloak></isc-product-price-saving>
+                                <h3 class="text-orange item-block__price">$150</h3> <span class="strike ori-price-tag">Was $200</span>
                             </div>
-                            <div ng-if="vm.isAttributeValue('GSA', 'Yes');" class="item-block__product__flag gsa">
+                            <div class="item-block__product__flag gsa">
                                 GSA
                             </div>
+                            <div class="item-block__product__flag save">
+                                SAVE 10%
+                            </div>
                         </div>
-                        <div class="item-block__product__ships-today" ng-if="vm.isAttributeValue('Ships Today', 'Yes');"><span class="ico-Truck"></span> Ships Today!</div>
-
+                        <div class="item-block__product__ships-today"><span class="ico-Truck"></span> Ships Today!</div>
                         <div class="item-block__product__col-2 clearfix">
                             <div class="col-1">
-                                <isc-quantity-break-pricing product-id="vm.product.id" block="optional" break-prices="vm.product.pricing.unitRegularBreakPrices">
-                                </isc-quantity-break-pricing>
+                                <div class="item-block__product__bluk-pricing">
+                                    <div class="item-block__product__bluk-pricing__title text-orange">
+                                        <strong>BUY More | Save more</strong>
+                                    </div>
+                                    <div class="line-1"><span><strong>$329</strong></span> <span>If You Buy 1-5</span></div>
+                                    <div class="line-2"><span><strong>$298</strong></span> <span>If You Buy 6 or More</span></div>
+                                </div>
                             </div>
                             <div class="col-2">
                                 <div class="item-block__product__reviews"><div class="rating"></div>4.8(5 Reviews)</div>
@@ -37,18 +43,63 @@
                             </div>
                         </div>
                         <div class="item-block__product__samples-link">
-                            <strong>Available Colors/Finishes</strong> <a href="#" data-reveal-id="swatchform">Order Free Samples</a>
+                            <strong>Available Colors/Finishes</strong> <a href="#">Order Free Samples</a>
                         </div>
 
                         <div class="item-block__product__swatches">
-                            <div class="item-block__product__swatches__label" ng-repeat-start="styleTrait in vm.styleTraitFiltered | orderBy: 'sortOrder'">{{styleTrait.nameDisplay}}:</div>
-                            <ul ng-repeat-end>
-                                <li ng-repeat="style in styleTrait.styleValues | orderBy: 'sortOrder' track by style.styleTraitValueId">
-                                    <img ng-click="vm.selectInsiteStyleDropdown(styleTrait.nameDisplay, style.styleTraitValueId, $index);" ng-src="https://s7d9.scene7.com/is/image/NationalBusinessFurniture/{{vm.getSwatchImageNameFromStyleTraitValueId(style.styleTraitValueId)}}?hei=200&id=5-zsy2&fmt=jpg&fit=constrain,1&wid=344&hei=344" alt="{{style.valueDisplay}}" />
-                                </li>
+                            <div class="item-block__product__swatches__label">Color:</div>
+                            <ul>
+                                <li class="active"><img src="https://i0.wp.com/www.esotericmeanings.com/wp-content/uploads/2016/07/meditation_visualisation_red_square-256.jpg" /></li>
+                                <li><img src="https://i0.wp.com/www.esotericmeanings.com/wp-content/uploads/2016/07/meditation_visualisation_red_square-256.jpg" /></li>
+                                <li><img src="https://i0.wp.com/www.esotericmeanings.com/wp-content/uploads/2016/07/meditation_visualisation_red_square-256.jpg" /></li>
+                                <li><img src="https://i0.wp.com/www.esotericmeanings.com/wp-content/uploads/2016/07/meditation_visualisation_red_square-256.jpg" /></li>
+                                <li><img src="https://i0.wp.com/www.esotericmeanings.com/wp-content/uploads/2016/07/meditation_visualisation_red_square-256.jpg" /></li>
+                                <li><img src="https://i0.wp.com/www.esotericmeanings.com/wp-content/uploads/2016/07/meditation_visualisation_red_square-256.jpg" /></li>
+                                <li><img src="https://i0.wp.com/www.esotericmeanings.com/wp-content/uploads/2016/07/meditation_visualisation_red_square-256.jpg" /></li>
+                                <li><img src="https://i0.wp.com/www.esotericmeanings.com/wp-content/uploads/2016/07/meditation_visualisation_red_square-256.jpg" /></li>
+                                <li><img src="https://i0.wp.com/www.esotericmeanings.com/wp-content/uploads/2016/07/meditation_visualisation_red_square-256.jpg" /></li>
+                                <li><img src="https://i0.wp.com/www.esotericmeanings.com/wp-content/uploads/2016/07/meditation_visualisation_red_square-256.jpg" /></li>
+                                <li><img src="https://i0.wp.com/www.esotericmeanings.com/wp-content/uploads/2016/07/meditation_visualisation_red_square-256.jpg" /></li>
+                                <li><img src="https://i0.wp.com/www.esotericmeanings.com/wp-content/uploads/2016/07/meditation_visualisation_red_square-256.jpg" /></li>
+                                <li><img src="https://i0.wp.com/www.esotericmeanings.com/wp-content/uploads/2016/07/meditation_visualisation_red_square-256.jpg" /></li>
+                                <li><img src="https://i0.wp.com/www.esotericmeanings.com/wp-content/uploads/2016/07/meditation_visualisation_red_square-256.jpg" /></li>
+                                <li><img src="https://i0.wp.com/www.esotericmeanings.com/wp-content/uploads/2016/07/meditation_visualisation_red_square-256.jpg" /></li>
+                            </ul>
+                            <div class="item-block__product__swatches__label">Finish:</div>
+                            <ul>
+                                <li class="active"><img src="https://i0.wp.com/www.esotericmeanings.com/wp-content/uploads/2016/07/meditation_visualisation_red_square-256.jpg" /></li>
+                                <li><img src="https://i0.wp.com/www.esotericmeanings.com/wp-content/uploads/2016/07/meditation_visualisation_red_square-256.jpg" /></li>
+                                <li><img src="https://i0.wp.com/www.esotericmeanings.com/wp-content/uploads/2016/07/meditation_visualisation_red_square-256.jpg" /></li>
+                                <li><img src="https://i0.wp.com/www.esotericmeanings.com/wp-content/uploads/2016/07/meditation_visualisation_red_square-256.jpg" /></li>
+                                <li><img src="https://i0.wp.com/www.esotericmeanings.com/wp-content/uploads/2016/07/meditation_visualisation_red_square-256.jpg" /></li>
+                                <li><img src="https://i0.wp.com/www.esotericmeanings.com/wp-content/uploads/2016/07/meditation_visualisation_red_square-256.jpg" /></li>
+                                <li><img src="https://i0.wp.com/www.esotericmeanings.com/wp-content/uploads/2016/07/meditation_visualisation_red_square-256.jpg" /></li>
+                                <li><img src="https://i0.wp.com/www.esotericmeanings.com/wp-content/uploads/2016/07/meditation_visualisation_red_square-256.jpg" /></li>
+                                <li><img src="https://i0.wp.com/www.esotericmeanings.com/wp-content/uploads/2016/07/meditation_visualisation_red_square-256.jpg" /></li>
+                                <li><img src="https://i0.wp.com/www.esotericmeanings.com/wp-content/uploads/2016/07/meditation_visualisation_red_square-256.jpg" /></li>
+                                <li><img src="https://i0.wp.com/www.esotericmeanings.com/wp-content/uploads/2016/07/meditation_visualisation_red_square-256.jpg" /></li>
+                                <li><img src="https://i0.wp.com/www.esotericmeanings.com/wp-content/uploads/2016/07/meditation_visualisation_red_square-256.jpg" /></li>
+                                <li><img src="https://i0.wp.com/www.esotericmeanings.com/wp-content/uploads/2016/07/meditation_visualisation_red_square-256.jpg" /></li>
+                                <li><img src="https://i0.wp.com/www.esotericmeanings.com/wp-content/uploads/2016/07/meditation_visualisation_red_square-256.jpg" /></li>
+                                <li><img src="https://i0.wp.com/www.esotericmeanings.com/wp-content/uploads/2016/07/meditation_visualisation_red_square-256.jpg" /></li>
                             </ul>
                         </div>
-                       
+                        <div ng-if="vm.product.canShowPrice && !vm.failedToGetRealTimePrices" class="pd-price-um">
+                            <isc-product-price product="vm.product"></isc-product-price>
+                            <span id="tst_productDetail_unitOfMeasureLabel" ng-if="vm.product.unitOfMeasureDisplay || vm.product.unitOfMeasureDescription" class="um isc-uomDisplay">
+                                / {{vm.product.unitOfMeasureDescription || vm.product.unitOfMeasureDisplay}}
+                            </span>
+                            <isc-product-price-saving product="vm.product" currency-symbol="vm.product.currencySymbol"></isc-product-price-saving>
+                        </div>
+                        <div ng-show="vm.product.canShowPrice && !vm.product.quoteRequired && !vm.failedToGetRealTimePrices">
+                            <isc-quantity-break-pricing product-id="vm.product.id" break-prices="vm.product.pricing.unitRegularBreakPrices"></isc-quantity-break-pricing>
+                        </div>
+                        <div class="item-price" ng-if="vm.failedToGetRealTimePrices">
+                            <div>[% siteMessage 'RealTimePricing_PriceLoadFailed' %]</div>
+                        </div>
+                        <div ng-if="vm.settings.showInventoryAvailability" class="availability">
+                            <isc-availability-message availability="vm.product.availability" failed-to-get-real-time-inventory="vm.failedToGetRealTimeInventory"></isc-availability-message>
+                        </div>
                         <div class="pd-cm-wrap">
                             <div ng-show="vm.product.isConfigured && vm.product.configurationDto && vm.product.configurationDto.isKit">
                                 <div ng-repeat="section in vm.product.configurationDto.sections" class="pd-kit">
@@ -118,7 +169,7 @@
                                 </div>
                             </div>
                             <a id="tst_productDetail_addToWishList" ng-click="vm.openWishListPopup(vm.product)" role="button"
-                               class="btn secondary btn-add-to-list" href="javascript:;">[% translate 'Add to Favorites' %]</a>
+                               class="btn secondary btn-add-to-list" href="javascript:;">[% translate 'Add to List' %]</a>
                         </div>
                         <div class="small-12 secondary-button">
 
@@ -199,10 +250,10 @@
                 <div ng-if="vm.settings.displayAttributesInTabs && vm.settings.attributesTabSortOrder === 'DisplayFirst' && vm.product.attributeTypes.length > 0">
                     <table class="info-tbl spec-attributes">
                         <tbody>
-                            <tr ng-repeat="attributeType in vm.product.attributeTypes | orderBy : ['label', 'name'] | limitTo: (maximumNumber || 100)" class="row">
-                                <td class="col-label columns small-4" ng-bind="attributeType.label || attributeType.name"></td>
-                                <td class="col-value columns small-8"><isc-no-element ng-repeat="attributeValue in attributeType.attributeValues | orderBy  : ['sortOrder','valueDisplay']">{{attributeValue.valueDisplay}}{{$last ? '' : ', '}}</isc-no-element></td>
-                            </tr>
+                        <tr ng-repeat="attributeType in vm.product.attributeTypes | orderBy : ['label', 'name'] | limitTo: (maximumNumber || 100)" class="row">
+                            <td class="col-label columns small-4" ng-bind="attributeType.label || attributeType.name"></td>
+                            <td class="col-value columns small-8"><isc-no-element ng-repeat="attributeValue in attributeType.attributeValues | orderBy  : ['sortOrder','valueDisplay']">{{attributeValue.valueDisplay}}{{$last ? '' : ', '}}</isc-no-element></td>
+                        </tr>
                         </tbody>
                     </table>
                 </div>
@@ -218,10 +269,10 @@
                 <div ng-if="vm.settings.displayAttributesInTabs && vm.settings.attributesTabSortOrder === 'DisplayLast' && vm.product.attributeTypes.length > 0">
                     <table class="info-tbl spec-attributes">
                         <tbody>
-                            <tr ng-repeat="attributeType in vm.product.attributeTypes | orderBy : ['label', 'name'] | limitTo: (maximumNumber || 100)" class="row">
-                                <td class="col-label columns small-4" ng-bind="attributeType.label || attributeType.name"></td>
-                                <td class="col-value columns small-8"><isc-no-element ng-repeat="attributeValue in attributeType.attributeValues | orderBy  : ['sortOrder','valueDisplay']">{{attributeValue.valueDisplay}}{{$last ? '' : ', '}}</isc-no-element></td>
-                            </tr>
+                        <tr ng-repeat="attributeType in vm.product.attributeTypes | orderBy : ['label', 'name'] | limitTo: (maximumNumber || 100)" class="row">
+                            <td class="col-label columns small-4" ng-bind="attributeType.label || attributeType.name"></td>
+                            <td class="col-value columns small-8"><isc-no-element ng-repeat="attributeValue in attributeType.attributeValues | orderBy  : ['sortOrder','valueDisplay']">{{attributeValue.valueDisplay}}{{$last ? '' : ', '}}</isc-no-element></td>
+                        </tr>
                         </tbody>
                     </table>
                 </div>
@@ -324,68 +375,6 @@
         </div>
     </div>
 </script>
-
-
-<div id="swatchform" class="swatchform reveal-modal" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
-    <div class="swatchform__scrollarea">
-        <h1 id="swatchform__title">Order Free Color Samples</h1>
-        <p class="lead">
-            Simply select the color samples you’d like to receive and click the Add To Cart button below.<br />
-            Or, call us at <strong>800-558-1010</strong> to request samples.<br />
-            Your free color samples will arrive within 3-5 business days.
-        </p>
-        <div class="swatchform__type">
-            <div class="swatchform__type__title">Color:</div>
-            <ul class="swatchform__list">
-                <li class="swatchform__item"><a href="#" class="tip" data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
-                <li class="swatchform__item active"><a href="#" class="tip"  data-title="Blue"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
-                <li class="swatchform__item"><a href="#" class="tip"  data-title="Coquelicot"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
-                <li class="swatchform__item"><a href="#" class="tip"  data-title="Smaragdine"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
-                <li class="swatchform__item"><a href="#" class="tip"  data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
-                <li class="swatchform__item"><a href="#" class="tip"  data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
-                <li class="swatchform__item active"><a href="#" class="tip"  data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
-                <li class="swatchform__item"><a href="#" class="tip"  data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
-                <li class="swatchform__item"><a href="#" class="tip"  data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
-                <li class="swatchform__item"><a href="#" class="tip"  data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
-                <li class="swatchform__item"><a href="#" class="tip"  data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
-                <li class="swatchform__item"><a href="#" class="tip"  data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
-                <li class="swatchform__item active"><a href="#" class="tip"  data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
-                <li class="swatchform__item"><a href="#" class="tip"  data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
-                <li class="swatchform__item"><a href="#" class="tip"  data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
-                <li class="swatchform__item"><a href="#" class="tip"  data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
-                <li class="swatchform__item"><a href="#" class="tip"  data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
-                <li class="swatchform__item"><a href="#" class="tip"  data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
-                <li class="swatchform__item"><a href="#" class="tip"  data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
-                <li class="swatchform__item"><a href="#" class="tip"  data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
-                <li class="swatchform__item"><a href="#" class="tip"  data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
-            </ul>
-        </div>
-        <div class="swatchform__type">
-            <div class="swatchform__type__title">Finish:</div>
-            <ul class="swatchform__list">
-                <li class="swatchform__item"><a href="#" class="tip"  data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
-                <li class="swatchform__item active"><a href="#" class="tip"  data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
-                <li class="swatchform__item"><a href="#" class="tip"  data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
-                <li class="swatchform__item"><a href="#" class="tip"  data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
-                <li class="swatchform__item"><a href="#" class="tip"  data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
-                <li class="swatchform__item"><a href="#" class="tip"  data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
-                <li class="swatchform__item active"><a href="#" class="tip"  data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
-                <li class="swatchform__item"><a href="#" class="tip"  data-data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
-                <li class="swatchform__item"><a href="#" class="tip"  data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
-                <li class="swatchform__item"><a href="#" class="tip"  data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
-                <li class="swatchform__item"><a href="#" class="tip"  data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
-                <li class="swatchform__item"><a href="#" class="tip"  data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
-                <li class="swatchform__item"><a href="#" class="tip"  data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
-                <li class="swatchform__item"><a href="#" class="tip"  data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
-                <li class="swatchform__item"><a href="#" class="tip"  data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
-            </ul>
-        </div>
-    </div>
-    <div class="swatchform__footer">
-        <a href="#" class="btn add-to-cart"><span class="ico-CartIcon"></span> Add To Cart</a>
-    </div>
-    <a class="close-reveal-modal" aria-label="Close">&#215;</a>
-</div>
 
 <script type="text/ng-template" id="/PartialViews/Catalog-CrossSellCarousel">
     [% partialView 'Catalog-CrossSellCarousel' %]

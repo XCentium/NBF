@@ -337,6 +337,11 @@ body {
 }
 
 
+.gray-bg {
+    background-color:#f8f8f8;
+}
+
+
 @media all and (min-width: 960px) {
 
     html body {
@@ -1096,268 +1101,6 @@ h2.resp-tab-active {
     .section-container section.active .content {
         display: block !important;
     }
-}
-
-
-/* Modals */
-
-.reveal-modal {
-    height: 0;
-    padding: 0;
-    background: none;
-    border: none;
-    box-shadow: none;
-    text-align: center;
-    width: 90%;
-    position: fixed;
-    top: 20px !important;
-}
-
-.reveal-modal .modal-wrap {
-    background-color: white;
-    padding: 1.25em;
-    border: solid 1px #ddd;
-    -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
-    position: relative;
-    display: inline-block;
-    width: 100%;
-    max-width: 100%;
-    text-align: left;
-}
-
-@media all and (max-width: 767px) {
-    .reveal-modal {
-        left: 5%;
-        min-height: 1em; // Foundation override
-    }
-}
-
-.reveal-modal .modal-wrap > h1,
-.reveal-modal .modal-wrap > h2,
-.reveal-modal .modal-wrap > h4 {
-    margin-top: 0;
-    width: 80%;
-}
-
-.reveal-modal .modal-wrap .message {
-    margin-bottom: 1.5em;
-    font-size: 14px;
-}
-
-/* Modal - Add to Cart Notification */
-
-#AddToCartPopup .modal-wrap {
-    max-width: 480px;
-}
-
-#AddToCartPopup .modal-wrap h4 {
-    display: none;
-}
-
-/* Modal - Add Wishlist */
-
-.popup-add-wishlist .modal-wrap {
-    max-width: 480px;
-}
-
-.popup-add-wishlist .thor {
-    margin-bottom: .5em;
-    margin-top: -.75em;
-    font-weight: bold;
-    font-style: italic;
-    text-transform: uppercase;
-}
-
-.popup-add-wishlist .modal-wrap .message {
-    margin-bottom: 0;
-}
-
-.popup-add-wishlist .columns {
-    padding-left: 0;
-}
-
-.popup-add-wishlist .large-5 label {
-}
-
-@media all and (min-width: 768px) {
-    .popup-add-wishlist .large-7.columns {
-        padding-right: 0;
-    }
-}
-
-/* Modal - Create Wishlist */
-
-.popup-create-wishlist .modal-wrap {
-    max-width: 480px;
-}
-
-/* Modal - Delete Wishlist */
-
-.popup-delete-wishlist-confirm .modal-wrap {
-    max-width: 480px;
-}
-
-/* Modal - Forgot PW */
-
-.popup-forgot-pw .modal-wrap {
-    max-width: 480px;
-}
-
-.popup-forgot-pw .email-addy .large-5 {
-    padding-left: 0;
-}
-
-.popup-forgot-pw .email-addy .large-7 {
-    padding: 0;
-}
-
-.popup-forgot-pw .btns {
-    margin: .5em 0;
-}
-
-.popup-forgot-pw .btns .btn {
-    float: right;
-    margin-left: 1em;
-}
-
-@media all and (max-width: 767px) {
-    .popup-forgot-pw .btns .btn {
-        width: 100%;
-        margin: 0 0 1em 0;
-    }
-}
-
-/* Modal - Security Code */
-
-.popup-security-code .modal-wrap {
-    max-width: 660px;
-}
-
-/* Modal - Share */
-
-.popup-share .modal-wrap {
-    max-width: 480px;
-}
-
-.popup-share .modal-wrap textarea {
-    height: 150px;
-}
-
-/* Modal - Requisition Detail */
-
-.popup-requisition .modal-wrap {
-}
-
-.popup-requisition .col-qty-remove input {
-    width: 50px;
-    display: inline-block;
-    float: left;
-    margin-right: 0.5em;
-}
-
-.popup-requisition .col-qty-remove .btn {
-    display: inline-block;
-    float: left;
-    width: 30px;
-    height: 30px;
-    line-height: 30px;
-    padding: 0;
-    font-size: 1em;
-}
-
-.popup-requisition .item-list .item-details {
-    padding-right: 1em !important;
-}
-
-.popup-requisition .item-list .item-code-notes {
-    width: 100%;
-    padding: 0 1em .5em 1em !important;
-}
-
-.popup-requisition .item-list .item-code-notes strong {
-    display: block;
-    margin-bottom: .25em;
-}
-
-.popup-requisition .btns {
-    margin-bottom: 1.5em;
-}
-
-@media all and (max-width: 767px) {
-
-    .popup-requisition .info-tbl {
-        margin-bottom: 0;
-    }
-
-    .popup-requisition table.info-tbl td {
-        height: 90px !important;
-    }
-}
-
-@media all and (max-width: 480px) {
-
-    .popup-requisition {
-        width: 100%;
-        left: 0;
-    }
-
-    .popup-requisition .modal-wrap {
-        padding-left: .75em;
-        padding-right: .75em;
-    }
-
-    .popup-requisition table.info-tbl td {
-        height: 120px !important;
-    }
-
-    .popup-requisition .info-tbl td,
-    .popup-requisition .info-tbl th {
-        font-size: 12px;
-    }
-}
-
-.reveal-modal .close-reveal-modal {
-    font-size: 2em;
-    font-weight: 400;
-    text-decoration: none;
-    color: #868686;
-    padding: 0 9px;
-    top: .25em;
-    right: .25em;
-    background: #fff;
-    height: 30px;
-}
-
-.reveal-modal .close-reveal-modal:hover, .reveal-modal .close-reveal-modal:focus {
-    color: inherit;
-}
-
-.reveal-modal .close-on-click {
-    display: block;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    font-size: 0;
-    background: none transparent;
-}
-
-.reveal-modal .close-on-click:after {
-    content: " ";
-    display: table-cell;
-    clear: both;
-}
-
-.reveal-modal .close-on-click h5 {
-    margin-top: 0;
-}
-
-/* Survey Modal */
-
-.reveal-modal.survey-modal .modal-wrap {
-    width: auto;
 }
 
 
@@ -3794,8 +3537,8 @@ a.btn.isc-addToWishlistPopup, a.btn.btn-add-list, a.btn.btn-add-to-list {
 }
 
 a.btn.btn-add-list:before, a.btn.btn-add-to-list:before {
-    content: "\e600";
-    font-family: 'good-oatmeal-v2';
+    content: "\e90c";
+    font-family: $icomoon;
     speak: none;
     font-style: normal;
     font-weight: normal;
@@ -3815,8 +3558,12 @@ a.btn.btn-add-list:before, a.btn.btn-add-to-list:before {
     padding-right: 0.5em;
 }
 
-/* Other Links */
 
+a.btn.btn-add-list.in-favorites:before, a.btn.btn-add-to-list.in-favorites:before {
+    content: "\e9da";
+    color:$nbf-orange;
+}
+/* Other Links */
 .return-link a {
     text-decoration: none !important;
 }
@@ -7866,40 +7613,6 @@ header label.toggle.burger:after {
     }
 }
 
-// Product Subscription Modal
-
-@media (min-width: 768px) {
-    #popup-product-subscription {
-        margin-top: 3rem;
-    }
-}
-
-#popup-product-subscription {
-    max-width: 360px;
-}
-
-#popup-product-subscription span {
-    font-weight: bold;
-}
-
-#popup-product-subscription input {
-    margin-right: 0;
-}
-
-#popup-product-subscription .month-column-1 {
-    width: 50%;
-    float: left;
-}
-
-#popup-product-subscription .month-column-2 {
-    width: 50%;
-    float: right;
-}
-
-#popup-product-subscription button {
-    margin: 1rem 0 0 .5rem;
-    float: right;
-}
 
 // Foundation fix for carousel content
 .slideshow-wrapper ul li:first-child {
