@@ -1,7 +1,7 @@
-﻿module nbf.ShopTheLook {
+﻿module nbf.shopthelook {
     "use strict";
 
-    export class NbfShopTheLookController {
+    export class NbfShopTheLookLandingViewController {
 
 
         constructor(
@@ -55,5 +55,5 @@
 
     angular
         .module("insite")
-        .controller("NbfShopTheLookController", NbfShopTheLookController);
+        .controller("NbfShopTheLookLandingViewController", NbfShopTheLookLandingViewController);
 }

@@ -1,0 +1,36 @@
+﻿<div class="row" ng-controller="NbfShopTheLookWidgetController as vm" product-string="[[Model.ProductAndHotSpotString]]">
+    <div class="medium-12 large-12 columns widget-1column no-margin shopthelookdetail shopthelookwidget [[Model.CssClass]]">
+        <div class="row">
+            <div class="small-12 columns">
+                <div class="shopthelookdetail__image-col">
+                    <img src="[[Model.BackgroundImage]]" alt="[[Model.Title]]" />
+                    <div class="hotspot has-tip link{{$index+1}}" style="{{hotSpot.hotSpotPosition}}" div id="{{hotSpot.product.id}}-{{$index+1}}" ng-click="vm.hotspot_clicked(hotSpot.product.id, $index)" ng-repeat="hotSpot in vm.productHotSpots">
+                        <div class="tooltip">
+                            <div class="tooltip__img">
+                                <img ng-src="https://s7d9.scene7.com/is/image/NationalBusinessFurniture/{{hotSpot.product.smallImagePath ? hotSpot.product.smallImagePath : hotSpot.product.mediumImagePath}}?hei=200&id=5-zsy2&fmt=jpg&fit=constrain,1&wid=344&hei=344" alt="{{hotSpot.product.altText}}" />
+                            </div>
+                            <div class="tooltip__details">
+                                <div class="tooltip__details__desc">
+                                    {{hotSpot.product.shortDescription}}
+                                </div>
+                                <div class="tooltip__details__number">
+                                    Item No: {{hotSpot.product.erpNumber}}
+                                </div>
+                                <div class="tooltip__details__price">
+                                    <isc-product-price product="hotSpot.product"></isc-product-price>
+                                </div>
+                            </div>
+                            <div class="tooltip__details__btn">
+                                <a href="{{hotSpot.product.productDetailUrl}}" class="btn btn-primary">See Product Details</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="shopthelookwidget__content shopthelookwidget__content--topleft">
+                    <h1>[[Model.Title]]</h1>
+                    <a href="[[Model.ButtonUrl]]" class="">[[Model.SubTitle]] <i class="ico-RightArrow ico-RightArrow--orange"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
