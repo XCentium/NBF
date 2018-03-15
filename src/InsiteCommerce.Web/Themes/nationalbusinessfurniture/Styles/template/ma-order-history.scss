@@ -154,7 +154,9 @@
             width: 65px;
             display: inline-block;
                 padding: 0 5px;
-
+                &.to-date {
+                    margin-left:15px;
+                }
         }
 
         .search-orders .search-date .row .small-6 {

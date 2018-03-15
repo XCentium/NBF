@@ -1106,7 +1106,7 @@ button, .button {
   color: white;
   transition: background-color 300ms ease-out; }
     button.secondary:hover, button.secondary:focus, .button.secondary:hover, .button.secondary:focus {
-      background-color: #b9b9b9; }
+     }
   button.success, .button.success {
     background-color: #43ac6a;
     border-color: #368a55;
