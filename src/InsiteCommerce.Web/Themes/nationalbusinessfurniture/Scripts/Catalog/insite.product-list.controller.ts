@@ -129,6 +129,16 @@ module insite.catalog {
                 this.getFacets(newCategory.id);
             });
 
+        }   
+
+        protected getTop3Swatches(swatchesJson): string[] {
+            let retVal = [];
+
+            if (swatchesJson) {
+                retVal = JSON.parse(swatchesJson).slice(0,4).map(x => x.ImageName);
+            }
+
+            return retVal;
         }
 
         protected isAttributeValue(product: ProductDto, attrName: string, attrValue: string): boolean {
