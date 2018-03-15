@@ -1,14 +1,16 @@
 ﻿module nbf.shopthelook {
     import IProductService = insite.catalog.IProductService;
     import Account = insite.account;
+    import IProductCollectionParameters = insite.catalog.IProductCollectionParameters;
 
     "use strict";
 
     export interface INbfShopTheLookWidgetControllerAttributes extends ng.IAttributes {
-        productIdString: string;
+        productString: string;
     }
 
     export interface ProductHotSpot {
+        productErp: string;
         product: ProductModel;
         hotSpotPosition:string;
     }
@@ -30,35 +32,35 @@
         }
 
         init(): void {
-            var productGroups = [];
-            if (this.$attrs.productIdString) {
-                productGroups = this.$attrs.productIdString.split("||");
-            }
             var hotSpots = [];
+            if (this.$attrs.productString) {
+                this.$attrs.productString.split("||").forEach(group => {
+                    var split = group.split(";");
+                    hotSpots.push({
+                        productErp: split[0],
+                        hotSpotPosition: split[1] + ";" + split[2]
+                    } as ProductHotSpot);
+                });
+            }
+
             const expand = ["pricing", "attributes"];
-            productGroups.forEach(group => {
-                var hotSpot = {} as ProductHotSpot;
-                if (group) {
-                    
-                }
-                this.productService.getProduct(null, group.split(";")[0], expand).then(
-                    (x: any) => {
-                        if (x && x.product) {
-                            hotSpot.product = x.product;
-                            hotSpot.hotSpotPosition = group.split(";")[1] + ";" + group.split(";")[2];
-                            hotSpots.push(hotSpot);
-                        }
-                    },
-                    (error: any) => {
-                        console.error(error);
+            var params = {
+                erpNumbers: hotSpots.map(a => a.productErp)
+            } as IProductCollectionParameters;
+            
+            this.productService.getProducts(params, expand).then(
+                (result) => {
+                    hotSpots.forEach(hotSpot => {
+                        hotSpot.product = result.products.filter(x => x.erpNumber === hotSpot.productErp)[0];
                     });
-            });
+                }
+            );
 
             this.productHotSpots = hotSpots;
         }
 
-        protected hotspot_clicked(hotspotId: string): void {
-            let p = $("#" + hotspotId);
+        protected hotspot_clicked(hotspotId: string, index: number): void {
+            let p = $("#" + hotspotId + "-" + (index + 1));
 
             var windowsize = $(window).width();
             if (windowsize > 1220) {

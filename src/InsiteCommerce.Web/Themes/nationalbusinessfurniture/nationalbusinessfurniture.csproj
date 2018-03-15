@@ -406,7 +406,7 @@
     <Content Include="Styles\custom\myaccount.scss" />
     <Content Include="Styles\custom\order-history.scss" />
     <Content Include="Styles\custom\shopthelook.scss" />
-    <Content Include="Styles\custom\shopthelook-deatils.scss" />
+    <Content Include="Styles\custom\shopthelook-details.scss" />
     <Content Include="Styles\custom\order-subtotal.scss" />
     <Content Include="Styles\custom\navlist.scss" />
     <Content Include="Styles\custom\tables.scss" />

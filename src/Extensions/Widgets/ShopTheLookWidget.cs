@@ -37,19 +37,19 @@ namespace Extensions.Widgets
             }
         }
 
-        [ListContentField(DisplayName = "Enter ProductIds and Hotspot Positions in the following template: ProductId;top:XX%;left:XX%", SortOrder = 40)]
-        public virtual List<string> ProductIds
+        [ListContentField(DisplayName = "Enter Product Numbers and Hotspot Positions in the following template: PRODUCTNUMBER;top:XX%;left:XX%", SortOrder = 40)]
+        public virtual List<string> ProductNumbers
         {
             get
             {
-                return GetValue(nameof(ProductIds), new List<string>(), FieldType.Contextual);
+                return GetValue(nameof(ProductNumbers), new List<string>(), FieldType.Contextual);
             }
             set
             {
-                SetValue(nameof(ProductIds), value, FieldType.Contextual);
+                SetValue(nameof(ProductNumbers), value, FieldType.Contextual);
             }
         }
 
-        public virtual string ProductAndHotSpotString => string.Join("||", ProductIds.ToArray());
+        public virtual string ProductAndHotSpotString => string.Join("||", ProductNumbers.ToArray());
     }
 }
