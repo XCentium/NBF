@@ -168,9 +168,9 @@
     <TypeScriptCompile Include="Scripts\Custom\Cart\nbf.cart-total-display.directive.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Cart\nbf.cart-lines.directive.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Cart\nbf.checkout.controller.ts" />
+    <TypeScriptCompile Include="Scripts\Custom\Catalog\nbf.product-images.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Catalog\nbf.featuredproducts-widget.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Catalog\nbf.category-widget.controller.ts" />
-    <TypeScriptCompile Include="Scripts\Custom\Catalog\nbf.product-image-carousel.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Catalog\nbf.catalog.directives.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Catalog\nbf.product-image-carousel.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Catalog\nbf.category-list.controller.ts" />
@@ -372,6 +372,7 @@
     <TypeScriptCompile Include="Scripts\Typings\moment\moment.d.ts" />
     <TypeScriptCompile Include="Scripts\Typings\papaparse\papaparse.d.ts" />
     <TypeScriptCompile Include="Scripts\Typings\isotope\isotope.d.ts" />
+    <TypeScriptCompile Include="Scripts\Typings\s7viewer\scene7.d.ts" />
     <TypeScriptCompile Include="Scripts\Typings\sticky\sticky.d.ts" />
     <TypeScriptCompile Include="Scripts\Typings\xlsx\xlsx.d.ts" />
     <TypeScriptCompile Include="Scripts\UserAdministration\insite.user-detail.controller.ts" />
@@ -729,7 +730,9 @@
     <Content Include="Views\Widgets\Carousel\ProductCarousel.cshtml" />
     <Content Include="Styles\custom\flex-slider.scss" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Scripts\Custom\s7viewer\" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

@@ -82,7 +82,7 @@ module insite.catalog {
             return retVal;
         }
         protected getSwatchImageNameFromStyleTraitValueId(styleTraitValueId: string): string {
-            debugger;
+            
             let retVal: string = null;
             let searchValue = styleTraitValueId.toUpperCase();
 
@@ -100,7 +100,7 @@ module insite.catalog {
 
 
         protected selectInsiteStyleDropdown(styleTraitName: string, styleTraitValueId: string, index: number): void {            
-            debugger;
+            
             let styleTrait = this.styleTraitFiltered.find(x => x.nameDisplay == styleTraitName);
             if (styleTrait) {
                 let option = styleTrait.styleValues.find(x => x.styleTraitValueId == styleTraitValueId);
