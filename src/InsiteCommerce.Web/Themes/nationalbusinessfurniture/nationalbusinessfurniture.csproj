@@ -177,7 +177,12 @@
     <TypeScriptCompile Include="Scripts\Custom\Catalog\nbf.product-list.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Comments\nbf.commentmessage.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Comments\nbf.commentmessage.service.ts" />
+    <TypeScriptCompile Include="Scripts\Custom\Core\nbf.pager.controller.ts" />
+    <TypeScriptCompile Include="Scripts\Custom\Core\nbf.pager.directives.ts" />
+    <TypeScriptCompile Include="Scripts\Custom\Dashboard\nbf.dashboard-view.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Footer\nbf.footer.controller.ts" />
+    <TypeScriptCompile Include="Scripts\Custom\Invoices\nbf.invoice.directives.ts" />
+    <TypeScriptCompile Include="Scripts\Custom\Invoices\nbf.recent-invoices.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\nbf.nav.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Layout\nbf.top-nav.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\OrderTracker\nbf.order-tracker.order-detail.controller.ts" />
@@ -188,6 +193,8 @@
     <TypeScriptCompile Include="Scripts\Custom\SocialMediaSharing\nbf.social-media.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\WebCode\nbf.web-code.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\WebCode\nbf.web-code.service.ts" />
+    <TypeScriptCompile Include="Scripts\Custom\WishLists\nbf.favorites-quick-view.controller.ts" />
+    <TypeScriptCompile Include="Scripts\Custom\WishLists\nbf.wishlists.directives.ts" />
     <TypeScriptCompile Include="Scripts\insite.config.ts" />
     <TypeScriptCompile Include="Scripts\insite.content-pager.controller.ts" />
     <TypeScriptCompile Include="Scripts\insite.content.directives.ts" />
@@ -479,6 +486,8 @@
     <Content Include="Views\Directives\Custom\Account\NbfSignInFlyOut.cshtml" />
     <Content Include="Views\Directives\Custom\Cart\NbfCartLines.cshtml" />
     <Content Include="Views\ContentItemFields\ListOfNewsPages.cshtml" />
+    <Content Include="Views\Directives\Custom\Invoices\RecentInvoices.cshtml" />
+    <Content Include="Views\Directives\Custom\Core\Pager.cshtml" />
     <None Include="Views\Directives\PdfViews\InvoiceDetails.cshtml" />
     <None Include="Views\Directives\PdfViews\OrderDetails.cshtml" />
     <Content Include="Views\Directives\Rfq\ProposedDetailsGrid.cshtml" />
@@ -490,6 +499,7 @@
     <Content Include="Views\Directives\Rfq\RfqMessageList.cshtml" />
     <Content Include="Views\Directives\Rfq\RfqMessages.cshtml" />
     <None Include="Views\Directives\WishList\AddToWishlistPopup.cshtml" />
+    <Content Include="Views\Directives\Custom\WishList\FavoritesQuickView.cshtml" />
     <None Include="Views\Widgets\AccountSettingsView\Standard.cshtml" />
     <None Include="Views\Widgets\Breadcrumb\Standard.cshtml" />
     <None Include="Views\Widgets\BudgetView\Standard.cshtml" />
@@ -504,7 +514,7 @@
     <Content Include="Views\Widgets\CreateAccountView\NBF.cshtml" />
     <None Include="Views\Widgets\CreateAccountView\Standard.cshtml" />
     <None Include="Views\Widgets\CurrencySelector\Standard.cshtml" />
-    <Content Include="Views\Widgets\Custom\Ctalinks\Standard.cshtml" />
+    <Content Include="Views\Widgets\Custom\CTALinkZone\Standard.cshtml" />
     <Content Include="Views\Widgets\Custom\WebCode\Standard.cshtml" />
     <Content Include="Views\Widgets\Custom\BetterBusinessBureau\Standard.cshtml" />
     <Content Include="Views\Widgets\Custom\RequestCatalogLink\Standard.cshtml" />
@@ -528,6 +538,7 @@
     <Content Include="Views\Widgets\Custom\ShopTheLookWidget\Standard.cshtml" />
     <Content Include="Views\Widgets\Custom\CategoryListView\Standard.cshtml" />
     <Content Include="Views\Widgets\Custom\NavigationFlyOut\Standard.cshtml" />
+    <Content Include="Views\Widgets\Custom\CTALinkWidget\Standard.cshtml" />
     <None Include="Views\Widgets\DealerDirectionsView\Standard.cshtml" />
     <None Include="Views\Widgets\DealerLocatorView\Standard.cshtml" />
     <None Include="Views\Widgets\DealerView\Standard.cshtml" />
@@ -564,7 +575,7 @@
     <None Include="Views\Widgets\OrderConfirmationView\Standard.cshtml" />
     <None Include="Views\Widgets\OrderDetailView\Standard.cshtml" />
     <None Include="Views\Widgets\OrderHistory\Standard.cshtml" />
-    <Content Include="Views\Widgets\OrdersView\nbf.cshtml" />
+    <Content Include="Views\Widgets\OrdersView\NBF.cshtml" />
     <None Include="Views\Widgets\OrdersView\Standard.cshtml" />
     <None Include="Views\Widgets\OrderUploadView\Standard.cshtml" />
     <Content Include="Views\Widgets\PageTitle\nbf.cshtml" />
@@ -718,6 +729,7 @@
     <Content Include="Views\Widgets\Carousel\ProductCarousel.cshtml" />
     <Content Include="Styles\custom\flex-slider.scss" />
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

@@ -43,26 +43,14 @@ namespace Extensions.Widgets
         {
             get
             {
-                AbstractPage linkedContent = LinkedContent;
+                var linkedContent = LinkedContent;
                 return linkedContent?.Title;
             }
         }
 
-        public string LinkedContentUrl
-        {
-            get
-            {
-                return PageContext.Current.GenerateUrl(_linkedContent);
-            }
-        }
+        public string LinkedContentUrl => PageContext.Current.GenerateUrl(_linkedContent);
 
-        public bool LinkedContentExists
-        {
-            get
-            {
-                return LinkedContent != null;
-            }
-        }
+        public bool LinkedContentExists => LinkedContent != null;
 
         private AbstractPage GetLinkedContent()
         {

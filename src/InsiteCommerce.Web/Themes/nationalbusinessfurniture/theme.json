@@ -137,7 +137,11 @@
     "Custom-Account-NbfAddressEdit": "views/directives/custom/account/nbfaddressedit.cshtml",
     "Custom-Account-NbfSignInWidget": "views/directives/custom/account/nbfsigninwidget.cshtml",
     "Custom-Account-NbfSignInFlyOut": "views/directives/custom/account/nbfsigninflyout.cshtml",
-    "Custom-Catalog-NbfSortedAttributeValueList": "views/directives/custom/catalog/sortedattributevaluelist.cshtml"
+    "Custom-Catalog-NbfSortedAttributeValueList": "views/directives/custom/catalog/sortedattributevaluelist.cshtml",
+    "Custom-Invoices-NbfRecentInvoices": "views/directives/custom/invoices/recentinvoices.cshtml",
+    "Custom-WishLists-NbfFavoritesQuickView": "views/directives/custom/wishlist/favoritesquickview.cshtml",
+    "Custom-Core-Pager": "views/directives/custom/core/pager.cshtml",
+    "Custom-Core-Item-List-Pager": "views/directives/custom/core/itemlistpager.cshtml"
   }
 }
 

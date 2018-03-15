@@ -240,6 +240,12 @@
         font-weight: 700;
     }
 
+    .db-li-payment-options  a:before,
+    .db-li-addresses  a:before,
+    .db-li-invoices  a:before,
+    .db-li-settings  a:before,
+    .db-li-favorites  a:before,
+    .db-li-order-approval  a:before,
     .db-li-oapp a:before,
     .db-li-req a:before,
     .db-li-quotes a:before {
@@ -272,6 +278,33 @@
         content: "\e006";
         font-size: 65px;
     }
+
+    .db-li-payment-options  a:before{
+        content: "\e000";
+        font-size: 65px;
+    }
+    .db-li-addresses  a:before{
+        content: "\e002";
+        font-size: 65px;
+    }
+    .db-li-settings  a:before{
+        content: "\e003";
+        font-size: 65px;
+    }
+    .db-li-favorites  a:before{
+        content: "\e006";
+        font-size: 65px;
+    }
+    .db-li-invoices  a:before{
+        content: "\e008";
+        font-size: 65px;
+    }
+    .db-li-order-approval  a:before{
+        content: "\e001";
+        font-size: 65px;
+    }
+
+
     /* Account Links */
     .account-links li a.btn {
         width: 100%;
@@ -350,7 +383,9 @@
 
     .dash-quick-order,
     .dash-orders,
-    .dash-quotes {
+    .dash-quotes,
+    .dash-invoices,
+    .dash-favorites {
         padding-left: 0.9375rem;
         padding-right: 0.9375rem;
     }
