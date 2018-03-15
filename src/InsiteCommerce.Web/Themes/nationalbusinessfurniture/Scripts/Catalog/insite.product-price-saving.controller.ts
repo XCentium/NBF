@@ -1,6 +1,10 @@
 ﻿module insite.catalog {
     "use strict";
 
+    export interface IProductPriceSavingControllerAttributes extends ng.IAttributes {
+        displaySavingsPercent: boolean;
+    }
+
     export class ProductPriceSavingController {
         unitNetPrice: number;
         unitNetPriceDisplay: string;
@@ -8,12 +12,14 @@
         unitListPriceDisplay: string;
         showSavingsAmount: boolean;
         showSavingsPercent: boolean;
+        displaySavingsPercent: boolean = true;
 
-        static $inject = [ "productPriceService", "settingsService" ];
+        static $inject = ["productPriceService", "settingsService", "$attrs" ];
 
         constructor(
             protected productPriceService: IProductPriceService,
-            protected settingsService: core.ISettingsService) {
+            protected settingsService: core.ISettingsService,
+            protected $attrs: IProductPriceSavingControllerAttributes) {
             this.init();
         }
 
@@ -21,6 +27,8 @@
             this.settingsService.getSettings().then(
                 (settingsCollection: core.SettingsCollection) => { this.getSettingsCompleted(settingsCollection); },
                 (error: any) => { this.getSettingsFailed(error); });
+
+            this.displaySavingsPercent = this.$attrs.displaySavingsPercent;
         }
 
         protected getSettingsCompleted(settingsCollection: core.SettingsCollection): void {

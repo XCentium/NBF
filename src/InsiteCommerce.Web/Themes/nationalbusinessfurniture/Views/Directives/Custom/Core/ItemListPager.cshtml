@@ -15,7 +15,7 @@
     <div ng-if="vm.showPager()" class="uibar tertiary paginator-34" ng-class="{'pbtm' : vm.bottom, 'ptop' : !vm.bottom}">
         <ul>
 
-            <li class="result-count">
+            <li class="result-count" ng-if="!vm.bottom">
                 <div ng-if="vm.showPerPage()">
                     <div class="small-6 columns per-page">
                         <label>[% translate 'Per page' %]:</label>

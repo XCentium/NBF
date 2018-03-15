@@ -188,8 +188,8 @@
     <TypeScriptCompile Include="Scripts\Custom\OrderTracker\nbf.order-tracker.order-detail.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\OrderTracker\nbf.order-tracker.service.ts" />
     <TypeScriptCompile Include="Scripts\Custom\OrderTracker\nbf.order-tracker.controller.ts" />
-    <TypeScriptCompile Include="Scripts\Custom\ShopTheLookDetails\nbf.ShopTheLookDetails.controller.ts" />
-    <TypeScriptCompile Include="Scripts\Custom\ShopTheLook\nbf.ShopTheLook.controller.ts" />
+    <TypeScriptCompile Include="Scripts\Custom\ShopTheLook\nbf.shop-the-look.widget.controller.ts" />
+    <TypeScriptCompile Include="Scripts\Custom\ShopTheLook\nbf.shop-the-look.landing-view.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\SocialMediaSharing\nbf.social-media.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\WebCode\nbf.web-code.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\WebCode\nbf.web-code.service.ts" />
@@ -407,7 +407,7 @@
     <Content Include="Styles\custom\myaccount.scss" />
     <Content Include="Styles\custom\order-history.scss" />
     <Content Include="Styles\custom\shopthelook.scss" />
-    <Content Include="Styles\custom\shopthelook-deatils.scss" />
+    <Content Include="Styles\custom\shopthelook-details.scss" />
     <Content Include="Styles\custom\order-subtotal.scss" />
     <Content Include="Styles\custom\navlist.scss" />
     <Content Include="Styles\custom\tables.scss" />
@@ -529,14 +529,14 @@
     <Content Include="Views\Widgets\Custom\ProductFlyOut\Standard.cshtml" />
     <Content Include="Views\Widgets\Custom\NavigationFlyOut\Header.cshtml" />
     <Content Include="Views\Widgets\Custom\NavigationFlyOut\MyAccount.cshtml" />
-    <Content Include="Views\Widgets\Custom\ShopTheLook\Standard.cshtml" />
-    <Content Include="Views\Widgets\Custom\ShopTheLookDetails\Standard.cshtml" />
+    <Content Include="Views\Widgets\Custom\ShopTheLookLandingView\Standard.cshtml" />
+    <Content Include="Views\Widgets\Custom\ShopTheLookWidget\Standard.cshtml" />
     <Content Include="Views\Widgets\Custom\ProductCTAFourSquares\Standard.cshtml" />
     <Content Include="Views\Widgets\Custom\ArticlePageComment\Standard.cshtml" />
     <Content Include="Views\Widgets\Custom\ArticlePageCommentsView\Standard.cshtml" />
     <Content Include="Views\Widgets\Custom\LinkListWithTitle\NavigationFlyOut.cshtml" />
     <Content Include="Views\Widgets\Custom\LinkListWithTitle\Standard.cshtml" />
-    <Content Include="Views\Widgets\Custom\ShopTheLookWidget\Standard.cshtml" />
+    <Content Include="Views\Widgets\Custom\ShopTheLookCta\Standard.cshtml" />
     <Content Include="Views\Widgets\Custom\CategoryListView\Standard.cshtml" />
     <Content Include="Views\Widgets\Custom\NavigationFlyOut\Standard.cshtml" />
     <Content Include="Views\Widgets\Custom\CTALinkWidget\Standard.cshtml" />
