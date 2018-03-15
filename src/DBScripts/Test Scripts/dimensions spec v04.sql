@@ -45,6 +45,6 @@
 		'</ul>' Dimensions
 	 from combinedDimension cd
 	 --where combinedCartonDimension is not null
-	 --where cd.ERPNumber = '56948'
+	 where cd.ERPNumber = '56948'
 	 )
 	 select * from final
