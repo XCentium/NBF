@@ -17,7 +17,7 @@ namespace NBF.IntegrationProcessor
         protected IIntegrationJobLogger JobLogger;
         public DataSet Execute(SiteConnection siteConnection, IntegrationJob integrationJob, JobDefinitionStep jobStep)
         {
-            var mySetting = ConfigurationManager.ConnectionStrings["InSite.Commerce"];
+            var mySetting = jobStep.JobDefinition.IntegrationConnection;
 
             this.JobLogger = (IIntegrationJobLogger)new IntegrationJobLogger(siteConnection, integrationJob);
 

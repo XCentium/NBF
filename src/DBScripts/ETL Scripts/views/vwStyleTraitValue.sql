@@ -7,7 +7,7 @@ CREATE VIEW [dbo].[vwStyleTraitValue]
 AS
 
 
-SELECT 
+SELECT
 	stv.Id,
 	stv.StyleTraitId,
 	stv.Value,
@@ -20,7 +20,7 @@ FROM
 	dbo.StyleTraitValue stv
 	join StyleTrait st on st.Id = stv.StyleTraitId
 	join StyleClass sc on sc.Id = st.StyleClassId
-where stv.id = '520A5CA1-D91B-E811-A98F-EF3518E6D53C'
+--where stv.id = '520A5CA1-D91B-E811-A98F-EF3518E6D53C'
 /*
 select * from [vwStyleTraitValue]
 */

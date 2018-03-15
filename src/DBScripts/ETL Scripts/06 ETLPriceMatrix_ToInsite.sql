@@ -32,6 +32,16 @@ begin
 		CreatedBy, CreatedOn, ModifiedOn, ModifiedBy
 	from PriceMatrix etl
 
+	update [Insite.NBF].dbo.Product  set
+		BasicSalePrice = etl.BasicSalePrice,
+		BasicSaleStartDate = etl.BasicSaleStartDate
+	from Product etl
+	join [Insite.NBF].dbo.Product p on p.Id = etl.Id
+	where 
+		p.BasicSalePrice != etl.BasicSalePrice
+		or p.BasicSaleStartDate != etl.BasicSaleStartDate
+
+
 /*
 
 exec ETLPriceMatrix_ToInsite

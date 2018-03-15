@@ -7,7 +7,7 @@ CREATE VIEW [dbo].[vwVendor]
 AS
 
 
-SELECT top 100
+SELECT 
 		v.Id,
 		VendorNumber,
 		case when isnull(v.Name,'') = '' then '<blank>' else v.Name end Name,
@@ -29,7 +29,7 @@ SELECT top 100
 		v.CreatedBy,
 		v.ModifiedOn,
 		v.ModifiedBy,
-		isnull(c.ISOCode2,'') CountryISOCode2
+		isnull(c.ISOCode2,'US') CountryISOCode2
 FROM
 	dbo.Vendor v
 	left join Country c on c.Id = v.CountryId
