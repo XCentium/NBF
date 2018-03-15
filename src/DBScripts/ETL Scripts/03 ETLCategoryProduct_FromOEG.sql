@@ -22,12 +22,12 @@ begin
 	from
 		OEGSystemStaging.dbo.Items si
 		join OEGSystemStaging.dbo.Products sp on sp.ItemId = si.ItemId
-			and sp.BrandId = 1 --todo: @brand
+			and sp.BrandId = @brand
 		join OEGSystemStaging.dbo.LookupItemClasses sic on sic.ClassId = si.ClassId
 			and sic.[Name] not in ('Bedroom Furniture', 'Entertainment/AV', 'Misc.', 'Parts')
 		join OEGSystemStaging.dbo.ItemsWebCategories siwc on siwc.ItemId = si.ItemId 
 		join OEGSystemStaging.dbo.ItemWebCategoryDisplayNames swc on swc.WebCategoryId = siwc.WebCategoryId
-			and swc.BrandId = 1
+			and swc.BrandId = @brand
 		join Product p on p.ERPNumber = sp.Number
 		join Category c on c.[Name] = convert(nvarchar(max), sic.ClassId) + '-' + convert(nvarchar(max), swc.Id)
 
@@ -43,12 +43,12 @@ begin
 	from
 		OEGSystemStaging.dbo.Items si
 		join OEGSystemStaging.dbo.Products sp on sp.ItemId = si.ItemId
-			and sp.BrandId = 1 --todo: @brand
+			and sp.BrandId = @brand
 		join OEGSystemStaging.dbo.LookupItemClasses sic on sic.ClassId = si.ClassId
 			and sic.[Name] not in ('Bedroom Furniture', 'Entertainment/AV', 'Misc.', 'Parts')
 		join OEGSystemStaging.dbo.ItemsWebCategories siwc on siwc.ItemId = si.ItemId 
 		join OEGSystemStaging.dbo.ItemWebCategoryDisplayNames swc on swc.WebCategoryId = siwc.WebCategoryId
-			and swc.BrandId = 1
+			and swc.BrandId = @brand
 		join Product p on p.ERPNumber = sp.Number
 		join Category c on c.[Name] = convert(nvarchar(max), swc.Id) + '-' + convert(nvarchar(max), sic.ClassId)
 
