@@ -85,7 +85,8 @@ begin
 /*
 exec ETLProductDocument_FromOEG
 exec ETLProductDocument_ToInsite
-select * from Document
+select * from Document where documenttype = 'blog'
+select erpnumber, * from product where id = '0DD846BA-87FD-E711-A98C-A3E0F1200094'
 select * from OEGSystemStaging.dbo.ProductDocuments spd
 select * from OEGSystemStaging.dbo.ProductVideos where TypeId != 2
 
