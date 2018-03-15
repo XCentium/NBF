@@ -82,7 +82,6 @@ module insite.catalog {
             return retVal;
         }
         protected getSwatchImageNameFromStyleTraitValueId(styleTraitValueId: string): string {
-            debugger;
             let retVal: string = null;
             let searchValue = styleTraitValueId.toUpperCase();
 
@@ -106,7 +105,12 @@ module insite.catalog {
                 let option = styleTrait.styleValues.find(x => x.styleTraitValueId == styleTraitValueId);
 
                 if (option) {
-                    this.styleSelection[index] = option;
+                    if (this.styleSelection[index] === option) {
+                        this.styleSelection[index] = null;
+                    }
+                    else {
+                        this.styleSelection[index] = option;
+                    }
                     this.styleChange();
                 }
             }
