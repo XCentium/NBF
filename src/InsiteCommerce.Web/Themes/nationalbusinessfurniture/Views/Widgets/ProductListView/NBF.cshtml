@@ -39,7 +39,7 @@
                                 <li class="large-3 medium-4 small-12 column category-list__item" data-equalizer-watch ng-repeat="subCategory in vm.category.subCategories">
                                     <a ng-href="{{subCategory.path}}">
                                         <div class="category-list__img-wrap">
-                                            <img class="category-list__img" ng-src="vm.subCategory.smallImagePath" alt="{{subCategory.imageAltText}}" />
+                                            <img class="category-list__img" ng-src="{{subCategory.smallImagePath}}" alt="{{subCategory.imageAltText}}" />
                                         </div>
                                         <div class="category-list__title">
                                             <h2>{{subCategory.shortDescription}}</h2>
