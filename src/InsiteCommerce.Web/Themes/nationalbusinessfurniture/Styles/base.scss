@@ -408,7 +408,8 @@ h1.large {
 
 h1 {
     font-family: inherit;
-    font-family: $ProximaNova-bold;
+    font-family: $ProximaNova;
+    font-weight:700;
     font-size: 54px;
     line-height:  1.2em;
     margin-bottom: .5em;
@@ -423,9 +424,9 @@ h1 {
 h2 {
     font-family: inherit;
     font-size: 36px;
-    font-weight:bold;
-    font-family: $ProximaNova-bold;
-    line-height:  1.2em;
+    font-family: $ProximaNova;
+    font-weight: 700;
+    line-height: 1.2em;
     margin-bottom: .75em;
     color: inherit;
 
@@ -439,19 +440,19 @@ h3 {
     font-size: 24px;
     line-height:  1.2em;
     margin-bottom: 1em;
-    font-weight: normal;
+    font-weight: 400;
 
     @media all and (max-width: 767px) {
         font-size: 24px;
     }
 }
 
-h4{
+h4 {
     font-family: inherit;
     font-size: 24px;
-    font-weight:bold;
-    font-family: $ProximaNova-bold;
-    line-height:  1.2em;
+    font-family: $ProximaNova;
+    font-weight: 700;
+    line-height: 1.2em;
     margin-bottom: 1em;
 
     @media all and (max-width: 767px) {
@@ -465,7 +466,7 @@ h5, h6 {
     line-height:  1.2em;
     margin-bottom: 1em;
     color: inherit;
-    font-weight: normal;
+    font-weight: 400;
 
     @media all and (max-width: 767px) {
         font-size: 3px;

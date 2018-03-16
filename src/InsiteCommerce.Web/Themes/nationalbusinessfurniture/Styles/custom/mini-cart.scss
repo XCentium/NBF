@@ -20,7 +20,8 @@
 
         .cart-title {
             margin: 0;
-            font-family: $ProximaNova-bold
+            font-family: $ProximaNova;
+            font-weight: 700;
         }
 
         ul {
@@ -118,8 +119,8 @@
     }
 
     &:hover {
-        .minicart{
-            display:block;
+        .minicart {
+            display: block;
         }
     }
 }

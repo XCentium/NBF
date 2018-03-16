@@ -13,11 +13,11 @@
             }
 
             .item-name {
-                font-weight: bold;
                 padding-right: 0 !important;
                 height: 54px;
                 overflow: hidden;
-                font-family: $ProximaNova-bold;
+                font-family: $ProximaNova;
+                font-weight: 700;
                 margin-bottom: 10px;
             }
 
@@ -105,10 +105,11 @@
     .cc-warp {
         padding: 17px 20px;
         background-color: #F8F8F8;
-        margin-bottom:30px;
+        margin-bottom: 30px;
+
         img {
-            width:100%;
-            max-width:100%;
+            width: 100%;
+            max-width: 100%;
         }
     }
 
@@ -118,26 +119,28 @@
         margin-bottom: 1.5em;
 
         &__title {
-            font-family: $ProximaNova-bold;
-            margin-bottom:30px;
+            font-family: $ProximaNova;
+            font-weight: 700;
+            margin-bottom: 30px;
         }
 
         ul {
-            margin:0;
-            padding:0;
-            list-style:none;
+            margin: 0;
+            padding: 0;
+            list-style: none;
             @include flexbox();
-             li{
-                 
-                 &:nth-child(2){
-                     padding:0 16%;
-                 }
 
-                 img {
-                     width:100%;
-                     max-width:100%;
-                 }
-             }
+            li {
+
+                &:nth-child(2) {
+                    padding: 0 16%;
+                }
+
+                img {
+                    width: 100%;
+                    max-width: 100%;
+                }
+            }
         }
     }
 }
