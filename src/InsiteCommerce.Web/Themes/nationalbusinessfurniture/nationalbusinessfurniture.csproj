@@ -172,6 +172,7 @@
     <TypeScriptCompile Include="Scripts\Custom\Cart\nbf.cart-total-display.directive.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Cart\nbf.cart-lines.directive.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Cart\nbf.checkout.controller.ts" />
+    <TypeScriptCompile Include="Scripts\Custom\Catalog\nbf.product-detail.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Catalog\nbf.product-images.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Catalog\nbf.featuredproducts-widget.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Catalog\nbf.category-widget.controller.ts" />
@@ -197,6 +198,7 @@
     <TypeScriptCompile Include="Scripts\Custom\SocialMediaSharing\nbf.social-media.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\WebCode\nbf.web-code.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\WebCode\nbf.web-code.service.ts" />
+    <TypeScriptCompile Include="Scripts\Custom\WishLists\nbf.wishlist.service.ts" />
     <TypeScriptCompile Include="Scripts\Custom\WishLists\nbf.favorites-quick-view.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\WishLists\nbf.wishlists.directives.ts" />
     <TypeScriptCompile Include="Scripts\insite.config.ts" />

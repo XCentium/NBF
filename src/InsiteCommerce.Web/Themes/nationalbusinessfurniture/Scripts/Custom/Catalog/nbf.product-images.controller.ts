@@ -17,7 +17,7 @@
                     } as ProductImageDto;
                 }
                 
-                scene7.scene7InitWith(this.selectedImage.smallImagePath);
+                scene7InitWith(this.selectedImage.smallImagePath);
             }, true);
             
             (angular.element("#imgZoom") as any).foundation("reveal");

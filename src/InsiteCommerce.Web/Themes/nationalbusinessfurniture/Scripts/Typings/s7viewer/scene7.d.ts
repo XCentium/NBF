@@ -1,6 +1,3 @@
-﻿interface Scene7 {
-    scene7InitWith: Function;
-    setVideo2: Function;
-    set360: Function;
-}
-declare var scene7: Scene7;
+﻿declare var scene7InitWith: Function;
+declare var setVideo2: Function;
+declare var set360: Function;

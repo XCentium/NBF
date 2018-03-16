@@ -135,7 +135,7 @@ module insite.catalog {
             let retVal = [];
 
             if (swatchesJson) {
-                retVal = JSON.parse(swatchesJson).slice(0,4).map(x => x.ImageName);
+                retVal = JSON.parse(swatchesJson).slice(0,3).map(x => x.ImageName);
             }
 
             return retVal;
