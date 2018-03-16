@@ -28,6 +28,8 @@
         mapProductToWishlistLine(product: ProductDto, line: WishListLineModel): WishListLineModel;
         applyRealTimeInventoryResult(list: WishListModel, result: RealTimeInventoryModel): void;
         updateAvailability(line: WishListLineModel): void;
+        toggleFavorite(product: ProductDto): ng.IPromise<any>;
+        isProductFavorite(product: ProductDto): Boolean;
     }
 
     export class NbfWishListService implements INbfWishListService {
@@ -35,12 +37,48 @@
         wishListSettingsUri = "/api/v1/settings/wishlist";
         cacheKey = "addWishListLineProducts";
 
-        static $inject = ["$http", "httpWrapperService", "coreService"];
+        static $inject = ["$http", "httpWrapperService", "coreService", "$q"];
 
         constructor(
             protected $http: ng.IHttpService,
             protected httpWrapperService: core.HttpWrapperService,
-            protected coreService: core.ICoreService) {
+            protected coreService: core.ICoreService,
+            protected $q: ng.IQService) {
+        }
+
+        public isProductFavorite(product: ProductDto): boolean {
+            let wishLists: WishListCollectionModel;
+
+            this.getWishLists().then(x => {
+                wishLists = x;
+            });
+
+            return wishLists.wishListCollection.find(x => x.name == "Favorites" && x.hasAnyLines
+                && x.wishListLineCollection.find(y => y.productId == product.id) != null) != null;            
+        }
+
+        public toggleFavorite(product: ProductDto): ng.IPromise<any> {
+            const defer = this.$q.defer<any>(); 
+
+            let existingWishlistLinesForProduct = this.getWishListLinesFromProducts([product]);
+
+            if (existingWishlistLinesForProduct == null || existingWishlistLinesForProduct.length == 0) {
+
+                let wishList = <WishListModel>{ name: "Favorites" };
+
+                this.addWishListLine(wishList, product).then(x => {
+                    defer.resolve();
+                })
+            }
+            else {
+                existingWishlistLinesForProduct.forEach(x => {
+                    this.deleteLine(x).then(x => {
+                        defer.resolve();
+                    });
+                });
+            }
+            
+            return defer.promise;
         }
 
         getWishLists(sort?: string, expand?: string, wishListLinesSort?: string): ng.IPromise<WishListCollectionModel> {
@@ -172,6 +210,11 @@
         }
 
         deleteLine(line: WishListLineModel): ng.IPromise<WishListLineModel> {
+
+            //const config = {
+            //    bypassErrorInterceptor: true
+            //};
+
             return this.httpWrapperService.executeHttpRequest(
                 this,
                 this.$http.delete(line.uri),
@@ -184,6 +227,7 @@
         }
 
         protected deleteLineFailed(error: ng.IHttpPromiseCallbackArg<any>): void {
+            console.dir(error);
         }
 
         deleteLineCollection(wishList: WishListModel, lines: WishListLineModel[]): ng.IPromise<WishListLineCollectionModel> {

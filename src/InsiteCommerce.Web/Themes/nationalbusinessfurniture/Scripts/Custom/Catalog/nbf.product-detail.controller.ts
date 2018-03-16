@@ -32,6 +32,13 @@
             super($scope, coreService, cartService, productService, addToWishlistPopupService, productSubscriptionPopupService, settingsService, $stateParams, sessionService)
         }
 
+        protected toggleFavorite(product: ProductDto) {
+            debugger;
+            this.nbfWishListService.toggleFavorite(product).then(() => {
+                product.properties["IsFavorite"] = this.nbfWishListService.isProductFavorite(product) ? "Y" : "N";
+            });            
+        }
+
         protected isAttributeValue(attrName: string, attrValue: string): boolean {            
             let retVal: boolean = false;
 
@@ -130,6 +137,8 @@
             if (this.product.properties && this.product.properties["swatches"]) {
                 this.swatches = JSON.parse(this.product.properties["swatches"]);
             }
+
+            //this.product.properties["IsFavorite"] = this.nbfWishListService.isProductFavorite(this.product) ? "Y" : "N";
 
             this.setTabs();
         }     
