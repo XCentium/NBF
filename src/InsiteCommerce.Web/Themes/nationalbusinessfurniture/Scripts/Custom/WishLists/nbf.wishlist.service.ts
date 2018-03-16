@@ -57,30 +57,6 @@
                 && x.wishListLineCollection.find(y => y.productId == product.id) != null) != null;            
         }
 
-        public toggleFavorite(product: ProductDto): ng.IPromise<any> {
-            const defer = this.$q.defer<any>(); 
-
-            let existingWishlistLinesForProduct = this.getWishListLinesFromProducts([product]);
-
-            if (existingWishlistLinesForProduct == null || existingWishlistLinesForProduct.length == 0) {
-
-                let wishList = <WishListModel>{ name: "Favorites" };
-
-                this.addWishListLine(wishList, product).then(x => {
-                    defer.resolve();
-                })
-            }
-            else {
-                existingWishlistLinesForProduct.forEach(x => {
-                    this.deleteLine(x).then(x => {
-                        defer.resolve();
-                    });
-                });
-            }
-            
-            return defer.promise;
-        }
-
         getWishLists(sort?: string, expand?: string, wishListLinesSort?: string): ng.IPromise<WishListCollectionModel> {
             const params = {
                 sort: sort,
@@ -227,7 +203,7 @@
         }
 
         protected deleteLineFailed(error: ng.IHttpPromiseCallbackArg<any>): void {
-            console.dir(error);
+            
         }
 
         deleteLineCollection(wishList: WishListModel, lines: WishListLineModel[]): ng.IPromise<WishListLineCollectionModel> {
@@ -270,6 +246,7 @@
         }
 
         protected updateWishListCompleted(response: ng.IHttpPromiseCallbackArg<WishListModel>): void {
+            
         }
 
         protected updateWishListFailed(error: ng.IHttpPromiseCallbackArg<any>): void {

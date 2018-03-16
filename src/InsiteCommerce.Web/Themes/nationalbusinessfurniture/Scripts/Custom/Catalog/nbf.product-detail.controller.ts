@@ -4,6 +4,7 @@
     export class NbfProductDetailController extends ProductDetailController {
         videoUrl: string = '';       
         swatches: any[] = [];
+        favorites: WishListModel;
 
         static $inject = [
             "$scope",
@@ -33,10 +34,40 @@
         }
 
         protected toggleFavorite(product: ProductDto) {
-            debugger;
-            this.nbfWishListService.toggleFavorite(product).then(() => {
-                product.properties["IsFavorite"] = this.nbfWishListService.isProductFavorite(product) ? "Y" : "N";
-            });            
+            var favoriteLine = this.favorites.wishListLineCollection.filter(x => x.productId === this.product.id);
+
+            if (favoriteLine.length > 0) {
+                //Remove lines
+                this.nbfWishListService.deleteLineCollection(this.favorites, favoriteLine).then((result) => {
+                    this.getFavorites();
+                });     
+            } else {
+                //Add Lines
+                var addLines = [product];
+                this.nbfWishListService.addWishListLines(this.favorites, addLines).then(() => {
+                    this.getFavorites();
+                });
+            }
+        }
+
+        protected getFavorites() {
+            this.nbfWishListService.getWishLists("CreatedOn", "wishlistlines").then((wishList) => {
+                this.favorites = wishList.wishListCollection[0];
+                this.product.properties["isFavorite"] = "false";
+                if (this.favorites) {
+                    if (this.favorites.wishListLineCollection) {
+                        if (this.favorites.wishListLineCollection.filter(x => x.productId === this.product.id)[0]) {
+                            this.product.properties["isFavorite"] = "true";
+                        }
+                    } else {
+                        this.favorites.wishListLineCollection = [];
+                    }
+                } else {
+                    this.favorites = {
+                        wishListLineCollection: [] as WishListLineModel[]
+                    } as WishListModel;
+                }
+            });
         }
 
         protected isAttributeValue(attrName: string, attrValue: string): boolean {            
@@ -138,8 +169,7 @@
                 this.swatches = JSON.parse(this.product.properties["swatches"]);
             }
 
-            //this.product.properties["IsFavorite"] = this.nbfWishListService.isProductFavorite(this.product) ? "Y" : "N";
-
+            this.getFavorites();
             this.setTabs();
         }     
        
