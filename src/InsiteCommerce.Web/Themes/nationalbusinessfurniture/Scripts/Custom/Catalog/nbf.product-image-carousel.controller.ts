@@ -101,7 +101,7 @@ module insite.catalog {
             this.selectedImage = image;
             document.getElementById("s7flyout_inline_div").innerHTML = '';
 
-            scene7.scene7InitWith(this.selectedImage.name);
+            scene7InitWith(this.selectedImage.name);
             $('#s7flyout_inline_div').show();
             $('#Wrapper360').hide();
             var myVideo = $('#videofile');
