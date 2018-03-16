@@ -97,12 +97,21 @@ module insite.catalog {
         //    }
         //}
 
-        //selectImage(image: ProductImageDto): void {
-        //    this.selectedImage = image;
-        //    this.$timeout(() => {
-        //        this.reloadCarousel();
-        //    }, 20);
-        //}
+        selectImage(image: ProductImageDto): void {
+            this.selectedImage = image;
+            document.getElementById("s7flyout_inline_div").innerHTML = '';
+            scene7InitWith(this.selectedImage.name);
+            $('#s7flyout_inline_div').show();
+            $('#Wrapper360').hide();
+            var myVideo = document.getElementById("videofile");
+            if (myVideo) {
+                myVideo.pause();
+            }
+            $('#videofile').hide();
+            this.$timeout(() => {
+                this.reloadCarousel();
+            }, 20);
+        }
     }
 
     angular

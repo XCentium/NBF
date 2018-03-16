@@ -1,16 +1,12 @@
 ﻿<div>
-    <a id="tst_productDetail_imageZoom" href="javascript:;" class="pd-item-link" data-reveal-id="imgZoom">
-        <img id="{{vm.mainPrefix}}ProductImage" class="tst_productDetailPage_mainImage" ng-src="https://s7d9.scene7.com/is/image/NationalBusinessFurniture/{{vm.selectedImage.mediumImagePath}}?hei=200&id=5-zsy2&fmt=jpg&fit=constrain,1&wid=344&hei=344" alt="{{vm.selectedImage.altText}}">
-    </a>
-    <isc-product-image-carousel product-images="vm.product.productImages" selected-image="vm.selectedImage" prefix="main" max-tries="2000" get-carousel-width="vm.getMainImageWidth()"></isc-product-image-carousel>
-    <div id="imgZoom" class="product-detail reveal-modal modal-zoom" data-reveal data-reveal-init>
-        <div class="modal-wrap">
-            <img id="{{vm.zoomPrefix}}ProductImage" class="tst_productDetailPage_zoomImage imgZoom" ng-src="https://s7d9.scene7.com/is/image/NationalBusinessFurniture/{{vm.selectedImage.largeImagePath ? vm.selectedImage.largeImagePath : vm.selectedImage.mediumImagePath}}?hei=200&id=5-zsy2&fmt=jpg&fit=constrain,1&wid=344&hei=344" alt="{{vm.selectedImage.altText}}">
-            <div class="zoom-carousel-wrapper">
-                <isc-product-image-carousel ng-if="vm.showCarouselOnZoomModal" product-images="vm.product.productImages" selected-image="vm.selectedImage" prefix="zoom"
-                                            max-tries="2000" get-carousel-width="vm.getZoomImageWidth()"></isc-product-image-carousel>
-            </div>
-            <a class="close-reveal-modal">&#215;</a>
-        </div>
+
+    <div class="s7flyoutviewer s7mouseinput s7size_small s7device_landscape" id="s7flyout_inline_div" style="height: 400px;position:relative;z-index:1"></div>
+    <div id="Wrapper360" style="position: relative; height: 400px; padding-top: 25px; display: none;">
+        <div id="spritespin"></div>
     </div>
+    <video id="videofile" ng-if="vm.product.properties['videoUrl']" data-ng-init="vm.initVideo()" controls="" style="display:none;width: 100%; height: 400px;" >
+        <source src="" type="video/mp4">
+    </video>
+    <isc-product-image-carousel product-images="vm.product.productImages" selected-image="vm.selectedImage" prefix="main" max-tries="2000" get-carousel-width="vm.getMainImageWidth()"></isc-product-image-carousel>
+    
 </div>

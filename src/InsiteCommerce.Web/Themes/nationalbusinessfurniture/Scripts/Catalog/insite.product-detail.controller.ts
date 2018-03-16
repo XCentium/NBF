@@ -9,6 +9,7 @@ module insite.catalog {
     "use strict";
 
     export class ProductDetailController {
+        videoUrl: string = '';
         product: ProductDto;
         category: CategoryModel;
         breadCrumbs: BreadCrumbModel[];
@@ -160,10 +161,23 @@ module insite.catalog {
                 (error: any) => { this.getProductFailed(error); });
         }
 
+        initVideo() {
+            console.dir(document.getElementById("videofile"));
+            document.getElementById("videofile").setAttribute("src", this.product.properties['videoUrl']);
+        }
+
         protected getProductCompleted(productModel: ProductModel): void {
             this.product = productModel.product;
             this.product.qtyOrdered = this.product.minimumOrderQty || 1;
-
+            this.product.documents.forEach((doc) => {
+                if (doc.documentType == "video") {
+                    this.product.properties['videoFile'] = doc.fileUrl;
+                    this.product.properties['videoUrl'] = 'https://s7d9.scene7.com/is/content/NationalBusinessFurniture/' + doc.fileUrl;
+                }
+            });
+            this.product.documents = this.product.documents.filter(function (val) {
+                return val.documentType !== "video";
+            });
             if (this.product.isConfigured && this.product.configurationDto && this.product.configurationDto.sections) {
                 this.initConfigurationSelection(this.product.configurationDto.sections);
             }
@@ -314,6 +328,14 @@ module insite.catalog {
                 (productDto: ProductDto) => { this.changeUnitOfMeasureCompleted(productDto); },
                 (error: any) => { this.changeUnitOfMeasureFailed(error); }
             );
+        }
+
+        showVideo() {
+            setVideo2(this.product.properties['videoFile']);
+        }
+
+        show360() {
+            set360(this.product.erpNumber, 3, 16);
         }
 
         protected changeUnitOfMeasureCompleted(product: ProductDto): void {
