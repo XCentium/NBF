@@ -24,8 +24,8 @@ from
 	join AttributeType att on att.Id = cattype.AttributeTypeId
 	join WebSite ws on ws.Id = c.WebSiteId
 	left join Category pc on pc.Id = c.ParentId
-where
-	cattype.Id = 'B82B8EFC-87FD-E711-A98C-A3E0F1200094'
+--where
+--	cattype.Id = 'B82B8EFC-87FD-E711-A98C-A3E0F1200094'
 
 /*
 select * from vwCategoryAttributeType

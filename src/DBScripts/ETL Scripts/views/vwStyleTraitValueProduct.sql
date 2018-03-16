@@ -20,7 +20,7 @@ FROM
 	join StyleTrait st on st.Id = stv.StyleTraitId
 	join StyleClass sc on sc.Id = st.StyleClassId
 	join Product p on p.Id = stvp.ProductId
-where p.id = 'A2FA08BF-87FD-E711-A98C-A3E0F1200094'
+--where p.id = 'A2FA08BF-87FD-E711-A98C-A3E0F1200094'
 
 /*
 select * from [vwStyleTraitValueProduct]
