@@ -6,19 +6,22 @@ $xlarge-screen: 1441px;
 $xxlarge-screen: 1921px;
 
 // Typography
-$base-font-family: "ProximaNova",Arial,sans-serif;
-$ProximaNova: "ProximaNova",Arial,sans-serif;
-$ProximaNova-bold: "ProximaNova Bold",Arial,sans-serif;
-$ProximaNova-italic: "ProximaNova Italic",Arial,sans-serif;
-$ProximaNova-bold-italic: "ProximaNova Bold Italic",Arial,sans-serif;
-$ProximaNova-light: "ProximaNova Light",Arial,sans-serif;
-$ProximaNova-light-italic: "ProximaNova Light Italic",Arial,sans-serif;
-$ProximaNova-exbold: "ProximaNova Exrta Bold",Arial,sans-serif;
-$ProximaNova-semibold: "ProximaNova Semibold",Arial,sans-serif;
-$heading-font-family: $base-font-family;
+$ProximaNova: "proxima-nova","ProximaNova",Arial,sans-serif;
+//$ProximaNova-bold: "proxima-nova","ProximaNova Bold",Arial,sans-serif;
+//$ProximaNova-italic: "proxima-nova","ProximaNova Italic",Arial,sans-serif;
+//$ProximaNova-bold-italic: "proxima-nova","ProximaNova Bold Italic",Arial,sans-serif;
+//$ProximaNova-light: "proxima-nova","ProximaNova Light",Arial,sans-serif;
+//$ProximaNova-light-italic: "proxima-nova","ProximaNova Light Italic",Arial,sans-serif;
+//$ProximaNova-exbold: "proxima-nova","ProximaNova Exrta Bold",Arial,sans-serif;
+//$ProximaNova-semibold: "proxima-nova","ProximaNova Semibold",Arial,sans-serif;
 $FontAwesome: "FontAwesome";
 $icomoon: "icomoon";
 $good-oatmeal: "good-oatmeal-v2";
+$base-font-family: $ProximaNova;
+$heading-font-family: $base-font-family;
+
+
+
 
 // Font Sizes
 $base-font-size: 15px;

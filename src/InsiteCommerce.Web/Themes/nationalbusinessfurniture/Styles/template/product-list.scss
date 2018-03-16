@@ -243,9 +243,7 @@
     .ln2-wrap .f-wrap .jspDrag {
         background: #ddddde;
     }
-
     /* Left Navigation Filter Sections */
-
     .n-filter .accordion ul {
         margin: 0;
         padding-left: 1.25em;
@@ -307,9 +305,7 @@
 
     .n-filter {
     }
-
     /* Filter Panels */
-
     [role="compare"],
     [role="mobile-filters"] {
         padding-right: 0.9375em;
@@ -330,9 +326,7 @@
     [role="compare"] {
         margin-bottom: 1.5em;
     }
-
     /* Mobile Filter Panel */
-
     .left-nav-2 .f-cat[role="mobile-filters"] {
         margin: 1.5em 0;
     }
@@ -384,9 +378,7 @@
         margin-left: 5%;
         width: 50%;
     }
-
     /* Compare Panel */
-
     [role="compare"] {
     }
 
@@ -420,9 +412,7 @@
         text-indent: 0;
         margin-bottom: 5px;
     }
-
     /* Slider UI Styling */
-
     .n-filter #slider-range {
         background: #fff;
         border: 1px solid #ccc;
@@ -459,9 +449,7 @@
     .btn-apply,
     .btn-clear-all {
     }
-
     /* Products */
-
     .product-list .plist-right .results-count {
         margin-bottom: 1.5em;
     }
@@ -473,7 +461,7 @@
 
     .item-block .product-compare-add {
         text-align: left;
-        margin:0;
+        margin: 0;
         position: absolute;
         bottom: 3px;
         left: 3px;
@@ -524,8 +512,8 @@
         font-size: 1rem;
         color: #ccc;
         vertical-align: bottom;
-        position:relative;
-        z-index:1;
+        position: relative;
+        z-index: 1;
     }
 
     a.compare-link:after {
@@ -664,13 +652,13 @@
     .viewmode-selector a.vms-grid:before {
         content: "\f009";
         font-family: $FontAwesome;
-            font-size: 1em;
+        font-size: 1em;
     }
 
     .viewmode-selector a.vms-list:before {
         content: "\f0ca";
         font-family: $FontAwesome;
-            font-size: 1em;
+        font-size: 1em;
     }
 
     .viewmode-selector a.vms-table:before {
@@ -756,20 +744,16 @@
         .viewmode-selector {
             display: inline-block;
             margin-bottom: 0;
-            margin-right:15px;
+            margin-right: 15px;
         }
-
         /* Width of the list container */
         /* Grid and List */
-
         .vm-grid .plist-right,
         .vm-list .plist-right {
             max-width: 460px;
             width: 70%;
         }
-
         /* Table */
-
         .vm-table .plist-right {
             width: 100%;
         }
@@ -782,10 +766,8 @@
             background: #F6F6F6;
             border: 1px solid #E1E1E1;
         }
-
         /* Show/hide the correct filters for each view mode */
         /* Grid and List */
-
         .vm-list .n-filter,
         .vm-grid .n-filter {
             display: block !important;
@@ -800,9 +782,7 @@
         .vm-grid .left-nav-2 .f-cat[role="mobile-filters"] {
             display: none !important;
         }
-
         /* Table */
-
         .vm-table .content-wrapper {
             overflow: hidden;
             width: 100%;
@@ -813,14 +793,11 @@
         .vm-table table tr:nth-of-type(2n) {
             background: none transparent;
         }
-
         // Pertains to all view modes.
         .item-list .item-block .item-details .item-price {
             margin-bottom: 32px;
         }
-
         /* List-mode-specific classes */
-
         .vm-list .item-list .item-block .item-price {
             float: right;
             width: 30%;
@@ -831,15 +808,16 @@
             padding-right: 1em !important;
 
             .item-name {
-                margin-bottom:10px;
-                a{
-                    font-size:24px;
-                    text-decoration:none;
+                margin-bottom: 10px;
+
+                a {
+                    font-size: 24px;
+                    text-decoration: none;
                 }
             }
 
             .item-name-grid {
-                display:none;
+                display: none;
             }
         }
 
@@ -854,18 +832,18 @@
         }
 
         .vm-list .item-block .item-block__product__price-wrap {
-            position:absolute;
-            top:0;
-            right:0;
+            position: absolute;
+            top: 0;
+            right: 0;
 
-            .item-block__product__price,h3, .item-block__product__flag, .strike ori-price-tag {
-                display:block !important;
-                text-align:right;
+            .item-block__product__price, h3, .item-block__product__flag, .strike ori-price-tag {
+                display: block !important;
+                text-align: right;
             }
         }
 
         .vm-list .item-block ul.attribute-list {
-            margin-top:15px;
+            margin-top: 15px;
         }
 
         .vm-list .item-block ul.attribute-list li {
@@ -874,9 +852,10 @@
             margin-bottom: .25em;
 
             &.attrib-title {
-                font-size:18px;
-                color:$nbf-black;
-                font-family:$ProximaNova-bold;
+                font-size: 18px;
+                color: $nbf-black;
+                font-family: $ProximaNova;
+                font-weight: 700;
             }
         }
 
@@ -928,7 +907,6 @@
             }
         }
         /* Grid-mode block grid classes */
-
         .vm-list .item-list .item-block .item-price {
             float: right;
             width: 40%;
@@ -946,7 +924,7 @@
             padding: 0 !important;
 
             .item-name-list {
-                display:none;
+                display: none;
             }
         }
 
@@ -969,7 +947,7 @@
         }
 
         .vm-grid .item-details .item-block__product__more-link {
-            float:right;
+            float: right;
         }
 
         .vm-grid .item-block .item-thumb {
@@ -977,10 +955,11 @@
             max-width: none;
             margin: 0;
             overflow: hidden;
-            padding:0 !important;
+            padding: 0 !important;
             margin-bottom: 10px;
+
             img {
-                width:100%;
+                width: 100%;
             }
         }
 
@@ -1086,9 +1065,7 @@
         .table-view-headers .tv-um {
             width: 10%;
         }
-
         /* Adjust the padding on cells */
-
         .vm-table .item-block .item-details,
         .vm-table .item-block .item-thumb {
             padding: 0 !important;
@@ -1100,9 +1077,7 @@
         .vm-table .item-block ul.attribute-list li {
             padding: 0;
         }
-
         /* Style divs like table cells */
-
         .vm-table .item-details {
             width: 85%;
         }
@@ -1132,15 +1107,11 @@
         .vm-table .item-block ul.attribute-list {
             display: table-cell;
         }
-
         /* Hide the attribute names */
-
         .vm-table .item-block ul.attribute-list .attrib-name {
             display: none;
         }
-
         /* Table View Scaling and positioning */
-
         .vm-table {
         }
 
@@ -1353,9 +1324,7 @@
         .vm-table .footable-row-detail-row:last-child .footable-row-detail-name {
             display: none;
         }
-
         /* Quantity Pricing Tooltip offset */
-
         .vm-table .quantity-pricing .f-dropdown.content {
             margin-left: -100px;
         }
@@ -1375,7 +1344,7 @@
             margin-right: 6% !important;
 
             &:nth-child(2n) {
-                margin-right:0 !important;
+                margin-right: 0 !important;
             }
         }
     }
@@ -1384,10 +1353,10 @@
         .vm-grid .item-block {
             width: 22.75%;
             margin-right: 3% !important;
-            margin-bottom:40px !important;
+            margin-bottom: 40px !important;
 
             &:nth-child(4n) {
-                margin-right:0 !important;
+                margin-right: 0 !important;
             }
         }
     }
@@ -1426,9 +1395,7 @@
     .vm-table tr.table-panel-visible {
         display: table-row;
     }
-
     /* Footable Plugin Overrides View */
-
     a.footable-toggle,
     .vm-table .btn.primary.btn-view-details {
         text-align: center;
@@ -1586,7 +1553,7 @@
         left: 0;
     }
 
-    
+
 
     .compare-tray {
         background: #e0e0e0;
@@ -2520,9 +2487,7 @@
         max-width: 200px;
         min-width: 100px;
     }
-
     /* Filter Section Accordions */
-
     .vm-list .n-filter .f-cat,
     .vm-grid .n-filter .f-cat {
         margin-bottom: .25em;
@@ -2626,7 +2591,6 @@
                 padding-left: .6em;
                 display: inline-block;
                 float: left;
-
                 // The ::before pseudo element does not work with this particular button.
                 button::after {
                     width: 100%;

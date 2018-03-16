@@ -7,8 +7,8 @@
                     <div class="small-12 column medium-6 detail-image">
                         <isc-product-images ng-if="vm.product" product="vm.product"></isc-product-images>
                         <div class="image-buttons">
-                            <button class="btn btn-secondary"><i class="ico-ViewIcon"></i> 360 View</button>
-                            <button class="btn btn-secondary"><i class="ico-SmallplaybuttonIcon"></i> Product Video</button>
+                            <button class="btn btn-secondary" ng-if="vm.product.unspsc !== '0000'" ng-click="vm.show360()"><i class="ico-ViewIcon"></i> 360 View</button>
+                            <button ng-show="vm.product.properties['videoUrl']" class="btn btn-secondary" ng-click="vm.showVideo()"><i class="ico-SmallplaybuttonIcon"></i> Product Video</button>
                         </div>
                     </div>
                     <div class="name-price small-12 column medium-6">
@@ -43,7 +43,7 @@
                             <div class="item-block__product__swatches__label" ng-repeat-start="styleTrait in vm.styleTraitFiltered | orderBy: 'sortOrder'">{{styleTrait.nameDisplay}}:</div>
                             <ul ng-repeat-end>
                                 <li ng-class="{'active': (vm.styleSelection[$parent.$index] && vm.styleSelection[$parent.$index].styleTraitValueId  == style.styleTraitValueId)}" ng-repeat="style in styleTrait.styleValues | orderBy: 'sortOrder' track by style.styleTraitValueId">
-                                    <img ng-click="vm.selectInsiteStyleDropdown(styleTrait.nameDisplay, style.styleTraitValueId, $parent.$index);" ng-src="https://s7d9.scene7.com/is/image/NationalBusinessFurniture/{{vm.getSwatchImageNameFromStyleTraitValueId(style.styleTraitValueId)}}?hei=200&id=5-zsy2&fmt=jpg&fit=constrain,1&wid=344&hei=344" alt="{{style.valueDisplay}}" />
+                                    <img ng-click="vm.selectInsiteStyleDropdown(styleTrait.nameDisplay, style.styleTraitValueId, $parent.$index);" ng-src="https://s7d9.scene7.com/is/image/NationalBusinessFurniture/{{vm.getSwatchImageNameFromStyleTraitValueId(style.styleTraitName, style.value)}}?hei=200&id=5-zsy2&fmt=jpg&fit=constrain,1&wid=344&hei=344" alt="{{style.valueDisplay}}" />
                                 </li>
                             </ul>
                         </div>
@@ -135,8 +135,13 @@
                                     <label id="tst_productList_tableView_filterButton" for="accord-10000" class="accord-head">[% translate 'Product Details' %]</label>
                                     <article class="accord-content">
                                         <div id="tst_productDetail_htmlContent" class="product-cm" ng-bind-html="vm.product.htmlContent|trusted"></div>
-                                        <nbf-sorted-attribute-value-list ng-if="vm.product.attributeTypes.length > 0" attribute-types="vm.product.attributeTypes" class="attribute-list"></nbf-sorted-attribute-value-list>
-
+                                        <br />
+                                        <div class="product-cm" ng-if="vm.product.specifications">
+                                            Features:
+                                            <div ng-repeat="specification in vm.product.specifications | filter: { name: 'Features' } | orderBy: 'sortOrder'" ng-bind-html="specification.htmlContent|trusted"></div>
+                                            Dimensions and Weight:
+                                            <div ng-repeat="specification in vm.product.specifications | filter: { name: 'Dimensions' } | orderBy: 'sortOrder'" ng-bind-html="specification.htmlContent|trusted"></div>
+                                        </div>
                                     </article>
                                 </div>
                             </section>
@@ -145,7 +150,9 @@
                                     <input type="checkbox" id="accord-10001" class="accord-check" />
                                     <label id="tst_productList_tableView_filterButton" for="accord-10001" class="accord-head">[% translate 'Delivery Information' %]</label>
                                     <article class="accord-content">
-                                        <div id="tst_productDetail_htmlContent" class="product-cm" ng-bind-html="vm.product.htmlContent|trusted"></div>
+                                        <div id="tst_productDetail_htmlContent" class="product-cm">
+                                            TODO
+                                        </div>
                                     </article>
                                 </div>
                             </section>
@@ -154,7 +161,13 @@
                                     <input type="checkbox" id="accord-10002" class="accord-check" />
                                     <label id="tst_productList_tableView_filterButton" for="accord-10002" class="accord-head">[% translate 'Resource &amp; Assembly' %]</label>
                                     <article class="accord-content">
-                                        <div id="tst_productDetail_htmlContent" class="product-cm" ng-bind-html="vm.product.htmlContent|trusted"></div>
+                                        <div id="tst_productDetail_htmlContent" class="product-cm">
+                                            <ul ng-if="!vm.settings.displayDocumentsInTabs && vm.product.documents.length > 0" class="doclinks">
+                                                <li ng-if="vm.languageId === document.languageId" ng-repeat="document in vm.product.documents | filter:{ documentType: '!video'}" class="doc-{{$index}}">
+                                                    <a id="tst_productDetail_{{document.id}}" ng-href="{{document.filePath}}" target="_new">{{document.name}} <em ng-if="document.documentType">({{document.documentType}})</em></a>
+                                                </li>
+                                            </ul>
+                                        </div>
                                     </article>
                                 </div>
                             </section>
@@ -163,20 +176,14 @@
                                     <input type="checkbox" id="accord-10003" class="accord-check" />
                                     <label id="tst_productList_tableView_filterButton" for="accord-10003" class="accord-head">[% translate 'Contract Information' %]</label>
                                     <article class="accord-content">
-                                        <div id="tst_productDetail_htmlContent" class="product-cm" ng-bind-html="vm.product.htmlContent|trusted"></div>
+                                        <div id="tst_productDetail_htmlContent" class="product-cm" ng-if="vm.isAttributeValue('GSA', 'Yes');">
+                                            [% zone 'GSA Content' %]
+                                        </div>                                            
                                     </article>
                                 </div>
                             </section>
                         </div>
-                    </div>
-
-
-                    <div class="product-reviews"></div>
-                    <ul ng-if="!vm.settings.displayDocumentsInTabs && vm.product.documents.length > 0" class="doclinks">
-                        <li ng-if="vm.languageId === document.languageId" ng-repeat="document in vm.product.documents" class="doc-{{$index}}">
-                            <a id="tst_productDetail_{{document.id}}" ng-href="{{document.filePath}}" target="_new">{{document.name}} <em ng-if="document.documentType">({{document.documentType}})</em></a>
-                        </li>
-                    </ul>
+                    </div>                    
                 </div>
 
             </div>

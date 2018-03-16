@@ -4,19 +4,20 @@
 
 .head-msg-wrap {
     background: $nbf-navy;
-    
+
     & > .container {
-        background-color:transparent;
+        background-color: transparent;
     }
 
     .head-msg {
         position: relative;
         padding: .6em 50px .6em 50px;
-        color:#fff;
-        font-family: $ProximaNova-bold;
+        color: #fff;
+        font-family: $ProximaNova;
+        font-weight: 700;
 
-        @media all and (max-width: 767px){
-            padding:.6em 55px .6em 15px;
+        @media all and (max-width: 767px) {
+            padding: .6em 55px .6em 15px;
         }
     }
 }

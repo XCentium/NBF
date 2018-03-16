@@ -1,4 +1,4 @@
-﻿import ConfigSectionDto = Insite.Catalog.Services.Dtos.ConfigSectionDto;
+import ConfigSectionDto = Insite.Catalog.Services.Dtos.ConfigSectionDto;
 import ConfigSectionOptionDto = Insite.Catalog.Services.Dtos.ConfigSectionOptionDto;
 import StyleTraitDto = Insite.Catalog.Services.Dtos.StyleTraitDto;
 import StyledProductDto = Insite.Catalog.Services.Dtos.StyledProductDto;
@@ -27,7 +27,6 @@ module insite.catalog {
         productSubscription: ProductSubscriptionDto;
         addingToCart = false;
         languageId: System.Guid;
-        swatches: any[] = [];
 
         static $inject = [
             "$scope",
@@ -61,65 +60,6 @@ module insite.catalog {
             this.$scope.$on("updateProductSubscription", (event: ng.IAngularEvent, productSubscription: ProductSubscriptionDto, product: ProductDto, cartLine: CartLineModel) => {
                 this.onUpdateProductSubscription(event, productSubscription, product, cartLine);
             });
-        }
-
-        protected isAttributeValue(attrName: string, attrValue: string): boolean {            
-            let retVal: boolean = false;
-
-            if (this.product && this.product.attributeTypes) {
-                var attrType = this.product.attributeTypes.find(x => x.name == attrName && x.isActive == true);
-
-                if (attrType) {
-                    var matchingAttrValue = attrType.attributeValues.find(y => y.value == attrValue);
-
-                    if (matchingAttrValue) {
-                        retVal = true;
-                    }
-                }
-                
-            }
-
-            return retVal;
-        }
-        protected getSwatchImageNameFromStyleTraitValueId(styleTraitValueId: string): string {
-            let retVal: string = null;
-            let searchValue = styleTraitValueId.toUpperCase();
-
-            if (this.swatches) {
-                var swatch = this.swatches.find(x => x.StyleTraitValueId.toUpperCase() == searchValue);
-
-                if (swatch) {
-                    retVal = swatch.ImageName;
-                }
-
-            }
-
-            return retVal;
-        }
-
-
-        protected selectInsiteStyleDropdown(styleTraitName: string, styleTraitValueId: string, index: number): void {            
-            debugger;
-            let styleTrait = this.styleTraitFiltered.find(x => x.nameDisplay == styleTraitName);
-            if (styleTrait) {
-                let option = styleTrait.styleValues.find(x => x.styleTraitValueId == styleTraitValueId);
-
-                if (option) {
-                    if (this.styleSelection[index] === option) {
-                        this.styleSelection[index] = null;
-                    }
-                    else {
-                        this.styleSelection[index] = option;
-                    }
-                    this.styleChange();
-                }
-            }
-            //this.configurationSelection[$index] = 
-            //let dropdownSelector = "select[name=tst_styleSelect_" + styleName + "]";
-            //jQuery("select[name=tst_styleSelect_" + styleName + "]").val(styleTraitValueId);
-                //.change();
-            //jQuery(dropdownSelector + " option[value='" + styleTraitValueId + "']").prop({ defaultSelected: true });
-            
         }
 
         protected getSettingsCompleted(settingsCollection: core.SettingsCollection): void {
@@ -181,10 +121,6 @@ module insite.catalog {
             this.getRealTimePrices();
             if (!this.settings.inventoryIncludedWithPricing) {
                 this.getRealTimeInventory();
-            }
-
-            if (this.product.properties && this.product.properties["swatches"]) {
-                this.swatches = JSON.parse(this.product.properties["swatches"]);
             }
 
             this.setTabs();

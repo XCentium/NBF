@@ -74,6 +74,8 @@ packages/
 src/InSiteCommerce.Web/node_modules/
 *.map
 src/InSiteCommerce.Web/Themes/**/Scripts/**/*.js
+!src/InSiteCommerce.Web/Themes/**/Scripts/Custom/s7viewer/*.js
+!src/InSiteCommerce.Web/Themes/**/Scripts/Custom/spriteSpin/*.js
 !src/InSiteCommerce.Web/Themes/**/Scripts/Libraries/**/*
 src/InSiteCommerce.Web/_SystemResources/Themes/**/*.js
 src/InSiteCommerce.Web/_SystemResources/Themes/**/*.js.map

@@ -44,7 +44,8 @@
 
             .price-wrap {
                 float: right;
-                font-family: $ProximaNova-bold;
+                font-family: $ProximaNova;
+                font-weight: 700;
             }
 
             .item-name-options {
@@ -85,7 +86,8 @@
             .item-name {
                 color: #333E48;
                 font-size: 16px;
-                font-family: $ProximaNova-bold;
+                font-family: $ProximaNova;
+                font-weight: 700;
                 line-height: 26px;
                 height: 78px;
                 overflow: hidden;
@@ -123,7 +125,8 @@
         margin-bottom: 1.5em;
 
         &__title {
-            font-family: $ProximaNova-bold;
+            font-family: $ProximaNova;
+            font-weight: 700;
             margin-bottom: 30px;
         }
 
@@ -148,10 +151,11 @@
     }
 
     .right-top {
-        padding-top:27px;
-        padding-bottom:35px;
+        padding-top: 27px;
+        padding-bottom: 35px;
+
         .ico-lock {
-            margin-right:10px;
+            margin-right: 10px;
         }
     }
 }

@@ -112,6 +112,7 @@
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Scripts\Custom\spriteSpin\spriteSpin.js" />
     <Content Include="Scripts\foundation.equalizer.js" />
     <Content Include="Scripts\foundation.tooltip.js" />
     <Content Include="Scripts\isotope.pkgd.min.js" />
@@ -168,9 +169,10 @@
     <TypeScriptCompile Include="Scripts\Custom\Cart\nbf.cart-total-display.directive.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Cart\nbf.cart-lines.directive.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Cart\nbf.checkout.controller.ts" />
+    <TypeScriptCompile Include="Scripts\Custom\Catalog\nbf.product-detail.controller.ts" />
+    <TypeScriptCompile Include="Scripts\Custom\Catalog\nbf.product-images.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Catalog\nbf.featuredproducts-widget.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Catalog\nbf.category-widget.controller.ts" />
-    <TypeScriptCompile Include="Scripts\Custom\Catalog\nbf.product-image-carousel.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Catalog\nbf.catalog.directives.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Catalog\nbf.product-image-carousel.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Catalog\nbf.category-list.controller.ts" />
@@ -193,6 +195,7 @@
     <TypeScriptCompile Include="Scripts\Custom\SocialMediaSharing\nbf.social-media.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\WebCode\nbf.web-code.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\WebCode\nbf.web-code.service.ts" />
+    <TypeScriptCompile Include="Scripts\Custom\WishLists\nbf.wishlist.service.ts" />
     <TypeScriptCompile Include="Scripts\Custom\WishLists\nbf.favorites-quick-view.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\WishLists\nbf.wishlists.directives.ts" />
     <TypeScriptCompile Include="Scripts\insite.config.ts" />
@@ -372,6 +375,8 @@
     <TypeScriptCompile Include="Scripts\Typings\moment\moment.d.ts" />
     <TypeScriptCompile Include="Scripts\Typings\papaparse\papaparse.d.ts" />
     <TypeScriptCompile Include="Scripts\Typings\isotope\isotope.d.ts" />
+    <TypeScriptCompile Include="Scripts\Typings\s7viewer\s7viewer.d.ts" />
+    <TypeScriptCompile Include="Scripts\Typings\spriteSpin\sprite-spin.d.ts" />
     <TypeScriptCompile Include="Scripts\Typings\sticky\sticky.d.ts" />
     <TypeScriptCompile Include="Scripts\Typings\xlsx\xlsx.d.ts" />
     <TypeScriptCompile Include="Scripts\UserAdministration\insite.user-detail.controller.ts" />
@@ -405,8 +410,8 @@
     <Content Include="Styles\custom\product-image-carousel.scss" />
     <Content Include="Styles\custom\myaccount.scss" />
     <Content Include="Styles\custom\order-history.scss" />
-    <Content Include="Styles\custom\shopthelook.scss" />
-    <Content Include="Styles\custom\shopthelook-details.scss" />
+    <Content Include="Styles\custom\shop-the-look.scss" />
+    <Content Include="Styles\custom\shop-the-look-details.scss" />
     <Content Include="Styles\custom\order-subtotal.scss" />
     <Content Include="Styles\custom\navlist.scss" />
     <Content Include="Styles\custom\tables.scss" />
