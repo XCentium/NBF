@@ -25,7 +25,7 @@ begin
 		OEGSystemStaging.dbo.Products sp
 		join OEGSystemStaging.dbo.Items si on si.ItemId = sp.ItemId
 		join OEGSystemStaging.dbo.LookupItemClasses sic on sic.ClassId = si.ClassId
-			and sic.[Name] not in ('Bedroom Furniture', 'Entertainment/AV', 'Misc.', 'Parts')
+			and sic.[Name] not in ('Bedroom Furniture', 'Entertainment/AV', 'Parts')
 		left join OEGSystemStaging.dbo.ProductsWebDescriptions spwd on spwd.ProductId = sp.ProductId
 			and spwd.TypeId = 1
 	where 
@@ -52,7 +52,7 @@ begin
 		left join OEGSystemStaging.dbo.ProductsWebDescriptions spwd on spwd.ProductId = sp.ProductId
 			and spwd.TypeId = 1
 		join OEGSystemStaging.dbo.LookupItemClasses sic on sic.ClassId = si.ClassId
-			and sic.[Name] not in ('Bedroom Furniture', 'Entertainment/AV', 'Misc.', 'Parts')
+			and sic.[Name] not in ('Bedroom Furniture', 'Entertainment/AV', 'Parts')
 		join StyleClass styles on styles.[Name] = sp.Number
 	where 
 		sp.BrandId = @brand
@@ -285,7 +285,6 @@ begin
 /*
 
 exec ETLProduct_FromOEG
-exec ETLProduct_ToInsite
 
 select styleclassid,vendorid,ShippingAmountOverride,QtyPerShippingPackage,* from product
 select * from styleclass
