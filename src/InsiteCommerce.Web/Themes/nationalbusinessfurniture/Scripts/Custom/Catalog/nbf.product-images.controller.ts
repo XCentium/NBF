@@ -16,6 +16,7 @@
                         altText: this.product.altText
                     } as ProductImageDto;
                 }
+                
                 scene7.scene7InitWith(this.selectedImage.smallImagePath);
             }, true);
             

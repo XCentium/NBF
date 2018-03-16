@@ -331,10 +331,12 @@ module insite.catalog {
         }
 
         showVideo() {
+            
             scene7.setVideo2(this.product.properties['videoFile']);
         }
 
         show360() {
+            
             scene7.set360(this.product.erpNumber, 3, 16);
         }
 
