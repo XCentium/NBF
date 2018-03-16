@@ -139,6 +139,17 @@ begin
 		ShortDescription != sic.[Name]	
 
 	end
+
+
+	insert into ContentManager
+	(Id, [Name], CreatedBy, ModifiedBy)
+	select ContentManagerId, 'Category', 'etl', 'etl'
+	from Category
+	where ContentManagerId not in (select Id from ContentManager)
+
+
+	
+
 /*
 
 exec ETLCategory_FromOEG

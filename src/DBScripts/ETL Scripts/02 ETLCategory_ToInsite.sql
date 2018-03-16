@@ -28,6 +28,13 @@ begin
 	from Category etl
 	where etl.Id not in (select Id from [Insite.NBF].dbo.Category)
 
+	-- load content manager
+	insert into [Insite.NBF].dbo.ContentManager
+	(Id, [Name], CreatedBy, CreatedOn, ModifiedOn, ModifiedBy)
+	select Id, [Name], CreatedBy, CreatedOn, ModifiedOn, ModifiedBy
+	from ContentManager etl
+	where etl.Id not in (select Id from [Insite.NBF].dbo.ContentManager)
+
 /*
 exec ETLCategory_ToInsite
 */
