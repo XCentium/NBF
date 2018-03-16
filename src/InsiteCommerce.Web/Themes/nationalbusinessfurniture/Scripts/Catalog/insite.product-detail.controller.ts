@@ -333,10 +333,12 @@ module insite.catalog {
         }
 
         showVideo() {
+            
             setVideo2(this.product.properties['videoFile']);
         }
 
         show360() {
+            
             set360(this.product.erpNumber, 3, 16);
         }
 
