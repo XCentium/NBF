@@ -10,7 +10,8 @@
     clear: both;
 
     .summary-title {
-        font-family: $ProximaNova-bold;
+        font-family: $ProximaNova;
+        font-weight: 700;
     }
 
     .oc-head {
@@ -23,7 +24,8 @@
     }
 
     .sub-amount, .amount-due {
-        font-family: $ProximaNova-bold;
+        font-family: $ProximaNova;
+        font-weight: 700;
     }
 
     .order-total {
