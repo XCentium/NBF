@@ -136,10 +136,10 @@
                                     <article class="accord-content">
                                         <div id="tst_productDetail_htmlContent" class="product-cm" ng-bind-html="vm.product.htmlContent|trusted"></div>
                                         <br />
-                                        <div ng-if="vm.product.specifications">
-                                            <p>Features:</p>
+                                        <div class="product-cm" ng-if="vm.product.specifications">
+                                            Features:
                                             <div ng-repeat="specification in vm.product.specifications | filter: { name: 'Features' } | orderBy: 'sortOrder'" ng-bind-html="specification.htmlContent|trusted"></div>
-                                            <p>Dimensions and Weight:</p>
+                                            Dimensions and Weight:
                                             <div ng-repeat="specification in vm.product.specifications | filter: { name: 'Dimensions' } | orderBy: 'sortOrder'" ng-bind-html="specification.htmlContent|trusted"></div>
                                         </div>
                                     </article>
@@ -150,7 +150,9 @@
                                     <input type="checkbox" id="accord-10001" class="accord-check" />
                                     <label id="tst_productList_tableView_filterButton" for="accord-10001" class="accord-head">[% translate 'Delivery Information' %]</label>
                                     <article class="accord-content">
-                                        TODO
+                                        <div id="tst_productDetail_htmlContent" class="product-cm">
+                                            TODO
+                                        </div>
                                     </article>
                                 </div>
                             </section>
@@ -159,11 +161,13 @@
                                     <input type="checkbox" id="accord-10002" class="accord-check" />
                                     <label id="tst_productList_tableView_filterButton" for="accord-10002" class="accord-head">[% translate 'Resource &amp; Assembly' %]</label>
                                     <article class="accord-content">
-                                        <ul ng-if="!vm.settings.displayDocumentsInTabs && vm.product.documents.length > 0" class="doclinks">
-                                            <li ng-if="vm.languageId === document.languageId" ng-repeat="document in vm.product.documents | filter:{ documentType: '!video'}" class="doc-{{$index}}">
-                                                <a id="tst_productDetail_{{document.id}}" ng-href="{{document.filePath}}" target="_new">{{document.name}} <em ng-if="document.documentType">({{document.documentType}})</em></a>
-                                            </li>
-                                        </ul>
+                                        <div id="tst_productDetail_htmlContent" class="product-cm">
+                                            <ul ng-if="!vm.settings.displayDocumentsInTabs && vm.product.documents.length > 0" class="doclinks">
+                                                <li ng-if="vm.languageId === document.languageId" ng-repeat="document in vm.product.documents | filter:{ documentType: '!video'}" class="doc-{{$index}}">
+                                                    <a id="tst_productDetail_{{document.id}}" ng-href="{{document.filePath}}" target="_new">{{document.name}} <em ng-if="document.documentType">({{document.documentType}})</em></a>
+                                                </li>
+                                            </ul>
+                                        </div>
                                     </article>
                                 </div>
                             </section>
@@ -172,7 +176,9 @@
                                     <input type="checkbox" id="accord-10003" class="accord-check" />
                                     <label id="tst_productList_tableView_filterButton" for="accord-10003" class="accord-head">[% translate 'Contract Information' %]</label>
                                     <article class="accord-content">
-                                        TODO: Ask Keith for the static html for contract page.
+                                        <div id="tst_productDetail_htmlContent" class="product-cm" ng-if="vm.isAttributeValue('GSA', 'Yes');">
+                                            [% zone 'GSA Content' %]
+                                        </div>                                            
                                     </article>
                                 </div>
                             </section>

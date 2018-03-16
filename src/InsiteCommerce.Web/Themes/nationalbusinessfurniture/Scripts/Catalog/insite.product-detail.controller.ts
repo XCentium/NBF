@@ -9,7 +9,6 @@ module insite.catalog {
     "use strict";
 
     export class ProductDetailController {
-        videoUrl: string = '';
         product: ProductDto;
         category: CategoryModel;
         breadCrumbs: BreadCrumbModel[];
@@ -28,7 +27,6 @@ module insite.catalog {
         productSubscription: ProductSubscriptionDto;
         addingToCart = false;
         languageId: System.Guid;
-        swatches: any[] = [];
 
         static $inject = [
             "$scope",
@@ -62,67 +60,6 @@ module insite.catalog {
             this.$scope.$on("updateProductSubscription", (event: ng.IAngularEvent, productSubscription: ProductSubscriptionDto, product: ProductDto, cartLine: CartLineModel) => {
                 this.onUpdateProductSubscription(event, productSubscription, product, cartLine);
             });
-        }
-
-        protected isAttributeValue(attrName: string, attrValue: string): boolean {            
-            let retVal: boolean = false;
-
-            if (this.product && this.product.attributeTypes) {
-                var attrType = this.product.attributeTypes.find(x => x.name == attrName && x.isActive == true);
-
-                if (attrType) {
-                    var matchingAttrValue = attrType.attributeValues.find(y => y.value == attrValue);
-
-                    if (matchingAttrValue) {
-                        retVal = true;
-                    }
-                }
-                
-            }
-
-            return retVal;
-        }
-        protected getSwatchImageNameFromStyleTraitValueId(styleTraitName: string, styleTraitValue: string): string {
-            debugger;
-            let retVal: string = null;
-            let styleTraitNameUpper = styleTraitName.toUpperCase();
-            let styleTraitValueUpper = styleTraitValue.toUpperCase();
-
-            if (this.swatches) {
-                var swatch = this.swatches.find(x => x.ModelNumber.toUpperCase() == styleTraitNameUpper
-                    && x.Name.toUpperCase() == styleTraitValueUpper);
-
-                if (swatch) {
-                    retVal = swatch.ImageName;
-                }
-            }
-
-            return retVal;
-        }
-
-
-        protected selectInsiteStyleDropdown(styleTraitName: string, styleTraitValueId: string, index: number): void {            
-            debugger;
-            let styleTrait = this.styleTraitFiltered.find(x => x.nameDisplay == styleTraitName);
-            if (styleTrait) {
-                let option = styleTrait.styleValues.find(x => x.styleTraitValueId == styleTraitValueId);
-
-                if (option) {
-                    if (this.styleSelection[index] === option) {
-                        this.styleSelection[index] = null;
-                    }
-                    else {
-                        this.styleSelection[index] = option;
-                    }
-                    this.styleChange();
-                }
-            }
-            //this.configurationSelection[$index] = 
-            //let dropdownSelector = "select[name=tst_styleSelect_" + styleName + "]";
-            //jQuery("select[name=tst_styleSelect_" + styleName + "]").val(styleTraitValueId);
-                //.change();
-            //jQuery(dropdownSelector + " option[value='" + styleTraitValueId + "']").prop({ defaultSelected: true });
-            
         }
 
         protected getSettingsCompleted(settingsCollection: core.SettingsCollection): void {
@@ -163,23 +100,10 @@ module insite.catalog {
                 (error: any) => { this.getProductFailed(error); });
         }
 
-        initVideo() {
-            console.dir(document.getElementById("videofile"));
-            document.getElementById("videofile").setAttribute("src", this.product.properties['videoUrl']);
-        }
-
         protected getProductCompleted(productModel: ProductModel): void {
             this.product = productModel.product;
             this.product.qtyOrdered = this.product.minimumOrderQty || 1;
-            this.product.documents.forEach((doc) => {
-                if (doc.documentType == "video") {
-                    this.product.properties['videoFile'] = doc.fileUrl;
-                    this.product.properties['videoUrl'] = 'https://s7d9.scene7.com/is/content/NationalBusinessFurniture/' + doc.fileUrl;
-                }
-            });
-            this.product.documents = this.product.documents.filter(function (val) {
-                return val.documentType !== "video";
-            });
+
             if (this.product.isConfigured && this.product.configurationDto && this.product.configurationDto.sections) {
                 this.initConfigurationSelection(this.product.configurationDto.sections);
             }
@@ -197,10 +121,6 @@ module insite.catalog {
             this.getRealTimePrices();
             if (!this.settings.inventoryIncludedWithPricing) {
                 this.getRealTimeInventory();
-            }
-
-            if (this.product.properties && this.product.properties["swatches"]) {
-                this.swatches = JSON.parse(this.product.properties["swatches"]);
             }
 
             this.setTabs();
@@ -330,16 +250,6 @@ module insite.catalog {
                 (productDto: ProductDto) => { this.changeUnitOfMeasureCompleted(productDto); },
                 (error: any) => { this.changeUnitOfMeasureFailed(error); }
             );
-        }
-
-        showVideo() {
-            
-            setVideo2(this.product.properties['videoFile']);
-        }
-
-        show360() {
-            
-            set360(this.product.erpNumber, 3, 16);
         }
 
         protected changeUnitOfMeasureCompleted(product: ProductDto): void {
