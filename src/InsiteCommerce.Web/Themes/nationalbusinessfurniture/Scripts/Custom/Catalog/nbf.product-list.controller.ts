@@ -196,6 +196,12 @@
             //Have to do this to get htmlcontent
             this.productService.getCategory(catalogPage.category.id.toString()).then((catalogPageResult) => {
                 this.category.htmlContent = catalogPageResult.htmlContent;
+                if (catalogPageResult.properties["extraContent"]) {
+                    if (!this.category.properties) {
+                        this.category.properties = {};
+                    }
+                    this.category.properties["extraContent"] = catalogPageResult.properties["extraContent"];
+                }
             });
         }
     }
