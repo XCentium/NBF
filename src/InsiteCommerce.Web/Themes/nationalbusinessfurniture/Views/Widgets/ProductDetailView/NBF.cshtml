@@ -7,8 +7,8 @@
                     <div class="small-12 column medium-6 detail-image">
                         <isc-product-images ng-if="vm.product" product="vm.product"></isc-product-images>
                         <div class="image-buttons">
-                            <button class="btn btn-secondary"><i class="ico-ViewIcon"></i> 360 View</button>
-                            <button ng-if="vm.languageId === document.languageId" ng-repeat="document in vm.product.documents | filter:{ documentType: 'video'}" class="btn btn-secondary"><i class="ico-SmallplaybuttonIcon"></i> Product Video</button>
+                            <button class="btn btn-secondary" ng-if="vm.product.unspsc !== '0000'" ng-click="vm.show360()"><i class="ico-ViewIcon"></i> 360 View</button>
+                            <button ng-show="vm.product.properties['videoUrl']" class="btn btn-secondary" ng-click="vm.showVideo()"><i class="ico-SmallplaybuttonIcon"></i> Product Video</button>
                         </div>
                     </div>
                     <div class="name-price small-12 column medium-6">

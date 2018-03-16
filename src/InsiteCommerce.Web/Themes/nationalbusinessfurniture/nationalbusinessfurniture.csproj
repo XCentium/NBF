@@ -112,9 +112,6 @@
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Scripts\Custom\s7viewer\s7viewer.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="Scripts\Custom\spriteSpin\spriteSpin.js" />
     <Content Include="Scripts\foundation.equalizer.js" />
     <Content Include="Scripts\foundation.tooltip.js" />
@@ -379,7 +376,6 @@
     <TypeScriptCompile Include="Scripts\Typings\papaparse\papaparse.d.ts" />
     <TypeScriptCompile Include="Scripts\Typings\isotope\isotope.d.ts" />
     <TypeScriptCompile Include="Scripts\Typings\s7viewer\s7viewer.d.ts" />
-    <TypeScriptCompile Include="Scripts\Typings\s7viewer\scene7.d.ts" />
     <TypeScriptCompile Include="Scripts\Typings\spriteSpin\sprite-spin.d.ts" />
     <TypeScriptCompile Include="Scripts\Typings\sticky\sticky.d.ts" />
     <TypeScriptCompile Include="Scripts\Typings\xlsx\xlsx.d.ts" />
