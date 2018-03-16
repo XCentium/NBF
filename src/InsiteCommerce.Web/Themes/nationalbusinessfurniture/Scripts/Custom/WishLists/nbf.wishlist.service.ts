@@ -28,7 +28,6 @@
         mapProductToWishlistLine(product: ProductDto, line: WishListLineModel): WishListLineModel;
         applyRealTimeInventoryResult(list: WishListModel, result: RealTimeInventoryModel): void;
         updateAvailability(line: WishListLineModel): void;
-        isProductFavorite(product: ProductDto): Boolean;
     }
 
     export class NbfWishListService implements INbfWishListService {
