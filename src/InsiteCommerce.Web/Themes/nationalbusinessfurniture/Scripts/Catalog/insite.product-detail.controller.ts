@@ -331,11 +331,11 @@ module insite.catalog {
         }
 
         showVideo() {
-            setVideo2(this.product.properties['videoFile']);
+            scene7.setVideo2(this.product.properties['videoFile']);
         }
 
         show360() {
-            set360(this.product.erpNumber, 3, 16);
+            scene7.set360(this.product.erpNumber, 3, 16);
         }
 
         protected changeUnitOfMeasureCompleted(product: ProductDto): void {
