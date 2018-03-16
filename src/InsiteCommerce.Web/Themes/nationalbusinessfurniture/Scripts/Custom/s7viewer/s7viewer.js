@@ -50,7 +50,8 @@ function set360(imageName, lanes, frames) {
             renderer: 'background',
             behavior: 'move',
             frameTime: 250,
-        });
+        });
+
     }
     
     $('#s7flyout_inline_div').hide();

@@ -1,8 +1,8 @@
 ﻿//import ProductImageDto = Insite.Catalog.Services.Dtos.ProductImageDto;
 
+
 module insite.catalog {
     "use strict";
-
     export class NbfProductImageCarouselController extends ProductImageCarouselController {
         //maxTries: number;
         //productImages: ProductImageDto[];
@@ -101,7 +101,7 @@ module insite.catalog {
             this.selectedImage = image;
             document.getElementById("s7flyout_inline_div").innerHTML = '';
 
-            scene7.scene7InitWith(this.selectedImage.name);
+            this.scene7InitWith(this.selectedImage.name);
             $('#s7flyout_inline_div').show();
             $('#Wrapper360').hide();
             var myVideo = $('#videofile');
@@ -112,6 +112,23 @@ module insite.catalog {
             this.$timeout(() => {
                 this.reloadCarousel();
             }, 20);
+        }
+
+        scene7InitWith(imageName: string) {
+            var imageID = 'NationalBusinessFurniture/' + imageName + '?wid=600';
+            var flyoutViewer = new s7viewers.FlyoutViewer();
+            {
+                flyoutViewer.setContainerId("s7flyout_inline_div");
+                flyoutViewer.setParam("asset", imageID);
+                flyoutViewer.setParam("serverurl", "https://s7d9.scene7.com/is/image/");
+                flyoutViewer.setParam("contenturl", "https://s7d9.scene7.com/skins/");
+                flyoutViewer.setParam("autoResize", "1");
+                flyoutViewer.setParam("overlay", "1");
+                flyoutViewer.setParam("config", "Viewers/HTML5_Inline_FlyoutZoom");
+
+                flyoutViewer.init();
+                flyoutViewer.setAsset(imageID);
+            }
         }
     }
 
