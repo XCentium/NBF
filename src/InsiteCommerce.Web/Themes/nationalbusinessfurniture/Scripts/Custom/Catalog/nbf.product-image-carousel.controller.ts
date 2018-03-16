@@ -4,48 +4,6 @@
 module insite.catalog {
     "use strict";
     export class NbfProductImageCarouselController extends ProductImageCarouselController {
-        //maxTries: number;
-        //productImages: ProductImageDto[];
-        //selectedImage: ProductImageDto;
-        //imagesLoaded: number;
-        //carousel: any;
-        //prefix: string;
-        //getCarouselWidth: () => number;
-        //carouselWidth: number;
-
-        //static $inject = ["$timeout", "$scope"];
-
-        //constructor(protected $timeout: ng.ITimeoutService, protected $scope: ng.IScope) {
-        //    this.init();
-        //}
-
-        //init(): void {
-        //    this.imagesLoaded = 0;
-        //    this.waitForDom(this.maxTries);
-        //}
-
-        //protected waitForDom(tries: number): void {
-        //    if (isNaN(+tries)) {
-        //        tries = this.maxTries || 1000; // Max 20000ms
-        //    }
-
-        //    // If DOM isn't ready after max number of tries then stop
-        //    if (tries > 0) {
-        //        this.$timeout(() => {
-        //            if (this.isCarouselDomReadyAndImagesLoaded()) {
-        //                this.initializeCarousel();
-        //                this.$scope.$apply();
-        //            } else {
-        //                this.waitForDom(tries - 1);
-        //            }
-        //        }, 20, false);
-        //    }
-        //}
-
-        //protected isCarouselDomReadyAndImagesLoaded(): boolean {
-        //    return $(`#${this.prefix}-img-carousel`).length > 0 && this.productImages
-        //        && this.imagesLoaded >= this.productImages.length;
-        //}
 
         protected initializeCarousel(): void {
             $(`#${this.prefix}-img-carousel`).flexslider({
@@ -102,6 +60,7 @@ module insite.catalog {
             document.getElementById("s7flyout_inline_div").innerHTML = '';
 
             this.scene7InitWith(this.selectedImage.name);
+
             $('#s7flyout_inline_div').show();
             $('#Wrapper360').hide();
             var myVideo = $('#videofile');
