@@ -28,7 +28,6 @@
         mapProductToWishlistLine(product: ProductDto, line: WishListLineModel): WishListLineModel;
         applyRealTimeInventoryResult(list: WishListModel, result: RealTimeInventoryModel): void;
         updateAvailability(line: WishListLineModel): void;
-        toggleFavorite(product: ProductDto): ng.IPromise<any>;
         isProductFavorite(product: ProductDto): Boolean;
     }
 
@@ -44,17 +43,6 @@
             protected httpWrapperService: core.HttpWrapperService,
             protected coreService: core.ICoreService,
             protected $q: ng.IQService) {
-        }
-
-        public isProductFavorite(product: ProductDto): boolean {
-            let wishLists: WishListCollectionModel;
-
-            this.getWishLists().then(x => {
-                wishLists = x;
-            });
-
-            return wishLists.wishListCollection.find(x => x.name == "Favorites" && x.hasAnyLines
-                && x.wishListLineCollection.find(y => y.productId == product.id) != null) != null;            
         }
 
         getWishLists(sort?: string, expand?: string, wishListLinesSort?: string): ng.IPromise<WishListCollectionModel> {
