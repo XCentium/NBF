@@ -24,7 +24,7 @@ begin
 		join OEGSystemStaging.dbo.Products sp on sp.ItemId = si.ItemId
 			and sp.BrandId = @brand
 		join OEGSystemStaging.dbo.LookupItemClasses sic on sic.ClassId = si.ClassId
-			and sic.[Name] not in ('Bedroom Furniture', 'Entertainment/AV', 'Misc.', 'Parts')
+			and sic.[Name] not in ('Bedroom Furniture', 'Entertainment/AV', 'Parts')
 		join OEGSystemStaging.dbo.ItemsWebCategories siwc on siwc.ItemId = si.ItemId 
 		join OEGSystemStaging.dbo.ItemWebCategoryDisplayNames swc on swc.WebCategoryId = siwc.WebCategoryId
 			and swc.BrandId = @brand
@@ -45,7 +45,7 @@ begin
 		join OEGSystemStaging.dbo.Products sp on sp.ItemId = si.ItemId
 			and sp.BrandId = @brand
 		join OEGSystemStaging.dbo.LookupItemClasses sic on sic.ClassId = si.ClassId
-			and sic.[Name] not in ('Bedroom Furniture', 'Entertainment/AV', 'Misc.', 'Parts')
+			and sic.[Name] not in ('Bedroom Furniture', 'Entertainment/AV', 'Parts')
 		join OEGSystemStaging.dbo.ItemsWebCategories siwc on siwc.ItemId = si.ItemId 
 		join OEGSystemStaging.dbo.ItemWebCategoryDisplayNames swc on swc.WebCategoryId = siwc.WebCategoryId
 			and swc.BrandId = @brand

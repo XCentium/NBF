@@ -540,6 +540,6 @@ begin
 /*
 
 exec ETLProductAttribute_FromOEG
-exec ETLProductAttribute_ToInsite
+
 */
 end

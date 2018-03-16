@@ -43,7 +43,7 @@ begin
 	from 
 		OEGSystemStaging.dbo.LookupItemClasses sic
 	where 
-		sic.[Name] not in ('Bedroom Furniture', 'Entertainment/AV', 'Misc.', 'Parts')
+		sic.[Name] not in ('Bedroom Furniture', 'Entertainment/AV', 'Parts')
 		and not exists (select [Name] from Category where [Name] = convert(nvarchar(max), sic.ClassId))
 
 	update Category set
@@ -123,7 +123,7 @@ begin
 		cross join Category c
 		join OEGSystemStaging.dbo.ItemWebCategoryDisplayNames swc on convert(nvarchar(max), swc.Id) = c.[Name]
 	where
-		sic.[Name] not in ('Bedroom Furniture', 'Entertainment/AV', 'Misc.', 'Parts')
+		sic.[Name] not in ('Bedroom Furniture', 'Entertainment/AV', 'Parts')
 		and swc.BrandId = @brand
 		and not exists (select [Name] from Category where [Name] = c.[Name] + '-' + convert(nvarchar(max), sic.ClassId))
 

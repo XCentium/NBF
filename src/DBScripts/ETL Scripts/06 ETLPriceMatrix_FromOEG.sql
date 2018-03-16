@@ -89,7 +89,6 @@ begin
 
 /*
 exec ETLPriceMatrix_FromOEG
-exec ETLPriceMatrix_ToInsite
 select * from PriceMatrix where breakqty05 != 0
 
 
