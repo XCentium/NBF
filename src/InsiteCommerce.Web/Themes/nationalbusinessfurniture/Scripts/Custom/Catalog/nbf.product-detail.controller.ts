@@ -2,8 +2,9 @@
     "use strict";
 
     export class NbfProductDetailController extends ProductDetailController {
-        videoUrl: string = '';       
+        videoUrl = "";       
         swatches: any[] = [];
+        favorites: WishListModel;
 
         static $inject = [
             "$scope",
@@ -30,6 +31,43 @@
             protected nbfWishListService: wishlist.INbfWishListService
         ) {
             super($scope, coreService, cartService, productService, addToWishlistPopupService, productSubscriptionPopupService, settingsService, $stateParams, sessionService)
+        }
+
+        protected toggleFavorite(product: ProductDto) {
+            var favoriteLine = this.favorites.wishListLineCollection.filter(x => x.productId === this.product.id);
+
+            if (favoriteLine.length > 0) {
+                //Remove lines
+                this.nbfWishListService.deleteLineCollection(this.favorites, favoriteLine).then((result) => {
+                    this.getFavorites();
+                });     
+            } else {
+                //Add Lines
+                var addLines = [product];
+                this.nbfWishListService.addWishListLines(this.favorites, addLines).then(() => {
+                    this.getFavorites();
+                });
+            }
+        }
+
+        protected getFavorites() {
+            this.nbfWishListService.getWishLists("CreatedOn", "wishlistlines").then((wishList) => {
+                this.favorites = wishList.wishListCollection[0];
+                this.product.properties["isFavorite"] = "false";
+                if (this.favorites) {
+                    if (this.favorites.wishListLineCollection) {
+                        if (this.favorites.wishListLineCollection.filter(x => x.productId === this.product.id)[0]) {
+                            this.product.properties["isFavorite"] = "true";
+                        }
+                    } else {
+                        this.favorites.wishListLineCollection = [];
+                    }
+                } else {
+                    this.favorites = {
+                        wishListLineCollection: [] as WishListLineModel[]
+                    } as WishListModel;
+                }
+            });
         }
 
         protected isAttributeValue(attrName: string, attrValue: string): boolean {            
@@ -93,7 +131,7 @@
 
         initVideo() {
             console.dir(document.getElementById("videofile"));
-            document.getElementById("videofile").setAttribute("src", this.product.properties['videoUrl']);
+            document.getElementById("videofile").setAttribute("src", this.product.properties["videoUrl"]);
         }
 
         protected getProductCompleted(productModel: ProductModel): void {
@@ -101,8 +139,8 @@
             this.product.qtyOrdered = this.product.minimumOrderQty || 1;
             this.product.documents.forEach((doc) => {
                 if (doc.documentType == "video") {
-                    this.product.properties['videoFile'] = doc.fileUrl;
-                    this.product.properties['videoUrl'] = 'https://s7d9.scene7.com/is/content/NationalBusinessFurniture/' + doc.fileUrl;
+                    this.product.properties["videoFile"] = doc.fileUrl;
+                    this.product.properties["videoUrl"] = "https://s7d9.scene7.com/is/content/NationalBusinessFurniture/" + doc.fileUrl;
                 }
             });
             this.product.documents = this.product.documents.filter(function (val) {
@@ -131,11 +169,12 @@
                 this.swatches = JSON.parse(this.product.properties["swatches"]);
             }
 
+            this.getFavorites();
             this.setTabs();
         }     
        
         showVideo() {            
-            this.setVideo2(this.product.properties['videoFile']);
+            this.setVideo2(this.product.properties["videoFile"]);
         }
 
         show360() {            
@@ -145,10 +184,10 @@
         setVideo2(vURL) {
             // used to display videos
 
-            $('#s7flyout_inline_div').hide();
-            $('#videofile').show();
-            $('#Wrapper360').hide();
-            $('#mobile_div_container').hide();
+            $("#s7flyout_inline_div").hide();
+            $("#videofile").show();
+            $("#Wrapper360").hide();
+            $("#mobile_div_container").hide();
             var myVideo = document.getElementById("videofile");
             if (!myVideo.getAttribute("src")) {
                 myVideo.setAttribute("src", "https://s7d9.scene7.com/is/content/NationalBusinessFurniture/" + vURL);
@@ -164,32 +203,32 @@
                 myVideo["pause"]();
             }
 
-            var height = $('#s7flyout_inline_div').height();
+            var height = $("#s7flyout_inline_div").height();
             var width = height;
             var spriteSpin = document.getElementById("spritespin");
             if (spriteSpin.children.length == 0) {
-                $('#spritespin')["spritespin"]({
-                    source: SpriteSpin.sourceArray('https://s7d9.scene7.com/is/image/NationalBusinessFurniture/' + imageName + '2%5Fspin%5F{lane}{frame}s2?w=300', { lane: [1, lanes], frame: [1, frames], digits: 2 }),
+                $("#spritespin")["spritespin"]({
+                    source: SpriteSpin.sourceArray("https://s7d9.scene7.com/is/image/NationalBusinessFurniture/" + imageName + "2%5Fspin%5F{lane}{frame}s2?w=300", { lane: [1, lanes], frame: [1, frames], digits: 2 }),
                     width: width,
                     height: height,
                     frames: frames,
                     lanes: lanes,
                     sense: -2,
                     senseLane: -2,
-                    renderer: 'background',
-                    behavior: 'move',
+                    renderer: "background",
+                    behavior: "move",
                     frameTime: 250,
                 });
 
             }
 
-            $('#s7flyout_inline_div').hide();
-            $('#defaultimage').hide();
-            $('#360file').show();
-            $('#videofile').hide();
-            $('#Wrapper360').show();
-            $('#overlaych1').hide();
-            $('#mobile_div_container').hide();
+            $("#s7flyout_inline_div").hide();
+            $("#defaultimage").hide();
+            $("#360file").show();
+            $("#videofile").hide();
+            $("#Wrapper360").show();
+            $("#overlaych1").hide();
+            $("#mobile_div_container").hide();
         }
 
     }

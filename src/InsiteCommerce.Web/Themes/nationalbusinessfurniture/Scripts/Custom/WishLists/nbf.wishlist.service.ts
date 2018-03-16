@@ -28,6 +28,7 @@
         mapProductToWishlistLine(product: ProductDto, line: WishListLineModel): WishListLineModel;
         applyRealTimeInventoryResult(list: WishListModel, result: RealTimeInventoryModel): void;
         updateAvailability(line: WishListLineModel): void;
+        isProductFavorite(product: ProductDto): Boolean;
     }
 
     export class NbfWishListService implements INbfWishListService {
@@ -35,12 +36,13 @@
         wishListSettingsUri = "/api/v1/settings/wishlist";
         cacheKey = "addWishListLineProducts";
 
-        static $inject = ["$http", "httpWrapperService", "coreService"];
+        static $inject = ["$http", "httpWrapperService", "coreService", "$q"];
 
         constructor(
             protected $http: ng.IHttpService,
             protected httpWrapperService: core.HttpWrapperService,
-            protected coreService: core.ICoreService) {
+            protected coreService: core.ICoreService,
+            protected $q: ng.IQService) {
         }
 
         getWishLists(sort?: string, expand?: string, wishListLinesSort?: string): ng.IPromise<WishListCollectionModel> {
@@ -172,6 +174,11 @@
         }
 
         deleteLine(line: WishListLineModel): ng.IPromise<WishListLineModel> {
+
+            //const config = {
+            //    bypassErrorInterceptor: true
+            //};
+
             return this.httpWrapperService.executeHttpRequest(
                 this,
                 this.$http.delete(line.uri),
@@ -184,6 +191,7 @@
         }
 
         protected deleteLineFailed(error: ng.IHttpPromiseCallbackArg<any>): void {
+            
         }
 
         deleteLineCollection(wishList: WishListModel, lines: WishListLineModel[]): ng.IPromise<WishListLineCollectionModel> {
@@ -226,6 +234,7 @@
         }
 
         protected updateWishListCompleted(response: ng.IHttpPromiseCallbackArg<WishListModel>): void {
+            
         }
 
         protected updateWishListFailed(error: ng.IHttpPromiseCallbackArg<any>): void {
