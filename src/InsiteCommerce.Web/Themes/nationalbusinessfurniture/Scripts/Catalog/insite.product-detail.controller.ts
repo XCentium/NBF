@@ -81,17 +81,19 @@ module insite.catalog {
 
             return retVal;
         }
-        protected getSwatchImageNameFromStyleTraitValueId(styleTraitValueId: string): string {
+        protected getSwatchImageNameFromStyleTraitValueId(styleTraitName: string, styleTraitValue: string): string {
+            debugger;
             let retVal: string = null;
-            let searchValue = styleTraitValueId.toUpperCase();
+            let styleTraitNameUpper = styleTraitName.toUpperCase();
+            let styleTraitValueUpper = styleTraitValue.toUpperCase();
 
             if (this.swatches) {
-                var swatch = this.swatches.find(x => x.StyleTraitValueId.toUpperCase() == searchValue);
+                var swatch = this.swatches.find(x => x.ModelNumber.toUpperCase() == styleTraitNameUpper
+                    && x.Name.toUpperCase() == styleTraitValueUpper);
 
                 if (swatch) {
                     retVal = swatch.ImageName;
                 }
-
             }
 
             return retVal;
