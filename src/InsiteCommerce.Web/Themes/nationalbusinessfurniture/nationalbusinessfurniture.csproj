@@ -377,6 +377,7 @@
     <TypeScriptCompile Include="Scripts\Typings\papaparse\papaparse.d.ts" />
     <TypeScriptCompile Include="Scripts\Typings\isotope\isotope.d.ts" />
     <TypeScriptCompile Include="Scripts\Typings\s7viewer\s7viewer.d.ts" />
+    <TypeScriptCompile Include="Scripts\Typings\s7viewer\scene7.d.ts" />
     <TypeScriptCompile Include="Scripts\Typings\spriteSpin\sprite-spin.d.ts" />
     <TypeScriptCompile Include="Scripts\Typings\sticky\sticky.d.ts" />
     <TypeScriptCompile Include="Scripts\Typings\xlsx\xlsx.d.ts" />
