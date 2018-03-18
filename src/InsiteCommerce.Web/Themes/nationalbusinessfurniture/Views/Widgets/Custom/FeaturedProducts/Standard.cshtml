@@ -7,52 +7,48 @@
                 </div>
             </div>
             <div class="medium-12 large-12 columns widget-1column">
-                <div class="featured-product-wrap four-col__item-container" ng-controller="FeaturedProductsWidgetController as vm" product-id-string="[[Model.ProductString]]" ng-cloak>
+                <div class="featured-product-wrap four-col__item-container" ng-controller="FeaturedProductsWidgetController as vm" product-numbers-string="[[Model.ProductNumbersString]]" ng-cloak>
                     <div class="item-block__product four-col__item" ng-repeat="product in vm.products">
                         <a href="{{product.productDetailUrl}}">
                             <div class="item-block__product__img-wrap">
                                 <img class="item-block__product__img" ng-src="https://s7d9.scene7.com/is/image/NationalBusinessFurniture/{{product.smallImagePath ? product.smallImagePath : product.mediumImagePath}}?hei=200&id=5-zsy2&fmt=jpg&fit=constrain,1&wid=344&hei=344" alt="{{product.altText}}" />
-                                <div class="item-block__product__compare product-compare-add">
-                                    <span data-id="{{product.id}}" class="compare-link" ng-class="{ 'compare-active': product.isBeingCompared }" ng-click="vm.compareProduct(product);">[% translate 'Compare' %]</span>
-                                </div>
                             </div>
-                            <div class="item-block__product__details">
-                                <!--
-    <div class="item-block__product__swatch">
-        <ul>
-            <li ng-repeat="productImg in product.productImages">
-                <div class="item-block__product__swatch__img-wrap">
-                    <img class="item-block__product__swatch" ng-src="https://s7d9.scene7.com/is/image/NationalBusinessFurniture/{{productImg.smallImagePath ? productImg.smallImagePath : productImg.mediumImagePath}}?hei=200&id=5-zsy2&fmt=jpg&fit=constrain,1&wid=344&hei=344" alt="{{productImg.altText}}" increment-images-loaded />
-                </div>
-            </li>
-            <li class="right"><u>More</u></li>
-        </ul>
-    </div>
-        -->
+                            <div class="item-block__product__details">                                
+                                <div class="item-block__product__swatch">
+                                    <ul>
+                                        <li ng-repeat="swatchImg in vm.getTop3Swatches(product.properties['swatches'])">
+                                            <div class="item-block__product__swatch__img-wrap">
+                                                <img class="item-block__product__swatch" ng-src="https://s7d9.scene7.com/is/image/NationalBusinessFurniture/{{swatchImg}}?hei=200&id=5-zsy2&fmt=jpg&fit=constrain,1&wid=344&hei=344" />
+                                            </div>
+                                        </li>
+                                        <li ng-if="vm.isAuthenticated">
+                                            <a id="tst_productDetail_addToWishList" ng-class="{'in-favorites': product.properties['isFavorite'] == 'true' } "
+                                               ng-click="vm.toggleFavorite(product)" role="button"
+                                               class="btn secondary btn-add-to-list" href="javascript:;"></a>
+                                        </li>
+                                        <li class="right"><u>More</u></li>
+                                    </ul>
+                                </div>  
                                 <div class="item-block__product__desc">
                                     {{product.shortDescription}}
                                 </div>
                                 <div class="item-block__product__price-wrap">
                                     <div class="item-block__product__price">
                                         <isc-product-price product="product"></isc-product-price>
-                                        <isc-product-price-saving product="product"></isc-product-price-saving>                                        
+                                        <isc-product-price-saving product="product"></isc-product-price-saving>
                                     </div>
-                                    <!--
-    <div class="item-block__product__flag">
-        flag
-    </div>
-        -->
+                                    <div ng-if="vm.isAttributeValue(product, 'GSA', 'Yes');" class="item-block__product__flag gsa">
+                                        GSA
+                                    </div>
                                 </div>
-                                <!--
-    <div class="item-block__product__col-2">
-        <div class="col-1">
-            <div class="item-block__product__stars"><div class="rating"></div>Stars Here!</div>
-        </div>
-        <div class="col-2">
-            <div class="item-block__product__ships-today"><span class="ico-Truck"></span> Ships Today!</div>
-        </div>
-    </div>
-        -->
+                                <div class="item-block__product__col-2 clearfix">
+                                    <div class="col-1">
+                                        <div class="item-block__product__stars"><div class="rating"></div>Stars Here!</div>
+                                    </div>
+                                    <div class="col-2">
+                                        <div class="item-block__product__ships-today" ng-if="vm.isAttributeValue(product, 'Ships Today', 'Yes');"><span class="ico-Truck"></span> Ships Today!</div>
+                                    </div>
+                                </div>
                             </div>
                         </a>
                     </div>                    

@@ -253,9 +253,27 @@
 
         protected getTop3Swatches(swatchesJson): string[] {
             let retVal = [];
-
             if (swatchesJson) {
-                retVal = JSON.parse(swatchesJson).slice(0, 3).map(x => x.ImageName);
+                let swatches = JSON.parse(swatchesJson) as any[];
+
+                if (swatches.length > 0) {
+                    var sorted = [];
+
+                    swatches.forEach(x => {
+                        let item = sorted.find(y => y.ModelNumber == x.ModelNumber);
+
+                        if (item == null) {
+                            sorted.push({ ModelNumber: x.ModelNumber, Count: 1 })
+                        }
+                        else {
+                            item.Count++;
+                        }
+                    });
+                    sorted.sort((a, b) => a.Count > b.Count ? 1 : -1);
+                    sorted = sorted.reverse();
+
+                    retVal = swatches.filter(x => x.ModelNumber == sorted[0].ModelNumber).slice(0, 3).map((x: any) => x.ImageName);
+                }
             }
 
             return retVal;
