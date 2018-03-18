@@ -137,10 +137,14 @@
                                         <div id="tst_productDetail_htmlContent" class="product-cm" ng-bind-html="vm.product.htmlContent|trusted"></div>
                                         <br />
                                         <div class="product-cm" ng-if="vm.product.specifications">
-                                            Features:
-                                            <div ng-repeat="specification in vm.product.specifications | filter: { name: 'Features' } | orderBy: 'sortOrder'" ng-bind-html="specification.htmlContent|trusted"></div>
-                                            Dimensions and Weight:
-                                            <div ng-repeat="specification in vm.product.specifications | filter: { name: 'Dimensions' } | orderBy: 'sortOrder'" ng-bind-html="specification.htmlContent|trusted"></div>
+                                            <div ng-if="(vm.product.specifications | filter: { name: 'Features' }).length > 0">
+                                                Features:
+                                                <div ng-repeat="specification in vm.product.specifications | filter: { name: 'Features' } | orderBy: 'sortOrder'" ng-bind-html="specification.htmlContent|trusted"></div>
+                                            </div>
+                                            <div ng-if="(vm.product.specifications | filter: { name: 'Dimensions' }).length > 0">
+                                                Dimensions and Weight:
+                                                <div ng-repeat="specification in vm.product.specifications | filter: { name: 'Dimensions' } | orderBy: 'sortOrder'" ng-bind-html="specification.htmlContent|trusted"></div>
+                                            </div>
                                         </div>
                                     </article>
                                 </div>
