@@ -4,8 +4,9 @@
     export class NbfProductDetailController extends ProductDetailController {
         videoUrl = "";       
         swatches: any[] = [];
-        favorites: WishListModel;
-        isAuthenticated: boolean;
+        favoritesWishlist: WishListModel;
+        isAuthenticated: boolean = false;
+        resourceAndAssemblyDocs: any[];
 
         static $inject = [
             "$scope",
@@ -46,17 +47,17 @@
         }
 
         protected toggleFavorite(product: ProductDto) {
-            var favoriteLine = this.favorites.wishListLineCollection.filter(x => x.productId === this.product.id);
+            var favoriteLine = this.favoritesWishlist.wishListLineCollection.filter(x => x.productId === product.id);
 
             if (favoriteLine.length > 0) {
                 //Remove lines
-                this.nbfWishListService.deleteLineCollection(this.favorites, favoriteLine).then((result) => {
+                this.nbfWishListService.deleteLineCollection(this.favoritesWishlist, favoriteLine).then((result) => {
                     this.getFavorites();
                 });     
             } else {
                 //Add Lines
                 var addLines = [product];
-                this.nbfWishListService.addWishListLines(this.favorites, addLines).then(() => {
+                this.nbfWishListService.addWishListLines(this.favoritesWishlist, addLines).then(() => {
                     this.getFavorites();
                 });
             }
@@ -64,18 +65,18 @@
 
         protected getFavorites() {
             this.nbfWishListService.getWishLists("CreatedOn", "wishlistlines").then((wishList) => {
-                this.favorites = wishList.wishListCollection[0];
+                this.favoritesWishlist = wishList.wishListCollection[0];
                 this.product.properties["isFavorite"] = "false";
-                if (this.favorites) {
-                    if (this.favorites.wishListLineCollection) {
-                        if (this.favorites.wishListLineCollection.filter(x => x.productId === this.product.id)[0]) {
+                if (this.favoritesWishlist) {
+                    if (this.favoritesWishlist.wishListLineCollection) {
+                        if (this.favoritesWishlist.wishListLineCollection.filter(x => x.productId === this.product.id)[0]) {
                             this.product.properties["isFavorite"] = "true";
                         }
                     } else {
-                        this.favorites.wishListLineCollection = [];
+                        this.favoritesWishlist.wishListLineCollection = [];
                     }
                 } else {
-                    this.favorites = {
+                    this.favoritesWishlist = {
                         wishListLineCollection: [] as WishListLineModel[]
                     } as WishListModel;
                 }
@@ -118,7 +119,6 @@
 
 
         protected selectInsiteStyleDropdown(styleTraitName: string, styleTraitValueId: string, index: number): void {            
-            debugger;
             let styleTrait = this.styleTraitFiltered.find(x => x.nameDisplay == styleTraitName);
             if (styleTrait) {
                 let option = styleTrait.styleValues.find(x => x.styleTraitValueId == styleTraitValueId);
@@ -183,6 +183,11 @@
 
             this.getFavorites();
             this.setTabs();
+            this.sessionService.getIsAuthenticated().then(x => {
+                this.isAuthenticated = x;
+            })
+
+            this.resourceAndAssemblyDocs = this.product.documents.filter(x => x.documentType != "video");
         }     
        
         showVideo() {            
@@ -242,7 +247,6 @@
             $("#overlaych1").hide();
             $("#mobile_div_container").hide();
         }
-
     }
 
     angular

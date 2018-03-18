@@ -23,20 +23,20 @@ namespace Extensions.Widgets
         }
 
         [ListContentField]
-        [DisplayName("Enter Product Ids")]
-        public virtual List<string> ProductIds
+        [DisplayName("Enter Product Numbers")]
+        public virtual List<string> ProductNumbers
         {
             get
             {
-                return GetValue(nameof(ProductIds), new List<string>(), FieldType.Contextual);
+                return GetValue(nameof(ProductNumbers), new List<string>(), FieldType.Contextual);
             }
             set
             {
-                SetValue(nameof(ProductIds), value, FieldType.Contextual);
+                SetValue(nameof(ProductNumbers), value, FieldType.Contextual);
             }
         }
 
-        public virtual string ProductString => string.Join(":", ProductIds.ToArray());
+        public virtual string ProductNumbersString => string.Join(":", ProductNumbers.ToArray());
 
         [TextContentField(IsRequired = true, SortOrder = 100)]
         [DisplayName("All Categories Text")]
