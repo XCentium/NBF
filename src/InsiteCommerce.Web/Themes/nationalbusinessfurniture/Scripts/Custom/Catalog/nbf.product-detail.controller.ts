@@ -33,6 +33,17 @@
             protected nbfWishListService: wishlist.INbfWishListService
         ) {
             super($scope, coreService, cartService, productService, addToWishlistPopupService, productSubscriptionPopupService, settingsService, $stateParams, sessionService)
+            this.sessionService.getIsAuthenticated().then((isAuth) => {
+                this.isAuthenticated = isAuth;
+            });
+        }
+
+        protected getSettingsCompleted(settingsCollection: core.SettingsCollection): void {
+            this.settings = settingsCollection.productSettings;
+            const context = this.sessionService.getContext();
+            this.languageId = context.languageId;
+            this.sessionService.getIsAuthenticated().then;
+            this.resolvePage();
         }
 
         protected toggleFavorite(product: ProductDto) {

@@ -7,7 +7,7 @@
                     <div class="small-12 column medium-6 detail-image">
                         <isc-product-images ng-if="vm.product" product="vm.product"></isc-product-images>
                         <div class="image-buttons">
-                            <button class="btn btn-secondary" ng-if="vm.product.unspsc !== '0000'" ng-click="vm.show360()"><i class="ico-ViewIcon"></i> 360 View</button>
+                            <button class="btn btn-secondary" ng-if="vm.product && vm.product.unspsc !== '0000'" ng-click="vm.show360()"><i class="ico-ViewIcon"></i> 360 View</button>
                             <button ng-show="vm.product.properties['videoUrl']" class="btn btn-secondary" ng-click="vm.showVideo()"><i class="ico-SmallplaybuttonIcon"></i> Product Video</button>
                         </div>
                     </div>
@@ -116,12 +116,11 @@
                                     </a>
                                 </div>
                             </div>                            
-                            <a id="tst_productDetail_addToWishList" ng-if="vm.isAuthenticated" ng-class="{'in-favorites': vm.product.properties['isFavorite'] == 'true' } "
-                               ng-click="vm.toggleFavorite(vm.product)" role="button"
-                               class="btn secondary btn-add-to-list" href="javascript:;">{{vm.product.properties['isFavorite'] == "false" ? "Add To Favorites" : "Remove From Favorites"}}</a>
-                        </div>
+                                <a id="tst_productDetail_addToWishList" ng-if="vm.isAuthenticated" ng-class="{'in-favorites': vm.product.properties['isFavorite'] == 'true' } "
+                                  ng-click="vm.toggleFavorite(vm.product)" role="button"
+                                  class="btn secondary btn-add-to-list" href="javascript:;">{{vm.product.properties['isFavorite'] == "false" ? "Add To Favorites" : "Remove From Favorites"}}</a>
+                            </div>
                         <div class="small-12 secondary-button">
-
                             <div ng-show="vm.product" class="small-12 detail-share">
                                 <a id="tst_productDetail_share" href="javascript:;" class="pd-zoom" data-reveal-id="TellAFriendDialogContainer">[% translate 'Share' %]</a>
                                 <isc-tell-a-friend-popup product="vm.product" data-reveal></isc-tell-a-friend-popup>
