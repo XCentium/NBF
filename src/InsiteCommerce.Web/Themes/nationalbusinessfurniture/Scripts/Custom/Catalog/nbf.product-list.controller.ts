@@ -4,6 +4,52 @@
     export class NbfProductListController extends ProductListController{
         categoryAttr: string;
         filteredResults: boolean = false;
+        favoritesWishlist: WishListModel;
+        isAuthenticated: boolean = false;
+
+        static $inject = [
+            "$scope",
+            "coreService",
+            "cartService",
+            "productService",
+            "compareProductsService",
+            "$rootScope",
+            "$window",
+            "$localStorage",
+            "paginationService",
+            "searchService",
+            "spinnerService",
+            "addToWishlistPopupService",
+            "settingsService",
+            "$stateParams",
+            "queryString",
+            "$location",
+            "sessionService",
+            "nbfWishListService"
+        ];
+
+        constructor(
+            protected $scope: ng.IScope,
+            protected coreService: core.ICoreService,
+            protected cartService: cart.ICartService,
+            protected productService: IProductService,
+            protected compareProductsService: ICompareProductsService,
+            protected $rootScope: ng.IRootScopeService,
+            protected $window: ng.IWindowService,
+            protected $localStorage: common.IWindowStorage,
+            protected paginationService: core.IPaginationService,
+            protected searchService: ISearchService,
+            protected spinnerService: core.ISpinnerService,
+            protected addToWishlistPopupService: wishlist.AddToWishlistPopupService,
+            protected settingsService: core.ISettingsService,
+            protected $stateParams: IProductListStateParams,
+            protected queryString: common.IQueryStringService,
+            protected $location: ng.ILocationService,
+            protected sessionService: account.ISessionService,
+            protected nbfWishListService: wishlist.INbfWishListService) {
+
+            super($scope, coreService, cartService, productService, compareProductsService, $rootScope, $window, $localStorage, paginationService, searchService, spinnerService, addToWishlistPopupService, settingsService, $stateParams, queryString, $location);
+        }
 
         init(): void {
             this.products.pagination = this.paginationService.getDefaultPagination(this.paginationStorageKey);
@@ -68,7 +114,7 @@
                 }
                 params.names.push(this.categoryAttr);
             }
-            expand = expand ? expand : ["pricing", "attributes", "facets"];
+            expand = expand ? expand : ["pricing", "attributes", "facets", "specifications"];
             this.productService.getProducts(params, expand).then(
                 (productCollection: ProductCollectionModel) => { this.getProductsCompleted(productCollection, params, expand); },
                 (error: any) => { this.getProductsFailed(error); });
@@ -139,6 +185,12 @@
             if (this.view === "grid") {
                 this.waitForDom();
             }
+
+            this.getFavorites();
+
+            this.sessionService.getIsAuthenticated().then(x => {
+                this.isAuthenticated = x;
+            })
         }
 
         protected getFacets(categoryId: string): void {
@@ -196,6 +248,73 @@
             //Have to do this to get htmlcontent
             this.productService.getCategory(catalogPage.category.id.toString()).then((catalogPageResult) => {
                 this.category.htmlContent = catalogPageResult.htmlContent;
+            });
+        }
+
+        protected getTop3Swatches(swatchesJson): string[] {
+            let retVal = [];
+
+            if (swatchesJson) {
+                retVal = JSON.parse(swatchesJson).slice(0, 3).map(x => x.ImageName);
+            }
+
+            return retVal;
+        }
+
+        protected isAttributeValue(product: ProductDto, attrName: string, attrValue: string): boolean {
+            let retVal: boolean = false;
+
+            if (product && product.attributeTypes) {
+                var attrType = product.attributeTypes.find(x => x.name == attrName && x.isActive == true);
+
+                if (attrType) {
+                    var matchingAttrValue = attrType.attributeValues.find(y => y.value == attrValue);
+
+                    if (matchingAttrValue) {
+                        retVal = true;
+                    }
+                }
+            }
+            return retVal;
+        }
+
+        protected toggleFavorite(product: ProductDto) {
+            var favoriteLine = this.favoritesWishlist.wishListLineCollection.filter(x => x.productId === product.id);
+
+            if (favoriteLine.length > 0) {
+                //Remove lines
+                this.nbfWishListService.deleteLineCollection(this.favoritesWishlist, favoriteLine).then((result) => {
+                    this.getFavorites();
+                });
+            } else {
+                //Add Lines
+                var addLines = [product];
+                this.nbfWishListService.addWishListLines(this.favoritesWishlist, addLines).then(() => {
+                    this.getFavorites();
+                });
+            }
+        }
+
+        protected getFavorites() {
+            this.nbfWishListService.getWishLists("CreatedOn", "wishlistlines").then((wishList) => {
+                this.favoritesWishlist = wishList.wishListCollection[0];
+
+                this.products.products.forEach(product => {
+                    product.properties["isFavorite"] = "false";
+                    if (this.favoritesWishlist) {
+                        if (this.favoritesWishlist.wishListLineCollection) {
+                            if (this.favoritesWishlist.wishListLineCollection.filter(x => x.productId === product.id)[0]) {
+                                product.properties["isFavorite"] = "true";
+                            }
+                        } else {
+                            this.favoritesWishlist.wishListLineCollection = [];
+                        }
+                    } else {
+                        this.favoritesWishlist = {
+                            wishListLineCollection: [] as WishListLineModel[]
+                        } as WishListModel;
+                    }
+                });                
             });
         }
     }

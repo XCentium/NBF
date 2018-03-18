@@ -115,10 +115,10 @@
                                         [% translate 'Delivery Schedule' %]
                                     </a>
                                 </div>
-                            </div>
-                            <a id="tst_productDetail_addToWishList" ng-click="vm.toggleFavorite(vm.product)" role="button"
-                               class="btn secondary btn-add-to-list" href="javascript:;">[% translate 'Add to Favorites' %]</a>
-                            {{vm.product.properties['isFavorite']}}
+                            </div>                            
+                            <a id="tst_productDetail_addToWishList" ng-if="vm.isAuthenticated" ng-class="{'in-favorites': vm.product.properties['isFavorite'] == 'true' } "
+                               ng-click="vm.toggleFavorite(vm.product)" role="button"
+                               class="btn secondary btn-add-to-list" href="javascript:;">{{vm.product.properties['isFavorite'] == "false" ? "Add To Favorites" : "Remove From Favorites"}}</a>
                         </div>
                         <div class="small-12 secondary-button">
 
@@ -157,14 +157,14 @@
                                     </article>
                                 </div>
                             </section>
-                            <section class="accordion">
+                            <section class="accordion" ng-if="!vm.settings.displayDocumentsInTabs && vm.product.documents.length > 0 && vm.resourceAndAssemblyDocs.length > 0">
                                 <div>
                                     <input type="checkbox" id="accord-10002" class="accord-check" />
                                     <label id="tst_productList_tableView_filterButton" for="accord-10002" class="accord-head">[% translate 'Resource &amp; Assembly' %]</label>
                                     <article class="accord-content">
                                         <div id="tst_productDetail_htmlContent" class="product-cm">
-                                            <ul ng-if="!vm.settings.displayDocumentsInTabs && vm.product.documents.length > 0" class="doclinks">
-                                                <li ng-if="vm.languageId === document.languageId" ng-repeat="document in vm.product.documents | filter:{ documentType: '!video'}" class="doc-{{$index}}">
+                                            <ul class="doclinks">
+                                                <li ng-if="vm.languageId === document.languageId" ng-repeat="document in vm.resourceAndAssemblyDocs" class="doc-{{$index}}">
                                                     <a id="tst_productDetail_{{document.id}}" ng-href="{{document.filePath}}" target="_new">{{document.name}} <em ng-if="document.documentType">({{document.documentType}})</em></a>
                                                 </li>
                                             </ul>
@@ -172,12 +172,12 @@
                                     </article>
                                 </div>
                             </section>
-                            <section class="accordion">
+                            <section class="accordion" ng-if="vm.isAttributeValue('GSA', 'Yes');">
                                 <div>
                                     <input type="checkbox" id="accord-10003" class="accord-check" />
                                     <label id="tst_productList_tableView_filterButton" for="accord-10003" class="accord-head">[% translate 'Contract Information' %]</label>
                                     <article class="accord-content">
-                                        <div id="tst_productDetail_htmlContent" class="product-cm" ng-if="vm.isAttributeValue('GSA', 'Yes');">
+                                        <div id="tst_productDetail_htmlContent" class="product-cm">
                                             [% zone 'GSA Content' %]
                                         </div>                                            
                                     </article>
