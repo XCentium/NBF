@@ -38,7 +38,7 @@ a data-dropdown attribute is needed on static part of the page for foundation to
             <strong ng-bind="bp.breakPriceDisplay"></strong>
         </span>
         <span ng-if="breakPrices[$index+1] && bp.breakQty == (breakPrices[$index+1].breakQty -1)">If You Buy {{bp.breakQty}}</span>
-        <span ng-if="breakPrices[$index+1] && bp.breakQty < (breakPrices[$index+1].breakQty -1)">If You Buy {{bp.breakQty}}-{{breakPrices[$index+1].breakQty}}</span>
+        <span ng-if="breakPrices[$index+1] && bp.breakQty < (breakPrices[$index+1].breakQty -1)">If You Buy {{bp.breakQty}}-{{breakPrices[$index+1].breakQty -1}}</span>
         <span ng-if="!breakPrices[$index+1]">If You Buy {{bp.breakQty}} or More</span>
     </div>
 </div>
