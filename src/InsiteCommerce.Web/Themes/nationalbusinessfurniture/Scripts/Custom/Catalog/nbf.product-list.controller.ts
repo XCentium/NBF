@@ -186,11 +186,12 @@
                 this.waitForDom();
             }
 
-            this.getFavorites();
-
-            this.sessionService.getIsAuthenticated().then(x => {
-                this.isAuthenticated = x;
-            })
+            this.sessionService.getIsAuthenticated().then(result => {
+                this.isAuthenticated = result;
+                if (this.isAuthenticated) {
+                    this.getFavorites();
+                }
+            });
         }
 
         protected getFacets(categoryId: string): void {
