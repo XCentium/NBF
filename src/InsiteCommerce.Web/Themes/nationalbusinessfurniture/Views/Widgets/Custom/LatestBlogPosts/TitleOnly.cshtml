@@ -1,0 +1,36 @@
+﻿<style type="text/css">
+    [% for page in Model.Drop.PageLinks -%] 
+    .blog-[[page.Number]] {
+        background-image: url('[[page.BackgroundImageUrl]]');
+        background-position: [[page.BackgroundImageFocalPosition]];
+    }
+    [% endfor -%]
+</style>
+
+<div class="row">
+    <div class="medium-12 large-12 columns widget-1column narrow-container">
+        <div class="row">
+            <div class="medium-12 large-12 columns widget-1column">
+                <div class="latest-blog-title">
+                    <h2>[[Model.Title]]</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="latest-blog medium-12 large-12 columns widget-1column no-margin [[Model.CssClass]]">
+        <div class="latest-blog__container">
+
+            [% for page in Model.Drop.PageLinks -%]
+            <div class="latest-blog__item">
+                <a href="[[page.Url]]">
+                    <div class="latest-blog__image blog-[[page.Number]]">
+                    </div>
+                    <div class="latest-blog__desc">
+                        <h4>[[page.Title]]</h4>
+                    </div>
+                </a>
+            </div>
+            [% endfor -%]            
+        </div>
+    </div>
+</div>

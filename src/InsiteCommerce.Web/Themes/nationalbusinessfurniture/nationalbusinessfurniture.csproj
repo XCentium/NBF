@@ -733,6 +733,8 @@
     <Content Include="Views\Widgets\RichContent\article-quote.cshtml" />
     <Content Include="Views\Widgets\Carousel\ProductCarousel.cshtml" />
     <Content Include="Styles\custom\flex-slider.scss" />
+    <Content Include="Views\Widgets\Custom\CTALinkWidget\4ItemsWide.cshtml" />
+    <Content Include="Views\Widgets\Custom\LatestBlogPosts\TitleOnly.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <PropertyGroup>
