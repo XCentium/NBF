@@ -87,9 +87,9 @@
                 if (windowsize < 767) {
                     setTimeout(
                         function () {
-                            $('#accord-10000').prop('checked', false);
+                            $("#accord-10000").prop("checked", false);
                         }, 2000);                    
-                    $('#accord-10000').removeAttr('checked');
+                    $("#accord-10000").removeAttr("checked");
                 }
             })
             this.$scope.$watch(() => this.category, (newCategory) => {
@@ -107,7 +107,7 @@
             if (this.ready) {
                 this.spinnerService.show("productlist");
             }
-            if (this.categoryAttr != '') {
+            if (this.categoryAttr != "") {
                 this.filteredResults = true;
                 if (!params.names) {
                     params.names = [];
@@ -182,9 +182,8 @@
             }
 
             this.imagesLoaded = 0;
-            if (this.view === "grid") {
-                this.waitForDom();
-            }
+            this.waitForDom();
+
 
             this.sessionService.getIsAuthenticated().then(result => {
                 this.isAuthenticated = result;
@@ -201,7 +200,7 @@
                 includeSuggestions: this.includeSuggestions,
                 names: null
             };
-            if (this.categoryAttr != '') {
+            if (this.categoryAttr != "") {
                 this.filteredResults = true;
                 if (!params.names) {
                     params.names = [];
@@ -341,6 +340,28 @@
                     }
                 });                
             });
+        }
+
+        // Equalize the product grid after all of the images have been downloaded or they will be misaligned (grid view only)
+        protected waitForDom(tries?: number): void {
+            if (isNaN(+tries)) {
+                tries = 1000; // Max 20000ms
+            }
+
+            // If DOM isn't ready after max number of tries then stop
+            if (tries > 0) {
+                setTimeout(() => {
+                    ($(document) as any).foundation("equalizer","reflow");
+
+                    if (this.view === "grid") {
+                        if (this.imagesLoaded >= this.products.products.length) {
+                            this.cEqualize();
+                        } else {
+                            this.waitForDom(tries - 1);
+                        }
+                    }
+                }, 20);
+            }
         }
     }
 

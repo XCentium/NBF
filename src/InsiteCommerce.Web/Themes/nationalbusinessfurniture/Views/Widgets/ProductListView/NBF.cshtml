@@ -36,8 +36,8 @@
                     <div class="row">
                         <div class="medium-12 large-12 columns widget-1column">
                             <ul class="category-list__wrap  row" data-equalizer>
-                                <li class="large-3 medium-4 small-12 column category-list__item" ng-repeat="subCategory in vm.category.subCategories">
-                                    <a ng-href="{{subCategory.path}}" data-equalizer-watch>
+                                <li class="large-3 medium-4 small-12 column category-list__item" ng-repeat="subCategory in vm.category.subCategories" data-equalizer-watch>
+                                    <a ng-href="{{subCategory.path}}">
                                         <div class="category-list__img-wrap">
                                             <img class="category-list__img" ng-src="{{subCategory.smallImagePath}}" alt="{{subCategory.imageAltText}}" />
                                         </div>
