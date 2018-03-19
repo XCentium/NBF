@@ -8,24 +8,34 @@
     font-size: 0;
     margin-bottom: 80px;
 
-     @media all and (max-width: 767px) {
+    @media all and (max-width: 767px) {
         margin-bottom: 40px;
         -ms-box-orient: vertical;
-          display: -webkit-box;
-          display: -moz-box;
-          display: -ms-flexbox;
-          display: -moz-flex;
-          display: -webkit-flex;
-          display: flex;
-          -webkit-flex-direction: column; /* Safari 6.1+ */
-            flex-direction: column;
+        display: -webkit-box;
+        display: -moz-box;
+        display: -ms-flexbox;
+        display: -moz-flex;
+        display: -webkit-flex;
+        display: flex;
+        -webkit-flex-direction: column; /* Safari 6.1+ */
+        flex-direction: column;
 
 
-        .grid-cell:nth-of-type(1) { order: 1; }
-        .grid-cell:nth-of-type(2) { order: 2; }
-        .grid-cell:nth-of-type(3) { order: 4; }
-        .grid-cell:nth-of-type(4) { order: 3; }
+        .grid-cell:nth-of-type(1) {
+            order: 1;
+        }
 
+        .grid-cell:nth-of-type(2) {
+            order: 2;
+        }
+
+        .grid-cell:nth-of-type(3) {
+            order: 4;
+        }
+
+        .grid-cell:nth-of-type(4) {
+            order: 3;
+        }
     }
 
     .grid-cell {
@@ -65,7 +75,7 @@
 
                     h3 {
                         margin: 0;
-                            line-height: 33px;
+                        line-height: 33px;
                     }
 
                     .v-center {
@@ -88,28 +98,30 @@
                 }
 
                 &.bottomleft {
-                    .content{
-                    bottom: 30px;
-                    left: 30px;
+                    .content {
+                        bottom: 30px;
+                        left: 30px;
                     }
                 }
 
                 &.bottomright {
-                    .content{
-                    bottom: 30px;
-                    right: 30px;
+                    .content {
+                        bottom: 30px;
+                        right: 30px;
                     }
                 }
+
                 &.topright {
-                    .content{
-                    top: 30px;
-                    right: 30px;
+                    .content {
+                        top: 30px;
+                        right: 30px;
                     }
                 }
+
                 &.topleft {
-                    .content{
-                    top: 30px;
-                    left: 30px;
+                    .content {
+                        top: 30px;
+                        left: 30px;
                     }
                 }
             }
@@ -117,8 +129,8 @@
             &.style-2 {
 
                 @media all and (max-width: 767px) {
-                    padding-bottom:30px;
-                    padding-top:40px;
+                    padding-bottom: 30px;
+                    padding-top: 40px;
                 }
 
                 @media all and (min-width: 768px) {
@@ -138,6 +150,9 @@
                             left: 0;
                             right: 0;
                             bottom: 0;
+                            .btn {
+                                min-width:300px;
+                            }
                         }
                     }
                 }
@@ -146,11 +161,11 @@
             .content {
                 position: relative;
 
-                
+
 
                 .btn {
                     @media all and (max-width: 767px) {
-                        width:100%;
+                        width: 100%;
                     }
                 }
             }
@@ -158,7 +173,7 @@
             &.block-text {
 
                 .content {
-                    
+
                     .v-center {
                         padding: 0 20%;
 

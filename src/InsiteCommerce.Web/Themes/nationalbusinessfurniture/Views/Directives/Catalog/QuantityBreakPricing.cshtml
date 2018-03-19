@@ -5,7 +5,7 @@ usage example:
 
 break-prices must be an array objects of format BreakPriceDto
 a data-dropdown attribute is needed on static part of the page for foundation to correctly initialize this drop down
-{% endcomment %}
+
 <div class="quantity-pricing" ng-if="(breakPrices && breakPrices.length > 1)">
     <a href="" data-dropdown="qty-price-{{::(productId + block)}}" class="t-dropdown tst_quantityBreakPricing_link">[% translate 'Quantity Pricing' %]</a>
     <div id="qty-price-{{::(productId + block)}}" class="f-dropdown content" data-dropdown-content>
@@ -24,5 +24,21 @@ a data-dropdown attribute is needed on static part of the page for foundation to
                 </table>
             </div>
         </div>
+    </div>
+</div>
+
+{% endcomment %}
+
+<div class="item-block__product__bluk-pricing" ng-if="(breakPrices && breakPrices.length > 1)">
+    <div class="item-block__product__bluk-pricing__title text-orange">
+        <strong>BUY More | Save more</strong>
+    </div>
+    <div class="line-{{$index}}" ng-repeat="bp in breakPrices | orderBy:'breakQty'">
+        <span>
+            <strong ng-bind="bp.breakPriceDisplay"></strong>
+        </span>
+        <span ng-if="breakPrices[$index+1] && bp.breakQty == (breakPrices[$index+1].breakQty -1)">If You Buy {{bp.breakQty}}</span>
+        <span ng-if="breakPrices[$index+1] && bp.breakQty < (breakPrices[$index+1].breakQty -1)">If You Buy {{bp.breakQty}}-{{breakPrices[$index+1].breakQty -1}}</span>
+        <span ng-if="!breakPrices[$index+1]">If You Buy {{bp.breakQty}} or More</span>
     </div>
 </div>

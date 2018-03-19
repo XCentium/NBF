@@ -7,20 +7,25 @@
     border: 1px solid #DCDCDC;
     padding: 2em;
     margin-bottom: 2em;
+    clear: both;
 
     .summary-title {
-         font-family: $ProximaNova-bold;
+        font-family: $ProximaNova;
+        font-weight: 700;
     }
+
     .oc-head {
-        margin-bottom:20px;
+        margin-bottom: 20px;
     }
+
     .discount-total .sub-amount {
         float: right;
         font-weight: bold;
     }
 
     .sub-amount, .amount-due {
-        font-family: $ProximaNova-bold;
+        font-family: $ProximaNova;
+        font-weight: 700;
     }
 
     .order-total {

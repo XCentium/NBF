@@ -7,7 +7,7 @@ CREATE VIEW [dbo].[vwStyleClass]
 AS
 
 
-SELECT top 100
+SELECT 
 	s.Id,
 	s.Name,
 	s.Description,

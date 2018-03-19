@@ -1,0 +1,118 @@
+﻿<div ng-if="vm1.listModel && vm1.listModel.wishListLinesCount > 0">
+    <div class="dash-title-bar">[% translate 'Favorites' %]</div>
+    <div class="ma-my-list-details">
+        <div class="row">
+            <div class="add-item-to-list hide-for-small" ng-show="vm11.isAddToListSectionVisible">
+                <div class="right">
+                    <div class="item-qty">
+                        <label>[% translate 'QTY' %]</label>
+                        <input type="text" ng-model="vm1.itemToAdd.qtyOrdered" ng-init="vm1.itemToAdd.qtyOrdered = vm1.itemToAdd.minimumOrderQty || 1" class="qty numerictextbox"/>
+                    </div>
+                    <div class="um medium-3 row">
+                        <label>[% translate 'U/M' %]</label>
+                        <isc-unit-of-measure-select-list ng-show="vm1.itemToAdd.productUnitOfMeasures.length > 0" product="vm1.itemToAdd" alternate-units-of-measure="{{vm1.productSettings.alternateUnitsOfMeasure}}"
+                                                         display-pack="false"></isc-unit-of-measure-select-list>
+                        <div class="small-8 columns" ng-hide="vm1.itemToAdd.productUnitOfMeasures.length > 1 && vm1.productSettings.alternateUnitsOfMeasure">
+                            <select ng-model="vm1.itemToAdd.selectedUnitOfMeasure">
+                                <option ng-if="vm1.itemToAdd.productUnitOfMeasures.length === 1" value="{{vm1.itemToAdd.productUnitOfMeasures[0].unitOfMeasure}}" selected="selected">
+                                    {{::vm1.getUomDisplayValue(vm1.itemToAdd.productUnitOfMeasures[0])}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <button type="button" class="btn primary" ng-disabled="vm1.itemToAdd.qtyOrdered == 0 || !vm1.itemToAdd.qtyOrdered || vm1.isAddingToList" ng-click="vm1.addProductToList(vm1.itemToAdd)">[% translate 'Add To List' %]</button>
+                </div>
+                <div class="right">
+                    <a ng-click="vm1.openUploadListPopup(vm1.listModel)">Upload Items</a>
+                    <div class="hover-tooltip-wrapper">
+                        <i data-dropdown="qtip-upload-to-list" data-options="is_hover:true" class="icon-help hover-tooltip"></i>
+                        <span id="qtip-upload-to-list" class="f-dropdown content hover-tooltip-content" data-dropdown-content>
+                            <span>[% siteMessage 'Lists_UploadLinkTooltip' %]</span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div ng-if="vm1.listModel.wishListLinesCount > 0">
+            <div class="sort-parent-container">
+                <ul class="row item-list cart-items" ui-sortable="">
+                    <li class="row item-block checkout-item isc-productContainer" ng-repeat="wishListLine in filteredLines = (vm1.listModel.wishListLineCollection | filter:filter | orderBy:vm1.sortProperty:vm1.reverse |limitTo:3) track by wishListLine.id" id="tst_wishList_{{::wishListLine.productId}}_{{wishListLine.unitOfMeasure}}">
+                        <div class="medium-3 columns item-image-block">
+                            <div class="item-image">
+                                <isc-product-thumb product="wishListLine"></isc-product-thumb>
+                            </div>
+                            <div class="item-controls show-for-small">
+                                <i class="icon-sort-order handle" ng-show="vm1.sort === 'custom' && !vm1.searchTerm && (vm1.listModel.allowEdit || !vm1.listModel.isSharedList)"></i>
+                            </div>
+                        </div>
+                        <div class="medium-3 columns item-details">
+                            <div class="details-block">
+                                <isc-product-name product="wishListLine"></isc-product-name>
+                                <div ng-show="vm1.productSettings.showInventoryAvailability" class="availability">
+                                    <isc-availability-message availability="wishListLine.availability" failed-to-get-real-time-inventory="vm1.failedToGetRealTimeInventory"></isc-availability-message>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="medium-6 columns item-pricing-and-actions">
+                            <div class="item-pricing">
+                                <div ng-show="wishListLine.canShowPrice && !wishListLine.pricing.failedToGetRealTimePrices">
+                                    <isc-product-price product="wishListLine"></isc-product-price>
+                                    <span class="selected-uom" ng-if="wishListLine.unitOfMeasureDescription || wishListLine.unitOfMeasureDisplay">/ {{wishListLine.unitOfMeasureDescription || wishListLine.unitOfMeasureDisplay}}</span>
+                                    <isc-product-price-saving product="wishListLine" currency-symbol="wishListLine.currencySymbol"></isc-product-price-saving>
+                                    <div class="quantity-pricing" ng-if="!wishListLine.quoteRequired">
+                                        <isc-quantity-break-pricing product-id="wishListLine.id" break-prices="wishListLine.pricing.unitRegularBreakPrices"></isc-quantity-break-pricing>
+                                    </div>
+                                </div>
+                                <div ng-if="wishListLine.canShowPrice && wishListLine.pricing.failedToGetRealTimePrices">
+                                    <div>[% siteMessage 'RealTimePricing_PriceLoadFailed' %]</div>
+                                </div>
+                                <div class="product-info">
+                                    <div class="um-pack" ng-if="wishListLine.productUnitOfMeasures.length > 1 && vm1.productSettings.alternateUnitsOfMeasure">
+                                        <div class="um">
+                                            <label>[% translate 'U/M' %]:</label>
+                                            <isc-unit-of-measure-select-list product="wishListLine" alternate-units-of-measure="{{vm1.productSettings.alternateUnitsOfMeasure}}" read-only="{{ !vm1.listModel.allowEdit && vm1.listModel.isSharedList }}"
+                                                                             display-pack="false" change-unit-of-measure="vm1.changeUnitOfMeasure(wishListLine)"></isc-unit-of-measure-select-list>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="item-actions-block">
+                                <div class="add-to-cart-block">
+                                    <div class="action" ng-if="wishListLine.canAddToCart">
+                                        <button class="btn primary btn-add-cart" ng-click="vm1.addLineToCart(wishListLine)" ng-disabled="!wishListLine.qtyOrdered || wishListLine.qtyOrdered == 0">[% translate 'Add to Cart' %]</button>
+                                    </div>
+                                    <div class="item-qty" ng-if="wishListLine.canEnterQuantity">
+                                        <input ng-disabled="(!vm1.listModel.allowEdit && vm1.listModel.isSharedList)" type="text" class="numerictextbox qty tst_wishListLine_qty" ng-model="wishListLine.qtyOrdered" isc-enter="vm1.quantityKeyPress(wishListLine)" ng-blur="vm1.quantityKeyPress(wishListLine)"/>
+                                    </div>
+                                </div>
+                                <div class="show-for-small">
+                                    <div class="item-notes" ng-if="wishListLine.notes">
+                                        <i class="icon-notes"></i>
+                                        <span ng-bind="wishListLine.notes"></span>
+                                    </div>
+                                    <div class="item-bottom-actions">
+                                        <a ng-if="(vm1.listModel.allowEdit || !vm1.listModel.isSharedList)" href="#" data-reveal-id="popup-delete-item" ng-click="vm1.setListItem(wishListLine)">[% translate 'Delete' %]</a>
+                                        <a ng-if="(vm1.listModel.allowEdit || !vm1.listModel.isSharedList) && !wishListLine.notes" href="#" data-reveal-id="popup-line-note" ng-click="vm1.setListItem(wishListLine)">[% translate 'Add Note' %]</a>
+                                        <a ng-if="(vm1.listModel.allowEdit || !vm1.listModel.isSharedList) && wishListLine.notes" href="#" data-reveal-id="popup-line-note" ng-click="vm1.setListItem(wishListLine)">[% translate 'Edit Note' %]</a>
+                                        <span class="item-added">
+                                            <span>[% translate 'Added' %]</span>
+                                            <span ng-bind="wishListLine.createdOn | date:'M/d/yyyy'">8/22/17</span>
+                                            <span ng-if="wishListLine.isSharedLine && wishListLine.createdByDisplayName">
+                                                [% translate 'by' %] <span ng-bind="wishListLine.createdByDisplayName">Name</span>
+                                            </span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li ng-if="filteredLines.length === 0" class="search-no-results">[% siteMessage 'Lists_NoResultsMessage' %]</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <input type="hidden" id="messageNotFound" value="[% siteMessage 'Product_NotFound' %]"/>
+    <div class="">
+        <a href="[% urlForPage 'MyListsPage' %]" class="btn secondary btn-view-all">[% siteMessage 'MyAccount_FavoritesButtonText' 'View All or Edit' %]</a>
+    </div>
+</div>

@@ -1,26 +1,55 @@
-﻿//import CategoryFacetDto = Insite.Core.Plugins.Search.Dtos.CategoryFacetDto;
-//import AttributeTypeFacetDto = Insite.Core.Plugins.Search.Dtos.AttributeTypeFacetDto;
-//import AttributeValueDto = Insite.Catalog.Services.Dtos.AttributeValueDto;
-
-module insite.catalog {
+﻿module insite.catalog {
     "use strict";
-
-    //export interface IProductListStateParams extends IContentPageStateParams {
-    //    criteria: string;
-    //}
-
-    //export interface ICustomPagerContext {
-    //    isSearch: boolean;
-    //    view: string;
-    //    selectView: (viewName: string) => void;
-    //    attributeTypeFacets: AttributeTypeFacetDto[];
-    //    changeTableColumn: (attribute: AttributeTypeFacetDto) => void;
-    //    sortedTableColumns: AttributeTypeFacetDto[];
-    //};
 
     export class NbfProductListController extends ProductListController{
         categoryAttr: string;
         filteredResults: boolean = false;
+        favoritesWishlist: WishListModel;
+        isAuthenticated: boolean = false;
+
+        static $inject = [
+            "$scope",
+            "coreService",
+            "cartService",
+            "productService",
+            "compareProductsService",
+            "$rootScope",
+            "$window",
+            "$localStorage",
+            "paginationService",
+            "searchService",
+            "spinnerService",
+            "addToWishlistPopupService",
+            "settingsService",
+            "$stateParams",
+            "queryString",
+            "$location",
+            "sessionService",
+            "nbfWishListService"
+        ];
+
+        constructor(
+            protected $scope: ng.IScope,
+            protected coreService: core.ICoreService,
+            protected cartService: cart.ICartService,
+            protected productService: IProductService,
+            protected compareProductsService: ICompareProductsService,
+            protected $rootScope: ng.IRootScopeService,
+            protected $window: ng.IWindowService,
+            protected $localStorage: common.IWindowStorage,
+            protected paginationService: core.IPaginationService,
+            protected searchService: ISearchService,
+            protected spinnerService: core.ISpinnerService,
+            protected addToWishlistPopupService: wishlist.AddToWishlistPopupService,
+            protected settingsService: core.ISettingsService,
+            protected $stateParams: IProductListStateParams,
+            protected queryString: common.IQueryStringService,
+            protected $location: ng.ILocationService,
+            protected sessionService: account.ISessionService,
+            protected nbfWishListService: wishlist.INbfWishListService) {
+
+            super($scope, coreService, cartService, productService, compareProductsService, $rootScope, $window, $localStorage, paginationService, searchService, spinnerService, addToWishlistPopupService, settingsService, $stateParams, queryString, $location);
+        }
 
         init(): void {
             this.products.pagination = this.paginationService.getDefaultPagination(this.paginationStorageKey);
@@ -58,9 +87,9 @@ module insite.catalog {
                 if (windowsize < 767) {
                     setTimeout(
                         function () {
-                            $('#accord-10000').prop('checked', false);
+                            $("#accord-10000").prop("checked", false);
                         }, 2000);                    
-                    $('#accord-10000').removeAttr('checked');
+                    $("#accord-10000").removeAttr("checked");
                 }
             })
             this.$scope.$watch(() => this.category, (newCategory) => {
@@ -78,14 +107,14 @@ module insite.catalog {
             if (this.ready) {
                 this.spinnerService.show("productlist");
             }
-            if (this.categoryAttr != '') {
+            if (this.categoryAttr != "") {
                 this.filteredResults = true;
                 if (!params.names) {
                     params.names = [];
                 }
                 params.names.push(this.categoryAttr);
             }
-            expand = expand ? expand : ["pricing", "attributes", "facets"];
+            expand = expand ? expand : ["pricing", "attributes", "facets", "specifications"];
             this.productService.getProducts(params, expand).then(
                 (productCollection: ProductCollectionModel) => { this.getProductsCompleted(productCollection, params, expand); },
                 (error: any) => { this.getProductsFailed(error); });
@@ -153,9 +182,15 @@ module insite.catalog {
             }
 
             this.imagesLoaded = 0;
-            if (this.view === "grid") {
-                this.waitForDom();
-            }
+            this.waitForDom();
+
+
+            this.sessionService.getIsAuthenticated().then(result => {
+                this.isAuthenticated = result;
+                if (this.isAuthenticated) {
+                    this.getFavorites();
+                }
+            });
         }
 
         protected getFacets(categoryId: string): void {
@@ -165,7 +200,7 @@ module insite.catalog {
                 includeSuggestions: this.includeSuggestions,
                 names: null
             };
-            if (this.categoryAttr != '') {
+            if (this.categoryAttr != "") {
                 this.filteredResults = true;
                 if (!params.names) {
                     params.names = [];
@@ -209,11 +244,124 @@ module insite.catalog {
                 includeSuggestions: this.includeSuggestions,
                 getAllAttributeFacets: true
             });
-            console.dir(this.category);
+
             //Have to do this to get htmlcontent
             this.productService.getCategory(catalogPage.category.id.toString()).then((catalogPageResult) => {
                 this.category.htmlContent = catalogPageResult.htmlContent;
+                if (catalogPageResult.properties["extraContent"]) {
+                    if (!this.category.properties) {
+                        this.category.properties = {};
+                    }
+                    this.category.properties["extraContent"] = catalogPageResult.properties["extraContent"];
+                }
             });
+        }
+
+        protected getTop3Swatches(swatchesJson): string[] {
+            let retVal = [];
+            if (swatchesJson) {
+                let swatches = JSON.parse(swatchesJson) as any[];
+
+                if (swatches.length > 0) {
+                    var sorted = [];
+
+                    swatches.forEach(x => {
+                        let item = sorted.find(y => y.ModelNumber == x.ModelNumber);
+
+                        if (item == null) {
+                            sorted.push({ ModelNumber: x.ModelNumber, Count: 1 })
+                        }
+                        else {
+                            item.Count++;
+                        }
+                    });
+                    sorted.sort((a, b) => a.Count > b.Count ? 1 : -1);
+                    sorted = sorted.reverse();
+
+                    retVal = swatches.filter(x => x.ModelNumber == sorted[0].ModelNumber).slice(0, 3).map((x: any) => x.ImageName);
+                }
+            }
+
+            return retVal;
+        }
+
+        protected isAttributeValue(product: ProductDto, attrName: string, attrValue: string): boolean {
+            let retVal: boolean = false;
+
+            if (product && product.attributeTypes) {
+                var attrType = product.attributeTypes.find(x => x.name == attrName && x.isActive == true);
+
+                if (attrType) {
+                    var matchingAttrValue = attrType.attributeValues.find(y => y.value == attrValue);
+
+                    if (matchingAttrValue) {
+                        retVal = true;
+                    }
+                }
+            }
+            return retVal;
+        }
+
+        protected toggleFavorite(product: ProductDto) {
+            var favoriteLine = this.favoritesWishlist.wishListLineCollection.filter(x => x.productId === product.id);
+
+            if (favoriteLine.length > 0) {
+                //Remove lines
+                this.nbfWishListService.deleteLineCollection(this.favoritesWishlist, favoriteLine).then((result) => {
+                    this.getFavorites();
+                });
+            } else {
+                //Add Lines
+                var addLines = [product];
+                this.nbfWishListService.addWishListLines(this.favoritesWishlist, addLines).then(() => {
+                    this.getFavorites();
+                });
+            }
+        }
+
+        protected getFavorites() {
+            this.nbfWishListService.getWishLists("CreatedOn", "wishlistlines").then((wishList) => {
+                this.favoritesWishlist = wishList.wishListCollection[0];
+
+                this.products.products.forEach(product => {
+                    product.properties["isFavorite"] = "false";
+                    if (this.favoritesWishlist) {
+                        if (this.favoritesWishlist.wishListLineCollection) {
+                            if (this.favoritesWishlist.wishListLineCollection.filter(x => x.productId === product.id)[0]) {
+                                product.properties["isFavorite"] = "true";
+                            }
+                        } else {
+                            this.favoritesWishlist.wishListLineCollection = [];
+                        }
+                    } else {
+                        this.favoritesWishlist = {
+                            wishListLineCollection: [] as WishListLineModel[]
+                        } as WishListModel;
+                    }
+                });                
+            });
+        }
+
+        // Equalize the product grid after all of the images have been downloaded or they will be misaligned (grid view only)
+        protected waitForDom(tries?: number): void {
+            if (isNaN(+tries)) {
+                tries = 1000; // Max 20000ms
+            }
+
+            // If DOM isn't ready after max number of tries then stop
+            if (tries > 0) {
+                setTimeout(() => {
+                    ($(document) as any).foundation("equalizer","reflow");
+
+                    if (this.view === "grid") {
+                        if (this.imagesLoaded >= this.products.products.length) {
+                            this.cEqualize();
+                        } else {
+                            this.waitForDom(tries - 1);
+                        }
+                    }
+                }, 20);
+            }
         }
     }
 

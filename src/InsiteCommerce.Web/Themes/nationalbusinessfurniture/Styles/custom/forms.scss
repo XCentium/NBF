@@ -11,15 +11,26 @@ label {
 
 
 input[type="text"], select, input[type="email"], input[type="password"] {
-    border: 1px solid #D5D5D5;
+    border: 1px solid #868889;
     background-color: $nbf-white;
     height: 46px;
     padding: 0px 20px;
-    margin-bottom:30px;
+    margin-bottom: 30px;
 
     &:focus {
         border-color: $nbf-charcoal;
+        border-width: 2px;
         box-shadow: 0 2px 5px 0 rgba(0,0,0,0.1);
+    }
+
+    &.error {
+        border: 2px solid #D22338;
+        margin-bottom:0;
+
+        & + label.error {
+            font-size:14px;
+            margin-bottom:9px;
+        }
     }
 }
 
@@ -28,11 +39,11 @@ input[type="text"], select, input[type="email"], input[type="password"] {
 
     &:after {
         content: '\f078';
-        font-family:$FontAwesome;
+        font-family: $FontAwesome;
         color: #333;
         right: 5px;
         /*Adjust for position however you want*/
-        top: 48%;
+        top: 21px;
         -webkit-transform: translateY(-50%);
         -ms-transform: translateY(-50%);
         transform: translateY(-50%);
@@ -40,6 +51,7 @@ input[type="text"], select, input[type="email"], input[type="password"] {
         position: absolute;
         pointer-events: none;
     }
+
     &:focus:after {
         content: '\f077';
     }
@@ -48,7 +60,8 @@ input[type="text"], select, input[type="email"], input[type="password"] {
         -webkit-appearance: none;
         -moz-appearance: none;
         appearance: none;
-        width:100%  !important;
+        background-image:none;
+        width: 100% !important;
     }
 }
 
@@ -67,5 +80,90 @@ input[type="text"], select, input[type="email"], input[type="password"] {
 
     input {
         padding-left: 50px;
+    }
+}
+
+input.customcheckbox[type=checkbox] {
+    visibility: hidden;
+    position: absolute;
+
+    & + label {
+        margin-left:0;
+        position:relative;
+
+        &:before {
+            content: '';
+            display: inline-block;
+            height: 14px;
+            width: 14px;
+            border: 1px solid #868889;
+            vertical-align: text-top;
+            margin-right: 10px;
+        }
+    }
+
+
+    &:checked {
+
+        & + label {
+            &:before {
+                background-color: #868889;
+            }
+
+            &:after {
+                background-color: #fff;
+                content: '';
+                display: block;
+                position: absolute;
+                left: 5px;
+                top: 8px;
+                height: 4px;
+                width: 4px;
+            }
+        }
+    }
+}
+
+
+input.customradio[type=radio] {
+    visibility: hidden;
+    position: absolute;
+
+    & + label {
+        margin-left: 0;
+        position: relative;
+
+        &:before {
+            content: '';
+            display: inline-block;
+            height: 14px;
+            width: 14px;
+            border: 1px solid #868889;
+            vertical-align: text-top;
+            margin-right: 10px;
+            @include border-radius(50px);
+        }
+    }
+
+
+    &:checked {
+
+        & + label {
+            &:before {
+                background-color: #868889;
+            }
+
+            &:after {
+                background-color: #fff;
+                content: '';
+                display: block;
+                position: absolute;
+                left: 5px;
+                top: 8px;
+                height: 4px;
+                width: 4px;
+                @include border-radius(50px);
+            }
+        }
     }
 }

@@ -20,8 +20,8 @@ SELECT
 FROM
 	dbo.ProductImage pim
 	join Product p on p.Id = pim.ProductId
-where
-	p.Id = 'CDA872B9-87FD-E711-A98C-A3E0F1200094'
+--where
+--	p.Id = 'CDA872B9-87FD-E711-A98C-A3E0F1200094'
 /*
 select * from vwProductImage
 */

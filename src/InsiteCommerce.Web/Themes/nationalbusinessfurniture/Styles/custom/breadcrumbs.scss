@@ -21,23 +21,25 @@
     padding: 18.5px 0 18.5px 0;
     background: none;
     border: 0;
-    padding-left:50px;
-    margin:0;
+    padding-left: 50px;
+    margin: 0;
 
     li {
         line-height: normal;
-        text-transform:uppercase;
-        font-size:16px;
+        text-transform: uppercase;
+        font-size: 16px;
 
-        a{
+
+        a {
             color: $nbf-navy;
-            text-decoration:none;
+            text-decoration: none;
         }
     }
 
     & > .current {
         color: $nbf-navy;
-        font-family:$ProximaNova-bold;
+        font-family: $ProximaNova;
+        font-weight: 700;
     }
 
     & > *:before {
@@ -59,28 +61,33 @@
 }
 
 .share-links {
-     padding: 18.5px 0 18.5px 0;
+    padding: 18.5px 0 18.5px 0;
     background: none;
     border: 0;
-    padding-right:50px;
-    float:right;
+    padding-right: 50px;
+    float: right;
     line-height: 1px;
     height: 55px;
-    list-style:none;
-    margin:0;
-    border-left:1px solid $divider-gray;
+    list-style: none;
+    margin: 0;
+    border-left: 1px solid $divider-gray;
 
-    li{
-        display:inline-block;
+    li {
+        display: inline-block;
         font-size: 16px;
-        padding-left:30px;
+        padding-left: 30px;
         line-height: normal;
+        color: $nbf-navy;
+
+        a {
+            color: $nbf-navy;
+        }
     }
 
     .btn-sahre {
-         padding: 10px 30px;
-         display: inline;
-         margin-top:-10px;
+        padding: 10px 30px;
+        display: inline;
+        margin-top: -10px;
     }
 }
 

@@ -27,6 +27,7 @@ begin
 		[ShippingWeight],[ShippingLength],[ShippingWidth],[ShippingHeight],
 		[QtyPerShippingPackage],[ShippingAmountOverride],[UrlSegment],[ContentManagerId],[ERPNumber],[UPCCode],
 		[StyleClassId],[StyleParentId],[IsDiscontinued],[ManufacturerItem],[Unspsc],[UnitOfMeasureDescription],[VendorId],
+		[ModelNumber], [ProductCode], [PackDescription],
 		[CreatedOn],[CreatedBy],[ModifiedOn],[ModifiedBy]
 	)
 	select 
@@ -34,6 +35,7 @@ begin
 		[ShippingWeight],[ShippingLength],[ShippingWidth],[ShippingHeight],
 		[QtyPerShippingPackage],[ShippingAmountOverride],[UrlSegment],[ContentManagerId],[ERPNumber],[UPCCode],
 		[StyleClassId],[StyleParentId],[IsDiscontinued],[ManufacturerItem],[Unspsc],[UnitOfMeasureDescription],[VendorId],
+		[ModelNumber], [ProductCode], [PackDescription],
 		[CreatedOn],[CreatedBy],[ModifiedOn],[ModifiedBy]
 	from
 		Product etl
@@ -64,7 +66,6 @@ begin
 		Sku = etl.Sku,
 		ActivateOn = etl.ActivateOn,
 		DeactivateOn = etl.DeactivateOn,
-		TaxCode1 = etl.TaxCode1,
 		ShippingWeight = etl.ShippingWeight,
 		ShippingLength = etl.ShippingLength,
 		ShippingWidth = etl.ShippingWidth,
@@ -79,9 +80,14 @@ begin
 		[StyleParentId] = etl.[StyleParentId],
 		[IsDiscontinued] = etl.[IsDiscontinued],
 		[ManufacturerItem] = etl.[ManufacturerItem],
+		[ModelNumber] = etl.[ModelNumber],
+		[ProductCode] = etl.[ProductCode],
+		[PackDescription] = etl.[PackDescription],
 		[Unspsc] = etl.[Unspsc],
 		[UnitOfMeasureDescription] = etl.[UnitOfMeasureDescription],
 		VendorId = etl.VendorId,
+		BasicSalePrice = etl.BasicSalePrice,
+		BasicSaleStartDate = etl.BasicSaleStartDate,
 		CreatedOn = etl.CreatedOn,
 		CreatedBy = etl.CreatedBy,
 		ModifiedBy = etl.ModifiedBy,
