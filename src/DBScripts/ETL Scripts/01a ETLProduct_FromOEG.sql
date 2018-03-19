@@ -67,7 +67,6 @@ begin
 		ShortDescription = ltrim(rtrim(isnull(spwd.[Description],''))),
 		UnitOfMeasure = isnull(luUOM.Code,'EA'),
 		UnitOfMeasureDescription = isnull(luUOM.[Name],'Each'),
-		ShippingWeight = 0,
 		ShippingLength = 0,
 		ShippingWidth = 0,
 		ShippingHeight = 0,
@@ -97,6 +96,16 @@ begin
 		sp.BrandId = @brand
 		and isnull(spwd.[Description],'') != ''
 
+	-- update weight on base product 
+	update Product set
+		ShippingWeight = isnull(sisku.Weight,0)
+	from 
+		OEGSystemStaging.dbo.Products sp
+		join OEGSystemStaging.dbo.ProductSKUs spsku on spsku.ProductId = sp.ProductId
+		join OEGSystemStaging.dbo.ItemSKUs sisku on sisku.ItemSKUId = spsku.ItemSKUId
+		join Product p on p.ERPNumber = sp.Number
+	where 
+		sp.BrandId = @brand
 		
 	--variant product info per website
 
