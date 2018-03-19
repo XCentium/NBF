@@ -63,6 +63,14 @@
         background-color: rgba(255, 255, 255, .95);
         width: 568px;
 
+        h1 {
+            margin-bottom: .25em;
+        }
+
+        p {
+            font-size: 24px;
+        }
+
         .btn-primary {
             @media all and (max-width: 767px) {
                 width: 100%;

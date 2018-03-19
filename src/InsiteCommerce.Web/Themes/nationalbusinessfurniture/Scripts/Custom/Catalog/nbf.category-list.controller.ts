@@ -67,9 +67,24 @@
                 }
                 this.category.subCategories = cats;
             }
+
+            this.waitForDom();
         }
 
         protected getCategoryFailed(error: any): void {
+        }
+
+        protected waitForDom(tries?: number): void {
+            if (isNaN(+tries)) {
+                tries = 1000; // Max 20000ms
+            }
+
+            // If DOM isn't ready after max number of tries then stop
+            if (tries > 0) {
+                setTimeout(() => {
+                    ($(document) as any).foundation("equalizer", "reflow");
+                }, 20);
+            }
         }
     }
 
