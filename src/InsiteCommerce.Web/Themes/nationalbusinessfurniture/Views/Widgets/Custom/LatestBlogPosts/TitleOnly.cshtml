@@ -1,13 +1,4 @@
-﻿<style type="text/css">
-    [% for page in Model.Drop.PageLinks -%] 
-    .blog-[[page.Number]] {
-        background-image: url('[[page.BackgroundImageUrl]]');
-        background-position: [[page.BackgroundImageFocalPosition]];
-    }
-    [% endfor -%]
-</style>
-
-<div class="row">
+﻿<div class="row">
     <div class="medium-12 large-12 columns widget-1column narrow-container">
         <div class="row">
             <div class="medium-12 large-12 columns widget-1column">
@@ -23,7 +14,7 @@
             [% for page in Model.Drop.PageLinks -%]
             <div class="latest-blog__item">
                 <a href="[[page.Url]]">
-                    <div class="latest-blog__image blog-[[page.Number]]">
+                    <div class="latest-blog__image" style="background-image: url('[[page.BackgroundImageUrl]]');background-position:[[page.BackgroundImageFocalPosition]];">
                     </div>
                     <div class="latest-blog__desc">
                         <h4>[[page.Title]]</h4>
