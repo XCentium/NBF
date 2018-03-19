@@ -11,6 +11,9 @@ begin
 	exec dbo.IsDataReady  'OEGSystem Snapshot', @IsReady output
 	if @IsReady = 0	return;
 
+	declare @brand int
+	set @brand = 1
+	
 	-- copy dependency tables
 	--insert into RuleType
 	--select * from [Insite.NBF].dbo.RuleType
@@ -69,6 +72,7 @@ begin
 			and spwd4.TypeId = 4
 	where 
 		p.ContentManagerId not in (select ContentManagerId from Content)
+		and sp.BrandId = @brand
 
 
 	end

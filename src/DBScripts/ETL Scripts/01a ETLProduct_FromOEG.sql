@@ -58,18 +58,19 @@ begin
 		sp.BrandId = @brand
 		and isnull(sp.Number,'') != ''
 		and sp.Number not like '%[_]%'
+		and isnull(spwd.[Description],'') != ''
 		and sp.Number not in (select ERPNumber from Product)
 	
 
 	update Product set
 		ERPDescription = ltrim(rtrim(isnull(si.[Description],''))),
 		ShortDescription = ltrim(rtrim(isnull(spwd.[Description],''))),
-		UnitOfMeasure = isnull(luUOM.Code,''),
-		UnitOfMeasureDescription = isnull(luUOM.[Name],''),
-		ShippingWeight = isnull(scd.[Weight],0),
-		ShippingLength = isnull(scd.[Length],0),
-		ShippingWidth = isnull(scd.[Width],0),
-		ShippingHeight = isnull(scd.[Height],0),
+		UnitOfMeasure = isnull(luUOM.Code,'EA'),
+		UnitOfMeasureDescription = isnull(luUOM.[Name],'Each'),
+		ShippingWeight = 0,
+		ShippingLength = 0,
+		ShippingWidth = 0,
+		ShippingHeight = 0,
 		ShippingAmountOverride = isnull(sp.DeliveryAmount,0),
 		QtyPerShippingPackage = 0,
 		UrlSegment = LOWER(replace(dbo.UrlFriendlyString(ltrim(rtrim(isnull(spwd.[Description],''))) + '-' + sp.Number),'/','-')),
@@ -77,6 +78,7 @@ begin
 		ActivateOn = isnull(sp.FirstAvailableDate,dateadd(day, 10, SYSDATETIMEOFFSET())),
 		DeactivateOn = case when luStatus.Name = 'Active' then null else dateadd(day, -1, SYSDATETIMEOFFSET()) end,
 		VendorId = v.Id,
+		Unspsc = format(isnull(sp.ImageRows,0),'00')+format(isnull(sp.ImageColumns,0),'00'), -- for 360 spin
 		CreatedOn = isnull(sp.CreatedDate,SYSDATETIMEOFFSET()),
 		CreatedBy = 'etl',
 		ModifiedOn = isnull(sp.ModifiedDate,SYSDATETIMEOFFSET()),
@@ -87,13 +89,13 @@ begin
 		left join OEGSystemStaging.dbo.ProductsWebDescriptions spwd on spwd.ProductId = sp.ProductId
 			and spwd.TypeId = 1
 		left join OEGSystemStaging.dbo.LookupUnitOfMeasures luUOM on luUOM.Id = si.UnitOfMeasureId
-		left join OEGSystemStaging.dbo.ItemCartonDimensions scd on scd.ItemId = si.ItemId
 		left join OEGSystemStaging.dbo.LookupItemStatuses luStatus on luStatus.Id = sp.StatusId
 		left join OEGSystemStaging.dbo.Vendors sv on sv.VendorId = sp.DisplayVendorId
 			join Vendor v on v.VendorNumber = sv.Code
 		join Product p on p.ERPNumber = sp.Number
 	where 
 		sp.BrandId = @brand
+		and isnull(spwd.[Description],'') != ''
 
 		
 	--variant product info per website
@@ -120,19 +122,20 @@ begin
 		sp.BrandId = @brand
 		and isnull(sp.Number,'') != ''
 		and sp.Number not like '%[_]%'
+		and isnull(spwd.[Description],'') != ''
 		and sp.Number + '_' + spsku.OptionCode not in (select ERPNumber from Product)
 
 
 	update Product set
 		ERPDescription = ltrim(rtrim(isnull(sisku.[Description],''))),
 		ShortDescription = ltrim(rtrim(isnull(spwd.[Description],''))) + ' - ' + ltrim(rtrim(isnull(spsku.[Description],''))),
-		UnitOfMeasure = isnull(luUOM.Code,''),
-		UnitOfMeasureDescription = isnull(luUOM.[Name],''),
+		UnitOfMeasure = isnull(luUOM.Code,'EA'),
+		UnitOfMeasureDescription = isnull(luUOM.[Name],'Each'),
 		Sku = isnull(sisku.SKUNumber,''),
-		ShippingWeight = isnull(scd.[Weight],0),
-		ShippingLength = isnull(scd.[Length],0),
-		ShippingWidth = isnull(scd.[Width],0),
-		ShippingHeight = isnull(scd.[Height],0),
+		ShippingWeight = isnull(sisku.Weight,0),
+		ShippingLength = 0,
+		ShippingWidth = 0,
+		ShippingHeight = 0,
 		ShippingAmountOverride = isnull(sp.DeliveryAmount,0),
 		QtyPerShippingPackage = case when isnull(si.RequireTruck,0) > 0 then si.RequireTruck when isnull(sisku.ShipTypeId,0) = 12 then 1 else 0 end,
 		UrlSegment = sp.Number + '-' + convert(nvarchar(max),spsku.ProductSKUId),
@@ -154,13 +157,13 @@ begin
 		join OEGSystemStaging.dbo.ProductSKUs spsku on spsku.ProductId = sp.ProductId
 		join OEGSystemStaging.dbo.ItemSKUs sisku on sisku.ItemSKUId = spsku.ItemSKUId
 		left join OEGSystemStaging.dbo.LookupUnitOfMeasures luUOM on luUOM.Id = si.UnitOfMeasureId
-		left join OEGSystemStaging.dbo.ItemCartonDimensions scd on scd.ItemId = si.ItemId
 		left join OEGSystemStaging.dbo.LookupItemStatuses luStatus on luStatus.Id = sp.StatusId
 		left join OEGSystemStaging.dbo.Vendors sv on sv.VendorId = sp.DisplayVendorId
 			join Vendor v on v.VendorNumber = sv.Code
 		join Product p on p.ERPNumber = sp.Number + '_' + spsku.OptionCode
 	where 
 		sp.BrandId = @brand
+		and isnull(spwd.[Description],'') != ''
 
 	-- we need specification records for each specification
 	insert into Specification
@@ -168,18 +171,28 @@ begin
 	select newid(), 'Dimensions', 'Dimensions', 1, 'etl', 'etl', Id
 	from Product
 	where Id not in (select ProductId from Specification where [Name] = 'Dimensions')
-	
+	and ERPNumber not like '%:%' -- ignore swatches
+
 	insert into Specification
 	(ContentManagerId, [Name], [Description], IsActive, CreatedBy, ModifiedBy, ProductId)
 	select newid(), 'Vendor Code', 'Vendor Code', 0, 'etl', 'etl', Id
 	from Product
 	where Id not in (select ProductId from Specification where [Name] = 'Vendor Code')
+	and ERPNumber not like '%:%' -- ignore swatches
 
 	insert into Specification
 	(ContentManagerId, [Name], [Description], IsActive, CreatedBy, ModifiedBy, ProductId)
 	select newid(), 'Collection', 'Collection', 1, 'etl', 'etl', Id
 	from Product
 	where Id not in (select ProductId from Specification where [Name] = 'Collection')
+	and ERPNumber not like '%:%' -- ignore swatches
+
+	insert into Specification
+	(ContentManagerId, [Name], [Description], IsActive, CreatedBy, ModifiedBy, ProductId)
+	select newid(), 'Features', 'Features', 1, 'etl', 'etl', Id
+	from Product
+	where Id not in (select ProductId from Specification where [Name] = 'Features')
+	and ERPNumber not like '%:%' -- ignore swatches
 
 	-- make sure we have a content manager record for each of the specifications
 
@@ -188,7 +201,8 @@ begin
 	select ContentManagerId, 'Specification', 'etl', 'etl'  
 	from Specification
 	where ContentManagerId not in (select Id from ContentManager)
-	
+	and ProductId not in (select Id from Product where ERPNumber like '%:%') -- ignore swatches
+
 	-- make sure we have a content manager record for each of the products
 
 	insert into ContentManager
@@ -196,7 +210,7 @@ begin
 	select ContentManagerId, 'Product', 'etl', 'etl'
 	from Product
 	where ContentManagerId not in (select Id from ContentManager)
-	and ContentManagerId != '00000000-0000-0000-0000-000000000000'
+	and ERPNumber not like '%:%' -- ignore swatches
 
 	-- tie up the style parent for each of the variants
 	;with parentProduct as
@@ -214,7 +228,7 @@ begin
 	join parentProduct pp on pp.ERPNumber = rtrim(left(p.ERPNumber, CHARINDEX('_', p.ERPNumber) - 1))
 	where 
 		p.ERPNumber like '%[_]%'
-
+		and p.ERPNumber not like '%:%'
 
 	-- we can truncate these tables as they have no dependencies and can be added and removed from source
 	truncate table StyleTraitValueProduct
@@ -264,6 +278,10 @@ begin
 	where
 		sp.BrandId = @brand
 
+	-- data fix up
+
+	update Product set ShortDescription = 'need a short description' where ShortDescription = ''
+
 /*
 
 exec ETLProduct_FromOEG
@@ -278,6 +296,32 @@ select * from styletrait
 --delete from StyleTraitValue where createdby = 'etl'
 --delete from StyleTrait where createdby = 'etl'
 --delete from StyleClass where createdby = 'etl'
+
+
+delete from Content where ContentManagerId in (
+select Id from ContentManager
+where Id in (
+select ContentManagerId from Specification where ProductId in (select Id from Product where ERPNumber like '%:%')
+))
+
+delete from ContentManager
+where Id in (
+select ContentManagerId from Specification where ProductId in (select Id from Product where ERPNumber like '%:%')
+)
+
+delete from Specification where ProductId in (select Id from Product where ERPNumber like '%:%')
+
+	delete from ProductImage where ProductId in (
+	select p.Id from 
+		Product p 
+		join OEGSystemStaging.dbo.ItemSwatches sis on convert(nvarchar(max),sis.SwatchId) = RIGHT(p.ERPNumber,CHARINDEX(':',REVERSE(p.ERPNumber))-1) 
+	where
+		p.ContentManagerId = '00000000-0000-0000-0000-000000000000'
+		)
+
+delete from customerproduct where productid in (select id from Product where ERPNumber like '%:%')
+delete from Product where ERPNumber like '%:%'
+
 
 */
 

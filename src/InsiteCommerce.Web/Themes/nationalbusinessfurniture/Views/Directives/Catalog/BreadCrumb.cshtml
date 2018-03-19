@@ -4,17 +4,27 @@
 
     breadcrumbs is a list of objects of type BreadCrumbModel
 {% endcomment %}
+        <div class="row breadcrumb-wrap clearfix">
+            <ul class="breadcrumbs" ng-class="{bsearch: searchQuery}">
+                <li ng-repeat="crumb in breadcrumbs" ng-class="{'hide-for-small': (breadcrumbs.length - $index) != 2, 'current': $last}">
+                    <a ng-if="crumb.url" ng-href="{{crumb.url}}">{{crumb.text}}</a>
+                    <isc-no-element ng-show="!crumb.url">{{crumb.text}}</isc-no-element>
+                </li>
+                <li ng-if="searchQuery">
+                    <a href="[% urlForPage 'HomePage' %]">[% translate 'Home' %]</a>
+                </li>
+                <li ng-if="searchQuery" class="hide-for-small current">
+                    [% translate 'Search Results:' %]
+                    <em>{{searchQuery}}</em>
+                </li>
+            </ul>
 
-<ul class="breadcrumbs" ng-class="{bsearch: searchQuery}">
-    <li ng-repeat="crumb in breadcrumbs" ng-class="{'hide-for-small': (breadcrumbs.length - $index) != 2, 'current': $last}">
-        <a ng-if="crumb.url" ng-href="{{crumb.url}}">{{crumb.text}}</a>
-        <isc-no-element ng-show="!crumb.url">{{crumb.text}}</isc-no-element>
-    </li>
-    <li ng-if="searchQuery">
-        <a href="[% urlForPage 'HomePage' %]">[% translate 'Home' %]</a>
-    </li>
-    <li ng-if="searchQuery" class="hide-for-small current">
-        [% translate 'Search Results:' %]
-        <em>{{searchQuery}}</em>
-    </li>
-</ul>
+            <ul class="share-links">
+                <li>Share</li>
+                <li class="cell"><a href="#"><i class="fa fa-envelope" aria-hidden="true"></i></a></li>
+                <li class="cell"><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+                <li class="cell"><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+                <li class="cell"><a href="#"><i class="fa fa-pinterest-p" aria-hidden="true"></i></a></li>
+                <li class="cell"><a href="#" class="ico ico-printer-with-paper" aria-hidden="true"></a></li>
+            </ul>
+        </div>

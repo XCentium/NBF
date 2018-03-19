@@ -55,18 +55,23 @@ begin
 	insert into Product 
 	(
 		ERPNumber, 
-		[Name], ERPDescription, 
+		[Name], 
 		ShortDescription, 
-		ProductCode, ModelNumber, 
+		ProductCode, 
+		ModelNumber, 
 		UrlSegment, 
+		ERPDescription,
+		PackDescription,
 		ContentManagerId, CreatedBy, ModifiedBy
 	)
 	select  distinct
 		p.ERPNumber + ':' + st.[Description] + ':' + stv.[Description] ERPNumber,
-		stv.[Value] [Name], '' ERPDescription,
+		stv.[Value] [Name],
 		p.ShortDescription + ' - ' + st.[Name] + ' - ' + stv.[Value]  ShortDescription,
-		p.ERPNumber ProductCode, st.[Name] ModelNumber,
+		p.ERPNumber ProductCode, 
+		st.[Name] ModelNumber,
 		LOWER(replace(dbo.UrlFriendlyString(ltrim(rtrim(isnull(p.ERPNumber + ':' + st.[Name] + ':' + stv.[Value],'')))),'/','-')) UrlSegment,
+		st.Id, stv.Id,
 		'00000000-0000-0000-0000-000000000000' ContentManagerId, 'etl', 'etl'
 	from 
 		StyleTraitValueProduct stvp
@@ -80,7 +85,27 @@ begin
 	order by
 		p.ERPNumber, st.[Name], stv.[Value]
 
+	-- in case swatch group name or values are updated
+	update Product set
+		[Name] = stv.[Value],
+		ShortDescription = p.ShortDescription + ' - ' + st.[Name] + ' - ' + stv.[Value],
+		ModelNumber = st.[Name],
+		UrlSegment = LOWER(replace(dbo.UrlFriendlyString(ltrim(rtrim(isnull(p.ERPNumber + ':' + st.[Name] + ':' + stv.[Value],'')))),'/','-'))
+	from StyleTraitValue stv
+		join StyleTrait st on st.Id = stv.StyleTraitId 
+		join StyleClass sc on sc.Id = st.StyleClassId
+		join Product p on p.ERPNumber = sc.[Name] + ':' + st.[Description] + ':' + stv.[Description]
 
+
+	-- image info 
+	update Product set
+		ManufacturerItem = isnull(sis.WebPath,'')
+	from 
+		Product p 
+		join OEGSystemStaging.dbo.ItemSwatches sis on convert(nvarchar(max),sis.SwatchId) = RIGHT(p.ERPNumber,CHARINDEX(':',REVERSE(p.ERPNumber))-1) 
+	where
+		p.ContentManagerId = '00000000-0000-0000-0000-000000000000'
+		and not exists (select Id from ProductImage where ProductId = p.Id)
 
 	-- associate every swatch product with the new swatch category
 	insert into CategoryProduct
@@ -99,9 +124,6 @@ begin
 /*
 
 exec ETLSwatchProducts_FromOEG
-select * from product where createdon > '2018-02-07 06:05:25.0633333 +00:00' order by createdon desc
-select * from category order by createdon desc
---delete from category
-
+62079 
 */
 end

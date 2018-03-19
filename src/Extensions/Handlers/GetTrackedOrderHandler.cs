@@ -16,14 +16,7 @@ namespace Extensions.Handlers
     public class GetTrackedOrderHandler : HandlerBase<GetTrackingOrderParameter, GetOrderResult>
     {
         protected readonly Lazy<INbfGetOrderHelper> GetOrderHelper;
-
-        public override int Order
-        {
-            get
-            {
-                return 500;
-            }
-        }
+        public override int Order => 500;
 
         public GetTrackedOrderHandler(Lazy<INbfGetOrderHelper> getOrderHelper)
         {

@@ -1,0 +1,352 @@
+﻿@import "../variables";
+
+/* Modals */
+
+.reveal-modal {
+    /*height: 0;
+    padding: 0;
+    background: none;*/
+    border: none;
+    @include border-radius(0);
+    box-shadow: none;
+    width: 90%;
+    /*position: fixed;
+    top: 20px !important;*/
+}
+
+.reveal-modal .modal-wrap {
+    background-color: white;
+    padding: 1.25em;
+    border: solid 1px #ddd;
+    -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    max-width: 100%;
+    text-align: left;
+}
+
+@media all and (max-width: 767px) {
+    .reveal-modal {
+        left: 5%;
+        min-height: 1em; // Foundation override
+    }
+}
+
+.reveal-modal .modal-wrap > h1,
+.reveal-modal .modal-wrap > h2,
+.reveal-modal .modal-wrap > h4 {
+    margin-top: 0;
+    width: 80%;
+}
+
+.reveal-modal .modal-wrap .message {
+    margin-bottom: 1.5em;
+    font-size: 14px;
+}
+
+
+/* Modal - swatch order form */
+
+.swatchform {
+    padding-bottom: 0;
+
+    &__type__title {
+        margin-bottom: 40px;
+    }
+
+    &__list {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        padding-bottom: 20px;
+        margin-bottom: 20px;
+        border-bottom: 1px solid $divider-gray;
+    }
+
+    &__item {
+        display: inline-block;
+        padding: 10px;
+        margin-right: 10px;
+        border: 2px solid #fff;
+
+        img {
+            width: 60px;
+            border: 1px solid #D5D5D5;
+            height: 60px;
+        }
+
+        &.active {
+            border: 2px solid #CB563E;
+        }
+    }
+
+    &__footer {
+        text-align: center;
+        border-top: 1px solid $divider-gray;
+        padding: 11px 0;
+
+        .btn {
+            margin-bottom: 0 !important;
+            width: 260px;
+        }
+    }
+
+    &__scrollarea {
+        height: 600px;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+}
+
+
+/* Modal - Add to Cart Notification */
+
+#AddToCartPopup .modal-wrap {
+    max-width: 480px;
+}
+
+#AddToCartPopup .modal-wrap h4 {
+    display: none;
+}
+
+/* Modal - Add Wishlist */
+
+.popup-add-wishlist .modal-wrap {
+    max-width: 480px;
+}
+
+.popup-add-wishlist .thor {
+    margin-bottom: .5em;
+    margin-top: -.75em;
+    font-weight: bold;
+    font-style: italic;
+    text-transform: uppercase;
+}
+
+.popup-add-wishlist .modal-wrap .message {
+    margin-bottom: 0;
+}
+
+.popup-add-wishlist .columns {
+    padding-left: 0;
+}
+
+.popup-add-wishlist .large-5 label {
+}
+
+@media all and (min-width: 768px) {
+    .popup-add-wishlist .large-7.columns {
+        padding-right: 0;
+    }
+}
+
+/* Modal - Create Wishlist */
+
+.popup-create-wishlist .modal-wrap {
+    max-width: 480px;
+}
+
+/* Modal - Delete Wishlist */
+
+.popup-delete-wishlist-confirm .modal-wrap {
+    max-width: 480px;
+}
+
+/* Modal - Forgot PW */
+
+.popup-forgot-pw .modal-wrap {
+    max-width: 480px;
+}
+
+.popup-forgot-pw .email-addy .large-5 {
+    padding-left: 0;
+}
+
+.popup-forgot-pw .email-addy .large-7 {
+    padding: 0;
+}
+
+.popup-forgot-pw .btns {
+    margin: .5em 0;
+}
+
+.popup-forgot-pw .btns .btn {
+    float: right;
+    margin-left: 1em;
+}
+
+@media all and (max-width: 767px) {
+    .popup-forgot-pw .btns .btn {
+        width: 100%;
+        margin: 0 0 1em 0;
+    }
+}
+
+/* Modal - Security Code */
+
+.popup-security-code .modal-wrap {
+    max-width: 660px;
+}
+
+/* Modal - Share */
+
+.popup-share .modal-wrap {
+    max-width: 480px;
+}
+
+.popup-share .modal-wrap textarea {
+    height: 150px;
+}
+
+/* Modal - Requisition Detail */
+
+.popup-requisition .modal-wrap {
+}
+
+.popup-requisition .col-qty-remove input {
+    width: 50px;
+    display: inline-block;
+    float: left;
+    margin-right: 0.5em;
+}
+
+.popup-requisition .col-qty-remove .btn {
+    display: inline-block;
+    float: left;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    padding: 0;
+    font-size: 1em;
+}
+
+.popup-requisition .item-list .item-details {
+    padding-right: 1em !important;
+}
+
+.popup-requisition .item-list .item-code-notes {
+    width: 100%;
+    padding: 0 1em .5em 1em !important;
+}
+
+.popup-requisition .item-list .item-code-notes strong {
+    display: block;
+    margin-bottom: .25em;
+}
+
+.popup-requisition .btns {
+    margin-bottom: 1.5em;
+}
+
+@media all and (max-width: 767px) {
+
+    .popup-requisition .info-tbl {
+        margin-bottom: 0;
+    }
+
+    .popup-requisition table.info-tbl td {
+        height: 90px !important;
+    }
+}
+
+@media all and (max-width: 480px) {
+
+    .popup-requisition {
+        width: 100%;
+        left: 0;
+    }
+
+    .popup-requisition .modal-wrap {
+        padding-left: .75em;
+        padding-right: .75em;
+    }
+
+    .popup-requisition table.info-tbl td {
+        height: 120px !important;
+    }
+
+    .popup-requisition .info-tbl td,
+    .popup-requisition .info-tbl th {
+        font-size: 12px;
+    }
+}
+
+.reveal-modal .close-reveal-modal {
+    font-size: 2em;
+    font-weight: 400;
+    text-decoration: none;
+    color: #868686;
+    padding: 0 9px;
+    top: .25em;
+    right: .25em;
+    background: #fff;
+    height: 30px;
+}
+
+.reveal-modal .close-reveal-modal:hover, .reveal-modal .close-reveal-modal:focus {
+    color: inherit;
+}
+
+.reveal-modal .close-on-click {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    font-size: 0;
+    background: none transparent;
+}
+
+.reveal-modal .close-on-click:after {
+    content: " ";
+    display: table-cell;
+    clear: both;
+}
+
+.reveal-modal .close-on-click h5 {
+    margin-top: 0;
+}
+
+/* Survey Modal */
+
+.reveal-modal.survey-modal .modal-wrap {
+    width: auto;
+}
+
+// Product Subscription Modal
+
+@media (min-width: 768px) {
+    #popup-product-subscription {
+        margin-top: 3rem;
+    }
+}
+
+#popup-product-subscription {
+    max-width: 360px;
+}
+
+#popup-product-subscription span {
+    font-weight: bold;
+}
+
+#popup-product-subscription input {
+    margin-right: 0;
+}
+
+#popup-product-subscription .month-column-1 {
+    width: 50%;
+    float: left;
+}
+
+#popup-product-subscription .month-column-2 {
+    width: 50%;
+    float: right;
+}
+
+#popup-product-subscription button {
+    margin: 1rem 0 0 .5rem;
+    float: right;
+}

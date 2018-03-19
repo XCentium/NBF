@@ -1,95 +1,71 @@
-﻿
-<style>
-    .link1 {
-        top:23%;
-        left:78%;
-    }
-    .link2 {
-        top:79%;
-        left:23%;
-    }
-    .link3 {
-        top:50%;
-        left:50%;
-    }
-</style>
-
-<div class="row"  ng-controller="NbfShopTheLookDetailsController as vm">
-    <div class="medium-12 large-12 columns widget-1column no-margin shopthelookdetail shopthelookwidget [[Model.CssClass]]">
+﻿<div class="row" ng-controller="NbfShopTheLookWidgetController as vm" product-string="[[Model.ProductAndHotSpotString]]" ng-cloak>
+    <div class="medium-12 large-12 columns widget-1column narrow-container shopthelookdetail [[Model.CssClass]]">
         <div class="row">
-            <div class="small-12 columns">
-               <div class="shopthelookdetail__image-col">
-                   <div>
-                       <img src="https://i.pinimg.com/originals/9d/fa/6b/9dfa6bbbaafeed0614384678a8b2d9d7.jpg" />
-                       <div class="hotspot has-tip link1">
-                           <div class="tooltip">
-                               <div class="tooltip__img">
-                                   <img src="https://soimagescdn.azureedge.net/productimage/learniture/lnt-inm3016-so_navy.jpg?width=115&height=115&version=v20171222"/>
-                               </div>
-                               <div class="tooltip__details">
-                                   <div class="tooltip__details__desc">
-                                       Kreature Mid-Back Desk Chair
-                                   </div>
-                                   <div class="tooltip__details__number">
-                                       Item No: 50586
-                                   </div>
-                                   <div class="tooltip__details__price">
-                                      $395
-                                   </div>
-                               </div>
-                               <div class="tooltip__details__btn">
-                                   <a href="http://www.google.com/" class="btn btn-primary">See Product Details</a>
-                               </div>
-                           </div>
-                       </div>
-                       <div class="hotspot has-tip link2">
-                           <div class="tooltip">
-                               <div class="tooltip__img">
-                                   <img src="https://soimagescdn.azureedge.net/productimage/learniture/lnt-inm3016-so_navy.jpg?width=115&height=115&version=v20171222" />
-                               </div>
-                               <div class="tooltip__details">
-                                   <div class="tooltip__details__desc">
-                                       Kreature Mid-Back Desk Chair
-                                   </div>
-                                   <div class="tooltip__details__number">
-                                       Item No: 50586
-                                   </div>
-                                   <div class="tooltip__details__price">
-                                       $395
-                                   </div>
-                               </div>
-                               <div class="tooltip__details__btn">
-                                   <a href="http://www.google.com/" class="btn btn-primary">See Product Details</a>
-                               </div>
-                           </div>
-                       </div>
-                       <div class="hotspot has-tip link3">
-                           <div class="tooltip">
-                               <div class="tooltip__img">
-                                   <img src="https://soimagescdn.azureedge.net/productimage/learniture/lnt-inm3016-so_navy.jpg?width=115&height=115&version=v20171222" />
-                               </div>
-                               <div class="tooltip__details">
-                                   <div class="tooltip__details__desc">
-                                       Kreature Mid-Back Desk Chair
-                                   </div>
-                                   <div class="tooltip__details__number">
-                                       Item No: 50586
-                                   </div>
-                                   <div class="tooltip__details__price">
-                                       $395
-                                   </div>
-                               </div>
-                               <div class="tooltip__details__btn">
-                                   <a href="http://www.google.com/" class="btn btn-primary">See Product Details</a>
-                               </div>
-                           </div>
-                       </div>
-                   </div>
-                   <div class="shopthelookwidget__content shopthelookwidget__content--topleft">
-                       <h1>Shop The Look</h1>
-                       <a href="[[Model.ButtonUrl1]]" class="">See More Rooms <i class="ico-RightArrow ico-RightArrow--orange"></i></a>
-                   </div>
-               </div>
+            <div class="medium-12 large-12 columns">
+                <div>
+                    <h1 class="shopthelookdetail__title">[[Model.Title]]</h1>
+                </div>
+                <p class="shopthelookdetail__page-desc">[% zone 'Above Content' %]</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="small-12 medium-12 large-7 columns">
+                <div class="shopthelookdetail__image-col">
+                    <img src="[[Model.BackgroundImage]]" alt="[[Model.Title]]" />
+                    <div class="hotspot has-tip link{{$index+1}}" style="{{hotSpot.hotSpotPosition}}" div id="{{hotSpot.product.id}}-{{$index+1}}" ng-click="vm.hotspot_clicked(hotSpot.product.id, $index)" ng-repeat="hotSpot in vm.productHotSpots">
+                        <div class="tooltip">
+                            <div class="tooltip__img">
+                                <img ng-src="https://s7d9.scene7.com/is/image/NationalBusinessFurniture/{{hotSpot.product.smallImagePath ? hotSpot.product.smallImagePath : hotSpot.product.mediumImagePath}}?hei=200&id=5-zsy2&fmt=jpg&fit=constrain,1&wid=344&hei=344" alt="{{hotSpot.product.altText}}" />
+                            </div>
+                            <div class="tooltip__details">
+                                <div class="tooltip__details__desc">
+                                    {{hotSpot.product.shortDescription}}
+                                </div>
+                                <div class="tooltip__details__number">
+                                    Item No: {{hotSpot.product.erpNumber}}
+                                </div>
+                                <div class="tooltip__details__price">
+                                    <isc-product-price product="hotSpot.product"></isc-product-price>
+                                </div>
+                            </div>
+                            <div class="tooltip__details__btn">
+                                <a href="{{hotSpot.product.productDetailUrl}}" class="btn btn-primary">See Product Details</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="small-12 medium-12 large-5 columns end">
+                <div class="shopthelookdetail__room-details">
+                    <div class="shopthelookdetail__list-col">
+                        <h4 class="shopthelookdetail__list-title">Shop The Room</h4>
+                        <ul>
+                            <li ng-repeat="hotSpot in vm.productHotSpots">
+                                <div class="shopthelookdetail__list-item">
+                                    <div class="shopthelookdetail__list-item__image">
+                                        <img ng-src="https://s7d9.scene7.com/is/image/NationalBusinessFurniture/{{hotSpot.product.smallImagePath ? hotSpot.product.smallImagePath : hotSpot.product.mediumImagePath}}?hei=200&id=5-zsy2&fmt=jpg&fit=constrain,1&wid=344&hei=344" alt="{{hotSpot.product.altText}}" />
+                                    </div>
+                                    <div class="shopthelookdetail__list-item__details-wrap">
+                                        <div class="shopthelookdetail__list-item__details">
+                                            <div class="shopthelookdetail__list-item__desc">
+                                                {{hotSpot.product.shortDescription}}
+                                            </div>
+                                            <div class="shopthelookdetail__list-item__number">
+                                                Item No: {{hotSpot.product.erpNumber}}
+                                            </div>
+                                            <div class="shopthelookdetail__list-item__price">
+                                                <isc-product-price product="hotSpot.product"></isc-product-price>
+                                            </div>
+                                            <div class="shopthelookdetail__list-item__btn">
+                                                <button onclick="window.location.href='{{hotSpot.product.productDetailUrl}}'">See Product Details</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

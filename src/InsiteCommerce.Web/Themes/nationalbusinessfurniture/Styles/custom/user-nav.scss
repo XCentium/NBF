@@ -29,6 +29,7 @@
             line-height: 80px;
             padding: 0;
             max-height: 78px;
+            min-width:auto;
 
             .ico-LoginIcon {
                 vertical-align: text-bottom;
@@ -59,6 +60,16 @@ div.cart-button a.cart-link {
     height: 100%;
     line-height: 80px;
     max-height: 78px;
+
+    &:hover:after {
+        content: "";
+        width: 100%;
+        height: 1px;
+        border-bottom: 1px solid $nbf-orange;
+        bottom: 24px;
+        display: block;
+        position: absolute;
+    }
 }
 
 a.cart-link {

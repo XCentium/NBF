@@ -18,7 +18,7 @@ SELECT
 FROM
 	dbo.StyleTrait st
 	join StyleClass sc on sc.Id = st.StyleClassId
-where st.id = '4CD035A1-D91B-E811-A98F-EF3518E6D53C'
+--where st.id = '4CD035A1-D91B-E811-A98F-EF3518E6D53C'
 /*
 select * from [vwStyleTrait]
 */

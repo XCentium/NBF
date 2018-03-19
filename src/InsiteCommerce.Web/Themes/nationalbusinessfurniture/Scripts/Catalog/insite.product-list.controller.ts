@@ -129,7 +129,7 @@ module insite.catalog {
                 this.getFacets(newCategory.id);
             });
 
-        }
+        }   
 
         protected getFacets(categoryId: string): void {
             const params = {

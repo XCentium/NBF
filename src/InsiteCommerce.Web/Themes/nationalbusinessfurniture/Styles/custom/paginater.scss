@@ -13,10 +13,11 @@ body [role="main"] div.paginator-34 {
     border-bottom: 1px solid #E0E0E0;
     background: #fff;
 }
-.paginator-34  .items-count {
-    font-size:24px;
-    line-height:205%;
-    font-family: $ProximaNova-bold;
+.paginator-34 .items-count {
+    font-size: 24px;
+    line-height: 205%;
+    font-family: $ProximaNova;
+    font-weight: 700;
 }
 .paginator-34 .result-count {
     float:left;
