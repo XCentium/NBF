@@ -583,7 +583,7 @@
     <Content Include="Views\Widgets\OrdersView\NBF.cshtml" />
     <Content Include="Views\Widgets\OrdersView\Standard.cshtml" />
     <Content Include="Views\Widgets\OrderUploadView\Standard.cshtml" />
-    <Content Include="Views\Widgets\PageTitle\nbf.cshtml" />
+    <Content Include="Views\Widgets\PageTitle\NBF.cshtml" />
     <Content Include="Views\Widgets\PageTitle\Standard.cshtml" />
     <Content Include="Views\Widgets\ProductComparisonView\Standard.cshtml" />
     <Content Include="Views\Widgets\ProductDetailView\NBF.cshtml" />
@@ -735,6 +735,8 @@
     <Content Include="Styles\custom\flex-slider.scss" />
     <Content Include="Views\Widgets\Custom\CTALinkWidget\4ItemsWide.cshtml" />
     <Content Include="Views\Widgets\Custom\LatestBlogPosts\TitleOnly.cshtml" />
+    <Content Include="Views\Widgets\PageTitle\Underline.cshtml" />
+    <Content Include="Views\Widgets\Custom\Banner\H1Titles.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <PropertyGroup>
