@@ -2526,6 +2526,19 @@ header div.head-cm {
     float: left;
     position: relative;
     border: 1px solid $divider-gray;
+    .favorite-btn {
+        position:absolute;
+        top:5px;
+        right:5px;
+        a{
+            display:inline;
+            padding:0;
+
+            &:before {
+                padding-right:0;
+            }
+        }
+    }
 }
 
 @media all and (max-width: 767px) {
