@@ -44,4 +44,26 @@
             }
         }
     }
+
+    .dealer-loc-map {
+        .loc-marker {
+            color: $nbf-navy;
+            top: -7px;
+
+            .number {
+                font-family: $ProximaNova;
+                font-size: 24px;
+                color: #fff;
+                vertical-align: super;
+            }
+
+            &:hover {
+                color: #fff;
+
+                .number {
+                    color: $nbf-navy
+                }
+            }
+        }
+    }
 }
