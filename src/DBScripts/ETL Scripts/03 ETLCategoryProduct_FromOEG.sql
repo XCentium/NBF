@@ -13,6 +13,8 @@ begin
 	declare @brand int
 	set @brand = 1
 
+	truncate table CategoryProduct
+
 	-- this ties a product to a category
 
 	insert into CategoryProduct
@@ -22,7 +24,7 @@ begin
 	from
 		OEGSystemStaging.dbo.Items si
 		join OEGSystemStaging.dbo.Products sp on sp.ItemId = si.ItemId
-			and sp.BrandId = @brand
+			and sp.BrandId = @brand and sp.IsProductPageDisplay = 0
 		join OEGSystemStaging.dbo.LookupItemClasses sic on sic.ClassId = si.ClassId
 			and sic.[Name] not in ('Bedroom Furniture', 'Entertainment/AV', 'Parts')
 		join OEGSystemStaging.dbo.ItemsWebCategories siwc on siwc.ItemId = si.ItemId 
@@ -43,7 +45,7 @@ begin
 	from
 		OEGSystemStaging.dbo.Items si
 		join OEGSystemStaging.dbo.Products sp on sp.ItemId = si.ItemId
-			and sp.BrandId = @brand
+			and sp.BrandId = @brand and sp.IsProductPageDisplay = 0
 		join OEGSystemStaging.dbo.LookupItemClasses sic on sic.ClassId = si.ClassId
 			and sic.[Name] not in ('Bedroom Furniture', 'Entertainment/AV', 'Parts')
 		join OEGSystemStaging.dbo.ItemsWebCategories siwc on siwc.ItemId = si.ItemId 
@@ -54,9 +56,29 @@ begin
 
 	where
 		not exists (select Id from CategoryProduct where CategoryId = c.Id and ProductId = p.Id)
+
+
+	-- last we add all of the products that belong into the DisplayProductPageOnly Category
+
+	declare @DisplayProductPageOnlyCategoryId uniqueidentifier
+	select top 1 @DisplayProductPageOnlyCategoryId = Id from Category where [Name] = 'DisplayProductPageOnly'
+
+
+	insert into CategoryProduct
+	(CategoryId, ProductId, CreatedBy, ModifiedBy)
+	select 
+		@DisplayProductPageOnlyCategoryId, p.Id, 'etl', 'etl'--, p.ShortDescription, sic.[Name], swc.DisplayName
+	from
+		OEGSystemStaging.dbo.Products sp
+		join Product p on p.ERPNumber = sp.Number
+	where
+		not exists (select Id from CategoryProduct where CategoryId = @DisplayProductPageOnlyCategoryId and ProductId = p.Id)
+		and sp.BrandId = @brand and sp.IsProductPageDisplay = 1
+
+
 /*
 exec ETLCategoryProduct_FromOEG
-select * from category where id = '9800EE99-2BFB-E711-A98C-A3E0F1200094'
+select * from categoryproduct 
 */
 
 end
