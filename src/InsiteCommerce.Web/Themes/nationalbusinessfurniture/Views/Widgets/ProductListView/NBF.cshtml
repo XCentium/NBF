@@ -82,7 +82,7 @@
                                     [% translate 'Search instead for' %] <a ng-click="vm.goToSearchCriteria(vm.originalQuery, false)">{{vm.originalQuery}}</a>
                                 </div>
                                 <div ng-show="vm.products.products.length > 0">
-                                    <isc-pager id="tst_productList_topPager" pagination="vm.products.pagination" storage-key="vm.paginationStorageKey" update-data="vm.updateProductData()" select-view="vm.selectView(viewName)" custom-context="vm.customPagerContext" page-changed="vm.pagerPageChanged()"></isc-pager>
+                                    <nbf-product-list-pager id="tst_productList_topPager" pagination="vm.products.pagination" storage-key="vm.paginationStorageKey" update-data="vm.updateProductData()" select-view="vm.selectView(viewName)" custom-context="vm.customPagerContext" page-changed="vm.pagerPageChanged()"></nbf-product-list-pager>
                                     <ul class="item-list cart-items" id="tst_productList_nonTable">
                                         <li ng-repeat="product in vm.products.products" id="tst_productList_{{product.id}}" class="row item-block checkout-item isc-productContainer {{product.isSponsored ? 'sponsored' : ''}}" data-product="{{product.id}}">
                                             <div class="sponsored-container" ng-if="product.isSponsored">
@@ -231,7 +231,7 @@
                                                                     </tr>
                                                                 </tbody>
                                                             </table>
-                                                            <isc-pager bottom="true" pagination="vm.products.pagination" storage-key="vm.paginationStorageKey" update-data="vm.updateProductData()" custom-context="vm.customPagerContext"></isc-pager>
+                                                            <nbf-product-list-pager bottom="true" pagination="vm.products.pagination" storage-key="vm.paginationStorageKey" update-data="vm.updateProductData()" custom-context="vm.customPagerContext"></nbf-product-list-pager>
                                                         </div>
                                                     </div>
                                                     <div class="item-price" ng-if="vm.failedToGetRealTimePrices">
