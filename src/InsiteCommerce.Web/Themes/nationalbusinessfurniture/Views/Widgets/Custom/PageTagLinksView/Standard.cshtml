@@ -1,23 +1,26 @@
 ﻿
 <div class="narrow-container">
     <div class="row">
-        <section class="accordion tag-link-accordion">
-            <div>
-                <input type="checkbox" id="tag-10000" class="accord-check" />
-                <label id="tst_productList_tableView_filterButton" for="tag-10000" class="accord-head">[% translate 'Filter By Tags' %]</label>
-                <article class="accord-content">
-                    <div class="page-tag-links tst_pageTagLinksView">
-                        <div class="news-listings">
-                            [% for tag in Model.Drop.PageTags -%]
-                            <div class="page-tag-page tst_pageTagLinksView_newsList">
-                                <a href="javascript:window.location.href=window.location.href.split('?')[0] + '?tag=[[tag]]'">[[tag]]</a><br />
+        <div class="medium-12 large-12 columns">
+            <section class="accordion tag-link-accordion">
+                <div>
+                    <input type="checkbox" id="tag-10000" class="accord-check" />
+                    <label id="tst_productList_tableView_filterButton" for="tag-10000" class="accord-head">[% translate 'Filter By Tags' %]</label>
+                    <article class="accord-content">
+                        <div class="page-tag-links tst_pageTagLinksView">
+                            <div class="news-listings">
+                                [% for tag in Model.Drop.PageTags -%]
+                                <div class="page-tag-page tst_pageTagLinksView_newsList">
+                                    <a href="javascript:window.location.href=window.location.href.split('?')[0] + '?tag=[[tag]]'">[[tag]]</a><br />
+                                </div>
+                                [% endfor -%]
                             </div>
-                            [% endfor -%]
                         </div>
-                    </div>
-                </article>
-            </div>
-        </section>
-        <hr/>
+                    </article>
+                </div>
+            </section>
+            <hr />
+
+        </div>
     </div>
 </div>
