@@ -1,32 +1,43 @@
-﻿<div class="news-list tst_newsListView">
-    <div class="news-list-header">
-        [% zone 'News Header' %]
-    </div>
-    <div class="news-listings">
-        [% if Model.Drop.Pagination.NumberOfPages == 0 -%]
-        [% translate 'There are no news pages in this news list.' %]
-        [% else -%]
-        [% for newsPage in Model.Drop.NewsPages -%]
-        <div class="news-list-page tst_newsListView_newsPage">
-            <h2 class="news-heading"><a class="tst_newsListView_newsPage_pageTitleLink" href="[[newsPage.Url]]">[[newsPage.Title]]</a></h2>
-            <div class="news-publish-info"><strong>[[newsPage.Author]]</strong> <em>[[newsPage.PublishDateDisplay]]</em></div>
-            <div class="news-page-summary">
-                [[newsPage.QuickSummaryDisplay]]
-                <div><a class="tst_newsListView_newsPage_readMoreLink" href="[[newsPage.Url]]">[% translate 'Read More' %]</a></div>
+﻿
+<div class="narrow-container">
+    <div class="row">
+        <div class="medium-12 large-12 columns">
+            <div class="news-list tst_newsListView">
+                <div class="news-listings latest-blog__container">
+                    [% if Model.Drop.Pagination.NumberOfPages == 0 -%]
+                    [% translate 'There are no news pages in this news list.' %]
+                    [% else -%]
+                    [% for newsPage in Model.Drop.NewsPages -%]
+                    <div class="latest-blog__item">
+                        <a href="[[newsPage.Url]]">
+                            <div class="latest-blog__image" style="background-image: url('[[newsPage.BackgroundImageUrl]]');background-position:[[page.BackgroundImageFocalPosition]];">
+                            </div>
+                            <div class="latest-blog__desc">
+                                <h4>[[newsPage.Title]]</h4>
+                                <p>[[newsPage.PublishDateDisplay]]</p>
+                            </div>
+                        </a>
+                        <div class="news-list-page tst_newsListView_newsPage" style="display:none;">
+                            <h2 class="news-heading"><a class="tst_newsListView_newsPage_pageTitleLink" href="[[newsPage.Url]]">[[newsPage.Title]]</a></h2>
+                            <div class="news-publish-info"><strong>[[newsPage.Author]]</strong> <em>[[newsPage.PublishDateDisplay]]</em></div>
+                            <div class="news-page-summary">
+                                [[newsPage.QuickSummaryDisplay]]
+                                <div><a class="tst_newsListView_newsPage_readMoreLink" href="[[newsPage.Url]]">[% translate 'Read More' %]</a></div>
+                            </div>
+                        </div>
+                    </div>
+                    [% endfor -%]
+                    [% endif -%]
+                </div>
+                <div class="newslist-paging">
+                    <isc-content-pager page="[[Model.Drop.Pagination.Page]]"
+                                       page-size="[[Model.Drop.Pagination.PageSize]]"
+                                       default-page-size="[[Model.Drop.Pagination.DefaultPageSize]]"
+                                       total-item-count="[[Model.Drop.Pagination.TotalItemCount]]"
+                                       number-of-pages="[[Model.Drop.Pagination.NumberOfPages]]"
+                                       content-item-id="[[Model.Drop.NewsListId]]"></isc-content-pager>
+                </div>
             </div>
         </div>
-        [% endfor -%]
-        [% endif -%]
-    </div>
-    <div class="newslist-paging">
-        <isc-content-pager page="[[Model.Drop.Pagination.Page]]"
-                           page-size="[[Model.Drop.Pagination.PageSize]]"
-                           default-page-size="[[Model.Drop.Pagination.DefaultPageSize]]"
-                           total-item-count="[[Model.Drop.Pagination.TotalItemCount]]"
-                           number-of-pages="[[Model.Drop.Pagination.NumberOfPages]]"
-                           content-item-id="[[Model.Drop.NewsListId]]"></isc-content-pager>
-    </div>
-    <div class="news-list-footer">
-        [% zone 'News Footer' %]
     </div>
 </div>

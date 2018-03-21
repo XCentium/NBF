@@ -3,6 +3,12 @@
 
 .product-details {
     .detail-image {
+
+
+        .s7flyoutzoomview {
+            overflow: hidden;
+        }
+
         @media all and (max-width: 767px) {
             width: 100%;
         }
@@ -78,9 +84,10 @@
                 width: 45%;
             }
         }
+
         @media all and (max-width: 767px) {
             .col {
-                margin-bottom:30px;
+                margin-bottom: 30px;
             }
         }
 
