@@ -181,11 +181,13 @@
                 this.swatches = JSON.parse(this.product.properties["swatches"]);
             }
 
-            this.getFavorites();
             this.setTabs();
             this.sessionService.getIsAuthenticated().then(x => {
                 this.isAuthenticated = x;
-            })
+                if (this.isAuthenticated) {
+                    this.getFavorites();
+                }
+            });
 
             this.resourceAndAssemblyDocs = this.product.documents.filter(x => x.documentType != "video");
         }     
