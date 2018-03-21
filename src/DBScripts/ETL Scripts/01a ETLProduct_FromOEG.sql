@@ -184,6 +184,13 @@ begin
 
 	insert into Specification
 	(ContentManagerId, [Name], [Description], IsActive, CreatedBy, ModifiedBy, ProductId)
+	select newid(), 'Delivery', 'Delivery', 1, 'etl', 'etl', Id
+	from Product
+	where Id not in (select ProductId from Specification where [Name] = 'Delivery')
+	and ERPNumber not like '%:%' -- ignore swatches
+
+	insert into Specification
+	(ContentManagerId, [Name], [Description], IsActive, CreatedBy, ModifiedBy, ProductId)
 	select newid(), 'Vendor Code', 'Vendor Code', 0, 'etl', 'etl', Id
 	from Product
 	where Id not in (select ProductId from Specification where [Name] = 'Vendor Code')
