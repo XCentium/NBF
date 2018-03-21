@@ -746,7 +746,6 @@
     <Content Include="Views\Directives\Custom\Core\ItemListPager.cshtml" />
     <Content Include="Views\Widgets\Custom\LatestBlogPosts\WithMargins.cshtml" />
     <Content Include="Views\Widgets\Custom\LatestBlogPosts\WithMarginsTitleOnly.cshtml" />
-    <Content Include="nationalbusinessfurniture.csproj.orig" />
     <Content Include="Styles\custom\social-links.scss" />
     <Content Include="Views\Directives\Custom\Catalog\CrossSellCarousel.cshtml" />
   </ItemGroup>
