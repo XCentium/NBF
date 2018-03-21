@@ -2,28 +2,28 @@
     <div class="contact__title">[[Model.Title]]</div>
     <ul class="contact__social-links">
         [% if Model.TwitterUrl != null and Model.TwitterUrl != "" -%]
-        <li class="cell"><a href="TwitterUrl" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+        <li class="cell"><a href="[[Model.TwitterUrl]]" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
         [% endif -%]
         [% if Model.FacebookUrl != null and Model.FacebookUrl != "" -%]
-        <li class="cell"><a href="FacebookUrl" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+        <li class="cell"><a href="[[Model.FacebookUrl]]" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
         [% endif -%]
         [% if Model.PinterestUrl != null and Model.PinterestUrl != "" -%]
-        <li class="cell"><a href="PinterestUrl" target="_blank"><i class="fa fa-pinterest-p" aria-hidden="true"></i></a></li>
+        <li class="cell"><a href="[[Model.PinterestUrl]]" target="_blank"><i class="fa fa-pinterest-p" aria-hidden="true"></i></a></li>
         [% endif -%]
         [% if Model.InstagramUrl != null and Model.InstagramUrl != "" -%]
-        <li class="cell"><a href="InstagramUrl" target="_blank"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
+        <li class="cell"><a href="[[Model.InstagramUrl]]" target="_blank"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
         [% endif -%]
         [% if Model.YoutubeUrl != null and Model.YoutubeUrl != "" -%]
-        <li class="cell"><a href="YoutubeUrl" target="_blank"><i class="fa fa-youtube-play" aria-hidden="true"></i></a></li>
+        <li class="cell"><a href="[[Model.YoutubeUrl]]" target="_blank"><i class="fa fa-youtube-play" aria-hidden="true"></i></a></li>
         [% endif -%]
         [% if Model.GooglePlusUrl != null and Model.GooglePlusUrl != "" -%]
-        <li class="cell"><a href="GooglePlusUrl" target="_blank"><i class="fa fa-google-plus" aria-hidden="true"></i></a></li>
+        <li class="cell"><a href="[[Model.GooglePlusUrl]]" target="_blank"><i class="fa fa-google-plus" aria-hidden="true"></i></a></li>
         [% endif -%]
         [% if Model.LinkedInUrl != null and Model.LinkedInUrl != "" -%]
-        <li class="cell"><a href="LinkedInUrl" target="_blank"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+        <li class="cell"><a href="[[Model.LinkedInUrl]]" target="_blank"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
         [% endif -%]
         [% if Model.EmailAddress != null and Model.EmailAddress != "" -%]
-        <li class="cell"><a href="mailto:EmailAddress"><i class="fa fa-envelope" aria-hidden="true"></i></a></li>
+        <li class="cell"><a href="[[Model.EmailAddress]]"><i class="fa fa-envelope" aria-hidden="true"></i></a></li>
         [% endif -%]
     </ul>
 </div>
