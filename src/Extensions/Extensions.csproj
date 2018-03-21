@@ -273,6 +273,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\CatalogMailingPrefsController.cs" />
     <Compile Include="Enums\Listrak\Fields\OrderConfirmationFieldEnum.cs" />
     <Compile Include="Enums\Listrak\Fields\WelcomeEmailFieldEnum.cs" />
     <Compile Include="Enums\Listrak\TransactionalMessageEnum.cs" />

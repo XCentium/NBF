@@ -1,6 +1,6 @@
 ﻿<div ng-controller="ContactUsController as vm" class="widget-contactform" ng-cloak>
     <div class="cf-form [[Model.CssClass]]">
-        <form id="contactUsForm[[Model.ContentKey]]" action="[% urlFor '/ContactUs/Submit?EmailTo='%][[Model.EmailToValue]]" method="post">
+        <form id="contactUsForm[[Model.ContentKey]]" action="[% urlFor '/CatalogMailingPrefs/Submit?EmailTo='%][[Model.EmailToValue]]" method="post">
             <div class="required-msg"><span class="redTxt">*</span> [% translate 'Required' %]</div>
             <div class="cf-form-firstname">
                 <label for="firstName[[Model.ContentKey]]">[% translate 'First Name' %] <span class="redTxt">*</span></label>
@@ -39,7 +39,7 @@
                 <input type="text" name="PriorityCode" id="priorityCode[[Model.ContentKey]]" />
             </div>
             <div class="cf-form-topic">
-                <label for="topic[[Model.ContentKey]]">[% translate 'Topic' %] <span class="redTxt">*</span></label>
+                <label for="topic[[Model.ContentKey]]">[% translate 'Please select your preferred contact method' %] <span class="redTxt">*</span></label>
                 <select id="topic[[Model.ContentKey]]" name="Topic" data-val-required="[[Model.TopicIsRequiredErrorMessage]]" data-val="true">
                     <option value="">[% translate 'Select Topic' %]</option>
                     [% for topic in Model.Topics -%]
