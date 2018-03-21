@@ -197,6 +197,39 @@ begin
 	and isnull(v.Code,'') != ''
 
 
+	/*
+	Rating
+	*/
+
+	-- first update the existing contents
+
+	update Content set
+	Html = isnull(spr.Rating,0),
+	ModifiedOn = getdate()
+	--select p.erpnumber, isnull(spr.Rating,0), c.Html
+	from Product p
+	join Specification s on s.ProductId = p.Id and s.[Name] = 'Rating'
+	join Content c on c.ContentManagerId = s.ContentManagerId
+	join OEGSystemStaging.dbo.Products sp on sp.Number = p.ERPNumber
+		and sp.BrandId = @brand
+	left join OEGSystemStaging.dbo.ProductRating spr on spr.ProductOID = sp.Number
+	where c.Html != isnull(spr.Rating,0) 
+
+	-- now insert any new ones we didn't have before
+
+	insert into Content 
+	(ContentManagerId, [Name], Html, Revision, LanguageId, PersonaId, ApprovedOn, PublishToProductionOn, DeviceType, CreatedBy, ModifiedBy)
+	select s.ContentManagerId, 'New Revision', 
+	isnull(spr.Rating,0), 
+	1, @LanguageId, @PersonaId, getdate(), getdate(), 'Desktop', 'etl', 'etl' 
+	--select p.ERPNumber, spr.Rating
+	from Product p
+	join Specification s on s.ProductId = p.Id and s.[Name] = 'Rating'
+	join OEGSystemStaging.dbo.Products sp on sp.Number = p.ERPNumber
+		and sp.BrandId = @brand
+	left join OEGSystemStaging.dbo.ProductRating spr on spr.ProductOID = sp.Number
+	where s.ContentManagerId not in (select ContentManagerId from Content)
+
 
 	/*
 	Collection - this has been moved to an attribute
