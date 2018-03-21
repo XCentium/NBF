@@ -273,6 +273,21 @@ begin
 	exec ETLAttribute_FromOEG @attributeName
 	exec ETLAttributeValue_FromOEG @attributeName
 
+	set @attributeName = 'Number of Workstations'
+	exec ETLAttribute_FromOEG @attributeName
+	exec ETLAttributeValue_FromOEG @attributeName
+
+	set @attributeName = 'Partition Features'
+	exec ETLAttribute_FromOEG @attributeName
+	exec ETLAttributeValue_FromOEG @attributeName
+
+	set @attributeName = 'Privacy'
+	exec ETLAttribute_FromOEG @attributeName
+	exec ETLAttributeValue_FromOEG @attributeName
+
+	set @attributeName = 'Clean With'
+	exec ETLAttribute_FromOEG @attributeName
+	exec ETLAttributeValue_FromOEG @attributeName
 
 
 	set @attributeName = 'GSA'
