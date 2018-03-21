@@ -736,7 +736,7 @@
     <Content Include="Styles\custom\flex-slider.scss" />
     <Content Include="Views\Widgets\DealerLocatorView\NBF.cshtml" />
     <Content Include="Styles\custom\sales-rep-finder.scss" />
-    <Content Include="Views\Widgets\Custom\CtaLinkWidget\4ItemsWide.cshtml" />
+    <Content Include="Views\Widgets\Custom\CtaLinkWidget\FourWide.cshtml" />
     <Content Include="Views\Widgets\Custom\LatestBlogPosts\TitleOnly.cshtml" />
     <Content Include="Views\Widgets\PageTitle\Underline.cshtml" />
     <Content Include="Views\Widgets\Custom\Banner\H1Titles.cshtml" />
