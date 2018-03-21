@@ -744,6 +744,7 @@
     <Content Include="Views\Directives\Custom\Core\ItemListPager.cshtml" />
     <Content Include="Views\Widgets\Custom\LatestBlogPosts\WithMargins.cshtml" />
     <Content Include="Views\Widgets\Custom\LatestBlogPosts\WithMarginsTitleOnly.cshtml" />
+    <Content Include="Views\Widgets\Custom\CatalogMailingPrefs\Standard.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <PropertyGroup>
