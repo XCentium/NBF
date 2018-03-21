@@ -67,7 +67,7 @@ begin
 	select  distinct
 		p.ERPNumber + ':' + st.[Description] + ':' + stv.[Description] ERPNumber,
 		stv.[Value] [Name],
-		p.ShortDescription + ' - ' + st.[Name] + ' - ' + stv.[Value]  ShortDescription,
+		p.ERPNumber + ' - ' + st.[Name] + ' - ' + stv.[Value]  ShortDescription,
 		p.ERPNumber ProductCode, 
 		st.[Name] ModelNumber,
 		LOWER(replace(dbo.UrlFriendlyString(ltrim(rtrim(isnull(p.ERPNumber + ':' + st.[Name] + ':' + stv.[Value],'')))),'/','-')) UrlSegment,
@@ -88,7 +88,7 @@ begin
 	-- in case swatch group name or values are updated
 	update Product set
 		[Name] = stv.[Value],
-		ShortDescription = p.ShortDescription + ' - ' + st.[Name] + ' - ' + stv.[Value],
+		ShortDescription = p.ProductCode + ' - ' + st.[Name] + ' - ' + stv.[Value],
 		ModelNumber = st.[Name],
 		UrlSegment = LOWER(replace(dbo.UrlFriendlyString(ltrim(rtrim(isnull(p.ERPNumber + ':' + st.[Name] + ':' + stv.[Value],'')))),'/','-')),
 		ERPDescription = '',
