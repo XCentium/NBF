@@ -27,8 +27,6 @@
         }
 
         init(): void {
-            alert("settings");
-
             this.$scope.$on("mapInitialized", () => {
                 this.onMapInitialized();
             });
