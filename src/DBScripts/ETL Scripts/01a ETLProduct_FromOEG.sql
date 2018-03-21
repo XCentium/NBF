@@ -189,12 +189,14 @@ begin
 	where Id not in (select ProductId from Specification where [Name] = 'Vendor Code')
 	and ERPNumber not like '%:%' -- ignore swatches
 
+	/* this has been moved to an attribute
 	insert into Specification
 	(ContentManagerId, [Name], [Description], IsActive, CreatedBy, ModifiedBy, ProductId)
 	select newid(), 'Collection', 'Collection', 1, 'etl', 'etl', Id
 	from Product
 	where Id not in (select ProductId from Specification where [Name] = 'Collection')
 	and ERPNumber not like '%:%' -- ignore swatches
+	*/
 
 	insert into Specification
 	(ContentManagerId, [Name], [Description], IsActive, CreatedBy, ModifiedBy, ProductId)

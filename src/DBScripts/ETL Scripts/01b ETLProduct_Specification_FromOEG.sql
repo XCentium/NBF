@@ -199,9 +199,10 @@ begin
 
 
 	/*
-	Collection
+	Collection - this has been moved to an attribute
 	*/
 
+	/*
 	-- first update the existing contents
 
 	update Content set
@@ -234,9 +235,8 @@ begin
 	join OEGSystemStaging.dbo.ItemCollections sic on sic.CollectionId = si.CollectionId
 	where s.ContentManagerId not in (select ContentManagerId from Content)
 	and isnull(sic.[Name],'') != ''
-
-	end
-
+	*/
+	
 
 	/* 
 	Product Features
@@ -314,6 +314,8 @@ begin
 	where s.ContentManagerId not in (select ContentManagerId from Content)
 	and isnull(final.ProductFeaturesCombined,'') != ''
 
+	end
+
 /*
 exec ETLProductSpecification_FromOEG
 
@@ -321,9 +323,18 @@ delete from Content where ContentManagerId in
 (
 select s.ContentManagerId from product p
 join Specification s on s.ProductId = p.Id
+
 )
 
+delete from content where ContentManagerId in 
+(
+select ContentManagerId from Specification where Name = 'Collection'
+)
+delete from Specification where Name = 'Collection'
+
 */
+
+
 
 end
 
