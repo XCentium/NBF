@@ -273,6 +273,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\CatalogMailingPrefsController.cs" />
     <Compile Include="Enums\Listrak\Fields\OrderConfirmationFieldEnum.cs" />
     <Compile Include="Enums\Listrak\Fields\WelcomeEmailFieldEnum.cs" />
     <Compile Include="Enums\Listrak\TransactionalMessageEnum.cs" />
@@ -338,6 +339,7 @@
     <Compile Include="Widgets\CallUs.cs" />
     <Compile Include="Widgets\CategoryListView.cs" />
     <Compile Include="Widgets\CtaLinkWidget.cs" />
+    <Compile Include="Widgets\CatalogMailingPrefs.cs" />
     <Compile Include="Widgets\LinkListWithTitlePreparer.cs" />
     <Compile Include="Widgets\NavigationFlyOutPreparer.cs" />
     <Compile Include="Widgets\ShopTheLookCta.cs" />

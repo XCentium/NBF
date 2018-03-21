@@ -1,33 +1,33 @@
-﻿<div ng-controller="ProductDetailController as vm" ng-cloak>
-    <isc-catalog-breadcrumb ng-show="vm.product" breadcrumbs="vm.breadCrumbs"></isc-catalog-breadcrumb>
+﻿<div ng-controller="ProductDetailController as ctrl" ng-cloak>
+    <isc-catalog-breadcrumb ng-show="ctrl.product" breadcrumbs="ctrl.breadCrumbs"></isc-catalog-breadcrumb>
     <div class="medium-12 large-12 columns widget-1column narrow-container product-details">
         <div class="row">
             <div class="row pd-grid isc-productContainer">
                 <div class="detail-info">
                     <div class="small-12 column medium-6 detail-image">
-                        <isc-product-images ng-if="vm.product" product="vm.product"></isc-product-images>
+                        <isc-product-images ng-if="ctrl.product" product="ctrl.product"></isc-product-images>
                         <div class="image-buttons">
-                            <button class="btn btn-secondary" ng-if="vm.product && vm.product.unspsc !== '0000'" ng-click="vm.show360()"><i class="ico-ViewIcon"></i> 360 View</button>
-                            <button ng-show="vm.product.properties['videoUrl']" class="btn btn-secondary" ng-click="vm.showVideo()"><i class="ico-SmallplaybuttonIcon"></i> Product Video</button>
+                            <button class="btn btn-secondary" ng-if="ctrl.product && ctrl.product.unspsc !== '0000'" ng-click="ctrl.show360()"><i class="ico-ViewIcon"></i> 360 View</button>
+                            <button ng-show="ctrl.product.properties['videoUrl']" class="btn btn-secondary" ng-click="ctrl.showVideo()"><i class="ico-SmallplaybuttonIcon"></i> Product Video</button>
                         </div>
                     </div>
                     <div class="name-price small-12 column medium-6">
-                        <h1>{{vm.product.shortDescription}}</h1>
-                        <isc-product-name product="vm.product" no-link="true"></isc-product-name>
+                        <h1>{{ctrl.product.shortDescription}}</h1>
+                        <isc-product-name product="ctrl.product" no-link="true"></isc-product-name>
                         <div class="item-block__product__price-wrap">
                             <div class="item-block__product__price">
-                                <isc-product-price product="vm.product" ng-cloak></isc-product-price>
-                                <isc-product-price-saving product="vm.product" ng-cloak></isc-product-price-saving>
+                                <isc-product-price product="ctrl.product" ng-cloak></isc-product-price>
+                                <isc-product-price-saving product="ctrl.product" ng-cloak></isc-product-price-saving>
                             </div>
-                            <div ng-if="vm.isAttributeValue('GSA', 'Yes');" class="item-block__product__flag gsa">
+                            <div ng-if="ctrl.isAttributeValue('GSA', 'Yes');" class="item-block__product__flag gsa">
                                 GSA
                             </div>
                         </div>
-                        <div class="item-block__product__ships-today" ng-if="vm.isAttributeValue('Ships Today', 'Yes');"><span class="ico-Truck"></span> Ships Today!</div>
+                        <div class="item-block__product__ships-today" ng-if="ctrl.isAttributeValue('Ships Today', 'Yes');"><span class="ico-Truck"></span> Ships Today!</div>
 
                         <div class="item-block__product__col-2 clearfix">
                             <div class="col-1">
-                                <isc-quantity-break-pricing product-id="vm.product.id" block="optional" break-prices="vm.product.pricing.unitRegularBreakPrices">
+                                <isc-quantity-break-pricing product-id="ctrl.product.id" block="optional" break-prices="ctrl.product.pricing.unitRegularBreakPrices">
                                 </isc-quantity-break-pricing>
                             </div>
                             <div class="col-2">
@@ -40,17 +40,17 @@
                             <strong>Available Colors/Finishes</strong> <a href="#" data-reveal-id="swatchform">Order Free Samples</a>
                         </div>                        
                         <div class="item-block__product__swatches">
-                            <div class="item-block__product__swatches__label" ng-repeat-start="styleTrait in vm.styleTraitFiltered | orderBy: 'sortOrder'">{{styleTrait.nameDisplay}}:</div>
+                            <div class="item-block__product__swatches__label" ng-repeat-start="styleTrait in ctrl.styleTraitFiltered | orderBy: 'sortOrder'">{{styleTrait.nameDisplay}}:</div>
                             <ul ng-repeat-end>
-                                <li ng-class="{'active': (vm.styleSelection[$parent.$index] && vm.styleSelection[$parent.$index].styleTraitValueId  == style.styleTraitValueId)}" ng-repeat="style in styleTrait.styleValues | orderBy: 'sortOrder' track by style.styleTraitValueId">
-                                    <img ng-click="vm.selectInsiteStyleDropdown(styleTrait.nameDisplay, style.styleTraitValueId, $parent.$index);" ng-src="https://s7d9.scene7.com/is/image/NationalBusinessFurniture/{{vm.getSwatchImageNameFromStyleTraitValueId(style.styleTraitName, style.value)}}?hei=200&id=5-zsy2&fmt=jpg&fit=constrain,1&wid=344&hei=344" alt="{{style.valueDisplay}}" />
+                                <li ng-class="{'active': (ctrl.styleSelection[$parent.$index] && ctrl.styleSelection[$parent.$index].styleTraitValueId  == style.styleTraitValueId)}" ng-repeat="style in styleTrait.styleValues | orderBy: 'sortOrder' track by style.styleTraitValueId">
+                                    <img ng-click="ctrl.selectInsiteStyleDropdown(styleTrait.nameDisplay, style.styleTraitValueId, $parent.$index);" ng-src="https://s7d9.scene7.com/is/image/NationalBusinessFurniture/{{ctrl.getSwatchImageNameFromStyleTraitValueId(style.styleTraitName, style.value)}}?hei=200&id=5-zsy2&fmt=jpg&fit=constrain,1&wid=344&hei=344" alt="{{style.valueDisplay}}" />
                                 </li>
                             </ul>
                         </div>
                        
                         <div class="pd-cm-wrap">
-                            <div ng-show="vm.product.isConfigured && vm.product.configurationDto && vm.product.configurationDto.isKit">
-                                <div ng-repeat="section in vm.product.configurationDto.sections" class="pd-kit">
+                            <div ng-show="ctrl.product.isConfigured && ctrl.product.configurationDto && ctrl.product.configurationDto.isKit">
+                                <div ng-repeat="section in ctrl.product.configurationDto.sections" class="pd-kit">
                                     <div ng-show="section.sectionName" class="pd-kit-name" style="font-weight: bold">{{section.sectionName}}:</div>
                                     <div ng-repeat="option in section.options" class="pd-kit-value">
                                         {{option.description}}
@@ -61,22 +61,22 @@
                         </div>
                     </div>
                     <div class="detail-options small-12 column medium-6">
-                        <div class="panel" ng-show="vm.product.isConfigured && vm.product.configurationDto && !vm.product.configurationDto.isKit || vm.product.styleTraits.length > 0">
+                        <div class="panel" ng-show="ctrl.product.isConfigured && ctrl.product.configurationDto && !ctrl.product.configurationDto.isKit || ctrl.product.styleTraits.length > 0">
                             <div class="row collapse detail-options-wrap">
                                 <!-- Configuration part -->
-                                <div ng-show="vm.product.isConfigured && vm.product.configurationDto != null && !vm.product.configurationDto.isKit">
-                                    <div ng-repeat="section in vm.product.configurationDto.sections" class="pd-kit">
+                                <div ng-show="ctrl.product.isConfigured && ctrl.product.configurationDto != null && !ctrl.product.configurationDto.isKit">
+                                    <div ng-repeat="section in ctrl.product.configurationDto.sections" class="pd-kit">
                                         <span>{{section.sectionName}}</span>
-                                        <select ng-model="vm.configurationSelection[$index]" name="tst_productDetail_configurationSection_{{section.sectionName}}" ng-change="vm.configChanged()"
+                                        <select ng-model="ctrl.configurationSelection[$index]" name="tst_productDetail_configurationSection_{{section.sectionName}}" ng-change="ctrl.configChanged()"
                                                 ng-options="option.description for option in section.options track by option.sectionOptionId">
                                             <option value="">Select {{section.sectionName}}</option>
                                         </select>
                                     </div>
                                 </div>
                                 <!-- Style part -->
-                                <div class="small-12 columns pd-style-opt" ng-repeat="styleTrait in vm.styleTraitFiltered | orderBy: 'sortOrder'">
+                                <div class="small-12 columns pd-style-opt" ng-repeat="styleTrait in ctrl.styleTraitFiltered | orderBy: 'sortOrder'">
                                     <span>{{styleTrait.nameDisplay}}</span>
-                                    <select name="{{'tst_styleSelect_' + styleTrait.name}}" ng-model="vm.styleSelection[$index]" ng-change="vm.styleChange(vm.styleSelection[$index], {{$index}})"
+                                    <select name="{{'tst_styleSelect_' + styleTrait.name}}" ng-model="ctrl.styleSelection[$index]" ng-change="ctrl.styleChange(ctrl.styleSelection[$index], {{$index}})"
                                             ng-options="style.valueDisplay for style in styleTrait.styleValues | orderBy: 'sortOrder' track by style.styleTraitValueId">
                                         <option value=""> {{styleTrait.unselectedValue ? "" : "Select"}} {{styleTrait.unselectedValue ? styleTrait.unselectedValue : styleTrait.nameDisplay}}</option>
                                     </select>
@@ -86,44 +86,44 @@
 
                         <div class="right small-12 detail-add">
                             <div class="small-12 fc-um">
-                                <label ng-if="vm.settings.alternateUnitsOfMeasure && vm.product.productUnitOfMeasures.length > 1" class="small-12">[% translate 'U/M' %]:</label>
-                                <isc-unit-of-measure-select-list product="vm.product" alternate-units-of-measure="{{vm.settings.alternateUnitsOfMeasure}}"
-                                                                 display-pack="true" change-unit-of-measure="vm.changeUnitOfMeasure(vm.product)"></isc-unit-of-measure-select-list>
+                                <label ng-if="ctrl.settings.alternateUnitsOfMeasure && ctrl.product.productUnitOfMeasures.length > 1" class="small-12">[% translate 'U/M' %]:</label>
+                                <isc-unit-of-measure-select-list product="ctrl.product" alternate-units-of-measure="{{ctrl.settings.alternateUnitsOfMeasure}}"
+                                                                 display-pack="true" change-unit-of-measure="ctrl.changeUnitOfMeasure(ctrl.product)"></isc-unit-of-measure-select-list>
                             </div>
-                            <div class="fc-qty" ng-if="vm.product.canEnterQuantity || vm.configurationCompleted || vm.styleSelectionCompleted && !vm.product.canConfigure">
+                            <div class="fc-qty" ng-if="ctrl.product.canEnterQuantity || ctrl.configurationCompleted || ctrl.styleSelectionCompleted && !ctrl.product.canConfigure">
                                 <label style="display:none;" class="small-12">[% translate 'QTY_quantity' %]</label>
-                                <input id="tst_productDetail_qtyOrdered" type="text" value="1" class="small-12 numerictextbox" ng-model="vm.product.qtyOrdered">
+                                <input id="tst_productDetail_qtyOrdered" type="text" value="1" class="small-12 numerictextbox" ng-model="ctrl.product.qtyOrdered">
                             </div>
-                            <span class="field-validation-error" ng-if="vm.showUnitError"><span ng-bind="vm.parentProduct.unitOfMeasureDisplay"></span>[% siteMessage 'StyledProduct_WrongUnitOfMeasure' %]</span>
+                            <span class="field-validation-error" ng-if="ctrl.showUnitError"><span ng-bind="ctrl.parentProduct.unitOfMeasureDisplay"></span>[% siteMessage 'StyledProduct_WrongUnitOfMeasure' %]</span>
                             <div class="pd-buttons">
                                 <div class="small-12 primary-button">
-                                    <button ng-show="(vm.product.availability.messageType != 2 || vm.product.canBackOrder) && vm.product.allowedAddToCart && (vm.product.canAddToCart || vm.configurationCompleted || vm.styleSelectionCompleted && !vm.product.canConfigure)"
-                                            id="tst_productDetail_addToCart" ng-click="vm.addToCart(vm.product)"
-                                            role="button" class="btn primary btn-add-to-cart" ng-disabled="!vm.product.qtyOrdered || vm.product.qtyOrdered == 0 || vm.showUnitError || vm.addingToCart">
+                                    <button ng-show="(ctrl.product.availability.messageType != 2 || ctrl.product.canBackOrder) && ctrl.product.allowedAddToCart && (ctrl.product.canAddToCart || ctrl.configurationCompleted || ctrl.styleSelectionCompleted && !ctrl.product.canConfigure)"
+                                            id="tst_productDetail_addToCart" ng-click="ctrl.addToCart(ctrl.product)"
+                                            role="button" class="btn primary btn-add-to-cart" ng-disabled="!ctrl.product.qtyOrdered || ctrl.product.qtyOrdered == 0 || ctrl.showUnitError || ctrl.addingToCart">
                                         <span class="ico-CartIcon"></span> [% translate 'Add To Cart' %]
                                     </button>
                                 </div>
 
-                                <div ng-if="vm.product.canConfigure && (vm.product.styleTraits.length === 0 || vm.styleSelectionCompleted)" class="small-12 primary-button">
-                                    <a id="tst_productDetail_configure" href="[% urlFor '/Configuration/Configure' %]/{{vm.product.erpNumber}}" role="button" class="btn primary btn-configure">[% translate 'Configure' %]</a>
+                                <div ng-if="ctrl.product.canConfigure && (ctrl.product.styleTraits.length === 0 || ctrl.styleSelectionCompleted)" class="small-12 primary-button">
+                                    <a id="tst_productDetail_configure" href="[% urlFor '/Configuration/Configure' %]/{{ctrl.product.erpNumber}}" role="button" class="btn primary btn-configure">[% translate 'Configure' %]</a>
                                 </div>
                                 <div class="small-12 primary-button">
                                     <a id="tst_productDetail_productSubscription" href="" class="btn primary btn-product-subscription"
-                                       ng-show="vm.product.isSubscription && (vm.product.availability.messageType != 2 || vm.product.canBackOrder) && vm.product.allowedAddToCart && (vm.product.canAddToCart || vm.configurationCompleted || vm.styleSelectionCompleted && !vm.product.canConfigure)"
-                                       ng-click="vm.openProductSubscriptionPopup(vm.product)"
-                                       ng-disabled="!vm.product.qtyOrdered || vm.product.qtyOrdered == 0 || vm.showUnitError">
+                                       ng-show="ctrl.product.isSubscription && (ctrl.product.availability.messageType != 2 || ctrl.product.canBackOrder) && ctrl.product.allowedAddToCart && (ctrl.product.canAddToCart || ctrl.configurationCompleted || ctrl.styleSelectionCompleted && !ctrl.product.canConfigure)"
+                                       ng-click="ctrl.openProductSubscriptionPopup(ctrl.product)"
+                                       ng-disabled="!ctrl.product.qtyOrdered || ctrl.product.qtyOrdered == 0 || ctrl.showUnitError">
                                         [% translate 'Delivery Schedule' %]
                                     </a>
                                 </div>
                             </div>                            
-                                <a id="tst_productDetail_addToWishList" ng-if="vm.isAuthenticated" ng-class="{'in-favorites': vm.product.properties['isFavorite'] == 'true' } "
-                                  ng-click="vm.toggleFavorite(vm.product)" role="button"
-                                  class="btn secondary btn-add-to-list" href="javascript:;">{{vm.product.properties['isFavorite'] == "false" ? "Add To Favorites" : "Remove From Favorites"}}</a>
+                                <a id="tst_productDetail_addToWishList" ng-if="ctrl.isAuthenticated" ng-class="{'in-favorites': ctrl.product.properties['isFavorite'] == 'true' } "
+                                  ng-click="ctrl.toggleFavorite(ctrl.product)" role="button"
+                                  class="btn secondary btn-add-to-list" href="javascript:;">{{ctrl.product.properties['isFavorite'] == "false" ? "Add To Favorites" : "Remove From Favorites"}}</a>
                             </div>
                         <div class="small-12 secondary-button">
-                            <div ng-show="vm.product" class="small-12 detail-share">
+                            <div ng-show="ctrl.product" class="small-12 detail-share">
                                 <a id="tst_productDetail_share" href="javascript:;" class="pd-zoom" data-reveal-id="TellAFriendDialogContainer">[% translate 'Share' %]</a>
-                                <isc-tell-a-friend-popup product="vm.product" data-reveal></isc-tell-a-friend-popup>
+                                <isc-tell-a-friend-popup product="ctrl.product" data-reveal></isc-tell-a-friend-popup>
                             </div>
                         </div>
                     </div>
@@ -134,16 +134,16 @@
                                     <input type="checkbox" id="accord-10000" class="accord-check" />
                                     <label id="tst_productList_tableView_filterButton" for="accord-10000" class="accord-head">[% translate 'Product Details' %]</label>
                                     <article class="accord-content">
-                                        <div id="tst_productDetail_htmlContent" class="product-cm" ng-bind-html="vm.product.htmlContent|trusted"></div>
+                                        <div id="tst_productDetail_htmlContent" class="product-cm" ng-bind-html="ctrl.product.htmlContent|trusted"></div>
                                         <br />
-                                        <div class="product-cm" ng-if="vm.product.specifications">
-                                            <div ng-if="(vm.product.specifications | filter: { name: 'Features' }).length > 0">
+                                        <div class="product-cm" ng-if="ctrl.product.specifications">
+                                            <div ng-if="(ctrl.product.specifications | filter: { name: 'Features' }).length > 0">
                                                 Features:
-                                                <div ng-repeat="specification in vm.product.specifications | filter: { name: 'Features' } | orderBy: 'sortOrder'" ng-bind-html="specification.htmlContent|trusted"></div>
+                                                <div ng-repeat="specification in ctrl.product.specifications | filter: { name: 'Features' } | orderBy: 'sortOrder'" ng-bind-html="specification.htmlContent|trusted"></div>
                                             </div>
-                                            <div ng-if="(vm.product.specifications | filter: { name: 'Dimensions' }).length > 0">
+                                            <div ng-if="(ctrl.product.specifications | filter: { name: 'Dimensions' }).length > 0">
                                                 Dimensions and Weight:
-                                                <div ng-repeat="specification in vm.product.specifications | filter: { name: 'Dimensions' } | orderBy: 'sortOrder'" ng-bind-html="specification.htmlContent|trusted"></div>
+                                                <div ng-repeat="specification in ctrl.product.specifications | filter: { name: 'Dimensions' } | orderBy: 'sortOrder'" ng-bind-html="specification.htmlContent|trusted"></div>
                                             </div>
                                         </div>
                                     </article>
@@ -160,14 +160,14 @@
                                     </article>
                                 </div>
                             </section>
-                            <section class="accordion" ng-if="!vm.settings.displayDocumentsInTabs && vm.product.documents.length > 0 && vm.resourceAndAssemblyDocs.length > 0">
+                            <section class="accordion" ng-if="!ctrl.settings.displayDocumentsInTabs && ctrl.product.documents.length > 0 && ctrl.resourceAndAssemblyDocs.length > 0">
                                 <div>
                                     <input type="checkbox" id="accord-10002" class="accord-check" />
                                     <label id="tst_productList_tableView_filterButton" for="accord-10002" class="accord-head">[% translate 'Resource &amp; Assembly' %]</label>
                                     <article class="accord-content">
                                         <div id="tst_productDetail_htmlContent" class="product-cm">
                                             <ul class="doclinks">
-                                                <li ng-if="vm.languageId === document.languageId" ng-repeat="document in vm.resourceAndAssemblyDocs" class="doc-{{$index}}">
+                                                <li ng-if="ctrl.languageId === document.languageId" ng-repeat="document in ctrl.resourceAndAssemblyDocs" class="doc-{{$index}}">
                                                     <a id="tst_productDetail_{{document.id}}" ng-href="{{document.filePath}}" target="_new">{{document.name}} <em ng-if="document.documentType">({{document.documentType}})</em></a>
                                                 </li>
                                             </ul>
@@ -175,7 +175,7 @@
                                     </article>
                                 </div>
                             </section>
-                            <section class="accordion" ng-if="vm.isAttributeValue('GSA', 'Yes');">
+                            <section class="accordion" ng-show="ctrl.isAttributeValue('GSA', 'Yes');">
                                 <div>
                                     <input type="checkbox" id="accord-10003" class="accord-check" />
                                     <label id="tst_productList_tableView_filterButton" for="accord-10003" class="accord-head">[% translate 'Contract Information' %]</label>
@@ -192,60 +192,7 @@
 
             </div>
         </div>
-    </div>
-
-    <div ng-show="vm.product.specifications.length > 0 || vm.product.attributeTypes.length > 0 || vm.product.documents.length > 0" class="row pd-specs">
-        <div id="tst_productDetail_specifications" class="detail-specs easy-resp-tabs">
-            <ul class="resp-tabs-list">
-                <li ng-if="vm.settings.displayAttributesInTabs && vm.settings.attributesTabSortOrder === 'DisplayFirst' && vm.product.attributeTypes.length > 0">[% translate 'Attributes' %]</li>
-                <li ng-if="vm.settings.displayDocumentsInTabs && vm.settings.documentsTabSortOrder === 'DisplayFirst' && vm.product.documents.length > 0">[% translate 'Documents' %]</li>
-                <li ng-repeat="specification in vm.product.specifications | filter: { isActive: 'true' } | orderBy: 'sortOrder'" ng-class="{active: ($first)}">
-                    {{specification.nameDisplay}}
-                </li>
-                <li ng-if="vm.settings.displayAttributesInTabs && vm.settings.attributesTabSortOrder === 'DisplayLast' && vm.product.attributeTypes.length > 0">[% translate 'Attributes' %]</li>
-                <li ng-if="vm.settings.displayDocumentsInTabs && vm.settings.documentsTabSortOrder === 'DisplayLast' && vm.product.documents.length > 0">[% translate 'Documents' %]</li>
-            </ul>
-            <div class="resp-tabs-container">
-                <div ng-if="vm.settings.displayAttributesInTabs && vm.settings.attributesTabSortOrder === 'DisplayFirst' && vm.product.attributeTypes.length > 0">
-                    <table class="info-tbl spec-attributes">
-                        <tbody>
-                            <tr ng-repeat="attributeType in vm.product.attributeTypes | orderBy : ['label', 'name'] | limitTo: (maximumNumber || 100)" class="row">
-                                <td class="col-label columns small-4" ng-bind="attributeType.label || attributeType.name"></td>
-                                <td class="col-value columns small-8"><isc-no-element ng-repeat="attributeValue in attributeType.attributeValues | orderBy  : ['sortOrder','valueDisplay']">{{attributeValue.valueDisplay}}{{$last ? '' : ', '}}</isc-no-element></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div ng-if="vm.settings.displayDocumentsInTabs && vm.settings.documentsTabSortOrder === 'DisplayFirst' && vm.product.documents.length > 0">
-                    <ul class="spec-documents">
-                        <li ng-if="vm.languageId === document.languageId" ng-repeat="document in (orderedDocuments = (vm.product.documents | orderBy : 'documentType'))" class="doc-{{$index}}">
-                            <div ng-if="document.documentType && document.documentType !== orderedDocuments[$index - 1].documentType" class="doc-type"><strong ng-bind="document.documentType"></strong></div>
-                            <a ng-href="{{document.filePath}}" target="_new">{{document.name}}</a>
-                        </li>
-                    </ul>
-                </div>
-                <div ng-repeat="specification in vm.product.specifications | filter: { isActive: 'true' } | orderBy: 'sortOrder'" ng-bind-html="specification.htmlContent|trusted"></div>
-                <div ng-if="vm.settings.displayAttributesInTabs && vm.settings.attributesTabSortOrder === 'DisplayLast' && vm.product.attributeTypes.length > 0">
-                    <table class="info-tbl spec-attributes">
-                        <tbody>
-                            <tr ng-repeat="attributeType in vm.product.attributeTypes | orderBy : ['label', 'name'] | limitTo: (maximumNumber || 100)" class="row">
-                                <td class="col-label columns small-4" ng-bind="attributeType.label || attributeType.name"></td>
-                                <td class="col-value columns small-8"><isc-no-element ng-repeat="attributeValue in attributeType.attributeValues | orderBy  : ['sortOrder','valueDisplay']">{{attributeValue.valueDisplay}}{{$last ? '' : ', '}}</isc-no-element></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div ng-if="vm.settings.displayDocumentsInTabs && vm.settings.documentsTabSortOrder === 'DisplayLast' && vm.product.documents.length > 0">
-                    <ul class="spec-documents">
-                        <li ng-if="vm.languageId === document.languageId" ng-repeat="document in (orderedDocuments = (vm.product.documents | orderBy : 'documentType'))" class="doc-{{$index}}">
-                            <div ng-if="document.documentType && document.documentType !== orderedDocuments[$index - 1].documentType" class="doc-type"><strong ng-bind="document.documentType"></strong></div>
-                            <a ng-href="{{document.filePath}}" target="_new">{{document.name}}</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
+    </div>    
 </div>
 
 <script type="text/ng-template" id="productDetail_tellAFriend">
@@ -257,7 +204,7 @@
                     <div class="row share-name">
                         <isc-tell-a-friend-field field-label="[% translate 'Friend's Name' %]"
                                                  field-name="friendsName"
-                                                 field-value="vm.tellAFriendModel.friendsName"
+                                                 field-value="ctrl.tellAFriendModel.friendsName"
                                                  is-required="true"
                                                  is-email="false">
                         </isc-tell-a-friend-field>
@@ -265,7 +212,7 @@
                     <div class="row share-email">
                         <isc-tell-a-friend-field field-label="[% translate 'Friend's Email' %]"
                                                  field-name="friendsEmail"
-                                                 field-value="vm.tellAFriendModel.friendsEmailAddress"
+                                                 field-value="ctrl.tellAFriendModel.friendsEmailAddress"
                                                  is-required="true"
                                                  is-email="true">
                         </isc-tell-a-friend-field>
@@ -273,7 +220,7 @@
                     <div class="row share-you">
                         <isc-tell-a-friend-field field-label="[% translate 'Your Name' %]"
                                                  field-name="yourName"
-                                                 field-value="vm.tellAFriendModel.yourName"
+                                                 field-value="ctrl.tellAFriendModel.yourName"
                                                  is-required="true"
                                                  is-email="false">
                         </isc-tell-a-friend-field>
@@ -281,7 +228,7 @@
                     <div class="row share-youmail">
                         <isc-tell-a-friend-field field-label="[% translate 'Your Email' %]"
                                                  field-name="yourEmail"
-                                                 field-value="vm.tellAFriendModel.yourEmailAddress"
+                                                 field-value="ctrl.tellAFriendModel.yourEmailAddress"
                                                  is-required="true"
                                                  is-email="true">
                         </isc-tell-a-friend-field>
@@ -292,7 +239,7 @@
                             <span class="redTxt">*</span>
                         </div>
                         <div class="large-7 columns">
-                            <textarea ng-model="vm.tellAFriendModel.yourMessage" autofocus="autofocus"
+                            <textarea ng-model="ctrl.tellAFriendModel.yourMessage" autofocus="autofocus"
                                       id="yourMessage"
                                       name="yourMessage"
                                       data-rule-required="true"
@@ -301,12 +248,12 @@
                         </div>
                     </div>
                     <div class="row btns">
-                        <button id="tst_productDetail_shareSubmit" ng-click="vm.shareWithFriend()" class="btn primary btn-create-wishlist" type="button">[% translate 'Share' %]</button>
+                        <button id="tst_productDetail_shareSubmit" ng-click="ctrl.shareWithFriend()" class="btn primary btn-create-wishlist" type="button">[% translate 'Share' %]</button>
                     </div>
                 </form>
-                <div id="tst_productDetail_shareSubmitMessage" class="messaging" ng-show="vm.isSuccess || vm.isError">
-                    <span ng-show="vm.isSuccess">[% siteMessage 'TellAFriend_Success' %]</span>
-                    <span ng-show="vm.isError">[% siteMessage 'TellAFriend_Error' %]</span>
+                <div id="tst_productDetail_shareSubmitMessage" class="messaging" ng-show="ctrl.isSuccess || ctrl.isError">
+                    <span ng-show="ctrl.isSuccess">[% siteMessage 'TellAFriend_Success' %]</span>
+                    <span ng-show="ctrl.isError">[% siteMessage 'TellAFriend_Error' %]</span>
                 </div>
                 <a class="close-reveal-modal">&#215;</a>
             </div>
