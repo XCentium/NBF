@@ -739,6 +739,7 @@
     <Content Include="Views\Widgets\Custom\LatestBlogPosts\TitleOnly.cshtml" />
     <Content Include="Views\Widgets\PageTitle\Underline.cshtml" />
     <Content Include="Views\Widgets\Custom\Banner\H1Titles.cshtml" />
+    <Content Include="Views\Directives\Custom\Core\ProductListPager.cshtml" />
     <Content Include="Views\Widgets\Custom\CategoryListView\NoMargins.cshtml" />
     <Content Include="Views\Directives\Custom\Core\ItemListPager.cshtml" />
     <Content Include="Views\Widgets\Custom\LatestBlogPosts\WithMargins.cshtml" />
