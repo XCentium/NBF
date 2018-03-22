@@ -43,16 +43,16 @@ namespace Extensions.Widgets
             }
         }
 
-        [ListContentField(DisplayName = "Available Topics", IsRequired = true)]
-        public virtual List<string> Topics
+        [ListContentField(DisplayName = "Available Preferences", IsRequired = true)]
+        public virtual List<string> Preferences
         {
             get
             {
-                return this.GetValue<List<string>>("Topics", new List<string>(), FieldType.Contextual);
+                return this.GetValue<List<string>>("Preferences", new List<string>(), FieldType.Contextual);
             }
             set
             {
-                this.SetValue<List<string>>("Topics", value, FieldType.Contextual);
+                this.SetValue<List<string>>("Preferences", value, FieldType.Contextual);
             }
         }              
     }
