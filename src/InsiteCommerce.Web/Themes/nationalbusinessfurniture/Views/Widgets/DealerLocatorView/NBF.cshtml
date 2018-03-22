@@ -60,7 +60,6 @@
                             <div class="distance">
                                 <span ng-if="vm.distanceUnitOfMeasure===0" class="dealer-distance miles" ng-cloak>{{ dealer.distance.toFixed(2) }} [% translate 'mi' %]  </span>
                                 <span ng-if="vm.distanceUnitOfMeasure===1" class="dealer-distance kilometers" ng-cloak>{{ (dealer.distance * 1.60934).toFixed(2) }} [% translate 'km' %]</span>
-
                             </div>
                             {{dealer.phone}}<br />
                             {{dealer.fax}}
