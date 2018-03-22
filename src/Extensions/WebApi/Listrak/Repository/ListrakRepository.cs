@@ -34,5 +34,11 @@ namespace Extensions.WebApi.Listrak.Repository
             var a = await this.GetListrakHelper.Value.SendTransactionalEmail(parameter);
             return a;
         }
+
+        public async Task<bool> CreateOrUpdateContact(CreateOrUpdateContactParameter parameter)
+        {
+            var a = await this.GetListrakHelper.Value.CreateOrUpdateContact(parameter);
+            return a;
+        }
     }
 }

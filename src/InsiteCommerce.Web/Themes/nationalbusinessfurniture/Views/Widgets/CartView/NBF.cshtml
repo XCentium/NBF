@@ -16,7 +16,7 @@
 </div>
 <a ng-if="vm.cart.properties['isPunchout']" ng-href="/punchout/punchoutsubmitporequisition.isch?operation=cancel" isc-full-redirect class="btn primary btn-checkout">[% translate 'Cancel PunchOut' %]</a>
 <a ng-if="vm.cart.canRequisition" href="#" class="btn primary btn-submit-requisition tst_cartPage_submitRequisition" ng-click="vm.submitRequisition('[% urlForPage 'RequisitionConfirmationPage' %]')">[% translate 'Submit Requisition' %]</a>
-<a href="javascript:void(0);" class="btn secondary btn-clear-all tst_cartPage_removeAll" ng-click="vm.emptyCart('[% urlForPage 'CartPage' %]')">[% translate 'Remove All' %]</a>
+
 [% endcapture %]
 <div class="medium-12 large-12 columns widget-1column narrow-container cart">
     <div class="row">
