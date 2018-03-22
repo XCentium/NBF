@@ -133,7 +133,7 @@
             };
 
             if (this.pagination) {
-                filter.pageSize = this.pagination.pageSize;
+                filter.pageSize = 4;
                 filter.page = this.pagination.page;
             }
 
