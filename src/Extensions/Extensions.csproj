@@ -337,13 +337,13 @@
     <Compile Include="Widgets\CallUsPreparer.cs" />
     <Compile Include="Widgets\CallUs.cs" />
     <Compile Include="Widgets\CategoryListView.cs" />
-    <Compile Include="Widgets\CtaLinkWidget.cs" />
+    <Compile Include="Widgets\CTALinkWidget.cs" />
     <Compile Include="Widgets\LinkListWithTitlePreparer.cs" />
     <Compile Include="Widgets\NavigationFlyOutPreparer.cs" />
     <Compile Include="Widgets\ShopTheLookCta.cs" />
     <Compile Include="Widgets\ShopTheLookWidget.cs" />
     <Compile Include="Widgets\ShopTheLookLandingView.cs" />
-    <Compile Include="Widgets\CtaLinkZone.cs" />
+    <Compile Include="Widgets\CTALinkZone.cs" />
     <Compile Include="Widgets\ArticlePageComment.cs" />
     <Compile Include="Widgets\CategoryWidget.cs" />
     <Compile Include="Widgets\EmailSubscriptionWithTitle.cs" />

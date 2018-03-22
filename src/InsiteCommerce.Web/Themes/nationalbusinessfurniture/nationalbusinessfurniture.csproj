@@ -149,9 +149,9 @@
     <Content Include="Views\Directives\List\ShareListPopup.cshtml" />
     <Content Include="Views\Directives\List\UploadToListPopup.cshtml" />
     <Content Include="Views\Directives\PdfViews\ListDetails.cshtml" />
-    <Content Include="Views\Widgets\Custom\CtaLinkWidget\FourWide.cshtml" />
-    <Content Include="Views\Widgets\Custom\CtaLinkWidget\Standard.cshtml" />
-    <Content Include="Views\Widgets\Custom\CtaLinkZone\Standard.cshtml" />
+    <Content Include="Views\Widgets\Custom\CTALinkWidget\FourWide.cshtml" />
+    <Content Include="Views\Widgets\Custom\CTALinkWidget\Standard.cshtml" />
+    <Content Include="Views\Widgets\Custom\CTALinkZone\Standard.cshtml" />
     <Content Include="Views\Widgets\FrequentlyPurchased\Standard.cshtml" />
     <Content Include="Views\Widgets\MyListDetailView\Standard.cshtml" />
     <Content Include="Views\Widgets\MyListsView\Standard.cshtml" />
