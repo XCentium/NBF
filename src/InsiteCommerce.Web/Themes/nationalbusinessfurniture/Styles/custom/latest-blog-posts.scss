@@ -5,6 +5,8 @@
         display: -webkit-box;
         display: -ms-flexbox;
         display: flex;
+        -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
 
         @media all and (max-width: 767px) {
             display: block;
@@ -12,9 +14,16 @@
     }
 
     &__item {
-        -webkit-box-flex: 1;
-        -ms-flex: 1;
-        flex: 1;
+        -webkit-box-flex: 0;
+        -ms-flex: 0 0 33.333333%;
+        flex: 0 0 33.333333%;
+        max-width: 33.333333%;
+
+        @media all and (max-width: 767px) {
+            -webkit-box-flex: 1;
+            -ms-flex: 1;
+            flex: 1;
+        }
 
         a {
             text-decoration: none;

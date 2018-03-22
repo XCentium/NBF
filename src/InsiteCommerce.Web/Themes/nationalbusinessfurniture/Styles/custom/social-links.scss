@@ -1,0 +1,42 @@
+﻿@import "../variables";
+
+
+.social-links {
+
+
+
+    &.contact {
+        color: $nbf-navy;
+
+        .contact__title {
+            color: $nbf-navy;
+            font-weight: bold;
+            margin-bottom: 1em;
+            text-transform: uppercase;
+        }
+
+
+
+        .contact__social-links {
+            display: flex;
+            flex-flow: row wrap;
+            margin: 0;
+            list-style: none;
+            justify-content: space-between;
+            margin-bottom: 1em;
+
+            .cell {
+                width: 35px;
+
+                a {
+                    color: $nbf-navy;
+                }
+
+                img {
+                    max-width: 100%;
+                    width: 100%;
+                }
+            }
+        }
+    }
+}

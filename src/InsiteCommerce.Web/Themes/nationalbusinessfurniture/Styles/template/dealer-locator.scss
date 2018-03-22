@@ -139,7 +139,7 @@
         font-weight: 700;
         line-height: 1.4em;
         margin-bottom: 5px;
-        font-size: 36px;
+        font-size: 24px;
     }
     /* Hours Tooltip */
     .dealer-loc-results .dealer-hours-map {
@@ -309,29 +309,18 @@
         display: inline-block;
         position: relative;
         z-index: 2;
-        background: DodgerBlue;
-        border: 1px solid #fff;
         color: #fff;
-        font-family: 'sourcesanspro';
         font-size: 16px;
         font-weight: 600;
         padding: 2px .25em;
         min-width: 30px;
-        border-radius: 3px;
-        -webkit-box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.2);
-        box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.2);
         cursor: pointer;
     }
 
     .loc-marker:hover, .loc-marker:focus {
-        background: #fff;
-        color: DodgerBlue;
         z-index: 3;
     }
 
-    .loc-marker:hover:after, .loc-marker:focus:after {
-        border-top-color: #fff;
-    }
 
     .loc-marker span:after {
         position: absolute;
@@ -352,14 +341,14 @@
     }
 
     .loc-marker:after, .loc-marker:before {
-        top: 100%;
-        left: 50%;
-        border: solid transparent;
-        content: " ";
         height: 0;
         width: 0;
         position: absolute;
         pointer-events: none;
+        font-size: 35px;
+        z-index: -1;
+        left: 3px;
+        bottom: 31px;
     }
 
     .loc-marker:after {
