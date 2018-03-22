@@ -21,7 +21,7 @@
         & > div {
             position:relative;
 
-            :not(.four-wide){
+            &:not(.four-wide){
                 @media all and (min-width: 768px) {
                     padding-bottom:50px;
                 }
