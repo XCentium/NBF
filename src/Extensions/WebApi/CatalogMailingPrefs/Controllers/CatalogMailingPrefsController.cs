@@ -5,7 +5,6 @@ using Extensions.WebApi.CatalogMailingPrefs.Interfaces;
 using Extensions.WebApi.CatalogMailingPrefs.Models;
 using Insite.Core.Plugins.Utilities;
 using Insite.Core.WebApi;
-using Microsoft.Ajax.Utilities;
 
 namespace Extensions.WebApi.CatalogMailingPrefs.Controllers
 {
