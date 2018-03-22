@@ -748,6 +748,7 @@
     <Content Include="Views\Directives\Custom\Core\ItemListPager.cshtml" />
     <Content Include="Views\Widgets\Custom\LatestBlogPosts\WithMargins.cshtml" />
     <Content Include="Views\Widgets\Custom\LatestBlogPosts\WithMarginsTitleOnly.cshtml" />
+    <Content Include="Styles\custom\social-links.scss" />
   </ItemGroup>
   <ItemGroup />
   <PropertyGroup>
