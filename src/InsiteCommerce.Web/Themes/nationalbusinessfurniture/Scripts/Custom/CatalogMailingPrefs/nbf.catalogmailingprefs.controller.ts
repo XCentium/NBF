@@ -2,28 +2,40 @@
     "use strict";
 
     export class NbfCatalogMailingPrefsController {      
-        form: any = {};
+        catalogPrefs: any = {};
         submitted: boolean = false;
-        static $inject = ["$scope", "nbfCatalogMailingPrefsService"];
+        $form: JQuery;
+        static $inject = ["$element", "$scope", "nbfCatalogMailingPrefsService"];
 
         constructor(
+            protected $element: ng.IRootElementService,
             protected $scope: ng.IScope,
             protected nbfCatalogMailingPrefsService: CatalogMailingPrefs.INbfCatalogMailingPrefsService) {
             this.init();
         }
 
         init(): void {
+            this.$form = this.$element.find("form");
+            this.$form.removeData("validator");
+            this.$form.removeData("unobtrusiveValidation");
+            $.validator.unobtrusive.parse(this.$form);
         }
 
-        sendEmail(): void
+        sendEmail($event): boolean
         {
-            this.nbfCatalogMailingPrefsService.sendEmail(this.form).then(
+            $event.preventDefault();
+
+            if (!this.$form.valid()) {
+                return false;
+            }            
+            this.nbfCatalogMailingPrefsService.sendEmail(this.catalogPrefs).then(
                 (catalogMailingPrefs: string) => {
                     this.getCatalogMailingPrefsCompleted(catalogMailingPrefs);
                     this.submitted = true;
                 },
                 (error: any) => { this.getCatalogMailingPrefsFailed(error); });
-            
+
+            return false;
         }
 
         protected getCatalogMailingPrefsCompleted(catalogMailingPrefs: string): void {
