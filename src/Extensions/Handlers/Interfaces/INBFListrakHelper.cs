@@ -14,5 +14,6 @@ namespace Extensions.Handlers.Interfaces
     public interface INbfListrakHelper : IDependency, IExtension
     {
         Task<bool> SendTransactionalEmail(SendTransationalMessageParameter parameter);
+        Task<bool> CreateOrUpdateContact(CreateOrUpdateContactParameter parameter);
     }
 }

@@ -275,6 +275,7 @@
   <ItemGroup>
     <Compile Include="Enums\Listrak\Fields\OrderConfirmationFieldEnum.cs" />
     <Compile Include="Enums\Listrak\Fields\WelcomeEmailFieldEnum.cs" />
+    <Compile Include="Enums\Listrak\EventIdEnum.cs" />
     <Compile Include="Enums\Listrak\TransactionalMessageEnum.cs" />
     <Compile Include="Filters\OrderTrackerFilter.cs" />
     <Compile Include="Handlers\AddSessionHandlerNBF.cs" />
@@ -304,6 +305,7 @@
     <Compile Include="WebApi\Listrak\Controllers\ListrakController.cs" />
     <Compile Include="WebApi\Listrak\Interfaces\IListrakRepository.cs" />
     <Compile Include="WebApi\Listrak\Interfaces\IListrakService.cs" />
+    <Compile Include="WebApi\Listrak\Models\CreateOrUpdateContactParameter.cs" />
     <Compile Include="WebApi\Listrak\Models\SendTransationalMessageParameter.cs" />
     <Compile Include="WebApi\Listrak\Models\SegmentationFieldParameter.cs" />
     <Compile Include="WebApi\Listrak\Repository\ListrakRepository.cs" />
