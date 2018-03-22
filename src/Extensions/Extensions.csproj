@@ -346,7 +346,6 @@
     <Compile Include="Widgets\CallUs.cs" />
     <Compile Include="Widgets\CategoryListView.cs" />
     <Compile Include="Widgets\CTALinkWidget.cs" />
-    <Compile Include="Widgets\CtaLinkWidget.cs" />
     <Compile Include="Widgets\CatalogMailingPrefs.cs" />
     <Compile Include="Widgets\LinkListWithTitlePreparer.cs" />
     <Compile Include="Widgets\NavigationFlyOutPreparer.cs" />
