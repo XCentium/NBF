@@ -69,7 +69,7 @@
     </Reference>
     <Reference Include="DotLiquid, Version=1.0.0.0, Culture=neutral, PublicKeyToken=82e46016ecf9f07c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.0.38481\lib\net452\DotLiquid.dll</HintPath>
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.1.39382\lib\net452\DotLiquid.dll</HintPath>
     </Reference>
     <Reference Include="Insite.Account, Version=4.4.1.39382, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Insite.Commerce.Public.4.4.1.39382\lib\net452\Insite.Account.dll</HintPath>
@@ -337,13 +337,13 @@
     <Compile Include="Widgets\CallUsPreparer.cs" />
     <Compile Include="Widgets\CallUs.cs" />
     <Compile Include="Widgets\CategoryListView.cs" />
-    <Compile Include="Widgets\CtaLinkWidget.cs" />
+    <Compile Include="Widgets\CTALinkWidget.cs" />
     <Compile Include="Widgets\LinkListWithTitlePreparer.cs" />
     <Compile Include="Widgets\NavigationFlyOutPreparer.cs" />
     <Compile Include="Widgets\ShopTheLookCta.cs" />
     <Compile Include="Widgets\ShopTheLookWidget.cs" />
     <Compile Include="Widgets\ShopTheLookLandingView.cs" />
-    <Compile Include="Widgets\CtaLinkZone.cs" />
+    <Compile Include="Widgets\CTALinkZone.cs" />
     <Compile Include="Widgets\ArticlePageComment.cs" />
     <Compile Include="Widgets\CategoryWidget.cs" />
     <Compile Include="Widgets\EmailSubscriptionWithTitle.cs" />

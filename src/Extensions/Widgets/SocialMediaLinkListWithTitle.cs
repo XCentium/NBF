@@ -13,11 +13,11 @@ namespace Extensions.Widgets
         {
             get
             {
-                return this.GetValue<string>(nameof(Title), "Connect with us:", FieldType.Contextual);
+                return GetValue(nameof(Title), "Connect with us:", FieldType.Contextual);
             }
             set
             {
-                this.SetValue<string>(nameof(Title), value, FieldType.Contextual);
+                SetValue(nameof(Title), value, FieldType.Contextual);
             }
         }
 
@@ -27,11 +27,11 @@ namespace Extensions.Widgets
         {
             get
             {
-                return this.GetValue<string>(nameof(TwitterUrl), "", FieldType.Contextual);
+                return GetValue(nameof(TwitterUrl), "", FieldType.Contextual);
             }
             set
             {
-                this.SetValue<string>(nameof(TwitterUrl), value, FieldType.Contextual);
+                SetValue(nameof(TwitterUrl), value, FieldType.Contextual);
             }
         }
 
@@ -41,11 +41,11 @@ namespace Extensions.Widgets
         {
             get
             {
-                return this.GetValue<string>(nameof(FacebookUrl), "", FieldType.Contextual);
+                return GetValue(nameof(FacebookUrl), "", FieldType.Contextual);
             }
             set
             {
-                this.SetValue<string>(nameof(FacebookUrl), value, FieldType.Contextual);
+                SetValue(nameof(FacebookUrl), value, FieldType.Contextual);
             }
         }
 
@@ -55,11 +55,11 @@ namespace Extensions.Widgets
         {
             get
             {
-                return this.GetValue<string>(nameof(PinterestUrl), "", FieldType.Contextual);
+                return GetValue(nameof(PinterestUrl), "", FieldType.Contextual);
             }
             set
             {
-                this.SetValue<string>(nameof(PinterestUrl), value, FieldType.Contextual);
+                SetValue(nameof(PinterestUrl), value, FieldType.Contextual);
             }
         }
 
@@ -69,11 +69,11 @@ namespace Extensions.Widgets
         {
             get
             {
-                return this.GetValue<string>(nameof(InstagramUrl), "", FieldType.Contextual);
+                return GetValue(nameof(InstagramUrl), "", FieldType.Contextual);
             }
             set
             {
-                this.SetValue<string>(nameof(InstagramUrl), value, FieldType.Contextual);
+                SetValue(nameof(InstagramUrl), value, FieldType.Contextual);
             }
         }
 
@@ -83,11 +83,11 @@ namespace Extensions.Widgets
         {
             get
             {
-                return this.GetValue<string>(nameof(YoutubeUrl), "", FieldType.Contextual);
+                return GetValue(nameof(YoutubeUrl), "", FieldType.Contextual);
             }
             set
             {
-                this.SetValue<string>(nameof(YoutubeUrl), value, FieldType.Contextual);
+                SetValue(nameof(YoutubeUrl), value, FieldType.Contextual);
             }
         }
 
@@ -97,11 +97,11 @@ namespace Extensions.Widgets
         {
             get
             {
-                return this.GetValue<string>(nameof(GooglePlusUrl), "", FieldType.Contextual);
+                return GetValue(nameof(GooglePlusUrl), "", FieldType.Contextual);
             }
             set
             {
-                this.SetValue<string>(nameof(GooglePlusUrl), value, FieldType.Contextual);
+                SetValue(nameof(GooglePlusUrl), value, FieldType.Contextual);
             }
         }
 
@@ -111,11 +111,11 @@ namespace Extensions.Widgets
         {
             get
             {
-                return this.GetValue<string>(nameof(LinkedInUrl), "", FieldType.Contextual);
+                return GetValue(nameof(LinkedInUrl), "", FieldType.Contextual);
             }
             set
             {
-                this.SetValue<string>(nameof(LinkedInUrl), value, FieldType.Contextual);
+                SetValue(nameof(LinkedInUrl), value, FieldType.Contextual);
             }
         }
 
@@ -125,11 +125,11 @@ namespace Extensions.Widgets
         {
             get
             {
-                return this.GetValue<string>(nameof(EmailAddress), "", FieldType.Contextual);
+                return GetValue(nameof(EmailAddress), "", FieldType.Contextual);
             }
             set
             {
-                this.SetValue<string>(nameof(EmailAddress), value, FieldType.Contextual);
+                SetValue(nameof(EmailAddress), value, FieldType.Contextual);
             }
         }
     }
