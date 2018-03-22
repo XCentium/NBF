@@ -83,13 +83,13 @@ input[type="text"], select, input[type="email"], input[type="password"] {
     }
 }
 
-input.customcheckbox[type=checkbox] {
+input.customcheckbox[type=checkbox], input.customcheckbox[type=radio] {
     visibility: hidden;
     position: absolute;
 
     & + label {
-        margin-left:0;
-        position:relative;
+        margin-left: 0;
+        position: relative;
 
         &:before {
             content: '';

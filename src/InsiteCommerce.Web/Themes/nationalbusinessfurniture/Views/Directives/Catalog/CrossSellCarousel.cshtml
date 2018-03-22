@@ -13,6 +13,9 @@
         when the directive has replace = true. https://github.com/angular/angular.js/issues/9837 -->
     <div class="row" role="cross-sells" ng-if="vm.showCrossSellCarousel()" ng-cloak>
         <div class="medium-12 large-12 columns">
+            <div class="carousel-title">
+                Related Accessories
+            </div>
             <div class="carousel-wrapper">
                 <div class="cs-carousel">
 
@@ -24,11 +27,31 @@
                                     <div class="thumb-wrap">
                                         <div class="item-thumb">
                                             <a ng-href="{{::crossSellProduct.productDetailUrl}}">
-                                                <img ng-src="{{::crossSellProduct.mediumImagePath}}" alt="{{::crossSellProduct.altText}}" increment-images-loaded/>
+                                                <img ng-src="https://s7d9.scene7.com/is/image/NationalBusinessFurniture/{{::crossSellProduct.mediumImagePath}}?hei=250&id=Iu1rN2&fmt=jpg&fit=constrain,1&wid=250&hei=250" alt="{{::crossSellProduct.altText}}" increment-images-loaded />
                                             </a>
                                         </div>
                                     </div>
-
+                                    <div class="item-block__product__swatch">
+                                        <div class="swatch-list">
+                                            <!-- ngRepeat: swatchImg in vm.getTop3Swatches(product.properties['swatches']) -->
+                                            <div class="swatch-list-item">
+                                                <div class="item-block__product__swatch__img-wrap">
+                                                    <img class="item-block__product__swatch" ng-src="https://s7d9.scene7.com/is/image/NationalBusinessFurniture/nig-F11-foundation-charcoal_zom?hei=200&amp;id=5-zsy2&amp;fmt=jpg&amp;fit=constrain,1&amp;wid=344&amp;hei=344" src="https://s7d9.scene7.com/is/image/NationalBusinessFurniture/nig-F11-foundation-charcoal_zom?hei=200&amp;id=5-zsy2&amp;fmt=jpg&amp;fit=constrain,1&amp;wid=344&amp;hei=344">
+                                                </div>
+                                            </div><!-- end ngRepeat: swatchImg in vm.getTop3Swatches(product.properties['swatches']) -->
+                                            <div class="swatch-list-item">
+                                                <div class="item-block__product__swatch__img-wrap">
+                                                    <img class="item-block__product__swatch" ng-src="https://s7d9.scene7.com/is/image/NationalBusinessFurniture/nig-F15-foundation-camel_zom?hei=200&amp;id=5-zsy2&amp;fmt=jpg&amp;fit=constrain,1&amp;wid=344&amp;hei=344" src="https://s7d9.scene7.com/is/image/NationalBusinessFurniture/nig-F15-foundation-camel_zom?hei=200&amp;id=5-zsy2&amp;fmt=jpg&amp;fit=constrain,1&amp;wid=344&amp;hei=344">
+                                                </div>
+                                            </div><!-- end ngRepeat: swatchImg in vm.getTop3Swatches(product.properties['swatches']) -->
+                                            <div class="swatch-list-item">
+                                                <div class="item-block__product__swatch__img-wrap">
+                                                    <img class="item-block__product__swatch" ng-src="https://s7d9.scene7.com/is/image/NationalBusinessFurniture/nig-F17-foundation-bluestone_zom?hei=200&amp;id=5-zsy2&amp;fmt=jpg&amp;fit=constrain,1&amp;wid=344&amp;hei=344" src="https://s7d9.scene7.com/is/image/NationalBusinessFurniture/nig-F17-foundation-bluestone_zom?hei=200&amp;id=5-zsy2&amp;fmt=jpg&amp;fit=constrain,1&amp;wid=344&amp;hei=344">
+                                                </div>
+                                            </div><!-- end ngRepeat: swatchImg in vm.getTop3Swatches(product.properties['swatches']) -->
+                                            <div class="item-block__product__more-link"><u>More</u></div>
+                                        </div>
+                                    </div>
                                     <div class="item-name">
                                         <a ng-href="{{::crossSellProduct.productDetailUrl}}">{{::crossSellProduct.shortDescription}}</a>
                                     </div>
@@ -40,8 +63,14 @@
                                             <span class="item-num-my" ng-if="::(!!crossSellProduct.customerName)">[% translate 'My Part #' %]: {{::crossSellProduct.customerName}}</span>
                                         </div>
 
-                                        <div class="price" ng-if="!vm.failedToGetRealTimePrices">
+                                        <div class="price item-block__product__price" ng-if="!vm.failedToGetRealTimePrices">
                                             <isc-product-price product="crossSellProduct" id-key="" ng-if="::crossSellProduct.canShowPrice"></isc-product-price>
+                                            <span class="strike ori-price-tag">Was $200.00</span>
+                                            <!-- ngIf: vm.isAttributeValue(product, 'GSA', 'Yes'); -->
+                                            <div class="item-block__product__flag gsa">
+                                                GSA
+                                            </div>
+                                            <!-- end ngIf: vm.isAttributeValue(product, 'GSA', 'Yes'); -->
                                             <span class="um displayUnitOfMeasure" ng-if="vm.showUnitOfMeasureLabel(crossSellProduct)">
                                                 <span class="um-sep">/</span>
                                                 <span class="selected-uom">{{crossSellProduct.unitOfMeasureDescription || crossSellProduct.unitOfMeasureDisplay}}</span>
@@ -61,7 +90,16 @@
                                             </div>
                                         </div>
                                     </div>
-
+                                    <div class="item-block__product__col-2 clearfix">
+                                        <div class="col-1">
+                                            <div class="item-block__product__stars"><div class="rating"></div>Stars Here!</div>
+                                        </div>
+                                        <div class="col-2">
+                                            <!-- ngIf: vm.isAttributeValue(product, 'Ships Today', 'Yes'); -->
+                                            <div class="item-block__product__ships-today"><span class="ico-Truck"></span> Ships Today!</div>
+                                            <!-- end ngIf: vm.isAttributeValue(product, 'Ships Today', 'Yes'); -->
+                                        </div>
+                                    </div>
                                     <div class="actions-block">
                                         <div class="item-qty" ng-if="::crossSellProduct.canAddToCart">
                                             <input type="text" ng-model="crossSellProduct.qtyOrdered" ng-init="crossSellProduct.qtyOrdered = crossSellProduct.minimumOrderQty || 1" class="qty numerictextbox tst_crossSellProduct_qtyOrdered" />
@@ -76,9 +114,15 @@
                         </li>
                     </ul>
                 </div>
+                <div class="flex-control-wrap">
+                    <a href="#" class="carousel-control-nav carousel-control-prev flex-prev"><span></span></a>
+                    <div class="custom-controls-container">
 
-                <a href="#" class="carousel-control-nav carousel-control-prev flex-prev"><span></span></a>
-                <a href="#" class="carousel-control-nav carousel-control-next flex-next"><span></span></a>
+                    </div>
+                    <a href="#" class="carousel-control-nav carousel-control-next flex-next"><span></span></a>
+                </div>
+               
+
             </div>
 
         </div>

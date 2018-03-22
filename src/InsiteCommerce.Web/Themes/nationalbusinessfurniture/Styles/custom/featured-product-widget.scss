@@ -42,6 +42,12 @@
             text-decoration: none;
         }
 
+        &__more-link {
+            @media all and (min-width:768px) {
+                float: right;
+            }
+        }
+
         &__img-wrap {
             margin-bottom: 15px;
             border: 1px solid $divider-gray;
@@ -70,7 +76,7 @@
             }
 
             .ori-price-tag {
-                font-size: 16px;
+                font-size: 16px !important;
 
                 &.strike {
                     text-decoration: line-through;
@@ -151,6 +157,17 @@
                 list-style: none;
 
                 li {
+                    display: inline-block;
+                    margin-right: 10px;
+                }
+            }
+
+            .swatch-list {
+                margin: 0;
+                padding: 0;
+                list-style: none;
+
+                .swatch-list-item {
                     display: inline-block;
                     margin-right: 10px;
                 }
