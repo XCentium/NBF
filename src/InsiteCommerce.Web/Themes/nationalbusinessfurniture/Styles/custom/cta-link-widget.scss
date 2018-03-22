@@ -21,8 +21,10 @@
         & > div {
             position:relative;
 
-            @media all and (min-width: 768px) {
-                padding-bottom:50px;
+            :not(.four-wide){
+                @media all and (min-width: 768px) {
+                    padding-bottom:50px;
+                }
             }
         }
     }
