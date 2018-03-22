@@ -38,8 +38,8 @@
                     <strong ng-cloak>{{ vm.pagination.totalItemCount }}</strong> [% translate 'Results' %]
                 </div>
                 <div class="distance-unit">
-                    <input type="radio" id="milesKmGroup-1" name="milesKmGroup" class="Imperial customcheckbox" ng-model="vm.distanceUnitOfMeasure" ng-value="0" /><label for="milesKmGroup-1">[% translate 'Miles' %]</label>
-                    <input type="radio" id="milesKmGroup-2" name="milesKmGroup" class="Metric customcheckbox" ng-model="vm.distanceUnitOfMeasure" ng-value="1" /><label for="milesKmGroup-2">[% translate 'Kilometers' %]</label>
+                    <input type="radio" id="milesKmGroup-1" name="milesKmGroup" class="Imperial customradio" ng-model="vm.distanceUnitOfMeasure" ng-value="0" /><label for="milesKmGroup-1">[% translate 'Miles' %]</label>
+                    <input type="radio" id="milesKmGroup-2" name="milesKmGroup" class="Metric customradio" ng-model="vm.distanceUnitOfMeasure" ng-value="1" /><label for="milesKmGroup-2">[% translate 'Kilometers' %]</label>
                 </div>
             </div>
 
@@ -48,7 +48,7 @@
                     <div class="result-num"><span class="ico ico-Pin"></span>{{::vm.getDealerNumber($index)}}</div>
                     <div class="dealer-deetz">
                         <div class="dealer-name">
-                            <a ng-href="{{dealer.webSiteUrl ?? [% urlForPage 'DealerPage' %]?dealerId=' + dealer.id}}" ng-cloak>{{dealer.name}}</a>
+                            <a ng-href="{{dealer.webSiteUrl}}" ng-cloak>{{dealer.name}}</a>
                         </div>
                         <div class="dealer-addy" ng-cloak>
                             {{dealer.address1}}<br />
@@ -103,7 +103,7 @@
     <div class="dealer-win">
         <div class="dealer-deetz">
             <div class="dealer-name">
-                <a ng-href="{{dealer.webSiteUrl ?? [% urlForPage 'DealerPage' %]?dealerId=' + dealer.id}}" ng-bind="dealer.name"></a>
+                <a ng-href="{{dealer.webSiteUrl}}" ng-bind="dealer.name"></a>
             </div>
             <div class="dealer-addy">{{dealer.address1}}<br />{{dealer.address2}}<br ng-if="dealer.address2" />{{dealer.city}}, {{dealer.state}} {{dealer.postalCode}}<br />{{dealer.phone}}</div>
             <div class="dealer-hours-map" ng-if="dealer.htmlContent">
