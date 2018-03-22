@@ -747,6 +747,8 @@
     <Content Include="Views\Widgets\Custom\LatestBlogPosts\WithMargins.cshtml" />
     <Content Include="Views\Widgets\Custom\LatestBlogPosts\WithMarginsTitleOnly.cshtml" />
     <Content Include="Styles\custom\social-links.scss" />
+    <Content Include="Views\Widgets\Custom\Banner\Video-banner.cshtml" />
+    <Content Include="Views\Widgets\Custom\ProductCTA\Video-CTA.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <PropertyGroup>
