@@ -9,6 +9,8 @@ using Insite.Data.Entities;
 using Extensions.WebApi.Listrak.Interfaces;
 using Extensions.WebApi.Listrak.Models;
 using System.Threading.Tasks;
+using Extensions.Enums.Listrak;
+using System.Collections.Generic;
 
 namespace Extensions.WebApi.Listrak.Controllers
 {
@@ -30,6 +32,19 @@ namespace Extensions.WebApi.Listrak.Controllers
         public async Task<IHttpActionResult> SendTransationalMessage(SendTransationalMessageParameter parameter)
         {
             var a = await this._listrakService.SendTransationalMessage(parameter);
+
+            return Ok(a);
+        }
+
+        [Route("CreateContact", Name = "createorupdatecontact"), HttpPost]
+        [ResponseType(typeof(string))]
+        public async Task<IHttpActionResult> CreateOrUpdateContact([FromBody] CreateOrUpdateContactParameter parameter)
+        {
+            parameter.OverrideUnsubscribe = true;
+            parameter.SubscribedByContact = true;
+            parameter.SubscriptionState = "Subscribed";
+            
+            var a = await this._listrakService.CreateOrUpdateContact(parameter);
 
             return Ok(a);
         }

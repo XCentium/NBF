@@ -186,6 +186,8 @@
     <TypeScriptCompile Include="Scripts\Custom\Core\nbf.pager.directives.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Dashboard\nbf.dashboard-view.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Dealers\nbf.dealer-list.controller.ts" />
+    <TypeScriptCompile Include="Scripts\Custom\Email\nbf.email-subscription.controller.ts" />
+    <TypeScriptCompile Include="Scripts\Custom\Email\nbf.listrak.service.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Footer\nbf.footer.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Invoices\nbf.invoice.directives.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Invoices\nbf.recent-invoices.controller.ts" />
@@ -746,6 +748,7 @@
     <Content Include="Views\Directives\Custom\Core\ItemListPager.cshtml" />
     <Content Include="Views\Widgets\Custom\LatestBlogPosts\WithMargins.cshtml" />
     <Content Include="Views\Widgets\Custom\LatestBlogPosts\WithMarginsTitleOnly.cshtml" />
+    <Content Include="Styles\custom\social-links.scss" />
   </ItemGroup>
   <ItemGroup />
   <PropertyGroup>
