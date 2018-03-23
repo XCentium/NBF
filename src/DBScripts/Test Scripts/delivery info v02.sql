@@ -131,5 +131,5 @@
 	--,f.ProductId, f.ERPNumber, f.Delivery, f.chargeText, f.chargeTextCartonCount, f.chargeTextItemsPerCarton, f.plcText, f.sText, f.DeliveryText, f.plcPostText
 	from final f
 	where f.ContentManagerId not in (select ContentManagerId from Content)
-	--and isnull(f.Delivery,'') != ''
+	and isnull(f.Delivery,'') != ''
 	--and f.ERPNumber = '56848'
