@@ -737,7 +737,6 @@
     <Content Include="Styles\custom\main-nav.scss" />
     <Content Include="Styles\custom\article-page.scss" />
     <Content Include="Views\Widgets\RichContent\article-quote.cshtml" />
-    <Content Include="Views\Widgets\Carousel\ProductCarousel.cshtml" />
     <Content Include="Styles\custom\flex-slider.scss" />
     <Content Include="Views\Widgets\DealerLocatorView\NBF.cshtml" />
     <Content Include="Styles\custom\sales-rep-finder.scss" />
@@ -752,6 +751,7 @@
     <Content Include="Views\Widgets\Custom\LatestBlogPosts\WithMarginsTitleOnly.cshtml" />
     <Content Include="Styles\custom\social-links.scss" />
     <Content Include="Views\Widgets\Custom\CatalogMailingPrefs\Standard.cshtml" />
+    <Content Include="Views\Widgets\Custom\ProductCarousel\Standard.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <PropertyGroup>

@@ -14,11 +14,11 @@ namespace Extensions.Widgets
         {
             get
             {
-                return this.GetValue<string>(nameof(Title), string.Empty, FieldType.Contextual);
+                return GetValue(nameof(Title), string.Empty, FieldType.Contextual);
             }
             set
             {
-                this.SetValue<string>(nameof(Title), value, FieldType.Contextual);
+                SetValue(nameof(Title), value, FieldType.Contextual);
             }
         }
 
@@ -44,11 +44,11 @@ namespace Extensions.Widgets
         {
             get
             {
-                return this.GetValue<string>(nameof(AllCategoriesText), string.Empty, FieldType.Contextual);
+                return GetValue(nameof(AllCategoriesText), string.Empty, FieldType.Contextual);
             }
             set
             {
-                this.SetValue<string>(nameof(AllCategoriesText), value, FieldType.Contextual);
+                SetValue(nameof(AllCategoriesText), value, FieldType.Contextual);
             }
         }
 
@@ -58,11 +58,11 @@ namespace Extensions.Widgets
         {
             get
             {
-                return this.GetValue<string>(nameof(AllCategoriesUrl), string.Empty, FieldType.Contextual);
+                return GetValue(nameof(AllCategoriesUrl), string.Empty, FieldType.Contextual);
             }
             set
             {
-                this.SetValue<string>(nameof(AllCategoriesUrl), value, FieldType.Contextual);
+                SetValue(nameof(AllCategoriesUrl), value, FieldType.Contextual);
             }
         }
     }
