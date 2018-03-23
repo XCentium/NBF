@@ -140,6 +140,7 @@
                 margin: 0;
                 line-height: 1.5;
                 padding: 30px 0;
+                font-weight: 500;
 
                 @media all and (max-width: 1079px) {
                     padding: 0px;
@@ -184,7 +185,7 @@
 
         &--default {
             .btn {
-                min-width:200px;
+                min-width: 200px;
             }
         }
     }
