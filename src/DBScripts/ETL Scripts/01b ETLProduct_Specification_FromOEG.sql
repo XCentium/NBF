@@ -35,6 +35,13 @@ begin
 	else
 	begin
 
+
+	/*
+	Delivery
+	*/
+
+
+
 	/*
 	Dimensions
 	*/
@@ -68,6 +75,7 @@ begin
 		and sp.BrandId = @brand
 	join OEGSystemStaging.dbo.ItemDimensions dim on dim.ItemId = sp.ItemId
 	join OEGSystemStaging.dbo.ProductSKUs spsku on spsku.ProductId = sp.ProductId
+		and spsku.EffEndDate > getdate() and spsku.IsWebEnabled = 1
 	join OEGSystemStaging.dbo.ItemSKUs sisku on sisku.ItemSKUId = spsku.ItemSKUId
 	group by 
 		p.Id, p.ERPNumber, dim.General, dim.Back, dim.Seat, dim.Arm, sp.ItemId, s.ContentManagerId
@@ -128,6 +136,7 @@ begin
 		and sp.BrandId = @brand
 	join OEGSystemStaging.dbo.ItemDimensions dim on dim.ItemId = sp.ItemId
 	join OEGSystemStaging.dbo.ProductSKUs spsku on spsku.ProductId = sp.ProductId
+		and spsku.EffEndDate > getdate() and spsku.IsWebEnabled = 1
 	join OEGSystemStaging.dbo.ItemSKUs sisku on sisku.ItemSKUId = spsku.ItemSKUId
 	group by 
 		p.Id, p.ERPNumber, dim.General, dim.Back, dim.Seat, dim.Arm, sp.ItemId, s.ContentManagerId
