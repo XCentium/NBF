@@ -299,6 +299,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Settings\PhoneNumberSettings.cs" />
     <Compile Include="Settings\OrderTrackerSettings.cs" />
+    <Compile Include="WebApi\CatalogMailingPrefs\Models\CatalogPrefsDto.cs" />
     <Compile Include="WebApi\GuestActivation\Controllers\GuestActivationController.cs" />
     <Compile Include="WebApi\GuestActivation\Models\GuestActivationParameter.cs" />
     <Compile Include="WebApi\Base\BaseRepository.cs" />
@@ -316,6 +317,11 @@
     <Compile Include="WebApi\Messages\Models\CreateMessagesParameter.cs" />
     <Compile Include="WebApi\Messages\Repository\MessageRepository.cs" />
     <Compile Include="WebApi\Messages\Services\MessagesService.cs" />
+    <Compile Include="WebApi\CatalogMailingPrefs\Controllers\CatalogMailingPrefsController.cs" />
+    <Compile Include="WebApi\CatalogMailingPrefs\Interfaces\ICatalogMailingPrefsRepository.cs" />
+    <Compile Include="WebApi\CatalogMailingPrefs\Interfaces\ICatalogMailingPrefsService.cs" />
+    <Compile Include="WebApi\CatalogMailingPrefs\Repository\CatalogMailingPrefsRepository.cs" />
+    <Compile Include="WebApi\CatalogMailingPrefs\Services\CatalogMailingPrefsService.cs" />
     <Compile Include="WebApi\WebCode\Controllers\WebCodeController.cs" />
     <Compile Include="WebApi\WebCode\Interfaces\IWebCodeRepository.cs" />
     <Compile Include="WebApi\WebCode\Interfaces\IWebCodeService.cs" />
@@ -340,6 +346,7 @@
     <Compile Include="Widgets\CallUs.cs" />
     <Compile Include="Widgets\CategoryListView.cs" />
     <Compile Include="Widgets\CTALinkWidget.cs" />
+    <Compile Include="Widgets\CatalogMailingPrefs.cs" />
     <Compile Include="Widgets\LinkListWithTitlePreparer.cs" />
     <Compile Include="Widgets\NavigationFlyOutPreparer.cs" />
     <Compile Include="Widgets\ShopTheLookCta.cs" />
@@ -384,6 +391,7 @@
     <Compile Include="Widgets\PageTagSelectViewPageDrop.cs" />
     <Compile Include="Widgets\PageTagSelectViewPreparer.cs" />
     <Compile Include="Widgets\SignInWidget.cs" />
+    <Compile Include="Widgets\ProductCarousel.cs" />
     <Compile Include="Widgets\WebCode.cs" />
   </ItemGroup>
   <ItemGroup>

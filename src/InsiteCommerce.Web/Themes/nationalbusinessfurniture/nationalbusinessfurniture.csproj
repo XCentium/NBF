@@ -199,6 +199,8 @@
     <TypeScriptCompile Include="Scripts\Custom\ShopTheLook\nbf.shop-the-look.widget.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\ShopTheLook\nbf.shop-the-look.landing-view.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\SocialMediaSharing\nbf.social-media.controller.ts" />
+    <TypeScriptCompile Include="Scripts\Custom\CatalogMailingPrefs\nbf.catalogmailingprefs.controller.ts" />
+    <TypeScriptCompile Include="Scripts\Custom\CatalogMailingPrefs\nbf.catalogmailingprefs.service.ts" />
     <TypeScriptCompile Include="Scripts\Custom\WebCode\nbf.web-code.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\WebCode\nbf.web-code.service.ts" />
     <TypeScriptCompile Include="Scripts\Custom\WishLists\nbf.wishlist.service.ts" />
@@ -735,7 +737,6 @@
     <Content Include="Styles\custom\main-nav.scss" />
     <Content Include="Styles\custom\article-page.scss" />
     <Content Include="Views\Widgets\RichContent\article-quote.cshtml" />
-    <Content Include="Views\Widgets\Carousel\ProductCarousel.cshtml" />
     <Content Include="Styles\custom\flex-slider.scss" />
     <Content Include="Views\Widgets\DealerLocatorView\NBF.cshtml" />
     <Content Include="Styles\custom\sales-rep-finder.scss" />
@@ -751,6 +752,10 @@
     <Content Include="Styles\custom\social-links.scss" />
     <Content Include="Views\Widgets\Custom\Banner\Video-banner.cshtml" />
     <Content Include="Views\Widgets\Custom\ProductCTA\Video-CTA.cshtml" />
+    <Content Include="Views\Widgets\Custom\CatalogMailingPrefs\Standard.cshtml" />
+    <Content Include="Views\Widgets\Custom\Banner\SubPageBanner.cshtml" />
+    <Content Include="Views\Widgets\Custom\Banner\SubPageBannerH1Titles.cshtml" />
+    <Content Include="Views\Widgets\Custom\ProductCarousel\Standard.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <PropertyGroup>
