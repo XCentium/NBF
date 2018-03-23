@@ -62,7 +62,7 @@
                                 <span ng-if="vm.distanceUnitOfMeasure===1" class="dealer-distance kilometers" ng-cloak>{{ (dealer.distance * 1.60934).toFixed(2) }} [% translate 'km' %]</span>
                             </div>
                             {{dealer.phone}}<br />
-                            {{dealer.fax}}
+                            {{dealer.properties["email"]}}
                         </div>
 
                         <div class="dealer-hours-map" style="display:none;" ng-if="dealer.htmlContent">
@@ -104,12 +104,17 @@
             <div class="dealer-name">
                 <a ng-href="{{dealer.webSiteUrl}}" ng-bind="dealer.name"></a>
             </div>
-            <div class="dealer-addy">{{dealer.address1}}<br />{{dealer.address2}}<br ng-if="dealer.address2" />{{dealer.city}}, {{dealer.state}} {{dealer.postalCode}}<br />{{dealer.phone}}</div>
+            <div class="dealer-addy">
+                {{dealer.address1}}<br />
+                {{dealer.address2}}<br ng-if="dealer.address2" />
+                {{dealer.city}}, {{dealer.state}} {{dealer.postalCode}}<br />
+                {{dealer.phone}}<br />
+                {{dealer.properties["email"]}}
+            </div>
             <div class="dealer-hours-map" ng-if="dealer.htmlContent">
                 <div ng-bind-html="dealer.htmlContent"></div>
             </div>
             <a ng-href="{{'http://maps.google.com/maps?daddr=' + dealer.address1 + ' ' + dealer.address2 + ', ' + dealer.city + ', ' + dealer.state + ' ' + dealer.postalCode}}" class='dealer-directions'>[% translate 'Directions' %]</a>
-            <span ng-if="dealer.webSiteUrl"><a ng-href="{{dealer.webSiteUrl}}" class='dealer-www' target='_blank'>[% translate 'Website' %]</a></span>
             <span ng-if="dealer.distanceUnitOfMeasure === '0'" class="dealer-distance miles">{{(dealer.distance).toFixed(2)}} [% translate 'mi' %]</span>
             <span ng-if="dealer.distanceUnitOfMeasure === '1'" class="dealer-distance kilometers">{{(dealer.distance * 1.60934).toFixed(2)}} [% translate 'km' %]</span>
         </div>
