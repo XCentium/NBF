@@ -391,6 +391,7 @@
     <Compile Include="Widgets\PageTagSelectViewPageDrop.cs" />
     <Compile Include="Widgets\PageTagSelectViewPreparer.cs" />
     <Compile Include="Widgets\SignInWidget.cs" />
+    <Compile Include="Widgets\ProductCarousel.cs" />
     <Compile Include="Widgets\WebCode.cs" />
   </ItemGroup>
   <ItemGroup>
