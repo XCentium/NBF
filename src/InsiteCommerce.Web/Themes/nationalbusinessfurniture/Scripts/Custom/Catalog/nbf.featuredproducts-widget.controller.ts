@@ -10,6 +10,7 @@
         products: ProductDto[]; 
         favoritesWishlist: WishListModel;
         isAuthenticated: boolean = false;
+        imagesLoaded: number;
 
         static $inject = ["$timeout", "$window", "$scope", "$rootScope", "$attrs", "productService", "sessionService", "nbfWishListService"];
 
@@ -40,6 +41,8 @@
                 (result) => {
                     this.products = result.products;
                     this.getFavorites();
+                    this.imagesLoaded = 0;
+                    this.waitForDom();
 
                     this.sessionService.getIsAuthenticated().then(x => {
                         this.isAuthenticated = x;
@@ -133,6 +136,51 @@
                 });
             });
         }
+
+
+
+        protected cEqualize(): void {
+            const $itemBlocks = $(".item-block__product");
+            if ($itemBlocks.length > 0) {
+                let maxHeight = -1;
+                let priceHeight = -1;
+                let thumbHeight = -1;
+                let productInfoHeight = -1;
+
+                $itemBlocks.each((i, elem) => {
+                    const $elem = $(elem);
+                    thumbHeight = thumbHeight > $elem.find(".item-block__product__img-wrap").height() ? thumbHeight : $elem.find(".item-block__product__img-wrap").height();
+                    productInfoHeight = productInfoHeight > $elem.find(".item-block__product__details").height() ? productInfoHeight : $elem.find(".item-block__product__details").height();
+                });
+                if (productInfoHeight > 0) {
+                    $itemBlocks.each((i, elem) => {
+                        const $elem = $(elem);
+                        $elem.find(".item-block__product__img-wrap").height(thumbHeight);
+                        $elem.find(".item-block__product__details").height(productInfoHeight);
+                        $elem.addClass("eq");
+                    });
+                }
+            }
+        }
+
+        // Equalize the product grid after all of the images have been downloaded or they will be misaligned (grid view only)
+        protected waitForDom(tries?: number): void {
+            if (isNaN(+tries)) {
+                tries = 1000; // Max 20000ms
+            }
+
+            // If DOM isn't ready after max number of tries then stop
+            if (tries > 0) {
+                setTimeout(() => {
+                    if (this.imagesLoaded >= this.products.length) {
+                        this.cEqualize();
+                    } else {
+                        this.waitForDom(tries - 1);
+                    }
+                }, 20);
+            }
+        }
+
     }
 
     angular
