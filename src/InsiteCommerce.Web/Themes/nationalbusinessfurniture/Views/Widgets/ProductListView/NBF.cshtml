@@ -135,6 +135,9 @@
                                                         <div ng-if="vm.isAttributeValue(product, 'GSA', 'Yes');" class="item-block__product__flag gsa">
                                                             GSA
                                                         </div>
+                                                        <div ng-if="product.priceCode != null && product.priceCode.length > 0" class="item-block__product__flag save">
+                                                            SAVE {{product.priceCode}}%
+                                                        </div>
                                                     </div>
                                                     <div class="item-block__product__col-2 clearfix">
                                                         <div class="col-1">

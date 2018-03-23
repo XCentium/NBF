@@ -22,6 +22,9 @@
                             <div ng-if="vm.isAttributeValue('GSA', 'Yes');" class="item-block__product__flag gsa">
                                 GSA
                             </div>
+                            <div ng-if="vm.product.priceCode != null && vm.product.priceCode.length > 0" class="item-block__product__flag save">
+                                SAVE {{vm.product.priceCode}}%
+                            </div>
                         </div>
                         <div class="item-block__product__ships-today" ng-if="vm.isAttributeValue('Ships Today', 'Yes');"><span class="ico-Truck"></span> Ships Today!</div>
 
