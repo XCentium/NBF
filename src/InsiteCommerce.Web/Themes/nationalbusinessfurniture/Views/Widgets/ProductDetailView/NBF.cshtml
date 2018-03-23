@@ -152,13 +152,13 @@
                                     </article>
                                 </div>
                             </section>
-                            <section class="accordion">
+                            <section class="accordion" ng-if="(vm.product.specifications | filter: { name: 'Delivery' }).length > 0">
                                 <div>
                                     <input type="checkbox" id="accord-10001" class="accord-check" />
                                     <label id="tst_productList_tableView_filterButton" for="accord-10001" class="accord-head">[% translate 'Delivery Information' %]</label>
                                     <article class="accord-content">
                                         <div id="tst_productDetail_htmlContent" class="product-cm">
-                                            TODO
+                                            <div ng-repeat="specification in vm.product.specifications | filter: { name: 'Delivery' } | orderBy: 'sortOrder'" ng-bind-html="specification.htmlContent|trusted"></div>
                                         </div>
                                     </article>
                                 </div>
