@@ -54,6 +54,19 @@ namespace Extensions.Widgets
             {
                 this.SetValue<List<string>>("Preferences", value, FieldType.Contextual);
             }
-        }              
+        }
+
+        [TextContentField(IsRequired = true, DisplayName ="Submit Button Text")]
+        public virtual string SubmitButtonText
+        {
+            get
+            {
+                return this.GetValue<string>("SubmitButtonText", "Submit", FieldType.Contextual);
+            }
+            set
+            {
+                this.SetValue<string>("SubmitButtonText", value, FieldType.Contextual);
+            }
+        }
     }
 }
