@@ -13,10 +13,25 @@
     </ul>
     <ul class="share-links">
         <li>Share</li>
-        <li class="cell"><a href="#"><i class="fa fa-envelope" aria-hidden="true"></i></a></li>
-        <li class="cell"><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-        <li class="cell"><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-        <li class="cell"><a href="#"><i class="fa fa-pinterest-p" aria-hidden="true"></i></a></li>
-        <li class="cell"><a href="#" class="ico ico-printer-with-paper" aria-hidden="true"></a></li>
+        <li class="cell">
+            <a class="fa fa-envelope" href="mailto:?subject=I wanted you to see this site&amp;body={{vm.url}} [[CurrentPage.Title]]" title="Share by Email">
+            </a>
+        </li>
+        <li class="cell">
+            <a target="_blank" class="stb-btn stb-twitter fa fa-twitter" aria-label="tweet" href="https://twitter.com/share?url={{vm.url}}&amp;text=[[CurrentPage.Title]]"></a>
+        </li>
+        <li class="cell">
+            <div class="fb-share-button" data-href="{{vm.url}}" data-layout="button" data-size="small" data-mobile-iframe="true">
+                <a target="_blank" href="https://www.facebook.com/sharer/sharer.php?title=[[CurrentPage.Title]]&u=https%3A%2F%2F{{vm.url}}&amp;src=sdkpreparse&title=titleofpage" class="fb-xfbml-parse-ignore">
+                    <i class="fa fa-facebook" aria-hidden="true"></i>
+                </a>
+            </div>
+        </li>
+        <li class="cell">
+            <a class="" href="https://www.pinterest.com/pin/create/button/?url={{vm.url}}&description=[[CurrentPage.Title]]">
+                <i class="fa fa-pinterest-p" aria-hidden="true"></i>
+            </a>
+        </li>
+        <li class="cell"><a href="javascript: window.print();" class="ico ico-printer-with-paper" aria-hidden="true"></a></li>
     </ul>
 </div>
