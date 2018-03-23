@@ -751,6 +751,8 @@
     <Content Include="Views\Widgets\Custom\LatestBlogPosts\WithMarginsTitleOnly.cshtml" />
     <Content Include="Styles\custom\social-links.scss" />
     <Content Include="Views\Widgets\Custom\CatalogMailingPrefs\Standard.cshtml" />
+    <Content Include="Views\Widgets\Custom\Banner\SubPageBanner.cshtml" />
+    <Content Include="Views\Widgets\Custom\Banner\SubPageBannerH1Titles.cshtml" />
     <Content Include="Views\Widgets\Custom\ProductCarousel\Standard.cshtml" />
   </ItemGroup>
   <ItemGroup />
