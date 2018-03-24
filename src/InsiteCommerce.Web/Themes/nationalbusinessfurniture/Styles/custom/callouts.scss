@@ -63,20 +63,19 @@
         padding-bottom: 0;
     }
 
-    h3 {
+    h2 {
         margin-bottom: .5em;
     }
 
     &__link {
         text-decoration: none;
 
-        &:after {
-            content: "\e903";
-            font-family: $icomoon;
-            color: $nbf-orange;
-            left: 15px;
-            position: relative;
-            top: 2px;
+      .ico-RightArrow {
+          text-decoration: none;
+          display: inline-block;
+          font-size: 14px;
+          padding-left: 5px;
+          vertical-align: 2px;
         }
     }
 
@@ -85,6 +84,10 @@
         padding: 30px 40px;
         background-color: $nbf-white-95;
         width: 486px;
+
+        h2 {
+            font-weight:500;
+        }
 
         @media all and (max-width: 767px) {
             position: relative;

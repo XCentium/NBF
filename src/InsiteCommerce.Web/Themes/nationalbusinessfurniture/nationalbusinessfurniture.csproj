@@ -756,6 +756,7 @@
     <Content Include="Views\Widgets\Custom\Banner\SubPageBanner.cshtml" />
     <Content Include="Views\Widgets\Custom\Banner\SubPageBannerH1Titles.cshtml" />
     <Content Include="Views\Widgets\Custom\ProductCarousel\Standard.cshtml" />
+    <Content Include="Styles\custom\star-rating.scss" />
   </ItemGroup>
   <ItemGroup />
   <PropertyGroup>

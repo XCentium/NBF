@@ -1,0 +1,293 @@
+﻿@import "../variables";
+
+
+.rating {
+    color: #009ce0;
+
+    &.no-star {
+        > i {
+            &:nth-child(1) {
+                color: $divider-gray;
+
+                &:before {
+                    content: "\f006";
+                }
+            }
+
+            &:nth-child(2) {
+                color: $divider-gray;
+
+                &:before {
+                    content: "\f006";
+                }
+            }
+
+            &:nth-child(3) {
+                color: $divider-gray;
+
+                &:before {
+                    content: "\f006";
+                }
+            }
+
+            &:nth-child(4) {
+                color: $divider-gray;
+
+                &:before {
+                    content: "\f006";
+                }
+            }
+
+            &:nth-child(5) {
+                color: $divider-gray;
+
+                &:before {
+                    content: "\f006";
+                }
+            }
+        }
+    }
+
+    &.half-star {
+        > i {
+            &:nth-child(1) {
+                &:before {
+                    content: "\f123";
+                }
+            }
+
+            &:nth-child(2) {
+                color: $divider-gray;
+
+                &:before {
+                    content: "\f006";
+                }
+            }
+
+            &:nth-child(3) {
+                color: $divider-gray;
+
+                &:before {
+                    content: "\f006";
+                }
+            }
+
+            &:nth-child(4) {
+                color: $divider-gray;
+
+                &:before {
+                    content: "\f006";
+                }
+            }
+
+            &:nth-child(5) {
+                color: $divider-gray;
+
+                &:before {
+                    content: "\f006";
+                }
+            }
+        }
+    }
+
+    &.one-star {
+        > i {
+
+            &:nth-child(2) {
+                color: $divider-gray;
+
+                &:before {
+                    content: "\f006";
+                }
+            }
+
+            &:nth-child(3) {
+                color: $divider-gray;
+
+                &:before {
+                    content: "\f006";
+                }
+            }
+
+            &:nth-child(4) {
+                color: $divider-gray;
+
+                &:before {
+                    content: "\f006";
+                }
+            }
+
+            &:nth-child(5) {
+                color: $divider-gray;
+
+                &:before {
+                    content: "\f006";
+                }
+            }
+        }
+    }
+
+    &.onehalf-star {
+        > i {
+
+            &:nth-child(2) {
+
+
+                &:before {
+                    content: "\f123";
+                }
+            }
+
+            &:nth-child(3) {
+                color: $divider-gray;
+
+                &:before {
+                    content: "\f006";
+                }
+            }
+
+            &:nth-child(4) {
+                color: $divider-gray;
+
+                &:before {
+                    content: "\f006";
+                }
+            }
+
+            &:nth-child(5) {
+                color: $divider-gray;
+
+                &:before {
+                    content: "\f006";
+                }
+            }
+        }
+    }
+
+    &.two-star {
+        > i {
+
+            &:nth-child(3) {
+                color: $divider-gray;
+
+                &:before {
+                    content: "\f006";
+                }
+            }
+
+            &:nth-child(4) {
+                color: $divider-gray;
+
+                &:before {
+                    content: "\f006";
+                }
+            }
+
+            &:nth-child(5) {
+                color: $divider-gray;
+
+                &:before {
+                    content: "\f006";
+                }
+            }
+        }
+    }
+
+    &.twohalf-star {
+        > i {
+
+            &:nth-child(3) {
+
+                &:before {
+                    content: "\f123";
+                }
+            }
+
+            &:nth-child(4) {
+                color: $divider-gray;
+
+                &:before {
+                    content: "\f006";
+                }
+            }
+
+            &:nth-child(5) {
+                color: $divider-gray;
+
+                &:before {
+                    content: "\f006";
+                }
+            }
+        }
+    }
+
+    &.three-star {
+        > i {
+
+            &:nth-child(4) {
+                color: $divider-gray;
+
+                &:before {
+                    content: "\f006";
+                }
+            }
+
+            &:nth-child(5) {
+                color: $divider-gray;
+
+                &:before {
+                    content: "\f006";
+                }
+            }
+        }
+    }
+
+    &.threehalf-star {
+        > i {
+
+            &:nth-child(4) {
+                &:before {
+                    content: "\f123";
+                }
+            }
+
+            &:nth-child(5) {
+                color: $divider-gray;
+
+                &:before {
+                    content: "\f006";
+                }
+            }
+        }
+    }
+
+    &.four-star {
+        > i {
+
+            &:nth-child(5) {
+                color: $divider-gray;
+
+                &:before {
+                    content: "\f006";
+                }
+            }
+        }
+    }
+
+    &.fourhalf-star {
+        > i {
+
+            &:nth-child(5) {
+
+                &:before {
+                    content: "\f123";
+                }
+            }
+        }
+    }
+
+    &.five-star {
+        > i {
+        }
+    }
+}
