@@ -40,6 +40,11 @@ begin
 	Delivery
 	*/
 
+	-- first we delete the old data since we are just going to replace it
+	delete from content where ContentManagerId in (select ContentManagerId from Specification where [name] = 'Delivery')
+
+	-- now insert any new ones we didn't have before
+
 	;with DeliveryVarables as
 	(
 	select 
@@ -102,7 +107,7 @@ begin
 			when dvs.ShipTypeCode = 'I' then 'Due to the weight and size of this item, basic inside delivery is included in the delivery price. This means the item will be brought inside your building. Additional charges may apply for stairs or extra delivery services. Please call us at <b>800-558-1010</b> or type a message in the shipping instructions/order comments area during checkout if you require additional delivery services.' 
 			when dvs.ShipTypeCode = 'T' then 'This product ships via tailgate truck, which means you will be required to take the product off the tailgate of the truck. Inside-delivery services are available if you need help bringing your items into your building. Simply select "Inside Delivery Services" during checkout to add this service. Additional charges apply. Allow an additional week for orders with inside delivery. Please contact us with any questions at 800-558-1010.' 
 			when dvs.RequireTruck > 0 then '<li>UPS and FedEx deliveries will be brought inside your building. If you require additional services, please call <b>800-558-1010</b></li><li>Items that are shipped via Truck will require someone at your location to take the products off the tailgate. If you need inside delivery, please call us at <b>800-558-1010</b> or type a message in the shipping instructions/order comments area during checkout. Additional charges may apply for extra delivery services.</li><br>Delivery details will be indicated on your order acknowledgment.'
-			else 'default delivery text - ask nbf'
+			else 'This product ships via UPS or FedEx and will be brought inside your building. If you require additional services, please call <b>800-558-1010</b>.'
 		end DeliveryText,
 		case 
 			when dvs.RequireTruck <= 0 then ''
@@ -122,14 +127,31 @@ begin
 			when dvs.DeliveryAmount = 0 then 'This item includes free tailgate delivery (see description below). Inside delivery services are available for an additional charge.'
 			else 'Your delivery charge will be calculated at checkout.'
 		end chargeText,
+
 		case
-			when dvs.CartonCount > 0 then 'This item ships in ' + convert(nvarchar(max), dvs.CartonCount) + ' cartons.'
+			when dvs.CartonCount <> 0 then 
+				case
+					when dvs.CartonCount = 1 then 
+						case
+							when dvs.QtyPurchaseMultiplier > 1 then 'This item ships with ' + convert(nvarchar(max), dvs.QtyPurchaseMultiplier) + ' per carton.'
+							else 'This item ships in ' + convert(nvarchar(max), dvs.CartonCount) + ' carton.'
+							end
+					else 'This item ships in ' + convert(nvarchar(max), dvs.CartonCount) + ' cartons.'
+					end
 			else ''
 		end chargeTextCartonCount,
+		
+		
 		case
-			when dvs.QtyPerCarton > 1 then 'This item ships ' + convert(nvarchar(max), dvs.QtyPerCarton) + ' per carton.'
+			when dvs.CartonCount <> 0 then 
+				case
+					when dvs.CartonCount <> 1 and  dvs.QtyPurchaseMultiplier > 1 then 'This item ships ' + convert(nvarchar(max), dvs.QtyPurchaseMultiplier) + ' per carton.'
+					else ''
+					end
+			when dvs.QtyPurchaseMultiplier > 1 then 'This item ships ' + convert(nvarchar(max), dvs.QtyPurchaseMultiplier) + ' per carton.'
 			else ''
 		end chargeTextItemsPerCarton,
+
 		case
 			when dvs.OptionCount > 0 and AllSameLeadTimeCount > 1 and not (dvs.MinLeadTime in (0, 1) and dvs.MaxLeadTime = 1) then deliveryTable
 			else ''
@@ -171,66 +193,8 @@ begin
 	Dimensions
 	*/
 
-	-- first update the existing contents
-
-	;with combinedDimension as
-	(
-	select 
-		p.Id ProductId, p.ERPNumber, s.ContentManagerId, dim.General, dim.Back, dim.Seat, dim.Arm, 
-		'<ul class="nbf-product-custom-dimensions"><' + 
-				STUFF((SELECT dd.DimensionName + ': ' + dd.DimensionValue as li
-				FROM OEGSystemStaging.dbo.ItemDynamicDimensions dd
-				WHERE dd.ItemId = sp.ItemId
-				FOR XML PATH('')), 1, 1, '') +
-				'</ul>' combinedDynamicDimension,
-		'<ul class="nbf-product-carton-dimensions"><' + 
-				STUFF((SELECT format(cartonD.Width,'####.##') + '"W x ' + 
-					format(cartonD.[Length],'####.##') + '"D x ' + 
-					format(cartonD.Height,'####.##') + '"H'
-					as li
-				FROM OEGSystemStaging.dbo.ItemCartonDimensions cartonD
-				WHERE cartonD.ItemId = sp.ItemId
-				FOR XML PATH('')), 1, 1, '') +
-				'</ul>' combinedCartonDimension,
-		max(sisku.[Weight]) [Weight], 
-		max(sisku.GSASIN) GSASIN
-	from Product p
-	join Specification s on s.ProductId = p.Id and s.[Name] = 'Dimensions'
-	join OEGSystemStaging.dbo.Products sp on sp.Number = p.ERPNumber
-		and sp.BrandId = @brand
-	join OEGSystemStaging.dbo.ItemDimensions dim on dim.ItemId = sp.ItemId
-	join OEGSystemStaging.dbo.ProductSKUs spsku on spsku.ProductId = sp.ProductId
-		and spsku.EffEndDate > getdate() and spsku.IsWebEnabled = 1
-	join OEGSystemStaging.dbo.ItemSKUs sisku on sisku.ItemSKUId = spsku.ItemSKUId
-	group by 
-		p.Id, p.ERPNumber, dim.General, dim.Back, dim.Seat, dim.Arm, sp.ItemId, s.ContentManagerId
-	), 
-	final as
-	(
-	select 
-		cd.ProductId, cd.ERPNumber, cd.ContentManagerId,
-		'<ul class="nbf-product-dimensions">' + 
-		'<li>Dimensions: ' + cd.General + '</li>' +
-		case when cd.Seat is null then '' else '<li>Seat Dimensions: ' + cd.Seat + '</li>' end +
-		case when cd.Back is null then '' else '<li>Back Dimensions: ' + cd.Back + '</li>' end +
-		case when cd.Arm is null then '' else '<li>Arm Dimensions: ' + cd.Arm + '</li>' end +
-		case when cd.combinedDynamicDimension is null then '' else '<li>Custom Dimensions: ' + cd.combinedDynamicDimension + '</li>' end +
-		case when cd.[Weight] is null then '' else '<li>Weight: ' + convert(nvarchar(max),cd.[Weight]) + ' lbs.</li>' end +
-		case when cd.GSASIN is null then '' else '<li>SIN#: ' + convert(nvarchar(max),cd.GSASIN) + '</li>' end +
-		case when cd.combinedCartonDimension is null then '' else '<li>Carton Dimensions: ' + cd.combinedCartonDimension + '</li>' end +
-		'</ul>' Dimensions
-	 from combinedDimension cd
-	 --where combinedCartonDimension is not null
-	 --where cd.ERPNumber = '56948'
-	 )
-	update Content set
-	Html = isnull(f.Dimensions,''),
-	ModifiedOn = getdate()
-	--select f.ProductId, f.ERPNumber, f.Dimensions 
-	from final f
-	join Content c on c.ContentManagerId = f.ContentManagerId
-	where c.Html != isnull(f.Dimensions,'')
-	and isnull(f.Dimensions,'') != ''
+	-- first we delete the old data since we are just going to replace it
+	delete from content where ContentManagerId in (select ContentManagerId from Specification where [name] = 'Dimensions')
 
 	-- now insert any new ones we didn't have before
 
@@ -299,20 +263,16 @@ begin
 	Vendor Code
 	*/
 
-	-- first update the existing contents
+	-- first we delete the old data since we are just going to replace it
+	delete from content where ContentManagerId in (select ContentManagerId from Specification where [name] = 'Vendor Code')
 
-	update Content set
-	Html = isnull(v.Code,''),
-	ModifiedOn = getdate()
-	--select p.erpnumber, isnull(v.Code,''), c.Html, v.VendorId
+	update Specification set 
+		[Value] = isnull(v.Code,'')
 	from Product p
 	join Specification s on s.ProductId = p.Id and s.[Name] = 'Vendor Code'
-	join Content c on c.ContentManagerId = s.ContentManagerId
 	join OEGSystemStaging.dbo.Products sp on sp.Number = p.ERPNumber
 		and sp.BrandId = @brand
 	join OEGSystemStaging.dbo.Vendors v on v.VendorId = sp.PrimaryVendorId
-	where c.Html != isnull(v.Code,'') 
-	and isnull(v.Code,'') != ''
 
 	-- now insert any new ones we didn't have before
 
@@ -335,19 +295,16 @@ begin
 	Rating
 	*/
 
-	-- first update the existing contents
+	-- first we delete the old data since we are just going to replace it
+	delete from content where ContentManagerId in (select ContentManagerId from Specification where [name] = 'Rating')
 
-	update Content set
-	Html = isnull(spr.Rating,0),
-	ModifiedOn = getdate()
-	--select p.erpnumber, isnull(spr.Rating,0), c.Html
+	update Specification set 
+		[Value] = isnull(spr.Rating,0)
 	from Product p
 	join Specification s on s.ProductId = p.Id and s.[Name] = 'Rating'
-	join Content c on c.ContentManagerId = s.ContentManagerId
 	join OEGSystemStaging.dbo.Products sp on sp.Number = p.ERPNumber
 		and sp.BrandId = @brand
 	left join OEGSystemStaging.dbo.ProductRating spr on spr.ProductOID = sp.Number
-	where c.Html != isnull(spr.Rating,0) 
 
 	-- now insert any new ones we didn't have before
 
@@ -365,85 +322,13 @@ begin
 	where s.ContentManagerId not in (select ContentManagerId from Content)
 
 
-	/*
-	Collection - this has been moved to an attribute
-	*/
-
-	/*
-	-- first update the existing contents
-
-	update Content set
-	Html = isnull(sic.[Name],''),
-	ModifiedOn = getdate()
-	--select p.erpnumber, isnull(sic.[Name],''), c.Html, sic.CollectionId
-	from Product p
-	join Specification s on s.ProductId = p.Id and s.[Name] = 'Collection'
-	join Content c on c.ContentManagerId = s.ContentManagerId
-	join OEGSystemStaging.dbo.Products sp on sp.Number = p.ERPNumber
-		and sp.BrandId = @brand
-	join OEGSystemStaging.dbo.Items si on si.ItemId = sp.ItemId
-	join OEGSystemStaging.dbo.ItemCollections sic on sic.CollectionId = si.CollectionId
-	where c.Html != isnull(sic.[Name],'') 
-	and isnull(sic.[Name],'') != ''
-
-	-- now insert any new ones we didn't have before
-
-	insert into Content 
-	(ContentManagerId, [Name], Html, Revision, LanguageId, PersonaId, ApprovedOn, PublishToProductionOn, DeviceType, CreatedBy, ModifiedBy)
-	select s.ContentManagerId, 'New Revision', 
-	isnull(sic.[Name],''), 
-	1, @LanguageId, @PersonaId, getdate(), getdate(), 'Desktop', 'etl', 'etl' 
-	--select p.ERPNumber, sic.[Name]
-	from Product p
-	join Specification s on s.ProductId = p.Id and s.[Name] = 'Collection'
-	join OEGSystemStaging.dbo.Products sp on sp.Number = p.ERPNumber
-		and sp.BrandId = @brand
-	join OEGSystemStaging.dbo.Items si on si.ItemId = sp.ItemId
-	join OEGSystemStaging.dbo.ItemCollections sic on sic.CollectionId = si.CollectionId
-	where s.ContentManagerId not in (select ContentManagerId from Content)
-	and isnull(sic.[Name],'') != ''
-	*/
-	
 
 	/* 
 	Product Features
 	*/
 
-	-- first update the existing contents
-
-	;with productFeaturesFiltered as
-	(
-		select distinct ProductId 
-		from OEGSystemStaging.dbo.ProductFeatures pf
-		where isnull(pf.Name,'') != '' 
-	),
-	final as
-	(
-	select p.ERPNumber,
-			'<ul class="nbf-product-feature-style"><' + 
-			STUFF((SELECT pf.Name as li
-			FROM OEGSystemStaging.dbo.ProductFeatures pf
-			WHERE pf.ProductId = sp.ProductId
-			order by pf.WebSortOrder
-			FOR XML PATH('')), 1, 1, '') +
-			'</ul>' ProductFeaturesCombined
-	from Product p
-	join OEGSystemStaging.dbo.Products sp on sp.Number = p.ERPNumber
-		and sp.BrandId = @brand
-	join productFeaturesFiltered pff on pff.ProductId = sp.ProductId
-	--where p.ERPNumber = '10011'
-	)
-	update Content set
-	Html = isnull(final.ProductFeaturesCombined,''),
-	ModifiedOn = getdate()
-	--select p.erpnumber, isnull(final.ProductFeaturesCombined,''), c.Html
-	from Product p
-	join Specification s on s.ProductId = p.Id and s.[Name] = 'Features'
-	join Content c on c.ContentManagerId = s.ContentManagerId
-	join final on final.ERPNumber = p.ERPNumber
-	where c.Html != isnull(final.ProductFeaturesCombined,'')
-	and isnull(final.ProductFeaturesCombined,'') != ''
-
+	-- first we delete the old data since we are just going to replace it
+	delete from content where ContentManagerId in (select ContentManagerId from Specification where [name] = 'Features')
 
 	-- now insert any new ones we didn't have before
 	

@@ -65,11 +65,11 @@
 	select 
 		dvs.ProductId, dvs.ERPNumber, dvs.ContentManagerId, dvs.QtyPerCarton, dvs.CartonCount, dvs.OptionCount, dvs.DeliveryAmount, dvs.RequireTruck,
 		case 
-			when dvs.ShipTypeCode = 'I' and dvs.DeliveryAmount = 0 then 'This product ships for free and includes inside delivery.  Additional charges may apply for stairs or extra delivery services. Please call us at <b>111.222.5555</b> or type a message in the shipping instructions/order comments area during checkout if you require additional delivery services.'  
-			when dvs.ShipTypeCode = 'I' then 'Due to the weight and size of this item, basic inside delivery is included in the delivery price. This means the item will be brought inside your building. Additional charges may apply for stairs or extra delivery services. Please call us at <b>333.333.5656</b> or type a message in the shipping instructions/order comments area during checkout if you require additional delivery services.' 
+			when dvs.ShipTypeCode = 'I' and dvs.DeliveryAmount = 0 then 'This product ships for free and includes inside delivery.  Additional charges may apply for stairs or extra delivery services. Please call us at <b>800-558-1010</b> or type a message in the shipping instructions/order comments area during checkout if you require additional delivery services.'  
+			when dvs.ShipTypeCode = 'I' then 'Due to the weight and size of this item, basic inside delivery is included in the delivery price. This means the item will be brought inside your building. Additional charges may apply for stairs or extra delivery services. Please call us at <b>800-558-1010</b> or type a message in the shipping instructions/order comments area during checkout if you require additional delivery services.' 
 			when dvs.ShipTypeCode = 'T' then 'This product ships via tailgate truck, which means you will be required to take the product off the tailgate of the truck. Inside-delivery services are available if you need help bringing your items into your building. Simply select "Inside Delivery Services" during checkout to add this service. Additional charges apply. Allow an additional week for orders with inside delivery. Please contact us with any questions at 800-558-1010.' 
-			when dvs.RequireTruck > 0 then '<li>UPS and FedEx deliveries will be brought inside your building. If you require additional services, please call <b>444.323.322</b></li><li>Items that are shipped via Truck will require someone at your location to take the products off the tailgate. If you need inside delivery, please call us at <b>444.323.322</b> or type a message in the shipping instructions/order comments area during checkout. Additional charges may apply for extra delivery services.</li><br>Delivery details will be indicated on your order acknowledgment.'
-			else 'default delivery text - ask nbf'
+			when dvs.RequireTruck > 0 then '<li>UPS and FedEx deliveries will be brought inside your building. If you require additional services, please call <b>800-558-1010</b></li><li>Items that are shipped via Truck will require someone at your location to take the products off the tailgate. If you need inside delivery, please call us at <b>800-558-1010</b> or type a message in the shipping instructions/order comments area during checkout. Additional charges may apply for extra delivery services.</li><br>Delivery details will be indicated on your order acknowledgment.'
+			else 'This product ships via UPS or FedEx and will be brought inside your building. If you require additional services, please call <b>800-558-1010</b>.'
 		end DeliveryText,
 		case 
 			when dvs.RequireTruck <= 0 then ''
@@ -89,14 +89,31 @@
 			when dvs.DeliveryAmount = 0 then 'This item includes free tailgate delivery (see description below). Inside delivery services are available for an additional charge.'
 			else 'Your delivery charge will be calculated at checkout.'
 		end chargeText,
+
 		case
-			when dvs.CartonCount > 0 then 'This item ships in ' + convert(nvarchar(max), dvs.CartonCount) + ' cartons.'
+			when dvs.CartonCount <> 0 then 
+				case
+					when dvs.CartonCount = 1 then 
+						case
+							when dvs.QtyPurchaseMultiplier > 1 then 'This item ships with ' + convert(nvarchar(max), dvs.QtyPurchaseMultiplier) + ' per carton.'
+							else 'This item ships in ' + convert(nvarchar(max), dvs.CartonCount) + ' carton.'
+							end
+					else 'This item ships in ' + convert(nvarchar(max), dvs.CartonCount) + ' cartons.'
+					end
 			else ''
 		end chargeTextCartonCount,
+		
+		
 		case
-			when dvs.QtyPerCarton > 1 then 'This item ships ' + convert(nvarchar(max), dvs.QtyPerCarton) + ' per carton.'
+			when dvs.CartonCount <> 0 then 
+				case
+					when dvs.CartonCount <> 1 and  dvs.QtyPurchaseMultiplier > 1 then 'This item ships ' + convert(nvarchar(max), dvs.QtyPurchaseMultiplier) + ' per carton.'
+					else ''
+					end
+			when dvs.QtyPurchaseMultiplier > 1 then 'This item ships ' + convert(nvarchar(max), dvs.QtyPurchaseMultiplier) + ' per carton.'
 			else ''
 		end chargeTextItemsPerCarton,
+
 		case
 			when dvs.OptionCount > 0 and AllSameLeadTimeCount > 1 and not (dvs.MinLeadTime in (0, 1) and dvs.MaxLeadTime = 1) then deliveryTable
 			else ''
@@ -130,6 +147,6 @@
 	1, @LanguageId, @PersonaId, getdate(), getdate(), 'Desktop', 'etl', 'etl' 
 	--,f.ProductId, f.ERPNumber, f.Delivery, f.chargeText, f.chargeTextCartonCount, f.chargeTextItemsPerCarton, f.plcText, f.sText, f.DeliveryText, f.plcPostText
 	from final f
-	where f.ContentManagerId not in (select ContentManagerId from Content)
-	and isnull(f.Delivery,'') != ''
-	--and f.ERPNumber = '56848'
+	--where f.ContentManagerId not in (select ContentManagerId from Content)
+	where isnull(f.Delivery,'') != ''
+	and f.ERPNumber = '51365'
