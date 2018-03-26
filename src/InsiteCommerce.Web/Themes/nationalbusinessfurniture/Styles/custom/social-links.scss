@@ -1,7 +1,17 @@
 ﻿@import "../variables";
 
-
-.social-links {
+.social-bar {
+    .social {
+        .inline-list {
+            li {
+                a{
+                    padding:3px;
+                    text-decoration:none;
+                }
+            }
+        }
+    }
+}.social-links {
 
 
 
