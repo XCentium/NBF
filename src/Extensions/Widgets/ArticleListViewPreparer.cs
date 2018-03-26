@@ -81,7 +81,6 @@ namespace Extensions.Widgets
                             {
                                 filteredHash.Add(item);
                             }
-
                         }
                     }
                 }

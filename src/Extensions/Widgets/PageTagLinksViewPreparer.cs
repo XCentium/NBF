@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using Insite.ContentLibrary.Pages;
 
 namespace Extensions.Widgets
 {
@@ -38,24 +39,34 @@ namespace Extensions.Widgets
 
         protected virtual void PopulateViewModel(PageTagLinksViewDrop model, PageTagLinksView articleList)
         {
+            var list = ContentHelper.GetChildPages<NewsPage>(articleList.PageContentKey).OrderByDescending(o => o.PublishDate).ToList();
             var tagSet = new HashSet<string>();
-            var tagField = UnitOfWork.GetRepository<ContentItemField>().GetTable()
-                    .Where(x => x.FieldName == "PageTags" && x.PublishOn != null && x.IsRetracted == false).OrderByDescending(x => x.PublishOn);
+
             var keyList = new List<int>();
-            foreach (var tagList in tagField)
+            foreach (var item in list)
             {
-                if (!keyList.Contains(tagList.ContentKey))
+                var tagField = UnitOfWork.GetRepository<ContentItem>().GetTable().Where(x =>
+                        x.ParentKey == item.ContentKey && x.IsDeleted == false && x.IsRetracted == false &&
+                        x.PublishOn != null)
+                    .Join(UnitOfWork.GetRepository<ContentItemField>().GetTable(), ci => ci.ContentKey,
+                        cif => cif.ContentKey,
+                        (ci, cif) => new {ci, cif})
+                    .Where(x => x.cif.FieldName == "PageTags");
+
+                foreach (var tag in tagField)
                 {
-                    keyList.Add(tagList.ContentKey);
-                    if (tagList.FieldName == "PageTags")
+                    if (tag.cif.ObjectValue != null && tag.cif.ObjectValue.Any() && !keyList.Contains(tag.cif.ContentKey))
                     {
-                        foreach (var tag in (List<string>) tagList.ObjectValue.ToObject())
+                        keyList.Add(tag.cif.ContentKey);
+                        if (tag.cif.FieldName == "PageTags")
                         {
-                            tagSet.Add(tag);
+                            foreach (var tagItem in (List<string>) tag.cif.ObjectValue.ToObject())
+                            {
+                                tagSet.Add(tagItem);
+                            }
                         }
                     }
                 }
-                
             }
             model.PageTags = tagSet.ToList();
         }
