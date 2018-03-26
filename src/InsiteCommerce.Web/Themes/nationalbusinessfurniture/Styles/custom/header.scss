@@ -24,6 +24,8 @@
 
                 .isc-searchAutoComplete {
                     border: none;
+                    font-size: 17px;
+                    padding-right: 0;
 
                     &:focus {
                         box-shadow: none;
@@ -77,6 +79,14 @@
             @media all and (max-width: 767px) {
                 margin-top: 20px;
                 margin-bottom: 20px;
+            }
+
+            .widget-image {
+                @media all and (max-width: 767px) {
+                    width: 62%;
+                    max-width: 260px;
+                    float: right;
+                }
             }
         }
 
