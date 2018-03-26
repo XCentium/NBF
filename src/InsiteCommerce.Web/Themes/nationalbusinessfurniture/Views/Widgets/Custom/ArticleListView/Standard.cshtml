@@ -1,5 +1,4 @@
-﻿
-<div class="narrow-container">
+﻿<div class="narrow-container">
     <div class="row">
         <div class="medium-12 large-12 columns">
             <div class="news-list tst_newsListView">
@@ -10,7 +9,7 @@
                     [% for newsPage in Model.Drop.NewsPages -%]
                     <div class="latest-blog__item">
                         <a href="[[newsPage.Url]]">
-                            <div class="latest-blog__image" style="background-image: url('[[newsPage.BackgroundImageUrl]]');background-position:[[page.BackgroundImageFocalPosition]];">
+                            <div class="latest-blog__image" style="background-image: url('[[newsPage.Image]]');background-position:[[page.ImageFocalPosition]];">
                             </div>
                             <div class="latest-blog__desc">
                                 <h4>[[newsPage.Title]]</h4>
@@ -30,12 +29,13 @@
                     [% endif -%]
                 </div>
                 <div class="newslist-paging">
-                    <isc-content-pager page="[[Model.Drop.Pagination.Page]]"
+                    <nbf-content-pager page="[[Model.Drop.Pagination.Page]]"
                                        page-size="[[Model.Drop.Pagination.PageSize]]"
                                        default-page-size="[[Model.Drop.Pagination.DefaultPageSize]]"
                                        total-item-count="[[Model.Drop.Pagination.TotalItemCount]]"
                                        number-of-pages="[[Model.Drop.Pagination.NumberOfPages]]"
-                                       content-item-id="[[Model.Drop.NewsListId]]"></isc-content-pager>
+                                       content-item-id="[[Model.Drop.NewsListId]]"
+                                       per-page="false"></nbf-content-pager>
                 </div>
             </div>
         </div>

@@ -13,7 +13,7 @@ namespace Extensions.Widgets
         {
             get
             {
-                return GetValue(nameof(DefaultPageSize), 5, FieldType.General);
+                return GetValue(nameof(DefaultPageSize), 18, FieldType.General);
             }
             set
             {

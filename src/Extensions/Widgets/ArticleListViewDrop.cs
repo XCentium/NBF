@@ -8,7 +8,7 @@ namespace Extensions.Widgets
     {
         public string NewsListId { get; set; }
 
-        public ICollection<ArticleListViewPageDrop> NewsPages { get; set; } = (ICollection<ArticleListViewPageDrop>)new List<ArticleListViewPageDrop>();
+        public ICollection<ArticleListViewPageDrop> NewsPages { get; set; } = new List<ArticleListViewPageDrop>();
 
         public PagingInfo Pagination { get; set; } = new PagingInfo();
     }
