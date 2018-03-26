@@ -46,24 +46,22 @@ namespace Extensions.Widgets
             foreach (var item in list)
             {
                 var tagField = UnitOfWork.GetRepository<ContentItem>().GetTable().Where(x =>
-                        x.ParentKey == item.ContentKey && x.IsDeleted == false && x.IsRetracted == false &&
+                        x.PageContentKey == item.ContentKey && x.IsDeleted == false && x.IsRetracted == false &&
                         x.PublishOn != null)
                     .Join(UnitOfWork.GetRepository<ContentItemField>().GetTable(), ci => ci.ContentKey,
                         cif => cif.ContentKey,
                         (ci, cif) => new {ci, cif})
-                    .Where(x => x.cif.FieldName == "PageTags");
+                    .Where(x => x.cif.FieldName == "PageTags")
+                    .ToList();
 
                 foreach (var tag in tagField)
                 {
                     if (tag.cif.ObjectValue != null && tag.cif.ObjectValue.Any() && !keyList.Contains(tag.cif.ContentKey))
                     {
                         keyList.Add(tag.cif.ContentKey);
-                        if (tag.cif.FieldName == "PageTags")
+                        foreach (var tagItem in (List<string>) tag.cif.ObjectValue.ToObject())
                         {
-                            foreach (var tagItem in (List<string>) tag.cif.ObjectValue.ToObject())
-                            {
-                                tagSet.Add(tagItem);
-                            }
+                            tagSet.Add(tagItem);
                         }
                     }
                 }
