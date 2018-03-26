@@ -751,10 +751,13 @@
     <Content Include="Views\Widgets\Custom\LatestBlogPosts\WithMargins.cshtml" />
     <Content Include="Views\Widgets\Custom\LatestBlogPosts\WithMarginsTitleOnly.cshtml" />
     <Content Include="Styles\custom\social-links.scss" />
+    <Content Include="Views\Widgets\Custom\Banner\Video-banner.cshtml" />
+    <Content Include="Views\Widgets\Custom\ProductCTA\Video-CTA.cshtml" />
     <Content Include="Views\Widgets\Custom\CatalogMailingPrefs\Standard.cshtml" />
     <Content Include="Views\Widgets\Custom\Banner\SubPageBanner.cshtml" />
     <Content Include="Views\Widgets\Custom\Banner\SubPageBannerH1Titles.cshtml" />
     <Content Include="Views\Widgets\Custom\ProductCarousel\Standard.cshtml" />
+    <Content Include="Styles\custom\star-rating.scss" />
   </ItemGroup>
   <ItemGroup />
   <PropertyGroup>
