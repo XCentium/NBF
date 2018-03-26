@@ -103,7 +103,8 @@ IF EXIST %25integrationPath%25 (
       echo ---------------------------------------------------------------------
       xcopy /y "$(TargetDir)*" %25integrationPath%25
       echo ---------------------------------------------------------------------
-      move /y %25integrationPath%25$(TargetName)".*" %25integrationPath%25"Custom"
+echo move /y %25integrationPath%25$(TargetName)".*" %25integrationPath%25"Custom"
+move /y %25integrationPath%25$(TargetName)".*" %25integrationPath%25"Custom"
       echo ---------------------------------------------------------------------
       net start %25integrationService%25
 ) ELSE (

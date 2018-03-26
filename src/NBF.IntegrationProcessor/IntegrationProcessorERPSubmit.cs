@@ -38,11 +38,48 @@ namespace NBF.IntegrationProcessor
                 throw new ArgumentException(Messages.InvalidInitialDataSetExceptionMessage);
             }
 
+
+            var dtCustomerOrderTable = initialDataset.Tables[Data.CustomerOrderTable];
+            var dtOrderLineTable = initialDataset.Tables[Data.OrderLineTable];
+            var dtCustomerTable = initialDataset.Tables[Data.CustomerTable];
+            var dtShipToTable = initialDataset.Tables[Data.ShipToTable];
+            var dtProductTable = initialDataset.Tables[Data.ProductTable];
+
+            /*
+                        DataSet ds = new DataSet();
+                        ds.Tables.Add(dtCustomerOrderTable);
+                        ds.Tables.Add(dtCustomerTable);
+                        ds.Relations.Add(dtCustomerOrderTable.Columns[Data.CustomerIdColumn], dtProductTable.Columns[Data.CustomerIdColumn]);
+            */
+
+            // set up some relationships so we can do foreach on the datatables
+
+            initialDataset.Relations.Add("Customer2CustomerOrder", dtCustomerTable.Columns["Id"], dtCustomerOrderTable.Columns[Data.CustomerIdColumn]);
+
+
+            foreach (DataRow item in dtCustomerTable.Rows)
+            {
+                Console.WriteLine("Customer：" + item[Data.CustomerNumberColumn]);
+
+                foreach (DataRow row in item.GetChildRows(initialDataset.Relations["Customer2CustomerOrder"]))
+                {
+                    Console.WriteLine("OrderNumber：" + row[Data.OrderNumberColumn]);
+                }
+                Console.WriteLine();
+            }
+
+            /*
+
             var dataRowCustomerOrder = initialDataset.Tables[Data.CustomerOrderTable].Rows[0];
             var dataRowOrderLines = initialDataset.Tables[Data.OrderLineTable].Rows;
             var dataRowCustomer = initialDataset.Tables[Data.CustomerTable].Rows;
             var dataRowShipToTable = initialDataset.Tables[Data.ShipToTable].Rows[0];
             var productTable = initialDataset.Tables[Data.ProductTable];
+
+
+
+
+
             var erpnumber = string.Empty;
             var productId = string.Empty;
             foreach (DataRow orderLine in dataRowOrderLines)
@@ -67,7 +104,12 @@ namespace NBF.IntegrationProcessor
             sqlcnn.Open();
             cmd.ExecuteNonQuery();
             sqlcnn.Close();
+
+        */
+
             JobLogger.Info("Finished Processing Order.",true);
+
+
 
             return initialDataset;
         }
