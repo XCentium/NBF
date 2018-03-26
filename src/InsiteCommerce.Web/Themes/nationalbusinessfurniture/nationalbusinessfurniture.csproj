@@ -218,8 +218,6 @@
     <TypeScriptCompile Include="Scripts\insite.nav.ts" />
     <TypeScriptCompile Include="Scripts\insite.responsive.ts" />
     <TypeScriptCompile Include="Scripts\Orders\insite.order-status-lookup.controller.ts" />
-    <TypeScriptCompile Include="Scripts\PageTags\nbf.pagetags.controller.ts" />
-    <TypeScriptCompile Include="Scripts\PageTags\nbf.pagetags.service.ts" />
     <TypeScriptCompile Include="Scripts\polyfills.ts" />
     <TypeScriptCompile Include="Scripts\Account\insite.account-settings.controller.ts" />
     <TypeScriptCompile Include="Scripts\Account\insite.account.directives.ts" />
@@ -758,6 +756,8 @@
     <Content Include="Views\Widgets\Custom\Banner\SubPageBannerH1Titles.cshtml" />
     <Content Include="Views\Widgets\Custom\ProductCarousel\Standard.cshtml" />
     <Content Include="Styles\custom\star-rating.scss" />
+    <Content Include="Views\Widgets\Custom\LatestBlogPosts\TitleAndDateOnly.cshtml" />
+    <Content Include="Views\Widgets\Custom\LatestBlogPosts\WithMarginsTitleAndDateOnly.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <PropertyGroup>

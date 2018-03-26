@@ -24,20 +24,6 @@ namespace Extensions.Widgets
           : base(translationLocalizer)
         {
             UnitOfWork = unitOfWorkFactory.GetUnitOfWork();
-
-            var tagSet = new HashSet<string>();
-            var tagField = UnitOfWork.GetRepository<ContentItem>().GetTable().Where(x => x.IsDeleted == false && x.IsRetracted == false && x.PublishOn != null)
-                .Join(UnitOfWork.GetRepository<ContentItemField>().GetTable(), ci => ci.ContentKey, cif => cif.ContentKey,
-                    (ci, cif) => new {ci, cif })
-                    .Where(x => x.cif.FieldName == "Css" || x.cif.FieldName == "Url");
-            foreach(var tag in tagField)
-            {
-                if (tag.cif.FieldName == "Css")
-                {
-                    tagSet.Add(tag.cif.StringValue);
-                }
-                
-            }
             ContentHelper = contentHelper;
             HttpContext = httpContext;
         }
@@ -67,7 +53,7 @@ namespace Extensions.Widgets
             if (pageFilter != null) {
                 foreach (var item in list)
                 {
-                    var tagField = UnitOfWork.GetRepository<ContentItem>().GetTable().Where(x => x.ParentKey == item.ContentKey && x.IsDeleted == false && x.IsRetracted == false && x.PublishOn != null)
+                    var tagField = UnitOfWork.GetRepository<ContentItem>().GetTable().Where(x => x.PageContentKey == item.ContentKey && x.IsDeleted == false && x.IsRetracted == false && x.PublishOn != null)
                         .Join(UnitOfWork.GetRepository<ContentItemField>().GetTable(), ci => ci.ContentKey, cif => cif.ContentKey,
                             (ci, cif) => new {ci, cif })
                             .Where(x => x.cif.FieldName == "PageTags");
@@ -81,7 +67,6 @@ namespace Extensions.Widgets
                             {
                                 filteredHash.Add(item);
                             }
-
                         }
                     }
                 }
