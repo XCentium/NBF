@@ -71,6 +71,14 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Insite.Commerce.Private.4.4.1.39382\lib\net452\DotLiquid.dll</HintPath>
     </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Insite.Account, Version=4.4.1.39382, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Insite.Commerce.Public.4.4.1.39382\lib\net452\Insite.Account.dll</HintPath>
     </Reference>
@@ -292,6 +300,8 @@
     <Compile Include="Handlers\UpdateCartHandler.cs" />
     <Compile Include="Mappers\GetTrackedOrderMapper.cs" />
     <Compile Include="Mappers\Interfaces\IGetTrackedOrderMapper.cs" />
+    <Compile Include="Models\TestTable.cs" />
+    <Compile Include="Models\TestTableMapping.cs" />
     <Compile Include="Plugins\Cart\CalculateVendorBreakPricing.cs" />
     <Compile Include="Plugins\Cart\CalculateShipping.cs" />
     <Compile Include="Plugins\Cart\Models\AdditionalChargesRule.cs" />
@@ -404,6 +414,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="WebApi\WebCode\Models\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="DatabaseScripts\2018.03.26.01.CreateTestTable.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
