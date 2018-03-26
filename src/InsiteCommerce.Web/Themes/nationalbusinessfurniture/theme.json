@@ -146,7 +146,8 @@
     "Custom-WishLists-NbfFavoritesQuickView": "views/directives/custom/wishlist/favoritesquickview.cshtml",
     "Custom-Core-Pager": "views/directives/custom/core/pager.cshtml",
     "Custom-Core-Item-List-Pager": "views/directives/custom/core/itemlistpager.cshtml",
-    "Custom-Core-Product-List-Pager": "views/directives/custom/core/productlistpager.cshtml"
+    "Custom-Core-Product-List-Pager": "views/directives/custom/core/productlistpager.cshtml",
+    "Custom-Content-ContentPager": "views/directives/custom/content/contentpager.cshtml"
   }
 }
 

@@ -172,6 +172,7 @@
     <TypeScriptCompile Include="Scripts\Custom\Cart\nbf.cart-total-display.directive.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Cart\nbf.cart-lines.directive.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Cart\nbf.checkout.controller.ts" />
+    <TypeScriptCompile Include="Scripts\Custom\Catalog\nbf.cross-sell-carousel.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Catalog\nbf.product-carousel.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Catalog\nbf.product-detail.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Catalog\nbf.product-images.controller.ts" />
@@ -757,6 +758,7 @@
     <Content Include="Views\Widgets\Custom\LatestBlogPosts\TitleAndDateOnly.cshtml" />
     <Content Include="Views\Widgets\Custom\LatestBlogPosts\WithMarginsTitleAndDateOnly.cshtml" />
     <Content Include="Views\Widgets\Custom\VideoBanner\VideoBannerCTA.cshtml" />
+    <Content Include="Views\Directives\Custom\Content\ContentPager.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <PropertyGroup>
