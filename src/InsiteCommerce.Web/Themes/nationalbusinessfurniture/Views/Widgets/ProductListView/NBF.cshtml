@@ -95,12 +95,10 @@
                                             <div class="item-thumb">
                                                 <a ng-href="{{product.productDetailUrl}}">
                                                     <img ng-src="https://s7d9.scene7.com/is/image/NationalBusinessFurniture/{{product.mediumImagePath}}?hei=250&id=Iu1rN2&fmt=jpg&fit=constrain,1&wid=250&hei=250" alt="{{product.altText}}" increment-images-loaded />
-                                                </a>
-                                                <!--
+                                                </a>                                                
                                                 <div ng-if="vm.settings.enableProductComparisons" class="product-compare-add">
                                                     <a href="javascript:void(0);" data-id="{{product.id}}" class="compare-link" ng-class="{ 'compare-active': product.isBeingCompared }" ng-click="vm.compareProduct(product);">[% translate 'Compare' %]</a>
-                                                </div>
-                                                -->
+                                                </div>                                                
                                                 <div class="favorite-btn" ng-if="vm.isAuthenticated">
                                                     <a id="tst_productDetail_addToWishList" ng-class="{'in-favorites': product.properties['isFavorite'] == 'true' } "
                                                        ng-click="vm.toggleFavorite(product)" role="button"
