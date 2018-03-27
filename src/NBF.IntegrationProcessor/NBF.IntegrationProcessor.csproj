@@ -82,40 +82,6 @@
       net start "Commerce Integration Service V4.4 (x64)"
     </PostBuildEvent>
   </PropertyGroup>
-  <PropertyGroup>
-    <PostBuildEvent>
-<<<<<<< HEAD
-set integrationPath="C:\Program Files\Insite Software\Commerce Integration Service V4.4\"
-set integrationService="Commerce Integration Service V4.4 (x64)"
-
-IF EXIST %25integrationPath%25 (
-
-      REM  Automated WIS Deployment
-      REM  Assumes you did 64 bit WIS v4.4 and used default location.
-      REM  You'll need to start as admin if you do this
-      echo .
-      echo --------------------------------------------------------------------------------
-      echo "WIS Deployment Process -  Postbuild of $(TargetName)
-      echo --------------------------------------------------------------------------------
-
-      net stop %25integrationService%25
-
-      echo xcopy /y "$(TargetDir)*" %25integrationPath%25
-      echo ---------------------------------------------------------------------
-      xcopy /y "$(TargetDir)*" %25integrationPath%25
-      echo ---------------------------------------------------------------------
-echo move /y %25integrationPath%25$(TargetName)".*" %25integrationPath%25"Custom"
-move /y %25integrationPath%25$(TargetName)".*" %25integrationPath%25"Custom"
-      echo ---------------------------------------------------------------------
-      net start %25integrationService%25
-) ELSE (
-      echo "WIS service not installed"
-)
-</PostBuildEvent>
-=======
-    </PostBuildEvent>
->>>>>>> develop
-  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
