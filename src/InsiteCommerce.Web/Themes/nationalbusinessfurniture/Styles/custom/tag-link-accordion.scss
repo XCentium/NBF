@@ -1,0 +1,45 @@
+﻿@import "../variables";
+
+.tag-link-accordion {
+    margin-bottom: 60px;
+
+    label.accord-head {
+        text-align: center;
+        border: 1px solid $nbf-navy;
+        background: #fff;
+        color: $nbf-navy;
+        font-size: 24px;
+        line-height: 18px;
+
+        &:after {
+            content: "\f068";
+            left: 10px;
+            right: auto;
+            top: 12px;
+        }
+    }
+
+    input.accord-check:checked + label.accord-head {
+        background: $nbf-navy;
+        color: #fff;
+        border: 1px solid $divider-gray;
+
+        &:after {
+            content: "\f067";
+        }
+    }
+
+    input.accord-check:checked ~ article.accord-content {
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .page-tag-links {
+        padding-top: 15px;
+        padding-bottom: 0;
+        margin-bottom: -60px;
+        border-bottom: none;
+        padding-left: 0;
+        padding-right: 0;
+    }
+}

@@ -2,8 +2,11 @@
     "use strict";
 
     export class NbfProductDetailController extends ProductDetailController {
-        videoUrl: string = '';       
+        videoUrl = "";       
         swatches: any[] = [];
+        favoritesWishlist: WishListModel;
+        isAuthenticated: boolean = false;
+        resourceAndAssemblyDocs: any[];
 
         static $inject = [
             "$scope",
@@ -30,6 +33,54 @@
             protected nbfWishListService: wishlist.INbfWishListService
         ) {
             super($scope, coreService, cartService, productService, addToWishlistPopupService, productSubscriptionPopupService, settingsService, $stateParams, sessionService)
+            this.sessionService.getIsAuthenticated().then((isAuth) => {
+                this.isAuthenticated = isAuth;
+            });
+        }
+
+        protected getSettingsCompleted(settingsCollection: core.SettingsCollection): void {
+            this.settings = settingsCollection.productSettings;
+            const context = this.sessionService.getContext();
+            this.languageId = context.languageId;
+            this.sessionService.getIsAuthenticated().then;
+            this.resolvePage();
+        }
+
+        protected toggleFavorite(product: ProductDto) {
+            var favoriteLine = this.favoritesWishlist.wishListLineCollection.filter(x => x.productId === product.id);
+
+            if (favoriteLine.length > 0) {
+                //Remove lines
+                this.nbfWishListService.deleteLineCollection(this.favoritesWishlist, favoriteLine).then((result) => {
+                    this.getFavorites();
+                });     
+            } else {
+                //Add Lines
+                var addLines = [product];
+                this.nbfWishListService.addWishListLines(this.favoritesWishlist, addLines).then(() => {
+                    this.getFavorites();
+                });
+            }
+        }
+
+        protected getFavorites() {
+            this.nbfWishListService.getWishLists("CreatedOn", "wishlistlines").then((wishList) => {
+                this.favoritesWishlist = wishList.wishListCollection[0];
+                this.product.properties["isFavorite"] = "false";
+                if (this.favoritesWishlist) {
+                    if (this.favoritesWishlist.wishListLineCollection) {
+                        if (this.favoritesWishlist.wishListLineCollection.filter(x => x.productId === this.product.id)[0]) {
+                            this.product.properties["isFavorite"] = "true";
+                        }
+                    } else {
+                        this.favoritesWishlist.wishListLineCollection = [];
+                    }
+                } else {
+                    this.favoritesWishlist = {
+                        wishListLineCollection: [] as WishListLineModel[]
+                    } as WishListModel;
+                }
+            });
         }
 
         protected isAttributeValue(attrName: string, attrValue: string): boolean {            
@@ -68,7 +119,6 @@
 
 
         protected selectInsiteStyleDropdown(styleTraitName: string, styleTraitValueId: string, index: number): void {            
-            debugger;
             let styleTrait = this.styleTraitFiltered.find(x => x.nameDisplay == styleTraitName);
             if (styleTrait) {
                 let option = styleTrait.styleValues.find(x => x.styleTraitValueId == styleTraitValueId);
@@ -93,7 +143,7 @@
 
         initVideo() {
             console.dir(document.getElementById("videofile"));
-            document.getElementById("videofile").setAttribute("src", this.product.properties['videoUrl']);
+            document.getElementById("videofile").setAttribute("src", this.product.properties["videoUrl"]);
         }
 
         protected getProductCompleted(productModel: ProductModel): void {
@@ -101,8 +151,8 @@
             this.product.qtyOrdered = this.product.minimumOrderQty || 1;
             this.product.documents.forEach((doc) => {
                 if (doc.documentType == "video") {
-                    this.product.properties['videoFile'] = doc.fileUrl;
-                    this.product.properties['videoUrl'] = 'https://s7d9.scene7.com/is/content/NationalBusinessFurniture/' + doc.fileUrl;
+                    this.product.properties["videoFile"] = doc.fileUrl;
+                    this.product.properties["videoUrl"] = "https://s7d9.scene7.com/is/content/NationalBusinessFurniture/" + doc.fileUrl;
                 }
             });
             this.product.documents = this.product.documents.filter(function (val) {
@@ -132,10 +182,18 @@
             }
 
             this.setTabs();
+            this.sessionService.getIsAuthenticated().then(x => {
+                this.isAuthenticated = x;
+                if (this.isAuthenticated) {
+                    this.getFavorites();
+                }
+            });
+
+            this.resourceAndAssemblyDocs = this.product.documents.filter(x => x.documentType != "video");
         }     
        
         showVideo() {            
-            this.setVideo2(this.product.properties['videoFile']);
+            this.setVideo2(this.product.properties["videoFile"]);
         }
 
         show360() {            
@@ -145,10 +203,10 @@
         setVideo2(vURL) {
             // used to display videos
 
-            $('#s7flyout_inline_div').hide();
-            $('#videofile').show();
-            $('#Wrapper360').hide();
-            $('#mobile_div_container').hide();
+            $("#s7flyout_inline_div").hide();
+            $("#videofile").show();
+            $("#Wrapper360").hide();
+            $("#mobile_div_container").hide();
             var myVideo = document.getElementById("videofile");
             if (!myVideo.getAttribute("src")) {
                 myVideo.setAttribute("src", "https://s7d9.scene7.com/is/content/NationalBusinessFurniture/" + vURL);
@@ -164,34 +222,59 @@
                 myVideo["pause"]();
             }
 
-            var height = $('#s7flyout_inline_div').height();
+            var height = $("#s7flyout_inline_div").height();
             var width = height;
             var spriteSpin = document.getElementById("spritespin");
             if (spriteSpin.children.length == 0) {
-                $('#spritespin')["spritespin"]({
-                    source: SpriteSpin.sourceArray('https://s7d9.scene7.com/is/image/NationalBusinessFurniture/' + imageName + '2%5Fspin%5F{lane}{frame}s2?w=300', { lane: [1, lanes], frame: [1, frames], digits: 2 }),
+                $("#spritespin")["spritespin"]({
+                    source: SpriteSpin.sourceArray("https://s7d9.scene7.com/is/image/NationalBusinessFurniture/" + imageName + "2%5Fspin%5F{lane}{frame}s2?w=300", { lane: [1, lanes], frame: [1, frames], digits: 2 }),
                     width: width,
                     height: height,
                     frames: frames,
                     lanes: lanes,
                     sense: -2,
                     senseLane: -2,
-                    renderer: 'background',
-                    behavior: 'move',
+                    renderer: "background",
+                    behavior: "move",
                     frameTime: 250,
                 });
 
             }
 
-            $('#s7flyout_inline_div').hide();
-            $('#defaultimage').hide();
-            $('#360file').show();
-            $('#videofile').hide();
-            $('#Wrapper360').show();
-            $('#overlaych1').hide();
-            $('#mobile_div_container').hide();
+            $("#s7flyout_inline_div").hide();
+            $("#defaultimage").hide();
+            $("#360file").show();
+            $("#videofile").hide();
+            $("#Wrapper360").show();
+            $("#overlaych1").hide();
+            $("#mobile_div_container").hide();
         }
 
+        protected getStarRating(product: ProductDto): string {
+            let retVal = "no-star";
+            if (product && product.specifications && product.specifications.length > 0) {
+                let ratings = product.specifications.filter(x => x.name == "Rating");
+
+                if (ratings.length > 0 && !isNaN(parseFloat(ratings[0].value))) {
+                    let rating = parseFloat(ratings[0].value);
+                    if (rating > 0.0) {
+                        let ratingRoundedToHalf = Math.round(rating * 2) / 2;
+                        retVal = ratingRoundedToHalf > 0 && ratingRoundedToHalf <= 0.5 ? "half-star" :
+                            ratingRoundedToHalf > 0.5 && ratingRoundedToHalf <= 1.0 ? "one-star" :
+                                ratingRoundedToHalf > 1.0 && ratingRoundedToHalf <= 1.5 ? "onehalf-star" :
+                                    ratingRoundedToHalf > 1.5 && ratingRoundedToHalf <= 2.0 ? "two-star" :
+                                        ratingRoundedToHalf > 2.0 && ratingRoundedToHalf <= 2.5 ? "twohalf-star" :
+                                            ratingRoundedToHalf > 2.5 && ratingRoundedToHalf <= 3.0 ? "three-star" :
+                                                ratingRoundedToHalf > 3.0 && ratingRoundedToHalf <= 3.5 ? "threehalf-star" :
+                                                    ratingRoundedToHalf > 3.5 && ratingRoundedToHalf <= 4.0 ? "four-star" :
+                                                        ratingRoundedToHalf > 4.0 && ratingRoundedToHalf <= 4.5 ? "fourhalf-star" :
+                                                            ratingRoundedToHalf > 4.5 ? "five-star" : "no-star";
+                    }
+                }
+            }
+
+            return retVal;
+        }
     }
 
     angular

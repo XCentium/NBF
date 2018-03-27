@@ -800,6 +800,7 @@
     <Content Include="UserFiles\SystemImages\LoginIcon.svg" />
     <Content Include="UserFiles\SystemImages\Mcafee.png" />
     <Content Include="UserFiles\SystemImages\NBFLOGO.png" />
+    <Content Include="UserFiles\SystemImages\Pin.svg" />
     <Content Include="UserFiles\SystemImages\RightArrowOrange.svg" />
     <Content Include="UserFiles\SystemImages\RightArrowwhite.svg" />
     <Content Include="UserFiles\SystemImages\SocialIcons\Email.svg" />

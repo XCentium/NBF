@@ -7,7 +7,7 @@
   ],
       "HeadScripts": [
       "https://use.typekit.net/ryl8iif.css",
-      "https://s7d9.scene7.com/s7viewers/html5/js/FlyoutViewer.js",
+      "https://s7d9.scene7.com/s7viewers/html5/js/FlyoutViewer.js"
   ],
   "BodyEndScripts": [
     "~/SystemResources/Scripts/Libraries/modernizr/2.6.2/custom.modernizr.js",
@@ -145,7 +145,9 @@
     "Custom-Invoices-NbfRecentInvoices": "views/directives/custom/invoices/recentinvoices.cshtml",
     "Custom-WishLists-NbfFavoritesQuickView": "views/directives/custom/wishlist/favoritesquickview.cshtml",
     "Custom-Core-Pager": "views/directives/custom/core/pager.cshtml",
-    "Custom-Core-Item-List-Pager": "views/directives/custom/core/itemlistpager.cshtml"
+    "Custom-Core-Item-List-Pager": "views/directives/custom/core/itemlistpager.cshtml",
+    "Custom-Core-Product-List-Pager": "views/directives/custom/core/productlistpager.cshtml",
+    "Custom-Content-ContentPager": "views/directives/custom/content/contentpager.cshtml"
   }
 }
 

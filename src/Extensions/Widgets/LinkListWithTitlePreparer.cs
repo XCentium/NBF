@@ -47,8 +47,18 @@ namespace Extensions.Widgets
             List<PageLinkDrop> pageLinkDropList = new List<PageLinkDrop>();
             foreach (int page in linkList.Pages)
             {
-                GetPageResult<AbstractPage> pageByVariantKey = PageContext.Current.ContentHelper.GetPageByVariantKey(page);
-                if (pageByVariantKey.Page != null && !pageByVariantKey.Page.IsRetracted && pageByVariantKey.DisplayLink && (!pageByVariantKey.Page.Class.EqualsIgnoreCase("QuickOrderPage") || IsQuickOrderAllowed()))
+                GetPageResult<AbstractPage> pageByVariantKey = null;
+
+                try
+                {
+                    pageByVariantKey = PageContext.Current.ContentHelper.GetPageByVariantKey(page);
+                }
+                catch
+                {
+                    // in case page was removed
+                }
+
+                if (pageByVariantKey?.Page != null && !pageByVariantKey.Page.IsRetracted && pageByVariantKey.DisplayLink && (!pageByVariantKey.Page.Class.EqualsIgnoreCase("QuickOrderPage") || IsQuickOrderAllowed()))
                     pageLinkDropList.Add(new PageLinkDrop()
                     {
                         Url = PageContext.Current.GenerateUrl(pageByVariantKey.Page),

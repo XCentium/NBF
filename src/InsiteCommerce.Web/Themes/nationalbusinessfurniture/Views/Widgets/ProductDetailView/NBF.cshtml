@@ -7,7 +7,7 @@
                     <div class="small-12 column medium-6 detail-image">
                         <isc-product-images ng-if="vm.product" product="vm.product"></isc-product-images>
                         <div class="image-buttons">
-                            <button class="btn btn-secondary" ng-if="vm.product.unspsc !== '0000'" ng-click="vm.show360()"><i class="ico-ViewIcon"></i> 360 View</button>
+                            <button class="btn btn-secondary" ng-if="vm.product && vm.product.unspsc !== '0000'" ng-click="vm.show360()"><i class="ico-ViewIcon"></i> 360 View</button>
                             <button ng-show="vm.product.properties['videoUrl']" class="btn btn-secondary" ng-click="vm.showVideo()"><i class="ico-SmallplaybuttonIcon"></i> Product Video</button>
                         </div>
                     </div>
@@ -22,6 +22,9 @@
                             <div ng-if="vm.isAttributeValue('GSA', 'Yes');" class="item-block__product__flag gsa">
                                 GSA
                             </div>
+                            <div ng-if="vm.product.priceCode != null && vm.product.priceCode.length > 0" class="item-block__product__flag save">
+                                SAVE {{vm.product.priceCode}}%
+                            </div>
                         </div>
                         <div class="item-block__product__ships-today" ng-if="vm.isAttributeValue('Ships Today', 'Yes');"><span class="ico-Truck"></span> Ships Today!</div>
 
@@ -31,14 +34,22 @@
                                 </isc-quantity-break-pricing>
                             </div>
                             <div class="col-2">
-                                <div class="item-block__product__reviews"><div class="rating"></div>4.8(5 Reviews)</div>
+                                <div class="item-block__product__reviews">
+                                    <div class="rating {{vm.getStarRating(vm.product)}} ">
+                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                    </div>(5 Reviews)
+                                </div>
                                 <a href="#reviews">Read 5 reviews</a>
                                 <a href="#">Write a Review</a>
                             </div>
                         </div>
                         <div class="item-block__product__samples-link">
                             <strong>Available Colors/Finishes</strong> <a href="#" data-reveal-id="swatchform">Order Free Samples</a>
-                        </div>                        
+                        </div>
                         <div class="item-block__product__swatches">
                             <div class="item-block__product__swatches__label" ng-repeat-start="styleTrait in vm.styleTraitFiltered | orderBy: 'sortOrder'">{{styleTrait.nameDisplay}}:</div>
                             <ul ng-repeat-end>
@@ -47,7 +58,7 @@
                                 </li>
                             </ul>
                         </div>
-                       
+
                         <div class="pd-cm-wrap">
                             <div ng-show="vm.product.isConfigured && vm.product.configurationDto && vm.product.configurationDto.isKit">
                                 <div ng-repeat="section in vm.product.configurationDto.sections" class="pd-kit">
@@ -116,11 +127,11 @@
                                     </a>
                                 </div>
                             </div>
-                            <a id="tst_productDetail_addToWishList" ng-click="vm.openWishListPopup(vm.product)" role="button"
-                               class="btn secondary btn-add-to-list" href="javascript:;">[% translate 'Add to Favorites' %]</a>
+                            <a id="tst_productDetail_addToWishList" ng-if="vm.isAuthenticated" ng-class="{'in-favorites': vm.product.properties['isFavorite'] == 'true' } "
+                               ng-click="vm.toggleFavorite(vm.product)" role="button"
+                               class="btn secondary btn-add-to-list" href="javascript:;">{{vm.product.properties['isFavorite'] == "false" ? "Add To Favorites" : "Remove From Favorites"}}</a>
                         </div>
                         <div class="small-12 secondary-button">
-
                             <div ng-show="vm.product" class="small-12 detail-share">
                                 <a id="tst_productDetail_share" href="javascript:;" class="pd-zoom" data-reveal-id="TellAFriendDialogContainer">[% translate 'Share' %]</a>
                                 <isc-tell-a-friend-popup product="vm.product" data-reveal></isc-tell-a-friend-popup>
@@ -137,33 +148,37 @@
                                         <div id="tst_productDetail_htmlContent" class="product-cm" ng-bind-html="vm.product.htmlContent|trusted"></div>
                                         <br />
                                         <div class="product-cm" ng-if="vm.product.specifications">
-                                            Features:
-                                            <div ng-repeat="specification in vm.product.specifications | filter: { name: 'Features' } | orderBy: 'sortOrder'" ng-bind-html="specification.htmlContent|trusted"></div>
-                                            Dimensions and Weight:
-                                            <div ng-repeat="specification in vm.product.specifications | filter: { name: 'Dimensions' } | orderBy: 'sortOrder'" ng-bind-html="specification.htmlContent|trusted"></div>
+                                            <div ng-if="(vm.product.specifications | filter: { name: 'Features' }).length > 0">
+                                                Features:
+                                                <div ng-repeat="specification in vm.product.specifications | filter: { name: 'Features' } | orderBy: 'sortOrder'" ng-bind-html="specification.htmlContent|trusted"></div>
+                                            </div>
+                                            <div ng-if="(vm.product.specifications | filter: { name: 'Dimensions' }).length > 0">
+                                                Dimensions and Weight:
+                                                <div ng-repeat="specification in vm.product.specifications | filter: { name: 'Dimensions' } | orderBy: 'sortOrder'" ng-bind-html="specification.htmlContent|trusted"></div>
+                                            </div>
                                         </div>
                                     </article>
                                 </div>
                             </section>
-                            <section class="accordion">
+                            <section class="accordion" ng-if="(vm.product.specifications | filter: { name: 'Delivery' }).length > 0">
                                 <div>
                                     <input type="checkbox" id="accord-10001" class="accord-check" />
                                     <label id="tst_productList_tableView_filterButton" for="accord-10001" class="accord-head">[% translate 'Delivery Information' %]</label>
                                     <article class="accord-content">
                                         <div id="tst_productDetail_htmlContent" class="product-cm">
-                                            TODO
+                                            <div ng-repeat="specification in vm.product.specifications | filter: { name: 'Delivery' } | orderBy: 'sortOrder'" ng-bind-html="specification.htmlContent|trusted"></div>
                                         </div>
                                     </article>
                                 </div>
                             </section>
-                            <section class="accordion">
+                            <section class="accordion" ng-if="!vm.settings.displayDocumentsInTabs && vm.product.documents.length > 0 && vm.resourceAndAssemblyDocs.length > 0">
                                 <div>
                                     <input type="checkbox" id="accord-10002" class="accord-check" />
                                     <label id="tst_productList_tableView_filterButton" for="accord-10002" class="accord-head">[% translate 'Resource &amp; Assembly' %]</label>
                                     <article class="accord-content">
                                         <div id="tst_productDetail_htmlContent" class="product-cm">
-                                            <ul ng-if="!vm.settings.displayDocumentsInTabs && vm.product.documents.length > 0" class="doclinks">
-                                                <li ng-if="vm.languageId === document.languageId" ng-repeat="document in vm.product.documents | filter:{ documentType: '!video'}" class="doc-{{$index}}">
+                                            <ul class="doclinks">
+                                                <li ng-if="vm.languageId === document.languageId" ng-repeat="document in vm.resourceAndAssemblyDocs" class="doc-{{$index}}">
                                                     <a id="tst_productDetail_{{document.id}}" ng-href="{{document.filePath}}" target="_new">{{document.name}} <em ng-if="document.documentType">({{document.documentType}})</em></a>
                                                 </li>
                                             </ul>
@@ -171,22 +186,25 @@
                                     </article>
                                 </div>
                             </section>
-                            <section class="accordion">
+                            <section class="accordion" ng-show="vm.isAttributeValue('GSA', 'Yes')">
                                 <div>
                                     <input type="checkbox" id="accord-10003" class="accord-check" />
                                     <label id="tst_productList_tableView_filterButton" for="accord-10003" class="accord-head">[% translate 'Contract Information' %]</label>
                                     <article class="accord-content">
-                                        <div id="tst_productDetail_htmlContent" class="product-cm" ng-if="vm.isAttributeValue('GSA', 'Yes');">
+                                        <div id="tst_productDetail_htmlContent" class="product-cm">
                                             [% zone 'GSA Content' %]
-                                        </div>                                            
+                                        </div>
                                     </article>
                                 </div>
                             </section>
                         </div>
-                    </div>                    
+                    </div>
                 </div>
 
             </div>
+            <isc-cross-sell-carousel product="vm.product"
+                                     product-cross-sell="true">
+            </isc-cross-sell-carousel>
         </div>
     </div>
 
@@ -344,46 +362,46 @@
             <div class="swatchform__type__title">Color:</div>
             <ul class="swatchform__list">
                 <li class="swatchform__item"><a href="#" class="tip" data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
-                <li class="swatchform__item active"><a href="#" class="tip"  data-title="Blue"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
-                <li class="swatchform__item"><a href="#" class="tip"  data-title="Coquelicot"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
-                <li class="swatchform__item"><a href="#" class="tip"  data-title="Smaragdine"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
-                <li class="swatchform__item"><a href="#" class="tip"  data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
-                <li class="swatchform__item"><a href="#" class="tip"  data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
-                <li class="swatchform__item active"><a href="#" class="tip"  data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
-                <li class="swatchform__item"><a href="#" class="tip"  data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
-                <li class="swatchform__item"><a href="#" class="tip"  data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
-                <li class="swatchform__item"><a href="#" class="tip"  data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
-                <li class="swatchform__item"><a href="#" class="tip"  data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
-                <li class="swatchform__item"><a href="#" class="tip"  data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
-                <li class="swatchform__item active"><a href="#" class="tip"  data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
-                <li class="swatchform__item"><a href="#" class="tip"  data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
-                <li class="swatchform__item"><a href="#" class="tip"  data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
-                <li class="swatchform__item"><a href="#" class="tip"  data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
-                <li class="swatchform__item"><a href="#" class="tip"  data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
-                <li class="swatchform__item"><a href="#" class="tip"  data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
-                <li class="swatchform__item"><a href="#" class="tip"  data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
-                <li class="swatchform__item"><a href="#" class="tip"  data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
-                <li class="swatchform__item"><a href="#" class="tip"  data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
+                <li class="swatchform__item active"><a href="#" class="tip" data-title="Blue"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
+                <li class="swatchform__item"><a href="#" class="tip" data-title="Coquelicot"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
+                <li class="swatchform__item"><a href="#" class="tip" data-title="Smaragdine"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
+                <li class="swatchform__item"><a href="#" class="tip" data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
+                <li class="swatchform__item"><a href="#" class="tip" data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
+                <li class="swatchform__item active"><a href="#" class="tip" data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
+                <li class="swatchform__item"><a href="#" class="tip" data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
+                <li class="swatchform__item"><a href="#" class="tip" data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
+                <li class="swatchform__item"><a href="#" class="tip" data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
+                <li class="swatchform__item"><a href="#" class="tip" data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
+                <li class="swatchform__item"><a href="#" class="tip" data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
+                <li class="swatchform__item active"><a href="#" class="tip" data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
+                <li class="swatchform__item"><a href="#" class="tip" data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
+                <li class="swatchform__item"><a href="#" class="tip" data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
+                <li class="swatchform__item"><a href="#" class="tip" data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
+                <li class="swatchform__item"><a href="#" class="tip" data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
+                <li class="swatchform__item"><a href="#" class="tip" data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
+                <li class="swatchform__item"><a href="#" class="tip" data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
+                <li class="swatchform__item"><a href="#" class="tip" data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
+                <li class="swatchform__item"><a href="#" class="tip" data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
             </ul>
         </div>
         <div class="swatchform__type">
             <div class="swatchform__type__title">Finish:</div>
             <ul class="swatchform__list">
-                <li class="swatchform__item"><a href="#" class="tip"  data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
-                <li class="swatchform__item active"><a href="#" class="tip"  data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
-                <li class="swatchform__item"><a href="#" class="tip"  data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
-                <li class="swatchform__item"><a href="#" class="tip"  data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
-                <li class="swatchform__item"><a href="#" class="tip"  data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
-                <li class="swatchform__item"><a href="#" class="tip"  data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
-                <li class="swatchform__item active"><a href="#" class="tip"  data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
-                <li class="swatchform__item"><a href="#" class="tip"  data-data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
-                <li class="swatchform__item"><a href="#" class="tip"  data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
-                <li class="swatchform__item"><a href="#" class="tip"  data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
-                <li class="swatchform__item"><a href="#" class="tip"  data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
-                <li class="swatchform__item"><a href="#" class="tip"  data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
-                <li class="swatchform__item"><a href="#" class="tip"  data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
-                <li class="swatchform__item"><a href="#" class="tip"  data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
-                <li class="swatchform__item"><a href="#" class="tip"  data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
+                <li class="swatchform__item"><a href="#" class="tip" data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
+                <li class="swatchform__item active"><a href="#" class="tip" data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
+                <li class="swatchform__item"><a href="#" class="tip" data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
+                <li class="swatchform__item"><a href="#" class="tip" data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
+                <li class="swatchform__item"><a href="#" class="tip" data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
+                <li class="swatchform__item"><a href="#" class="tip" data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
+                <li class="swatchform__item active"><a href="#" class="tip" data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
+                <li class="swatchform__item"><a href="#" class="tip" data-data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
+                <li class="swatchform__item"><a href="#" class="tip" data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
+                <li class="swatchform__item"><a href="#" class="tip" data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
+                <li class="swatchform__item"><a href="#" class="tip" data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
+                <li class="swatchform__item"><a href="#" class="tip" data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
+                <li class="swatchform__item"><a href="#" class="tip" data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
+                <li class="swatchform__item"><a href="#" class="tip" data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
+                <li class="swatchform__item"><a href="#" class="tip" data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
             </ul>
         </div>
     </div>

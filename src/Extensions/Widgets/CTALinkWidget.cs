@@ -1,14 +1,13 @@
 ﻿using System.ComponentModel;
 using Insite.ContentLibrary.ContentFields;
 using Insite.ContentLibrary.Widgets;
-using Insite.Data.Entities;
 using Microsoft.Ajax.Utilities;
 using FieldType = Insite.Data.Entities.FieldType;
 
 namespace Extensions.Widgets
 {
     [DisplayName("NBF - CTA Link Widget")]
-    public class CtaLinkWidget : ContentWidget
+    public class CTALinkWidget : ContentWidget
     {
         [FilePickerField(ResourceType = "ImageFiles", SortOrder = 10, DisplayName = "CTA Logo Image")]
         public virtual string CtaLogoImage

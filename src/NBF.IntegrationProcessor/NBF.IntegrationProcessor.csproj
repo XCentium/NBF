@@ -84,6 +84,7 @@
   </PropertyGroup>
   <PropertyGroup>
     <PostBuildEvent>
+<<<<<<< HEAD
 set integrationPath="C:\Program Files\Insite Software\Commerce Integration Service V4.4\"
 set integrationService="Commerce Integration Service V4.4 (x64)"
 
@@ -111,6 +112,9 @@ move /y %25integrationPath%25$(TargetName)".*" %25integrationPath%25"Custom"
       echo "WIS service not installed"
 )
 </PostBuildEvent>
+=======
+    </PostBuildEvent>
+>>>>>>> develop
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
