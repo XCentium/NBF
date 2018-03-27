@@ -758,6 +758,7 @@
     <Content Include="Styles\custom\star-rating.scss" />
     <Content Include="Views\Widgets\Custom\LatestBlogPosts\TitleAndDateOnly.cshtml" />
     <Content Include="Views\Widgets\Custom\LatestBlogPosts\WithMarginsTitleAndDateOnly.cshtml" />
+    <Content Include="Views\Content\Error.cshtml" />
     <Content Include="Views\Widgets\Custom\VideoBanner\VideoBannerCTA.cshtml" />
     <Content Include="Views\Directives\Custom\Content\ContentPager.cshtml" />
   </ItemGroup>
