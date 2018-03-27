@@ -141,4 +141,10 @@
             list-style:none;
         }
     }
-} 
+}
+
+@media (min-width: 767px) {
+    .mobile-title + article.accord-content {
+        margin-top: 0;
+    }
+}
