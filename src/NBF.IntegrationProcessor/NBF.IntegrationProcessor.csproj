@@ -31,13 +31,13 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Insite.Common">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.1.39151\lib\net452\Insite.Common.dll</HintPath>
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.1.39382\lib\net452\Insite.Common.dll</HintPath>
     </Reference>
     <Reference Include="Insite.Integration">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.1.39151\lib\net452\Insite.Integration.dll</HintPath>
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.1.39382\lib\net452\Insite.Integration.dll</HintPath>
     </Reference>
     <Reference Include="Insite.WIS.Broker">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.1.39151\lib\net452\Insite.WIS.Broker.dll</HintPath>
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.1.39382\lib\net452\Insite.WIS.Broker.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
@@ -80,10 +80,6 @@
       move /y "C:\Program Files\Insite Software\Commerce Integration Service V4.4\NBF.IntegrationProcessor.pdb" "C:\Program Files\Insite Software\Commerce Integration Service V4.4\Custom"
       echo ---------------------------------------------------------------------
       net start "Commerce Integration Service V4.4 (x64)"
-    </PostBuildEvent>
-  </PropertyGroup>
-  <PropertyGroup>
-    <PostBuildEvent>
     </PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

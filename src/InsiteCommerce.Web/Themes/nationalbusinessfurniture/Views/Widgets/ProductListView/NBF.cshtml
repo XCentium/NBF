@@ -10,7 +10,7 @@
 
         <div class="large-12 columns">
             <div>
-                <div ng-if="vm.isCategoryPage() && !vm.filteredResults" class="category-list">
+                <div ng-if="!vm.filteredResults" class="category-list">
                     <isc-catalog-breadcrumb breadcrumbs="vm.breadCrumbs"></isc-catalog-breadcrumb>
                 </div>
             </div>
@@ -115,12 +115,12 @@
                                                         </div>
                                                         <div class="item-block__product__swatch">
                                                             <ul>
-                                                                <li ng-repeat="swatchImg in vm.getTop3Swatches(product.properties['swatches'])">
+                                                                <li ng-repeat="swatchImg in vm.getTop6Swatches(product.properties['swatches'])">
                                                                     <div class="item-block__product__swatch__img-wrap">
                                                                         <img class="item-block__product__swatch" ng-src="https://s7d9.scene7.com/is/image/NationalBusinessFurniture/{{swatchImg}}?hei=200&id=5-zsy2&fmt=jpg&fit=constrain,1&wid=344&hei=344" />
                                                                     </div>
                                                                 </li>
-                                                                <li class="item-block__product__more-link"><u>More</u></li>
+                                                                <li class="item-block__product__more-link" ng-if="vm.getTotalSwatchCount(product.properties['swatches']) > 6"><a id="tst_productList_{{product.id}}_moreLink" ng-href="{{product.productDetailUrl}}">More</a></li>
                                                             </ul>
                                                         </div>
                                                         <div class="item-name item-name-grid">

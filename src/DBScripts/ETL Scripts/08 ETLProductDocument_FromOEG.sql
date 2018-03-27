@@ -23,9 +23,24 @@ begin
 	-- documents
 
 	insert into Document
-	([Name],[Description],[FilePath],[DocumentType],[LanguageId],[ParentId],[ParentTable],CreatedBy,ModifiedBy)
+	(
+		[Name],
+		[Description],
+		[FilePath],
+		[DocumentType],
+		[LanguageId],
+		[ParentId],
+		[ParentTable],
+		CreatedBy, ModifiedBy
+	)
 	select 
-		spd.WebDescription+'-'+convert(nvarchar(max),spd.DocumentId), spd.[Name], spd.[Name], 'pdf', @LanguageId, p.Id, 'product',
+		spd.WebDescription+'-'+convert(nvarchar(max), spd.DocumentId), 
+		spd.WebDescription, 
+		spd.[Name], 
+		case when spd.[Name] like '%pdf%' then 'pdf' else 'blog' end, 
+		@LanguageId, 
+		p.Id, 
+		'product',
 		'etl', 'etl'
 	from
 		OEGSystemStaging.dbo.Products sp
@@ -37,9 +52,23 @@ begin
 	-- videos
 
 	insert into Document
-	([Name],[Description],[FilePath],[DocumentType],[LanguageId],[ParentId],[ParentTable],CreatedBy,ModifiedBy)
+	(
+		[Name],
+		[Description],
+		[FilePath],
+		[DocumentType],
+		[LanguageId],
+		[ParentId],
+		[ParentTable],
+		CreatedBy, ModifiedBy
+	)
 	select 
-		spv.[URL]+'-'+convert(nvarchar(max),spv.Id), isnull(spv.[Description],''), spv.[URL], 'video', @LanguageId, p.Id, 'product',
+		spv.[URL]+'-'+convert(nvarchar(max),spv.Id), 
+		isnull(spv.[Description],''), 
+		spv.[URL], 'video', 
+		@LanguageId, 
+		p.Id, 
+		'product',
 		'etl', 'etl'
 	from
 		OEGSystemStaging.dbo.Products sp
@@ -55,8 +84,8 @@ begin
 
 /*
 exec ETLProductDocument_FromOEG
-exec ETLProductDocument_ToInsite
-select * from Document
+select * from Document where documenttype = 'blog'
+select erpnumber, * from product where id = '0DD846BA-87FD-E711-A98C-A3E0F1200094'
 select * from OEGSystemStaging.dbo.ProductDocuments spd
 select * from OEGSystemStaging.dbo.ProductVideos where TypeId != 2
 

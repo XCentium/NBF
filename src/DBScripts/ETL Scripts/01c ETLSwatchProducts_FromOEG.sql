@@ -67,11 +67,11 @@ begin
 	select  distinct
 		p.ERPNumber + ':' + st.[Description] + ':' + stv.[Description] ERPNumber,
 		stv.[Value] [Name],
-		p.ShortDescription + ' - ' + st.[Name] + ' - ' + stv.[Value]  ShortDescription,
+		p.ERPNumber + ' - ' + st.[Name] + ' - ' + stv.[Value]  ShortDescription,
 		p.ERPNumber ProductCode, 
 		st.[Name] ModelNumber,
 		LOWER(replace(dbo.UrlFriendlyString(ltrim(rtrim(isnull(p.ERPNumber + ':' + st.[Name] + ':' + stv.[Value],'')))),'/','-')) UrlSegment,
-		st.Id, stv.Id,
+		'', '',
 		'00000000-0000-0000-0000-000000000000' ContentManagerId, 'etl', 'etl'
 	from 
 		StyleTraitValueProduct stvp
@@ -88,9 +88,11 @@ begin
 	-- in case swatch group name or values are updated
 	update Product set
 		[Name] = stv.[Value],
-		ShortDescription = p.ShortDescription + ' - ' + st.[Name] + ' - ' + stv.[Value],
+		ShortDescription = p.ProductCode + ' - ' + st.[Name] + ' - ' + stv.[Value],
 		ModelNumber = st.[Name],
-		UrlSegment = LOWER(replace(dbo.UrlFriendlyString(ltrim(rtrim(isnull(p.ERPNumber + ':' + st.[Name] + ':' + stv.[Value],'')))),'/','-'))
+		UrlSegment = LOWER(replace(dbo.UrlFriendlyString(ltrim(rtrim(isnull(p.ERPNumber + ':' + st.[Name] + ':' + stv.[Value],'')))),'/','-')),
+		ERPDescription = '',
+		PackDescription = ''
 	from StyleTraitValue stv
 		join StyleTrait st on st.Id = stv.StyleTraitId 
 		join StyleClass sc on sc.Id = st.StyleClassId
