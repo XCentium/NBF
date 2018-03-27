@@ -191,7 +191,7 @@
     </nav>
 </div>
 
-<header id="header" role="masthead" class="use-fastclick sign-in cms-rearrangeable" ng-controller="HeaderController as vm">
+<header id="header" role="masthead" class="use-fastclick sign-in cms-rearrangeable" ng-controller="NbfHeaderController as vm">
     <div class="head-row">
         <div class="row logo-row small-12 columns">
             <div class="clearfix">
@@ -258,7 +258,7 @@
                                                         [% translate 'Item No: ' %]<span ng-bind="cartLine.erpNumber">BVR1472589</span>
                                                     </div>
                                                     <div class="item-qty">
-                                                        <input id="cartLineQuantity_{{$index}}"
+                                                        <input id="miniCartLineQuantity_{{$index}}"
                                                                type="text"
                                                                class="numerictextbox qty txt tst_cartLines_quantity"
                                                                ng-class="{ 'item-opt__changed' : inventoryCheck && cartLine.hasInsufficientInventory || cartLine.isRestricted }"
@@ -278,7 +278,9 @@
                                                         </div>
                                                     </div>
                                                     <div class="remove-btn">
-                                                        <a href="#" class="">Remove</a>
+                                                        <a ng-click="vm.removeLine(cartLine)">
+                                                            [% translate 'Remove' %]
+                                                        </a>
                                                     </div>
                                                 </div>
                                             </div>
