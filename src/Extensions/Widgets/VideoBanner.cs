@@ -7,8 +7,34 @@ namespace Extensions.Widgets
 {
     [DisplayName("NBF - Video Banner")]
     public class VideoBanner : ContentWidget
-    {        
-        [TextContentField(IsRequired = false, SortOrder = 20)]
+    {
+        [TextContentField(IsRequired = true, SortOrder = 27, DisplayName = "MP4 Video Url")]
+        public virtual string Mp4VideoUrl
+        {
+            get
+            {
+                return GetValue(nameof(Mp4VideoUrl), string.Empty, FieldType.Contextual);
+            }
+            set
+            {
+                SetValue(nameof(Mp4VideoUrl), value, FieldType.Contextual);
+            }
+        }
+
+        [TextContentField(IsRequired = false, SortOrder = 26, DisplayName = "Ogg Video Url")]
+        public virtual string OggVideoUrl
+        {
+            get
+            {
+                return GetValue(nameof(OggVideoUrl), string.Empty, FieldType.Contextual);
+            }
+            set
+            {
+                SetValue(nameof(OggVideoUrl), value, FieldType.Contextual);
+            }
+        }
+
+        [TextContentField(DisplayName = "Title - CTA Template Only", IsRequired = false, SortOrder = 28)]
         public virtual string Title
         {
             get
@@ -21,7 +47,7 @@ namespace Extensions.Widgets
             }
         }
 
-        [TextContentField(IsRequired = false, SortOrder = 25)]
+        [TextContentField(DisplayName = "SubTitle - CTA Template Only", IsRequired = false, SortOrder = 29)]
         public virtual string SubTitle
         {
             get
@@ -33,7 +59,7 @@ namespace Extensions.Widgets
                 SetValue(nameof(SubTitle), value, FieldType.Contextual);
             }
         }
-        [TextContentField(IsRequired = false, SortOrder = 30)]
+        [TextContentField(DisplayName = "URL - CTA Template Only", IsRequired = false, SortOrder = 30)]
         public virtual string Url
         {
             get
@@ -59,7 +85,7 @@ namespace Extensions.Widgets
                 SetValue(nameof(BackgroundImage), value, FieldType.General);
             }
         }
-        [DropDownContentField(new[] { "White", "Navy" }, IsRequired = true, SortOrder = 50)]
+        [DropDownContentField(new[] { "White", "Navy" }, DisplayName = "Style - CTA Template Only", IsRequired = true, SortOrder = 50)]
         public virtual string Style
         {
             get
@@ -74,7 +100,7 @@ namespace Extensions.Widgets
 
         public virtual string StyleFormatted => Style.Replace(" ", "").ToLower();
 
-        [DropDownContentField(new[] { "Bottom Right", "Bottom Left", "Top Left", "Top Right" }, IsRequired = true, SortOrder = 60)]
+        [DropDownContentField(new[] { "Bottom Right", "Bottom Left", "Top Left", "Top Right" }, DisplayName = "Position - CTA Template Only", IsRequired = true, SortOrder = 60)]
         public virtual string Position
         {
             get
@@ -88,31 +114,5 @@ namespace Extensions.Widgets
         }
 
         public virtual string PositionFormatted => Position.Replace(" ", "").ToLower();
-
-        [TextContentField(IsRequired = true, SortOrder = 70, DisplayName="MP4 Video Url")]
-        public virtual string Mp4VideoUrl
-        {
-            get
-            {
-                return GetValue(nameof(Mp4VideoUrl), string.Empty, FieldType.Contextual);
-            }
-            set
-            {
-                SetValue(nameof(Mp4VideoUrl), value, FieldType.Contextual);
-            }
-        }
-
-        [TextContentField(IsRequired = false, SortOrder = 80, DisplayName = "Ogg Video Url")]
-        public virtual string OggVideoUrl
-        {
-            get
-            {
-                return GetValue(nameof(OggVideoUrl), string.Empty, FieldType.Contextual);
-            }
-            set
-            {
-                SetValue(nameof(OggVideoUrl), value, FieldType.Contextual);
-            }
-        }
     }
 }

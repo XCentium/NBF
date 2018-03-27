@@ -1,7 +1,192 @@
 ﻿module insite.catalog {
     "use strict";
 
-    export class NbfCrossSellCarouselController extends CrossSellCarouselController {
+    export class NbfCrossSellCarouselController {
+        product: ProductDto;
+        productCrossSell: boolean;
+        maxTries: number;
+        crossSellProducts: ProductDto[];
+        imagesLoaded: number;
+        carousel: any;
+        productSettings: ProductSettingsModel;
+        failedToGetRealTimePrices = false;
+        addingToCart = true;
+
+        static $inject = ["cartService", "productService", "$timeout", "addToWishlistPopupService", "settingsService", "$scope"];
+
+        constructor(
+            protected cartService: cart.ICartService,
+            protected productService: IProductService,
+            protected $timeout: ng.ITimeoutService,
+            protected addToWishlistPopupService: wishlist.AddToWishlistPopupService,
+            protected settingsService: core.ISettingsService,
+            protected $scope: ng.IScope) {
+            this.init();
+        }
+
+        init(): void {
+            this.settingsService.getSettings().then(
+                (settingsCollection: core.SettingsCollection) => { this.getSettingsCompleted(settingsCollection); },
+                (error: any) => { this.getSettingsFailed(error); });
+
+            this.crossSellProducts = [];
+            this.imagesLoaded = 0;
+
+            const cart = this.cartService.getLoadedCurrentCart();
+            if (!cart) {
+                this.$scope.$on("cartLoaded", () => {
+                    this.addingToCart = false;
+                });
+            } else {
+                this.addingToCart = false;
+            }
+        }
+
+        protected getSettingsCompleted(settingsCollection: core.SettingsCollection): void {
+            this.productSettings = settingsCollection.productSettings;
+            this.getCrossSells();
+        }
+
+        protected getSettingsFailed(error: any): void {
+        }
+
+        protected getCrossSells(): void {
+            if (!this.productCrossSell) {
+                this.productService.getCrossSells(null).then(
+                    (crossSellCollection: CrossSellCollectionModel) => { this.getCrossSellsCompleted(crossSellCollection); },
+                    (error: any) => { this.getCrossSellsFailed(error); });
+            } else {
+                this.waitForProduct(this.maxTries);
+            }
+        }
+
+        protected getCrossSellsCompleted(crossSellCollection: CrossSellCollectionModel): void {
+            this.crossSellProducts = crossSellCollection.products;
+            this.imagesLoaded = 0;
+
+            this.waitForDom(this.maxTries);
+
+            if (this.productSettings.realTimePricing && this.crossSellProducts && this.crossSellProducts.length > 0) {
+                this.productService.getProductRealTimePrices(this.crossSellProducts).then(
+                    (realTimePricing: RealTimePricingModel) => this.getProductRealTimePricesCompleted(realTimePricing),
+                    (error: any) => this.getProductRealTimePricesFailed(error));
+            }
+        }
+
+        protected getCrossSellsFailed(error: any) {
+        }
+
+        protected getProductRealTimePricesCompleted(realTimePricing: RealTimePricingModel): void {
+        }
+
+        protected getProductRealTimePricesFailed(error: any): void {
+            this.failedToGetRealTimePrices = true;
+        }
+
+        addToCart(product: ProductDto): void {
+            this.addingToCart = true;
+
+            this.cartService.addLineFromProduct(product, null, null, true).then(
+                (cartLine: CartLineModel) => { this.addToCartCompleted(cartLine); },
+                (error: any) => { this.addToCartFailed(error); });
+        }
+
+        protected addToCartCompleted(cartLine: CartLineModel): void {
+            this.addingToCart = false;
+        }
+
+        protected addToCartFailed(error: any): void {
+            this.addingToCart = false;
+        }
+
+        changeUnitOfMeasure(product: ProductDto): void {
+            this.productService.changeUnitOfMeasure(product).then(
+                (productDto: ProductDto) => { this.changeUnitOfMeasureCompleted(productDto); },
+                (error: any) => { this.changeUnitOfMeasureFailed(error); });
+        }
+
+        protected changeUnitOfMeasureCompleted(product: ProductDto): void {
+        }
+
+        protected changeUnitOfMeasureFailed(error: any): void {
+        }
+
+        openWishListPopup(product: ProductDto): void {
+            this.addToWishlistPopupService.display([product]);
+        }
+
+        showCrossSellCarousel(): boolean {
+            return !!this.crossSellProducts
+                && this.crossSellProducts.length > 0
+                && (!this.productCrossSell || !!this.productSettings);
+        }
+
+        showQuantityBreakPricing(product: ProductDto): boolean {
+            return product.canShowPrice
+                && product.pricing
+                && !!product.pricing.unitRegularBreakPrices
+                && product.pricing.unitRegularBreakPrices.length > 1
+                && !product.quoteRequired;
+        }
+
+        showUnitOfMeasure(product: ProductDto): boolean {
+            return product.canShowUnitOfMeasure
+                && !!product.unitOfMeasureDisplay
+                && !!product.productUnitOfMeasures
+                && product.productUnitOfMeasures.length > 1
+                && this.productSettings.alternateUnitsOfMeasure;
+        }
+
+        showUnitOfMeasureLabel(product: ProductDto): boolean {
+            return product.canShowUnitOfMeasure
+                && !!product.unitOfMeasureDisplay
+                && !product.quoteRequired;
+        }
+
+        protected waitForProduct(tries: number): void {
+            if (isNaN(+tries)) {
+                tries = this.maxTries || 1000; // Max 20000ms
+            }
+
+            if (tries > 0) {
+                this.$timeout(() => {
+                    if (this.isProductLoaded()) {
+                        this.crossSellProducts = this.product.crossSells;
+                        this.imagesLoaded = 0;
+                        this.$scope.$apply();
+                        this.waitForDom(this.maxTries);
+                    } else {
+                        this.waitForProduct(tries - 1);
+                    }
+                }, 20, false);
+            }
+        }
+
+        protected waitForDom(tries: number): void {
+            if (isNaN(+tries)) {
+                tries = this.maxTries || 1000; // Max 20000ms
+            }
+
+            // If DOM isn't ready after max number of tries then stop
+            if (tries > 0) {
+                this.$timeout(() => {
+                    if (this.isCarouselDomReadyAndImagesLoaded()) {
+                        this.initializeCarousel();
+                        this.$scope.$apply();
+                    } else {
+                        this.waitForDom(tries - 1);
+                    }
+                }, 20, false);
+            }
+        }
+
+        protected isCarouselDomReadyAndImagesLoaded(): boolean {
+            return $(".cs-carousel").length > 0 && this.imagesLoaded >= this.crossSellProducts.length;
+        }
+
+        protected isProductLoaded(): boolean {
+            return this.product && typeof this.product === "object";
+        }
 
         protected initializeCarousel(): void {
             $(".cs-carousel").flexslider({
@@ -22,6 +207,147 @@
             $(window).resize(() => { this.onWindowResize(); });
         }
 
+        protected onCarouselStart(slider: any): void {
+            this.carousel = slider;
+            this.reloadCarousel();
+            this.setCarouselSpeed();
+        }
+
+        protected onWindowResize(): void {
+            this.reloadCarousel();
+            this.setCarouselSpeed();
+        }
+
+        protected setCarouselSpeed(): void {
+            if (!this.carousel) {
+                return;
+            }
+
+            const container = $(".cs-carousel");
+            if (container.innerWidth() > 768) {
+                this.carousel.vars.move = 2;
+            } else {
+                this.carousel.vars.move = 1;
+            }
+        }
+
+        protected getItemSize(): number {
+            const el = $(".cs-carousel");
+            let width = el.innerWidth();
+
+            if (width > 768) {
+                width = width / 4;
+            } else if (width > 480) {
+                width = width / 3;
+            }
+            return width;
+        }
+
+        protected getItemsMove(): number {
+            const container = $(".cs-carousel");
+            if (container.innerWidth() > 768) {
+                return 2;
+            } else {
+                return 1;
+            }
+        }
+
+        protected getItemsNumber(): number {
+            const el = $(".cs-carousel");
+            const width = el.innerWidth();
+            let itemsNum: number;
+
+            if (width > 768) {
+                itemsNum = 4;
+            } else if (width > 480) {
+                itemsNum = 3;
+            } else {
+                itemsNum = 1;
+            }
+            return itemsNum;
+        }
+
+        protected reloadCarousel(): void {
+            if (!this.carousel) {
+                return;
+            }
+
+            const num = $(".cs-carousel .isc-productContainer").length;
+            const el = $(".cs-carousel");
+            let width = el.innerWidth();
+            let itemsNum: number;
+
+            if (width > 768) {
+                width = width / 4;
+                itemsNum = 4;
+                this.showCarouselArrows(num > 4);
+            } else if (width > 480) {
+                width = width / 3;
+                itemsNum = 3;
+                this.showCarouselArrows(num > 3);
+            } else {
+                itemsNum = 1;
+                this.showCarouselArrows(num > 1);
+            }
+            this.carousel.vars.minItems = itemsNum;
+            this.carousel.vars.maxItems = itemsNum;
+            this.carousel.vars.itemWidth = width;
+            $(".cs-carousel ul li").css("width", `${width}.px`);
+            this.equalizeCarouselDimensions();
+        }
+
+        protected equalizeCarouselDimensions(): void {
+            if ($(".carousel-item-equalize").length > 0) {
+                let maxHeight = -1;
+                let maxThumbHeight = -1;
+                let maxNameHeight = -1;
+                let maxProductInfoHeight = -1;
+
+                const navHeight = `min-height:${$("ul.item-list").height()}`;
+                $(".left-nav-2").attr("style", navHeight);
+
+                // clear the height overrides
+                $(".carousel-item-equalize").each(function () {
+                    $(this).find(".item-thumb").height("auto");
+                    $(this).find(".item-name").height("auto");
+                    $(this).find(".product-info").height("auto");
+                    $(this).height("auto");
+                });
+
+                // find the max heights
+                $(".carousel-item-equalize").each(function () {
+                    const thumbHeight = $(this).find(".item-thumb").height();
+                    maxThumbHeight = maxThumbHeight > thumbHeight ? maxThumbHeight : thumbHeight;
+                    const nameHeight = $(this).find(".item-name").height();
+                    maxNameHeight = maxNameHeight > nameHeight ? maxNameHeight : nameHeight;
+                    const productInfoHeight = $(this).find(".product-info").height();
+                    maxProductInfoHeight = maxProductInfoHeight > productInfoHeight ? maxProductInfoHeight : productInfoHeight;
+
+                });
+
+                // set all to max heights
+                if (maxThumbHeight > 0) {
+                    $(".carousel-item-equalize").each(function () {
+                        $(this).find(".item-thumb").height(maxThumbHeight);
+                        $(this).find(".item-name").height(maxNameHeight);
+                        $(this).find(".product-info").height(maxProductInfoHeight);
+                        const height = $(this).height();
+                        maxHeight = maxHeight > height ? maxHeight : height;
+                        $(this).addClass("eq");
+                    });
+                    $(".carousel-item-equalize").height(maxHeight);
+                }
+            }
+        }
+
+        protected showCarouselArrows(shouldShowArrows: boolean): void {
+            if (shouldShowArrows) {
+                $(".carousel-control-nav").show();
+            } else {
+                $(".carousel-control-nav").hide();
+            }
+        }
+
         protected isAttributeValue(product: ProductDto, attrName: string, attrValue: string): boolean {
             let retVal = false;
 
@@ -38,7 +364,6 @@
             }
             return retVal;
         }
-
     }
 
     angular
