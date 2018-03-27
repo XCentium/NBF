@@ -15,28 +15,22 @@
                                             <a ng-href="{{::product.productDetailUrl}}">
                                                 <img ng-src="https://s7d9.scene7.com/is/image/NationalBusinessFurniture/{{::product.mediumImagePath}}?hei=250&id=Iu1rN2&fmt=jpg&fit=constrain,1&wid=250&hei=250" alt="{{::product.altText}}" increment-images-loaded />
                                             </a>
+                                            <div class="favorite-btn" ng-if="vm.isAuthenticated">
+                                                <a id="tst_productDetail_addToWishList" ng-class="{'in-favorites': product.properties['isFavorite'] == 'true' } "
+                                                   ng-click="vm.toggleFavorite(product)" role="button"
+                                                   class="btn secondary btn-add-to-list" href="javascript:;"></a>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="item-block__product__swatch">
-                                        <div class="swatch-list">
-                                            <!-- ngRepeat: swatchImg in vm.getTop3Swatches(product.properties['swatches']) -->
-                                            <div class="swatch-list-item">
+                                        <ul>
+                                            <li ng-repeat="swatchImg in vm.getTop3Swatches(product.properties['swatches'])">
                                                 <div class="item-block__product__swatch__img-wrap">
-                                                    <img class="item-block__product__swatch" ng-src="https://s7d9.scene7.com/is/image/NationalBusinessFurniture/nig-F11-foundation-charcoal_zom?hei=200&amp;id=5-zsy2&amp;fmt=jpg&amp;fit=constrain,1&amp;wid=344&amp;hei=344" src="https://s7d9.scene7.com/is/image/NationalBusinessFurniture/nig-F11-foundation-charcoal_zom?hei=200&amp;id=5-zsy2&amp;fmt=jpg&amp;fit=constrain,1&amp;wid=344&amp;hei=344">
+                                                    <img class="item-block__product__swatch" ng-src="https://s7d9.scene7.com/is/image/NationalBusinessFurniture/{{swatchImg}}?hei=200&id=5-zsy2&fmt=jpg&fit=constrain,1&wid=344&hei=344" />
                                                 </div>
-                                            </div><!-- end ngRepeat: swatchImg in vm.getTop3Swatches(product.properties['swatches']) -->
-                                            <div class="swatch-list-item">
-                                                <div class="item-block__product__swatch__img-wrap">
-                                                    <img class="item-block__product__swatch" ng-src="https://s7d9.scene7.com/is/image/NationalBusinessFurniture/nig-F15-foundation-camel_zom?hei=200&amp;id=5-zsy2&amp;fmt=jpg&amp;fit=constrain,1&amp;wid=344&amp;hei=344" src="https://s7d9.scene7.com/is/image/NationalBusinessFurniture/nig-F15-foundation-camel_zom?hei=200&amp;id=5-zsy2&amp;fmt=jpg&amp;fit=constrain,1&amp;wid=344&amp;hei=344">
-                                                </div>
-                                            </div><!-- end ngRepeat: swatchImg in vm.getTop3Swatches(product.properties['swatches']) -->
-                                            <div class="swatch-list-item">
-                                                <div class="item-block__product__swatch__img-wrap">
-                                                    <img class="item-block__product__swatch" ng-src="https://s7d9.scene7.com/is/image/NationalBusinessFurniture/nig-F17-foundation-bluestone_zom?hei=200&amp;id=5-zsy2&amp;fmt=jpg&amp;fit=constrain,1&amp;wid=344&amp;hei=344" src="https://s7d9.scene7.com/is/image/NationalBusinessFurniture/nig-F17-foundation-bluestone_zom?hei=200&amp;id=5-zsy2&amp;fmt=jpg&amp;fit=constrain,1&amp;wid=344&amp;hei=344">
-                                                </div>
-                                            </div><!-- end ngRepeat: swatchImg in vm.getTop3Swatches(product.properties['swatches']) -->
-                                            <div class="item-block__product__more-link"><u>More</u></div>
-                                        </div>
+                                            </li>
+                                            <li class="item-block__product__more-link"><u>More</u></li>
+                                        </ul>
                                     </div>
                                     <div class="item-name">
                                         <a ng-href="{{::product.productDetailUrl}}">{{::product.shortDescription}}</a>
@@ -51,20 +45,17 @@
 
                                         <div class="price item-block__product__price" ng-if="!vm.failedToGetRealTimePrices">
                                             <isc-product-price product="product" id-key="" ng-if="::product.canShowPrice"></isc-product-price>
-                                            <span class="strike ori-price-tag">Was $200.00</span>
-                                            <!-- ngIf: vm.isAttributeValue(product, 'GSA', 'Yes'); -->
-                                            <div class="item-block__product__flag gsa">
+                                            <isc-product-price-saving product="product" currency-symbol="product.currencySymbol" ng-cloak></isc-product-price-saving>
+                                            <div ng-if="vm.isAttributeValue(product, 'GSA', 'Yes');" class="item-block__product__flag gsa">
                                                 GSA
                                             </div>
-                                            <!-- end ngIf: vm.isAttributeValue(product, 'GSA', 'Yes'); -->
+                                            <div ng-if="product.priceCode != null && product.priceCode.length > 0" class="item-block__product__flag save">
+                                                SAVE {{product.priceCode}}%
+                                            </div>
                                             <span class="um displayUnitOfMeasure" ng-if="vm.showUnitOfMeasureLabel(product)">
                                                 <span class="um-sep">/</span>
                                                 <span class="selected-uom">{{product.unitOfMeasureDescription || product.unitOfMeasureDisplay}}</span>
                                             </span>
-                                            <isc-product-price-saving product="product" currency-symbol="product.currencySymbol"></isc-product-price-saving>
-                                            <div ng-if="vm.showQuantityBreakPricing(product)">
-                                                <isc-quantity-break-pricing product-id="product.id" block="crossSell" break-prices="product.pricing.unitRegularBreakPrices"></isc-quantity-break-pricing>
-                                            </div>
                                         </div>
                                         <div class="price" ng-if="vm.failedToGetRealTimePrices">
                                             <div>[% siteMessage 'RealTimePricing_PriceLoadFailed' %]</div>
@@ -81,9 +72,7 @@
                                             <div class="item-block__product__stars"><div class="rating"></div>Stars Here!</div>
                                         </div>
                                         <div class="col-2">
-                                            <!-- ngIf: vm.isAttributeValue(product, 'Ships Today', 'Yes'); -->
-                                            <div class="item-block__product__ships-today"><span class="ico-Truck"></span> Ships Today!</div>
-                                            <!-- end ngIf: vm.isAttributeValue(product, 'Ships Today', 'Yes'); -->
+                                            <div class="item-block__product__ships-today" ng-if="vm.isAttributeValue(product, 'Ships Today', 'Yes');"><span class="ico-Truck"></span> Ships Today!</div>
                                         </div>
                                     </div>
                                     <div class="actions-block">

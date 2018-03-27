@@ -1,17 +1,18 @@
 ﻿module insite.catalog {
     "use strict";
 
-    export interface IProductCarouselControllerAttributes extends ng.IAttributes {
-        productNumbersString: string;
-    }
+    export class NbfCrossSellCarouselController {
+        product: ProductDto;
+        productCrossSell: boolean;
+        maxTries: number;
+        crossSellProducts: ProductDto[];
+        imagesLoaded: number;
+        carousel: any;
+        productSettings: ProductSettingsModel;
+        failedToGetRealTimePrices = false;
+        addingToCart = true;
 
-    export class NbfProductCarouselController extends CrossSellCarouselController {
-        erpNumbers: string[];
-        products: ProductDto[];
-        favoritesWishlist: WishListModel;
-        isAuthenticated: boolean = false;
-
-        static $inject = ["cartService", "productService", "$timeout", "addToWishlistPopupService", "settingsService", "$scope", "$window", "$attrs", "sessionService", "nbfWishListService" ];
+        static $inject = ["cartService", "productService", "$timeout", "addToWishlistPopupService", "settingsService", "$scope"];
 
         constructor(
             protected cartService: cart.ICartService,
@@ -19,12 +20,8 @@
             protected $timeout: ng.ITimeoutService,
             protected addToWishlistPopupService: wishlist.AddToWishlistPopupService,
             protected settingsService: core.ISettingsService,
-            protected $scope: ng.IScope,
-            protected $window: ng.IWindowService,
-            protected $attrs: IFeaturedProductsWidgetControllerAttributes,
-            protected sessionService: account.ISessionService,
-            protected nbfWishListService: wishlist.INbfWishListService) {
-            super(cartService, productService, $timeout, addToWishlistPopupService, settingsService, $scope);
+            protected $scope: ng.IScope) {
+            this.init();
         }
 
         init(): void {
@@ -47,124 +44,43 @@
 
         protected getSettingsCompleted(settingsCollection: core.SettingsCollection): void {
             this.productSettings = settingsCollection.productSettings;
-            this.erpNumbers = this.$attrs.productNumbersString.split(":");
-            this.getProducts();
+            this.getCrossSells();
         }
 
         protected getSettingsFailed(error: any): void {
         }
 
-        protected getProducts(): void {
-            const expand = ["pricing", "attributes"];
-            var params = {
-                erpNumbers: this.erpNumbers
-            } as IProductCollectionParameters;
-
-            this.productService.getProducts(params, expand).then(
-                (result) => {
-                    this.products = result.products;
-                    this.imagesLoaded = 0;
-                    this.waitForDom(this.maxTries);
-
-                    this.sessionService.getIsAuthenticated().then(x => {
-                        this.isAuthenticated = x;
-                        if (x) {
-                            this.getFavorites();
-                        }
-                    });
-
-                    if (this.productSettings.realTimePricing && this.products && this.products.length > 0) {
-                        this.productService.getProductRealTimePrices(this.products).then(
-                            (realTimePricing: RealTimePricingModel) => this.getProductRealTimePricesCompleted(realTimePricing),
-                            (error: any) => this.getProductRealTimePricesFailed(error));
-                    }
-                }
-            );
-        }
-
-        protected getTop3Swatches(swatchesJson): string[] {
-            let retVal = [];
-            if (swatchesJson) {
-                let swatches = JSON.parse(swatchesJson) as any[];
-
-                if (swatches.length > 0) {
-                    var sorted = [];
-
-                    swatches.forEach(x => {
-                        let item = sorted.find(y => y.ModelNumber === x.ModelNumber);
-
-                        if (item == null) {
-                            sorted.push({ ModelNumber: x.ModelNumber, Count: 1 });
-                        }
-                        else {
-                            item.Count++;
-                        }
-                    });
-                    sorted.sort((a, b) => a.Count > b.Count ? 1 : -1);
-                    sorted = sorted.reverse();
-
-                    retVal = swatches.filter(x => x.ModelNumber === sorted[0].ModelNumber).slice(0, 3).map((x: any) => x.ImageName);
-                }
-            }
-
-            return retVal;
-        }
-
-        protected isAttributeValue(product: ProductDto, attrName: string, attrValue: string): boolean {
-            let retVal: boolean = false;
-
-            if (product && product.attributeTypes) {
-                var attrType = product.attributeTypes.find(x => x.name === attrName && x.isActive === true);
-
-                if (attrType) {
-                    var matchingAttrValue = attrType.attributeValues.find(y => y.value === attrValue);
-
-                    if (matchingAttrValue) {
-                        retVal = true;
-                    }
-                }
-            }
-            return retVal;
-        }
-
-        protected toggleFavorite(product: ProductDto) {
-            var favoriteLine = this.favoritesWishlist.wishListLineCollection.filter(x => x.productId === product.id);
-
-            if (favoriteLine.length > 0) {
-                //Remove lines
-                this.nbfWishListService.deleteLineCollection(this.favoritesWishlist, favoriteLine).then(() => {
-                    this.getFavorites();
-                });
+        protected getCrossSells(): void {
+            if (!this.productCrossSell) {
+                this.productService.getCrossSells(null).then(
+                    (crossSellCollection: CrossSellCollectionModel) => { this.getCrossSellsCompleted(crossSellCollection); },
+                    (error: any) => { this.getCrossSellsFailed(error); });
             } else {
-                //Add Lines
-                var addLines = [product];
-                this.nbfWishListService.addWishListLines(this.favoritesWishlist, addLines).then(() => {
-                    this.getFavorites();
-                });
+                this.waitForProduct(this.maxTries);
             }
         }
 
-        protected getFavorites() {
-            this.nbfWishListService.getWishLists("CreatedOn", "wishlistlines").then((wishList) => {
-                this.favoritesWishlist = wishList.wishListCollection[0];
+        protected getCrossSellsCompleted(crossSellCollection: CrossSellCollectionModel): void {
+            this.crossSellProducts = crossSellCollection.products;
+            this.imagesLoaded = 0;
 
-                this.products.forEach(product => {
-                    product.properties["isFavorite"] = "false";
-                    if (this.favoritesWishlist) {
-                        if (this.favoritesWishlist.wishListLineCollection) {
-                            if (this.favoritesWishlist.wishListLineCollection.filter(x => x.productId === product.id)[0]) {
-                                product.properties["isFavorite"] = "true";
-                            }
-                        } else {
-                            this.favoritesWishlist.wishListLineCollection = [];
-                        }
-                    } else {
-                        this.favoritesWishlist = {
-                            wishListLineCollection: [] as WishListLineModel[]
-                        } as WishListModel;
-                    }
-                });
-            });
+            this.waitForDom(this.maxTries);
+
+            if (this.productSettings.realTimePricing && this.crossSellProducts && this.crossSellProducts.length > 0) {
+                this.productService.getProductRealTimePrices(this.crossSellProducts).then(
+                    (realTimePricing: RealTimePricingModel) => this.getProductRealTimePricesCompleted(realTimePricing),
+                    (error: any) => this.getProductRealTimePricesFailed(error));
+            }
+        }
+
+        protected getCrossSellsFailed(error: any) {
+        }
+
+        protected getProductRealTimePricesCompleted(realTimePricing: RealTimePricingModel): void {
+        }
+
+        protected getProductRealTimePricesFailed(error: any): void {
+            this.failedToGetRealTimePrices = true;
         }
 
         addToCart(product: ProductDto): void {
@@ -275,7 +191,7 @@
         protected initializeCarousel(): void {
             $(".cs-carousel").flexslider({
                 animation: "slide",
-                controlNav: true,
+                controlNav: false,
                 animationLoop: true,
                 slideshow: false,
                 itemWidth: this.getItemSize(),
@@ -431,9 +347,26 @@
                 $(".carousel-control-nav").hide();
             }
         }
+
+        protected isAttributeValue(product: ProductDto, attrName: string, attrValue: string): boolean {
+            let retVal = false;
+
+            if (product && product.attributeTypes) {
+                const attrType = product.attributeTypes.find(x => x.name === attrName && x.isActive === true);
+
+                if (attrType) {
+                    const matchingAttrValue = attrType.attributeValues.find(y => y.value === attrValue);
+
+                    if (matchingAttrValue) {
+                        retVal = true;
+                    }
+                }
+            }
+            return retVal;
+        }
     }
 
     angular
         .module("insite")
-        .controller("NbfProductCarouselController", NbfProductCarouselController);
+        .controller("CrossSellCarouselController", NbfCrossSellCarouselController);
 }

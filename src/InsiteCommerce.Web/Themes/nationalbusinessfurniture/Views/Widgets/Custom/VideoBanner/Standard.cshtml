@@ -1,11 +1,11 @@
 ﻿<style type="text/css">
     .homepage__banner-bg { background-color: #000;}
 </style>
-<div class="row">
+<div class="row" ng-controller="NbfVideoController as vm">
     <div class="medium-12 large-12 columns widget-1column no-margin [[Model.CssClass]]">
         <div class="banner banner--homepage">
-            <div class="banner__bg--homepage homepage__banner-bg video-banner">
-                <video poster="[[Model.BackgroundImage]]">
+            <div class="banner__bg--homepage homepage__banner-bg video-banner" ng-click="vm.toggleVideo('vid[[Model.ContentKey]]')">
+                <video poster="[[Model.BackgroundImage]]" id="vid[[Model.ContentKey]]">
                     <source src="[[Model.Mp4VideoUrl]]" type="video/mp4">
                     [% if Model.OggVideoUrl != null and Model.OggVideoUrl != "" -%]
                     <source src="[[Model.OggVideoUrl]]" type="video/ogg">

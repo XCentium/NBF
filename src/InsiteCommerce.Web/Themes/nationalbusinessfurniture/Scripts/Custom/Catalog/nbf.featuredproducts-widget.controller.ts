@@ -40,13 +40,15 @@
             this.productService.getProducts(params, expand).then(
                 (result) => {
                     this.products = result.products;
-                    this.getFavorites();
                     this.imagesLoaded = 0;
                     this.waitForDom();
 
                     this.sessionService.getIsAuthenticated().then(x => {
                         this.isAuthenticated = x;
-                    })
+                        if (x) {
+                            this.getFavorites();
+                        }
+                    });
                 }
             );            
         }
