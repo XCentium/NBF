@@ -11,8 +11,6 @@
     <AssemblyName>NBF.IntegrationProcessor</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -32,14 +30,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Insite.Common, Version=4.4.1.39151, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.1.39151\lib\net452\Insite.Common.dll</HintPath>
+    <Reference Include="Insite.Common">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.1.39382\lib\net452\Insite.Common.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.Integration, Version=4.4.1.39151, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.1.39151\lib\net452\Insite.Integration.dll</HintPath>
+    <Reference Include="Insite.Integration">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.1.39382\lib\net452\Insite.Integration.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.WIS.Broker, Version=4.4.1.39151, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.1.39151\lib\net452\Insite.WIS.Broker.dll</HintPath>
+    <Reference Include="Insite.WIS.Broker">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.1.39382\lib\net452\Insite.WIS.Broker.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
@@ -57,7 +55,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Insite.WindowsIntegrationService.exe.config" />
-    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup Condition="Exists('C:\Program Files\Insite Software\Commerce Integration Service V4.4')">
@@ -85,16 +82,6 @@
       net start "Commerce Integration Service V4.4 (x64)"
     </PostBuildEvent>
   </PropertyGroup>
-  <PropertyGroup>
-    <PostBuildEvent />
-  </PropertyGroup>
-  <Import Project="..\packages\OctoPack.3.6.3\build\OctoPack.targets" Condition="Exists('..\packages\OctoPack.3.6.3\build\OctoPack.targets')" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('..\packages\OctoPack.3.6.3\build\OctoPack.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\OctoPack.3.6.3\build\OctoPack.targets'))" />
-  </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
