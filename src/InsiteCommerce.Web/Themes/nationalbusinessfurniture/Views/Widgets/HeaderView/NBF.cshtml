@@ -271,7 +271,7 @@
                                                     <div class="item-price">
                                                         <div ng-if="!cart.cartNotPriced">
                                                             <isc-product-price product="cartLine"></isc-product-price>
-                                                            <isc-unit-of-measure-display product="cartLine"> </isc-unit-of-measure-display>
+                                                            <span class="item-units" ng-bind="cartLine.unitOfMeasureDisplay"></span>
                                                         </div>
                                                         <div class="price" ng-if="cart.cartNotPriced">
                                                             <div>[% siteMessage 'RealTimePricing_PriceLoadFailed' %]</div>
