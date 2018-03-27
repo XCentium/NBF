@@ -32,6 +32,27 @@ begin
 	end
 	else
 	begin
+
+	declare @DisplayProductPageOnlyCategoryId uniqueidentifier
+
+	-- create a swatches category if it doesn't exists
+	if not exists (select Id from Category where [Name] = 'DisplayProductPageOnly')
+	begin
+		set @DisplayProductPageOnlyCategoryId = newid()
+
+		insert into Category 
+			(Id, WebSiteId, [Name], ShortDescription, 
+			UrlSegment, ContentManagerId, CreatedBy, ModifiedBy)	
+		values 
+			(@DisplayProductPageOnlyCategoryId, @WebSiteId, 'DisplayProductPageOnly', 'DisplayProductPageOnly',
+			'displayproductpageonly',	newid(),'etl','etl')
+	end
+	else
+	begin
+		select top 1 @DisplayProductPageOnlyCategoryId = Id from Category where [Name] = 'DisplayProductPageOnly'
+	end
+
+
 	-- level one categories
 	insert into Category 
 	(WebSiteId, [Name], ShortDescription, UrlSegment, 
@@ -43,7 +64,7 @@ begin
 	from 
 		OEGSystemStaging.dbo.LookupItemClasses sic
 	where 
-		sic.[Name] not in ('Bedroom Furniture', 'Entertainment/AV', 'Misc.', 'Parts')
+		sic.[Name] not in ('Bedroom Furniture', 'Entertainment/AV', 'Parts')
 		and not exists (select [Name] from Category where [Name] = convert(nvarchar(max), sic.ClassId))
 
 	update Category set
@@ -123,7 +144,7 @@ begin
 		cross join Category c
 		join OEGSystemStaging.dbo.ItemWebCategoryDisplayNames swc on convert(nvarchar(max), swc.Id) = c.[Name]
 	where
-		sic.[Name] not in ('Bedroom Furniture', 'Entertainment/AV', 'Misc.', 'Parts')
+		sic.[Name] not in ('Bedroom Furniture', 'Entertainment/AV', 'Parts')
 		and swc.BrandId = @brand
 		and not exists (select [Name] from Category where [Name] = c.[Name] + '-' + convert(nvarchar(max), sic.ClassId))
 
@@ -139,6 +160,17 @@ begin
 		ShortDescription != sic.[Name]	
 
 	end
+
+
+	insert into ContentManager
+	(Id, [Name], CreatedBy, ModifiedBy)
+	select ContentManagerId, 'Category', 'etl', 'etl'
+	from Category
+	where ContentManagerId not in (select Id from ContentManager)
+
+
+	
+
 /*
 
 exec ETLCategory_FromOEG

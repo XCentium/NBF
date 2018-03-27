@@ -197,9 +197,7 @@
                 itemWidth: this.getItemSize(),
                 minItems: this.getItemsNumber(),
                 maxItems: this.getItemsNumber(),
-                itemMargin: 36,
                 move: this.getItemsMove(),
-                controlsContainer: $(".custom-controls-container"),
                 customDirectionNav: $(".carousel-control-nav"),
                 start: (slider: any) => { this.onCarouselStart(slider); }
             });

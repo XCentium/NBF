@@ -349,6 +349,7 @@
     <Compile Include="Widgets\CatalogMailingPrefs.cs" />
     <Compile Include="Widgets\LinkListWithTitlePreparer.cs" />
     <Compile Include="Widgets\NavigationFlyOutPreparer.cs" />
+    <Compile Include="Widgets\VideoBanner.cs" />
     <Compile Include="Widgets\ShopTheLookCta.cs" />
     <Compile Include="Widgets\ShopTheLookWidget.cs" />
     <Compile Include="Widgets\ShopTheLookLandingView.cs" />
@@ -359,7 +360,7 @@
     <Compile Include="Widgets\OrderTrackerPreparer.cs" />
     <Compile Include="Widgets\SocialMediaLinkListWithTitle.cs" />
     <Compile Include="Widgets\LinkListWithTitle.cs" />
-    <Compile Include="Widgets\ContentFields\ListOfNewsPagesContentFieldAttribute.cs" />
+    <Compile Include="Widgets\Models\ContentFields\ListOfNewsPagesContentFieldAttribute.cs" />
     <Compile Include="Widgets\LatestBlogPostDrop.cs" />
     <Compile Include="Widgets\LatestBlogPostsDropPreparer.cs" />
     <Compile Include="Widgets\LatestBlogPostsDrop.cs" />
@@ -420,7 +421,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>0</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:17308/</IISUrl>
+          <IISUrl>http://localhost:54995/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

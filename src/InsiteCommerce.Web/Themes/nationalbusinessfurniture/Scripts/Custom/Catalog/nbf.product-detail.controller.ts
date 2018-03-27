@@ -252,7 +252,6 @@
 
         protected getStarRating(product: ProductDto): string {
             let retVal = "no-star";
-            debugger;
             if (product && product.specifications && product.specifications.length > 0) {
                 let ratings = product.specifications.filter(x => x.name == "Rating");
 

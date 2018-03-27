@@ -172,6 +172,7 @@
     <TypeScriptCompile Include="Scripts\Custom\Cart\nbf.cart-total-display.directive.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Cart\nbf.cart-lines.directive.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Cart\nbf.checkout.controller.ts" />
+    <TypeScriptCompile Include="Scripts\Custom\Catalog\nbf.cross-sell-carousel.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Catalog\nbf.product-carousel.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Catalog\nbf.product-detail.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Catalog\nbf.product-images.controller.ts" />
@@ -202,6 +203,7 @@
     <TypeScriptCompile Include="Scripts\Custom\SocialMediaSharing\nbf.social-media.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\CatalogMailingPrefs\nbf.catalogmailingprefs.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\CatalogMailingPrefs\nbf.catalogmailingprefs.service.ts" />
+    <TypeScriptCompile Include="Scripts\Custom\Videos\nbf.video.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\WebCode\nbf.web-code.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\WebCode\nbf.web-code.service.ts" />
     <TypeScriptCompile Include="Scripts\Custom\WishLists\nbf.wishlist.service.ts" />
@@ -218,8 +220,6 @@
     <TypeScriptCompile Include="Scripts\insite.nav.ts" />
     <TypeScriptCompile Include="Scripts\insite.responsive.ts" />
     <TypeScriptCompile Include="Scripts\Orders\insite.order-status-lookup.controller.ts" />
-    <TypeScriptCompile Include="Scripts\PageTags\nbf.pagetags.controller.ts" />
-    <TypeScriptCompile Include="Scripts\PageTags\nbf.pagetags.service.ts" />
     <TypeScriptCompile Include="Scripts\polyfills.ts" />
     <TypeScriptCompile Include="Scripts\Account\insite.account-settings.controller.ts" />
     <TypeScriptCompile Include="Scripts\Account\insite.account.directives.ts" />
@@ -594,7 +594,6 @@
     <Content Include="Views\Widgets\PageTitle\Standard.cshtml" />
     <Content Include="Views\Widgets\ProductComparisonView\Standard.cshtml" />
     <Content Include="Views\Widgets\ProductDetailView\NBF.cshtml" />
-    <Content Include="Views\Widgets\ProductDetailView\Mark.cshtml" />
     <Content Include="Views\Widgets\ProductDetailView\Standard.cshtml" />
     <Content Include="Views\Widgets\ProductListView\B2C.cshtml" />
     <Content Include="Views\Widgets\ProductListView\Standard.cshtml" />
@@ -751,8 +750,7 @@
     <Content Include="Views\Widgets\Custom\LatestBlogPosts\WithMargins.cshtml" />
     <Content Include="Views\Widgets\Custom\LatestBlogPosts\WithMarginsTitleOnly.cshtml" />
     <Content Include="Styles\custom\social-links.scss" />
-    <Content Include="Views\Widgets\Custom\Banner\Video-banner.cshtml" />
-    <Content Include="Views\Widgets\Custom\ProductCTA\Video-CTA.cshtml" />
+    <Content Include="Views\Widgets\Custom\VideoBanner\Standard.cshtml" />
     <Content Include="Views\Widgets\Custom\CatalogMailingPrefs\Standard.cshtml" />
     <Content Include="Views\Widgets\Custom\Banner\SubPageBanner.cshtml" />
     <Content Include="Views\Widgets\Custom\Banner\SubPageBannerH1Titles.cshtml" />
@@ -761,6 +759,8 @@
     <Content Include="Views\Widgets\Custom\LatestBlogPosts\TitleAndDateOnly.cshtml" />
     <Content Include="Views\Widgets\Custom\LatestBlogPosts\WithMarginsTitleAndDateOnly.cshtml" />
     <Content Include="Views\Content\Error.cshtml" />
+    <Content Include="Views\Widgets\Custom\VideoBanner\VideoBannerCTA.cshtml" />
+    <Content Include="Views\Directives\Custom\Content\ContentPager.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <PropertyGroup>
