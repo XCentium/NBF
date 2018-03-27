@@ -191,7 +191,7 @@
     </nav>
 </div>
 
-<header id="header" role="masthead" class="use-fastclick sign-in cms-rearrangeable" ng-controller="HeaderController as vm">
+<header id="header" role="masthead" class="use-fastclick sign-in cms-rearrangeable" ng-controller="NbfHeaderController as vm">
     <div class="head-row">
         <div class="row logo-row small-12 columns">
             <div class="clearfix">
@@ -219,7 +219,6 @@
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
         <div class="isc-nav-bar">
@@ -238,100 +237,73 @@
                     <li>
                         <div class="cart-button">
                             <a id="tst_cartLink" class="cart-link" href="[% urlForPage 'CartPage' %]"><span class="ico-CartIcon"></span>&nbsp;&nbsp;<span ng-show="vm.cart.totalCountDisplay > 0" ng-bind="vm.cart.totalCountDisplay"></span><span ng-show="vm.cart.totalCountDisplay < 1">[% translate 'Cart' %]</span></a>
-                            <div class="minicart">
+                            <div class="minicart" ng-if="vm.cart.cartLines.length > 0">
                                 <div class="mini-cart-item-list">
                                     <div class="mini-cart-item-count">
-                                        <h3 class="cart-title">Cart: <span>2</span> Items</h3>
+                                        <h3 class="cart-title">[% translate 'Cart:' %] <span ng-bind="vm.cart.cartLines.length"></span> [% translate 'Items' %]</h3>
                                     </div>
                                     <ul>
-                                        <li>
+                                        <li ng-repeat="cartLine in vm.cart.cartLines | filter: quoteRequiredFilter">
                                             <div class="item-wrap">
                                                 <div class="item-image">
-                                                    <img src="https://s7d9.scene7.com/is/image/NationalBusinessFurniture/SAU-11062_Scribed-Oak_s7?hei=250&id=Iu1rN2&fmt=jpg&fit=constrain,1&wid=250&hei=250" />
+                                                    <img ng-src="{{cartLine.smallImagePath || cartLine.mediumImagePath}}" alt="{{cartLine.altText}}" />
                                                 </div>
                                                 <div class="item-details">
                                                     <div class="item-name">
-                                                        <a href="#"><strong>Kreature Mid-Back Desk Chair</strong></a>
+                                                        <a ng-href="{{cartLine.productUri}}">
+                                                            <strong><span ng-bind="cartLine.shortDescription"></span></strong>
+                                                        </a>
                                                     </div>
                                                     <div class="item-sku">
-                                                        Item No: 50586
+                                                        [% translate 'Item No: ' %]<span ng-bind="cartLine.erpNumber">BVR1472589</span>
                                                     </div>
                                                     <div class="item-qty">
-                                                        <input type="text" value="1" />
+                                                        <input id="miniCartLineQuantity_{{$index}}"
+                                                               type="text"
+                                                               class="numerictextbox qty txt tst_cartLines_quantity"
+                                                               ng-class="{ 'item-opt__changed' : inventoryCheck && cartLine.hasInsufficientInventory || cartLine.isRestricted }"
+                                                               ng-model="cartLine.qtyOrdered"
+                                                               ng-keypress="vm.quantityKeyPress($event,cartLine)"
+                                                               ng-change="vm.updateLine(cartLine, true, '{{cartLine.qtyOrdered}}')"
+                                                               ng-model-options="{ updateOn: 'blur' }"
+                                                               ng-disabled="!vm.cart.canModifyOrder || cartLine.isPromotionItem || vm.cart.type == 'Job'" />
                                                     </div>
                                                     <div class="item-price">
-                                                        <strong>$395</strong>
-                                                        <span class="item-units">ea</span>
+                                                        <div ng-if="!cart.cartNotPriced">
+                                                            <isc-product-price product="cartLine"></isc-product-price>
+                                                            <isc-unit-of-measure-display product="cartLine"> </isc-unit-of-measure-display>
+                                                        </div>
+                                                        <div class="price" ng-if="cart.cartNotPriced">
+                                                            <div>[% siteMessage 'RealTimePricing_PriceLoadFailed' %]</div>
+                                                        </div>
                                                     </div>
                                                     <div class="remove-btn">
-                                                        <a href="#" class="">Remove</a>
+                                                        <a ng-click="vm.removeLine(cartLine)">
+                                                            [% translate 'Remove' %]
+                                                        </a>
                                                     </div>
                                                 </div>
                                             </div>
                                         </li>
-                                        <li>
-                                            <div class="item-wrap">
-                                                <div class="item-image">
-                                                    <img src="https://s7d9.scene7.com/is/image/NationalBusinessFurniture/SAU-11062_Scribed-Oak_s7?hei=250&id=Iu1rN2&fmt=jpg&fit=constrain,1&wid=250&hei=250" />
-                                                </div>
-                                                <div class="item-details">
-                                                    <div class="item-name">
-                                                        <a href="#"><strong>Kreature Mid-Back Desk Chair</strong></a>
-                                                    </div>
-                                                    <div class="item-sku">
-                                                        Item No: 50586
-                                                    </div>
-                                                    <div class="item-qty">
-                                                        <input type="text" value="1" />
-                                                    </div>
-                                                    <div class="item-price">
-                                                        <strong>$395</strong>
-                                                        <span class="item-units">ea</span>
-                                                    </div>
-                                                    <div class="remove-btn">
-                                                        <a href="#" class="">Remove</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="item-wrap">
-                                                <div class="item-image">
-                                                    <img src="https://s7d9.scene7.com/is/image/NationalBusinessFurniture/SAU-11062_Scribed-Oak_s7?hei=250&id=Iu1rN2&fmt=jpg&fit=constrain,1&wid=250&hei=250" />
-                                                </div>
-                                                <div class="item-details">
-                                                    <div class="item-name">
-                                                        <a href="#"><strong>Kreature Mid-Back Desk Chair</strong></a>
-                                                    </div>
-                                                    <div class="item-sku">
-                                                        Item No: 50586
-                                                    </div>
-                                                    <div class="item-qty">
-                                                        <input type="text" value="1" />
-                                                    </div>
-                                                    <div class="item-price">
-                                                        <strong>$395</strong>
-                                                        <span class="item-units">ea</span>
-                                                    </div>
-                                                    <div class="remove-btn">
-                                                        <a href="#" class="">Remove</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </li>
+                                        
                                     </ul>
                                 </div>
                                 <div class="mini-cart-total text-right">
-                                    <div class="mini-cart-subtotal"><span>Subtotal:</span> <span>$790</span></div>
-                                    <div class="mini-cart-shipping"><span>Subtotal:</span> <span>$125</span></div>
-                                    <div class="mini-cart-subtotal"><strong><span>Estimated Total:</span> <span>$790.00</span></strong></div>
+                                    <div class="mini-cart-subtotal"><span>Subtotal:</span> <span ng-bind="vm.cart.orderSubTotalDisplay">$790</span></div>
+                                    <div class="mini-cart-shipping">
+                                        <span>Shipping:</span>
+                                        <span ng-if="showSeparateShippingAndHandling && (vm.cart.showTaxAndShipping || !isCartPage) && vm.cart.shippingChargesDisplay.length > 0" ng-bind="vm.cart.shippingChargesDisplay"></span>
+                                        <span ng-if="!showSeparateShippingAndHandling && (vm.cart.showTaxAndShipping || !isCartPage) && vm.cart.shippingAndHandlingDisplay.length > 0" ng-bind="vm.cart.shippingAndHandlingDisplay"></span>
+                                        <span ng-if="showSeparateShippingAndHandling && (vm.cart.showTaxAndShipping || !isCartPage) && vm.cart.handlingChargesDisplay.length > 0"  ng-bind="vm.cart.handlingChargesDisplay"></span>
+                                    </div>
+                                    <div class="mini-cart-subtotal" ng-if="!cartLine.quoteRequired && !vm.cart.cartNotPriced"><strong><span>Estimated Total:</span> <span ng-bind="vm.cart.orderGrandTotalDisplay"></span></strong></div>
                                 </div>
                                 <div class="mini-cart-btns">
                                     <button class="checkout-btn">Check Out</button>
                                     <span class="">
-                                        <a href="#">Save Cart</a>
+                                        <a href="javascript: void(0);" ng-click="vm.saveCart('[% urlForPage 'SavedOrderDetailPage' %]', '[% urlForPage 'SignInPage' %]')">Save Cart</a>
                                     </span>
-                                    <span class="right"><a href="#">Request Quote</a></span>
+                                    <span class="right"><a  href="[% urlForPage 'RfqRequestQuotePage' %]" ng-bind="'[% translate 'Request Quote' %]'" ng-disabled="vm.cart.isAwaitingApproval"></a></span>
                                 </div>
                             </div>
                         </div>
