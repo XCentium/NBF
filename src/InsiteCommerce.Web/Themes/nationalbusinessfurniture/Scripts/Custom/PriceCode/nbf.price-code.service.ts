@@ -2,7 +2,7 @@
     "use strict";
 
     export interface INbfPriceCodeService {
-        getPriceCode(): ng.IPromise<string>;
+        getPriceCode(billToId: string): ng.IPromise<string>;
         setPriceCode(priceCode: string): ng.IPromise<string>;
     }
 
@@ -21,7 +21,7 @@
             protected ipCookie: any ) {
         }
 
-        getPriceCode(): ng.IPromise<string> {
+        getPriceCode(billToId: string): ng.IPromise<string> {
             return this.httpWrapperService.executeHttpRequest(
                 this,
                 this.$http({ url: this.serviceUri, method: "GET", params: this.getPriceCodeParams(this.siteId) }),

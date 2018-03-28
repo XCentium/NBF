@@ -1,4 +1,4 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
 using Extensions.WebApi.Base;
 using Extensions.WebApi.PriceCode.Interfaces;
 using Insite.Catalog.Services;
@@ -6,6 +6,7 @@ using Insite.Core.Interfaces.Data;
 using Insite.Core.Interfaces.Dependency;
 using Insite.Core.Interfaces.Plugins.Security;
 using Insite.Customers.Services;
+using Insite.Data.Entities;
 
 namespace Extensions.WebApi.PriceCode.Repository
 {
@@ -19,12 +20,13 @@ namespace Extensions.WebApi.PriceCode.Repository
             _unitOfWork = unitOfWorkFactory.GetUnitOfWork();
         }
 
-        public async Task<string> GetPriceCode(string billToId)
+        public string GetPriceCode(string billToId)
         {
-            return billToId;
+            return  _unitOfWork.GetRepository<Customer>().GetTable()
+                .FirstOrDefault(c => c.Id.ToString().Equals(billToId))?.PriceCode;
         }
 
-        public async Task<string> SetPriceCode(string priceCode, string billToId)
+        public string SetPriceCode(string priceCode, string billToId)
         {
             return billToId;
         }

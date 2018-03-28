@@ -19,7 +19,7 @@ namespace Extensions.WebApi.PriceCode.Controllers
             _priceCodeService = priceCodeService;
         }
 
-        [Route("", Name = "getwebcode")]
+        [Route("", Name = "getpricecode")]
         [ResponseType(typeof(string))]
         public async Task<IHttpActionResult> Get(string billToId)
         {
@@ -34,7 +34,7 @@ namespace Extensions.WebApi.PriceCode.Controllers
         }
 
         [HttpPost]
-        [Route("/update", Name = "setwebcode")]
+        [Route("update", Name = "setpricecode")]
         [ResponseType(typeof(string))]
         public async Task<IHttpActionResult> Post([FromBody] string priceCode, [FromBody] string billToId)
         {

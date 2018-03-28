@@ -8,8 +8,9 @@
     export class NbfAccountSettingsController extends AccountSettingsController {
         session: SessionModel;
         contractOptions: ContractOption[];
+        priceCode: ContractOption;
 
-        static $inject = ["accountService", "$localStorage", "settingsService", "coreService", "sessionService", "customerService"];
+        static $inject = ["accountService", "$localStorage", "settingsService", "coreService", "sessionService", "customerService", "priceCodeService"];
 
         constructor(
             protected accountService: account.IAccountService,
@@ -17,7 +18,8 @@
             protected settingsService: core.ISettingsService,
             protected coreService: core.ICoreService,
             protected sessionService: account.ISessionService,
-            protected customerService: customers.ICustomerService) {
+            protected customerService: customers.ICustomerService,
+            protected priceCodeService: nbf.PriceCode.INbfPriceCodeService) {
             super(accountService, $localStorage, settingsService, coreService, sessionService);
         }
 
@@ -69,9 +71,14 @@
 
         protected getSessionCompleted(session: SessionModel): void {
             this.session = session;
-            if (!this.session.billTo.properties["contractType"]) {
-                this.session.billTo.properties["contractType"] = this.contractOptions[0].value;
-            }
+
+            this.priceCodeService.getPriceCode(this.session.billTo.id.toString()).then(
+                (priceCode: string) => {
+                    this.priceCode = this.contractOptions.filter(o => o.value === priceCode)[0];
+                    if (!this.priceCode) {
+                        this.priceCode = this.contractOptions[0];
+                    }
+                });
         }
 
         protected getSessionFailed(error: any): void {

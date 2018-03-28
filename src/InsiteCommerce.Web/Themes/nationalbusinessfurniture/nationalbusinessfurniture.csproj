@@ -206,7 +206,6 @@
     <TypeScriptCompile Include="Scripts\Custom\CatalogMailingPrefs\nbf.catalogmailingprefs.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\CatalogMailingPrefs\nbf.catalogmailingprefs.service.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Videos\nbf.video.controller.ts" />
-    <TypeScriptCompile Include="Scripts\Custom\PriceCode\nbf.price-code.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\PriceCode\nbf.price-code.service.ts" />
     <TypeScriptCompile Include="Scripts\Custom\WebCode\nbf.web-code.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\WebCode\nbf.web-code.service.ts" />

@@ -17,15 +17,14 @@ namespace Extensions.WebApi.PriceCode.Services
         [Transaction]
         public async Task<string> GetPriceCode(string billToId)
         {
-            var result = await _priceCodeRepository.GetPriceCode(billToId);
+            var result = await Task.FromResult(_priceCodeRepository.GetPriceCode(billToId));
             return result;
         }
-
-
+        
         [Transaction]
         public async Task<string> SetPriceCode(string priceCode, string billToId)
         {
-            var result = await _priceCodeRepository.SetPriceCode(priceCode, billToId);
+            var result = await Task.FromResult(_priceCodeRepository.SetPriceCode(priceCode, billToId));
             return result;
         }
     }
