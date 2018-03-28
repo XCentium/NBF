@@ -763,6 +763,7 @@
     <Content Include="Views\Widgets\Custom\VideoBanner\VideoBannerCTA.cshtml" />
     <Content Include="Views\Directives\Custom\Content\ContentPager.cshtml" />
     <Content Include="Views\Widgets\AccountSettingsView\NBF.cshtml" />
+    <Content Include="Styles\custom\product-comparison.scss" />
   </ItemGroup>
   <ItemGroup />
   <PropertyGroup>

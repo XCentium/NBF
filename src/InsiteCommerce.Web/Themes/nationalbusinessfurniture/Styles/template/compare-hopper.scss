@@ -140,7 +140,7 @@ a.compare-remove:before {
 
 .compare-buttons .btn-compare, .compare-buttons .btn-clear {
     font-size: .875em;
-    padding: .5em .75em;
+    padding: 0 0.75em;
     position: relative;
     display: inline-block;
     text-decoration: none;
@@ -172,6 +172,7 @@ a.compare-remove:before {
     background-repeat: repeat;
     padding-right: .5em;
     font-size: 1rem;
+    vertical-align: -1px;
 }
 
 @media all and (min-width: 768px) {
