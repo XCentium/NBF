@@ -11,7 +11,7 @@
         <div class="large-12 columns">
             <div>
                 <div ng-if="!vm.filteredResults" class="category-list">
-                    <isc-catalog-breadcrumb breadcrumbs="vm.breadCrumbs"></isc-catalog-breadcrumb>
+                    <isc-catalog-breadcrumb breadcrumbs="vm.breadCrumbs" search-query="vm.query"></isc-catalog-breadcrumb>
                 </div>
             </div>
             <div ng-if="vm.category != null" class="pl4-cm">
@@ -445,7 +445,6 @@
                                     <span class="filter-title">[% translate 'Filter By' %]:</span>
                                 </div>
 
-                                [[filterStatusControls]]
                                 <div class="large-12 column filter-middle product-list-filters">
                                     <div class="f-search-within" style="display:none;">
                                         <div class="search-within-search clearfix">
@@ -535,6 +534,7 @@
                                             </div>
                                         </section>
                                     </div>
+                                    [[filterStatusControls]]
 
                                     <!-- hidden div to force load of checked image -->
                                     <div class="f-cat" style="display:none;">
@@ -601,7 +601,7 @@
 
                                             <div class="search-container">
                                                 <div class="search-input">
-                                                    <input id="searchWithin" type="text" placeholder="[% translate 'Enter keywords' %]" ng-model="vm.searchWithinInput" isc-enter="vm.searchWithinEntered()" />
+                                                    <input id="searchWithinMobile" type="text" placeholder="[% translate 'Enter keywords' %]" ng-model="vm.searchWithinInput" isc-enter="vm.searchWithinEntered()" />
                                                 </div>
                                                 <div class="search-button">
                                                     <button class="btn primary fastClick" ng-click="vm.searchWithinEntered()">Go</button>

@@ -255,6 +255,11 @@
     width: 100%;
 }
 
+@media ( min-width:50em ) {
+    .isc-primary-nav {
+        padding-left: 25px;
+    }
+}
 @media ( min-width:48em ) {
     .js .isc-primary-nav .close-all {
         display: none;
@@ -276,7 +281,7 @@
         height: 0;
         width: 100%;
         top: -80px;
-        padding-left: 25px;
+        
     }
 
     .isc-primary-nav .toggle-sub {
@@ -311,7 +316,7 @@
 
     .isc-primary-nav > ul {
         float: left;
-        width: 75%;
+        width:75%;
         position: relative;
         z-index: 1;
         left: 0;
@@ -483,7 +488,7 @@
             border-right: 1px solid $divider-gray;
             top: 1px;
             margin-left: 1px;
-            width: 943px;
+            width: 1063px;
             padding: 15px 0;
             background: #fff;
             height: 100%;
