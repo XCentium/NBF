@@ -462,7 +462,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="f-cat" ng-if="vm.products.categoryFacets.length > 0">
+                                    <div class="f-cat" ng-if="vm.products.categoryFacets.length > 0 && !vm.category">
                                         <section class="accordion">
                                             <div>
                                                 <input type="checkbox" id="accord-1" class="accord-check" />
@@ -470,7 +470,7 @@
                                                 <article class="accord-content">
                                                     <div class="f-wrap">
                                                         <ul>
-                                                            <li class="view-all"><a href="javascript:;"><span>View All</span></a></li>
+                                                            <li class="view-all" ng-if="vm.isViewAllCategoryFacetsCheckboxSelected(vm.products.categoryFacets)"><a ng-click="vm.selectAllCategoryFacets(vm.products.categoryFacets)"><span>View All</span></a></li>
                                                             <li id="tst_productList_categoryLeftNav_categoryFacet_{{categoryFacet.categoryId}}" ng-repeat="categoryFacet in vm.products.categoryFacets | orderBy : 'shortDescription'"
                                                                 ng-class="{'f-selected' : categoryFacet.selected}"
                                                                 ng-click="vm.toggleCategory(categoryFacet)">
@@ -494,7 +494,7 @@
                                                 <article class="accord-content">
                                                     <div class="f-wrap">
                                                         <ul>
-                                                            <li class="view-all"><a href="javascript:;"><span>View All</span></a></li>
+                                                            <li class="view-all" ng-if="vm.isViewAllPriceFacetsCheckBoxSelected(vm.products.priceRange.priceFacets)"><a ng-click="vm.selectAllPriceFacets(vm.products.priceRange.priceFacets)"><span>View All</span></a></li>
                                                             <li id="tst_productList_priceFacet_{{priceFacet.minimumPrice.toString()}}"
                                                                 ng-repeat="priceFacet in vm.products.priceRange.priceFacets | orderBy : 'minimumPrice'"
                                                                 ng-class="{'f-selected' : vm.isPriceFacetSelected(priceFacet)}"
@@ -518,7 +518,7 @@
                                                 <article class="accord-content">
                                                     <div class="f-wrap">
                                                         <ul>
-                                                            <li class="view-all"><a href="javascript:;"><span>View All</span></a></li>
+                                                            <li class="view-all" ng-if="vm.isViewAllAttributeFiltersCheckboxSelected(section.attributeValueFacets)"><a ng-click="vm.selectAllAttributeFilters(section.attributeValueFacets)"><span>View All</span></a></li>
                                                             <li id="tst_productList_categoryLeftNav_attributeValueFacet_{{attributeValue.attributeValueId}}"
                                                                 ng-repeat="attributeValue in section.attributeValueFacets | orderBy : ['sortOrder','valueDisplay']"
                                                                 ng-class="{'f-selected' : vm.isAttributeValueFacetSelected(attributeValue)}"
@@ -609,7 +609,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div ng-if="vm.products.categoryFacets.length > 0" class="filter-option-container">
+                                    <div ng-if="vm.products.categoryFacets.length > 0 && !vm.category" class="filter-option-container">
                                         <select data-mini="true"
                                                 ng-model="filterCategoryId"
                                                 ng-change="vm.toggleCategoryId(filterCategoryId)">

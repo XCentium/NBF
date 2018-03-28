@@ -401,7 +401,7 @@
             }
 
             return retVal;
-        }
+        }        
     }
 
     angular
