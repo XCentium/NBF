@@ -21,7 +21,7 @@ namespace Extensions.WebApi.PriceCode.Controllers
         }
 
         [Route("", Name = "getpricecode")]
-        [ResponseType(typeof(string))]
+        [ResponseType(typeof(GetPriceCodeResult))]
         public async Task<IHttpActionResult> Get(string billToId)
         {
             if (billToId.IsNullOrWhiteSpace())
@@ -44,7 +44,7 @@ namespace Extensions.WebApi.PriceCode.Controllers
                 return null;
             }
 
-            var a = await _priceCodeService.SetPriceCode(priceCodeRequest.PriceCode, priceCodeRequest.BillToId);
+            var a = await _priceCodeService.SetPriceCode(priceCodeRequest.PriceCode, priceCodeRequest.DisplayName, priceCodeRequest.BillToId);
 
             return Ok(a);
         }

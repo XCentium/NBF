@@ -73,9 +73,12 @@
             this.session = session;
 
             this.nbfPriceCodeService.getPriceCode(this.session.billTo.id).then(
-                (priceCode: string) => {
-                    this.priceCode = this.contractOptions.filter(o => o.value.toLowerCase() === priceCode.toLowerCase())[0];
-                    if (!this.priceCode) {
+                (contractOption: ContractOption) => {
+                    if (!contractOption.displayName && contractOption.value) {
+                        this.priceCode = this.contractOptions.filter(o => o.value.toLowerCase() === contractOption.value.toLowerCase())[0];
+                    } else if (contractOption.displayName && contractOption.value) {
+                        this.priceCode = this.contractOptions.filter(o => o.displayName.toLowerCase() === contractOption.displayName.toLowerCase())[0];
+                    } else {
                         this.priceCode = this.contractOptions[0];
                     }
                 });
@@ -85,7 +88,7 @@
         }
 
         updatePriceCode(): void {
-            this.nbfPriceCodeService.setPriceCode(this.priceCode.value, this.session.billTo.id).then(
+            this.nbfPriceCodeService.setPriceCode(this.priceCode.value, this.priceCode.displayName, this.session.billTo.id).then(
                 () => { }
             );
         }

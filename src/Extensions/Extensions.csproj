@@ -325,6 +325,7 @@
     <Compile Include="WebApi\PriceCode\Controllers\PriceCodeController.cs" />
     <Compile Include="WebApi\PriceCode\Interfaces\IPriceCodeRepository.cs" />
     <Compile Include="WebApi\PriceCode\Interfaces\IPriceCodeService.cs" />
+    <Compile Include="WebApi\PriceCode\Models\GetPriceCodeResult.cs" />
     <Compile Include="WebApi\PriceCode\Models\SetPriceCodeRequest.cs" />
     <Compile Include="WebApi\PriceCode\Repository\PriceCodeRepository.cs" />
     <Compile Include="WebApi\PriceCode\Services\PriceCodeService.cs" />

@@ -6,5 +6,6 @@ namespace Extensions.WebApi.PriceCode.Models
     {
         public string BillToId { get; set; }
         public string PriceCode { get; set; }
+        public string DisplayName { get; set; }
     }
 }
