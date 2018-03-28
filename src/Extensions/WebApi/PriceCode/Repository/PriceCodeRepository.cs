@@ -12,7 +12,7 @@ namespace Extensions.WebApi.PriceCode.Repository
 {
     public class PriceCodeRepository : BaseRepository, IPriceCodeRepository, IInterceptable
     {
-        private IUnitOfWork _unitOfWork;
+        private readonly IUnitOfWork _unitOfWork;
 
         public PriceCodeRepository(IUnitOfWorkFactory unitOfWorkFactory, ICustomerService customerService, IProductService productService, IAuthenticationService authenticationService)
             : base(unitOfWorkFactory, customerService, productService, authenticationService)
@@ -28,7 +28,21 @@ namespace Extensions.WebApi.PriceCode.Repository
 
         public string SetPriceCode(string priceCode, string billToId)
         {
-            return billToId;
+            try
+            {
+                var customer = _unitOfWork.GetRepository<Customer>().GetTable()
+                    .FirstOrDefault(c => c.Id.ToString().Equals(billToId));
+
+                if (customer != null)
+                {
+                    customer.PriceCode = priceCode;
+                    _unitOfWork.Save();
+                }
+                return "Success";
+            }
+            catch {
+                return "Failure";
+            }
         }
     }
 }

@@ -2,6 +2,7 @@
 using System.Web.Http;
 using System.Web.Http.Description;
 using Extensions.WebApi.PriceCode.Interfaces;
+using Extensions.WebApi.PriceCode.Models;
 using Insite.Core.Plugins.Utilities;
 using Insite.Core.WebApi;
 using Microsoft.Ajax.Utilities;
@@ -36,14 +37,14 @@ namespace Extensions.WebApi.PriceCode.Controllers
         [HttpPost]
         [Route("update", Name = "setpricecode")]
         [ResponseType(typeof(string))]
-        public async Task<IHttpActionResult> Post([FromBody] string priceCode, [FromBody] string billToId)
+        public async Task<IHttpActionResult> Post(SetPriceCodeRequest priceCodeRequest)
         {
-            if (billToId.IsNullOrWhiteSpace())
+            if (priceCodeRequest.BillToId.IsNullOrWhiteSpace() || priceCodeRequest.PriceCode.IsNullOrWhiteSpace())
             {
                 return null;
             }
 
-            var a = await _priceCodeService.GetPriceCode(billToId);
+            var a = await _priceCodeService.SetPriceCode(priceCodeRequest.PriceCode, priceCodeRequest.BillToId);
 
             return Ok(a);
         }

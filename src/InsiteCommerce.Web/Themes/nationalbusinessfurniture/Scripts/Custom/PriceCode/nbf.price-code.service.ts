@@ -3,11 +3,11 @@
 
     export interface INbfPriceCodeService {
         getPriceCode(billToId: string): ng.IPromise<string>;
-        setPriceCode(priceCode: string): ng.IPromise<string>;
+        setPriceCode(priceCode: string, billToId: string): ng.IPromise<string>;
     }
 
     export class NbfPriceCodeService implements INbfPriceCodeService {
-        serviceUri = "/api/nbf/priceCode";
+        serviceUri = "/api/nbf/pricecode";
         siteId: string;
         userId: string;
 
@@ -24,7 +24,7 @@
         getPriceCode(billToId: string): ng.IPromise<string> {
             return this.httpWrapperService.executeHttpRequest(
                 this,
-                this.$http({ url: this.serviceUri, method: "GET", params: this.getPriceCodeParams(this.siteId) }),
+                this.$http({ url: this.serviceUri, method: "GET", params: this.getPriceCodeParams(billToId) }),
                 this.getPriceCodeCompleted,
                 this.getPriceCodeFailed
             );
@@ -38,16 +38,19 @@
 
         }
 
-        protected getPriceCodeParams(siteId: string): any {
+        protected getPriceCodeParams(billToId: string, priceCode?: string): any {
             const params: any = {};
-            params.siteId = siteId;
+            params.billToId = billToId;
+            if (priceCode) {
+                params.priceCode = priceCode;
+            }
             return params;
         }
 
-        setPriceCode(priceCode: string): ng.IPromise<string> {
+        setPriceCode(priceCode: string, billToId: string): ng.IPromise<string> {
             return this.httpWrapperService.executeHttpRequest(
                 this,
-                this.$http({ url: this.serviceUri, method: "GET", params: this.getPriceCodeParams(this.siteId) }),
+                this.$http.post(this.serviceUri + "/update", this.getPriceCodeParams(billToId, priceCode)),
                 this.setPriceCodeCompleted,
                 this.setPriceCodeFailed
             );

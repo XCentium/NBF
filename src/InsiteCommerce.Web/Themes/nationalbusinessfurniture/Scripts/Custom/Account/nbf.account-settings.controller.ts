@@ -10,7 +10,7 @@
         contractOptions: ContractOption[];
         priceCode: ContractOption;
 
-        static $inject = ["accountService", "$localStorage", "settingsService", "coreService", "sessionService", "customerService", "priceCodeService"];
+        static $inject = ["accountService", "$localStorage", "settingsService", "coreService", "sessionService", "customerService", "nbfPriceCodeService"];
 
         constructor(
             protected accountService: account.IAccountService,
@@ -19,7 +19,7 @@
             protected coreService: core.ICoreService,
             protected sessionService: account.ISessionService,
             protected customerService: customers.ICustomerService,
-            protected priceCodeService: nbf.PriceCode.INbfPriceCodeService) {
+            protected nbfPriceCodeService: nbf.PriceCode.INbfPriceCodeService) {
             super(accountService, $localStorage, settingsService, coreService, sessionService);
         }
 
@@ -72,9 +72,9 @@
         protected getSessionCompleted(session: SessionModel): void {
             this.session = session;
 
-            this.priceCodeService.getPriceCode(this.session.billTo.id.toString()).then(
+            this.nbfPriceCodeService.getPriceCode(this.session.billTo.id).then(
                 (priceCode: string) => {
-                    this.priceCode = this.contractOptions.filter(o => o.value === priceCode)[0];
+                    this.priceCode = this.contractOptions.filter(o => o.value.toLowerCase() === priceCode.toLowerCase())[0];
                     if (!this.priceCode) {
                         this.priceCode = this.contractOptions[0];
                     }
@@ -82,6 +82,12 @@
         }
 
         protected getSessionFailed(error: any): void {
+        }
+
+        updatePriceCode(): void {
+            this.nbfPriceCodeService.setPriceCode(this.priceCode.value, this.session.billTo.id).then(
+                () => { }
+            );
         }
 
         protected updateSession(): void {
