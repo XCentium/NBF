@@ -11,7 +11,7 @@
         <div class="large-12 columns">
             <div>
                 <div ng-if="!vm.filteredResults" class="category-list">
-                    <isc-catalog-breadcrumb breadcrumbs="vm.breadCrumbs"></isc-catalog-breadcrumb>
+                    <isc-catalog-breadcrumb breadcrumbs="vm.breadCrumbs" search-query="vm.query"></isc-catalog-breadcrumb>
                 </div>
             </div>
             <div ng-if="vm.category != null" class="pl4-cm">
