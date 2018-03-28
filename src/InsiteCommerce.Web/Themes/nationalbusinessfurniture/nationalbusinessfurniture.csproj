@@ -163,6 +163,7 @@
     <TypeScriptCompile Include="Scripts\Catalog\insite.recently-viewed.controller.ts" />
     <TypeScriptCompile Include="Scripts\Catalog\insite.related-products.controller.ts" />
     <TypeScriptCompile Include="Scripts\Common\insite.base-upload.ts" />
+    <TypeScriptCompile Include="Scripts\Custom\Account\nbf.account-settings.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Account\nbf.create-account.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Account\nbf.guest-activation.service.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Account\nbf.sign-in-fly-out.controller.ts" />
@@ -622,6 +623,7 @@
     <Content Include="Views\Widgets\Wishlists\Standard.cshtml" />
     <Content Include="Views\Widgets\WishListView\Standard.cshtml" />
     <Content Include="Views\Widgets\Zone\Standard.cshtml" />
+    <TypeScriptCompile Include="Scripts\Custom\Layout\nbf.header.controller.ts" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Widgets\Custom\CheckoutView\Standard.cshtml" />
@@ -760,6 +762,7 @@
     <Content Include="Views\Widgets\Custom\LatestBlogPosts\WithMarginsTitleAndDateOnly.cshtml" />
     <Content Include="Views\Widgets\Custom\VideoBanner\VideoBannerCTA.cshtml" />
     <Content Include="Views\Directives\Custom\Content\ContentPager.cshtml" />
+    <Content Include="Views\Widgets\AccountSettingsView\NBF.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <PropertyGroup>

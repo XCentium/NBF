@@ -12,7 +12,7 @@
     .filter-middle {
 
         @media (min-width: 768px) {
-        padding-left: 115px;
+        padding-left: 100px;
         padding-right: 215px;
         }
     }
@@ -126,5 +126,25 @@
                 }
             }
         }
+    }
+}
+
+
+.product-list {
+
+    .n-filtered {
+        margin: 0;
+
+        ul {
+            margin: 0;
+            padding: 0;
+            list-style:none;
+        }
+    }
+}
+
+@media (min-width: 767px) {
+    .mobile-title + article.accord-content {
+        margin-top: 0;
     }
 }
