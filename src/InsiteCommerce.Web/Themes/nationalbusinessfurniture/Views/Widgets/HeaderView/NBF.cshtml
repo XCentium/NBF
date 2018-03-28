@@ -237,7 +237,7 @@
                     <li>
                         <div class="cart-button">
                             <a id="tst_cartLink" class="cart-link" href="[% urlForPage 'CartPage' %]"><span class="ico-CartIcon"></span>&nbsp;&nbsp;<span ng-show="vm.cart.totalCountDisplay > 0" ng-bind="vm.cart.totalCountDisplay"></span><span ng-show="vm.cart.totalCountDisplay < 1">[% translate 'Cart' %]</span></a>
-                            <div class="minicart" ng-if="vm.cart.cartLines.length > 0">
+                            <div class="minicart" ng-if="vm.cart.cartLines.length > 0" ng-cloak>
                                 <div class="mini-cart-item-list">
                                     <div class="mini-cart-item-count">
                                         <h3 class="cart-title">[% translate 'Cart:' %] <span ng-bind="vm.cart.cartLines.length"></span> [% translate 'Items' %]</h3>

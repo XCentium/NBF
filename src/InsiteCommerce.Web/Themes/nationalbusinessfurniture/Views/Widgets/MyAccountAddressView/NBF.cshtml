@@ -1,11 +1,28 @@
 ﻿<div class="medium-12 large-12 columns widget-1column narrow-container [[Model.CssClass]]">
-    <div class="row">
+    <div class="row" ng-controller="MyAccountAddressController as vm" ng-show="vm.countries">
+        <div class="address-list">
+            <h3>[% translate 'Billing Address' %]</h3>
+            <ul class="row large-block-grid-4 medium-block-grid-2" data-equalizer>
+                <li>
+                    <div class="address-item" data-equalizer-watch>
+                        <a ng-click="editAddress(addres)" class="edit-btn edit-icon"><i class="fa fa-edit"></i></a>
+                        <div class="name">{{vm.billTo.firstName}} {{vm.billTo.lastName}}</div>
+                        <div class="company-name">{{vm.billTo.companyName}}</div>
+                        <div class="address1">{{vm.billTo.address1}}</div>
+                        <div class="address2" ng-if="vm.billTo.address2">{{vm.billTo.address2}}</div>
+                        <div class="phone" ng-if="vm.billTo.phone">Phone: {{vm.billTo.phone}}</div>
+                        <div class="email" ng-if="vm.billTo.email">Email: {{vm.billTo.email}}</div>
+                    </div>
+                </li>
+            </ul>
+        </div>
         <form id="addressForm" ng-controller="MyAccountAddressController as vm" ng-show="vm.countries">
             <div class="bill-to">
                 <h3>[% translate 'Billing Information' %]</h3>
                 <div class="bill-to-form">
                     <div class="billing-info">
-                        <div class="required-msg" style="height: 53px; margin: 0"><span class="redTxt">*</span>[% translate 'Required' %]</div>
+                        <div class="required-msg" style="height: 53px; margin: 0"><span class="redTxt">*</span>[% translate 'Required' %]
+                        </div>
                         <isc-address-edit prefix="bt" address="vm.billTo" countries="vm.countries" address-fields="vm.addressFields.billToAddressFields"
                                           set-state-required-rule="vm.setStateRequiredRule('bt', vm.billTo)"></isc-address-edit>
                     </div>
@@ -27,7 +44,8 @@
                 </div>
             </div>
 
-            <div class="btns"><button type="button" id="tst_addressForm_save" class="btn primary btn-save" ng-click="vm.save()">[% translate 'Save' %]</button></div>
+            <div class="btns"><button type="button" id="tst_addressForm_save" class="btn primary btn-save" ng-click="vm.save()">[% translate 'Save' %]</button>
+            </div>
         </form>
     </div>
 </div>
