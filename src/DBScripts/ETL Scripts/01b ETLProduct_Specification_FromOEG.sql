@@ -266,13 +266,19 @@ begin
 	-- first we delete the old data since we are just going to replace it
 	delete from content where ContentManagerId in (select ContentManagerId from Specification where [name] = 'Vendor Code')
 
+	-- first reset all 
+	update Specification set [Value] = '' where Name = 'Vendor Code'
+
+	-- now update all of them at once
 	update Specification set 
 		[Value] = isnull(v.Code,'')
-	from Product p
+	from OEGSystemStaging.dbo.Products sp
+	join OEGSystemStaging.dbo.ProductSKUs spsku on spsku.ProductId = sp.ProductId
+	join Product p on p.ERPNumber = sp.Number + '_' + spsku.OptionCode
 	join Specification s on s.ProductId = p.Id and s.[Name] = 'Vendor Code'
-	join OEGSystemStaging.dbo.Products sp on sp.Number = p.ERPNumber
-		and sp.BrandId = @brand
 	join OEGSystemStaging.dbo.Vendors v on v.VendorId = sp.PrimaryVendorId
+	where sp.BrandId = @brand
+
 
 	-- now insert any new ones we didn't have before
 
@@ -282,13 +288,14 @@ begin
 	isnull(v.Code,''), 
 	1, @LanguageId, @PersonaId, getdate(), getdate(), 'Desktop', 'etl', 'etl' 
 	--select p.ERPNumber, v.Code
-	from Product p
+	from OEGSystemStaging.dbo.Products sp
+	join OEGSystemStaging.dbo.ProductSKUs spsku on spsku.ProductId = sp.ProductId
+	join Product p on p.ERPNumber = sp.Number + '_' + spsku.OptionCode
 	join Specification s on s.ProductId = p.Id and s.[Name] = 'Vendor Code'
-	join OEGSystemStaging.dbo.Products sp on sp.Number = p.ERPNumber
-		and sp.BrandId = @brand
 	join OEGSystemStaging.dbo.Vendors v on v.VendorId = sp.PrimaryVendorId
 	where s.ContentManagerId not in (select ContentManagerId from Content)
 	and isnull(v.Code,'') != ''
+	and sp.BrandId = @brand
 
 
 	/*
@@ -298,6 +305,11 @@ begin
 	-- first we delete the old data since we are just going to replace it
 	delete from content where ContentManagerId in (select ContentManagerId from Specification where [name] = 'Rating')
 
+
+	-- first reset all 
+	update Specification set [Value] = 0 where Name = 'Rating'
+
+	-- now update all of them at once
 	update Specification set 
 		[Value] = isnull(spr.Rating,0)
 	from Product p
