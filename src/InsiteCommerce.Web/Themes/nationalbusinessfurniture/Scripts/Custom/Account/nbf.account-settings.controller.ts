@@ -49,23 +49,23 @@
             } as ContractOption);
             this.contractOptions.push({
                 displayName: "Vizient",
-                value: "Vizient"
+                value: "Medical"
             } as ContractOption);
             this.contractOptions.push({
                 displayName: "TXMAS",
-                value: "TXMAS"
+                value: "GSA"
             } as ContractOption);
             this.contractOptions.push({
                 displayName: "CMAS",
-                value: "CMAS"
+                value: "GSA"
             } as ContractOption);
             this.contractOptions.push({
                 displayName: "Navy BPA",
-                value: "Navy BPA"
+                value: "BPA"
             } as ContractOption);
             this.contractOptions.push({
                 displayName: "Premier",
-                value: "Premier"
+                value: "Medical"
             } as ContractOption);
         }
 
