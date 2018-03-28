@@ -41,6 +41,7 @@
         }
 
         protected getCart(): void {
+            this.cartService.expand = "cartlines";
             this.cartService.getCart().then(
                 (cart: CartModel) => { this.getCartCompleted(cart); },
                 (error: any) => { this.getCartFailed(error); });
