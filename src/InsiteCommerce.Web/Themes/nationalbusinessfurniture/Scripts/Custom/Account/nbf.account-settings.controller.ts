@@ -38,6 +38,10 @@
 
             this.contractOptions = [];
             this.contractOptions.push({
+                displayName: "None",
+                value: "None"
+            } as ContractOption);
+            this.contractOptions.push({
                 displayName: "GSA",
                 value: "GSA"
             } as ContractOption);
@@ -65,6 +69,9 @@
 
         protected getSessionCompleted(session: SessionModel): void {
             this.session = session;
+            if (!this.session.billTo.properties["contractType"]) {
+                this.session.billTo.properties["contractType"] = this.contractOptions[0].value;
+            }
         }
 
         protected getSessionFailed(error: any): void {

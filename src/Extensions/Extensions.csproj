@@ -322,6 +322,11 @@
     <Compile Include="WebApi\CatalogMailingPrefs\Interfaces\ICatalogMailingPrefsService.cs" />
     <Compile Include="WebApi\CatalogMailingPrefs\Repository\CatalogMailingPrefsRepository.cs" />
     <Compile Include="WebApi\CatalogMailingPrefs\Services\CatalogMailingPrefsService.cs" />
+    <Compile Include="WebApi\PriceCode\Controllers\PriceCodeController.cs" />
+    <Compile Include="WebApi\PriceCode\Interfaces\IPriceCodeRepository.cs" />
+    <Compile Include="WebApi\PriceCode\Interfaces\IPriceCodeService.cs" />
+    <Compile Include="WebApi\PriceCode\Repository\PriceCodeRepository.cs" />
+    <Compile Include="WebApi\PriceCode\Services\PriceCodeService.cs" />
     <Compile Include="WebApi\WebCode\Controllers\WebCodeController.cs" />
     <Compile Include="WebApi\WebCode\Interfaces\IWebCodeRepository.cs" />
     <Compile Include="WebApi\WebCode\Interfaces\IWebCodeService.cs" />
@@ -403,9 +408,7 @@
       <SubType>Designer</SubType>
     </Content>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="WebApi\WebCode\Models\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
   <Target Name="EmbedViews" AfterTargets="BeforeBuild">
