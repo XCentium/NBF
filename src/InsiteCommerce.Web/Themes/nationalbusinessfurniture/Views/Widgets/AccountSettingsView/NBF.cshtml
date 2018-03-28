@@ -42,8 +42,9 @@
                         <label>[% translate 'Contract Type' %]</label>
                     </div>
                     <div class="medium-7 large-7 columns">
-                        <select ng-model="vm.session.billTo.properties['contractType']"
-                                ng-options="option.value as option.displayName for option in vm.contractOptions"></select>
+                        <select ng-model="vm.priceCode"
+                                ng-options="option as option.displayName for option in vm.contractOptions"
+                                ng-change="vm.updatePriceCode()"></select>
                     </div>
                 </div>
             </div>

@@ -8,8 +8,9 @@
     export class NbfAccountSettingsController extends AccountSettingsController {
         session: SessionModel;
         contractOptions: ContractOption[];
+        priceCode: ContractOption;
 
-        static $inject = ["accountService", "$localStorage", "settingsService", "coreService", "sessionService", "customerService"];
+        static $inject = ["accountService", "$localStorage", "settingsService", "coreService", "sessionService", "customerService", "nbfPriceCodeService"];
 
         constructor(
             protected accountService: account.IAccountService,
@@ -17,7 +18,8 @@
             protected settingsService: core.ISettingsService,
             protected coreService: core.ICoreService,
             protected sessionService: account.ISessionService,
-            protected customerService: customers.ICustomerService) {
+            protected customerService: customers.ICustomerService,
+            protected nbfPriceCodeService: nbf.PriceCode.INbfPriceCodeService) {
             super(accountService, $localStorage, settingsService, coreService, sessionService);
         }
 
@@ -37,6 +39,10 @@
                 (error: any) => { this.getSessionFailed(error); });
 
             this.contractOptions = [];
+            this.contractOptions.push({
+                displayName: "None",
+                value: "None"
+            } as ContractOption);
             this.contractOptions.push({
                 displayName: "GSA",
                 value: "GSA"
@@ -65,9 +71,23 @@
 
         protected getSessionCompleted(session: SessionModel): void {
             this.session = session;
+
+            this.nbfPriceCodeService.getPriceCode(this.session.billTo.id).then(
+                (priceCode: string) => {
+                    this.priceCode = this.contractOptions.filter(o => o.value.toLowerCase() === priceCode.toLowerCase())[0];
+                    if (!this.priceCode) {
+                        this.priceCode = this.contractOptions[0];
+                    }
+                });
         }
 
         protected getSessionFailed(error: any): void {
+        }
+
+        updatePriceCode(): void {
+            this.nbfPriceCodeService.setPriceCode(this.priceCode.value, this.session.billTo.id).then(
+                () => { }
+            );
         }
 
         protected updateSession(): void {
