@@ -1,6 +1,9 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Extensions.WebApi.Base;
 using Extensions.WebApi.PriceCode.Interfaces;
+using Extensions.WebApi.PriceCode.Models;
 using Insite.Catalog.Services;
 using Insite.Core.Interfaces.Data;
 using Insite.Core.Interfaces.Dependency;
@@ -20,27 +23,57 @@ namespace Extensions.WebApi.PriceCode.Repository
             _unitOfWork = unitOfWorkFactory.GetUnitOfWork();
         }
 
-        public string GetPriceCode(string billToId)
+        public GetPriceCodeResult GetPriceCode(string billToId)
         {
-            return  _unitOfWork.GetRepository<Customer>().GetTable()
+            var priceCode = _unitOfWork.GetRepository<Customer>().GetTable()
                 .FirstOrDefault(c => c.Id.ToString().Equals(billToId))?.PriceCode;
+
+            var displayName = _unitOfWork.GetRepository<CustomProperty>().GetTable()
+                .FirstOrDefault(cp => cp.ParentId.ToString().Equals(billToId) && cp.Name.Equals("contractTypeDisplayName", StringComparison.CurrentCultureIgnoreCase))?.Value;
+
+            return new GetPriceCodeResult()
+            {
+                DisplayName = displayName,
+                Value = priceCode
+            };
         }
 
-        public string SetPriceCode(string priceCode, string billToId)
+        public string SetPriceCode(string priceCode, string value, string billToId)
         {
             try
             {
                 var customer = _unitOfWork.GetRepository<Customer>().GetTable()
                     .FirstOrDefault(c => c.Id.ToString().Equals(billToId));
 
-                if (customer != null)
+                if (customer == null) return "Failure";
+
+                var cp = customer.CustomProperties?.FirstOrDefault(x =>
+                    x.Name.Equals("contractTypeDisplayName", StringComparison.CurrentCultureIgnoreCase));
+
+                if (cp == null)
                 {
-                    customer.PriceCode = priceCode;
-                    _unitOfWork.Save();
+                    if (customer.CustomProperties == null)
+                    {
+                        customer.CustomProperties = new List<CustomProperty>();
+                    }
+
+                    customer.CustomProperties.Add(new CustomProperty()
+                    {
+                        ParentTable = "Customer",
+                        Name = "contractTypeDisplayName",
+                        Value = value
+                    });
                 }
+                else
+                {
+                    cp.Value = value;
+                }
+
+                customer.PriceCode = priceCode;
+                _unitOfWork.Save();
                 return "Success";
             }
-            catch {
+            catch(Exception e) {
                 return "Failure";
             }
         }

@@ -1,9 +1,10 @@
 ﻿module nbf.PriceCode {
+    import ContractOption = insite.account.ContractOption;
     "use strict";
 
     export interface INbfPriceCodeService {
-        getPriceCode(billToId: string): ng.IPromise<string>;
-        setPriceCode(priceCode: string, billToId: string): ng.IPromise<string>;
+        getPriceCode(billToId: string): ng.IPromise<ContractOption>;
+        setPriceCode(priceCode: string, displayName: string, billToId: string): ng.IPromise<string>;
     }
 
     export class NbfPriceCodeService implements INbfPriceCodeService {
@@ -21,7 +22,7 @@
             protected ipCookie: any ) {
         }
 
-        getPriceCode(billToId: string): ng.IPromise<string> {
+        getPriceCode(billToId: string): ng.IPromise<ContractOption> {
             return this.httpWrapperService.executeHttpRequest(
                 this,
                 this.$http({ url: this.serviceUri, method: "GET", params: this.getPriceCodeParams(billToId) }),
@@ -38,19 +39,22 @@
 
         }
 
-        protected getPriceCodeParams(billToId: string, priceCode?: string): any {
+        protected getPriceCodeParams(billToId: string, priceCode?: string, displayName?: string): any {
             const params: any = {};
             params.billToId = billToId;
             if (priceCode) {
                 params.priceCode = priceCode;
             }
+            if (displayName) {
+                params.displayName = displayName;
+            }
             return params;
         }
 
-        setPriceCode(priceCode: string, billToId: string): ng.IPromise<string> {
+        setPriceCode(priceCode: string, displayName: string, billToId: string): ng.IPromise<string> {
             return this.httpWrapperService.executeHttpRequest(
                 this,
-                this.$http.post(this.serviceUri + "/update", this.getPriceCodeParams(billToId, priceCode)),
+                this.$http.post(this.serviceUri + "/update", this.getPriceCodeParams(billToId, priceCode, displayName)),
                 this.setPriceCodeCompleted,
                 this.setPriceCodeFailed
             );
