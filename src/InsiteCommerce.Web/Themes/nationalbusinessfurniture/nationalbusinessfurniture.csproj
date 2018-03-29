@@ -120,6 +120,7 @@
     <Content Include="Scripts\Libraries\jquery.inputmask\0.0.0\jquery.inputmask.numeric.extensions.js" />
     <Content Include="Scripts\Libraries\jquery.maskedinput\jquery.maskedinput.js" />
     <Content Include="Scripts\Libraries\sticky.js" />
+    <Content Include="Scripts\selectize.js" />
     <!--<Content Include="Scripts\sticky.js" />-->
     <Content Include="Styles\custom\cta-link-widget.scss" />
     <Content Include="Styles\custom\cart.scss" />
@@ -127,6 +128,7 @@
     <Content Include="Styles\custom\checkout-cart.scss" />
     <Content Include="Styles\custom\font-awesome.scss" />
     <Content Include="Styles\custom\font-icomoon.scss" />
+    <None Include="Styles\custom\selectize.scss" />
     <Content Include="Styles\fonts\fontawesome-webfont.svg" />
     <Content Include="Styles\img\sprocket.png" />
     <Content Include="theme.json" />
@@ -766,6 +768,7 @@
     <Content Include="Views\Directives\Custom\Content\ContentPager.cshtml" />
     <Content Include="Views\Widgets\AccountSettingsView\NBF.cshtml" />
     <Content Include="Styles\custom\product-comparison.scss" />
+    <Content Include="Views\Widgets\RfqRequestQuoteView\NBF.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <PropertyGroup>

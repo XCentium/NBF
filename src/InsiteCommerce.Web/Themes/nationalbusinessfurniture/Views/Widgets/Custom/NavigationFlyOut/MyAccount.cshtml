@@ -1,7 +1,7 @@
 ﻿[% if Model.Drop.RootPageExists -%]
 <a href="[% urlForPage 'MyAccountPage' %]" class="btn sign-in fastClick tst_header_signInButton"><span class="ico-LoginIcon"></span><span>[[Model.Drop.RootPageTitle]]</span></a>
-<div class="sub-tier-panel single show-heading subnav level-2">
-    <ul id="sub-cat2" class="level-2 sub-tier-panel">
+<div class="sub-tier-panel single show-heading level-2">
+    <ul id="sub-cat2" class="level-2">
         <li class="sub-heading">[% siteMessage 'Navigation_MyAccountDropDownText' 'Welcome' %]</li>
         [% for childPage in Model.Drop.ChildPages -%]
         [% if forloop.index == 1 -%]
