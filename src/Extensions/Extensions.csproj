@@ -36,6 +36,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>..\InsiteCommerce.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -274,6 +275,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Cart\Handlers\ProcessCreditCardTransaction.cs" />
+    <Compile Include="Cart\Handlers\SubmitCart.cs" />
     <Compile Include="Enums\Listrak\Fields\OrderConfirmationFieldEnum.cs" />
     <Compile Include="Enums\Listrak\Fields\WelcomeEmailFieldEnum.cs" />
     <Compile Include="Enums\Listrak\EventIdEnum.cs" />
@@ -306,6 +308,7 @@
     <Compile Include="WebApi\CreditCardTransaction\Interfaces\ICCTransactionService.cs" />
     <Compile Include="WebApi\CreditCardTransaction\Models\AddCCTransactionParameter.cs" />
     <Compile Include="WebApi\CreditCardTransaction\Repository\CCTransactionRepository.cs" />
+    <Compile Include="WebApi\CreditCardTransaction\Services\CCTransactionService.cs" />
     <Compile Include="WebApi\GuestActivation\Controllers\GuestActivationController.cs" />
     <Compile Include="WebApi\GuestActivation\Models\GuestActivationParameter.cs" />
     <Compile Include="WebApi\Base\BaseRepository.cs" />
@@ -443,9 +446,11 @@
     </VisualStudio>
   </ProjectExtensions>
   <PropertyGroup>
-    <PreBuildEvent>powershell.exe -ExecutionPolicy ByPass -File $(ProjectDir)\..\tools\PowerShellScripts\validateReferences.ps1 -allowedLibrariesPath $(ProjectDir)\..\Tools\PowerShellScripts\allowedLibraries.txt -projectPath  $(ProjectDir)\..\Extensions\Extensions.csproj</PreBuildEvent>
+    <PreBuildEvent>
+    </PreBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PostBuildEvent>powershell.exe -command "&amp; { $(SolutionDir)..\dist\buildExtensions.ps1 }"</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
 </Project>
