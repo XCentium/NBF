@@ -5,7 +5,7 @@ GO
 
 create procedure ETLPriceMatrix_ByPriceCode_FromOEG 
 	@brand int,
-	@pricecode nvarchar(10),
+	@pricecode nvarchar(20),
 	@break int
 as
 begin
@@ -30,7 +30,7 @@ begin
 			and pp.PricingTierId = 
 					case
 						when @pricecode = 'gsa' then 2 
-						when @pricecode = 'sale' then 3 
+						when @pricecode = 'Product Sale' then 3 
 						when @pricecode = 'medical' then 4
 						else 1
 					end
@@ -38,11 +38,19 @@ begin
 		)
 		insert into PriceMatrix 
 		([RecordType], 
-		[CurrencyCode], [Warehouse], [UnitOfMeasure], [CustomerKeyPart], [ProductKeyPart], [ActivateOn], [DeactivateOn], [CalculationFlags], [PriceBasis01], [AdjustmentType01], [AltAmount01],
+		[CurrencyCode], [Warehouse], [UnitOfMeasure], 
+		[CustomerKeyPart], 
+		[ProductKeyPart], 
+		[ActivateOn], [DeactivateOn], [CalculationFlags], [PriceBasis01], [AdjustmentType01], [AltAmount01],
 		[BreakQty01], [Amount01], [CreatedBy], [ModifiedBy])
 		select 
-			case when @pricecode = '' then 'Product' else 'Customer Price Code/Product' end, 
-			'USD', '', '', @pricecode, p.Id, '1/1/2010', null, '', 'O', 'A', 0,
+			case 
+				when @pricecode = '' then 'Product' 
+				when @pricecode = 'Product Sale' then 'Product Sale'
+				else 'Customer Price Code/Product' end, 
+			'USD', '', '', 
+			case when @pricecode = 'Product Sale' then '' else @pricecode end, 
+			p.Id, '1/1/2010', null, '', 'O', 'A', 0,
 			h.Quantity, h.Price, 'etl','etl'
 		from
 			helper h
@@ -64,7 +72,7 @@ begin
 			and spp.PricingTierId = 
 					case
 						when @pricecode = 'gsa' then 2 
-						when @pricecode = 'sale' then 3 
+						when @pricecode = 'Product Sale' then 3 
 						when @pricecode = 'medical' then 4
 						else 1
 					end
@@ -75,8 +83,13 @@ begin
 		[CurrencyCode], [Warehouse], [UnitOfMeasure], [CustomerKeyPart], [ProductKeyPart], [ActivateOn], [DeactivateOn], [CalculationFlags], [PriceBasis01], [AdjustmentType01], [AltAmount01],
 		[BreakQty01], [Amount01], [CreatedBy], [ModifiedBy])
 		select 
-			case when @pricecode = '' then 'Product' else 'Customer Price Code/Product' end, 
-			'USD', '', '', @pricecode, p.Id, '1/1/2010', null, '', 'O', 'A', 0,
+			case 
+				when @pricecode = '' then 'Product' 
+				when @pricecode = 'Product Sale' then 'Product Sale'
+				else 'Customer Price Code/Product' end, 
+			'USD', '', '', 
+			case when @pricecode = 'Product Sale' then '' else @pricecode end, 
+			p.Id, '1/1/2010', null, '', 'O', 'A', 0,
 			h.Quantity, h.Price, 'etl','etl'
 		from
 			helper h
@@ -103,7 +116,7 @@ begin
 			and pp.PricingTierId = 
 					case
 						when @pricecode = 'gsa' then 2 
-						when @pricecode = 'sale' then 3 
+						when @pricecode = 'Product Sale' then 3 
 						when @pricecode = 'medical' then 4
 						else 1
 					end
@@ -186,7 +199,7 @@ begin
 			and spp.PricingTierId = 
 					case
 						when @pricecode = 'gsa' then 2 
-						when @pricecode = 'sale' then 3 
+						when @pricecode = 'Product Sale' then 3 
 						when @pricecode = 'medical' then 4
 						else 1
 					end
