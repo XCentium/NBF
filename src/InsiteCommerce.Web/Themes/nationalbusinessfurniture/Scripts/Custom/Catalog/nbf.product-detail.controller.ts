@@ -102,6 +102,20 @@
             return retVal;
         }
 
+        protected getAttributeValue(attrName: string): string {
+            let retVal: string = null;
+
+            if (this.product && this.product.attributeTypes) {
+                var attrType = this.product.attributeTypes.find(x => x.name == attrName && x.isActive == true);
+
+                if (attrType && attrType.attributeValues && attrType.attributeValues.length > 0) {
+                    retVal = attrType.attributeValues[0].valueDisplay;
+                }
+            }
+
+            return retVal;
+        }
+
         protected getSwatchImageNameFromStyleTraitValueId(styleTraitName: string, styleTraitValue: string): string {
             let retVal: string = null;
             let styleTraitNameUpper = styleTraitName.toUpperCase();
@@ -294,6 +308,19 @@
             $("#Wrapper360").show();
             $("#overlaych1").hide();
             $("#mobile_div_container").hide();
+        }
+
+        protected getStarRatingNumeric(product: ProductDto): number {
+            let retVal = 0.0;
+            if (product && product.specifications && product.specifications.length > 0) {
+                let ratings = product.specifications.filter(x => x.name == "Rating");
+
+                if (ratings.length > 0 && !isNaN(parseFloat(ratings[0].value))) {
+                    retVal = parseFloat(ratings[0].value);                    
+                }
+            }
+
+            return retVal;
         }
 
         protected getStarRating(product: ProductDto): string {
