@@ -159,7 +159,6 @@ begin
 
 /*
 exec ETLProductImage_FromOEG
-exec ETLProductImage_ToInsite
 select * from ProductImage
 
 */

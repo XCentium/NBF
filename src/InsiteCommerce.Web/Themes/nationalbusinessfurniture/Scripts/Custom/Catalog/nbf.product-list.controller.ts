@@ -257,7 +257,7 @@
             });
         }
 
-        protected getTop3Swatches(swatchesJson): string[] {
+        protected getTop6Swatches(swatchesJson): string[] {
             let retVal = [];
             if (swatchesJson) {
                 let swatches = JSON.parse(swatchesJson) as any[];
@@ -266,7 +266,7 @@
                     var sorted = [];
 
                     swatches.forEach(x => {
-                        let item = sorted.find(y => y.ModelNumber == x.ModelNumber);
+                        let item = sorted.find(y => y.ModelNumber === x.ModelNumber);
 
                         if (item == null) {
                             sorted.push({ ModelNumber: x.ModelNumber, Count: 1 })
@@ -278,11 +278,24 @@
                     sorted.sort((a, b) => a.Count > b.Count ? 1 : -1);
                     sorted = sorted.reverse();
 
-                    retVal = swatches.filter(x => x.ModelNumber == sorted[0].ModelNumber).slice(0, 3).map((x: any) => x.ImageName);
+                    retVal = swatches.filter(x => x.ModelNumber === sorted[0].ModelNumber).slice(0, 6).map((x: any) => x.ImageName);
                 }
             }
 
             return retVal;
+        }
+
+        protected getTotalSwatchCount(swatchesJson): number {
+            let count = 0;
+            if (swatchesJson) {
+                const swatches = JSON.parse(swatchesJson) as any[];
+
+                if (swatches.length > 0) {
+                    count = swatches.length;
+                }
+            }
+
+            return count;
         }
 
         protected isAttributeValue(product: ProductDto, attrName: string, attrValue: string): boolean {
@@ -363,6 +376,32 @@
                 }, 20);
             }
         }
+
+        protected getStarRating(product: ProductDto) : string {
+            let retVal = "no-star";
+            if (product && product.specifications && product.specifications.length > 0) {
+                let ratings = product.specifications.filter(x => x.name == "Rating");
+
+                if (ratings.length > 0 && !isNaN(parseFloat(ratings[0].value))) {
+                    let rating = parseFloat(ratings[0].value);
+                    if (rating > 0.0) {
+                        let ratingRoundedToHalf = Math.round(rating * 2) / 2;
+                        retVal = ratingRoundedToHalf > 0 && ratingRoundedToHalf <= 0.5 ? "half-star" :
+                            ratingRoundedToHalf > 0.5 && ratingRoundedToHalf <= 1.0 ? "one-star" :
+                                ratingRoundedToHalf > 1.0 && ratingRoundedToHalf <= 1.5 ? "onehalf-star" :
+                                    ratingRoundedToHalf > 1.5 && ratingRoundedToHalf <= 2.0 ? "two-star" :
+                                        ratingRoundedToHalf > 2.0 && ratingRoundedToHalf <= 2.5 ? "twohalf-star" :
+                                            ratingRoundedToHalf > 2.5 && ratingRoundedToHalf <= 3.0 ? "three-star" :
+                                                ratingRoundedToHalf > 3.0 && ratingRoundedToHalf <= 3.5 ? "threehalf-star" :
+                                                    ratingRoundedToHalf > 3.5 && ratingRoundedToHalf <= 4.0 ? "four-star" :
+                                                        ratingRoundedToHalf > 4.0 && ratingRoundedToHalf <= 4.5 ? "fourhalf-star" :
+                                                            ratingRoundedToHalf > 4.5 ? "five-star" : "no-star";
+                    }
+                }
+            }
+
+            return retVal;
+        }        
     }
 
     angular

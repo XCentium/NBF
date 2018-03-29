@@ -4,7 +4,7 @@ using Insite.ContentLibrary.Widgets;
 namespace Extensions.Widgets
 {
     [DisplayName("NBF - CTA Link Zone")]
-    public class CtaLinkZone : ContentWidget
+    public class CTALinkZone : ContentWidget
     {
 
     }

@@ -68,17 +68,11 @@
                     <div class="item-subtotal"><span ng-if="!cartLine.quoteRequired && !cart.cartNotPriced" ng-bind="cartLine.pricing.extendedUnitNetPriceDisplay"></span></div>
                 </div>
             </div>
-           
-            
-
             <div class="row promo-applied" ng-repeat="promotion in promotions | filter: {orderLineId : cartLine.id}">
                 <div class="small-6 columns sub-label">
                     <em><span class="tst_cartLine_lineLevelPromo" ng-bind="promotion.name"></span></em>
                 </div>
             </div>
-            
-            
-
             <div>
                 <a id="tst_cartLine_productSubscription" href="" class="btn primary btn-product-subscription"
                    ng-show="cartLine.isSubscription && editable"

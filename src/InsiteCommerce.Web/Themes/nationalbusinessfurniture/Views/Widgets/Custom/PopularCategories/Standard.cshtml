@@ -12,10 +12,10 @@
                     <div class="popular-cat__item four-col__item" ng-repeat="category in vm.categories">
                         <a href="{{category.path}}">
                             <div class="popular-cat__img-wrap">
-                                <img class="popular-cat__img" ng-src="{{category.smallImagePath}}" ng-if="category.smallImagePath" />
+                                <img class="popular-cat__img" alt="{{category.shortDescription}}" ng-src="{{category.smallImagePath}}" ng-if="category.smallImagePath" />
                             </div>
                             <div class="popular-cat__title">
-                                <h3>{{category.shortDescription}}</h3>
+                                <h2>{{category.shortDescription}}</h2>
                             </div>
                         </a>
                     </div>                    

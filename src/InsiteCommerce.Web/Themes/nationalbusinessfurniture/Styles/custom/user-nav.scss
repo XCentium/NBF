@@ -223,3 +223,16 @@ div.cart-button a.cart-link:before {
         }
     }
 }
+
+
+@media ( min-width:992px ) and (max-width:1099px) {
+
+    .user-nav li {
+        width: 33%;
+    }
+
+    .user-nav .subnav {
+        right: 0;
+    }
+}
+

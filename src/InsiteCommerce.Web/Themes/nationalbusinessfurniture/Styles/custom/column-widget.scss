@@ -3,8 +3,11 @@
 
 .widget-1column {
     &.no-margin {
-        padding-right: 0;
-        padding-left: 0;
+
+        @media all and (min-width: 1485px) {
+            padding-right: 0;
+            padding-left: 0;
+        }
     }
 }
 

@@ -1,0 +1,31 @@
+﻿<style type="text/css">
+    .callout_[[Model.Id]] { background-color:#000; }
+</style>
+<div class="row" ng-controller="NbfVideoController as vm">
+    <div class="medium-12 large-12 columns widget-1column narrow-container [[Model.CssClass]]">
+        <div class="row">
+            <div class="medium-12 large-12 columns">
+                <div class="callout callout--[[Model.StyleFormatted]] callout--[[Model.PositionFormatted]] video-cta">
+                    <div class="callout__img-wrap" ng-click="vm.toggleVideo('vid[[Model.ContentKey]]')">
+                        <div class="callout__img callout_[[Model.Id]]">
+                            <video poster="[[Model.BackgroundImage]]"  id="vid[[Model.ContentKey]]">
+                                <source src="[[Model.Mp4VideoUrl]]" type="video/mp4">
+                                [% if Model.OggVideoUrl != null and Model.OggVideoUrl != "" -%]
+                                <source src="[[Model.OggVideoUrl]]" type="video/ogg">
+                                [% endif -%]
+                                Your browser does not support the video tag.
+                            </video>
+                            <div class="playbtn">
+                                <span class="ico ico-Play-BTN"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="callout__content">
+                        <h3>[[Model.Title]]</h3>
+                        <a href="[[Model.Url]]" class="callout__link">[[Model.SubTitle]]</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -7,6 +7,7 @@
         favoritesWishlist: WishListModel;
         isAuthenticated: boolean = false;
         resourceAndAssemblyDocs: any[];
+        selectedSwatchProductIds: any[]=[];
 
         static $inject = [
             "$scope",
@@ -101,6 +102,20 @@
             return retVal;
         }
 
+        protected getAttributeValue(attrName: string): string {
+            let retVal: string = null;
+
+            if (this.product && this.product.attributeTypes) {
+                var attrType = this.product.attributeTypes.find(x => x.name == attrName && x.isActive == true);
+
+                if (attrType && attrType.attributeValues && attrType.attributeValues.length > 0) {
+                    retVal = attrType.attributeValues[0].valueDisplay;
+                }
+            }
+
+            return retVal;
+        }
+
         protected getSwatchImageNameFromStyleTraitValueId(styleTraitName: string, styleTraitValue: string): string {
             let retVal: string = null;
             let styleTraitNameUpper = styleTraitName.toUpperCase();
@@ -132,14 +147,59 @@
                     }
                     this.styleChange();
                 }
+            }            
+        }   
+
+        protected toggleSwatchProductSelection(styleTraitName: string, styleTraitValueId: string): void {
+            let swatch = this.swatches.find(x => x.ModelNumber == styleTraitName
+                && x.Name == styleTraitValueId);
+
+            if (swatch != null) {
+                if (this.selectedSwatchProductIds.filter(x => x == swatch.Id).length === 0) {
+                    this.selectedSwatchProductIds.push(swatch.Id);
+                }
+                else {
+                    var index = this.selectedSwatchProductIds.indexOf(swatch.Id);
+                    if (index !== -1) {
+                        this.selectedSwatchProductIds.splice(index, 1);
+                    }
+                }
             }
-            //this.configurationSelection[$index] = 
-            //let dropdownSelector = "select[name=tst_styleSelect_" + styleName + "]";
-            //jQuery("select[name=tst_styleSelect_" + styleName + "]").val(styleTraitValueId);
-                //.change();
-            //jQuery(dropdownSelector + " option[value='" + styleTraitValueId + "']").prop({ defaultSelected: true });
-            
-        }               
+        }
+
+        protected isSwatchProductSelected(styleTraitName: string, styleTraitValueId: string) {
+            let retVal = false;
+
+            let swatch = this.swatches.find(x => x.ModelNumber == styleTraitName
+                && x.Name == styleTraitValueId);
+
+            if (swatch != null && this.selectedSwatchProductIds.filter(x => x == swatch.Id).length > 0) {
+                retVal = true;
+            }
+
+            return retVal;
+        }
+
+        protected addSwatchProductsToCart() {
+            debugger;
+            const expand = ["attributes", "pricing"];
+            const parameter: IProductCollectionParameters = { productIds: this.selectedSwatchProductIds };
+            this.productService.getProducts(parameter, expand).then(
+                (productCollection: ProductCollectionModel) =>
+                {
+                    this.addingToCart = true;
+                    productCollection.products.forEach(x => {
+                        x.qtyOrdered = 1;
+                        x.unitOfMeasure = 'EA';
+                    });                   
+                    
+                    this.cartService.addLineCollectionFromProducts(productCollection.products, true,false).then(
+                        (cartLine: CartLineCollectionModel) => { },
+                        (error: any) => { this.addToCartFailed(error); }
+                    );
+                },
+                (error: any) => { console.error(error); });
+        }
 
         initVideo() {
             console.dir(document.getElementById("videofile"));
@@ -181,11 +241,13 @@
                 this.swatches = JSON.parse(this.product.properties["swatches"]);
             }
 
-            this.getFavorites();
             this.setTabs();
             this.sessionService.getIsAuthenticated().then(x => {
                 this.isAuthenticated = x;
-            })
+                if (this.isAuthenticated) {
+                    this.getFavorites();
+                }
+            });
 
             this.resourceAndAssemblyDocs = this.product.documents.filter(x => x.documentType != "video");
         }     
@@ -246,6 +308,45 @@
             $("#Wrapper360").show();
             $("#overlaych1").hide();
             $("#mobile_div_container").hide();
+        }
+
+        protected getStarRatingNumeric(product: ProductDto): number {
+            let retVal = 0.0;
+            if (product && product.specifications && product.specifications.length > 0) {
+                let ratings = product.specifications.filter(x => x.name == "Rating");
+
+                if (ratings.length > 0 && !isNaN(parseFloat(ratings[0].value))) {
+                    retVal = parseFloat(ratings[0].value);                    
+                }
+            }
+
+            return retVal;
+        }
+
+        protected getStarRating(product: ProductDto): string {
+            let retVal = "no-star";
+            if (product && product.specifications && product.specifications.length > 0) {
+                let ratings = product.specifications.filter(x => x.name == "Rating");
+
+                if (ratings.length > 0 && !isNaN(parseFloat(ratings[0].value))) {
+                    let rating = parseFloat(ratings[0].value);
+                    if (rating > 0.0) {
+                        let ratingRoundedToHalf = Math.round(rating * 2) / 2;
+                        retVal = ratingRoundedToHalf > 0 && ratingRoundedToHalf <= 0.5 ? "half-star" :
+                            ratingRoundedToHalf > 0.5 && ratingRoundedToHalf <= 1.0 ? "one-star" :
+                                ratingRoundedToHalf > 1.0 && ratingRoundedToHalf <= 1.5 ? "onehalf-star" :
+                                    ratingRoundedToHalf > 1.5 && ratingRoundedToHalf <= 2.0 ? "two-star" :
+                                        ratingRoundedToHalf > 2.0 && ratingRoundedToHalf <= 2.5 ? "twohalf-star" :
+                                            ratingRoundedToHalf > 2.5 && ratingRoundedToHalf <= 3.0 ? "three-star" :
+                                                ratingRoundedToHalf > 3.0 && ratingRoundedToHalf <= 3.5 ? "threehalf-star" :
+                                                    ratingRoundedToHalf > 3.5 && ratingRoundedToHalf <= 4.0 ? "four-star" :
+                                                        ratingRoundedToHalf > 4.0 && ratingRoundedToHalf <= 4.5 ? "fourhalf-star" :
+                                                            ratingRoundedToHalf > 4.5 ? "five-star" : "no-star";
+                    }
+                }
+            }
+
+            return retVal;
         }
     }
 

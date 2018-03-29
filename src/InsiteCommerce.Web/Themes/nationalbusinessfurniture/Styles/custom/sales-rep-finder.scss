@@ -1,0 +1,72 @@
+﻿@import "../variables";
+
+.sales-rep-finder {
+    .sales-rep-results {
+
+        @media all and (max-width: 767px) {
+            padding: 0 15px;
+        }
+
+        .sl-list {
+            padding-right: 35px;
+
+            @media all and (max-width: 767px) {
+                padding-right: 0;
+            }
+        }
+
+        .dealer-name {
+            font-size:24px;
+            line-height:36px;
+        } .rcount {
+            font-size: 24px;
+        }
+
+        .result-num {
+            color: #fff;
+            font-size: 24px;
+            text-align: center;
+            width: 30px;
+            line-height: 31px;
+            padding-top: 1em;
+
+            .ico-Pin {
+                font-size: 44px;
+                color: $nbf-navy;
+                left: 0;
+                position: absolute;
+                z-index: -1;
+            }
+        }
+
+        .dealer-contact {
+            .distance {
+                font-size: 24px;
+                font-weight: 700;
+                text-transform: uppercase;
+            }
+        }
+    }
+
+    .dealer-loc-map {
+        .loc-marker {
+            color: $nbf-navy;
+            top: -7px;
+
+            .number {
+                font-family: $ProximaNova;
+                font-size: 24px;
+                color: #fff;
+                vertical-align: super;
+            }
+
+            &:hover {
+                color: #fff;
+
+                .number {
+                    color: $nbf-navy
+                }
+            }
+        }
+    }
+}

@@ -1,16 +1,6 @@
 ﻿<div class="row">
-    <div class="medium-12 large-12 columns widget-1column narrow-container">
-        <div class="row">
-            <div class="medium-12 large-12 columns widget-1column">
-                <div class="latest-blog-title">
-                    <h2>[[Model.Title]]</h2>
-                </div>
-            </div>
-        </div>
-    </div>
     <div class="latest-blog medium-12 large-12 columns widget-1column no-margin [[Model.CssClass]]">
         <div class="latest-blog__container">
-
             [% for page in Model.Drop.PageLinks -%]
             <div class="latest-blog__item">
                 <a href="[[page.Url]]">
