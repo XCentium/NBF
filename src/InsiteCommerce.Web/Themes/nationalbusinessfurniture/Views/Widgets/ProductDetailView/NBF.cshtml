@@ -13,7 +13,9 @@
                     </div>
                     <div class="name-price small-12 column medium-6">
                         <h1>{{vm.product.shortDescription}}</h1>
-                        <isc-product-name product="vm.product" no-link="true"></isc-product-name>
+                        Item#: {{vm.product.erpNumber}} |
+                        Brand: {{vm.getAttributeValue("Brand")}} |
+                        Collection: {{vm.getAttributeValue("Collection")}}
                         <div class="item-block__product__price-wrap">
                             <div class="item-block__product__price">
                                 <isc-product-price product="vm.product" ng-cloak></isc-product-price>
@@ -35,13 +37,17 @@
                             </div>
                             <div class="col-2">
                                 <div class="item-block__product__reviews">
-                                    <div class="rating {{vm.getStarRating(vm.product)}} ">
+                                    <div class="rating {{vm.getStarRating(vm.product)}}">
                                         <i class="fa fa-star" aria-hidden="true"></i>
                                         <i class="fa fa-star" aria-hidden="true"></i>
                                         <i class="fa fa-star" aria-hidden="true"></i>
                                         <i class="fa fa-star" aria-hidden="true"></i>
                                         <i class="fa fa-star" aria-hidden="true"></i>
-                                    </div>(5 Reviews)
+                                    </div>
+                                    <span ng-if="vm.getStarRatingNumeric(vm.product) > 0">
+                                        {{vm.getStarRatingNumeric(vm.product) | number : 1 }}
+                                    </span>                                   
+                                    (5 Reviews)
                                 </div>
                                 <a href="#reviews">Read 5 reviews</a>
                                 <a href="#">Write a Review</a>
@@ -130,13 +136,7 @@
                             <a id="tst_productDetail_addToWishList" ng-if="vm.isAuthenticated" ng-class="{'in-favorites': vm.product.properties['isFavorite'] == 'true' } "
                                ng-click="vm.toggleFavorite(vm.product)" role="button"
                                class="btn secondary btn-add-to-list" href="javascript:;">{{vm.product.properties['isFavorite'] == "false" ? "Add To Favorites" : "Remove From Favorites"}}</a>
-                        </div>
-                        <div class="small-12 secondary-button">
-                            <div ng-show="vm.product" class="small-12 detail-share">
-                                <a id="tst_productDetail_share" href="javascript:;" class="pd-zoom" data-reveal-id="TellAFriendDialogContainer">[% translate 'Share' %]</a>
-                                <isc-tell-a-friend-popup product="vm.product" data-reveal></isc-tell-a-friend-popup>
-                            </div>
-                        </div>
+                        </div>                        
                     </div>
                     <div class="accordion-details-page">
                         <div class="small-12 column">
@@ -207,216 +207,40 @@
             </isc-cross-sell-carousel>
         </div>
     </div>
-
-    <div ng-show="vm.product.specifications.length > 0 || vm.product.attributeTypes.length > 0 || vm.product.documents.length > 0" class="row pd-specs">
-        <div id="tst_productDetail_specifications" class="detail-specs easy-resp-tabs">
-            <ul class="resp-tabs-list">
-                <li ng-if="vm.settings.displayAttributesInTabs && vm.settings.attributesTabSortOrder === 'DisplayFirst' && vm.product.attributeTypes.length > 0">[% translate 'Attributes' %]</li>
-                <li ng-if="vm.settings.displayDocumentsInTabs && vm.settings.documentsTabSortOrder === 'DisplayFirst' && vm.product.documents.length > 0">[% translate 'Documents' %]</li>
-                <li ng-repeat="specification in vm.product.specifications | filter: { isActive: 'true' } | orderBy: 'sortOrder'" ng-class="{active: ($first)}">
-                    {{specification.nameDisplay}}
-                </li>
-                <li ng-if="vm.settings.displayAttributesInTabs && vm.settings.attributesTabSortOrder === 'DisplayLast' && vm.product.attributeTypes.length > 0">[% translate 'Attributes' %]</li>
-                <li ng-if="vm.settings.displayDocumentsInTabs && vm.settings.documentsTabSortOrder === 'DisplayLast' && vm.product.documents.length > 0">[% translate 'Documents' %]</li>
-            </ul>
-            <div class="resp-tabs-container">
-                <div ng-if="vm.settings.displayAttributesInTabs && vm.settings.attributesTabSortOrder === 'DisplayFirst' && vm.product.attributeTypes.length > 0">
-                    <table class="info-tbl spec-attributes">
-                        <tbody>
-                            <tr ng-repeat="attributeType in vm.product.attributeTypes | orderBy : ['label', 'name'] | limitTo: (maximumNumber || 100)" class="row">
-                                <td class="col-label columns small-4" ng-bind="attributeType.label || attributeType.name"></td>
-                                <td class="col-value columns small-8"><isc-no-element ng-repeat="attributeValue in attributeType.attributeValues | orderBy  : ['sortOrder','valueDisplay']">{{attributeValue.valueDisplay}}{{$last ? '' : ', '}}</isc-no-element></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div ng-if="vm.settings.displayDocumentsInTabs && vm.settings.documentsTabSortOrder === 'DisplayFirst' && vm.product.documents.length > 0">
-                    <ul class="spec-documents">
-                        <li ng-if="vm.languageId === document.languageId" ng-repeat="document in (orderedDocuments = (vm.product.documents | orderBy : 'documentType'))" class="doc-{{$index}}">
-                            <div ng-if="document.documentType && document.documentType !== orderedDocuments[$index - 1].documentType" class="doc-type"><strong ng-bind="document.documentType"></strong></div>
-                            <a ng-href="{{document.filePath}}" target="_new">{{document.name}}</a>
-                        </li>
-                    </ul>
-                </div>
-                <div ng-repeat="specification in vm.product.specifications | filter: { isActive: 'true' } | orderBy: 'sortOrder'" ng-bind-html="specification.htmlContent|trusted"></div>
-                <div ng-if="vm.settings.displayAttributesInTabs && vm.settings.attributesTabSortOrder === 'DisplayLast' && vm.product.attributeTypes.length > 0">
-                    <table class="info-tbl spec-attributes">
-                        <tbody>
-                            <tr ng-repeat="attributeType in vm.product.attributeTypes | orderBy : ['label', 'name'] | limitTo: (maximumNumber || 100)" class="row">
-                                <td class="col-label columns small-4" ng-bind="attributeType.label || attributeType.name"></td>
-                                <td class="col-value columns small-8"><isc-no-element ng-repeat="attributeValue in attributeType.attributeValues | orderBy  : ['sortOrder','valueDisplay']">{{attributeValue.valueDisplay}}{{$last ? '' : ', '}}</isc-no-element></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div ng-if="vm.settings.displayDocumentsInTabs && vm.settings.documentsTabSortOrder === 'DisplayLast' && vm.product.documents.length > 0">
-                    <ul class="spec-documents">
-                        <li ng-if="vm.languageId === document.languageId" ng-repeat="document in (orderedDocuments = (vm.product.documents | orderBy : 'documentType'))" class="doc-{{$index}}">
-                            <div ng-if="document.documentType && document.documentType !== orderedDocuments[$index - 1].documentType" class="doc-type"><strong ng-bind="document.documentType"></strong></div>
-                            <a ng-href="{{document.filePath}}" target="_new">{{document.name}}</a>
-                        </li>
-                    </ul>
+    
+    <!--swatch popup-->
+    <div id="swatchform" class="swatchform reveal-modal" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
+        <div class="swatchform__scrollarea">
+            <h1 id="swatchform__title">Order Free Color Samples</h1>
+            <p class="lead">
+                Simply select the color samples you’d like to receive and click the Add To Cart button below.<br />
+                Or, call us at <strong>800-558-1010</strong> to request samples.<br />
+                Your free color samples will arrive within 3-5 business days.
+            </p> 
+            <div class="swatchform__type" ng-repeat="styleTrait in vm.styleTraitFiltered | orderBy: 'sortOrder'">
+                <div class="swatchform__type__title">{{styleTrait.nameDisplay}}:</div>
+                <ul class="swatchform__list">
+                    <li class="swatchform__item" ng-class="{'active': vm.isSwatchProductSelected(styleTrait.nameDisplay, style.value)}" ng-repeat="style in styleTrait.styleValues | orderBy: 'sortOrder' track by style.styleTraitValueId">
+                        <a href ng-click="vm.toggleSwatchProductSelection(styleTrait.nameDisplay, style.value)" class="tip" data-title="{{style.value}}">
+                            <img ng-src="https://s7d9.scene7.com/is/image/NationalBusinessFurniture/{{vm.getSwatchImageNameFromStyleTraitValueId(style.styleTraitName, style.value)}}?hei=200&id=5-zsy2&fmt=jpg&fit=constrain,1&wid=344&hei=344" alt="{{style.valueDisplay}}" />
+                        </a>
+                    </li>
+                </ul>
                 </div>
             </div>
-        </div>
-    </div>
-</div>
-
-<script type="text/ng-template" id="productDetail_tellAFriend">
-    <div style="display: none;">
-        <div id="TellAFriendDialogContainer" class="product-detail popup-share reveal-modal" data-reveal data-reveal-init>
-            <div class="modal-wrap">
-                <h2>[% translate 'Share with a Friend' %]</h2>
-                <form novalidate id="tellAFriendForm" class="custom">
-                    <div class="row share-name">
-                        <isc-tell-a-friend-field field-label="[% translate 'Friend's Name' %]"
-                                                 field-name="friendsName"
-                                                 field-value="vm.tellAFriendModel.friendsName"
-                                                 is-required="true"
-                                                 is-email="false">
-                        </isc-tell-a-friend-field>
-                    </div>
-                    <div class="row share-email">
-                        <isc-tell-a-friend-field field-label="[% translate 'Friend's Email' %]"
-                                                 field-name="friendsEmail"
-                                                 field-value="vm.tellAFriendModel.friendsEmailAddress"
-                                                 is-required="true"
-                                                 is-email="true">
-                        </isc-tell-a-friend-field>
-                    </div>
-                    <div class="row share-you">
-                        <isc-tell-a-friend-field field-label="[% translate 'Your Name' %]"
-                                                 field-name="yourName"
-                                                 field-value="vm.tellAFriendModel.yourName"
-                                                 is-required="true"
-                                                 is-email="false">
-                        </isc-tell-a-friend-field>
-                    </div>
-                    <div class="row share-youmail">
-                        <isc-tell-a-friend-field field-label="[% translate 'Your Email' %]"
-                                                 field-name="yourEmail"
-                                                 field-value="vm.tellAFriendModel.yourEmailAddress"
-                                                 is-required="true"
-                                                 is-email="true">
-                        </isc-tell-a-friend-field>
-                    </div>
-                    <div class="row share-msg">
-                        <div class="large-5 columns">
-                            <span>[% translate 'Your Message' %]</span>
-                            <span class="redTxt">*</span>
-                        </div>
-                        <div class="large-7 columns">
-                            <textarea ng-model="vm.tellAFriendModel.yourMessage" autofocus="autofocus"
-                                      id="yourMessage"
-                                      name="yourMessage"
-                                      data-rule-required="true"
-                                      data-msg-required="{{ '[% siteMessage 'Field_Required' EscapeSingleQuotes %]'.replace('{0}', '[% translate 'Your Message' EscapeSingleQuotes %]') }}"></textarea>
-                            <span class="field-validation-valid" data-valmsg-for="yourMessage" data-valmsg-replace="true"></span>
-                        </div>
-                    </div>
-                    <div class="row btns">
-                        <button id="tst_productDetail_shareSubmit" ng-click="vm.shareWithFriend()" class="btn primary btn-create-wishlist" type="button">[% translate 'Share' %]</button>
-                    </div>
-                </form>
-                <div id="tst_productDetail_shareSubmitMessage" class="messaging" ng-show="vm.isSuccess || vm.isError">
-                    <span ng-show="vm.isSuccess">[% siteMessage 'TellAFriend_Success' %]</span>
-                    <span ng-show="vm.isError">[% siteMessage 'TellAFriend_Error' %]</span>
-                </div>
-                <a class="close-reveal-modal">&#215;</a>
+            <div class="swatchform__footer">
+                <a href ng-click="vm.addSwatchProductsToCart()" class="btn add-to-cart"><span class="ico-CartIcon"></span> Add To Cart</a>
             </div>
+            <a class="close-reveal-modal" aria-label="Close">&#215;</a>
         </div>
     </div>
-</script>
 
-<script type="text/ng-template" id="productDetail_tellAFriendField">
-    <div>
-        <div class="large-5 columns">
-            <span ng-bind="fieldLabel"></span>
-            <span class="redTxt" ng-show="isRequired">*</span>
-        </div>
-        <div class="large-7 columns">
-            <input type="text" ng-model="fieldValue" autofocus="autofocus"
-                   id="{{fieldName}}"
-                   name="{{fieldName}}"
-                   data-rule-required="{{isRequired}}"
-                   data-msg-required="{{'[% siteMessage 'Field_Required' EscapeSingleQuotes %]'.replace('{0}', fieldLabel)}}"
-                   data-rule-email="{{isEmail}}"
-                   data-msg-email="{{'[% siteMessage 'Field_Invalid' EscapeSingleQuotes %]'.replace('{0}', fieldLabel)}}"
-                   data-rule-regex="{{ isEmail === 'true' ? '[% emailRegex %]' : '.*' }}"
-                   data-msg-regex="{{'[% siteMessage 'Field_Invalid' EscapeSingleQuotes %]'.replace('{0}', fieldLabel)}}">
-            <span class="field-validation-valid" data-valmsg-for="{{fieldName}}" data-valmsg-replace="true"></span>
-        </div>
-    </div>
-</script>
-
-
-<div id="swatchform" class="swatchform reveal-modal" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
-    <div class="swatchform__scrollarea">
-        <h1 id="swatchform__title">Order Free Color Samples</h1>
-        <p class="lead">
-            Simply select the color samples you’d like to receive and click the Add To Cart button below.<br />
-            Or, call us at <strong>800-558-1010</strong> to request samples.<br />
-            Your free color samples will arrive within 3-5 business days.
-        </p>
-        <div class="swatchform__type">
-            <div class="swatchform__type__title">Color:</div>
-            <ul class="swatchform__list">
-                <li class="swatchform__item"><a href="#" class="tip" data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
-                <li class="swatchform__item active"><a href="#" class="tip" data-title="Blue"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
-                <li class="swatchform__item"><a href="#" class="tip" data-title="Coquelicot"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
-                <li class="swatchform__item"><a href="#" class="tip" data-title="Smaragdine"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
-                <li class="swatchform__item"><a href="#" class="tip" data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
-                <li class="swatchform__item"><a href="#" class="tip" data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
-                <li class="swatchform__item active"><a href="#" class="tip" data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
-                <li class="swatchform__item"><a href="#" class="tip" data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
-                <li class="swatchform__item"><a href="#" class="tip" data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
-                <li class="swatchform__item"><a href="#" class="tip" data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
-                <li class="swatchform__item"><a href="#" class="tip" data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
-                <li class="swatchform__item"><a href="#" class="tip" data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
-                <li class="swatchform__item active"><a href="#" class="tip" data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
-                <li class="swatchform__item"><a href="#" class="tip" data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
-                <li class="swatchform__item"><a href="#" class="tip" data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
-                <li class="swatchform__item"><a href="#" class="tip" data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
-                <li class="swatchform__item"><a href="#" class="tip" data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
-                <li class="swatchform__item"><a href="#" class="tip" data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
-                <li class="swatchform__item"><a href="#" class="tip" data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
-                <li class="swatchform__item"><a href="#" class="tip" data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
-                <li class="swatchform__item"><a href="#" class="tip" data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
-            </ul>
-        </div>
-        <div class="swatchform__type">
-            <div class="swatchform__type__title">Finish:</div>
-            <ul class="swatchform__list">
-                <li class="swatchform__item"><a href="#" class="tip" data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
-                <li class="swatchform__item active"><a href="#" class="tip" data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
-                <li class="swatchform__item"><a href="#" class="tip" data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
-                <li class="swatchform__item"><a href="#" class="tip" data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
-                <li class="swatchform__item"><a href="#" class="tip" data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
-                <li class="swatchform__item"><a href="#" class="tip" data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
-                <li class="swatchform__item active"><a href="#" class="tip" data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
-                <li class="swatchform__item"><a href="#" class="tip" data-data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
-                <li class="swatchform__item"><a href="#" class="tip" data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
-                <li class="swatchform__item"><a href="#" class="tip" data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
-                <li class="swatchform__item"><a href="#" class="tip" data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
-                <li class="swatchform__item"><a href="#" class="tip" data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
-                <li class="swatchform__item"><a href="#" class="tip" data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
-                <li class="swatchform__item"><a href="#" class="tip" data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
-                <li class="swatchform__item"><a href="#" class="tip" data-title="Olive"><img src="https://d1sca6vi4fbl8x.cloudfront.net/media/variety/icon/dirty-mermaid-hair-swatch.jpg.50x50_q85ss0_progressive.jpg" /></a></li>
-            </ul>
-        </div>
-    </div>
-    <div class="swatchform__footer">
-        <a href="#" class="btn add-to-cart"><span class="ico-CartIcon"></span> Add To Cart</a>
-    </div>
-    <a class="close-reveal-modal" aria-label="Close">&#215;</a>
-</div>
-
-<script type="text/ng-template" id="/PartialViews/Catalog-CrossSellCarousel">
-    [% partialView 'Catalog-CrossSellCarousel' %]
-</script>
-<script type="text/ng-template" id="/PartialViews/Catalog-ProductImages">
-    [% partialView 'Catalog-ProductImages' %]
-</script>
-<script type="text/ng-template" id="/PartialViews/Catalog-ProductImageCarousel">
-    [% partialView 'Catalog-ProductImageCarousel' %]
-</script>
+    <script type="text/ng-template" id="/PartialViews/Catalog-CrossSellCarousel">
+        [% partialView 'Catalog-CrossSellCarousel' %]
+    </script>
+    <script type="text/ng-template" id="/PartialViews/Catalog-ProductImages">
+        [% partialView 'Catalog-ProductImages' %]
+    </script>
+    <script type="text/ng-template" id="/PartialViews/Catalog-ProductImageCarousel">
+        [% partialView 'Catalog-ProductImageCarousel' %]
+    </script>
