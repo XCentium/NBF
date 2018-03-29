@@ -209,17 +209,20 @@ namespace Extensions.Plugins.Cart
             var productsByVendor = new List<ProductsByVendor>();
             foreach (var line in result.Cart.OrderLines)
             {
-                if (productsByVendor.FirstOrDefault(x => x.VendorId == line.Product.Vendor.Id) != null)
+                if (line.Product.Vendor != null)
                 {
-                    productsByVendor.FirstOrDefault(x => x.VendorId == line.Product.Vendor.Id).OrderLines.Add(line);
-                }
-                else
-                {
-                    var productByVendor = new ProductsByVendor();
-                    productByVendor.OrderLines = new List<OrderLine>();
-                    productByVendor.VendorId = line.Product.VendorId;
-                    productByVendor.OrderLines.Add(line);
-                    productsByVendor.Add(productByVendor);
+                    if (productsByVendor.FirstOrDefault(x => x.VendorId == line.Product.Vendor.Id) != null)
+                    {
+                        productsByVendor.FirstOrDefault(x => x.VendorId == line.Product.Vendor.Id).OrderLines.Add(line);
+                    }
+                    else
+                    {
+                        var productByVendor = new ProductsByVendor();
+                        productByVendor.OrderLines = new List<OrderLine>();
+                        productByVendor.VendorId = line.Product.VendorId;
+                        productByVendor.OrderLines.Add(line);
+                        productsByVendor.Add(productByVendor);
+                    }
                 }
             }
             return productsByVendor;

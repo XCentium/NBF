@@ -273,6 +273,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cart\Handlers\ProcessCreditCardTransaction.cs" />
     <Compile Include="Enums\Listrak\Fields\OrderConfirmationFieldEnum.cs" />
     <Compile Include="Enums\Listrak\Fields\WelcomeEmailFieldEnum.cs" />
     <Compile Include="Enums\Listrak\EventIdEnum.cs" />
@@ -300,6 +301,11 @@
     <Compile Include="Settings\PhoneNumberSettings.cs" />
     <Compile Include="Settings\OrderTrackerSettings.cs" />
     <Compile Include="WebApi\CatalogMailingPrefs\Models\CatalogPrefsDto.cs" />
+    <Compile Include="WebApi\CreditCardTransaction\Controllers\NBFCCTransactionController.cs" />
+    <Compile Include="WebApi\CreditCardTransaction\Interfaces\ICCTransactionRepository.cs" />
+    <Compile Include="WebApi\CreditCardTransaction\Interfaces\ICCTransactionService.cs" />
+    <Compile Include="WebApi\CreditCardTransaction\Models\AddCCTransactionParameter.cs" />
+    <Compile Include="WebApi\CreditCardTransaction\Repository\CCTransactionRepository.cs" />
     <Compile Include="WebApi\GuestActivation\Controllers\GuestActivationController.cs" />
     <Compile Include="WebApi\GuestActivation\Models\GuestActivationParameter.cs" />
     <Compile Include="WebApi\Base\BaseRepository.cs" />
