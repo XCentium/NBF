@@ -137,6 +137,12 @@
     }
 
     .item-block__product__samples-link {
+        margin-bottom: 10px;
+
+        strong {
+            margin-right: 20px;
+        }
+
         a {
             text-decoration: underline;
             margin-right: 10px;

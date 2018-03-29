@@ -31,7 +31,7 @@
     .detail-info h1 {
         margin-top: 0;
         font-size: 24px;
-        line-height:36px;
+        line-height: 36px;
     }
 
     .detail-info .pd-price-um {
@@ -81,7 +81,6 @@
     }
 
     .detail-options {
-       
     }
 
     .detail-options .fc-qty label {
@@ -104,7 +103,7 @@
     .pd-grid .fc-qty input {
         max-width: 110px;
         text-align: center;
-        margin-right:20px;
+        margin-right: 20px;
     }
 
     .pd-buttons div {
@@ -151,9 +150,9 @@
     }
 
     .detail-options .panel {
-        border:none;
+        border: none;
         background: none;
-        padding:0;
+        padding: 0;
     }
 
     .pd-buttons, .secondary-button {
@@ -184,7 +183,12 @@
                 margin: 0 4.8px 0 0;
                 line-height: 44px;
                 cursor: pointer;
-                max-width:120px;
+                max-width: 120px;
+
+                .img-wrap {
+                    height: 120px;
+                    overflow: hidden;
+                }
             }
         }
 
@@ -194,7 +198,7 @@
             width: 0.7em;
             height: 2em;
             background: none;
-            border:none;
+            border: none;
 
             span {
                 font-size: 0.8em;
