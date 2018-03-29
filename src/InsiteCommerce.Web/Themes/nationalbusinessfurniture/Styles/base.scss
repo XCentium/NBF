@@ -1950,7 +1950,7 @@ header div.head-cm {
     width: 100%;
 }
 
-@media all and (min-width: 768px) {
+@media all and (min-width: 992px) {
     .header-zone {
         width: 33%;
     }
@@ -7444,7 +7444,7 @@ html, body {
     height: 80px;
     text-align: center;
     
-        @media all and (max-width: 767px) {
+        @media all and (max-width: 991px) {
             display:none;
         }
 }
@@ -7478,7 +7478,7 @@ header label.toggle.burger {
     position: static;
     float: left;
 
-    @media all and (min-width: 768px) {
+    @media all and (min-width: 992px) {
                 display:none;
             }
 }
