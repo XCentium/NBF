@@ -13,6 +13,7 @@ using Insite.Payments.Services;
 using Insite.Payments.Services.Parameters;
 using Insite.Payments.Services.Results;
 using System;
+using System.Linq;
 
 namespace Extensions.Cart.Handlers
 {
@@ -40,7 +41,7 @@ namespace Extensions.Cart.Handlers
 
         public override UpdateCartResult Execute(IUnitOfWork unitOfWork, UpdateCartParameter parameter, UpdateCartResult result)
         {
-            if (!parameter.Status.EqualsIgnoreCase("Submitted"))
+            if (!(parameter.Status.EqualsIgnoreCase("Submitted") || parameter.Status.EqualsIgnoreCase("Cart")))
                 return this.NextHandler.Execute(unitOfWork, parameter, result);
             CustomerOrder cart = result.GetCartResult.Cart;
             Decimal orderTotalDue;
@@ -52,6 +53,16 @@ namespace Extensions.Cart.Handlers
                 parameter.CreditCard.CardHolderName = parameter.PayPalPayerId;
                 parameter.CreditCard.SecurityCode = parameter.PayPalToken;
             }
+            foreach(var t in cart.CreditCardTransactions)
+            {
+                var a = t.Amount.ToString();
+                var b = t.OrderNumber;
+                var c = t.CustomerOrderId.ToString();
+                var d = a + b + c;
+            }
+            var remainingBalance = orderTotalDue;
+            var paymentsTotal = cart.CreditCardTransactions.Sum(x => x.Amount);
+            remainingBalance -= paymentsTotal;
             IPaymentService paymentService1 = this.paymentService.Value;
             AddPaymentTransactionParameter parameter1 = new AddPaymentTransactionParameter();
             parameter1.TransactionType = (TransactionType)(this.paymentSettings.SubmitSaleTransaction ? 2 : 0);
@@ -63,7 +74,7 @@ namespace Extensions.Cart.Handlers
             parameter1.CreditCard = creditCard1;
             string paymentProfileId = parameter.PaymentProfileId;
             parameter1.PaymentProfileId = paymentProfileId;
-            Decimal num = orderTotalDue;
+            Decimal num = remainingBalance;
             parameter1.Amount = num;
             AddPaymentTransactionResult transactionResult = paymentService1.AddPaymentTransaction(parameter1);
             if (transactionResult.ResultCode != ResultCode.Success)
