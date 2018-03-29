@@ -7,6 +7,7 @@
         favoritesWishlist: WishListModel;
         isAuthenticated: boolean = false;
         resourceAndAssemblyDocs: any[];
+        selectedSwatchProductIds: any[]=[];
 
         static $inject = [
             "$scope",
@@ -132,14 +133,59 @@
                     }
                     this.styleChange();
                 }
+            }            
+        }   
+
+        protected toggleSwatchProductSelection(styleTraitName: string, styleTraitValueId: string): void {
+            let swatch = this.swatches.find(x => x.ModelNumber == styleTraitName
+                && x.Name == styleTraitValueId);
+
+            if (swatch != null) {
+                if (this.selectedSwatchProductIds.filter(x => x == swatch.Id).length === 0) {
+                    this.selectedSwatchProductIds.push(swatch.Id);
+                }
+                else {
+                    var index = this.selectedSwatchProductIds.indexOf(swatch.Id);
+                    if (index !== -1) {
+                        this.selectedSwatchProductIds.splice(index, 1);
+                    }
+                }
             }
-            //this.configurationSelection[$index] = 
-            //let dropdownSelector = "select[name=tst_styleSelect_" + styleName + "]";
-            //jQuery("select[name=tst_styleSelect_" + styleName + "]").val(styleTraitValueId);
-                //.change();
-            //jQuery(dropdownSelector + " option[value='" + styleTraitValueId + "']").prop({ defaultSelected: true });
-            
-        }               
+        }
+
+        protected isSwatchProductSelected(styleTraitName: string, styleTraitValueId: string) {
+            let retVal = false;
+
+            let swatch = this.swatches.find(x => x.ModelNumber == styleTraitName
+                && x.Name == styleTraitValueId);
+
+            if (swatch != null && this.selectedSwatchProductIds.filter(x => x == swatch.Id).length > 0) {
+                retVal = true;
+            }
+
+            return retVal;
+        }
+
+        protected addSwatchProductsToCart() {
+            debugger;
+            const expand = ["attributes", "pricing"];
+            const parameter: IProductCollectionParameters = { productIds: this.selectedSwatchProductIds };
+            this.productService.getProducts(parameter, expand).then(
+                (productCollection: ProductCollectionModel) =>
+                {
+                    this.addingToCart = true;
+                    productCollection.products.forEach(x => {
+                        x.qtyOrdered = 1;
+                        x.unitOfMeasure = 'EA';
+                    });                   
+                    
+                    this.cartService.addLineCollectionFromProducts(productCollection.products, true,false).then(
+                        (cartLine: CartLineCollectionModel) => { },
+                        (error: any) => { this.addToCartFailed(error); }
+                    );
+                },
+                (error: any) => { console.error(error); });
+        }
 
         initVideo() {
             console.dir(document.getElementById("videofile"));
