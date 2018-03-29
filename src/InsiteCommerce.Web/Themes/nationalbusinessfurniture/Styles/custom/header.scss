@@ -10,7 +10,7 @@
             padding-left: 32px;
             padding-right: 32px;
 
-            @media all and (max-width: 767px) {
+            @media all and (max-width: 991px) {
                 display: none;
             }
 
@@ -60,7 +60,7 @@
 
     .logo-wrap {
 
-        @media all and (max-width: 767px) {
+        @media all and (max-width: 991px) {
             .nbf-logo {
                 display: block;
                 float: right;
@@ -68,7 +68,7 @@
             }
         }
 
-        @media all and (min-width: 768px) {
+        @media all and (min-width: 992px) {
             max-width: 318px;
             margin-top: 23px;
         }
@@ -76,13 +76,13 @@
 
     .header-zone {
         &.lft {
-            @media all and (max-width: 767px) {
+            @media all and (max-width: 991px) {
                 margin-top: 20px;
                 margin-bottom: 20px;
             }
 
             .widget-image {
-                @media all and (max-width: 767px) {
+                @media all and (max-width: 991px) {
                     width: 62%;
                     max-width: 260px;
                     float: right;
@@ -93,7 +93,7 @@
 
         &.rt {
 
-            @media all and (max-width: 767px) {
+            @media all and (max-width: 991px) {
                 display: none;
             }
 
