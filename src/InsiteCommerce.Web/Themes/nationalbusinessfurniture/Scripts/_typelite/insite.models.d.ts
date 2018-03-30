@@ -1,7 +1,7 @@
-﻿
-
-
-
+﻿  
+ 
+ 
+ 
 
 
 
@@ -78,6 +78,7 @@ declare module Insite.Account.WebApi.V1.ApiModels {
 		lastName: string;
 		customerWasUpdated: boolean;
 		isGuest: boolean;
+		isRestrictedProductExistInCart: boolean;
 	}
 	interface AccountShipToCollectionModel extends Insite.Core.WebApi.BaseModel {
 		pagination: Insite.Core.WebApi.PaginationModel;
@@ -139,6 +140,7 @@ declare module Insite.Customers.WebApi.V1.ApiModels {
 		shipTos: Insite.Customers.WebApi.V1.ApiModels.ShipToModel[];
 		validation: Insite.Customers.Services.Dtos.CustomerValidationDto;
 		isDefault: boolean;
+		accountsReceivable: Insite.Customers.Services.Dtos.AccountsReceivableDto;
 	}
 	interface BaseAddressModel extends Insite.Core.WebApi.BaseModel {
 		id: string;
@@ -222,6 +224,9 @@ declare module Insite.Websites.WebApi.V1.ApiModels {
 		description: string;
 		isActive: boolean;
 		isRestricted: boolean;
+		mobilePrimaryColor: string;
+		mobilePrivacyPolicyUrl: string;
+		mobileTermsOfUseUrl: string;
 		countries: Insite.Websites.WebApi.V1.ApiModels.CountryCollectionModel;
 		states: Insite.Websites.WebApi.V1.ApiModels.StateCollectionModel;
 		languages: Insite.Websites.WebApi.V1.ApiModels.LanguageCollectionModel;
@@ -238,6 +243,9 @@ declare module Insite.Websites.WebApi.V1.ApiModels {
 	}
 	interface CurrencyCollectionModel extends Insite.Core.WebApi.BaseModel {
 		currencies: Insite.Websites.WebApi.V1.ApiModels.CurrencyModel[];
+	}
+	interface WebsiteSettingsModel extends Insite.Core.WebApi.BaseModel {
+		mobileAppEnabled: boolean;
 	}
 	interface AddressFieldCollectionModel extends Insite.Core.WebApi.BaseModel {
 		billToAddressFields: Insite.Websites.WebApi.V1.ApiModels.AddressFieldDisplayCollectionModel;
@@ -288,6 +296,16 @@ declare module Insite.Customers.Services.Dtos {
 		isRequired: boolean;
 		isDisabled: boolean;
 		maxLength: number;
+	}
+	interface AccountsReceivableDto {
+		agingBuckets: Insite.Customers.Services.Dtos.AgingBucketDto[];
+		agingBucketTotal: Insite.Customers.Services.Dtos.AgingBucketDto;
+		agingBucketFuture: Insite.Customers.Services.Dtos.AgingBucketDto;
+	}
+	interface AgingBucketDto {
+		amount: number;
+		amountDisplay: string;
+		label: string;
 	}
 }
 declare module Insite.Account.Services.Dtos {
@@ -396,6 +414,7 @@ declare module Insite.Cart.WebApi.V1.ApiModels {
 		paymentOptions: Insite.Cart.Services.Dtos.PaymentOptionsDto;
 		costCodes: Insite.Cart.Services.Dtos.CostCodeDto[];
 		carriers: Insite.Cart.Services.Dtos.CarrierDto[];
+		warehouses: Insite.Cart.Services.Dtos.WarehouseDto[];
 		cartLines: Insite.Cart.WebApi.V1.ApiModels.CartLineModel[];
 		customerOrderTaxes: Insite.Cart.Services.Dtos.CustomerOrderTaxDto[];
 		canCheckOut: boolean;
@@ -511,6 +530,20 @@ declare module Insite.Cart.Services.Dtos {
 		costCode: string;
 		description: string;
 	}
+	interface WarehouseDto {
+		id: System.Guid;
+		address1: string;
+		address2: string;
+		city: string;
+		countryId: System.Guid;
+		description: string;
+		isDefault: boolean;
+		name: string;
+		phone: string;
+		postalCode: string;
+		shipSite: string;
+		state: string;
+	}
 	interface SectionOptionDto {
 		sectionOptionId: System.Guid;
 		sectionName: string;
@@ -563,6 +596,7 @@ declare module Insite.Core.Plugins.Pricing {
 		unitNetPriceDisplay: string;
 		extendedUnitNetPrice: number;
 		extendedUnitNetPriceDisplay: string;
+		unitOfMeasure: string;
 		unitListBreakPrices: Insite.Core.Plugins.Pricing.BreakPriceDto[];
 		unitRegularBreakPrices: Insite.Core.Plugins.Pricing.BreakPriceDto[];
 		regularPrice: number;
@@ -575,7 +609,6 @@ declare module Insite.Core.Plugins.Pricing {
 		extendedActualPriceDisplay: string;
 		regularBreakPrices: Insite.Core.Plugins.Pricing.BreakPriceDto[];
 		actualBreakPrices: Insite.Core.Plugins.Pricing.BreakPriceDto[];
-		unitOfMeasure: string;
 	}
 	interface BreakPriceDto {
 		breakQty: number;
@@ -926,6 +959,11 @@ declare module Insite.Catalog.WebApi.V1.ApiModels {
 		isDynamic: boolean;
 		subCategories: Insite.Catalog.WebApi.V1.ApiModels.CategoryModel[];
 		path: string;
+		mobileBannerImageUrl: string;
+		mobilePrimaryText: string;
+		mobileSecondaryText: string;
+		mobileTextJustification: string;
+		mobileTextColor: string;
 	}
 	interface BreadCrumbModel {
 		text: string;
@@ -955,6 +993,7 @@ declare module Insite.Catalog.WebApi.V1.ApiModels {
 		unitNetPriceDisplay: string;
 		extendedUnitNetPrice: number;
 		extendedUnitNetPriceDisplay: string;
+		unitOfMeasure: string;
 		unitListBreakPrices: Insite.Core.Plugins.Pricing.BreakPriceDto[];
 		unitRegularBreakPrices: Insite.Core.Plugins.Pricing.BreakPriceDto[];
 		regularPrice: number;
@@ -967,7 +1006,6 @@ declare module Insite.Catalog.WebApi.V1.ApiModels {
 		extendedActualPriceDisplay: string;
 		regularBreakPrices: Insite.Core.Plugins.Pricing.BreakPriceDto[];
 		actualBreakPrices: Insite.Core.Plugins.Pricing.BreakPriceDto[];
-		unitOfMeasure: string;
 	}
 	interface ProductSettingsModel extends Insite.Core.WebApi.BaseModel {
 		allowBackOrder: boolean;
@@ -1406,6 +1444,7 @@ declare module Insite.Order.WebApi.V1.ApiModels {
 		showPoNumber: boolean;
 		showTermsCode: boolean;
 		showErpOrderNumber: boolean;
+		showWebOrderNumber: boolean;
 		showOrderStatus: boolean;
 		showOrders: boolean;
 		lookBackDays: number;
@@ -1431,7 +1470,7 @@ declare module Insite.Order.Services.Dtos {
 		trackingUrl: string;
 		trackingNumber: string;
 		packSlip: string;
-		shipmentPackageLines: Insite.Order.Services.Dtos.ShipmentPackageLineDto[];
+		shipmentPackageLineDtos: Insite.Order.Services.Dtos.ShipmentPackageLineDto[];
 	}
 	interface ShipmentPackageLineDto {
 		id: System.Guid;
@@ -1685,3 +1724,4 @@ declare module Insite.Core.Plugins.Inventory {
 		warehouseDtos: Insite.Catalog.Services.Dtos.WarehouseDto[];
 	}
 }
+

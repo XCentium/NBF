@@ -10,6 +10,7 @@
         failedToGetRealTimeInventory = false;
         canAddAllToList = false;
         validationMessage: string;
+        listPageUri: string;
 
         static $inject = ["cartService", "coreService", "spinnerService", "settingsService", "queryString", "addToWishlistPopupService"];
 
@@ -29,7 +30,7 @@
                 (error: any) => { this.getSettingsFailed(error); });
 
             this.cartService.expand = "cartlines,costcodes";
-            this.cartService.getCart(this.queryString.get("cartid"), false).then(
+            this.cartService.getCart(this.queryString.get("cartid"), true).then(
                 (cart: CartModel) => { this.getCartCompleted(cart); },
                 (error: any) => { this.getCartFailed(error); });
         }
@@ -53,7 +54,7 @@
 
         protected getCartFailed(error: any): void {
             this.cartService.expand = "";
-            this.validationMessage = error.message || error;
+            this.coreService.redirectToPath(this.listPageUri);
         }
 
         getRealTimeInventory(): void {

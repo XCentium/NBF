@@ -250,6 +250,10 @@
         protected getShipTosCompleted(options: kendo.data.DataSourceTransportReadOptions, customerSettings: any, shipToCollection: ShipToCollectionModel): void {
             const shipTos = shipToCollection.shipTos;
             this.totalShipTosCount = shipToCollection.pagination.totalItemCount;
+            if (this.totalShipTosCount === 1) {
+                this.selectShipTo(shipTos[0]);
+                this.shipToSearch = shipTos[0].label;
+            }
 
             if (!this.hasCustomerWithLabel(shipTos, this.shipToSearch)) {
                 this.shipTo = null;
@@ -315,7 +319,7 @@
                     this.cart.canCheckOut);
             };
 
-            if (session.isRestrictedProductRemovedFromCart) {
+            if (session.isRestrictedProductExistInCart) {
                 this.$localStorage.set("hasRestrictedProducts", true.toString());
             }
 

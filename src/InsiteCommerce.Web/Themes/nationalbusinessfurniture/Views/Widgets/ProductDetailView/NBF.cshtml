@@ -178,7 +178,7 @@
                                     <article class="accord-content">
                                         <div id="tst_productDetail_htmlContent" class="product-cm">
                                             <ul class="doclinks">
-                                                <li ng-if="vm.languageId === document.languageId" ng-repeat="document in vm.resourceAndAssemblyDocs" class="doc-{{$index}}">
+                                                <li ng-if="vm.languageId === document.languageId || document.languageId === null" ng-repeat="document in vm.product.documents" class="doc-{{$index}}">
                                                     <a id="tst_productDetail_{{document.id}}" ng-href="{{document.filePath}}" target="_new">{{document.name}} <em ng-if="document.documentType">({{document.documentType}})</em></a>
                                                 </li>
                                             </ul>
@@ -232,7 +232,7 @@
                 </div>
                 <div ng-if="vm.settings.displayDocumentsInTabs && vm.settings.documentsTabSortOrder === 'DisplayFirst' && vm.product.documents.length > 0">
                     <ul class="spec-documents">
-                        <li ng-if="vm.languageId === document.languageId" ng-repeat="document in (orderedDocuments = (vm.product.documents | orderBy : 'documentType'))" class="doc-{{$index}}">
+                        <li ng-if="vm.languageId === document.languageId || document.languageId === null" ng-repeat="document in (orderedDocuments = (vm.product.documents | orderBy : 'documentType'))" class="doc-{{$index}}">
                             <div ng-if="document.documentType && document.documentType !== orderedDocuments[$index - 1].documentType" class="doc-type"><strong ng-bind="document.documentType"></strong></div>
                             <a ng-href="{{document.filePath}}" target="_new">{{document.name}}</a>
                         </li>
@@ -251,7 +251,7 @@
                 </div>
                 <div ng-if="vm.settings.displayDocumentsInTabs && vm.settings.documentsTabSortOrder === 'DisplayLast' && vm.product.documents.length > 0">
                     <ul class="spec-documents">
-                        <li ng-if="vm.languageId === document.languageId" ng-repeat="document in (orderedDocuments = (vm.product.documents | orderBy : 'documentType'))" class="doc-{{$index}}">
+                        <li ng-if="vm.languageId === document.languageId || document.languageId === null" ng-repeat="document in (orderedDocuments = (vm.product.documents | orderBy : 'documentType'))" class="doc-{{$index}}">
                             <div ng-if="document.documentType && document.documentType !== orderedDocuments[$index - 1].documentType" class="doc-type"><strong ng-bind="document.documentType"></strong></div>
                             <a ng-href="{{document.filePath}}" target="_new">{{document.name}}</a>
                         </li>
