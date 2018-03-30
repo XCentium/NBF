@@ -1,4 +1,4 @@
-import ConfigSectionDto = Insite.Catalog.Services.Dtos.ConfigSectionDto;
+﻿import ConfigSectionDto = Insite.Catalog.Services.Dtos.ConfigSectionDto;
 import ConfigSectionOptionDto = Insite.Catalog.Services.Dtos.ConfigSectionOptionDto;
 import StyleTraitDto = Insite.Catalog.Services.Dtos.StyleTraitDto;
 import StyledProductDto = Insite.Catalog.Services.Dtos.StyledProductDto;
@@ -169,6 +169,10 @@ module insite.catalog {
 
         protected getProductRealTimePricesFailed(error: any): void {
             this.failedToGetRealTimePrices = true;
+
+            if (this.settings.inventoryIncludedWithPricing) {
+                this.failedToGetRealTimeInventory = true;
+            }
         }
 
         protected getRealTimeInventory(): void {

@@ -86,7 +86,9 @@
                 this.allowEditList = true.toString();
                 this.sendNotificationToUsers = false;
                 this.clearSharedFormData();
-                this.$scope.$apply();
+                if (!this.$scope.$$phase) {
+                    this.$scope.$apply();
+                }
             });
 
             popup.on("open", () => {

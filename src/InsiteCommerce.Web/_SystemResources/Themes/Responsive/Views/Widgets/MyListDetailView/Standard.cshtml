@@ -1,12 +1,14 @@
 ﻿<div ng-controller="MyListDetailController as vm" ng-cloak>
     <div ng-if="vm.listModel">
-        <h1 id="tst_myListDetailView_pageTitle" class="page-title [[Model.CssClass]]" ng-bind="vm.listModel.name"></h1>
-        <div class="btns">
-            <a id="tst_myListDetailView_printBtn" href="/list/getpdf?listId={{::vm.listModel.id}}&sort={{vm.sort}}" target="_blank" class="btn secondary print-button" ng-click="vm.checkPrint($event)" ng-class="{ 'disabled' : vm.orderIsSaving }">[% translate 'Print' %]</a>
-            <button id="tst_myListDetailView_copyBtn" ng-if="vm.listSettings.allowMultipleWishLists" type="button" class="btn secondary" data-reveal-id="popup-copy-list" ng-disabled="vm.listModel.wishListLinesCount === 0">[% translate 'Copy' %]</button>
-            <button id="tst_myListDetailView_shareBtn" ng-if="!vm.listModel.isSharedList && vm.listSettings.allowMultipleWishLists && vm.listSettings.allowListSharing" type="button" class="btn secondary" ng-click="vm.openSharePopup()">[% translate 'Share' %]</button>
-            <button id="tst_myListDetailView_deleteBtn" ng-if="!vm.listModel.isSharedList" type="button" class="btn secondary" data-reveal-id="popup-delete-list">[% translate 'Delete' %]</button>
-            <button ng-if="!vm.listModel.isSharedList" type="button" class="btn secondary" data-reveal-id="popup-create-list">[% translate 'Edit' %]</button>
+        <div class="list-title-wrapper">
+            <h1 id="tst_myListDetailView_pageTitle" class="page-title [[Model.CssClass]]" ng-bind="vm.listModel.name"></h1>
+            <div class="btns">
+                <a id="tst_myListDetailView_printBtn" href="/list/getpdf?listId={{::vm.listModel.id}}&sort={{vm.sort}}" target="_blank" class="btn secondary print-button" ng-click="vm.checkPrint($event)" ng-class="{ 'disabled' : vm.orderIsSaving }">[% translate 'Print' %]</a>
+                <button id="tst_myListDetailView_copyBtn" ng-if="vm.listSettings.allowMultipleWishLists" type="button" class="btn secondary" data-reveal-id="popup-copy-list" ng-disabled="vm.listModel.wishListLinesCount === 0">[% translate 'Copy' %]</button>
+                <button id="tst_myListDetailView_shareBtn" ng-if="!vm.listModel.isSharedList && vm.listSettings.allowMultipleWishLists && vm.listSettings.allowListSharing" type="button" class="btn secondary" ng-click="vm.openSharePopup()">[% translate 'Share' %]</button>
+                <button id="tst_myListDetailView_deleteBtn" ng-if="!vm.listModel.isSharedList" type="button" class="btn secondary" data-reveal-id="popup-delete-list">[% translate 'Delete' %]</button>
+                <button ng-if="!vm.listModel.isSharedList" type="button" class="btn secondary" data-reveal-id="popup-create-list">[% translate 'Edit' %]</button>
+            </div>
         </div>
         <div class="list-header">
             <div class="notification-section">

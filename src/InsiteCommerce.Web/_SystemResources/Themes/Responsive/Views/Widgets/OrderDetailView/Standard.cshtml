@@ -1,10 +1,11 @@
 ﻿<div ng-controller="OrderDetailController as vm" ng-cloak>
     <div ng-show="vm.order">
         <div class="row">
-            <div class="small-12 medium-3 large-3 columns">
-                <h2>[% translate 'Order #' %] {{vm.order.webOrderNumber}}</h2>
+            <div class="small-12 medium-4 large-4 columns">
+                <h2 ng-if="vm.order.erpOrderNumber">[% translate 'Order #' %] {{vm.order.erpOrderNumber}}</h2>
+                <h2 ng-if="!vm.order.erpOrderNumber">[% translate 'Web Order #' %] {{vm.order.webOrderNumber}}</h2>
             </div>
-            <div class="btns small-12 medium-9 large-9 columns">
+            <div class="btns small-12 medium-8 large-8 columns">
                 <a id="tst_orderDetailPage_reorder" href="#" class="btn primary btn-reorder-all hide-for-print" ng-show="vm.order.canAddToCart && vm.canReorderItems" ng-click="vm.reorderAllProducts($event)">[% translate 'Reorder' %]</a>
                 <a id="tst_orderDetailPage_allowRma" ng-href="[% urlForPage 'RequestRmaPage' %]?orderNumber={{ vm.order.webOrderNumber || vm.order.erpOrderNumber }}" ng-if="vm.allowRmaCheck(vm.order.status)" class="btn secondary">[% translate 'Return Request (RMA)' %]</a>
                 <a id="tst_orderDetailPage_allowCancellation" href="#" class="btn secondary btn-cancel hide-for-print" ng-show="vm.isAuthenticated && vm.order.canAddToCart && vm.allowCancellationCheck(vm.order.status)" ng-click="vm.cancelOrder($event)">[% translate 'Cancel Order' %]</a>
@@ -125,9 +126,42 @@
                 </div>
             </div>
             <div class="medium-5 columns">
-                <isc-cart-total-display cart="vm.order" promotions="vm.order.orderPromotions" order-taxes="vm.order.orderHistoryTaxes" show-separate-shipping-and-handling="true"
-                                        show-misc-charge="true" show-discount-total="true" label="'[% translate 'Order Summary' %]'">
-                </isc-cart-total-display>
+                <div class="order-subtotal">
+                    <div  class="oc-head">
+                        <h3>[% translate 'Order Summary' %]</h3>
+                    </div>
+                    <div class="row">
+                        <div class="small-6 columns sub-label">[% translate 'Subtotal' %]</div>
+                        <div class="small-6 columns sub-amount" ng-bind="vm.order.orderSubTotalDisplay"></div>
+                    </div>
+                    <div class="row" ng-if="vm.order.orderDiscountAmount > 0">
+                        <div class="small-6 columns sub-label">[% translate 'Discounts' %]</div>
+                        <div class="small-6 columns sub-amount" ng-bind="'-' + vm.order.orderDiscountAmountDisplay"></div>
+                    </div>
+                    <div class="row" ng-if="vm.order.shippingCharges + vm.order.handlingCharges > 0">
+                        <div class="small-6 columns sub-label">[% translate 'Shipping & Handling' %]</div>
+                        <div class="small-6 columns sub-amount" ng-bind="vm.order.shippingAndHandlingDisplay"></div>
+                    </div>
+                    <div class="row" ng-if="vm.order.otherCharges > 0">
+                        <div class="small-6 columns sub-label">[% translate 'Other Charges' %]</div>
+                        <div class="small-6 columns sub-amount" ng-bind="vm.order.otherChargesDisplay"></div>
+                    </div>
+                    <div class="row" ng-if="vm.order.orderHistoryTaxes.length == 0">
+                        <div class="small-6 columns sub-label">[% translate 'Tax' %]</div>
+                        <div class="small-6 columns sub-amount" ng-bind="vm.order.totalTaxDisplay"></div>
+                    </div>
+                    <div class="row" ng-repeat="orderTax in vm.order.orderHistoryTaxes | orderBy:'sortOrder'">
+                        <div class="small-6 columns sub-label">
+                            <span ng-show="orderTax.taxDescription" ng-bind="orderTax.taxDescription"></span>
+                            <span ng-hide="orderTax.taxDescription">[% translate 'Tax' %]</span>
+                        </div>
+                        <div class="small-6 columns sub-amount" ng-bind="orderTax.taxAmountDisplay"></div>
+                    </div>
+                    <div class="row order-total">
+                        <div class="small-6 columns sub-label">[% translate 'Total' %]</div>
+                        <div class="small-6 columns sub-amount" ng-bind="vm.order.orderGrandTotalDisplay"></div>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="order-history-cancelled" ng-show="vm.showCancelationConfirmation">[% translate 'Cancellation Requested' %]</div>
@@ -139,11 +173,14 @@
                             <h4>[% translate 'Product' %]</h4>
                         </div>
                         <div class="small-10 columns">
-                            <div class="medium-6 medium-offset-6 large-4 large-offset-4 columns hide-for-small">
+                            <div class="medium-6 medium-offset-6 large-4 large-offset-2 columns hide-for-small">
                                 <h4 class="right">[% translate 'Price' %]</h4>
                             </div>
                             <div class="large-2 columns show-for-large-up">
-                                <h4 class="right">[% translate 'QTY_quantity' %]</h4>
+                                <h4 class="right">[% translate 'Qty Ordered' %]</h4>
+                            </div>
+                            <div class="large-2 columns show-for-large-up">
+                                <h4 class="right">[% translate 'Qty Shipped' %]</h4>
                             </div>
                             <div class="large-2 columns show-for-large-up">
                                 <h4 class="right">[% translate 'Subtotal' %]</h4>
@@ -159,20 +196,17 @@
                         <div class="small-10 columns item-details">
                             <div class="small-12 medium-6 large-4 columns">
                                 <div class="item-name">
-                                    <a ng-if="line.productUri && line.isActiveProduct" ng-href="{{ line.productUri }}">{{ line.shortDescription }}</a>
+                                    <a ng-if="line.productUri && line.isActiveProduct" ng-href="{{ line.productUri }}">{{ line.description || line.shortDescription }}</a>
                                     <span ng-if="line.sectionOptions" ng-repeat="sectionOption in line.sectionOptions">
-                                        <br/> <span ng-bind="sectionOption.sectionName + ':' + sectionOption.optionName"></span>
+                                        <br /> <span ng-bind="sectionOption.sectionName + ':' + sectionOption.optionName"></span>
                                     </span>
-                                    <span ng-if="!line.isActiveProduct" ng-bind="line.shortDescription"></span>
+                                    <span ng-if="!line.isActiveProduct">{{ line.description || line.shortDescription }}</span>
                                     <span ng-if="!line.productUri" ng-bind="line.productErpNumber"></span>
                                 </div>
                                 <div class="item-num">
                                     <span class="item-num-sku" ng-bind="line.productErpNumber"></span>
                                     <span class="item-num-mfg" ng-if="line.manufacturerItem">[% translate 'MFG #' %]:{{ line.manufacturerItem }}</span>
                                     <span class="item-num-my" ng-if="line.customerProductNumber">[% translate 'My Part #' %]:{{ line.customerProductNumber }}</span>
-                                </div>
-                                <div ng-if="vm.showInventoryAvailability" class="availability">
-                                    <isc-availability-message availability="line.availability" failed-to-get-real-time-inventory="vm.failedToGetRealTimeInventory"></isc-availability-message>
                                 </div>
                                 <div class="row promo-applied" ng-repeat="promotion in vm.order.orderPromotions | filter: {orderHistoryLineId : line.id}">
                                     <div class="small-6 columns sub-label">
@@ -185,7 +219,7 @@
                                     <a href="javascript:void(0);" class="btn secondary btn-add-list isc-addToWishlistPopup" ng-click="vm.openWishListPopup(line)" ng-if="::line.canAddToWishlist">[% translate 'Add to List' %]</a>
                                 </div>
                             </div>
-                            <div class="price small-12 medium-6 large-4 columns">
+                            <div class="price small-12 medium-6 large-2 columns">
                                 <span class="price-sale">
                                     <isc-product-sale-price-label product="line" price="line.unitPriceDisplay" hide-sale-price-label="true"></isc-product-sale-price-label>
                                 </span>
@@ -194,8 +228,16 @@
                             <div class="small-12 medium-6 large-2 columns">
                                 <div class="item-opt">
                                     <div class="item-qty">
-                                        <span class="hide-for-large-up">[% translate 'QTY_quantity' %]:</span>
+                                        <span class="hide-for-large-up">[% translate 'Qty Ordered' %]:</span>
                                         <span class="tst_OrderDetailLine_qtyOrdered" ng-bind="line.qtyOrdered"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="small-12 medium-6 large-2 columns">
+                                <div class="item-opt">
+                                    <div class="item-qty">
+                                        <span class="hide-for-large-up">[% translate 'Qty Shipped' %]:</span>
+                                        <span class="tst_OrderDetailLine_qtyShipped" ng-bind="line.qtyShipped"></span>
                                     </div>
                                 </div>
                             </div>

@@ -508,7 +508,7 @@ module insite.account {
             }
 
             if (returnUrl.toLowerCase() === checkoutAddressUrl.toLowerCase()) {
-                if (!canCheckOut || sessionModel.isRestrictedProductRemovedFromCart) {
+                if (!canCheckOut || sessionModel.isRestrictedProductExistInCart) {
                     returnUrl = cartUrl;
                 } else if (byPassAddressPage) {
                     returnUrl = reviewAndPayUrl;

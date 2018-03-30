@@ -319,7 +319,7 @@
                     this.cart.canCheckOut);
             };
 
-            if (session.isRestrictedProductRemovedFromCart) {
+            if (session.isRestrictedProductExistInCart) {
                 this.$localStorage.set("hasRestrictedProducts", true.toString());
             }
 
