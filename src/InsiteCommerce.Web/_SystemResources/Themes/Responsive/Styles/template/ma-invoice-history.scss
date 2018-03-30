@@ -24,6 +24,26 @@
     .search-date-to .picker__holder {
         right: 0% !important;
     }
+
+    .col-balance {
+        text-align: right;
+    }
+
+    #invoice-balance {
+        width: 100%;
+        margin-top: .5rem;
+    }
+
+    #invoice-balance tr td {
+        font-size: 14px;
+        text-align: right;
+        border: 1px solid #ddd;
+    }
+
+    #invoice-balance .balance-lbl,
+    #invoice-balance .totals {
+        font-weight: bold;
+    }
 }
 
 .widget-invoice-history {

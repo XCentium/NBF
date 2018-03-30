@@ -416,6 +416,7 @@
     <TypeScriptCompile Include="Scripts\Wishlists\insite.wishlist.controller.ts" />
     <TypeScriptCompile Include="Scripts\Wishlists\insite.wishlist.service.ts" />
     <TypeScriptCompile Include="Scripts\_typelite\insite.models.d.ts" />
+    <TypeScriptCompile Include="Scripts\Custom\Layout\nbf.header.controller.ts" />
     <Content Include="Styles\base.scss" />
     <Content Include="Styles\flexslider.css" />
     <Content Include="Styles\foundation.css" />
@@ -627,7 +628,6 @@
     <Content Include="Views\Widgets\Wishlists\Standard.cshtml" />
     <Content Include="Views\Widgets\WishListView\Standard.cshtml" />
     <Content Include="Views\Widgets\Zone\Standard.cshtml" />
-    <TypeScriptCompile Include="Scripts\Custom\Layout\nbf.header.controller.ts" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Widgets\Custom\CheckoutView\Standard.cshtml" />

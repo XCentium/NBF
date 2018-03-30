@@ -1,8 +1,4 @@
 ﻿.ma-my-list-details {
-    .page-title {
-        overflow: hidden;
-    }
-
     a.btn.print-button {
         display: none;
 
@@ -21,6 +17,7 @@
 
     .list-header {
         padding-bottom: 10px;
+        clear: both;
 
         .list-description {
             overflow: hidden;
@@ -73,11 +70,18 @@
         }
     }
 
-    .btns {
-        position: relative;
-        top: -60px;
-        margin-bottom: -60px;
+    .list-title-wrapper {
         overflow: hidden;
+        word-break: break-all;
+
+        h1 {
+            float: left;
+            margin-top: 0;
+        }
+
+        .btns {
+            float: right;
+        }
     }
 
     i.icon-sort-order {
@@ -575,6 +579,8 @@
 }
 
 .popup-share-list {
+    height: 100%;
+
     .modal-wrap.share-large {
         max-width: 600px;
     }
@@ -600,6 +606,10 @@
 
             label {
                 margin-right: 0;
+            }
+
+            > * {
+                display: inline;
             }
         }
     }
@@ -917,17 +927,25 @@ li.atci-item {
 }
 
 @media all and (max-width: 767px) {
-    .ma-my-list-details {
-        .btns {
-            position: static;
-            top: 0;
-            margin-bottom: 0;
-            display: flex;
-            flex-direction: column-reverse;
+    .popup-share-list {
+        overflow-y: scroll;
+    }
 
-            button, a.btn {
-                width: 100%;
-                margin-bottom: 7px;
+    .ma-my-list-details {
+        .list-title-wrapper {
+            h1 {
+                float: none;
+            }
+
+            .btns {
+                display: flex;
+                flex-direction: column-reverse;
+                float: none;
+
+                button, a.btn {
+                    width: 100%;
+                    margin-bottom: 7px;
+                }
             }
         }
 

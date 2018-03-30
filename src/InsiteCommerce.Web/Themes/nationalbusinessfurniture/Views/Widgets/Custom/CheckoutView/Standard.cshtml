@@ -225,9 +225,9 @@
                                                     <div ng-show="vm.cart.showCreditCard && vm.cart.paymentMethod.isPaymentProfile">
                                                         <div class="security-code">
                                                             <label>[% translate 'Security Code' %]&nbsp;<a href="javascript:void(0);" data-reveal-id="ppWhatsThisPopup">[% translate "What's This?" %]</a></label>
-                                                            <input id="ppSecurityCode" name="ppSecurityCode" type="text"
+                                                            <input id="ppSecurityCode" name="ppSecurityCode" type="text" minlength="3" maxlength="4"
                                                                    data-rule-required="true" data-msg-required="[% translate 'Security code is required.' %]"
-                                                                   data-rule-pattern="/(?!000)\d{3,4}$/" data-msg-pattern="[% translate 'Security code is invalid.' %]"
+                                                                   data-rule-digits="true" data-msg-digits="[% translate 'Security code is invalid.' %]"
                                                                    ng-model="vm.cart.paymentOptions.creditCard.securityCode">
                                                             <span class="field-validation-valid" data-valmsg-for="ppSecurityCode" data-valmsg-replace="true"></span>
                                                             <div id="ppWhatsThisPopup" class="checkout-review-pay reveal-modal" data-reveal>
@@ -552,7 +552,11 @@
             </div>
         </div>
     </div>
-    <isc-popup-template container-id="insufficientInventoryAtCheckout">
-        [% siteMessage 'Cart_InsufficientInventoryAtCheckout' %]
-    </isc-popup-template>
+<isc-popup-template container-id="insufficientInventoryAtCheckout">
+    [% siteMessage 'Cart_InsufficientInventoryAtCheckout' %]
+</isc-popup-template>
+<isc-popup-template container-id="removedProductsFromCart">
+    [% siteMessage 'Cart_RemovedProductsFromCart' %]
+</isc-popup-template>
+
 </div>

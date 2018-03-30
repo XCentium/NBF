@@ -22,14 +22,14 @@
                 <form id="signInForm" name="vm.signInForm" novalidate>
                     <div class="row">
                         <div class="medium-6 large-6 columns">
-                            <label class="username-label" for="SignInInfo_UserName">[% translate 'Username' %]</label>
+                            <label class="username-label" for="SignInInfo_UserName" ng-bind="vm.settings.useEmailAsUserName ? '[% translate 'Email' EscapeSingleQuotes %]' : '[% translate 'Username' EscapeSingleQuotes %]'"></label>
                             <input class="username" type="text" id="SignInInfo_UserName" name="userName"
-                                   placeholder="[% translate 'Username' %]"
+                                   placeholder="{{vm.settings.useEmailAsUserName ? '[% translate 'Email' EscapeSingleQuotes %]' : '[% translate 'Username' EscapeSingleQuotes %]'}}"
                                    required
                                    maxlength="75"
-                                   ng-model="vm.userName" />
+                                   ng-model="vm.userName"/>
                             <div class="remember-me" ng-show="vm.settings.rememberMe">
-                                <input class="customcheckbox" type="checkbox" id="SignInInfo_RememberMe" ng-model="vm.rememberMe" />
+                                <input class="customcheckbox" type="checkbox" id="SignInInfo_RememberMe" ng-model="vm.rememberMe"/>
                                 <label class="remember-me-label" for="SignInInfo_RememberMe">[% translate 'Remember Me' %]</label>
                             </div>
                         </div>
