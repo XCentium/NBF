@@ -6,8 +6,9 @@
         pagination: PaginationModel;
         paginationStorageKey = "DefaultPagination-InvoiceList";
         searchFilter: invoice.ISearchFilter;
-        shipTos: ShipToModel[];
+        billTo: BillToModel;
         validationMessage: string;
+        customerSettings: any;
 
         static $inject = ["invoiceService", "customerService", "coreService", "paginationService", "settingsService"];
 
@@ -24,29 +25,38 @@
             this.settingsService.getSettings().then(
                 (settingsCollection: core.SettingsCollection) => { this.getSettingsCompleted(settingsCollection); },
                 (error: any) => { this.getSettingsFailed(error); });
-
-            this.customerService.getShipTos().then(
-                (shipToCollection: ShipToCollectionModel) => { this.getShipTosCompleted(shipToCollection); },
-                (error: any) => { this.getShipTosFailed(error); });
         }
 
         protected getSettingsCompleted(settingsCollection: core.SettingsCollection): void {
+            this.customerSettings = settingsCollection.customerSettings;
             this.pagination = this.paginationService.getDefaultPagination(this.paginationStorageKey);
             this.searchFilter = this.getDefaultSearchFilter();
             this.setInitialFromDate(settingsCollection.invoiceSettings.lookBackDays);
             this.restoreHistory();
 
+            this.getBillTo();
             this.getInvoices();
         }
 
         protected getSettingsFailed(error: any): void {
         }
 
-        protected getShipTosCompleted(shipToCollection: ShipToCollectionModel): void {
-            this.shipTos = shipToCollection.shipTos;
+        protected getBillTo(): void {
+            let expand = "shiptos";
+            if (this.customerSettings.displayAccountsReceivableBalances) {
+                expand = expand + ",accountsreceivable";
+            }
+
+            this.customerService.getBillTo(expand).then(
+                (billTo: BillToModel) => { this.getBillToCompleted(billTo); },
+                (error: any) => { this.getBillToFailed(error); });
         }
 
-        protected getShipTosFailed(error: any): void {
+        protected getBillToCompleted(billTo: BillToModel): void {
+            this.billTo = billTo;
+        }
+
+        protected getBillToFailed(error: any): void {
         }
 
         clear(): void {

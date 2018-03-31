@@ -178,7 +178,7 @@
                                     <article class="accord-content">
                                         <div id="tst_productDetail_htmlContent" class="product-cm">
                                             <ul class="doclinks">
-                                                <li ng-if="vm.languageId === document.languageId" ng-repeat="document in vm.resourceAndAssemblyDocs" class="doc-{{$index}}">
+                                                <li ng-if="vm.languageId === document.languageId || document.languageId === null" ng-repeat="document in vm.product.documents" class="doc-{{$index}}">
                                                     <a id="tst_productDetail_{{document.id}}" ng-href="{{document.filePath}}" target="_new">{{document.name}} <em ng-if="document.documentType">({{document.documentType}})</em></a>
                                                 </li>
                                             </ul>
@@ -206,8 +206,7 @@
                                      product-cross-sell="true">
             </isc-cross-sell-carousel>
         </div>
-    </div>
-    
+    </div>    
     <!--swatch popup-->
     <div id="swatchform" class="swatchform reveal-modal" data-reveal data-reveal-init aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
         <div class="swatchform__scrollarea">
@@ -234,7 +233,6 @@
             <a class="close-reveal-modal" aria-label="Close">&#215;</a>
         </div>
     </div>
-
     <script type="text/ng-template" id="/PartialViews/Catalog-CrossSellCarousel">
         [% partialView 'Catalog-CrossSellCarousel' %]
     </script>

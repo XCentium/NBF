@@ -455,6 +455,10 @@
                     (p.pricing as any).failedToGetRealTimePrices = true;
                 }
             });
+
+            if (this.productSettings.inventoryIncludedWithPricing) {
+                this.failedToGetRealTimeInventory = true;
+            }
         }
 
         protected getRealTimeInventory(): void {
@@ -654,7 +658,7 @@
 
         onEnterKeyPressedInAutocomplete(): void {
             const autocomplete = $("#qo-search-widget").data("kendoAutoComplete") as any;
-            if (autocomplete._last === kendo.keys.ENTER && autocomplete.listView.selectedDataItems().length === 0) {
+            if (autocomplete && autocomplete._last === kendo.keys.ENTER && autocomplete.listView.selectedDataItems().length === 0) {
                 this.searchProduct(this.addingSearchTerm);
             }
         }
@@ -706,7 +710,9 @@
         addProductToList(productToAdd: ProductDto): void {
             if (!productToAdd || !productToAdd.id) {
                 if (this.addingSearchTerm) {
-                    this.setErrorMessage(angular.element("#messageNotFound").val());
+                    this.findProduct(this.addingSearchTerm).then(
+                        (productCollection: ProductCollectionModel) => { this.findProductCompleted(productCollection); },
+                        (error: any) => { this.findProductFailed(error); });
                 } else {
                     this.setErrorMessage(angular.element("#messageEnterProductName").val());
                 }
@@ -714,6 +720,20 @@
                 return;
             }
 
+            this.addToList(productToAdd);
+        }
+
+        protected findProductCompleted(productCollection: ProductCollectionModel): void {
+            if (this.validateAndSetProduct(productCollection)) {
+                this.addToList(this.itemToAdd);
+            }
+        }
+
+        protected findProductFailed(error: any): void {
+            this.setErrorMessage(angular.element("#messageNotFound").val());
+        }
+
+        protected addToList(productToAdd: ProductDto): void {
             const listLineContainsCurrentProduct = this.listModel.wishListLineCollection.filter((item) => {
                 return item.productId === productToAdd.id && item.unitOfMeasure === productToAdd.selectedUnitOfMeasure;
             });
@@ -739,9 +759,9 @@
                 this.errorMessage = "";
                 this.successMessage = "";
                 return true;
-            } else {
-                return false;
             }
+
+            return false;
         }
 
         protected validateProduct(product: ProductDto): boolean {
@@ -792,7 +812,8 @@
         addingSearchTermChanged(): void {
             this.successMessage = "";
             this.errorMessage = "";
-            this.itemToAdd = null;
+            const originalQty = this.itemToAdd ? this.itemToAdd.qtyOrdered : null;
+            this.itemToAdd = { qtyOrdered: originalQty } as ProductDto;
         }
 
         checkPrint(event: ng.IAngularEvent): void {

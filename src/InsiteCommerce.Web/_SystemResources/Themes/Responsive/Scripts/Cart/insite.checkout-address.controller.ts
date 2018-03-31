@@ -384,6 +384,19 @@
 
         protected updateSessionCompleted(session: SessionModel, cart: CartModel, continueUri: string) {
             if (session.isRestrictedProductRemovedFromCart) {
+                this.coreService.displayModal(angular.element("#removedProductsFromCart"), () => {
+                    if (session.isRestrictedProductExistInCart) {
+                        this.$localStorage.set("hasRestrictedProducts", true.toString());
+                    }
+                    this.redirectTo(this.cartUri);
+                });
+                this.$timeout(() => {
+                    this.coreService.closeModal("#removedProductsFromCart");
+                }, 5000);
+                return;
+            }
+
+            if (session.isRestrictedProductExistInCart) {
                 this.$localStorage.set("hasRestrictedProducts", true.toString());
                 this.redirectTo(this.cartUri);
             } else {

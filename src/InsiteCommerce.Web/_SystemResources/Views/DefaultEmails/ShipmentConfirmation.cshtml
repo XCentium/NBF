@@ -14,7 +14,11 @@
 </head>
 <body>
     <div id="EmailBox">
-        <a href="http://www.insitesoft.com/"><img src="https://cdn.insitesoft.com/wp-content/uploads/2016/01/insite_logo.png" alt="Insite Software" title="Insite Software" width="225" height="50" border="0" /></a>
+        [% if Model.LogoImagePath != null and Model.LogoImagePath != "" -%]
+        <div>
+            <img src="[[Model.LogoImagePath]]" alt="Company Logo" width="225" height="50" border="0" />
+        </div>
+        [% endif -%]
         <h1>Shipping Confirmation</h1>
         Dear [[Model.BillingName]],
         <br />
