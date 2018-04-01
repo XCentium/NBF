@@ -40,7 +40,7 @@ FROM
 	dbo.OrderHistory oh
 
 /*
-select * from vwOrderHistory
+select * from vwOrderHistory where WebOrderNumber!=''
 */
 
 GO

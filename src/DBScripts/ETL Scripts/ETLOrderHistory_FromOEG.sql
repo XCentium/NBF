@@ -12,6 +12,24 @@ begin
 	if @IsReady = 0	return;
 
 
+	-- first do some updates
+
+	update OrderHistory set
+		WebOrderNumber = isnull(sho.ord_WebOrderNum,''),
+		OrderDate = convert(date,isnull(sho.ord_WebOrderDateTime,sho.ord_Date)),
+		[Status] = isnull(sho.ord_Status ,''),
+		OrderTotal = isnull(sho.ord_Amount,0)
+	from 
+		OEGSystemStaging.dbo.HistoryOrder sho
+		join OrderHistory oh on oh.ERPOrderNumber = sho.ord_Number
+	where
+		oh.WebOrderNumber != isnull(sho.ord_WebOrderNum,'')
+		or oh.OrderDate != convert(date,isnull(sho.ord_WebOrderDateTime,sho.ord_Date))
+		or oh.[Status] != isnull(sho.ord_Status ,'')
+		or oh.OrderTotal != isnull(sho.ord_Amount,0)
+
+	-- now insert
+
 	insert into OrderHistory
 	(
 		ERPOrderNumber,
@@ -44,7 +62,7 @@ begin
 	) 
 	select 
 		distinct sho.ord_Number ERPOrderNumber,
-		isnull(sho.ord_WebOrderNum,sho.ord_Number) [WebOrderNumber],
+		isnull(sho.ord_WebOrderNum,'') [WebOrderNumber],
 		isnull(sho.ord_WebOrderDateTime,sho.ord_Date) [OrderDate],
 		isnull(sho.ord_Status ,'') [Status],
 		isnull(shcBT.cst_Number,'') [CustomerNumber],
@@ -76,14 +94,14 @@ begin
 		left join OEGSystemStaging.dbo.HistoryCustomer shcST on shcST.cst_Number = sho.ord_ShipTo
 	where 
 		not exists (select Id from OrderHistory where ERPOrderNumber = sho.ord_Number) 
-	
+
 
 
 
 
 /*
 exec ETLOrderHistory_FromOEG
-
+select * from OrderHistory
 
 */
 
