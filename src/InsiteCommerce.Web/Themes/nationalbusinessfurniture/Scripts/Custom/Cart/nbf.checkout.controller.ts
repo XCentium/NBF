@@ -56,6 +56,10 @@
         newUser = false;
         hideSignIn = false;
 
+        //Split Payment variables
+        paymentAmount: number;
+        remainingTotal: number;
+
         static $inject = [
             "$scope",
             "$window",
@@ -73,7 +77,8 @@
             "$timeout",
             "sessionService",
             "$localStorage",
-            "nbfGuestActivationService"
+            "nbfGuestActivationService",
+            "nbfPaymentService"
         ];
 
         constructor(
@@ -93,7 +98,8 @@
             protected $timeout: ng.ITimeoutService,
             protected sessionService: SessionService,
             protected $localStorage: insite.common.IWindowStorage,
-            protected nbfGuestActivationService: guest.INbfGuestActivationService) {
+            protected nbfGuestActivationService: guest.INbfGuestActivationService,
+            protected nbfPaymentService: nbf.cart.INbfPaymentService) {
             this.init();
         }
 
@@ -167,7 +173,18 @@
 
         protected getCartInitial(cartId: string) {
             this.cartService.getCart(this.cartId).then(
-                (cart: CartModel) => { this.getCartCompleted(cart); },
+                (cart: CartModel) => {
+                    this.getCartCompleted(cart);
+                    this.paymentAmount = cart.orderGrandTotal;
+                    this.remainingTotal = cart.orderGrandTotal;
+                    if (this.cart.properties['cc1']) {
+                        this.remainingTotal -= Number(this.cart.properties['cc1']);
+                    }
+                    if (this.cart.properties['cc2']) {
+                        this.remainingTotal -= Number(this.cart.properties['cc2']);
+                    }
+                    this.paymentAmount = this.remainingTotal;
+                },
                 (error: any) => { this.getCartFailed(error); });
         }
 
@@ -175,6 +192,13 @@
             this.cartService.expand = "";
             this.cart = cart;
 
+            this.remainingTotal = this.cart.orderGrandTotal;
+            if (this.cart.properties['cc1']) {
+                this.remainingTotal -= Number(this.cart.properties['cc1']);
+            }
+            if (this.cart.properties['cc2']) {
+                this.remainingTotal -= Number(this.cart.properties['cc2']);
+            }
             this.originalBillTo = cart.billTo;
             this.isGuest = cart.billTo.isGuest;
 
@@ -558,6 +582,19 @@
 
         protected updateSessionCompleted(session: SessionModel, cart: CartModel) {
             if (session.isRestrictedProductRemovedFromCart) {
+                this.coreService.displayModal(angular.element("#removedProductsFromCart"), () => {
+                    if (session.isRestrictedProductExistInCart) {
+                        this.$localStorage.set("hasRestrictedProducts", true.toString());
+                    }
+                    this.redirectTo(this.cartUri);
+                });
+                this.$timeout(() => {
+                    this.coreService.closeModal("#removedProductsFromCart");
+                }, 5000);
+                return;
+            }
+
+            if (session.isRestrictedProductExistInCart) {
                 this.$localStorage.set("hasRestrictedProducts", true.toString());
                 this.loadStep2();
             } else {
@@ -1133,6 +1170,49 @@
 
             this.cartService.getCart().then(
                 (cart: CartModel) => { this.getCartCompletedOrderConfirmed(cart); });
+        }
+
+        addPayment() {
+
+            var model = {};
+            
+            model["orderNumber"] = this.cart.orderNumber;
+            model["creditCard"] = this.cart.paymentOptions.creditCard;
+            model["cartId"] = this.cart.id;
+            model["paymentAmount"] = this.paymentAmount;
+            model["paymentProfileId"] = this.cart.paymentMethod.name;
+            var self = this;
+            this.nbfPaymentService.addPayment(model).then((result) => {
+                if (result.toLowerCase() == "true") {
+                    this.remainingTotal = self.cart.orderGrandTotal;
+                    var propName = '';
+                    if (!self.cart.properties['cc1']) {
+                        propName = 'cc1';
+                        self.cart.properties[propName] = self.paymentAmount.toString();
+                        self.cart.paymentOptions.creditCard.cardHolderName = "";
+                        self.cart.paymentOptions.creditCard.cardNumber = "";
+                        self.cart.paymentOptions.creditCard.securityCode = "";
+                        self.cart.paymentOptions.creditCard.expirationYear = (new Date()).getFullYear();
+                        self.cart.paymentOptions.creditCard.expirationMonth = (new Date()).getMonth()+1;
+                    } else if (!self.cart.properties['cc2']) {
+                        propName = 'cc2';
+                        self.cart.properties[propName] = self.paymentAmount.toString();
+                    }
+                    
+                    self.cartService.updateCart(self.cart).then((cart) => {
+                        this.cart.properties = cart.properties;
+                        this.remainingTotal = cart.orderGrandTotal;
+                        if (cart.properties['cc1']) {
+                            this.remainingTotal -= Number(cart.properties['cc1']);
+                        }
+                        if (cart.properties['cc2']) {
+                            this.remainingTotal -= Number(cart.properties['cc2']);
+                            
+                        }
+                        this.paymentAmount = this.remainingTotal;
+                    });
+                }
+            });
         }
 
         protected getConfirmedCartCompleted(confirmedCart: CartModel): void {

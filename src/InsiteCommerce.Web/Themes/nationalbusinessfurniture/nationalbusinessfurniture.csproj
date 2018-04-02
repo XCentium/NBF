@@ -48,6 +48,7 @@
     <TypeScriptSourceMap>True</TypeScriptSourceMap>
     <TypeScriptMapRoot />
     <TypeScriptSourceRoot />
+    <CodeAnalysisRuleSet>..\..\..\InsiteCommerce.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -175,6 +176,7 @@
     <TypeScriptCompile Include="Scripts\Custom\Cart\nbf.cart-total-display.directive.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Cart\nbf.cart-lines.directive.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Cart\nbf.checkout.controller.ts" />
+    <TypeScriptCompile Include="Scripts\Custom\Cart\nbf.payment.service.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Catalog\nbf.category-left-nav.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Catalog\nbf.cross-sell-carousel.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Catalog\nbf.product-carousel.controller.ts" />
@@ -416,6 +418,7 @@
     <TypeScriptCompile Include="Scripts\Wishlists\insite.wishlist.controller.ts" />
     <TypeScriptCompile Include="Scripts\Wishlists\insite.wishlist.service.ts" />
     <TypeScriptCompile Include="Scripts\_typelite\insite.models.d.ts" />
+    <TypeScriptCompile Include="Scripts\Custom\Layout\nbf.header.controller.ts" />
     <Content Include="Styles\base.scss" />
     <Content Include="Styles\flexslider.css" />
     <Content Include="Styles\foundation.css" />
@@ -627,7 +630,6 @@
     <Content Include="Views\Widgets\Wishlists\Standard.cshtml" />
     <Content Include="Views\Widgets\WishListView\Standard.cshtml" />
     <Content Include="Views\Widgets\Zone\Standard.cshtml" />
-    <TypeScriptCompile Include="Scripts\Custom\Layout\nbf.header.controller.ts" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Widgets\Custom\CheckoutView\Standard.cshtml" />
@@ -769,6 +771,7 @@
     <Content Include="Views\Widgets\AccountSettingsView\NBF.cshtml" />
     <Content Include="Styles\custom\product-comparison.scss" />
     <Content Include="Views\Widgets\RfqRequestQuoteView\NBF.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <PropertyGroup>

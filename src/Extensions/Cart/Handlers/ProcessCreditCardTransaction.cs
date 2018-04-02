@@ -13,6 +13,7 @@ using Insite.Payments.Services;
 using Insite.Payments.Services.Parameters;
 using Insite.Payments.Services.Results;
 using System;
+using System.Linq;
 
 namespace Extensions.Cart.Handlers
 {
@@ -40,7 +41,7 @@ namespace Extensions.Cart.Handlers
 
         public override UpdateCartResult Execute(IUnitOfWork unitOfWork, UpdateCartParameter parameter, UpdateCartResult result)
         {
-            if (!parameter.Status.EqualsIgnoreCase("Submitted"))
+            if (!(parameter.Status.EqualsIgnoreCase("Submitted") || parameter.Status.EqualsIgnoreCase("Cart")))
                 return this.NextHandler.Execute(unitOfWork, parameter, result);
             CustomerOrder cart = result.GetCartResult.Cart;
             Decimal orderTotalDue;
@@ -52,24 +53,32 @@ namespace Extensions.Cart.Handlers
                 parameter.CreditCard.CardHolderName = parameter.PayPalPayerId;
                 parameter.CreditCard.SecurityCode = parameter.PayPalToken;
             }
-            IPaymentService paymentService1 = this.paymentService.Value;
-            AddPaymentTransactionParameter parameter1 = new AddPaymentTransactionParameter();
-            parameter1.TransactionType = (TransactionType)(this.paymentSettings.SubmitSaleTransaction ? 2 : 0);
-            parameter1.ReferenceNumber = cart.OrderNumber;
-            Insite.Data.Entities.Currency currency1 = cart.Currency;
-            string str1 = (currency1 != null ? currency1.CurrencyCode : (string)null) ?? string.Empty;
-            parameter1.CurrencyCode = str1;
-            CreditCardDto creditCard1 = parameter.CreditCard;
-            parameter1.CreditCard = creditCard1;
-            string paymentProfileId = parameter.PaymentProfileId;
-            parameter1.PaymentProfileId = paymentProfileId;
-            Decimal num = orderTotalDue;
-            parameter1.Amount = num;
-            AddPaymentTransactionResult transactionResult = paymentService1.AddPaymentTransaction(parameter1);
-            if (transactionResult.ResultCode != ResultCode.Success)
-                return this.CreateErrorServiceResult<UpdateCartResult>(result, transactionResult.SubCode, transactionResult.Message);
-            if (transactionResult.CreditCardTransaction != null)
-                transactionResult.CreditCardTransaction.CustomerOrderId = new Guid?(cart.Id);
+
+            var remainingBalance = orderTotalDue;
+            var paymentsTotal = cart.CreditCardTransactions.Sum(x => x.Amount);
+            remainingBalance -= paymentsTotal;
+            if (remainingBalance > 0.0m)
+            {
+                IPaymentService paymentService1 = this.paymentService.Value;
+                AddPaymentTransactionParameter parameter1 = new AddPaymentTransactionParameter();
+                parameter1.TransactionType = (TransactionType)(this.paymentSettings.SubmitSaleTransaction ? 2 : 0);
+                parameter1.ReferenceNumber = cart.OrderNumber;
+                Insite.Data.Entities.Currency currency1 = cart.Currency;
+                string str1 = (currency1 != null ? currency1.CurrencyCode : (string)null) ?? string.Empty;
+                parameter1.CurrencyCode = str1;
+                CreditCardDto creditCard1 = parameter.CreditCard;
+                parameter1.CreditCard = creditCard1;
+                string paymentProfileId = parameter.PaymentProfileId;
+                parameter1.PaymentProfileId = paymentProfileId;
+                Decimal num = remainingBalance;
+                parameter1.Amount = num;
+                AddPaymentTransactionResult transactionResult = paymentService1.AddPaymentTransaction(parameter1);
+                if (transactionResult.ResultCode != ResultCode.Success)
+                    return this.CreateErrorServiceResult<UpdateCartResult>(result, transactionResult.SubCode, transactionResult.Message);
+                if (transactionResult.CreditCardTransaction != null)
+                    transactionResult.CreditCardTransaction.CustomerOrderId = new Guid?(cart.Id);
+            }
+
             if (parameter.StorePaymentProfile)
             {
                 IPaymentService paymentService2 = this.paymentService.Value;

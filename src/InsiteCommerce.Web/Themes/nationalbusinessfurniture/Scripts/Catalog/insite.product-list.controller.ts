@@ -129,7 +129,7 @@ module insite.catalog {
                 this.getFacets(newCategory.id);
             });
 
-        }   
+        }
 
         protected getFacets(categoryId: string): void {
             const params = {
@@ -336,6 +336,13 @@ module insite.catalog {
         }
 
         protected getProductsCompleted(productCollection: ProductCollectionModel, params: IProductCollectionParameters, expand?: string[]): void {
+            if (this.$window.dataLayer && productCollection.pagination) {
+                this.$window.dataLayer.push({
+                    'event': 'searchResults',
+                    'numSearchResults': productCollection.pagination.totalItemCount
+                });
+            }
+
             if (productCollection.searchTermRedirectUrl) {
                 // use replace to prevent back button from returning to this page
                 if (productCollection.searchTermRedirectUrl.lastIndexOf("http", 0) === 0) {
@@ -414,6 +421,10 @@ module insite.catalog {
 
         protected getProductRealTimePricesFailed(error: any): void {
             this.failedToGetRealTimePrices = true;
+
+            if (this.settings.inventoryIncludedWithPricing) {
+                this.failedToGetRealTimeInventory = true;
+            }
         }
 
         protected getRealTimeInventory(): void {

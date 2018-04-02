@@ -120,6 +120,10 @@
                     (p.pricing as any).failedToGetRealTimePrices = true;
                 }
             });
+
+            if (this.productSettings.inventoryIncludedWithPricing) {
+                this.failedToGetRealTimeInventory = true;
+            }
         }
 
         protected getRealTimeInventory(): void {

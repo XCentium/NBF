@@ -7,7 +7,7 @@
         favoritesWishlist: WishListModel;
         isAuthenticated: boolean = false;
         resourceAndAssemblyDocs: any[];
-        selectedSwatchProductIds: any[]=[];
+        selectedSwatchProductIds: System.Guid[]=[];
 
         static $inject = [
             "$scope",
@@ -19,7 +19,8 @@
             "settingsService",
             "$stateParams",
             "sessionService",
-            "nbfWishListService"];
+            "nbfWishListService",
+            "spinnerService"];
 
         constructor(
             protected $scope: ng.IScope,
@@ -31,7 +32,8 @@
             protected settingsService: core.ISettingsService,
             protected $stateParams: IContentPageStateParams,
             protected sessionService: account.ISessionService,
-            protected nbfWishListService: wishlist.INbfWishListService
+            protected nbfWishListService: wishlist.INbfWishListService,
+            protected spinnerService: core.ISpinnerService
         ) {
             super($scope, coreService, cartService, productService, addToWishlistPopupService, productSubscriptionPopupService, settingsService, $stateParams, sessionService)
             this.sessionService.getIsAuthenticated().then((isAuth) => {
@@ -156,7 +158,7 @@
 
             if (swatch != null) {
                 if (this.selectedSwatchProductIds.filter(x => x == swatch.Id).length === 0) {
-                    this.selectedSwatchProductIds.push(swatch.Id);
+                    this.selectedSwatchProductIds.push(<System.Guid>swatch.Id);
                 }
                 else {
                     var index = this.selectedSwatchProductIds.indexOf(swatch.Id);
@@ -180,25 +182,44 @@
             return retVal;
         }
 
+        protected showSwatchOrderForm(): void {
+            this.coreService.displayModal(angular.element("#swatchform"));
+        }
+
+        protected hideSwatchOrderForm(): void {
+            this.coreService.closeModal("#swatchform");
+        }
+
         protected addSwatchProductsToCart() {
-            debugger;
-            const expand = ["attributes", "pricing"];
-            const parameter: IProductCollectionParameters = { productIds: this.selectedSwatchProductIds };
-            this.productService.getProducts(parameter, expand).then(
-                (productCollection: ProductCollectionModel) =>
-                {
-                    this.addingToCart = true;
-                    productCollection.products.forEach(x => {
-                        x.qtyOrdered = 1;
-                        x.unitOfMeasure = 'EA';
-                    });                   
-                    
-                    this.cartService.addLineCollectionFromProducts(productCollection.products, true,false).then(
-                        (cartLine: CartLineCollectionModel) => { },
-                        (error: any) => { this.addToCartFailed(error); }
-                    );
-                },
-                (error: any) => { console.error(error); });
+            let currentCart = this.cartService.getLoadedCurrentCart();
+            let productIdsAlreadyInCart = currentCart.cartLines.map(x => x.productId);
+
+            let productDtos = this.selectedSwatchProductIds
+                .filter(x => productIdsAlreadyInCart.filter(y => y == x).length === 0)
+                .map(x => {
+                    return <ProductDto>{ id: x, qtyOrdered: 1, unitOfMeasure: 'EA' }
+                });
+
+            if (productDtos && productDtos.length > 0) {
+                this.addingToCart = true;
+                this.spinnerService.show();
+
+                this.cartService.addLineCollectionFromProducts(productDtos, true, false).then(
+                    (cartLine: CartLineCollectionModel) => {
+                        this.selectedSwatchProductIds = [];
+                        this.spinnerService.hide();
+                        this.hideSwatchOrderForm();
+                    },
+                    (error: any) => {
+                        this.spinnerService.hide();
+                        this.addToCartFailed(error);
+                    }
+                );
+            }
+            else {
+                this.selectedSwatchProductIds = [];
+                this.hideSwatchOrderForm();
+            }
         }
 
         initVideo() {
