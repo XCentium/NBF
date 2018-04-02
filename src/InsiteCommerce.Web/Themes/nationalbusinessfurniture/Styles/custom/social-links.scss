@@ -12,9 +12,14 @@
         }
 
         &.text-center {
-            margin:40px 0;
-            .inline-list{
-                display:inline-block;
+            margin: 40px 0;
+
+            .inline-list {
+                display: inline-block;
+            }
+
+            .title {
+                margin-bottom:10px;
             }
         }
     }
