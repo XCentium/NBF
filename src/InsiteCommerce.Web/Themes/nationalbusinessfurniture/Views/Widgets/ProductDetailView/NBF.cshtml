@@ -54,7 +54,7 @@
                             </div>
                         </div>
                         <div class="item-block__product__samples-link">
-                            <strong>Available Colors/Finishes</strong> <a href="#" data-reveal-id="swatchform">Order Free Samples</a>
+                            <strong>Available Colors/Finishes</strong> <a href="javascript:void(0);" ng-click="vm.showSwatchOrderForm()">Order Free Samples</a>
                         </div>
                         <div class="item-block__product__swatches">
                             <div class="item-block__product__swatches__label" ng-repeat-start="styleTrait in vm.styleTraitFiltered | orderBy: 'sortOrder'">{{styleTrait.nameDisplay}}:</div>
@@ -208,7 +208,7 @@
         </div>
     </div>    
     <!--swatch popup-->
-    <div id="swatchform" class="swatchform reveal-modal" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
+    <div id="swatchform" class="swatchform reveal-modal" data-reveal data-reveal-init aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
         <div class="swatchform__scrollarea">
             <h1 id="swatchform__title">Order Free Color Samples</h1>
             <p class="lead">
