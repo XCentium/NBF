@@ -768,6 +768,7 @@
     <Content Include="Views\Directives\Custom\Content\ContentPager.cshtml" />
     <Content Include="Views\Widgets\AccountSettingsView\NBF.cshtml" />
     <Content Include="Styles\custom\product-comparison.scss" />
+    <Content Include="Views\Shared\Error.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <PropertyGroup>
