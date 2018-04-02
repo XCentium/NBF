@@ -55,7 +55,7 @@
         }
 
         protected getProducts(): void {
-            const expand = ["pricing", "attributes"];
+            const expand = ["pricing", "attributes", "specifications"];
             var params = {
                 erpNumbers: this.erpNumbers
             } as IProductCollectionParameters;
@@ -435,7 +435,7 @@
         protected getStarRating(product: ProductDto): string {
             let retVal = "no-star";
             if (product && product.specifications && product.specifications.length > 0) {
-                let ratings = product.specifications.filter(x => x.name == "Rating");
+                let ratings = product.specifications.filter(x => x.name === "Rating");
 
                 if (ratings.length > 0 && !isNaN(parseFloat(ratings[0].value))) {
                     let rating = parseFloat(ratings[0].value);
