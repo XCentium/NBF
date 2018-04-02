@@ -14,30 +14,52 @@ begin
 
 	insert into OrderHistoryLine
 	(
+		OrderHistoryId,
+		[CustomerNumber],
+		[LineNumber],
+		[ProductERPNumber],
+		[Description],
+		[QtyOrdered],
+		[UnitOfMeasure],
+		[InventoryQtyOrdered],
+		[UnitRegularPrice],
+		[UnitListPrice],
+		[UnitDiscountAmount],
+		[UnitNetPrice],
+		[TotalRegularPrice],
+		[TotalDiscountAmount],
+		[TotalNetPrice],
+		[RMAQtyRequested],
+		[RMAQtyReceived],
 		CreatedBy,
 		ModifiedBy
-
 	) 
 	select 
 		distinct 
-		shd.vd_OID,
-		vd_ItemNum,
-		vd_OptionDescr,
-		vd_SkuDescr,
-		vd_Qty,
-		vd_ActualFreight,
-		vd_ItemDescr,
-		vd_ActualPrice,
-		vd_ActualFreeFreight,
-
+		oh.Id OrderHistoryId,
+		oh.[CustomerNumber],
+		shd.vd_OID [LineNumber],
+		vd_ItemNum + '_' + vd_OptionNum [ProductERPNumber],
+		vd_ItemDescr + ' ' + vd_OptionDescr [Description],
+		vd_Qty [QtyOrdered],
+		'EA' [UnitOfMeasure],
+		vd_Qty [InventoryQtyOrdered],
+		vd_Price [UnitRegularPrice],
+		vd_Price [UnitListPrice],
+		vd_Price-vd_ActualPrice [UnitDiscountAmount],
+		vd_ActualPrice [UnitNetPrice],
+		vd_Qty * (vd_Price) [TotalRegularPrice],
+		vd_Qty * (vd_Price-vd_ActualPrice) [TotalDiscountAmount],
+		vd_Qty * (vd_ActualPrice) [TotalNetPrice],
+		0,0,
 		'etl', 'etl'
 	from
-		OEGSystemStaging.dbo.HistoryOrder sho
+		OEGSystemStaging.dbo.HistoryVendorDetail shd 
+		join OEGSystemStaging.dbo.HistoryOrder sho on sho.ord_Number = shd.vd_OrderNum
 		join OrderHistory oh on oh.ERPOrderNumber = sho.ord_Number
-		join OEGSystemStaging.dbo.HistoryVendorDetail shd on shd.vd_OrderNum = sho.ord_Number
 	where 
 		not exists (select Id from OrderHistoryLine where OrderHistoryId = oh.Id and LineNumber = shd.vd_OID) 
-		and shd.vd_OrderNum = 'ZJ995172'
+		--and shd.vd_OrderNum = 'ZJ995172'
 
 
 

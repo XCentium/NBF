@@ -63,7 +63,7 @@ begin
 	select 
 		distinct sho.ord_Number ERPOrderNumber,
 		isnull(sho.ord_WebOrderNum,'') [WebOrderNumber],
-		isnull(sho.ord_WebOrderDateTime,sho.ord_Date) [OrderDate],
+		convert(date,isnull(sho.ord_WebOrderDateTime,sho.ord_Date)) [OrderDate],
 		isnull(sho.ord_Status ,'') [Status],
 		isnull(shcBT.cst_Number,'') [CustomerNumber],
 		isnull(sho.ord_CustPO,'') [CustomerPO],
