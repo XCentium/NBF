@@ -1165,6 +1165,7 @@
             
             model["orderNumber"] = this.cart.orderNumber;
             model["creditCard"] = this.cart.paymentOptions.creditCard;
+            model["cartId"] = this.cart.id;
             model["paymentAmount"] = this.paymentAmount;
             model["paymentProfileId"] = this.cart.paymentMethod.name;
             var self = this;
@@ -1175,10 +1176,16 @@
                     if (!self.cart.properties['cc1']) {
                         propName = 'cc1';
                         self.cart.properties[propName] = self.paymentAmount.toString();
+                        self.cart.paymentOptions.creditCard.cardHolderName = "";
+                        self.cart.paymentOptions.creditCard.cardNumber = "";
+                        self.cart.paymentOptions.creditCard.securityCode = "";
+                        self.cart.paymentOptions.creditCard.expirationYear = (new Date()).getFullYear();
+                        self.cart.paymentOptions.creditCard.expirationMonth = (new Date()).getMonth()+1;
                     } else if (!self.cart.properties['cc2']) {
                         propName = 'cc2';
                         self.cart.properties[propName] = self.paymentAmount.toString();
                     }
+                    
                     self.cartService.updateCart(self.cart).then((cart) => {
                         this.cart.properties = cart.properties;
                         this.remainingTotal = cart.orderGrandTotal;

@@ -11,5 +11,6 @@ namespace Extensions.WebApi.CreditCardTransaction.Models
         public Insite.Data.Entities.Currency Currency { get; set; }
         public string PaymentProfileId { get; set; }
         public Decimal PaymentAmount { get; set; }
+        public String CartId { get; set; }
     }
 }

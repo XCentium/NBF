@@ -238,7 +238,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div ng-show="vm.cart.showCreditCard && vm.cart.paymentMethod.isCreditCard">
+                                                    <div ng-show="vm.cart.showCreditCard && vm.cart.paymentMethod.isCreditCard && vm.remainingTotal > 0">
                                                         <div class="card-name">
                                                             <label for="cardHolderName">[% translate 'Name on Card' %]</label>
                                                             <input id="cardHolderName" name="cardHolderName" type="text" maxlength="30"
@@ -295,7 +295,7 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <label for="cardNumber">[% translate 'Card Number' %]</label>
+                                                        <label for="paymentAmount">[% translate 'Payment Amount' %]</label>
                                                         <div class="row">
                                                             <div class="small-4 columns payment-amount">
                                                                 <input id="paymentAmount" name="paymentAmount" maxlength="16" type="number" min="1" max="vm.remainingTotal" style="display: block;"
@@ -308,6 +308,7 @@
                                                                 <input id="remainingTotal" type="number" name="remainingTotal" readonly ng-model="vm.remainingTotal" style="display: block;" />
                                                             </div>
                                                             <div class="small-4 columns payment-amount">
+                                                                <label></label>
                                                                 <button ng-if="vm.remainingTotal > 0" ng-click="vm.addPayment()">Add payment</button>
                                                                 <div ng-show="vm.cart.paymentOptions.canStorePaymentProfile && !vm.cart.billTo.isGuest">
                                                                     <input id="savePaymentInfo" class="customcheckbox" type="checkbox" ng-model="vm.cart.paymentOptions.storePaymentProfile" />
@@ -315,25 +316,7 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="payments">
-                                                            <label>[% translate 'Payments' %]&nbsp;<a href="javascript:void(0);" data-reveal-id="whatsThisPopup">[% translate "What's This?" %]</a></label>
-                                                            <div class="row">
-                                                                <div class="small-4 columns payment-amount">
-                                                                    <div ng-if="vm.cart.properties['cc1'] != ''">
-                                                                        <span ng-model="vm.cart.properties['cc1']">{{vm.cart.properties['cc1']}}
-                                                                        </span>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="row">
-                                                                <div class="small-4 columns payment-amount">
-                                                                    <div ng-if="vm.cart.properties['cc2'] != ''">
-                                                                        <span ng-model="vm.cart.properties['cc2']">{{vm.cart.properties['cc2']}}
-                                                                        </span>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
+
                                                         <div ng-show="vm.cart.showCreditCard && vm.cart.paymentMethod.isCreditCard">
                                                             <div class="use-billing-address">
                                                                 <h4>[% translate 'Credit Card Address' %]</h4>
@@ -389,6 +372,28 @@
                                                                 </div>
                                                             </div>
                                                         </div>
+                                                    </div>
+                                                    <div class="payments"  ng-if="vm.cart.properties['cc1'] != ''">
+                                                        <label>[% translate 'Payments' %]</label>
+                                                        <div class="row">
+                                                            <div class="small-4 columns payment-amount">
+                                                                <div ng-if="vm.cart.properties['cc1'] != ''">
+                                                                    <span ng-model="vm.cart.properties['cc1']">
+                                                                        {{vm.cart.properties['cc1']}}
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="small-4 columns payment-amount">
+                                                                <div ng-if="vm.cart.properties['cc2'] != ''">
+                                                                    <span ng-model="vm.cart.properties['cc2']">
+                                                                        {{vm.cart.properties['cc2']}}
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <label>[% translate 'Total balance' %]&nbsp;<label ng-model="vm.cart.orderGrandTotalDisplay"></label></label>
                                                     </div>
                                                 </div>
                                                 <div ng-if="vm.cart.billTo.isGuest">
