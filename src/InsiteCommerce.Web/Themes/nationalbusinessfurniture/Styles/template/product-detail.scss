@@ -22,9 +22,29 @@
         padding-right: .15em;
     }
 
+    .item-block__product__reviews {
+        .rating {
+            display: inline;
+        }
+    }
+
+    .item-block__product__price-wrap {
+        .name-price {
+            display: block;
+            margin-top: 15px;
+        }
+    }
+
     .name-price {
         .um {
             padding-right: 1em;
+        }
+
+        .item-divider {
+            border-right: 1px solid $divider-gray;
+            font-size: 23px;
+            vertical-align: middle;
+            margin: 0 8px;
         }
     }
 

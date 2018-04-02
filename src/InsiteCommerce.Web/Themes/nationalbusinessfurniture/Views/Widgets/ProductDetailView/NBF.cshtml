@@ -13,9 +13,7 @@
                     </div>
                     <div class="name-price small-12 column medium-6">
                         <h1>{{vm.product.shortDescription}}</h1>
-                        Item#: {{vm.product.erpNumber}} |
-                        Brand: {{vm.getAttributeValue("Brand")}} |
-                        Collection: {{vm.getAttributeValue("Collection")}}
+                        Item#: {{vm.product.erpNumber}}<span class="item-divider"></span>Brand: {{vm.getAttributeValue("Brand")}}<span class="item-divider"></span>Collection: {{vm.getAttributeValue("Collection")}}
                         <div class="item-block__product__price-wrap">
                             <div class="item-block__product__price">
                                 <isc-product-price product="vm.product" ng-cloak></isc-product-price>
