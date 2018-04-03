@@ -17,6 +17,48 @@ begin
 	declare @attributeTypeId uniqueidentifier
 
 
+	set @attributeName = 'HideInSearch'
+	exec ETLAttribute_FromOEG @attributeName, 0
+	select top 1 @attributeTypeId = Id from AttributeType where [Name] = @attributeName
+
+	
+	-- since there is no "key" on this table it's tough to do an "update", we are just going to add new ones and manually delete unused ones (if needed)
+	if not exists (select 1 from AttributeValue where AttributeTypeId = @attributeTypeId and [value] = 'Yes')
+	begin
+		insert into AttributeValue (AttributeTypeId, [Value], SortOrder, IsActive, CreatedBy, ModifiedBy)
+		select @attributeTypeId, 'Yes', 0, 1, 'etl', 'etl'
+	end
+	if not exists (select 1 from AttributeValue where AttributeTypeId = @attributeTypeId and [value] = 'No')
+	begin
+		insert into AttributeValue (AttributeTypeId, [Value], SortOrder, IsActive, CreatedBy, ModifiedBy)
+		select @attributeTypeId, 'No', 0, 1, 'etl', 'etl'
+	end
+
+
+	-- since there is no primary key here, we can just delete all associations and repopulate
+	delete from ProductAttributeValue
+	where AttributeValueId in ( select avalue.Id from AttributeValue avalue
+	join AttributeType atype on atype.Id = avalue.AttributeTypeId and atype.Id = @attributeTypeId)
+
+	-- all base products are set to No
+	insert into ProductAttributeValue (ProductId, AttributeValueId) 
+	select distinct p.Id, avalue.Id 
+	from Product p
+	join OEGSystemStaging.dbo.Products sp on sp.Number = p.ERPNumber
+		and sp.BrandId = @brand
+	join AttributeValue avalue on avalue.[Value] = 'No'
+	where avalue.AttributeTypeId = @attributeTypeId
+
+	-- all swatches are set to Yes
+	insert into ProductAttributeValue (ProductId, AttributeValueId) 
+	select distinct p.Id, avalue.Id 
+	from Product p
+		join OEGSystemStaging.dbo.ItemSwatches sis on convert(nvarchar(max),sis.SwatchId) = RIGHT(p.ERPNumber,CHARINDEX(':',REVERSE(p.ERPNumber))-1) 
+	join AttributeValue avalue on avalue.[Value] = 'Yes'
+	where avalue.AttributeTypeId = @attributeTypeId
+		and p.ContentManagerId = '00000000-0000-0000-0000-000000000000'
+
+
 	set @attributeName = 'Brand'
 	exec ETLAttribute_FromOEG @attributeName
 	select top 1 @attributeTypeId = Id from AttributeType where [Name] = @attributeName

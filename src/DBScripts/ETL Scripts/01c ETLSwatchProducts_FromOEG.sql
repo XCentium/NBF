@@ -107,7 +107,6 @@ begin
 		join OEGSystemStaging.dbo.ItemSwatches sis on convert(nvarchar(max),sis.SwatchId) = RIGHT(p.ERPNumber,CHARINDEX(':',REVERSE(p.ERPNumber))-1) 
 	where
 		p.ContentManagerId = '00000000-0000-0000-0000-000000000000'
-		and not exists (select Id from ProductImage where ProductId = p.Id)
 
 	end
 
