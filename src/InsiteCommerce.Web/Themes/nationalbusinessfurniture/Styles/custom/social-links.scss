@@ -4,10 +4,22 @@
     .social {
         .inline-list {
             li {
-                a{
-                    padding:3px;
-                    text-decoration:none;
+                a {
+                    padding: 3px;
+                    text-decoration: none;
                 }
+            }
+        }
+
+        &.text-center {
+            margin: 40px 0;
+
+            .inline-list {
+                display: inline-block;
+            }
+
+            .title {
+                margin-bottom:10px;
             }
         }
     }
