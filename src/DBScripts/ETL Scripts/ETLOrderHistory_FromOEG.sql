@@ -86,7 +86,6 @@ begin
 
 		isnull(sho.ord_Amount,0) [OrderTotal],
 
-
 		'etl', 'etl'
 	from
 		OEGSystemStaging.dbo.HistoryOrder sho
@@ -95,6 +94,30 @@ begin
 	where 
 		not exists (select Id from OrderHistory where ERPOrderNumber = sho.ord_Number) 
 
+
+
+	;with ShipAndTax as
+	(
+		select 
+			oh.ERPOrderNumber,
+			sum(shvo.vo_Freight) [ShippingCharges],
+			sum(shvo.vo_TaxAmount) [TaxAmount]
+		from 
+			OEGSystemStaging.dbo.HistoryOrder sho
+			join OrderHistory oh on oh.ERPOrderNumber = sho.ord_Number
+			join OEGSystemStaging.dbo.HistoryVendorOrder shvo on shvo.vo_OrderNum = sho.ord_Number
+		group by
+			oh.ERPOrderNumber
+	)
+	update OrderHistory set
+		[ShippingCharges] = st.ShippingCharges,
+		[TaxAmount] = st.TaxAmount
+	from 
+		OrderHistory oh 
+		join ShipAndTax st on st.ERPOrderNumber = oh.ERPOrderNumber
+	where
+		oh.[ShippingCharges] != st.ShippingCharges
+		or oh.[TaxAmount] != st.TaxAmount
 
 
 

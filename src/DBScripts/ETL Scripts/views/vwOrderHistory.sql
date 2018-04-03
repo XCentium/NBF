@@ -32,6 +32,8 @@ SELECT
 		oh.STPostalCode,
 		oh.STCountry,
 
+		oh.ShippingCharges,
+		oh.TaxAmount,
 		oh.OrderTotal,
 		oh.CreatedBy,
 		oh.ModifiedBy
