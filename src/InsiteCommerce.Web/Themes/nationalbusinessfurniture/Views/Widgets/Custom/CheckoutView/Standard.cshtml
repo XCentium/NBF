@@ -2,13 +2,13 @@
     <div class="small-12 column narrow-container">
         <div class="row">
             <div class="large-8 columns">
-                <h1>Secure Checkout</h1>
-                <h1>Order Confirmation</h1>
-
-                <p>
-                    <strong id="thankYou" class="hide">[% siteMessage 'Checkout_Confirmation_Message' 'Thank you for your order!' %]</strong>
-                </p>
-
+                <h1 id="secureTitle">Secure Checkout</h1>
+                <div id="thankYou" class="hide">
+                    <h1>Order Confirmation</h1>
+                    <p>
+                        <strong>[% siteMessage 'Checkout_Confirmation_Message' 'Thank you for your order!' %]</strong>
+                    </p>
+                </div>
                 <nbf-sign-in-widget include-forgot-password-link="false" allow-create-account="false" ng-if="vm.cart.billTo.isGuest && !vm.hideSignIn"></nbf-sign-in-widget>
                 <div id="confirmation" class="content">
                     <div class="row">
@@ -385,9 +385,9 @@
                                                     </div>
                                                 </div>
                                                 <div ng-if="vm.cart.billTo.isGuest">
-                                                    <h4>
-                                                        [% siteMessage 'Guest_Checkout_Password_Top' 'Want to track your orders, view order history and more? Register for an NBF account.' %]
-                                                    </h4>
+                                                    <p>
+                                                        [% siteMessage 'Guest_Checkout_Password_Top' 'To track your order, view order history and more, enter a password to create an account (optional).' %]
+                                                    </p>
                                                     <label>[% siteMessage 'Guest_Checkout_Password_Label' 'Create your password' %]</label>
                                                     <input type="password" id="CreateNewAccountInfo_Password" name="CreateNewAccountInfo.Password"
                                                            data-rule-minlength="{{settings.passwordMinimumLength}}"
@@ -404,7 +404,6 @@
                                             <div ng-show="vm.cart.requiresApproval && !vm.cart.hasApprover" style="color: red;">
                                                 [% siteMessage 'OrderApproval_BuyerWithoutApprover' %]
                                             </div>
-
                                             <div class="error">
                                                 <span class="field-validation-error" ng-if="vm.createError" ng-bind="vm.createError"></span>
                                             </div>
@@ -421,6 +420,7 @@
                                                         </a>
                                                     </div>
                                                 </div>
+                                                <nbf-terms-and-conditions-popup terms="[[Model.TermsAndConditionsModalContent]]"></nbf-terms-and-conditions-popup>
                                             </div>
                                         </div>
                                     </div>

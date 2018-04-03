@@ -32,8 +32,6 @@
 
         init(): void {
             this.$scope.$on("cartLoaded", (event: ng.IAngularEvent, cart: CartModel) => this.onCartLoaded(event, cart));
-            var self = this;
-            document.body.onfocus = () => { self.checkFile() }
         }
 
         protected onCartLoaded(event: ng.IAngularEvent, cart: CartModel): void {

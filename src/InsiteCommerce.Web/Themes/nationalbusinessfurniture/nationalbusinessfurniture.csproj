@@ -171,6 +171,7 @@
     <TypeScriptCompile Include="Scripts\Custom\Account\nbf.sign-in-fly-out.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Account\nbf.sign-in-widget.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Account\nbf.account.directives.ts" />
+    <TypeScriptCompile Include="Scripts\Custom\Cart\nbf.terms-and-conditions-popup.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Cart\nbf.cart.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Cart\nbf.cart-total-display.directive.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Cart\nbf.cart-lines.directive.ts" />
@@ -773,6 +774,7 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Widgets\Custom\TaxExempt\Standard.cshtml" />
     <Content Include="Views\Directives\Custom\Account\TaxExempt.cshtml" />
+    <Content Include="Views\Directives\Custom\Cart\NbfTermsAndConditionsPopup.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <PropertyGroup>
