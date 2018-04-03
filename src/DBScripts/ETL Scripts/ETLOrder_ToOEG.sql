@@ -15,7 +15,7 @@ begin
 		[cst_City], [cst_State], [cst_ZipCode], [cst_Country], [cst_PhoneArea], 
 		[cst_Phone], [cst_EmailAddr], [cst_WebCustomerNumber], [cst_ID]
 	)
-	select 
+	select distinct
 		left(co.BTFirstName,15), left(co.BTLastName,15), left(co.BTCompanyName,35), left(co.BTAddress1,30), left(co.BTAddress2,30), 
 		left(co.BTAddress3,5), left(co.BTAddress4,15),
 		left(co.BTCity,50), left(co.BTState,2), left(co.BTPostalCode,10), left(co.BTCountry,50), left(co.BTPhone,3), 
@@ -51,7 +51,7 @@ begin
 		[cst_City], [cst_State], [cst_ZipCode], [cst_Country], [cst_PhoneArea], 
 		[cst_Phone], [cst_EmailAddr], [cst_WebCustomerNumber], [cst_ID]
 	)
-	select 
+	select distinct
 		left(co.STFirstName,15), left(co.STLastName,15), left(co.STCompanyName,35), left(co.STAddress1,30), left(co.STAddress2,30), 
 		left(co.STAddress3,5), left(co.STAddress4,15),
 		left(co.STCity,50), left(co.STState,2), left(co.STPostalCode,10), left(co.STCountry,50), left(co.STPhone,3), 
@@ -81,46 +81,6 @@ begin
 			)
 
 
-	;with Billto as
-	(
-			select distinct [idStatusCustomer], co.CustomerId
-			from OEGSystemStaging.dbo.StatusCustomer sc
-			join CustomerOrder co on co.CustomerNumber = [cst_WebCustomerNumber]
-					and	[cst_CntFName] = left(co.BTFirstName,15)
-					and [cst_CntLName] = left(co.BTLastName,15)
-					and [cst_Company] = left(co.BTCompanyName,35)
-					and [cst_Address] = left(co.BTAddress1,30)
-					and [cst_Address2] = left(co.BTAddress2,30)
-					and [cst_Suite] = left(co.BTAddress3,5)
-					and [cst_POBox] = left(co.BTAddress4,15)
-					and [cst_City] = left(co.BTCity,50)
-					and [cst_State] = left(co.BTState,2)
-					and [cst_ZipCode] = left(co.BTPostalCode,10)
-					and [cst_Country] = left(co.BTCountry,50)
-					and [cst_PhoneArea] = left(co.BTPhone,3)
-					and [cst_Phone] = right(co.BTPhone, 7)
-					and [cst_EmailAddr] = left(co.BTEmail,100)
-	),
-	Shipto as
-	(
-			select distinct [idStatusCustomer], co.CustomerId
-			from OEGSystemStaging.dbo.StatusCustomer sc
-			join CustomerOrder co on co.CustomerNumber = [cst_WebCustomerNumber]
-					and	[cst_CntFName] = left(co.STFirstName,15)
-					and [cst_CntLName] = left(co.STLastName,15)
-					and [cst_Company] = left(co.STCompanyName,35)
-					and [cst_Address] = left(co.STAddress1,30)
-					and [cst_Address2] = left(co.STAddress2,30)
-					and [cst_Suite] = left(co.STAddress3,5)
-					and [cst_POBox] = left(co.STAddress4,15)
-					and [cst_City] = left(co.STCity,50)
-					and [cst_State] = left(co.STState,2)
-					and [cst_ZipCode] = left(co.STPostalCode,10)
-					and [cst_Country] = left(co.STCountry,50)
-					and [cst_PhoneArea] = left(co.STPhone,3)
-					and [cst_Phone] = right(co.STPhone, 7)
-					and [cst_EmailAddr] = left(co.STEmail,100)
-	)
 	insert into OEGSystemStaging.dbo.StatusOrder
 	(
 		[ord_WebNumber], [ord_CustNumber], [ord_Status], [ord_DateTime], [ord_BillToID], [ord_ShipToID],
@@ -131,8 +91,36 @@ begin
 		co.OrderTotal, left(co.CustomerPO,32), co.ShippingCharges, co.TaxAmount, co.OtherCharges, 'NBF'
 	from 
 		CustomerOrder co
-		join Billto bt on bt.CustomerId = co.CustomerId
-		join Shipto st on st.CustomerId = co.CustomerId
+		join OEGSystemStaging.dbo.StatusCustomer bt on bt.cst_WebCustomerNumber = co.CustomerNumber
+					and	bt.[cst_CntFName] = left(co.BTFirstName,15)
+					and bt.[cst_CntLName] = left(co.BTLastName,15)
+					and bt.[cst_Company] = left(co.BTCompanyName,35)
+					and bt.[cst_Address] = left(co.BTAddress1,30)
+					and bt.[cst_Address2] = left(co.BTAddress2,30)
+					and bt.[cst_Suite] = left(co.BTAddress3,5)
+					and bt.[cst_POBox] = left(co.BTAddress4,15)
+					and bt.[cst_City] = left(co.BTCity,50)
+					and bt.[cst_State] = left(co.BTState,2)
+					and bt.[cst_ZipCode] = left(co.BTPostalCode,10)
+					and bt.[cst_Country] = left(co.BTCountry,50)
+					and bt.[cst_PhoneArea] = left(co.BTPhone,3)
+					and bt.[cst_Phone] = right(co.BTPhone, 7)
+					and bt.[cst_EmailAddr] = left(co.BTEmail,100)
+		join OEGSystemStaging.dbo.StatusCustomer st on st.cst_WebCustomerNumber = co.CustomerNumber
+					and	st.[cst_CntFName] = left(co.STFirstName,15)
+					and st.[cst_CntLName] = left(co.STLastName,15)
+					and st.[cst_Company] = left(co.STCompanyName,35)
+					and st.[cst_Address] = left(co.STAddress1,30)
+					and st.[cst_Address2] = left(co.STAddress2,30)
+					and st.[cst_Suite] = left(co.STAddress3,5)
+					and st.[cst_POBox] = left(co.STAddress4,15)
+					and st.[cst_City] = left(co.STCity,50)
+					and st.[cst_State] = left(co.STState,2)
+					and st.[cst_ZipCode] = left(co.STPostalCode,10)
+					and st.[cst_Country] = left(co.STCountry,50)
+					and st.[cst_PhoneArea] = left(co.STPhone,3)
+					and st.[cst_Phone] = right(co.STPhone, 7)
+					and st.[cst_EmailAddr] = left(co.STEmail,100)	
 	where
 		co.[Status] = 'Submitted'
 		and not exists (
