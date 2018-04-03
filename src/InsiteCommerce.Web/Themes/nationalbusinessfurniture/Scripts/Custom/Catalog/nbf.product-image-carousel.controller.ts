@@ -50,11 +50,9 @@ module insite.catalog {
         protected showImageCarouselArrows(shouldShowArrows: boolean): void {
             if (shouldShowArrows) {
                 $(`.${this.prefix}-carousel-control-nav`).show();
-                console.log('1');
             } else {
                 $(`.${this.prefix}-carousel-control-nav`).hide();
                 $(`.${this.prefix}-carousel-control-nav`).show();
-                console.log('2');
             }
         }
 
