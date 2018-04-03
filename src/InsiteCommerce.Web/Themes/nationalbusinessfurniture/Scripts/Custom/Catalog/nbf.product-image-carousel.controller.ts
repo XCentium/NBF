@@ -37,23 +37,26 @@ module insite.catalog {
         //    }
         //}
 
-        //protected reloadCarousel(): void {
-        //    const itemsNum = Math.floor((this.carouselWidth + this.carousel.vars.itemMargin) / (this.carousel.vars.itemWidth + this.carousel.vars.itemMargin));
-        //    this.showImageCarouselArrows(this.carousel.count > itemsNum);
-        //    const carouselWidth = (this.carousel.vars.itemWidth + this.carousel.vars.itemMargin) * this.carousel.count - this.carousel.vars.itemMargin;
-        //    $(`#${this.prefix}-img-carousel-wrapper`).css("width", carouselWidth).css("max-width", this.carouselWidth).css("visibility", "visible").css("position", "relative");
+        protected reloadCarousel(): void {
+            const itemsNum = Math.floor((this.carouselWidth + this.carousel.vars.itemMargin) / (this.carousel.vars.itemWidth + this.carousel.vars.itemMargin));
+            this.showImageCarouselArrows(this.carousel.count > itemsNum);
+            const carouselWidth = (this.carousel.vars.itemWidth + this.carousel.vars.itemMargin) * this.carousel.count - this.carousel.vars.itemMargin;
+            $(`#${this.prefix}-img-carousel-wrapper`)/*.css("width", carouselWidth).css("max-width", this.carouselWidth)*/.css("visibility", "visible").css("position", "relative");
 
-        //    // this line should be there because of a flexslider issue (https://github.com/woocommerce/FlexSlider/issues/1263)
-        //    $(`#${this.prefix}-img-carousel`).resize();
-        //}
+            // this line should be there because of a flexslider issue (https://github.com/woocommerce/FlexSlider/issues/1263)
+            $(`#${this.prefix}-img-carousel`).resize();
+        }
 
-        //protected showImageCarouselArrows(shouldShowArrows: boolean): void {
-        //    if (shouldShowArrows) {
-        //        $(`.${this.prefix}-carousel-control-nav`).show();
-        //    } else {
-        //        $(`.${this.prefix}-carousel-control-nav`).hide();
-        //    }
-        //}
+        protected showImageCarouselArrows(shouldShowArrows: boolean): void {
+            if (shouldShowArrows) {
+                $(`.${this.prefix}-carousel-control-nav`).show();
+                console.log('1');
+            } else {
+                $(`.${this.prefix}-carousel-control-nav`).hide();
+                $(`.${this.prefix}-carousel-control-nav`).show();
+                console.log('2');
+            }
+        }
 
         selectImage(image: ProductImageDto): void {
             this.selectedImage = image;
