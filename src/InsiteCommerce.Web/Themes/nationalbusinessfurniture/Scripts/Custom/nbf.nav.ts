@@ -148,7 +148,7 @@
 
         $(".isc-primary-nav > ul").mouseover(function () {
             $('.subnav').removeClass('hide-item');
-           // console.log('done');
+           console.log('done');
         });
 
         const navTimeoutDelay = 250;

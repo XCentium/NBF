@@ -227,7 +227,7 @@
                 <ul class="user-nav">
                     <li ng-cloak ng-show="::(vm.session && (!vm.session.isAuthenticated || vm.session.billTo.isGuest) && !vm.session.rememberMe)">
                         <a href="[% urlForPage 'SignInPage' %]" isc-redirect-to-sign-in return-to-url="true" class="btn sign-in fastClick tst_header_signInButton"><span class="ico-LoginIcon"></span> <span>[% translate 'Login' %]</span></a>
-                        <div class="sub-tier-panel single show-heading subnav level-2">
+                        <div class="sub-tier-panel single show-heading level-2">
                             <nbf-sign-in-fly-out include-forgot-password-link="true" allow-create-account="true"></nbf-sign-in-fly-out>
                         </div>
                     </li>

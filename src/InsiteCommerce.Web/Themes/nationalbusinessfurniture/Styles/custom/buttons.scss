@@ -19,6 +19,10 @@
      display: inline-block;
      min-width:130px;
 
+     &.btn-long {
+         min-width:250px;
+     }
+
     &.btn-primary {
         background-color:$nbf-orange;
 
