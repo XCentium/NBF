@@ -167,6 +167,7 @@
     <TypeScriptCompile Include="Scripts\Custom\Account\nbf.account-settings.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Account\nbf.create-account.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Account\nbf.guest-activation.service.ts" />
+    <TypeScriptCompile Include="Scripts\Custom\Account\nbf.tax-exempt.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Account\nbf.sign-in-fly-out.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Account\nbf.sign-in-widget.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Account\nbf.account.directives.ts" />
@@ -175,6 +176,7 @@
     <TypeScriptCompile Include="Scripts\Custom\Cart\nbf.cart-lines.directive.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Cart\nbf.checkout.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Cart\nbf.payment.service.ts" />
+    <TypeScriptCompile Include="Scripts\Custom\Catalog\nbf.product-price-saving.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Catalog\nbf.category-left-nav.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Catalog\nbf.cross-sell-carousel.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Catalog\nbf.product-carousel.controller.ts" />
@@ -769,6 +771,8 @@
     <Content Include="Views\Widgets\AccountSettingsView\NBF.cshtml" />
     <Content Include="Styles\custom\product-comparison.scss" />
     <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Widgets\Custom\TaxExempt\Standard.cshtml" />
+    <Content Include="Views\Directives\Custom\Account\TaxExempt.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <PropertyGroup>

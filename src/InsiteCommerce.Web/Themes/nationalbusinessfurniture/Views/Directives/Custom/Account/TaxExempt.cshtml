@@ -1,0 +1,16 @@
+﻿<div class="exempt">
+    <span class="exempt__label">[% siteMessage 'Checkout_TaxExempt_Label' 'Tax Exempt?' %]</span>
+    <input id="taxyes" class="customradio" type="radio" name="tax" ng-model="vm.taxExemptChoice" ng-disabled="vm.taxExemptFileName" ng-value="true"/><label for="taxyes">Yes</label>
+    <input id="taxno" class="customradio" type="radio" name="tax" ng-model="vm.taxExemptChoice" ng-disabled="vm.taxExemptFileName" ng-value="false"/><label for="taxno">No</label>
+    <div class="upload-btn" ng-if="vm.taxExemptChoice" ng-click="vm.openUpload()">
+        <span ng-if="!vm.taxExemptFileName">[% siteMessage 'Checkout_TaxExempt_UploadText' 'UPLOAD YOUR TAX EXEMPT CERTIFICATE' %]</span>
+        <span ng-if="vm.taxExemptFileName" ng-bind="vm.taxExemptFileName == '' ? '[% translate 'No file selected.' %]' : vm.taxExemptFileName"></span>
+        <input type="file" accept=".jpg,.pdf,.doc,.docx,.txt" id="hiddenFileUpload" name="attachment"
+               data-val-required="[% siteMessage 'Checkout_TaxExempt_Upload_Required' 'Please select a file to upload.' %]" 
+               data-val="true"
+               data-val-regex-pattern="^.*\.(jpg|JPG|jpeg|JPEG|doc|DOC|docx|DOCX|txt|TXT|pdf|PDF)$"
+               data-val-regex="[% siteMessage 'Checkout_TaxExempt_Upload_FileType' 'Please select a file with one of the following extensions: .jpg, .pdf, .doc' %]"/>
+    </div>
+    {{vm.taxExemptFileName}}
+    <div class="doc-tag" ng-if="!vm.taxExemptChoice && vm.taxExemptFileName" ng-bind="vm.taxExemptFileName"></div>
+</div>

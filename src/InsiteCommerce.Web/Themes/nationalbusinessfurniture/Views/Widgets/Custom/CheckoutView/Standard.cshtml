@@ -30,7 +30,7 @@
                 <dl class="accordion checkout-accordion" data-accordion id="checkoutAccordion">
                     <dd class="accordion-navigation">
                         <a href="#address" id="nav1" class="nav-header active">
-                            [% translate 'Step 1: Billing / Shipping' %]
+                            [% translate 'Step 1: Shipping & Billing Address' %]
                             <span ng-click="vm.editAddresses($event)" class="edit right hide">
                                 [% translate 'Edit' %]
                             </span>
@@ -102,7 +102,7 @@
                     <form id="reviewAndPayForm">
                         <dd class="accordion-navigation">
                             <a href="#shipping" id="nav2" class="nav-header">
-                                [% translate 'Step 2: Shipping Information' %]
+                                [% translate 'Step 2: Shipping Method' %]
                                 <span ng-click="vm.editShipping($event)" class="edit right hide">
                                     [% translate 'Edit' %]
                                 </span>
@@ -111,7 +111,6 @@
                                 <div id="nav2expanded">
                                     <div class="section-container row" data-section data-section-resized="true" style="min-height: 0px;">
                                         <section class="ship-method large-6 columns">
-                                            <h3>[% translate 'Shipping Method' %]</h3>
                                             <div>
                                                 <div class="select-method" ng-show="vm.cart.carriers.length > 0">
                                                     <label for="shippingMethod">[% translate 'Select Shipping Options' %]</label>
@@ -180,18 +179,7 @@
                                     <input name="paypalpayerid" type="hidden" ng-bind="vm.cart.paymentOptions.payPalPayerId" />
                                     <div class="section-container row" data-section data-section-resized="true" style="min-height: 0px;">
                                         <section class="payment-details large-6 columns" ng-hide="vm.cart.requiresApproval">
-                                            <div class="exempt">
-                                                <span class="exempt__label">Tax Exempt?</span>
-                                                <input id="taxyes" class="customradio" type="radio" name="tax" /><label for="taxyes">Yes</label>
-                                                <input id="taxno" class="customradio" type="radio" name="tax" /><label for="taxno">No</label>
-                                                <div class="upload-btn">
-                                                    UPLOAD YOUR TAX EXEMPT CERTIFICATE
-                                                    <input type="file" class="upload-btn" />
-                                                </div>
-                                                <div class="doc-tag">
-                                                    Your_Tax-file.doc
-                                                </div>
-                                            </div>
+                                            <nbf-tax-exempt></nbf-tax-exempt>
                                             <div>
                                                 <span ng-show="vm.cart.paymentOptions.isPayPal">
                                                     [% translate 'Payment Method: ' %] [% translate 'PayPal' %]
@@ -373,7 +361,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="payments"  ng-if="vm.cart.properties['cc1'] != ''">
+                                                    <div class="payments" ng-if="vm.cart.properties['cc1'] != ''">
                                                         <label>[% translate 'Payments' %]</label>
                                                         <div class="row">
                                                             <div class="small-4 columns payment-amount">
@@ -410,6 +398,7 @@
                                                         [% siteMessage 'Guest_Checkout_Password_Bottom' 'Password must be 8 characters and contain 1 capitalized letter, number, and special character' %]
                                                     </div>
                                                 </div>
+                                            </div>
                                         </section>
                                         <div class="section-container">
                                             <div ng-show="vm.cart.requiresApproval && !vm.cart.hasApprover" style="color: red;">
@@ -557,11 +546,11 @@
             </div>
         </div>
     </div>
-<isc-popup-template container-id="insufficientInventoryAtCheckout">
-    [% siteMessage 'Cart_InsufficientInventoryAtCheckout' %]
-</isc-popup-template>
-<isc-popup-template container-id="removedProductsFromCart">
-    [% siteMessage 'Cart_RemovedProductsFromCart' %]
-</isc-popup-template>
+    <isc-popup-template container-id="insufficientInventoryAtCheckout">
+        [% siteMessage 'Cart_InsufficientInventoryAtCheckout' %]
+    </isc-popup-template>
+    <isc-popup-template container-id="removedProductsFromCart">
+        [% siteMessage 'Cart_RemovedProductsFromCart' %]
+    </isc-popup-template>
 
 </div>

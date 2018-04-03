@@ -55,6 +55,9 @@
         userFound = false;
         newUser = false;
         hideSignIn = false;
+        isTaxExempt = false;
+        taxExemptRadioValue = true;
+        taxExemptFileName = "";
 
         //Split Payment variables
         paymentAmount: number;
@@ -456,7 +459,7 @@
                 return;
             }
 
-            this.spinnerService.show("mainLayout");
+            this.spinnerService.show("mainLayout", true);
             this.continueCheckoutInProgress = true;
             this.cartUri = cartUri;
 
@@ -485,6 +488,7 @@
 
                 return;
             }
+            this.spinnerService.show("mainLayout", true);
 
             this.loadStep3();
         }
@@ -648,6 +652,8 @@
         //Review and Pay Functionality
 
         reviewAndPayInit(): void {
+            this.spinnerService.hide("mainLayout");
+
             this.$scope.$on("cartChanged", (event: ng.IAngularEvent) => this.onCartChanged(event));
 
             this.cartId = this.queryString.get("cartId") || "current";
@@ -789,8 +795,7 @@
             }
 
             this.cart = cart;
-            window.console.log("carriers?");
-            window.console.dir(this.cart.carriers);
+
             if (!this.cart.shipVia || this.cart.shipVia.id == null) {
                 this.cart.carrier = this.cart.carriers[0];
                 this.cart.shipVia = this.cart.carrier.shipVias[0];
@@ -1130,6 +1135,8 @@
         }
 
         protected loadStep3() {
+            this.spinnerService.hide("mainLayout");
+
             $("#nav2expanded").hide();
             $("#nav2min, #nav2 .edit").show();
 
@@ -1143,6 +1150,8 @@
         }
 
         protected loadStep4() {
+
+
             this.hideSignIn = true;
             $("#nav1expanded,#nav2expanded,#nav3expanded,.edit").hide();
             $("#nav1,#nav2,#nav3").hide();
