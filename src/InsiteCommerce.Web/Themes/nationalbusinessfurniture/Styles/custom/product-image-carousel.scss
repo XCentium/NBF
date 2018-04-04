@@ -52,6 +52,12 @@
     position: relative;
     margin: 0 auto;
     max-width: 100%;
+    .favorite-btn {
+        position:absolute;
+        right:-2px;
+        top:4px;
+
+    }
 }
 
 [role="cross-sells"] .item-wrap .thumb-wrap,

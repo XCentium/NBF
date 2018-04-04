@@ -147,7 +147,9 @@
     "Custom-Core-Pager": "views/directives/custom/core/pager.cshtml",
     "Custom-Core-Item-List-Pager": "views/directives/custom/core/itemlistpager.cshtml",
     "Custom-Core-Product-List-Pager": "views/directives/custom/core/productlistpager.cshtml",
-    "Custom-Content-ContentPager": "views/directives/custom/content/contentpager.cshtml"
+    "Custom-Content-ContentPager": "views/directives/custom/content/contentpager.cshtml",
+    "Custom-Account-TaxExempt": "views/directives/custom/account/taxexempt.cshtml",
+    "Custom-Cart-NbfTermsAndConditionsPopup": "views/directives/custom/cart/nbftermsandconditionspopup.cshtml"
   }
 }
 

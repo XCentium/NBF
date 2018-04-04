@@ -23,6 +23,30 @@
             
         }
 
+        protected getCartCompleted(cart: CartModel): void {
+            this.cartService.expand = "";
+            if (!cart.cartLines.some(o => o.isRestricted)) {
+                this.$localStorage.remove("hasRestrictedProducts");
+                this.productsCannotBePurchased = false;
+            } else {
+                this.productsCannotBePurchased = true;
+            }
+
+            cart.cartLines.forEach(cartLine => {
+                var split = cartLine.shortDescription.split(' - ');
+                var name = split[0];
+                var details = split[1];
+
+                if (name && details) {
+                    cartLine.shortDescription = name;
+                    cartLine.properties["details"] = details;
+                }
+            });
+
+            this.displayCart(cart);
+        }
+
+
         checkout(checkoutPage: string) {
             this.checkoutPage = checkoutPage;
 
