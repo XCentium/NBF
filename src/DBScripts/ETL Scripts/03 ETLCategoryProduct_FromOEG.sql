@@ -58,7 +58,7 @@ begin
 		not exists (select Id from CategoryProduct where CategoryId = c.Id and ProductId = p.Id)
 
 
-	-- last we add all of the products that belong into the DisplayProductPageOnly Category
+	-- next we add all of the products that belong into the DisplayProductPageOnly Category
 
 	declare @DisplayProductPageOnlyCategoryId uniqueidentifier
 	select top 1 @DisplayProductPageOnlyCategoryId = Id from Category where [Name] = 'DisplayProductPageOnly'
@@ -75,6 +75,8 @@ begin
 		not exists (select Id from CategoryProduct where CategoryId = @DisplayProductPageOnlyCategoryId and ProductId = p.Id)
 		and sp.BrandId = @brand and sp.IsProductPageDisplay = 1
 
+
+	-- next we add all of the products that are swatches into the swatch category
 
 	declare @SwatchCategoryId uniqueidentifier
 

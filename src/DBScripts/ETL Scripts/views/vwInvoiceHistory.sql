@@ -35,7 +35,16 @@ SELECT
       OrderTotal,
       WebCustomerNumber,
       OrderNumber,
-      VendorCode
+      VendorCode,
+	  case 
+		when OrderBalance > 0 and DueDate < getdate() then 'Past Due'
+		when OrderBalance > 0 then 'Open'
+		else 'Paid In Full'
+	  end Status,
+	  case 
+		when OrderBalance > 0 then 1
+		else 0
+	  end IsOpen
 
 FROM
 	OEGSystemStaging.dbo.HistoryInvoice
