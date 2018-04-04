@@ -3276,6 +3276,8 @@ a.btn.btn-configure:link, a.btn.btn-configure:visited {
     padding-left: 0;
     padding-right: 0;
     margin-bottom: 1em;
+    min-width: 1px;
+    padding: 0;
 }
 
 ul.attribute-list {
