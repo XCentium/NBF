@@ -32,6 +32,11 @@
 
         init(): void {
             this.$scope.$on("cartLoaded", (event: ng.IAngularEvent, cart: CartModel) => this.onCartLoaded(event, cart));
+
+            var self = this;
+            document.getElementById('taxExemptFileUpload').onchange = function () {
+                self.setFile(this);
+            };
         }
 
         protected onCartLoaded(event: ng.IAngularEvent, cart: CartModel): void {
@@ -41,18 +46,6 @@
                 this.isTaxExempt = true;
                 this.taxExemptFileName = this.cart.billTo.properties["taxExemptFileName"];
             }
-        }
-
-        upload() {
-            $('#contactUsFormFile').bind('change', function () {
-                if (this.files[0].size > 2500000) {
-                    $("#contactUsFormFile").val("");
-                    $("#fileError").removeClass("field-validation-valid").addClass("field-validation-error").html("<span id='fileSizeError'>Please upload a file that is less than 2.5MB</span>");
-                } else {
-                    $("#fileSizeError").hide();
-                    $("#fileError").removeClass("field-validation-error");
-                }
-            });
         }
 
         setFile(arg): void {
@@ -66,23 +59,10 @@
             }
         }
 
-        uploadFile(event) {
-            let files = event.target.files;
-            if (files.length > 0) {
-                console.log(files); // You will see the file
-                let formData: FormData = new FormData();
-            }
-        }
-
         openUpload() {
-            $("#hiddenFileUpload").click();
-        }
-
-        checkFile() {
-            this.file = $("#hiddenFileUpload").prop('files')[0];
-            if (this.file) {
-                this.taxExemptFileName = this.file.name;
-            }
+            setTimeout(() => {
+                $("#taxExemptFileUpload").click();
+            },100);
         }
     }
 

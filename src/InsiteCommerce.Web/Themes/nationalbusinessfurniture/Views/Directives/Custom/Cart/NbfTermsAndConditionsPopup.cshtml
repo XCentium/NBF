@@ -1,5 +1,9 @@
 ﻿<div id="tst_termsAndConditionsPopup" class="reveal-modal pop-allpurpose terms-and-conditions-popup" data-reveal data-reveal-init>
-    <div class="modal-wrap ">
-        {{vm.terms}}
+    <div class="modal-wrap">
+        <h2>[% siteMessage 'Checkout_TermsAndConditionsModalTitle' 'Terms and Conditions' EscapeSingleQuotes %]</h2>
+        <p>
+            [% siteMessage 'Checkout_TermsAndConditionsModalContent' 'Terms and Conditions Content Placeholder' EscapeSingleQuotes %]
+        </p>
+        <a class="close-reveal-modal">&#215;</a>
     </div>
 </div>

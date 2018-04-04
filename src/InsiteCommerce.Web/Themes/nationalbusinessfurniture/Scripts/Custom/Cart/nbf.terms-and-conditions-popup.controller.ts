@@ -67,7 +67,7 @@
     angular
         .module("insite")
         .controller("TermsAndConditionsPopupController", TermsAndConditionsPopupController)
-        .service("addToCartPopupService", AddToCartPopupService)
+        .service("termsAndConditionsPopupService", TermsAndConditionsPopupService)
         .directive("nbfTermsAndConditionsPopup", () => ({
             restrict: "E",
             replace: true,

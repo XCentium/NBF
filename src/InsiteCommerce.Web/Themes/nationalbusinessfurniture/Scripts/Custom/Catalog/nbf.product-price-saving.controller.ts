@@ -14,6 +14,17 @@
 
             return this.unitNetPrice < this.unitListPrice;
         }
+
+        showPriceSavingForOrderHistory(orderLine: OrderLineModel): boolean {
+            if (orderLine.unitNetPrice) {
+                this.unitNetPrice = orderLine.unitNetPrice;
+            }
+            this.unitNetPriceDisplay = orderLine.unitNetPriceDisplay;
+            this.unitListPrice = orderLine.unitListPrice;
+            this.unitListPriceDisplay = orderLine.unitListPriceDisplay;
+
+            return this.unitNetPrice < this.unitListPrice;
+        }
     };
 
     angular

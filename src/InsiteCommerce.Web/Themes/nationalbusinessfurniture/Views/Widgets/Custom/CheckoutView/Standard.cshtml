@@ -6,7 +6,7 @@
                 <div id="thankYou" class="hide">
                     <h1>Order Confirmation</h1>
                     <p>
-                        <strong>[% siteMessage 'Checkout_Confirmation_Message' 'Thank you for your order!' %]</strong>
+                        <strong>[% siteMessage 'Checkout_ConOkayfirmation_Message' 'Thank you for your order!' %]</strong>
                     </p>
                 </div>
                 <nbf-sign-in-widget include-forgot-password-link="false" allow-create-account="false" ng-if="vm.cart.billTo.isGuest && !vm.hideSignIn"></nbf-sign-in-widget>
@@ -361,7 +361,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="payments" ng-if="vm.cart.properties['cc1'] != ''">
+                                                    <div class="payments order-subtotal" ng-if="vm.cart.properties['cc1'] != ''">
                                                         <label>[% translate 'Payments' %]</label>
                                                         <div class="row">
                                                             <div class="small-4 columns payment-amount">
@@ -386,7 +386,9 @@
                                                 </div>
                                                 <div ng-if="vm.cart.billTo.isGuest">
                                                     <p>
-                                                        [% siteMessage 'Guest_Checkout_Password_Top' 'To track your order, view order history and more, enter a password to create an account (optional).' %]
+                                                        <strong>
+                                                            [% siteMessage 'Guest_Checkout_Password_Top' 'To track your order, view order history and more, enter a password to create an account (optional).' %]
+                                                        </strong>
                                                     </p>
                                                     <label>[% siteMessage 'Guest_Checkout_Password_Label' 'Create your password' %]</label>
                                                     <input type="password" id="CreateNewAccountInfo_Password" name="CreateNewAccountInfo.Password"
@@ -394,7 +396,7 @@
                                                            data-msg-minlength="{{ '[% siteMessage 'ChangePasswordInfo_Password_Too_Short' EscapeSingleQuotes %]'.replace('{0}', vm.settings.passwordMinimumLength) }}"
                                                            ng-model="vm.password">
                                                     <span class="field-validation-valid" data-valmsg-for="CreateNewAccountInfo.Password" data-valmsg-replace="true"></span>
-                                                    <div>
+                                                    <div style="display: none;">
                                                         [% siteMessage 'Guest_Checkout_Password_Bottom' 'Password must be 8 characters and contain 1 capitalized letter, number, and special character' %]
                                                     </div>
                                                 </div>
@@ -420,7 +422,11 @@
                                                         </a>
                                                     </div>
                                                 </div>
-                                                <nbf-terms-and-conditions-popup terms="[[Model.TermsAndConditionsModalContent]]"></nbf-terms-and-conditions-popup>
+                                                <p>
+                                                    [% siteMessage 'Checkout_TermsAndConditionsText' 'By placing your order, you agree to our' %]
+                                                    <br />
+                                                    <a ng-click="vm.openTerms()">Terms and Conditions.</a>
+                                                </p>
                                             </div>
                                         </div>
                                     </div>
@@ -552,5 +558,4 @@
     <isc-popup-template container-id="removedProductsFromCart">
         [% siteMessage 'Cart_RemovedProductsFromCart' %]
     </isc-popup-template>
-
 </div>
