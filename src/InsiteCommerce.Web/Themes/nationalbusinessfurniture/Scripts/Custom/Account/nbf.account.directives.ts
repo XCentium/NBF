@@ -38,5 +38,15 @@
             },
             controller: "SignInFlyOutController",
             controllerAs: "vm"
+        }))
+        .directive("nbfTaxExempt", () => ({
+            restrict: "E",
+            replace: true,
+            templateUrl: "/PartialViews/Custom-Account-TaxExempt",
+            scope: {
+                
+            },
+            controller: "TaxExemptController",
+            controllerAs: "vm"
         }));
 }
