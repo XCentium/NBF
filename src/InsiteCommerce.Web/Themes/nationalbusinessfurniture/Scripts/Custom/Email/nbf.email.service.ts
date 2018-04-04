@@ -1,12 +1,12 @@
-﻿module nbf.CatalogMailingPrefs {
+﻿module nbf.email {
     "use strict";
 
-    export interface INbfCatalogMailingPrefsService {
-        sendEmail(params: any): ng.IPromise<string>;
+    export interface INbfEmailService {
+        sendCatalogPrefsEmail(params: any): ng.IPromise<string>;
     }
 
-    export class NbfCatalogMailingPrefsService implements INbfCatalogMailingPrefsService {
-        serviceUri = "api/nbf/catalogmailingprefs";        
+    export class NbfEmailService implements INbfEmailService {
+        serviceUri = "api/nbf/email";        
 
         static $inject = ["$http", "httpWrapperService", "queryString", "$sessionStorage", "ipCookie"];
 
@@ -18,15 +18,17 @@
             protected ipCookie: any ) {
         }
 
-        sendEmail(params: any): ng.IPromise<string> {
+        sendCatalogPrefsEmail(params: any): ng.IPromise<string> {
+            const uri = this.serviceUri + "/catalogPrefs";
+
             return this.httpWrapperService.executeHttpRequest(
                 this,
-                this.$http({ url: this.serviceUri, method: "POST", data: params}),
+                this.$http({ url: uri, method: "POST", data: params}),
                 this.sendEmailCompleted,
                 this.sendEmailFailed
             );
         }
-       
+
         protected sendEmailCompleted(catalogMailingPrefs: string): void {
             
         }
@@ -38,5 +40,5 @@
 
     angular
         .module("insite")
-        .service("nbfCatalogMailingPrefsService", NbfCatalogMailingPrefsService);
+        .service("nbfEmailService", NbfEmailService);
 }

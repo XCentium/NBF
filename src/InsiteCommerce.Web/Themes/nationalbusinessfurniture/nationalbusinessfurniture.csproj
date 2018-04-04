@@ -170,6 +170,7 @@
     <TypeScriptCompile Include="Scripts\Custom\Account\nbf.account-settings.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Account\nbf.create-account.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Account\nbf.guest-activation.service.ts" />
+    <TypeScriptCompile Include="Scripts\Custom\Account\nbf.tax-exempt.service.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Account\nbf.tax-exempt.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Account\nbf.sign-in-fly-out.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Account\nbf.sign-in-widget.controller.ts" />
@@ -198,6 +199,7 @@
     <TypeScriptCompile Include="Scripts\Custom\Core\nbf.pager.directives.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Dashboard\nbf.dashboard-view.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Dealers\nbf.dealer-list.controller.ts" />
+    <TypeScriptCompile Include="Scripts\Custom\Email\nbf.email.service.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Email\nbf.email-subscription.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Email\nbf.listrak.service.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Footer\nbf.footer.controller.ts" />
@@ -212,7 +214,6 @@
     <TypeScriptCompile Include="Scripts\Custom\ShopTheLook\nbf.shop-the-look.landing-view.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\SocialMediaSharing\nbf.social-media.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\CatalogMailingPrefs\nbf.catalogmailingprefs.controller.ts" />
-    <TypeScriptCompile Include="Scripts\Custom\CatalogMailingPrefs\nbf.catalogmailingprefs.service.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Videos\nbf.video.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\PriceCode\nbf.price-code.service.ts" />
     <TypeScriptCompile Include="Scripts\Custom\WebCode\nbf.web-code.controller.ts" />

@@ -8,7 +8,7 @@ using Insite.Core.WebApi;
 
 namespace Extensions.WebApi.CatalogMailingPrefs.Controllers
 {
-    [RoutePrefix("api/nbf/catalogmailingprefs")]
+    [RoutePrefix("api/nbf/email")]
     public class CatalogMailingPrefsController : BaseApiController
     {
         private readonly ICatalogMailingPrefsService _CatalogMailingPrefsService;
@@ -19,12 +19,11 @@ namespace Extensions.WebApi.CatalogMailingPrefs.Controllers
             _CatalogMailingPrefsService = CatalogMailingPrefsService;
         }
 
-        [Route("", Name = "sendEmail")]
+        [Route("catalogPrefs", Name = "sendEmail")]
         [ResponseType(typeof(string))]
         [HttpPost]
-        public async Task<IHttpActionResult> SendEmail([FromBody] CatalogPrefsDto catalogPrefsDto)
+        public async Task<IHttpActionResult> SendCatalogPrefsEmail([FromBody] CatalogPrefsDto catalogPrefsDto)
         {
-
             await _CatalogMailingPrefsService.SendEmail(catalogPrefsDto);
 
             return Ok();
