@@ -26,7 +26,7 @@ begin
 			OEGSystemStaging.dbo.ProductPrices pp
 			join OEGSystemStaging.dbo.products p on p.ProductId = pp.ProductId and p.BrandId = @brand
 		where 
-			EffStartDate < getdate() and effenddate > getdate()
+			pp.EffStartDate < getdate() and pp.effenddate > getdate()
 			and pp.PricingTierId = 
 					case
 						when @pricecode = 'gsa' then 2 
@@ -113,7 +113,7 @@ begin
 			OEGSystemStaging.dbo.ProductPrices pp
 			join OEGSystemStaging.dbo.products p on p.ProductId = pp.ProductId and p.BrandId = @brand
 		where 
-			EffStartDate < getdate() and effenddate > getdate()
+			pp.EffStartDate < getdate() and pp.effenddate > getdate()
 			and pp.PricingTierId = 
 					case
 						when @pricecode = 'gsa' then 2 
