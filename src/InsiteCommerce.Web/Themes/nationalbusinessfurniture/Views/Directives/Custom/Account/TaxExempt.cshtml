@@ -11,4 +11,5 @@
                data-val-regex="[% siteMessage 'Checkout_TaxExempt_Upload_FileType' 'Please select a file with one of the following extensions: .jpg, .pdf, .doc' %]"/>
     </div>
     <div class="doc-tag" ng-if="vm.isTaxExempt || vm.taxExemptChoice && vm.taxExemptFileName" ng-bind="vm.taxExemptFileName" ng-click="!vm.isTaxExempt ? vm.openUpload() : angular.noop()"></div>
+    <a ng-if="!vm.isTaxExempt && vm.taxExemptChoice && vm.taxExemptFileName" ng-click="vm.saveFile()">Save File</a>
 </div>

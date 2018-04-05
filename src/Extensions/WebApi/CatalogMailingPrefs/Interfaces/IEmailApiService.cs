@@ -4,8 +4,9 @@ using Insite.Core.Interfaces.Dependency;
 
 namespace Extensions.WebApi.CatalogMailingPrefs.Interfaces
 {
-    public interface ICatalogMailingPrefsService : IDependency, IExtension
+    public interface IEmailApiService : IDependency, IExtension
     {
-        Task SendEmail(CatalogPrefsDto catalogPrefsDto);
+        Task SendCatalogPrefsEmail(CatalogPrefsDto catalogPrefsDto);
+        Task SendTaxExemptEmail(TaxExemptDto taxExemptDto);
     }    
 }
