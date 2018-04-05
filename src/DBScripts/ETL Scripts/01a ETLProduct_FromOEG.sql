@@ -78,6 +78,7 @@ begin
 		DeactivateOn = case when luStatus.Name = 'Active' then null else '1/1/2010' end,
 		VendorId = v.Id,
 		Unspsc = format(isnull(sp.ImageRows,0),'00')+format(isnull(sp.ImageColumns,0),'00'), -- for 360 spin
+		ProductCode = si.ItemId,
 		CreatedOn = isnull(sp.CreatedDate,SYSDATETIMEOFFSET()),
 		CreatedBy = 'etl',
 		ModifiedOn = isnull(sp.ModifiedDate,SYSDATETIMEOFFSET()),
