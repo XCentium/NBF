@@ -3831,7 +3831,10 @@
 }));
 
 // A $( document ).ready() block.
-$(document).ready(function () {
-    $('select').selectize();
-    console.log('selectize ran');
-});
+//$(document).ready(function () {
+//    setTimeout(
+//        function () {
+//            $('select').selectize();
+//            console.log('selectize ran');
+//        }, 5000);
+//});
