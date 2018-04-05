@@ -3833,4 +3833,5 @@
 // A $( document ).ready() block.
 $(document).ready(function () {
     $('select').selectize();
+    console.log('selectize ran');
 });
