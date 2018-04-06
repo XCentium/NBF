@@ -20,7 +20,8 @@
             "$stateParams",
             "sessionService",
             "nbfWishListService",
-            "spinnerService"];
+            "spinnerService",
+            "$window"];
 
         constructor(
             protected $scope: ng.IScope,
@@ -33,7 +34,8 @@
             protected $stateParams: IContentPageStateParams,
             protected sessionService: account.ISessionService,
             protected nbfWishListService: wishlist.INbfWishListService,
-            protected spinnerService: core.ISpinnerService
+            protected spinnerService: core.ISpinnerService,
+            protected $window: ng.IWindowService
         ) {
             super($scope, coreService, cartService, productService, addToWishlistPopupService, productSubscriptionPopupService, settingsService, $stateParams, sessionService)
             this.sessionService.getIsAuthenticated().then((isAuth) => {
@@ -271,7 +273,53 @@
             });
 
             this.resourceAndAssemblyDocs = this.product.documents.filter(x => x.documentType != "video");
-        }     
+
+            this.setLiveExpertsWidget();
+
+            this.setPowerReviews();
+        }   
+
+        protected setPowerReviews() {
+            let powerReviewsConfig = {
+                api_key: '56b8fc6a-79a7-421e-adc5-36cbdaec7daf',
+                locale: 'en_US',
+                merchant_group_id: '47982',
+                merchant_id: '33771',
+                page_id: '124118',
+                review_wrapper_url: 'Product-Review?',
+                components: {
+                    ReviewSnippet: 'pr-reviewsnippet',
+                    ReviewDisplay: 'pr-reviewdisplay',
+                    QuestionSnippet: 'pr-questionsnippet',
+                    QuestionDisplay: 'pr-questiondisplay'
+                }
+            };
+
+            let powerReviews = this.$window["POWERREVIEWS"];
+
+            debugger;
+            powerReviews.display.render(powerReviewsConfig)
+        }
+
+        protected setLiveExpertsWidget() {
+            var liveExpertConfig = {
+                enterpriseURL: 'liveexpert.net',
+                sourceHost: 'assets.liveexpert.net',
+                assetLocation: 'nbf/multiButton/nbf',
+                apiURL: 'api.liveexpert.net',
+                companyID: 31,
+                categoryID: 146,
+                language: 'EN',
+                callTypeID: 1,
+                micEnabled: false,
+                camEnabled: false
+            };
+
+            let liveexpert = this.$window["liveexpert"];
+
+            debugger;
+            liveexpert.LEAWidget.init(liveExpertConfig);
+        }
        
         showVideo() {            
             this.setVideo2(this.product.properties["videoFile"]);

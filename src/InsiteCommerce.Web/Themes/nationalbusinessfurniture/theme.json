@@ -5,9 +5,11 @@
   "DefinitionScripts": [
     "Scripts/typings/*"
   ],
-      "HeadScripts": [
-      "https://use.typekit.net/ryl8iif.css",
-      "https://s7d9.scene7.com/s7viewers/html5/js/FlyoutViewer.js"
+  "HeadScripts": [
+    "https://use.typekit.net/ryl8iif.css",
+    "https://s7d9.scene7.com/s7viewers/html5/js/FlyoutViewer.js",
+    "https://ui.powerreviews.com/stable/4.0/ui.js",
+    "https://assets.liveexpert.net/widget/javascript/leaWidget.js"
   ],
   "BodyEndScripts": [
     "~/SystemResources/Scripts/Libraries/modernizr/2.6.2/custom.modernizr.js",
