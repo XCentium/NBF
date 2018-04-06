@@ -121,108 +121,126 @@ begin
 	join AttributeType atype on atype.Id = avalue.AttributeTypeId and atype.Id = @attributeTypeId)
 
 	-- all base products are set to a price range
+	insert into ProductAttributeValue (ProductId, AttributeValueId) 
 	select distinct p.Id, avalue.Id--, p.ERPNumber, pp.Price 
 	from Product p
 	join OEGSystemStaging.dbo.Products sp on sp.Number = p.ERPNumber and sp.BrandId = @brand
 	join OEGSystemStaging.dbo.ProductPrices pp on pp.ProductId = sp.ProductId and pp.Price between 0 and 99.99 and pp.PricingTierId = 1 and pp.Quantity = 1  and pp.EffStartDate < getdate() and pp.effenddate > getdate()
 	join AttributeValue avalue on avalue.[Value] = 'Under $100'	where avalue.AttributeTypeId = @attributeTypeId
 
+	insert into ProductAttributeValue (ProductId, AttributeValueId) 
 	select distinct p.Id, avalue.Id--, p.ERPNumber, pp.Price 
 	from Product p
 	join OEGSystemStaging.dbo.Products sp on sp.Number = p.ERPNumber and sp.BrandId = @brand
 	join OEGSystemStaging.dbo.ProductPrices pp on pp.ProductId = sp.ProductId and pp.Price between 100 and 199.99 and pp.PricingTierId = 1 and pp.Quantity = 1  and pp.EffStartDate < getdate() and pp.effenddate > getdate()
 	join AttributeValue avalue on avalue.[Value] = '$100 - $199'	where avalue.AttributeTypeId = @attributeTypeId
 
+	insert into ProductAttributeValue (ProductId, AttributeValueId) 
 	select distinct p.Id, avalue.Id--, p.ERPNumber, pp.Price 
 	from Product p
 	join OEGSystemStaging.dbo.Products sp on sp.Number = p.ERPNumber and sp.BrandId = @brand
 	join OEGSystemStaging.dbo.ProductPrices pp on pp.ProductId = sp.ProductId and pp.Price between 200 and 299.99 and pp.PricingTierId = 1 and pp.Quantity = 1  and pp.EffStartDate < getdate() and pp.effenddate > getdate()
 	join AttributeValue avalue on avalue.[Value] = '$200 - $299'	where avalue.AttributeTypeId = @attributeTypeId
 
+	insert into ProductAttributeValue (ProductId, AttributeValueId) 
 	select distinct p.Id, avalue.Id--, p.ERPNumber, pp.Price 
 	from Product p
 	join OEGSystemStaging.dbo.Products sp on sp.Number = p.ERPNumber and sp.BrandId = @brand
 	join OEGSystemStaging.dbo.ProductPrices pp on pp.ProductId = sp.ProductId and pp.Price between 300 and 399.99 and pp.PricingTierId = 1 and pp.Quantity = 1  and pp.EffStartDate < getdate() and pp.effenddate > getdate()
 	join AttributeValue avalue on avalue.[Value] = '$300 - $399'	where avalue.AttributeTypeId = @attributeTypeId
 
+	insert into ProductAttributeValue (ProductId, AttributeValueId) 
 	select distinct p.Id, avalue.Id--, p.ERPNumber, pp.Price 
 	from Product p
 	join OEGSystemStaging.dbo.Products sp on sp.Number = p.ERPNumber and sp.BrandId = @brand
 	join OEGSystemStaging.dbo.ProductPrices pp on pp.ProductId = sp.ProductId and pp.Price between 400 and 499.99 and pp.PricingTierId = 1 and pp.Quantity = 1  and pp.EffStartDate < getdate() and pp.effenddate > getdate()
 	join AttributeValue avalue on avalue.[Value] = '$400 - $499'	where avalue.AttributeTypeId = @attributeTypeId
 
+	insert into ProductAttributeValue (ProductId, AttributeValueId) 
 	select distinct p.Id, avalue.Id--, p.ERPNumber, pp.Price 
 	from Product p
 	join OEGSystemStaging.dbo.Products sp on sp.Number = p.ERPNumber and sp.BrandId = @brand
 	join OEGSystemStaging.dbo.ProductPrices pp on pp.ProductId = sp.ProductId and pp.Price between 500 and 599.99 and pp.PricingTierId = 1 and pp.Quantity = 1  and pp.EffStartDate < getdate() and pp.effenddate > getdate()
 	join AttributeValue avalue on avalue.[Value] = '$500 - $599'	where avalue.AttributeTypeId = @attributeTypeId
 
+	insert into ProductAttributeValue (ProductId, AttributeValueId) 
 	select distinct p.Id, avalue.Id--, p.ERPNumber, pp.Price 
 	from Product p
 	join OEGSystemStaging.dbo.Products sp on sp.Number = p.ERPNumber and sp.BrandId = @brand
 	join OEGSystemStaging.dbo.ProductPrices pp on pp.ProductId = sp.ProductId and pp.Price between 600 and 699.99 and pp.PricingTierId = 1 and pp.Quantity = 1  and pp.EffStartDate < getdate() and pp.effenddate > getdate()
 	join AttributeValue avalue on avalue.[Value] = '$600 - $699'	where avalue.AttributeTypeId = @attributeTypeId
 
+	insert into ProductAttributeValue (ProductId, AttributeValueId) 
 	select distinct p.Id, avalue.Id--, p.ERPNumber, pp.Price 
 	from Product p
 	join OEGSystemStaging.dbo.Products sp on sp.Number = p.ERPNumber and sp.BrandId = @brand
 	join OEGSystemStaging.dbo.ProductPrices pp on pp.ProductId = sp.ProductId and pp.Price between 700 and 799.99 and pp.PricingTierId = 1 and pp.Quantity = 1  and pp.EffStartDate < getdate() and pp.effenddate > getdate()
 	join AttributeValue avalue on avalue.[Value] = '$700 - $799'	where avalue.AttributeTypeId = @attributeTypeId
 
+	insert into ProductAttributeValue (ProductId, AttributeValueId) 
 	select distinct p.Id, avalue.Id--, p.ERPNumber, pp.Price 
 	from Product p
 	join OEGSystemStaging.dbo.Products sp on sp.Number = p.ERPNumber and sp.BrandId = @brand
 	join OEGSystemStaging.dbo.ProductPrices pp on pp.ProductId = sp.ProductId and pp.Price between 800 and 899.99 and pp.PricingTierId = 1 and pp.Quantity = 1  and pp.EffStartDate < getdate() and pp.effenddate > getdate()
 	join AttributeValue avalue on avalue.[Value] = '$800 - $899'	where avalue.AttributeTypeId = @attributeTypeId
 
+	insert into ProductAttributeValue (ProductId, AttributeValueId) 
 	select distinct p.Id, avalue.Id--, p.ERPNumber, pp.Price 
 	from Product p
 	join OEGSystemStaging.dbo.Products sp on sp.Number = p.ERPNumber and sp.BrandId = @brand
 	join OEGSystemStaging.dbo.ProductPrices pp on pp.ProductId = sp.ProductId and pp.Price between 900 and 999.99 and pp.PricingTierId = 1 and pp.Quantity = 1  and pp.EffStartDate < getdate() and pp.effenddate > getdate()
 	join AttributeValue avalue on avalue.[Value] = '$900 - $999'	where avalue.AttributeTypeId = @attributeTypeId
 
+	insert into ProductAttributeValue (ProductId, AttributeValueId) 
 	select distinct p.Id, avalue.Id--, p.ERPNumber, pp.Price 
 	from Product p
 	join OEGSystemStaging.dbo.Products sp on sp.Number = p.ERPNumber and sp.BrandId = @brand
 	join OEGSystemStaging.dbo.ProductPrices pp on pp.ProductId = sp.ProductId and pp.Price between 1000 and 1099.99 and pp.PricingTierId = 1 and pp.Quantity = 1  and pp.EffStartDate < getdate() and pp.effenddate > getdate()
 	join AttributeValue avalue on avalue.[Value] = '$1000 - $1099'	where avalue.AttributeTypeId = @attributeTypeId
 
+	insert into ProductAttributeValue (ProductId, AttributeValueId) 
 	select distinct p.Id, avalue.Id--, p.ERPNumber, pp.Price 
 	from Product p
 	join OEGSystemStaging.dbo.Products sp on sp.Number = p.ERPNumber and sp.BrandId = @brand
 	join OEGSystemStaging.dbo.ProductPrices pp on pp.ProductId = sp.ProductId and pp.Price between 1100 and 1199.99 and pp.PricingTierId = 1 and pp.Quantity = 1  and pp.EffStartDate < getdate() and pp.effenddate > getdate()
 	join AttributeValue avalue on avalue.[Value] = '$1100 - $1199'	where avalue.AttributeTypeId = @attributeTypeId
 
+	insert into ProductAttributeValue (ProductId, AttributeValueId) 
 	select distinct p.Id, avalue.Id--, p.ERPNumber, pp.Price 
 	from Product p
 	join OEGSystemStaging.dbo.Products sp on sp.Number = p.ERPNumber and sp.BrandId = @brand
 	join OEGSystemStaging.dbo.ProductPrices pp on pp.ProductId = sp.ProductId and pp.Price between 1200 and 1299.99 and pp.PricingTierId = 1 and pp.Quantity = 1  and pp.EffStartDate < getdate() and pp.effenddate > getdate()
 	join AttributeValue avalue on avalue.[Value] = '$1200 - $1299'	where avalue.AttributeTypeId = @attributeTypeId
 
+	insert into ProductAttributeValue (ProductId, AttributeValueId) 
 	select distinct p.Id, avalue.Id--, p.ERPNumber, pp.Price 
 	from Product p
 	join OEGSystemStaging.dbo.Products sp on sp.Number = p.ERPNumber and sp.BrandId = @brand
 	join OEGSystemStaging.dbo.ProductPrices pp on pp.ProductId = sp.ProductId and pp.Price between 1300 and 1399.99 and pp.PricingTierId = 1 and pp.Quantity = 1  and pp.EffStartDate < getdate() and pp.effenddate > getdate()
 	join AttributeValue avalue on avalue.[Value] = '$1300 - $1399'	where avalue.AttributeTypeId = @attributeTypeId
 
+	insert into ProductAttributeValue (ProductId, AttributeValueId) 
 	select distinct p.Id, avalue.Id--, p.ERPNumber, pp.Price 
 	from Product p
 	join OEGSystemStaging.dbo.Products sp on sp.Number = p.ERPNumber and sp.BrandId = @brand
 	join OEGSystemStaging.dbo.ProductPrices pp on pp.ProductId = sp.ProductId and pp.Price between 1400 and 1499.99 and pp.PricingTierId = 1 and pp.Quantity = 1  and pp.EffStartDate < getdate() and pp.effenddate > getdate()
 	join AttributeValue avalue on avalue.[Value] = '$1400 - $1499'	where avalue.AttributeTypeId = @attributeTypeId
 
+	insert into ProductAttributeValue (ProductId, AttributeValueId) 
 	select distinct p.Id, avalue.Id--, p.ERPNumber, pp.Price 
 	from Product p
 	join OEGSystemStaging.dbo.Products sp on sp.Number = p.ERPNumber and sp.BrandId = @brand
 	join OEGSystemStaging.dbo.ProductPrices pp on pp.ProductId = sp.ProductId and pp.Price between 1500 and 1999.99 and pp.PricingTierId = 1 and pp.Quantity = 1  and pp.EffStartDate < getdate() and pp.effenddate > getdate()
 	join AttributeValue avalue on avalue.[Value] = '$1500 - $1999'	where avalue.AttributeTypeId = @attributeTypeId
 
+	insert into ProductAttributeValue (ProductId, AttributeValueId) 
 	select distinct p.Id, avalue.Id--, p.ERPNumber, pp.Price 
 	from Product p
 	join OEGSystemStaging.dbo.Products sp on sp.Number = p.ERPNumber and sp.BrandId = @brand
 	join OEGSystemStaging.dbo.ProductPrices pp on pp.ProductId = sp.ProductId and pp.Price between 2000 and 2500 and pp.PricingTierId = 1 and pp.Quantity = 1  and pp.EffStartDate < getdate() and pp.effenddate > getdate()
 	join AttributeValue avalue on avalue.[Value] = '$2000 - $2500'	where avalue.AttributeTypeId = @attributeTypeId
 
+	insert into ProductAttributeValue (ProductId, AttributeValueId) 
 	select distinct p.Id, avalue.Id--, p.ERPNumber, pp.Price 
 	from Product p
 	join OEGSystemStaging.dbo.Products sp on sp.Number = p.ERPNumber and sp.BrandId = @brand
