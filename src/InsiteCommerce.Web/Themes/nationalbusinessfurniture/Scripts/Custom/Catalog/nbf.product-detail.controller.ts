@@ -274,9 +274,10 @@
 
             this.resourceAndAssemblyDocs = this.product.documents.filter(x => x.documentType != "video");
 
-            this.setLiveExpertsWidget();
-
-            this.setPowerReviews();
+            setTimeout(() => {
+                this.setLiveExpertsWidget();
+                this.setPowerReviews();
+            }, 1000);            
         }   
 
         protected setPowerReviews() {
@@ -285,10 +286,10 @@
                 locale: 'en_US',
                 merchant_group_id: '47982',
                 merchant_id: '33771',
-                page_id: '124118',
+                page_id: this.product.productCode,
                 review_wrapper_url: 'Product-Review?',
                 components: {
-                    ReviewSnippet: 'pr-reviewsnippet',
+                    //ReviewSnippet: 'pr-reviewsnippet',
                     ReviewDisplay: 'pr-reviewdisplay',
                     QuestionSnippet: 'pr-questionsnippet',
                     QuestionDisplay: 'pr-questiondisplay'
@@ -296,8 +297,6 @@
             };
 
             let powerReviews = this.$window["POWERREVIEWS"];
-
-            debugger;
             powerReviews.display.render(powerReviewsConfig)
         }
 
@@ -308,16 +307,22 @@
                 assetLocation: 'nbf/multiButton/nbf',
                 apiURL: 'api.liveexpert.net',
                 companyID: 31,
-                categoryID: 146,
                 language: 'EN',
                 callTypeID: 1,
                 micEnabled: false,
-                camEnabled: false
+                camEnabled: false,
+                categoryID: null
             };
 
-            let liveexpert = this.$window["liveexpert"];
+            let liveProductDemoAttr = this.getAttributeValue("Live Product Demo");
+            if (liveProductDemoAttr != null && liveProductDemoAttr == "Yes"
+                && this.product.modelNumber != null
+            )
+            {
+                liveExpertConfig.categoryID = this.product.modelNumber;
+            }
 
-            debugger;
+            let liveexpert = this.$window["liveexpert"];
             liveexpert.LEAWidget.init(liveExpertConfig);
         }
        

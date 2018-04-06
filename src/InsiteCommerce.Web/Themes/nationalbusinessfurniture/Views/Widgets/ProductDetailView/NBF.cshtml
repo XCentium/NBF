@@ -1,4 +1,7 @@
 ﻿<div ng-controller="ProductDetailController as vm" ng-cloak>
+    <script src="https://ui.powerreviews.com/stable/4.0/ui.js"></script>
+    <script src="https://assets.liveexpert.net/widget/javascript/leaWidget.js"></script>
+
     <isc-catalog-breadcrumb ng-show="vm.product" breadcrumbs="vm.breadCrumbs"></isc-catalog-breadcrumb>
     <div class="medium-12 large-12 columns widget-1column narrow-container product-details">
         <div class="row">
@@ -181,7 +184,7 @@
                                         <div id="tst_productDetail_htmlContent" class="product-cm">
                                             <ul class="doclinks">
                                                 <li ng-if="vm.languageId === document.languageId || document.languageId === null" ng-repeat="document in vm.product.documents" class="doc-{{$index}}">
-                                                    <a id="tst_productDetail_{{document.id}}" ng-href="{{document.filePath}}" target="_new">{{document.name}} <em ng-if="document.documentType">({{document.documentType}})</em></a>
+                                                    <a id="tst_productDetail_{{document.id}}" ng-href="http://s7d9.scene7.com/is/content/NationalBusinessFurniture/PDFs/Products/{{document.filePath}}" target="_new">{{document.name}} <em ng-if="document.documentType">({{document.documentType}})</em></a>
                                                 </li>
                                             </ul>
                                         </div>
@@ -338,4 +341,5 @@
 <div id="pr-reviewsnippet"></div>
 <div id="pr-questionsnippet"></div>
 <div id="pr-reviewdisplay"></div>
-<div id="pr-questiondisplay"></div>      
+<div id="pr-questiondisplay"></div>
+    
