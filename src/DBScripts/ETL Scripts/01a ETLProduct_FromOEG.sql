@@ -79,6 +79,7 @@ begin
 		VendorId = v.Id,
 		Unspsc = format(isnull(sp.ImageRows,0),'00')+format(isnull(sp.ImageColumns,0),'00'), -- for 360 spin
 		ProductCode = si.ItemId,
+		ModelNumber = isnull(convert(nvarchar(max),si.ShowroomWebId),''),
 		CreatedOn = isnull(sp.CreatedDate,SYSDATETIMEOFFSET()),
 		CreatedBy = 'etl',
 		ModifiedOn = isnull(sp.ModifiedDate,SYSDATETIMEOFFSET()),
