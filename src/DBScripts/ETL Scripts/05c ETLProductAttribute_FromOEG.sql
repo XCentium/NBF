@@ -20,7 +20,7 @@ begin
 	-- start price ranges
 
 	set @attributeName = 'Price Range'
-	exec ETLAttribute_FromOEG @attributeName, 0
+	exec ETLAttribute_FromOEG @attributeName
 	select top 1 @attributeTypeId = Id from AttributeType where [Name] = @attributeName
 
 	if not exists (select 1 from AttributeValue where AttributeTypeId = @attributeTypeId and [value] = 'Under $100')
