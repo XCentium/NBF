@@ -335,6 +335,43 @@ begin
 
 
 
+	/*
+	Rating Count
+	*/
+
+	-- first we delete the old data since we are just going to replace it
+	delete from content where ContentManagerId in (select ContentManagerId from Specification where [name] = 'Rating Count')
+
+
+	-- first reset all 
+	update Specification set [Value] = 0 where Name = 'Rating Count'
+
+	-- now update all of them at once
+	update Specification set 
+		[Value] = isnull(spr.RatingCount,0)
+	from Product p
+	join Specification s on s.ProductId = p.Id and s.[Name] = 'Rating Count'
+	join OEGSystemStaging.dbo.Products sp on sp.Number = p.ERPNumber
+		and sp.BrandId = @brand
+	left join OEGSystemStaging.dbo.ProductRating spr on spr.ProductOID = sp.Number
+
+	-- now insert any new ones we didn't have before
+
+	insert into Content 
+	(ContentManagerId, [Name], Html, Revision, LanguageId, PersonaId, ApprovedOn, PublishToProductionOn, DeviceType, CreatedBy, ModifiedBy)
+	select s.ContentManagerId, 'New Revision', 
+	isnull(spr.RatingCount,0), 
+	1, @LanguageId, @PersonaId, getdate(), getdate(), 'Desktop', 'etl', 'etl' 
+	--select p.ERPNumber, spr.RatingCount
+	from Product p
+	join Specification s on s.ProductId = p.Id and s.[Name] = 'Rating Count'
+	join OEGSystemStaging.dbo.Products sp on sp.Number = p.ERPNumber
+		and sp.BrandId = @brand
+	left join OEGSystemStaging.dbo.ProductRating spr on spr.ProductOID = sp.Number
+	where s.ContentManagerId not in (select ContentManagerId from Content)
+
+
+
 	/* 
 	Product Features
 	*/

@@ -205,14 +205,12 @@ begin
 	where Id not in (select ProductId from Specification where [Name] = 'Rating')
 	and ERPNumber not like '%:%' -- ignore swatches
 
-	/* this has been moved to an attribute
 	insert into Specification
 	(ContentManagerId, [Name], [Description], IsActive, CreatedBy, ModifiedBy, ProductId)
-	select newid(), 'Collection', 'Collection', 1, 'etl', 'etl', Id
+	select newid(), 'Rating Count', 'Rating Count', 1, 'etl', 'etl', Id
 	from Product
-	where Id not in (select ProductId from Specification where [Name] = 'Collection')
+	where Id not in (select ProductId from Specification where [Name] = 'Rating Count')
 	and ERPNumber not like '%:%' -- ignore swatches
-	*/
 
 	insert into Specification
 	(ContentManagerId, [Name], [Description], IsActive, CreatedBy, ModifiedBy, ProductId)
