@@ -381,6 +381,7 @@ begin
 	join OEGSystemStaging.dbo.Products sp on sp.Number = p.ERPNumber
 		and sp.BrandId = @brand
 	join OEGSystemStaging.dbo.ProductSKUs spsku on spsku.ProductId = sp.ProductId
+		and spsku.EffStartDate < getdate() and spsku.effenddate > getdate() and spsku.IsWebEnabled = 1
 	join OEGSystemStaging.dbo.ItemSKUsColors sd on sd.ItemSKUId = spsku.ItemSKUId
 	join OEGSystemStaging.dbo.LookupWebColors slu on slu.ColorId = sd.ColorId
 	join AttributeValue avalue on avalue.[Value] = slu.[Name]
@@ -592,6 +593,7 @@ begin
 		select distinct sp.Number ERPNumber
 		from OEGSystemStaging.dbo.Products sp
 		join OEGSystemStaging.dbo.ProductSKUs spsku on spsku.ProductId = sp.ProductId
+			and spsku.EffStartDate < getdate() and spsku.effenddate > getdate() and spsku.IsWebEnabled = 1
 		join OEGSystemStaging.dbo.ItemSKUs sisku on sisku.ItemSKUId = spsku.ItemSKUId
 		join Product p on p.ERPNumber = sp.Number + '_' + spsku.OptionCode
 		where sisku.IsGSAEnabled = 1
@@ -634,6 +636,7 @@ begin
 		select sp.Number ERPNumber 
 		from OEGSystemStaging.dbo.Products sp
 		join OEGSystemStaging.dbo.ProductSKUs spsku on spsku.ProductId = sp.ProductId
+			and spsku.EffStartDate < getdate() and spsku.effenddate > getdate() and spsku.IsWebEnabled = 1
 		join OEGSystemStaging.dbo.ItemSKUs sisku on sisku.ItemSKUId = spsku.ItemSKUId
 		join Product p on p.ERPNumber = sp.Number + '_' + spsku.OptionCode
 		where sisku.NormalLeadTimeId = 1 and sisku.CurrentLeadTimeId is null

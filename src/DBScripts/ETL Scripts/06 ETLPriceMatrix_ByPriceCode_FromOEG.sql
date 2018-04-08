@@ -67,7 +67,7 @@ begin
 			OEGSystemStaging.dbo.ProductPrices spp
 			join OEGSystemStaging.dbo.products sp on sp.ProductId = spp.ProductId and sp.BrandId = @brand
 			join OEGSystemStaging.dbo.ProductSKUs spsku on spsku.ProductId = sp.ProductId
-				and spsku.EffEndDate > getdate()
+				and spsku.EffStartDate < getdate() and spsku.effenddate > getdate() and spsku.IsWebEnabled = 1
 		where 
 			spp.EffStartDate < getdate() and spp.effenddate > getdate()
 			and spp.PricingTierId = 
@@ -195,7 +195,7 @@ begin
 			OEGSystemStaging.dbo.ProductPrices spp
 			join OEGSystemStaging.dbo.products sp on sp.ProductId = spp.ProductId and sp.BrandId = @brand
 			join OEGSystemStaging.dbo.ProductSKUs spsku on spsku.ProductId = sp.ProductId
-				and spsku.EffEndDate > getdate()
+				and spsku.EffStartDate < getdate() and spsku.effenddate > getdate() and spsku.IsWebEnabled = 1
 		where 
 			spp.EffStartDate < getdate() and spp.effenddate > getdate()
 			and spp.PricingTierId = 

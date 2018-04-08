@@ -75,7 +75,7 @@ begin
 		join OEGSystemStaging.dbo.ProductWebImages spwi on spwi.ProductId = sp.ProductId
 			and (spwi.UsageId = 1 or spwi.IsPrimary = 1)
 		join OEGSystemStaging.dbo.ProductSKUs spsku on spsku.ProductId = sp.ProductId
-			and spsku.IsWebEnabled = 1
+			and spsku.EffStartDate < getdate() and spsku.effenddate > getdate() and spsku.IsWebEnabled = 1
 		join Product p on p.ERPNumber = sp.Number + '_' + spsku.OptionCode
 	where 
 		sp.BrandId = @brand
@@ -123,7 +123,7 @@ begin
 		join OEGSystemStaging.dbo.ProductWebImages spwi on spwi.ProductId = sp.ProductId
 			and ((spwi.UsageId = 2 and spwi.IsPrimary = 0) or spwi.IsPrimary = 1) -- these are the featured images
 		join OEGSystemStaging.dbo.ProductSKUs spsku on spsku.ProductId = sp.ProductId
-			and spsku.IsWebEnabled = 1
+			and spsku.EffStartDate < getdate() and spsku.effenddate > getdate() and spsku.IsWebEnabled = 1
 		left join OEGSystemStaging.dbo.ProductSkusWebImages spswi on spswi.ProductSKUId = spsku.ProductSKUId
 		join Product p on p.ERPNumber = sp.Number + '_' + spsku.OptionCode
 	where 

@@ -77,6 +77,7 @@ begin
 				join OEGSystemStaging.dbo.LookupLeadtimes iq_lult on iq_lult.Id = iq_sisku.NormalLeadTimeId
 					and iq_lult.ShipCodeId = iq_sisku.ShipCodeId
 				WHERE iq_spsku.ProductId = sp.ProductId
+					and iq_spsku.EffStartDate < getdate() and iq_spsku.effenddate > getdate() and iq_spsku.IsWebEnabled = 1
 				FOR XML RAW('tr'), ELEMENTS) 
 				+ '</table>' 
 				deliveryTable
@@ -86,7 +87,7 @@ begin
 		and sp.BrandId = @brand
 	join OEGSystemStaging.dbo.Items si on si.ItemId = sp.ItemId
 	join OEGSystemStaging.dbo.ProductSKUs spsku on spsku.ProductId = sp.ProductId
-		and spsku.EffEndDate > getdate() and spsku.IsWebEnabled = 1
+		and spsku.EffStartDate < getdate() and spsku.effenddate > getdate() and spsku.IsWebEnabled = 1
 	join OEGSystemStaging.dbo.ItemSKUs sisku on sisku.ItemSKUId = spsku.ItemSKUId
 	join OEGSystemStaging.dbo.LookupShipTypes lust on lust.Id = sisku.ShipTypeId
 	join OEGSystemStaging.dbo.LookupShipCodes lusc on lusc.Id = sisku.ShipCodeId
@@ -225,7 +226,7 @@ begin
 		and sp.BrandId = @brand
 	join OEGSystemStaging.dbo.ItemDimensions dim on dim.ItemId = sp.ItemId
 	join OEGSystemStaging.dbo.ProductSKUs spsku on spsku.ProductId = sp.ProductId
-		and spsku.EffEndDate > getdate() and spsku.IsWebEnabled = 1
+		and spsku.EffStartDate < getdate() and spsku.effenddate > getdate() and spsku.IsWebEnabled = 1
 	join OEGSystemStaging.dbo.ItemSKUs sisku on sisku.ItemSKUId = spsku.ItemSKUId
 	group by 
 		p.Id, p.ERPNumber, dim.General, dim.Back, dim.Seat, dim.Arm, sp.ItemId, s.ContentManagerId
@@ -274,6 +275,7 @@ begin
 		[Value] = isnull(v.Code,'')
 	from OEGSystemStaging.dbo.Products sp
 	join OEGSystemStaging.dbo.ProductSKUs spsku on spsku.ProductId = sp.ProductId
+		and spsku.EffStartDate < getdate() and spsku.effenddate > getdate() and spsku.IsWebEnabled = 1
 	join Product p on p.ERPNumber = sp.Number + '_' + spsku.OptionCode
 	join Specification s on s.ProductId = p.Id and s.[Name] = 'Vendor Code'
 	join OEGSystemStaging.dbo.Vendors v on v.VendorId = sp.PrimaryVendorId
@@ -290,6 +292,7 @@ begin
 	--select p.ERPNumber, v.Code
 	from OEGSystemStaging.dbo.Products sp
 	join OEGSystemStaging.dbo.ProductSKUs spsku on spsku.ProductId = sp.ProductId
+		and spsku.EffStartDate < getdate() and spsku.effenddate > getdate() and spsku.IsWebEnabled = 1
 	join Product p on p.ERPNumber = sp.Number + '_' + spsku.OptionCode
 	join Specification s on s.ProductId = p.Id and s.[Name] = 'Vendor Code'
 	join OEGSystemStaging.dbo.Vendors v on v.VendorId = sp.PrimaryVendorId
