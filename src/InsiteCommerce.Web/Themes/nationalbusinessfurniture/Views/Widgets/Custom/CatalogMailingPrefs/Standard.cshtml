@@ -39,7 +39,7 @@
                 <label for="zip[[Model.ContentKey]]">[% translate 'Zip' %] <span class="redTxt">*</span></label>
                 <input name="Zip" data-rule-required="true" data-msg-required="Zip is required" data-val="true" type="text" ng-model="vm.catalogPrefs.Zip" id="zip[[Model.ContentKey]]" />
                 <span class="field-validation-valid" data-valmsg-replace="true" data-valmsg-for="Zip"></span>
-            </div>  
+            </div>
             <div>
                 <input style="display:none" type="text" ng-model="vm.catalogPrefs.EmailTo" id="emailTo[[Model.ContentKey]]" ng-init="vm.catalogPrefs.EmailTo='[[Model.EmailToValue]]'" />
             </div>
@@ -47,7 +47,8 @@
                 <label for="priorityCode[[Model.ContentKey]]">[% translate 'Priority Code' %] <span class="redTxt">*</span></label>
                 <input name="PriorityCode" data-rule-required="true" data-msg-required="Priority Code is required" data-val="true" type="text" ng-model="vm.catalogPrefs.PriorityCode" id="priorityCode[[Model.ContentKey]]" />
                 <span class="field-validation-valid" data-valmsg-replace="true" data-valmsg-for="PriorityCode"></span>
-            </div>
+            </div>            
+            [% if Model.PreferencesCount > 1 -%]
             <div class="row cf-form-preference">
                 <label for="preference[[Model.ContentKey]]">[% translate 'Please select your preferred contact method' %] <span class="redTxt">*</span></label>
                 <select name="Preference" data-rule-required="true" data-msg-required="Catalog Mailing Preference is required" data-val="true" id="preference[[Model.ContentKey]]" ng-model="vm.catalogPrefs.Preference">
@@ -57,7 +58,11 @@
                     [% endfor -%]
                 </select>
                 <span class="field-validation-valid" data-valmsg-replace="true" data-valmsg-for="Preference"></span>
-            </div>            
+            </div>
+            [% endif -%]
+            [% if Model.PreferencesCount == 1 -%]
+            <input type="text" style="visibility:hidden" id="preference[[Model.ContentKey]]" name="Preference" ng-model="vm.catalogPrefs.Preference" ng-init="vm.catalogPrefs.Preference='[[Model.PreferencesFirstItem]]'" /> 
+            [% endif -%]
             <div ng-show="!vm.submitted" class="btns">
                 <button id="tst_catalogPrefsPage_send" ng-click="vm.sendEmail($event)" class="btn primary btn-send">[[Model.SubmitButtonText]]</button>
             </div>
