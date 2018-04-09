@@ -44,6 +44,15 @@
     #invoice-balance .totals {
         font-weight: bold;
     }
+
+    .search-orders {
+        .accord-head {
+            &:after {
+                position:relative;
+                margin-top:3px;
+            }
+        }
+    }
 }
 
 .widget-invoice-history {

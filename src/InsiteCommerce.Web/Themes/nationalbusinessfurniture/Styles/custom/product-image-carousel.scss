@@ -52,6 +52,12 @@
     position: relative;
     margin: 0 auto;
     max-width: 100%;
+    .favorite-btn {
+        position:absolute;
+        right:-2px;
+        top:4px;
+
+    }
 }
 
 [role="cross-sells"] .item-wrap .thumb-wrap,
@@ -154,6 +160,7 @@ div.quantity-pricing-popup {
     list-style: none;
     margin: 0;
     padding: 0;
+    height: 32px;
 }
 
 [role="cross-sells"] .cs-carousel > li {

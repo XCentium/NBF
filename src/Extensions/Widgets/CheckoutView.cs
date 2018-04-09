@@ -6,6 +6,6 @@ namespace Extensions.Widgets
     [DisplayName("NBF - Checkout View")]
     public class CheckoutView : ContentWidget
     {
-        
+
     }
 }

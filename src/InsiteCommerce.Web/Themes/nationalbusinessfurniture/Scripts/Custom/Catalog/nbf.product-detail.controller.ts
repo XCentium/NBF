@@ -7,7 +7,7 @@
         favoritesWishlist: WishListModel;
         isAuthenticated: boolean = false;
         resourceAndAssemblyDocs: any[];
-        selectedSwatchProductIds: any[]=[];
+        selectedSwatchProductIds: System.Guid[]=[];
 
         static $inject = [
             "$scope",
@@ -19,7 +19,9 @@
             "settingsService",
             "$stateParams",
             "sessionService",
-            "nbfWishListService"];
+            "nbfWishListService",
+            "spinnerService",
+            "$window"];
 
         constructor(
             protected $scope: ng.IScope,
@@ -31,7 +33,9 @@
             protected settingsService: core.ISettingsService,
             protected $stateParams: IContentPageStateParams,
             protected sessionService: account.ISessionService,
-            protected nbfWishListService: wishlist.INbfWishListService
+            protected nbfWishListService: wishlist.INbfWishListService,
+            protected spinnerService: core.ISpinnerService,
+            protected $window: ng.IWindowService
         ) {
             super($scope, coreService, cartService, productService, addToWishlistPopupService, productSubscriptionPopupService, settingsService, $stateParams, sessionService)
             this.sessionService.getIsAuthenticated().then((isAuth) => {
@@ -156,7 +160,7 @@
 
             if (swatch != null) {
                 if (this.selectedSwatchProductIds.filter(x => x == swatch.Id).length === 0) {
-                    this.selectedSwatchProductIds.push(swatch.Id);
+                    this.selectedSwatchProductIds.push(<System.Guid>swatch.Id);
                 }
                 else {
                     var index = this.selectedSwatchProductIds.indexOf(swatch.Id);
@@ -180,25 +184,44 @@
             return retVal;
         }
 
+        protected showSwatchOrderForm(): void {
+            this.coreService.displayModal(angular.element("#swatchform"));
+        }
+
+        protected hideSwatchOrderForm(): void {
+            this.coreService.closeModal("#swatchform");
+        }
+
         protected addSwatchProductsToCart() {
-            debugger;
-            const expand = ["attributes", "pricing"];
-            const parameter: IProductCollectionParameters = { productIds: this.selectedSwatchProductIds };
-            this.productService.getProducts(parameter, expand).then(
-                (productCollection: ProductCollectionModel) =>
-                {
-                    this.addingToCart = true;
-                    productCollection.products.forEach(x => {
-                        x.qtyOrdered = 1;
-                        x.unitOfMeasure = 'EA';
-                    });                   
-                    
-                    this.cartService.addLineCollectionFromProducts(productCollection.products, true,false).then(
-                        (cartLine: CartLineCollectionModel) => { },
-                        (error: any) => { this.addToCartFailed(error); }
-                    );
-                },
-                (error: any) => { console.error(error); });
+            let currentCart = this.cartService.getLoadedCurrentCart();
+            let productIdsAlreadyInCart = currentCart.cartLines.map(x => x.productId);
+
+            let productDtos = this.selectedSwatchProductIds
+                .filter(x => productIdsAlreadyInCart.filter(y => y == x).length === 0)
+                .map(x => {
+                    return <ProductDto>{ id: x, qtyOrdered: 1, unitOfMeasure: 'EA' }
+                });
+
+            if (productDtos && productDtos.length > 0) {
+                this.addingToCart = true;
+                this.spinnerService.show();
+
+                this.cartService.addLineCollectionFromProducts(productDtos, true, false).then(
+                    (cartLine: CartLineCollectionModel) => {
+                        this.selectedSwatchProductIds = [];
+                        this.spinnerService.hide();
+                        this.hideSwatchOrderForm();
+                    },
+                    (error: any) => {
+                        this.spinnerService.hide();
+                        this.addToCartFailed(error);
+                    }
+                );
+            }
+            else {
+                this.selectedSwatchProductIds = [];
+                this.hideSwatchOrderForm();
+            }
         }
 
         initVideo() {
@@ -250,7 +273,58 @@
             });
 
             this.resourceAndAssemblyDocs = this.product.documents.filter(x => x.documentType != "video");
-        }     
+
+            setTimeout(() => {
+                this.setLiveExpertsWidget();
+                this.setPowerReviews();
+            }, 1000);            
+        }   
+
+        protected setPowerReviews() {
+            let powerReviewsConfig = {
+                api_key: '56b8fc6a-79a7-421e-adc5-36cbdaec7daf',
+                locale: 'en_US',
+                merchant_group_id: '47982',
+                merchant_id: '33771',
+                page_id: this.product.productCode,
+                review_wrapper_url: 'Product-Review?',
+                components: {
+                    //ReviewSnippet: 'pr-reviewsnippet',
+                    ReviewDisplay: 'pr-reviewdisplay',
+                    QuestionSnippet: 'pr-questionsnippet',
+                    QuestionDisplay: 'pr-questiondisplay'
+                }
+            };
+
+            let powerReviews = this.$window["POWERREVIEWS"];
+            powerReviews.display.render(powerReviewsConfig)
+        }
+
+        protected setLiveExpertsWidget() {
+            var liveExpertConfig = {
+                enterpriseURL: 'liveexpert.net',
+                sourceHost: 'assets.liveexpert.net',
+                assetLocation: 'nbf/multiButton/nbf',
+                apiURL: 'api.liveexpert.net',
+                companyID: 31,
+                language: 'EN',
+                callTypeID: 1,
+                micEnabled: false,
+                camEnabled: false,
+                categoryID: null
+            };
+
+            let liveProductDemoAttr = this.getAttributeValue("Live Product Demo");
+            if (liveProductDemoAttr != null && liveProductDemoAttr == "Yes"
+                && this.product.modelNumber != null
+            )
+            {
+                liveExpertConfig.categoryID = this.product.modelNumber;
+            }
+
+            let liveexpert = this.$window["liveexpert"];
+            liveexpert.LEAWidget.init(liveExpertConfig);
+        }
        
         showVideo() {            
             this.setVideo2(this.product.properties["videoFile"]);

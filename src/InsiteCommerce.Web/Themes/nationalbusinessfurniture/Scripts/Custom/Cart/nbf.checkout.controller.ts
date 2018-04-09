@@ -1,4 +1,4 @@
-﻿module nbf.Checkout {
+﻿module nbf.checkout {
     "use strict";
     import SessionService = insite.account.ISessionService;
     import ShipToModel = Insite.Customers.WebApi.V1.ApiModels.ShipToModel;
@@ -55,6 +55,9 @@
         userFound = false;
         newUser = false;
         hideSignIn = false;
+        isTaxExempt = false;
+        taxExemptRadioValue = true;
+        taxExemptFileName = "";
 
         //Split Payment variables
         paymentAmount: number;
@@ -78,7 +81,8 @@
             "sessionService",
             "$localStorage",
             "nbfGuestActivationService",
-            "nbfPaymentService"
+            "nbfPaymentService",
+            "termsAndConditionsPopupService"
         ];
 
         constructor(
@@ -99,7 +103,8 @@
             protected sessionService: SessionService,
             protected $localStorage: insite.common.IWindowStorage,
             protected nbfGuestActivationService: guest.INbfGuestActivationService,
-            protected nbfPaymentService: nbf.cart.INbfPaymentService) {
+            protected nbfPaymentService: cart.INbfPaymentService,
+            protected termsAndConditionsPopupService: insite.cart.ITermsAndConditionsPopupService) {
             this.init();
         }
 
@@ -153,7 +158,7 @@
         }
 
         protected getAddressFieldsCompleted(addressFields: AddressFieldCollectionModel): void {
-            this.addressFields = addressFields; 
+            this.addressFields = addressFields;
 
             this.cartService.expand = "shiptos,validation,cartlines";
 
@@ -192,6 +197,12 @@
             this.cartService.expand = "";
             this.cart = cart;
 
+            const hasRestrictions = cart.cartLines.some(o => o.isRestricted);
+            // if cart does not have cartLines or any cartLine is restricted, go to Cart page
+            if (!this.cart.cartLines || this.cart.cartLines.length === 0 || hasRestrictions) {
+                this.coreService.redirectToPath(this.cartUrl);
+            }
+
             this.remainingTotal = this.cart.orderGrandTotal;
             if (this.cart.properties['cc1']) {
                 this.remainingTotal -= Number(this.cart.properties['cc1']);
@@ -204,12 +215,6 @@
 
             if (this.cart.shipTo && this.cart.shipTo.id) {
                 this.initialShipToId = this.cart.shipTo.id;
-            }
-
-            const hasRestrictions = cart.cartLines.some(o => o.isRestricted);
-            // if cart does not have cartLines or any cartLine is restricted, go to Cart page
-            if (!this.cart.cartLines || this.cart.cartLines.length === 0 || hasRestrictions) {
-                this.coreService.redirectToPath(this.cartUrl);
             }
 
             this.websiteService.getCountries("states").then(
@@ -280,7 +285,8 @@
             // with the actual billto object so that updating one side updates the other side
             if (shipToBillTo) {
                 this.cart.billTo.label = shipToBillTo.label;
-                this.shipTos.splice(this.shipTos.indexOf(shipToBillTo), 1); // remove the billto that's in the shiptos array
+                this.shipTos.splice(this.shipTos.indexOf(shipToBillTo),
+                    1); // remove the billto that's in the shiptos array
                 this.shipTos.unshift(this.cart.billTo as any as ShipToModel); // add the actual billto to top of array
             }
         }
@@ -313,7 +319,7 @@
         }
 
         checkSelectedShipTo(): void {
-            if (this.isGuest){
+            if (this.isGuest) {
                 if (!this.billToSameAsShipToSelected) {
                     this.shipTos.forEach(shipTo => {
                         if (shipTo.isNew) {
@@ -450,13 +456,14 @@
             const valid = $("#addressForm").validate().form();
             if (!valid) {
                 angular.element("html, body").animate({
-                    scrollTop: angular.element(".error:visible").offset().top
-                }, 300);
+                        scrollTop: angular.element(".error:visible").offset().top
+                    },
+                    300);
 
                 return;
             }
 
-            this.spinnerService.show("mainLayout");
+            this.spinnerService.show("mainLayout", true);
             this.continueCheckoutInProgress = true;
             this.cartUri = cartUri;
 
@@ -480,11 +487,13 @@
             const valid = $("#reviewAndPayForm").validate().form();
             if (!valid) {
                 angular.element("html, body").animate({
-                    scrollTop: angular.element(".error:visible").offset().top
-                }, 300);
+                        scrollTop: angular.element(".error:visible").offset().top
+                    },
+                    300);
 
                 return;
             }
+            this.spinnerService.show("mainLayout", true);
 
             this.loadStep3();
         }
@@ -498,7 +507,9 @@
         }
 
         protected updateShipTo(customerWasUpdated?: boolean): void {
-            const shipToMatches = this.cart.billTo.shipTos.filter(shipTo => { return shipTo.id === this.selectedShipTo.id; });
+            const shipToMatches = this.cart.billTo.shipTos.filter(shipTo => {
+                return shipTo.id === this.selectedShipTo.id;
+            });
             if (shipToMatches.length === 1) {
                 this.cart.shipTo = this.selectedShipTo;
             }
@@ -536,13 +547,15 @@
             this.cart = cart;
 
             if (!cart.canCheckOut) {
-                this.coreService.displayModal(angular.element("#insufficientInventoryAtCheckout"), () => {
-                    this.loadStep2();
-                });
+                this.coreService.displayModal(angular.element("#insufficientInventoryAtCheckout"),
+                    () => {
+                        this.loadStep2();
+                    });
 
                 this.$timeout(() => {
-                    this.coreService.closeModal("#insufficientInventoryAtCheckout");
-                }, 3000);
+                        this.coreService.closeModal("#insufficientInventoryAtCheckout");
+                    },
+                    3000);
             } else {
                 if (this.initialIsSubscribed !== this.account.isSubscribed) {
                     this.accountService.updateAccount(this.account).then(
@@ -582,15 +595,17 @@
 
         protected updateSessionCompleted(session: SessionModel, cart: CartModel) {
             if (session.isRestrictedProductRemovedFromCart) {
-                this.coreService.displayModal(angular.element("#removedProductsFromCart"), () => {
-                    if (session.isRestrictedProductExistInCart) {
-                        this.$localStorage.set("hasRestrictedProducts", true.toString());
-                    }
-                    this.redirectTo(this.cartUri);
-                });
+                this.coreService.displayModal(angular.element("#removedProductsFromCart"),
+                    () => {
+                        if (session.isRestrictedProductExistInCart) {
+                            this.$localStorage.set("hasRestrictedProducts", true.toString());
+                        }
+                        this.redirectTo(this.cartUri);
+                    });
                 this.$timeout(() => {
-                    this.coreService.closeModal("#removedProductsFromCart");
-                }, 5000);
+                        this.coreService.closeModal("#removedProductsFromCart");
+                    },
+                    5000);
                 return;
             }
 
@@ -627,8 +642,9 @@
             $("#nav3").removeClass("active");
             $("#payment").removeClass("active");
             $("html:not(:animated), body:not(:animated)").animate({
-                scrollTop: $("#nav1").offset().top
-            }, 200);
+                    scrollTop: $("#nav1").offset().top
+                },
+                200);
         }
 
         editShipping(e) {
@@ -641,13 +657,16 @@
             $("#payment").removeClass("active");
             $("#nav3").removeClass("active");
             $("html:not(:animated), body:not(:animated)").animate({
-                scrollTop: $("#nav2").offset().top
-            }, 200);
+                    scrollTop: $("#nav2").offset().top
+                },
+                200);
         }
 
         //Review and Pay Functionality
 
         reviewAndPayInit(): void {
+            this.spinnerService.hide("mainLayout");
+
             this.$scope.$on("cartChanged", (event: ng.IAngularEvent) => this.onCartChanged(event));
 
             this.cartId = this.queryString.get("cartId") || "current";
@@ -656,10 +675,14 @@
 
             $("#reviewAndPayForm").validate();
 
-            this.$scope.$watch("vm.cart.paymentOptions.creditCard.expirationYear", (year: number) => { this.onExpirationYearChanged(year); });
-            this.$scope.$watch("vm.cart.paymentOptions.creditCard.useBillingAddress", (useBillingAddress: boolean) => { this.onUseBillingAddressChanged(useBillingAddress); });
-            this.$scope.$watch("vm.creditCardBillingCountry", (country: CountryModel) => { this.onCreditCardBillingCountryChanged(country); });
-            this.$scope.$watch("vm.creditCardBillingState", (state: StateModel) => { this.onCreditCardBillingStateChanged(state); });
+            this.$scope.$watch("vm.cart.paymentOptions.creditCard.expirationYear",
+                (year: number) => { this.onExpirationYearChanged(year); });
+            this.$scope.$watch("vm.cart.paymentOptions.creditCard.useBillingAddress",
+                (useBillingAddress: boolean) => { this.onUseBillingAddressChanged(useBillingAddress); });
+            this.$scope.$watch("vm.creditCardBillingCountry",
+                (country: CountryModel) => { this.onCreditCardBillingCountryChanged(country); });
+            this.$scope.$watch("vm.creditCardBillingState",
+                (state: StateModel) => { this.onCreditCardBillingStateChanged(state); });
 
             this.onUseBillingAddressChanged(true);
 
@@ -667,7 +690,9 @@
                 (settings: insite.core.SettingsCollection) => { this.getCartSettingsCompleted(settings); });
 
             this.websiteService.getCountries("states").then(
-                (countryCollection: CountryCollectionModel) => { this.getCountriesCompletedForReviewAndPay(countryCollection); });
+                (countryCollection: CountryCollectionModel) => {
+                    this.getCountriesCompletedForReviewAndPay(countryCollection);
+                });
         }
 
         protected onCartChanged(event: ng.IAngularEvent): void {
@@ -722,7 +747,8 @@
                 this.cart.paymentOptions.creditCard.cardType = this.cart.paymentOptions.cardTypes[0]["value"];
             // Mastercard 
             // Updated for Mastercard 2017 BINs expansion
-            if (/^(5[1-5][0-9]{14}|2(22[1-9][0-9]{12}|2[3-9][0-9]{13}|[3-6][0-9]{14}|7[0-1][0-9]{13}|720[0-9]{12}))$/.test(this.cart.paymentOptions.creditCard.cardNumber))
+            if (/^(5[1-5][0-9]{14}|2(22[1-9][0-9]{12}|2[3-9][0-9]{13}|[3-6][0-9]{14}|7[0-1][0-9]{13}|720[0-9]{12}))$/
+                .test(this.cart.paymentOptions.creditCard.cardNumber))
                 this.cart.paymentOptions.creditCard.cardType = this.cart.paymentOptions.cardTypes[1]["value"];
 
             // AMEX
@@ -782,15 +808,14 @@
             this.cartService.expand = "";
             let paymentMethod: Insite.Cart.Services.Dtos.PaymentMethodDto;
             let transientCard: Insite.Core.Plugins.PaymentGateway.Dtos.CreditCardDto;
-            
+
             if (this.cart && this.cart.paymentOptions) {
                 paymentMethod = this.cart.paymentMethod;
                 transientCard = this.saveTransientCard();
             }
 
             this.cart = cart;
-            window.console.log("carriers?");
-            window.console.dir(this.cart.carriers);
+
             if (!this.cart.shipVia || this.cart.shipVia.id == null) {
                 this.cart.carrier = this.cart.carriers[0];
                 this.cart.shipVia = this.cart.carrier.shipVias[0];
@@ -817,7 +842,9 @@
             this.setUpPayPal(isInit);
 
             this.promotionService.getCartPromotions(this.cart.id).then(
-                (promotionCollection: PromotionCollectionModel) => { this.getCartPromotionsCompleted(promotionCollection); });
+                (promotionCollection: PromotionCollectionModel) => {
+                    this.getCartPromotionsCompleted(promotionCollection);
+                });
 
             if (!isInit) {
                 this.pageIsReady = true;
@@ -830,8 +857,9 @@
             $("#shipping").addClass("active");
             $("#nav2").addClass("active");
             $("html:not(:animated), body:not(:animated)").animate({
-                scrollTop: $("#nav1").offset().top
-            }, 200);
+                    scrollTop: $("#nav1").offset().top
+                },
+                200);
         }
 
         protected saveTransientCard(): Insite.Core.Plugins.PaymentGateway.Dtos.CreditCardDto {
@@ -883,7 +911,8 @@
             }
         }
 
-        protected setUpPaymentMethod(isInit: boolean, selectedMethod: Insite.Cart.Services.Dtos.PaymentMethodDto): void {
+        protected setUpPaymentMethod(isInit: boolean, selectedMethod: Insite.Cart.Services.Dtos.PaymentMethodDto):
+            void {
             if (selectedMethod) {
                 this.cart.paymentOptions.paymentMethods.forEach(paymentMethod => {
                     if (paymentMethod.name === selectedMethod.name) {
@@ -967,7 +996,10 @@
                                 lastName: this.cart.billTo.lastName
                             } as AccountModel;
 
-                            this.nbfGuestActivationService.createAccountFromGuest(this.account.id, newAccount, this.cart.billTo, this.cart.shipTo).then(
+                            this.nbfGuestActivationService.createAccountFromGuest(this.account.id,
+                                newAccount,
+                                this.cart.billTo,
+                                this.cart.shipTo).then(
                                 () => {
                                     this.newUser = true;
                                     this.submitOrder(signInUri);
@@ -981,7 +1013,9 @@
 
         protected submitOrder(signInUri: string) {
             this.sessionService.getIsAuthenticated().then(
-                (isAuthenticated: boolean) => { this.getIsAuthenticatedForSubmitCompleted(isAuthenticated, signInUri); },
+                (isAuthenticated: boolean) => {
+                    this.getIsAuthenticatedForSubmitCompleted(isAuthenticated, signInUri);
+                },
                 (error: any) => { this.getIsAuthenticatedForSubmitFailed(error); });
         }
 
@@ -1019,7 +1053,12 @@
                 this.$window.location.href = `${this.$window.location.href}?cartid=${this.cart.id}`;
             } else {
                 if (history.pushState) {
-                    var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + "?cartid=" + this.cart.id;
+                    var newurl = window.location.protocol +
+                        "//" +
+                        window.location.host +
+                        window.location.pathname +
+                        "?cartid=" +
+                        this.cart.id;
                     window.history.pushState({ path: newurl }, "", newurl);
                 }
                 this.cartService.getCart();
@@ -1040,18 +1079,23 @@
             this.cart.paymentOptions.isPayPal = true;
 
             setTimeout(() => {
-                if (!this.validateReviewAndPayForm()) {
-                    this.cart.paymentOptions.isPayPal = false;
-                    return;
-                }
+                    if (!this.validateReviewAndPayForm()) {
+                        this.cart.paymentOptions.isPayPal = false;
+                        return;
+                    }
 
-                this.sessionService.getIsAuthenticated().then(
-                    (isAuthenticated: boolean) => { this.getIsAuthenticatedForSubmitPaypalCompleted(isAuthenticated, returnUri, signInUri); },
-                    (error: any) => { this.getIsAuthenticatedForSubmitPaypalFailed(error); });
-            }, 0);
+                    this.sessionService.getIsAuthenticated().then(
+                        (isAuthenticated: boolean) => {
+                            this.getIsAuthenticatedForSubmitPaypalCompleted(isAuthenticated, returnUri, signInUri);
+                        },
+                        (error: any) => { this.getIsAuthenticatedForSubmitPaypalFailed(error); });
+                },
+                0);
         }
 
-        protected getIsAuthenticatedForSubmitPaypalCompleted(isAuthenticated: boolean, returnUri: string, signInUri: string): void {
+        protected getIsAuthenticatedForSubmitPaypalCompleted(isAuthenticated: boolean,
+            returnUri: string,
+            signInUri: string): void {
             if (!isAuthenticated) {
                 this.coreService.redirectToPath(`${signInUri}?returnUrl=${this.coreService.getCurrentPath()}`);
                 return;
@@ -1086,8 +1130,9 @@
             const valid = $("#reviewAndPayForm").validate().form();
             if (!valid) {
                 $("html, body").animate({
-                    scrollTop: $("#reviewAndPayForm").offset().top
-                }, 300);
+                        scrollTop: $("#reviewAndPayForm").offset().top
+                    },
+                    300);
                 return false;
             }
             return true;
@@ -1130,19 +1175,24 @@
         }
 
         protected loadStep3() {
+            this.spinnerService.hide("mainLayout");
+
             $("#nav2expanded").hide();
             $("#nav2min, #nav2 .edit").show();
 
             $("#payment").addClass("active");
             $("#nav3").addClass("active");
             $("html:not(:animated), body:not(:animated)").animate({
-                scrollTop: $("#nav2").offset().top
-            }, 200);
+                    scrollTop: $("#nav2").offset().top
+                },
+                200);
 
             this.continueCheckoutInProgress = false;
         }
 
         protected loadStep4() {
+
+
             this.hideSignIn = true;
             $("#nav1expanded,#nav2expanded,#nav3expanded,.edit").hide();
             $("#nav1,#nav2,#nav3").hide();
@@ -1152,8 +1202,9 @@
             $("#confirmation").addClass("active");
 
             $("html:not(:animated), body:not(:animated)").animate({
-                scrollTop: $("#nav4").offset().top
-            }, 200);
+                    scrollTop: $("#nav4").offset().top
+                },
+                200);
 
             this.orderConfirmationInit();
         }
@@ -1175,7 +1226,7 @@
         addPayment() {
 
             var model = {};
-            
+
             model["orderNumber"] = this.cart.orderNumber;
             model["creditCard"] = this.cart.paymentOptions.creditCard;
             model["cartId"] = this.cart.id;
@@ -1193,12 +1244,12 @@
                         self.cart.paymentOptions.creditCard.cardNumber = "";
                         self.cart.paymentOptions.creditCard.securityCode = "";
                         self.cart.paymentOptions.creditCard.expirationYear = (new Date()).getFullYear();
-                        self.cart.paymentOptions.creditCard.expirationMonth = (new Date()).getMonth()+1;
+                        self.cart.paymentOptions.creditCard.expirationMonth = (new Date()).getMonth() + 1;
                     } else if (!self.cart.properties['cc2']) {
                         propName = 'cc2';
                         self.cart.properties[propName] = self.paymentAmount.toString();
                     }
-                    
+
                     self.cartService.updateCart(self.cart).then((cart) => {
                         this.cart.properties = cart.properties;
                         this.remainingTotal = cart.orderGrandTotal;
@@ -1207,7 +1258,7 @@
                         }
                         if (cart.properties['cc2']) {
                             this.remainingTotal -= Number(cart.properties['cc2']);
-                            
+
                         }
                         this.paymentAmount = this.remainingTotal;
                     });
@@ -1250,8 +1301,11 @@
                 (order: OrderModel) => { this.getOrderCompleted(order); });
 
             this.promotionService.getCartPromotions(this.cart.id).then(
-                (promotionCollection: PromotionCollectionModel) => { this.getCartPromotionsCompleted(promotionCollection); });
+                (promotionCollection: PromotionCollectionModel) => {
+                    this.getCartPromotionsCompleted(promotionCollection);
+                });
         }
+
         protected getOrderCompleted(orderHistory: OrderModel): void {
             this.order = orderHistory;
         }
@@ -1259,6 +1313,14 @@
         protected getCartCompletedOrderConfirmed(cart: CartModel): void {
             this.showRfqMessage = cart.canRequestQuote && cart.quoteRequiredCount > 0;
         }
+
+        openTerms() {
+            const data = {
+                showTermsAndConditionsPopup: true
+            } as insite.cart.ITermsAndConditionsPopupServiceDisplayData;
+
+            this.termsAndConditionsPopupService.display(data)
+        };
     }
 
     angular

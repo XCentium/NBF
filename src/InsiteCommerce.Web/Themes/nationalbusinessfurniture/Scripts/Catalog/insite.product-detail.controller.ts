@@ -37,7 +37,8 @@ module insite.catalog {
             "productSubscriptionPopupService",
             "settingsService",
             "$stateParams",
-            "sessionService"];
+            "sessionService"            
+        ];
 
         constructor(
             protected $scope: ng.IScope,

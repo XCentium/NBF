@@ -11,21 +11,21 @@
                     </a>
                 </div>
                 <div class="item-name-options">
-                    <span>Color: Black Faux Leather / Gray Mesh / Iridescent Sliver</span>
+                    <span ng-if="cartLine.properties['details']">{{cartLine.properties['details']}}</span>
                     <span ng-if="!cartLine.isFixedConfiguration" ng-repeat="sectionOption in cartLine.sectionOptions">
-                        <br /> <span ng-bind="sectionOption.sectionName + ':' + sectionOption.optionName"></span>
+                        <br/> <span ng-bind="sectionOption.sectionName + ':' + sectionOption.optionName"></span>
                     </span>
                 </div>
                 <div class="item-sku-wrap">
                     <div class="item-label">item #:</div>
                     <isc-product-name product="cartLine" no-link="true"></isc-product-name>
-                    <div class="item-flags gsa">GSA</div>
+                    <div class="item-flags gsa" ng-if="vm.isAttributeValue('GSA', 'Yes');">GSA</div>
                 </div>
                 <div ng-show="includeInventory && !cartLine.quoteRequired" class="availability">
                     <isc-availability-message availability="cartLine.availability" failed-to-get-real-time-inventory="failedToGetRealTimeInventory"></isc-availability-message>
                 </div>
                 <div class="ship-info">
-                    <span class="ico-Truck"></span> Ships Within: 14 days
+                    <div class="item-block__product__ships-today" ng-if="vm.isAttributeValue('Ships Today', 'Yes');"><span class="ico-Truck"></span> Ships Today!</div>
                 </div>
             </div>
             <div class="details-right">

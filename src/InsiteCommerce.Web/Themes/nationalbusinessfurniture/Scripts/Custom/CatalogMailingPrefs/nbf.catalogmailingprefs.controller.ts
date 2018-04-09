@@ -15,19 +15,22 @@
         }
 
         init(): void {
-            this.$form = this.$element.find("form");
-            this.$form.removeData("validator");
-            this.$form.removeData("unobtrusiveValidation");
-            $.validator.unobtrusive.parse(this.$form);
+            //this.$form = this.$element.find("form");
+            //this.$form.removeData("validator");
+            //this.$form.removeData("unobtrusiveValidation");
+            //$.validator.unobtrusive.parse(this.$form);
         }
 
         sendEmail($event): boolean
         {
-            $event.preventDefault();
-
-            if (!this.$form.valid()) {
-                return false;
-            }            
+            const valid = angular.element("#catalogMailingPrefsForm").validate().form();
+            if (!valid) {
+                angular.element("html, body").animate({
+                    scrollTop: angular.element(".error:visible").offset().top
+                }, 300);
+                return;
+            }
+            
             this.nbfCatalogMailingPrefsService.sendEmail(this.catalogPrefs).then(
                 (catalogMailingPrefs: string) => {
                     this.getCatalogMailingPrefsCompleted(catalogMailingPrefs);
