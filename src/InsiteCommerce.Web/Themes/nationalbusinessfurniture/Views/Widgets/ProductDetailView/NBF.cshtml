@@ -1,239 +1,242 @@
 ﻿<div ng-controller="ProductDetailController as vm" ng-cloak>
-<isc-catalog-breadcrumb ng-show="vm.product" breadcrumbs="vm.breadCrumbs"></isc-catalog-breadcrumb>
-<div class="medium-12 large-12 columns widget-1column narrow-container product-details">
-<div class="row">
-<div class="row pd-grid isc-productContainer">
-<div class="detail-info">
-    <div class="small-12 column medium-6 detail-image">
-        <isc-product-images ng-if="vm.product" product="vm.product"></isc-product-images>
-        <div class="image-buttons">
-            <button class="btn btn-secondary" ng-if="vm.product && vm.product.unspsc !== '0000'" ng-click="vm.show360()"><i class="ico-ViewIcon"></i> 360 View</button>
-            <button ng-show="vm.product.properties['videoUrl']" class="btn btn-secondary" ng-click="vm.showVideo()"><i class="ico-SmallplaybuttonIcon"></i> Product Video</button>
-        </div>
-    </div>
-    <div class="name-price small-12 column medium-6">
-        <h1>{{vm.product.shortDescription}}</h1>
-        Item#: {{vm.product.erpNumber}}<span class="item-divider"></span>Brand: {{vm.getAttributeValue("Brand")}}<span class="item-divider"></span>Collection: {{vm.getAttributeValue("Collection")}}
-        <div class="item-block__product__price-wrap">
-            <div class="item-block__product__price">
-                <isc-product-price product="vm.product" ng-cloak></isc-product-price>
-                <isc-product-price-saving product="vm.product" ng-cloak></isc-product-price-saving>
-            </div>
-            <div ng-if="vm.isAttributeValue('GSA', 'Yes');" class="item-block__product__flag gsa">
-                GSA
-            </div>
-            <div ng-if="vm.product.priceCode != null && vm.product.priceCode.length > 0" class="item-block__product__flag save">
-                SAVE {{vm.product.priceCode}}%
-            </div>
-        </div>
-        <div class="item-block__product__ships-today" ng-if="vm.isAttributeValue('Ships Today', 'Yes');"><span class="ico-Truck"></span> Ships Today!</div>
+    <script src="https://ui.powerreviews.com/stable/4.0/ui.js"></script>
+    <script src="https://assets.liveexpert.net/widget/javascript/leaWidget.js"></script>
 
-        <div class="item-block__product__col-2 clearfix">
-            <div class="col-1">
-                <isc-quantity-break-pricing product-id="vm.product.id" block="optional" break-prices="vm.product.pricing.unitRegularBreakPrices">
-                </isc-quantity-break-pricing>
-            </div>
-            <div class="col-2">
-                <div class="item-block__product__reviews">
-                    <div class="rating {{vm.getStarRating(vm.product)}}">
-                        <i class="fa fa-star" aria-hidden="true"></i>
-                        <i class="fa fa-star" aria-hidden="true"></i>
-                        <i class="fa fa-star" aria-hidden="true"></i>
-                        <i class="fa fa-star" aria-hidden="true"></i>
-                        <i class="fa fa-star" aria-hidden="true"></i>
+    <isc-catalog-breadcrumb ng-show="vm.product" breadcrumbs="vm.breadCrumbs"></isc-catalog-breadcrumb>
+    <div class="medium-12 large-12 columns widget-1column narrow-container product-details">
+        <div class="row">
+            <div class="row pd-grid isc-productContainer">
+                <div class="detail-info">
+                    <div class="small-12 column medium-6 detail-image">
+                        <isc-product-images ng-if="vm.product" product="vm.product"></isc-product-images>
+                        <div class="image-buttons">
+                            <button class="btn btn-secondary" ng-if="vm.product && vm.product.unspsc !== '0000'" ng-click="vm.show360()"><i class="ico-ViewIcon"></i> 360 View</button>
+                            <button ng-show="vm.product.properties['videoUrl']" class="btn btn-secondary" ng-click="vm.showVideo()"><i class="ico-SmallplaybuttonIcon"></i> Product Video</button>
+                        </div>
                     </div>
-                    <span ng-if="vm.getStarRatingNumeric(vm.product) > 0">
-                        {{vm.getStarRatingNumeric(vm.product) | number : 1 }}
-                    </span>
-                    (5 Reviews)
-                </div>
-                <a href="#reviews">Read 5 reviews</a>
-                <a href="#">Write a Review</a>
-            </div>
-        </div>
-        <div class="item-block__product__samples-link">
-            <strong>Available Colors/Finishes</strong> <a href="javascript:void(0);" ng-click="vm.showSwatchOrderForm()">Order Free Samples</a>
-        </div>
-        <div class="item-block__product__swatches">
-            <div class="item-block__product__swatches__label" ng-repeat-start="styleTrait in vm.styleTraitFiltered | orderBy: 'sortOrder'">{{styleTrait.nameDisplay}}:</div>
-            <ul ng-repeat-end>
-                <li ng-class="{'active': (vm.styleSelection[$parent.$index] && vm.styleSelection[$parent.$index].styleTraitValueId  == style.styleTraitValueId)}" ng-repeat="style in styleTrait.styleValues | orderBy: 'sortOrder' track by style.styleTraitValueId">
-                    <img ng-click="vm.selectInsiteStyleDropdown(styleTrait.nameDisplay, style.styleTraitValueId, $parent.$index);" ng-src="https://s7d9.scene7.com/is/image/NationalBusinessFurniture/{{vm.getSwatchImageNameFromStyleTraitValueId(style.styleTraitName, style.value)}}?hei=200&id=5-zsy2&fmt=jpg&fit=constrain,1&wid=344&hei=344" alt="{{style.valueDisplay}}" />
-                </li>
-            </ul>
-        </div>
-
-        <div class="pd-cm-wrap">
-            <div ng-show="vm.product.isConfigured && vm.product.configurationDto && vm.product.configurationDto.isKit">
-                <div ng-repeat="section in vm.product.configurationDto.sections" class="pd-kit">
-                    <div ng-show="section.sectionName" class="pd-kit-name" style="font-weight: bold">{{section.sectionName}}:</div>
-                    <div ng-repeat="option in section.options" class="pd-kit-value">
-                        {{option.description}}
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </div>
-    <div class="detail-options small-12 column medium-6">
-        <div class="panel" ng-show="vm.product.isConfigured && vm.product.configurationDto && !vm.product.configurationDto.isKit || vm.product.styleTraits.length > 0">
-            <div class="row collapse detail-options-wrap">
-                <!-- Configuration part -->
-                <div ng-show="vm.product.isConfigured && vm.product.configurationDto != null && !vm.product.configurationDto.isKit">
-                    <div ng-repeat="section in vm.product.configurationDto.sections" class="pd-kit">
-                        <span>{{section.sectionName}}</span>
-                        <select ng-model="vm.configurationSelection[$index]" name="tst_productDetail_configurationSection_{{section.sectionName}}" ng-change="vm.configChanged()"
-                                ng-options="option.description for option in section.options track by option.sectionOptionId">
-                            <option value="">Select {{section.sectionName}}</option>
-                        </select>
-                    </div>
-                </div>
-                <!-- Style part -->
-                <div class="small-12 columns pd-style-opt" ng-repeat="styleTrait in vm.styleTraitFiltered | orderBy: 'sortOrder'">
-                    <span>{{styleTrait.nameDisplay}}</span>
-                    <select name="{{'tst_styleSelect_' + styleTrait.name}}" ng-model="vm.styleSelection[$index]" ng-change="vm.styleChange(vm.styleSelection[$index], {{$index}})"
-                            ng-options="style.valueDisplay for style in styleTrait.styleValues | orderBy: 'sortOrder' track by style.styleTraitValueId">
-                        <option value=""> {{styleTrait.unselectedValue ? "" : "Select"}} {{styleTrait.unselectedValue ? styleTrait.unselectedValue : styleTrait.nameDisplay}}</option>
-                    </select>
-                </div>
-            </div>
-        </div>
-
-        <div class="right small-12 detail-add">
-            <div class="small-12 fc-um">
-                <label ng-if="vm.settings.alternateUnitsOfMeasure && vm.product.productUnitOfMeasures.length > 1" class="small-12">[% translate 'U/M' %]:</label>
-                <isc-unit-of-measure-select-list product="vm.product" alternate-units-of-measure="{{vm.settings.alternateUnitsOfMeasure}}"
-                                                 display-pack="true" change-unit-of-measure="vm.changeUnitOfMeasure(vm.product)"></isc-unit-of-measure-select-list>
-            </div>
-            <div class="fc-qty" ng-if="vm.product.canEnterQuantity || vm.configurationCompleted || vm.styleSelectionCompleted && !vm.product.canConfigure">
-                <label style="display:none;" class="small-12">[% translate 'QTY_quantity' %]</label>
-                <input id="tst_productDetail_qtyOrdered" type="text" value="1" class="small-12 numerictextbox" ng-model="vm.product.qtyOrdered">
-            </div>
-            <span class="field-validation-error" ng-if="vm.showUnitError"><span ng-bind="vm.parentProduct.unitOfMeasureDisplay"></span>[% siteMessage 'StyledProduct_WrongUnitOfMeasure' %]</span>
-            <div class="pd-buttons">
-                <div class="small-12 primary-button">
-                    <button ng-show="(vm.product.availability.messageType != 2 || vm.product.canBackOrder) && vm.product.allowedAddToCart && (vm.product.canAddToCart || vm.configurationCompleted || vm.styleSelectionCompleted && !vm.product.canConfigure)"
-                            id="tst_productDetail_addToCart" ng-click="vm.addToCart(vm.product)"
-                            role="button" class="btn primary btn-add-to-cart" ng-disabled="!vm.product.qtyOrdered || vm.product.qtyOrdered == 0 || vm.showUnitError || vm.addingToCart">
-                        <span class="ico-CartIcon"></span> [% translate 'Add To Cart' %]
-                    </button>
-                </div>
-
-                <div ng-if="vm.product.canConfigure && (vm.product.styleTraits.length === 0 || vm.styleSelectionCompleted)" class="small-12 primary-button">
-                    <a id="tst_productDetail_configure" href="[% urlFor '/Configuration/Configure' %]/{{vm.product.erpNumber}}" role="button" class="btn primary btn-configure">[% translate 'Configure' %]</a>
-                </div>
-                <div class="small-12 primary-button">
-                    <a id="tst_productDetail_productSubscription" href="" class="btn primary btn-product-subscription"
-                       ng-show="vm.product.isSubscription && (vm.product.availability.messageType != 2 || vm.product.canBackOrder) && vm.product.allowedAddToCart && (vm.product.canAddToCart || vm.configurationCompleted || vm.styleSelectionCompleted && !vm.product.canConfigure)"
-                       ng-click="vm.openProductSubscriptionPopup(vm.product)"
-                       ng-disabled="!vm.product.qtyOrdered || vm.product.qtyOrdered == 0 || vm.showUnitError">
-                        [% translate 'Delivery Schedule' %]
-                    </a>
-                </div>
-            </div>
-            <a id="tst_productDetail_addToWishList" ng-if="vm.isAuthenticated" ng-class="{'in-favorites': vm.product.properties['isFavorite'] == 'true' } "
-               ng-click="vm.toggleFavorite(vm.product)" role="button"
-               class="btn secondary btn-add-to-list" href="javascript:;">{{vm.product.properties['isFavorite'] == "false" ? "Add To Favorites" : "Remove From Favorites"}}</a>
-            <div ng-show="vm.product" class="small-12 detail-share">
-                <a id="tst_productDetail_share" href="javascript:;" class="pd-zoom" data-reveal-id="TellAFriendDialogContainer">[% translate 'Share' %]</a>
-                <isc-tell-a-friend-popup product="vm.product" data-reveal></isc-tell-a-friend-popup>
-            </div>
-        </div>
-    </div>
-    <div class="accordion-details-page">
-        <div class="small-12 column">
-            <section class="accordion">
-                <div>
-                    <input type="checkbox" id="accord-10000" class="accord-check" />
-                    <label id="tst_productList_tableView_filterButton" for="accord-10000" class="accord-head">[% translate 'Product Details' %]</label>
-                    <article class="accord-content">
-                        <div id="tst_productDetail_htmlContent" class="product-cm" ng-bind-html="vm.product.htmlContent|trusted"></div>
-                        <br />
-                        <div class="product-cm" ng-if="vm.product.specifications">
-                            <div ng-if="(vm.product.specifications | filter: { name: 'Features' }).length > 0">
-                                Features:
-                                <div ng-repeat="specification in vm.product.specifications | filter: { name: 'Features' } | orderBy: 'sortOrder'" ng-bind-html="specification.htmlContent|trusted"></div>
+                    <div class="name-price small-12 column medium-6">
+                        <h1>{{vm.product.shortDescription}}</h1>
+                        Item#: {{vm.product.erpNumber}}<span class="item-divider"></span>Brand: {{vm.getAttributeValue("Brand")}}<span class="item-divider"></span>Collection: {{vm.getAttributeValue("Collection")}}
+                        <div class="item-block__product__price-wrap">
+                            <div class="item-block__product__price">
+                                <isc-product-price product="vm.product" ng-cloak></isc-product-price>
+                                <isc-product-price-saving product="vm.product" ng-cloak></isc-product-price-saving>
                             </div>
-                            <div ng-if="(vm.product.specifications | filter: { name: 'Dimensions' }).length > 0">
-                                Dimensions and Weight:
-                                <div ng-repeat="specification in vm.product.specifications | filter: { name: 'Dimensions' } | orderBy: 'sortOrder'" ng-bind-html="specification.htmlContent|trusted"></div>
+                            <div ng-if="vm.isAttributeValue('GSA', 'Yes');" class="item-block__product__flag gsa">
+                                GSA
+                            </div>
+                            <div ng-if="vm.product.priceCode != null && vm.product.priceCode.length > 0" class="item-block__product__flag save">
+                                SAVE {{vm.product.priceCode}}%
                             </div>
                         </div>
-                    </article>
-                </div>
-            </section>
-            <section class="accordion" ng-if="(vm.product.specifications | filter: { name: 'Delivery' }).length > 0">
-                <div>
-                    <input type="checkbox" id="accord-10001" class="accord-check" />
-                    <label id="tst_productList_tableView_filterButton" for="accord-10001" class="accord-head">[% translate 'Delivery Information' %]</label>
-                    <article class="accord-content">
-                        <div id="tst_productDetail_htmlContent" class="product-cm">
-                            <div ng-repeat="specification in vm.product.specifications | filter: { name: 'Delivery' } | orderBy: 'sortOrder'" ng-bind-html="specification.htmlContent|trusted"></div>
+                        <div class="item-block__product__ships-today" ng-if="vm.isAttributeValue('Ships Today', 'Yes');"><span class="ico-Truck"></span> Ships Today!</div>
+
+                        <div class="item-block__product__col-2 clearfix">
+                            <div class="col-1">
+                                <isc-quantity-break-pricing product-id="vm.product.id" block="optional" break-prices="vm.product.pricing.unitRegularBreakPrices">
+                                </isc-quantity-break-pricing>
+                            </div>
+                            <div class="col-2">
+                                <div class="item-block__product__reviews">
+                                    <div class="rating {{vm.getStarRating(vm.product)}}">
+                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                    </div>
+                                    <span ng-if="vm.getStarRatingNumeric(vm.product) > 0">
+                                        {{vm.getStarRatingNumeric(vm.product) | number : 1 }}
+                                    </span>
+                                    (5 Reviews)
+                                </div>
+                                <a href="#reviews">Read 5 reviews</a>
+                                <a href="#">Write a Review</a>
+                            </div>
                         </div>
-                    </article>
-                </div>
-            </section>
-            <section class="accordion" ng-if="!vm.settings.displayDocumentsInTabs && vm.product.documents.length > 0 && vm.resourceAndAssemblyDocs.length > 0">
-                <div>
-                    <input type="checkbox" id="accord-10002" class="accord-check" />
-                    <label id="tst_productList_tableView_filterButton" for="accord-10002" class="accord-head">[% translate 'Resource &amp; Assembly' %]</label>
-                    <article class="accord-content">
-                        <div id="tst_productDetail_htmlContent" class="product-cm">
-                            <ul class="doclinks">
-                                <li ng-if="vm.languageId === document.languageId || document.languageId === null" ng-repeat="document in vm.product.documents" class="doc-{{$index}}">
-                                    <a id="tst_productDetail_{{document.id}}" ng-href="{{document.filePath}}" target="_new">{{document.name}} <em ng-if="document.documentType">({{document.documentType}})</em></a>
+                        <div class="item-block__product__samples-link">
+                            <strong>Available Colors/Finishes</strong> <a href="javascript:void(0);" ng-click="vm.showSwatchOrderForm()">Order Free Samples</a>
+                        </div>
+                        <div class="item-block__product__swatches">
+                            <div class="item-block__product__swatches__label" ng-repeat-start="styleTrait in vm.styleTraitFiltered | orderBy: 'sortOrder'">{{styleTrait.nameDisplay}}:</div>
+                            <ul ng-repeat-end>
+                                <li ng-class="{'active': (vm.styleSelection[$parent.$index] && vm.styleSelection[$parent.$index].styleTraitValueId  == style.styleTraitValueId)}" ng-repeat="style in styleTrait.styleValues | orderBy: 'sortOrder' track by style.styleTraitValueId">
+                                    <img ng-click="vm.selectInsiteStyleDropdown(styleTrait.nameDisplay, style.styleTraitValueId, $parent.$index);" ng-src="https://s7d9.scene7.com/is/image/NationalBusinessFurniture/{{vm.getSwatchImageNameFromStyleTraitValueId(style.styleTraitName, style.value)}}?hei=200&id=5-zsy2&fmt=jpg&fit=constrain,1&wid=344&hei=344" alt="{{style.valueDisplay}}" />
                                 </li>
                             </ul>
                         </div>
-                    </article>
-                </div>
-            </section>
-            <section class="accordion" ng-show="vm.isAttributeValue('GSA', 'Yes')">
-                <div>
-                    <input type="checkbox" id="accord-10003" class="accord-check" />
-                    <label id="tst_productList_tableView_filterButton" for="accord-10003" class="accord-head">[% translate 'Contract Information' %]</label>
-                    <article class="accord-content">
-                        <div id="tst_productDetail_htmlContent" class="product-cm">
-                            [% zone 'GSA Content' %]
-                        </div>
-                    </article>
-                </div>
-            </section>
-        </div>
-    </div>
-</div>
 
-</div>
-<isc-cross-sell-carousel product="vm.product"
-                         product-cross-sell="true">
-</isc-cross-sell-carousel>
-</div>
-</div>
-<!--swatch popup-->
-<div id="swatchform" class="swatchform reveal-modal" data-reveal data-reveal-init aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
-    <div class="swatchform__scrollarea">
-        <h1 id="swatchform__title">Order Free Color Samples</h1>
-        <p class="lead">
-            Simply select the color samples you’d like to receive and click the Add To Cart button below.<br />
-            Or, call us at <strong>800-558-1010</strong> to request samples.<br />
-            Your free color samples will arrive within 3-5 business days.
-        </p>
-        <div class="swatchform__type" ng-repeat="styleTrait in vm.styleTraitFiltered | orderBy: 'sortOrder'">
-            <div class="swatchform__type__title">{{styleTrait.nameDisplay}}:</div>
-            <ul class="swatchform__list">
-                <li class="swatchform__item" ng-class="{'active': vm.isSwatchProductSelected(styleTrait.nameDisplay, style.value)}" ng-repeat="style in styleTrait.styleValues | orderBy: 'sortOrder' track by style.styleTraitValueId">
-                    <a href ng-click="vm.toggleSwatchProductSelection(styleTrait.nameDisplay, style.value)" class="tip" data-title="{{style.value}}">
-                        <img ng-src="https://s7d9.scene7.com/is/image/NationalBusinessFurniture/{{vm.getSwatchImageNameFromStyleTraitValueId(style.styleTraitName, style.value)}}?hei=200&id=5-zsy2&fmt=jpg&fit=constrain,1&wid=344&hei=344" alt="{{style.valueDisplay}}" />
-                    </a>
-                </li>
-            </ul>
+                        <div class="pd-cm-wrap">
+                            <div ng-show="vm.product.isConfigured && vm.product.configurationDto && vm.product.configurationDto.isKit">
+                                <div ng-repeat="section in vm.product.configurationDto.sections" class="pd-kit">
+                                    <div ng-show="section.sectionName" class="pd-kit-name" style="font-weight: bold">{{section.sectionName}}:</div>
+                                    <div ng-repeat="option in section.options" class="pd-kit-value">
+                                        {{option.description}}
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="detail-options small-12 column medium-6">
+                        <div class="panel" ng-show="vm.product.isConfigured && vm.product.configurationDto && !vm.product.configurationDto.isKit || vm.product.styleTraits.length > 0">
+                            <div class="row collapse detail-options-wrap">
+                                <!-- Configuration part -->
+                                <div ng-show="vm.product.isConfigured && vm.product.configurationDto != null && !vm.product.configurationDto.isKit">
+                                    <div ng-repeat="section in vm.product.configurationDto.sections" class="pd-kit">
+                                        <span>{{section.sectionName}}</span>
+                                        <select ng-model="vm.configurationSelection[$index]" name="tst_productDetail_configurationSection_{{section.sectionName}}" ng-change="vm.configChanged()"
+                                                ng-options="option.description for option in section.options track by option.sectionOptionId">
+                                            <option value="">Select {{section.sectionName}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <!-- Style part -->
+                                <div class="small-12 columns pd-style-opt" ng-repeat="styleTrait in vm.styleTraitFiltered | orderBy: 'sortOrder'">
+                                    <span>{{styleTrait.nameDisplay}}</span>
+                                    <select name="{{'tst_styleSelect_' + styleTrait.name}}" ng-model="vm.styleSelection[$index]" ng-change="vm.styleChange(vm.styleSelection[$index], {{$index}})"
+                                            ng-options="style.valueDisplay for style in styleTrait.styleValues | orderBy: 'sortOrder' track by style.styleTraitValueId">
+                                        <option value=""> {{styleTrait.unselectedValue ? "" : "Select"}} {{styleTrait.unselectedValue ? styleTrait.unselectedValue : styleTrait.nameDisplay}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="right small-12 detail-add">
+                            <div class="small-12 fc-um">
+                                <label ng-if="vm.settings.alternateUnitsOfMeasure && vm.product.productUnitOfMeasures.length > 1" class="small-12">[% translate 'U/M' %]:</label>
+                                <isc-unit-of-measure-select-list product="vm.product" alternate-units-of-measure="{{vm.settings.alternateUnitsOfMeasure}}"
+                                                                 display-pack="true" change-unit-of-measure="vm.changeUnitOfMeasure(vm.product)"></isc-unit-of-measure-select-list>
+                            </div>
+                            <div class="fc-qty" ng-if="vm.product.canEnterQuantity || vm.configurationCompleted || vm.styleSelectionCompleted && !vm.product.canConfigure">
+                                <label style="display:none;" class="small-12">[% translate 'QTY_quantity' %]</label>
+                                <input id="tst_productDetail_qtyOrdered" type="text" value="1" class="small-12 numerictextbox" ng-model="vm.product.qtyOrdered">
+                            </div>
+                            <span class="field-validation-error" ng-if="vm.showUnitError"><span ng-bind="vm.parentProduct.unitOfMeasureDisplay"></span>[% siteMessage 'StyledProduct_WrongUnitOfMeasure' %]</span>
+                            <div class="pd-buttons">
+                                <div class="small-12 primary-button">
+                                    <button ng-show="(vm.product.availability.messageType != 2 || vm.product.canBackOrder) && vm.product.allowedAddToCart && (vm.product.canAddToCart || vm.configurationCompleted || vm.styleSelectionCompleted && !vm.product.canConfigure)"
+                                            id="tst_productDetail_addToCart" ng-click="vm.addToCart(vm.product)"
+                                            role="button" class="btn primary btn-add-to-cart" ng-disabled="!vm.product.qtyOrdered || vm.product.qtyOrdered == 0 || vm.showUnitError || vm.addingToCart">
+                                        <span class="ico-CartIcon"></span> [% translate 'Add To Cart' %]
+                                    </button>
+                                </div>
+
+                                <div ng-if="vm.product.canConfigure && (vm.product.styleTraits.length === 0 || vm.styleSelectionCompleted)" class="small-12 primary-button">
+                                    <a id="tst_productDetail_configure" href="[% urlFor '/Configuration/Configure' %]/{{vm.product.erpNumber}}" role="button" class="btn primary btn-configure">[% translate 'Configure' %]</a>
+                                </div>
+                                <div class="small-12 primary-button">
+                                    <a id="tst_productDetail_productSubscription" href="" class="btn primary btn-product-subscription"
+                                       ng-show="vm.product.isSubscription && (vm.product.availability.messageType != 2 || vm.product.canBackOrder) && vm.product.allowedAddToCart && (vm.product.canAddToCart || vm.configurationCompleted || vm.styleSelectionCompleted && !vm.product.canConfigure)"
+                                       ng-click="vm.openProductSubscriptionPopup(vm.product)"
+                                       ng-disabled="!vm.product.qtyOrdered || vm.product.qtyOrdered == 0 || vm.showUnitError">
+                                        [% translate 'Delivery Schedule' %]
+                                    </a>
+                                </div>
+                            </div>
+                            <a id="tst_productDetail_addToWishList" ng-if="vm.isAuthenticated" ng-class="{'in-favorites': vm.product.properties['isFavorite'] == 'true' } "
+                               ng-click="vm.toggleFavorite(vm.product)" role="button"
+                               class="btn secondary btn-add-to-list" href="javascript:;">{{vm.product.properties['isFavorite'] == "false" ? "Add To Favorites" : "Remove From Favorites"}}</a>
+                            <div ng-show="vm.product" class="small-12 detail-share">
+                                <a id="tst_productDetail_share" href="javascript:;" class="pd-zoom" data-reveal-id="TellAFriendDialogContainer">[% translate 'Share' %]</a>
+                                <isc-tell-a-friend-popup product="vm.product" data-reveal></isc-tell-a-friend-popup>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-details-page">
+                        <div class="small-12 column">
+                            <section class="accordion">
+                                <div>
+                                    <input type="checkbox" id="accord-10000" class="accord-check" />
+                                    <label id="tst_productList_tableView_filterButton" for="accord-10000" class="accord-head">[% translate 'Product Details' %]</label>
+                                    <article class="accord-content">
+                                        <div id="tst_productDetail_htmlContent" class="product-cm" ng-bind-html="vm.product.htmlContent|trusted"></div>
+                                        <br />
+                                        <div class="product-cm" ng-if="vm.product.specifications">
+                                            <div ng-if="(vm.product.specifications | filter: { name: 'Features' }).length > 0">
+                                                Features:
+                                                <div ng-repeat="specification in vm.product.specifications | filter: { name: 'Features' } | orderBy: 'sortOrder'" ng-bind-html="specification.htmlContent|trusted"></div>
+                                            </div>
+                                            <div ng-if="(vm.product.specifications | filter: { name: 'Dimensions' }).length > 0">
+                                                Dimensions and Weight:
+                                                <div ng-repeat="specification in vm.product.specifications | filter: { name: 'Dimensions' } | orderBy: 'sortOrder'" ng-bind-html="specification.htmlContent|trusted"></div>
+                                            </div>
+                                        </div>
+                                    </article>
+                                </div>
+                            </section>
+                            <section class="accordion" ng-if="(vm.product.specifications | filter: { name: 'Delivery' }).length > 0">
+                                <div>
+                                    <input type="checkbox" id="accord-10001" class="accord-check" />
+                                    <label id="tst_productList_tableView_filterButton" for="accord-10001" class="accord-head">[% translate 'Delivery Information' %]</label>
+                                    <article class="accord-content">
+                                        <div id="tst_productDetail_htmlContent" class="product-cm">
+                                            <div ng-repeat="specification in vm.product.specifications | filter: { name: 'Delivery' } | orderBy: 'sortOrder'" ng-bind-html="specification.htmlContent|trusted"></div>
+                                        </div>
+                                    </article>
+                                </div>
+                            </section>
+                            <section class="accordion" ng-if="!vm.settings.displayDocumentsInTabs && vm.product.documents.length > 0 && vm.resourceAndAssemblyDocs.length > 0">
+                                <div>
+                                    <input type="checkbox" id="accord-10002" class="accord-check" />
+                                    <label id="tst_productList_tableView_filterButton" for="accord-10002" class="accord-head">[% translate 'Resource &amp; Assembly' %]</label>
+                                    <article class="accord-content">
+                                        <div id="tst_productDetail_htmlContent" class="product-cm">
+                                            <ul class="doclinks">
+                                                <li ng-if="vm.languageId === document.languageId || document.languageId === null" ng-repeat="document in vm.product.documents" class="doc-{{$index}}">
+                                                    <a id="tst_productDetail_{{document.id}}" ng-href="http://s7d9.scene7.com/is/content/NationalBusinessFurniture/PDFs/Products/{{document.filePath}}" target="_new">{{document.name}} <em ng-if="document.documentType">({{document.documentType}})</em></a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </article>
+                                </div>
+                            </section>
+                            <section class="accordion" ng-show="vm.isAttributeValue('GSA', 'Yes')">
+                                <div>
+                                    <input type="checkbox" id="accord-10003" class="accord-check" />
+                                    <label id="tst_productList_tableView_filterButton" for="accord-10003" class="accord-head">[% translate 'Contract Information' %]</label>
+                                    <article class="accord-content">
+                                        <div id="tst_productDetail_htmlContent" class="product-cm">
+                                            [% zone 'GSA Content' %]
+                                        </div>
+                                    </article>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <isc-cross-sell-carousel product="vm.product"
+                                     product-cross-sell="true">
+            </isc-cross-sell-carousel>
         </div>
     </div>
-    <div class="swatchform__footer">
-        <a href ng-click="vm.addSwatchProductsToCart()" class="btn add-to-cart"><span class="ico-CartIcon"></span> Add To Cart</a>
+    <!--swatch popup-->
+    <div id="swatchform" class="swatchform reveal-modal" data-reveal data-reveal-init aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
+        <div class="swatchform__scrollarea">
+            <h1 id="swatchform__title">Order Free Color Samples</h1>
+            <p class="lead">
+                Simply select the color samples you’d like to receive and click the Add To Cart button below.<br />
+                Or, call us at <strong>800-558-1010</strong> to request samples.<br />
+                Your free color samples will arrive within 3-5 business days.
+            </p>
+            <div class="swatchform__type" ng-repeat="styleTrait in vm.styleTraitFiltered | orderBy: 'sortOrder'">
+                <div class="swatchform__type__title">{{styleTrait.nameDisplay}}:</div>
+                <ul class="swatchform__list">
+                    <li class="swatchform__item" ng-class="{'active': vm.isSwatchProductSelected(styleTrait.nameDisplay, style.value)}" ng-repeat="style in styleTrait.styleValues | orderBy: 'sortOrder' track by style.styleTraitValueId">
+                        <a href ng-click="vm.toggleSwatchProductSelection(styleTrait.nameDisplay, style.value)" class="tip" data-title="{{style.value}}">
+                            <img ng-src="https://s7d9.scene7.com/is/image/NationalBusinessFurniture/{{vm.getSwatchImageNameFromStyleTraitValueId(style.styleTraitName, style.value)}}?hei=200&id=5-zsy2&fmt=jpg&fit=constrain,1&wid=344&hei=344" alt="{{style.valueDisplay}}" />
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="swatchform__footer">
+            <a href ng-click="vm.addSwatchProductsToCart()" class="btn add-to-cart"><span class="ico-CartIcon"></span> Add To Cart</a>
+        </div>
+        <a class="close-reveal-modal" aria-label="Close">&#215;</a>
     </div>
-    <a class="close-reveal-modal" aria-label="Close">&#215;</a>
-</div>
 </div>
 
 <script type="text/ng-template" id="productDetail_tellAFriend">
@@ -323,7 +326,6 @@
     </div>
 </script>
 
-
 <script type="text/ng-template" id="/PartialViews/Catalog-CrossSellCarousel">
     [% partialView 'Catalog-CrossSellCarousel' %]
 </script>
@@ -333,3 +335,11 @@
 <script type="text/ng-template" id="/PartialViews/Catalog-ProductImageCarousel">
     [% partialView 'Catalog-ProductImageCarousel' %]
 </script>
+
+
+<!--product reviews-->
+<div id="pr-reviewsnippet"></div>
+<div id="pr-questionsnippet"></div>
+<div id="pr-reviewdisplay"></div>
+<div id="pr-questiondisplay"></div>
+    
