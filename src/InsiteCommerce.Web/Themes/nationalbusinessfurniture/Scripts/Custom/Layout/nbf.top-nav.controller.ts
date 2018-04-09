@@ -30,7 +30,7 @@
 
             this.$scope.$on("sessionUpdated", (event, session) => {
                 this.onSessionUpdated(session);
-            });
+            });            
         }
 
         protected onSessionUpdated(session: SessionModel): void {
