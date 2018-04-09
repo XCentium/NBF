@@ -21,7 +21,10 @@
             "sessionService",
             "nbfWishListService",
             "spinnerService",
-            "$window"];
+            "$window",
+            "$anchorScroll",
+            "$location"
+        ];
 
         constructor(
             protected $scope: ng.IScope,
@@ -35,7 +38,10 @@
             protected sessionService: account.ISessionService,
             protected nbfWishListService: wishlist.INbfWishListService,
             protected spinnerService: core.ISpinnerService,
-            protected $window: ng.IWindowService
+            protected $window: ng.IWindowService,
+            protected $anchorScroll: ng.IAnchorScrollService,
+            protected $location: ng.ILocationService
+
         ) {
             super($scope, coreService, cartService, productService, addToWishlistPopupService, productSubscriptionPopupService, settingsService, $stateParams, sessionService)
             this.sessionService.getIsAuthenticated().then((isAuth) => {
@@ -384,6 +390,19 @@
             $("#mobile_div_container").hide();
         }
 
+        protected getReviewCount(product: ProductDto): number {
+            let retVal = 0;
+            if (product && product.specifications && product.specifications.length > 0) {
+                let ratingCountSpecs = product.specifications.filter(x => x.name == "Rating Count");
+
+                if (ratingCountSpecs.length > 0 && !isNaN(parseFloat(ratingCountSpecs[0].value))) {
+                    retVal = parseInt(ratingCountSpecs[0].value);
+                }
+            }
+
+            return retVal;
+        }
+
         protected getStarRatingNumeric(product: ProductDto): number {
             let retVal = 0.0;
             if (product && product.specifications && product.specifications.length > 0) {
@@ -421,6 +440,11 @@
             }
 
             return retVal;
+        }
+
+        protected scrollTo(id: string): void {
+            this.$location.hash(id);
+            this.$anchorScroll();
         }
     }
 
