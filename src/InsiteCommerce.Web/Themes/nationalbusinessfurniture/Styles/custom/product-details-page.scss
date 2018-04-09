@@ -3,6 +3,12 @@
 
 .product-details {
     .detail-image {
+
+
+        .s7flyoutzoomview {
+            overflow: hidden;
+        }
+
         @media all and (max-width: 767px) {
             width: 100%;
         }
@@ -67,29 +73,45 @@
         }
     }
 
-    .item-block__product__col-2 {
-        margin-bottom: 30px;
+    .detail-info {
+        .item-block__product__col-2 {
+            margin-bottom: 30px;
 
-        .col-1 {
+            .col-1 {
 
-            @media all and (min-width: 768px) {
-                border-right: 1px solid $divider-gray;
-                margin-right: 20px;
-                width: 45%;
+                @media all and (min-width: 768px) {
+                    border-right: 1px solid $divider-gray;
+                    margin-right: 20px;
+                    width: 45%;
+                }
+            }
+
+            .col-2 {
+                @media all and (min-width: 768px) {
+                    width: 45%;
+                }
+            }
+
+            @media all and (max-width: 767px) {
+                .col {
+                    margin-bottom: 30px;
+                }
+            }
+
+            @media all and (max-width: 767px) {
+                & > div {
+                    width: 100%;
+                    margin-top: 15px;
+                }
             }
         }
-        @media all and (max-width: 767px) {
-            .col {
-                margin-bottom:30px;
-            }
-        }
 
-        @media all and (max-width: 767px) {
-            & > div {
-                width: 100%;
-            }
+        .item-block__product__ships-today {
+            text-align: left;
+            margin: 10px 0;
         }
     }
+
 
     .item-block__product__swatches {
         ul {
@@ -122,6 +144,12 @@
     }
 
     .item-block__product__samples-link {
+        margin-bottom: 10px;
+
+        strong {
+            margin-right: 20px;
+        }
+
         a {
             text-decoration: underline;
             margin-right: 10px;
@@ -139,10 +167,7 @@
         }
     }
 
-    .item-block__product__ships-today {
-        text-align: left;
-        margin: 10px 0;
-    }
+
 
     .accordion-details-page {
         .accordion {

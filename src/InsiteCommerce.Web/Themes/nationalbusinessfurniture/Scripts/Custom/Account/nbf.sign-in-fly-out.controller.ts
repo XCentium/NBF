@@ -356,7 +356,7 @@
 
         protected signInCompleted(session: SessionModel): void {
             this.sessionService.setContextFromSession(session);
-            if (session.isRestrictedProductRemovedFromCart) {
+            if (session.isRestrictedProductExistInCart) {
                 this.$localStorage.set("hasRestrictedProducts", true.toString());
             }
 

@@ -12,7 +12,10 @@
     border-bottom: 1px solid $divider-gray;
 
     .breadcrumbs {
-    float:left;
+        float: left;
+        @media all and (max-width: 991px){
+            float:none;
+        }
     }
 }
 
@@ -72,12 +75,22 @@
     margin: 0;
     border-left: 1px solid $divider-gray;
 
+    @media all and (max-width: 991px) {
+        border-left: 0px solid $divider-gray;
+        float: none;
+        text-align: center;
+    }
+
     li {
         display: inline-block;
         font-size: 16px;
         padding-left: 30px;
         line-height: normal;
         color: $nbf-navy;
+
+        @media all and (max-width: 991px) {
+            padding-left: 20px;
+        }
 
         a {
             color: $nbf-navy;
@@ -91,7 +104,7 @@
     }
 }
 
-@media all and (max-width: 767px) {
+@media all and (max-width: 991px) {
     .breadcrumbs > *:before {
         content: "\e011" !important; // Foundation override
         margin-left: 0;

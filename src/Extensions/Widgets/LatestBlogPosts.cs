@@ -1,5 +1,4 @@
 ﻿using Extensions.Widgets.ContentFields;
-using Insite.ContentLibrary.ContentFields;
 using Insite.ContentLibrary.Widgets;
 using Insite.Data.Entities;
 using System.Collections.Generic;
@@ -15,11 +14,11 @@ namespace Extensions.Widgets
         {
             get
             {
-                return this.GetValue<List<int>>(nameof(BlogPosts), new List<int>(), FieldType.General);
+                return GetValue(nameof(BlogPosts), new List<int>(), FieldType.General);
             }
             set
             {
-                this.SetValue<List<int>>(nameof(BlogPosts), value, FieldType.General);
+                SetValue(nameof(BlogPosts), value, FieldType.General);
             }
         }
 
@@ -27,11 +26,11 @@ namespace Extensions.Widgets
         {
             get
             {
-                return this.GetPerRequestValue<LatestBlogPostsDrop>(nameof(Drop));
+                return GetPerRequestValue<LatestBlogPostsDrop>(nameof(Drop));
             }
             set
             {
-                this.SetPerRequestValue<LatestBlogPostsDrop>(nameof(Drop), value);
+                SetPerRequestValue(nameof(Drop), value);
             }
         }
     }

@@ -35,7 +35,8 @@
             "customerService",
             "$localStorage",
             "$location",
-            "nbfGuestActivationService"
+            "nbfGuestActivationService",
+            "listrakService"
         ];
 
         constructor(
@@ -51,7 +52,8 @@
             protected customerService: customers.ICustomerService,
             protected $localStorage: common.IWindowStorage,
             protected $location: ng.ILocaleService,
-            protected nbfGuestActivationService: nbf.guest.INbfGuestActivationService) {
+            protected nbfGuestActivationService: nbf.guest.INbfGuestActivationService,
+            protected listrakService: nbf.listrak.IListrakService) {
             this.init();
         }
 
@@ -181,7 +183,7 @@
             const currentContext = this.sessionService.getContext();
             currentContext.billToId = account.billToId;
             currentContext.shipToId = account.shipToId;
-
+            this.listrakService.CreateContact(account.email, "account");
             this.sessionService.setContext(currentContext);
             this.sessionService.getSession().then(() => {
                 this.coreService.redirectToPathAndRefreshPage(this.returnUrl);

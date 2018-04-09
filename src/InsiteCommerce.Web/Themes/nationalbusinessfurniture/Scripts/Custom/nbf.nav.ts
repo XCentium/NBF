@@ -13,7 +13,7 @@
     };
 
     that.hideMenu = () => {
-        $("#sub-cat").addClass("hide-item test1");
+        $(".subnav").addClass("hide-item test1");
     };
 
     that.activatePanel = () => {
@@ -144,6 +144,11 @@
             if ($(window).scrollTop() > $("[role='primary-nav']").offset().top) {
                 $("body,html").scrollTop($("[role='primary-nav']").offset().top);
             }
+        });
+
+        $(".isc-primary-nav > ul").mouseover(function () {
+            $('.subnav').removeClass('hide-item');
+           console.log('done');
         });
 
         const navTimeoutDelay = 250;

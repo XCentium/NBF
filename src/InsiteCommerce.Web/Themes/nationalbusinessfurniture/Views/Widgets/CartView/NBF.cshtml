@@ -16,7 +16,7 @@
 </div>
 <a ng-if="vm.cart.properties['isPunchout']" ng-href="/punchout/punchoutsubmitporequisition.isch?operation=cancel" isc-full-redirect class="btn primary btn-checkout">[% translate 'Cancel PunchOut' %]</a>
 <a ng-if="vm.cart.canRequisition" href="#" class="btn primary btn-submit-requisition tst_cartPage_submitRequisition" ng-click="vm.submitRequisition('[% urlForPage 'RequisitionConfirmationPage' %]')">[% translate 'Submit Requisition' %]</a>
-<a href="javascript:void(0);" class="btn secondary btn-clear-all tst_cartPage_removeAll" ng-click="vm.emptyCart('[% urlForPage 'CartPage' %]')">[% translate 'Remove All' %]</a>
+
 [% endcapture %]
 <div class="medium-12 large-12 columns widget-1column narrow-container cart">
     <div class="row">
@@ -65,8 +65,25 @@
                             </nbf-cart-lines>
                         </div>
                     </div>
+                    <div class="promo-code">
+                        <a href="#">Have a promo code?</a>
+                        <div class="row">
+                            <div class="medium-6 column">
+                                <div class="row">
+                                    <div class="medium-8 column">
+                                        <input type="text" id="" name="promo" class="promo-code-input" placeholder="Enter Promo Code" required="" maxlength="75">
+                                    </div>
+                                    <div class="medium-4 column">
+                                        <button class="btn btn-secondary btn-navy">
+                                            Apply Code
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="btns hide-for-small">
-                        <a id="tst_cartPage_continueShopping" ng-show="vm.cart.displayContinueShoppingLink" href="[% urlForPage 'HomePage' %]" ng-click="vm.continueShopping($event)" class="btn secondary btn-continue-shopping">[% translate 'Continue Shopping' %]</a>
+                        <a id="tst_cartPage_continueShopping" ng-show="vm.cart.displayContinueShoppingLink" href="[% urlForPage 'HomePage' %]" ng-click="vm.continueShopping($event)" class="btn btn-long btn-continue-shopping">[% translate 'Continue Shopping' %]</a>
                     </div>
                 </div>
                 <div ng-if="vm.cart.cartLines.length > 0" class="cart-right">

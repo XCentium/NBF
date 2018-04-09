@@ -7,5 +7,6 @@ namespace Extensions.WebApi.Listrak.Interfaces
     public interface IListrakRepository : IExtension, IDependency
     {
         Task<bool> SendTransactionalEmail(SendTransationalMessageParameter parameter);
+        Task<bool> CreateOrUpdateContact(CreateOrUpdateContactParameter parameter);
     }
 }

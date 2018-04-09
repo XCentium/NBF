@@ -132,6 +132,21 @@ $reader.Close()
 
 Set-Content -Path $solutionFilePath -Value $solutionFileContent.ToString() -Force
 
+$tsConfigFile = "{
+  `"compilerOptions`": {
+    `"module`": `"commonjs`",
+    `"target`": `"es5`",
+    `"sourceMap`": true
+  },
+  `"exclude`": [
+    `"node_modules`",
+    `"bin`"
+  ]
+}"
+
+$tsConfigFilePath = "$themePath\tsconfig.json"
+Set-Content -Path $tsConfigFilePath -Value $tsConfigFile -Force
+
 $projectFile = "<Project ToolsVersion=`"12.0`" DefaultTargets=`"Build`" xmlns=`"http://schemas.microsoft.com/developer/msbuild/2003`">
   <Import Project=`"`$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v`$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props`" Condition=`"Exists('`$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v`$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props')`" />
   <Import Project=`"..\..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.3\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props`" Condition=`"Exists('..\..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.3\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')`" />
@@ -156,6 +171,7 @@ $projectFile = "<Project ToolsVersion=`"12.0`" DefaultTargets=`"Build`" xmlns=`"
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
     <UseGlobalApplicationHostFile />
+    <TypeScriptToolsVersion>1.8</TypeScriptToolsVersion>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
   </PropertyGroup>
@@ -216,6 +232,7 @@ $projectFile = "<Project ToolsVersion=`"12.0`" DefaultTargets=`"Build`" xmlns=`"
     <Service Include=`"{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}`" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include=`"tsconfig.json`" />
     $itemGroup
   </ItemGroup>
   <PropertyGroup>

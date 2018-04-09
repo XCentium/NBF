@@ -12,7 +12,7 @@
     .filter-middle {
 
         @media (min-width: 768px) {
-        padding-left: 115px;
+        padding-left: 100px;
         padding-right: 215px;
         }
     }
@@ -46,6 +46,27 @@
 
     .product-list-filters {
 
+        @media (min-width: 768px) and (max-width: 991px) {
+            & > div:nth-child(2n + 2) {
+                clear: left;
+            }
+        }
+
+        @media (min-width: 992px) and (max-width: 1197px) {
+            & > div:nth-child(3n + 2) {
+                clear: left;
+            }
+        }
+
+
+        @media (min-width: 1198px) {
+            & > div:nth-child(4n + 2) {
+                clear: left;
+            }
+        }
+
+
+
         .f-cat {
             width: 170px;
             margin-right: 36px;
@@ -53,15 +74,16 @@
             float: left;
 
             @media (max-width: 767px) {
-                width:100%;
+                width: 100%;
             }
         }
 
         .accordion {
 
             & > div {
-                position:relative;
+                position: relative;
             }
+
             label.accord-head {
                 color: #737373;
                 background-color: #fff;
@@ -80,7 +102,7 @@
                 border: 1px solid #404042 !important;
 
                 .f-wrap {
-                    ul{
+                    ul {
                         padding: 5px 10px;
                         list-style: none;
 
@@ -93,16 +115,37 @@
                             margin-bottom: 0;
 
                             &:before {
-                                    top: 9px;
+                                top: 9px;
                             }
 
-                            a{
-                                color:$nbf-black;
+                            a {
+                                color: $nbf-black;
                             }
                         }
                     }
                 }
             }
         }
+    }
+}
+
+
+.product-list {
+
+    .n-filtered {
+        margin: 0;
+        clear: both;
+
+        ul {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+    }
+}
+
+@media (min-width: 767px) {
+    .mobile-title + article.accord-content {
+        margin-top: 0;
     }
 }

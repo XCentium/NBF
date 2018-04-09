@@ -10,8 +10,8 @@
 
         <div class="large-12 columns">
             <div>
-                <div ng-if="vm.isCategoryPage() && !vm.filteredResults" class="category-list">
-                    <isc-catalog-breadcrumb breadcrumbs="vm.breadCrumbs"></isc-catalog-breadcrumb>
+                <div ng-if="!vm.filteredResults" class="category-list">
+                    <isc-catalog-breadcrumb breadcrumbs="vm.breadCrumbs" search-query="vm.query"></isc-catalog-breadcrumb>
                 </div>
             </div>
             <div ng-if="vm.category != null" class="pl4-cm">
@@ -25,9 +25,13 @@
                             </div>
                         </div>
                     </div>
-                    <div ng-if="!vm.category.largeImagePath" class="small-12 medium-10 push-1 columns widget-1column no-margin">
-                        <h1>{{vm.category.shortDescription}}</h1>
-                        <p ng-bind-html="vm.category.htmlContent|trusted"></p>
+                    <div ng-if="!vm.category.largeImagePath" class="medium-12 large-12 columns widget-1column narrow-container">
+                        <div class="row">
+                            <div class="medium-12 column">
+                                <h1>{{vm.category.shortDescription}}</h1>
+                                <p ng-bind-html="vm.category.htmlContent|trusted"></p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -82,7 +86,7 @@
                                     [% translate 'Search instead for' %] <a ng-click="vm.goToSearchCriteria(vm.originalQuery, false)">{{vm.originalQuery}}</a>
                                 </div>
                                 <div ng-show="vm.products.products.length > 0">
-                                    <isc-pager id="tst_productList_topPager" pagination="vm.products.pagination" storage-key="vm.paginationStorageKey" update-data="vm.updateProductData()" select-view="vm.selectView(viewName)" custom-context="vm.customPagerContext" page-changed="vm.pagerPageChanged()"></isc-pager>
+                                    <nbf-product-list-pager id="tst_productList_topPager" pagination="vm.products.pagination" storage-key="vm.paginationStorageKey" update-data="vm.updateProductData()" select-view="vm.selectView(viewName)" custom-context="vm.customPagerContext" page-changed="vm.pagerPageChanged()"></nbf-product-list-pager>
                                     <ul class="item-list cart-items" id="tst_productList_nonTable">
                                         <li ng-repeat="product in vm.products.products" id="tst_productList_{{product.id}}" class="row item-block checkout-item isc-productContainer {{product.isSponsored ? 'sponsored' : ''}}" data-product="{{product.id}}">
                                             <div class="sponsored-container" ng-if="product.isSponsored">
@@ -91,12 +95,15 @@
                                             <div class="item-thumb">
                                                 <a ng-href="{{product.productDetailUrl}}">
                                                     <img ng-src="https://s7d9.scene7.com/is/image/NationalBusinessFurniture/{{product.mediumImagePath}}?hei=250&id=Iu1rN2&fmt=jpg&fit=constrain,1&wid=250&hei=250" alt="{{product.altText}}" increment-images-loaded />
-                                                </a>
-                                                <!--
+                                                </a>                                                
                                                 <div ng-if="vm.settings.enableProductComparisons" class="product-compare-add">
                                                     <a href="javascript:void(0);" data-id="{{product.id}}" class="compare-link" ng-class="{ 'compare-active': product.isBeingCompared }" ng-click="vm.compareProduct(product);">[% translate 'Compare' %]</a>
+                                                </div>                                                
+                                                <div class="favorite-btn" ng-if="vm.isAuthenticated">
+                                                    <a id="tst_productDetail_addToWishList" ng-class="{'in-favorites': product.properties['isFavorite'] == 'true' } "
+                                                       ng-click="vm.toggleFavorite(product)" role="button"
+                                                       class="btn secondary btn-add-to-list" href="javascript:;"></a>
                                                 </div>
-                                                -->
                                             </div>
                                             <div class="item-details">
                                                 <div class="item-inf-wrapper">
@@ -106,17 +113,12 @@
                                                         </div>
                                                         <div class="item-block__product__swatch">
                                                             <ul>
-                                                                <li ng-repeat="swatchImg in vm.getTop3Swatches(product.properties['swatches'])">
+                                                                <li ng-repeat="swatchImg in vm.getTop6Swatches(product.properties['swatches'])">
                                                                     <div class="item-block__product__swatch__img-wrap">
                                                                         <img class="item-block__product__swatch" ng-src="https://s7d9.scene7.com/is/image/NationalBusinessFurniture/{{swatchImg}}?hei=200&id=5-zsy2&fmt=jpg&fit=constrain,1&wid=344&hei=344" />
                                                                     </div>
                                                                 </li>
-                                                                <li ng-if="vm.isAuthenticated">
-                                                                    <a id="tst_productDetail_addToWishList" ng-class="{'in-favorites': product.properties['isFavorite'] == 'true' } "
-                                                                       ng-click="vm.toggleFavorite(product)" role="button"
-                                                                       class="btn secondary btn-add-to-list" href="javascript:;"></a>
-                                                                </li>
-                                                                <li class="item-block__product__more-link"><u>More</u></li>
+                                                                <li class="item-block__product__more-link" ng-if="vm.getTotalSwatchCount(product.properties['swatches']) > 6"><a id="tst_productList_{{product.id}}_moreLink" ng-href="{{product.productDetailUrl}}">More</a></li>
                                                             </ul>
                                                         </div>
                                                         <div class="item-name item-name-grid">
@@ -135,10 +137,21 @@
                                                         <div ng-if="vm.isAttributeValue(product, 'GSA', 'Yes');" class="item-block__product__flag gsa">
                                                             GSA
                                                         </div>
+                                                        <div ng-if="product.priceCode != null && product.priceCode.length > 0" class="item-block__product__flag save">
+                                                            SAVE {{product.priceCode}}%
+                                                        </div>
                                                     </div>
                                                     <div class="item-block__product__col-2 clearfix">
                                                         <div class="col-1">
-                                                            <div class="item-block__product__stars"><div class="rating"></div>Stars Here!</div>
+                                                            <div class="item-block__product__stars">
+                                                                <div class="rating {{vm.getStarRating(product)}} ">
+                                                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                         <div class="col-2">
                                                             <div class="item-block__product__ships-today" ng-if="vm.isAttributeValue(product, 'Ships Today', 'Yes');"><span class="ico-Truck"></span> Ships Today!</div>
@@ -231,7 +244,7 @@
                                                                     </tr>
                                                                 </tbody>
                                                             </table>
-                                                            <isc-pager bottom="true" pagination="vm.products.pagination" storage-key="vm.paginationStorageKey" update-data="vm.updateProductData()" custom-context="vm.customPagerContext"></isc-pager>
+                                                            <nbf-product-list-pager bottom="true" pagination="vm.products.pagination" storage-key="vm.paginationStorageKey" update-data="vm.updateProductData()" custom-context="vm.customPagerContext"></nbf-product-list-pager>
                                                         </div>
                                                     </div>
                                                     <div class="item-price" ng-if="vm.failedToGetRealTimePrices">
@@ -432,7 +445,6 @@
                                     <span class="filter-title">[% translate 'Filter By' %]:</span>
                                 </div>
 
-                                [[filterStatusControls]]
                                 <div class="large-12 column filter-middle product-list-filters">
                                     <div class="f-search-within" style="display:none;">
                                         <div class="search-within-search clearfix">
@@ -450,7 +462,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="f-cat" ng-if="vm.products.categoryFacets.length > 0">
+                                    <div class="f-cat" ng-if="vm.products.categoryFacets.length > 0 && !vm.category">
                                         <section class="accordion">
                                             <div>
                                                 <input type="checkbox" id="accord-1" class="accord-check" />
@@ -458,7 +470,7 @@
                                                 <article class="accord-content">
                                                     <div class="f-wrap">
                                                         <ul>
-                                                            <li class="view-all"><a href="javascript:;"><span>View All</span></a></li>
+                                                            <li class="view-all" ng-if="vm.isViewAllCategoryFacetsCheckboxSelected(vm.products.categoryFacets)"><a ng-click="vm.selectAllCategoryFacets(vm.products.categoryFacets)"><span>View All</span></a></li>
                                                             <li id="tst_productList_categoryLeftNav_categoryFacet_{{categoryFacet.categoryId}}" ng-repeat="categoryFacet in vm.products.categoryFacets | orderBy : 'shortDescription'"
                                                                 ng-class="{'f-selected' : categoryFacet.selected}"
                                                                 ng-click="vm.toggleCategory(categoryFacet)">
@@ -482,7 +494,7 @@
                                                 <article class="accord-content">
                                                     <div class="f-wrap">
                                                         <ul>
-                                                            <li class="view-all"><a href="javascript:;"><span>View All</span></a></li>
+                                                            <li class="view-all" ng-if="vm.isViewAllPriceFacetsCheckBoxSelected(vm.products.priceRange.priceFacets)"><a ng-click="vm.selectAllPriceFacets(vm.products.priceRange.priceFacets)"><span>View All</span></a></li>
                                                             <li id="tst_productList_priceFacet_{{priceFacet.minimumPrice.toString()}}"
                                                                 ng-repeat="priceFacet in vm.products.priceRange.priceFacets | orderBy : 'minimumPrice'"
                                                                 ng-class="{'f-selected' : vm.isPriceFacetSelected(priceFacet)}"
@@ -506,7 +518,7 @@
                                                 <article class="accord-content">
                                                     <div class="f-wrap">
                                                         <ul>
-                                                            <li class="view-all"><a href="javascript:;"><span>View All</span></a></li>
+                                                            <li class="view-all" ng-if="vm.isViewAllAttributeFiltersCheckboxSelected(section.attributeValueFacets)"><a ng-click="vm.selectAllAttributeFilters(section.attributeValueFacets)"><span>View All</span></a></li>
                                                             <li id="tst_productList_categoryLeftNav_attributeValueFacet_{{attributeValue.attributeValueId}}"
                                                                 ng-repeat="attributeValue in section.attributeValueFacets | orderBy : ['sortOrder','valueDisplay']"
                                                                 ng-class="{'f-selected' : vm.isAttributeValueFacetSelected(attributeValue)}"
@@ -522,6 +534,7 @@
                                             </div>
                                         </section>
                                     </div>
+                                    [[filterStatusControls]]
 
                                     <!-- hidden div to force load of checked image -->
                                     <div class="f-cat" style="display:none;">
@@ -588,7 +601,7 @@
 
                                             <div class="search-container">
                                                 <div class="search-input">
-                                                    <input id="searchWithin" type="text" placeholder="[% translate 'Enter keywords' %]" ng-model="vm.searchWithinInput" isc-enter="vm.searchWithinEntered()" />
+                                                    <input id="searchWithinMobile" type="text" placeholder="[% translate 'Enter keywords' %]" ng-model="vm.searchWithinInput" isc-enter="vm.searchWithinEntered()" />
                                                 </div>
                                                 <div class="search-button">
                                                     <button class="btn primary fastClick" ng-click="vm.searchWithinEntered()">Go</button>
@@ -596,7 +609,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div ng-if="vm.products.categoryFacets.length > 0" class="filter-option-container">
+                                    <div ng-if="vm.products.categoryFacets.length > 0 && !vm.category" class="filter-option-container">
                                         <select data-mini="true"
                                                 ng-model="filterCategoryId"
                                                 ng-change="vm.toggleCategoryId(filterCategoryId)">

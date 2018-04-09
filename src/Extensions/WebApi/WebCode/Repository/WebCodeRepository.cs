@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using Extensions.WebApi.Base;
+﻿using Extensions.WebApi.Base;
 using Extensions.WebApi.WebCode.Interfaces;
 using Insite.Catalog.Services;
 using Insite.Core.Interfaces.Data;
@@ -19,7 +18,7 @@ namespace Extensions.WebApi.WebCode.Repository
             _unitOfWork = unitOfWorkFactory.GetUnitOfWork();
         }
 
-        public async Task<string> GetWebCode(string siteId)
+        public string GetWebCode(string siteId)
         {
             return siteId;
         }

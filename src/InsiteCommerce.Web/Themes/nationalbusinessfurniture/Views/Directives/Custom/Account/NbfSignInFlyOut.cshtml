@@ -14,9 +14,9 @@
     <div class="sub-heading">[% siteMessage 'Navigation_MyAccountDropDownText' 'Welcome' %]</div>
     <form id="signInFormFlyOut" name="vm.signInForm" novalidate>
 
-        <label for="SignInInfo_FlyOut_UserName" class="login-from__email__label">[% translate 'Username' %]</label>
+        <label class="username-label" for="SignInInfo_UserName" ng-bind="vm.settings.useEmailAsUserName ? '[% translate 'Email' EscapeSingleQuotes %]' : '[% translate 'Username' EscapeSingleQuotes %]'"></label>
         <input type="text" id="SignInInfo_FlyOut_UserName" name="userName" class="login-from__email__input"
-               placeholder="[% translate 'Username' %]"
+               placeholder="{{vm.settings.useEmailAsUserName ? '[% translate 'Email' EscapeSingleQuotes %]' : '[% translate 'Username' EscapeSingleQuotes %]'}}"
                required
                maxlength="75"
                ng-model="vm.userName" />

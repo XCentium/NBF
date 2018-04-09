@@ -36,8 +36,6 @@
             <div class="price" ng-if="cart.cartNotPriced">
                 <div>[% siteMessage 'RealTimePricing_PriceLoadFailed' %]</div>
             </div>
-            
-
             <div>
                 <a id="tst_cartLine_productSubscription" href="" class="btn primary btn-product-subscription"
                    ng-show="cartLine.isSubscription && editable"
@@ -48,14 +46,13 @@
             </div>
         </div>
         <div class="large-12 column">
-            <div class="item-name-options">
-                <span>Color: Black Faux Leather / Gray Mesh / Iridescent Sliver</span>
+            <div class="item-name-options" ng-if="cartLine.properties['details']">
+                <span>{{cartLine.properties['details']}}</span>
             </div>
             <div class="item-sku-wrap">
                 <div class="item-label">item #:</div>
                 <isc-product-name product="cartLine" no-link="true"></isc-product-name>
-                <div class="item-flags gsa">GSA</div>
-
+                <div class="item-flags gsa" ng-if="vm.isAttributeValue('GSA', 'Yes');">GSA</div>
             </div>
             <div class="price-wrap" ng-if="!inventoryCheck || cartLine.quoteRequired || (inventoryCheck && (cartLine.availability.messageType != 2 || cartLine.canBackOrder))">
                 <div class=""><span ng-if="!cartLine.quoteRequired && !cart.cartNotPriced" ng-bind="cartLine.pricing.extendedUnitNetPriceDisplay"></span></div>
@@ -69,17 +66,17 @@
                 </span>
             </div>
         </div>
-            <div class="large-9 columns item-code-notes" ng-if="!editable">
-                <div class="row">
-                    <div class="large-6 columns cost-code" ng-if="cart.showCostCode && cartLine.costCode.length > 0">
-                        <strong><span ng-bind="cart.costCodeLabel"></span>:</strong>
-                        <span ng-bind="cartLine.costCode"></span>
-                    </div>
-                    <div class="large-6 columns item-notes" ng-if="cart.showLineNotes && cartLine.notes.length > 0">
-                        <strong>[% translate 'Item Notes' %]:</strong>
-                        <span ng-bind="cartLine.notes"></span>
-                    </div>
+        <div class="large-9 columns item-code-notes" ng-if="!editable">
+            <div class="row">
+                <div class="large-6 columns cost-code" ng-if="cart.showCostCode && cartLine.costCode.length > 0">
+                    <strong><span ng-bind="cart.costCodeLabel"></span>:</strong>
+                    <span ng-bind="cartLine.costCode"></span>
+                </div>
+                <div class="large-6 columns item-notes" ng-if="cart.showLineNotes && cartLine.notes.length > 0">
+                    <strong>[% translate 'Item Notes' %]:</strong>
+                    <span ng-bind="cartLine.notes"></span>
                 </div>
             </div>
-</li>
+        </div>
+    </li>
 </ul>

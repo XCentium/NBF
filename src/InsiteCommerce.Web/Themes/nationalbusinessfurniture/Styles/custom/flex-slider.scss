@@ -2,16 +2,16 @@
 
 /* Slideshow */
 
-.slideshow-wrapper ul.slides li > p {
+ ul.slides li > p {
     margin-bottom: 0;
 }
 
-.slideshow-wrapper .flex-control-paging {
+ .flex-control-paging {
     text-align: center;
 }
 
 
-.slideshow-wrapper .flex-control-paging li a {
+ .flex-control-paging li a {
     float: none;
     display: inline-block;
     border: 0;
@@ -39,8 +39,7 @@
 
    
 }
-
-.slideshow-wrapper .flex-control-paging li {
+ .flex-control-paging li {
     &:last-child {
 
         a {
@@ -57,7 +56,7 @@
     margin: 0;
 }
 
-.slideshow-wrapper .flex-control-paging li a.flex-active {
+ .flex-control-paging li a.flex-active {
     background: $nbf-orange;
 }
 
@@ -134,7 +133,7 @@
 }
 
 .flexslider .slides img {
-    display: none;
+    //display: none;
 }
 
 .slideshow-wrapper .flex-prev:before {
@@ -172,4 +171,44 @@
 
 .flexslider {
     background-color:transparent;
+}
+[role="cross-sells"] .carousel-title {
+    font-size: 36px;
+    line-height: 56px;
+    margin-bottom: 40px;
+
+    @media only screen and (max-width: 40em) {
+        font-size: 30px;
+        line-height: 48px;
+    }
+}
+
+[role="cross-sells"] .flex-control-wrap {
+    text-align: center;
+    margin: 40px 0 60px;
+
+    .flex-control-nav {
+        position: relative;
+        bottom: auto;
+        display: inline;
+        padding: 0 15px;
+        color: #484848 !important;
+    }
+
+    .carousel-control-nav {
+        position: relative;
+        left: auto;
+        display: inline;
+        vertical-align: 4px;
+
+
+        span {
+            position: relative;
+            font-size: 19px;
+        }
+    }
+
+    .custom-controls-container {
+        display: inline;
+    }
 }

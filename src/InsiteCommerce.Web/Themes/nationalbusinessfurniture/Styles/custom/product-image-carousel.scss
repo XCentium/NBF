@@ -4,7 +4,7 @@
 
 .product-detail {
     .img-carousel {
-        padding:0 20px;
+        //padding:0 20px;
         .flex-viewport {
             padding-bottom: 10px;
         }
@@ -51,7 +51,13 @@
 [role="cross-sells"] .item-wrap {
     position: relative;
     margin: 0 auto;
-    max-width: 80%;
+    max-width: 100%;
+    .favorite-btn {
+        position:absolute;
+        right:-2px;
+        top:4px;
+
+    }
 }
 
 [role="cross-sells"] .item-wrap .thumb-wrap,
@@ -68,6 +74,22 @@
     line-height: 1.25em;
 }
 
+[role="cross-sells"] .item-wrap .item-num {
+    display:none;
+}
+
+[role="cross-sells"] .item-block__product__bluk-pricing {
+    display: none;
+}
+
+[role="cross-sells"] .item-wrap .item-name{
+    max-height:45px;
+    overflow:hidden;
+}
+[role="cross-sells"] .actions-block, [role="cross-sells"] .displayUnitOfMeasure {
+    display: none;
+}
+
 [role="cross-sells"] .item-wrap > div.price {
     font-size: 0.875rem;
 }
@@ -80,10 +102,13 @@
     font-size: 0.875rem;
     margin-bottom: 1em;
 }
-
+[role="cross-sells"] .cs-carousel .slides > li{
+    margin:0 36px 0 0;
+}
 [role="cross-sells"] .item-wrap .thumb-wrap,
 .product-comparison .item-wrap .thumb-wrap {
     margin-bottom: 1em;
+    border:1px solid $divider-gray;
 }
 
 div.quantity-pricing {
@@ -121,16 +146,21 @@ div.quantity-pricing-popup {
 
 [role="cross-sells"] .cs-carousel {
     position: relative; // Necessary for slider control positioning
-    overflow: hidden;
-    margin: 0 30px;
+    margin: 0;
 }
 
-[role="cross-sells"] .cs-carousel ul {
+[role="cross-sells"] .item-block__price {
+    font-weight: 700;
+    display: inline;
+}
+
+[role="cross-sells"] .cs-carousel ul:not(.swatch-list) {
     width: 20000em;
     position: relative;
     list-style: none;
     margin: 0;
     padding: 0;
+    height: 32px;
 }
 
 [role="cross-sells"] .cs-carousel > li {
@@ -236,7 +266,6 @@ div.quantity-pricing-popup {
 
 [role="cross-sells"] .carousel-control-prev:hover, [role="cross-sells"] .carousel-control-next:hover {
     text-decoration: none;
-    background: #f6f6f6;
 }
 
 [role="cross-sells"] .action > .btn {

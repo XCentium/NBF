@@ -5,7 +5,6 @@ module insite.order {
 
     export class OrderListController {
         orderHistory: OrderCollectionModel;
-        showPoNumber: boolean;
         pagination: PaginationModel;
         paginationStorageKey = "DefaultPagination-OrderList";
         searchFilter: OrderSearchFilter = {
@@ -26,6 +25,7 @@ module insite.order {
         shipTos: ShipToModel[];
         validationMessage: string;
         orderStatusMappings: KeyValuePair<string, string[]>;
+        settings: Insite.Order.WebApi.V1.ApiModels.OrderSettingsModel;
 
         static $inject = ["orderService", "customerService", "coreService", "paginationService", "settingsService"];
 
@@ -53,7 +53,7 @@ module insite.order {
         }
 
         protected getSettingsCompleted(settingsCollection: core.SettingsCollection): void {
-            this.showPoNumber = settingsCollection.orderSettings.showPoNumber;
+            this.settings = settingsCollection.orderSettings;
             this.initFromDate(settingsCollection.orderSettings.lookBackDays);
         }
 

@@ -7,9 +7,11 @@
 </head>
 
 <body>
+    [% if Model.LogoImagePath != null and Model.LogoImagePath != "" -%]
     <div>
-        <img src="[[Model.ContentBaseUrl]]/Images/email-header-with-insite-logo.png" height="86" width="600" alt="Insite Logo" />
+        <img src="[[Model.LogoImagePath]]" height="86" width="600" alt="Company Logo" />
     </div>
+    [% endif -%]
     <div style="margin-top: 30px;
                 margin-left: 20px;
                 margin-right: 20px;

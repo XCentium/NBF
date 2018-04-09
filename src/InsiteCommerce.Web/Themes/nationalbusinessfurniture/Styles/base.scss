@@ -1950,7 +1950,7 @@ header div.head-cm {
     width: 100%;
 }
 
-@media all and (min-width: 768px) {
+@media all and (min-width: 992px) {
     .header-zone {
         width: 33%;
     }
@@ -2526,6 +2526,19 @@ header div.head-cm {
     float: left;
     position: relative;
     border: 1px solid $divider-gray;
+    .favorite-btn {
+        position:absolute;
+        top:5px;
+        right:5px;
+        a{
+            display:inline;
+            padding:0;
+
+            &:before {
+                padding-right:0;
+            }
+        }
+    }
 }
 
 @media all and (max-width: 767px) {
@@ -3263,6 +3276,8 @@ a.btn.btn-configure:link, a.btn.btn-configure:visited {
     padding-left: 0;
     padding-right: 0;
     margin-bottom: 1em;
+    min-width: 1px;
+    padding: 0;
 }
 
 ul.attribute-list {
@@ -3608,6 +3623,8 @@ div.remove a.btn {
     text-decoration: none;
     padding-left: 1em;
     padding-right: 1em;
+    min-width: 0;
+    background-color: transparent;
 }
 
 div.remove a.btn .foundicon-remove:before {
@@ -7431,7 +7448,7 @@ html, body {
     height: 80px;
     text-align: center;
     
-        @media all and (max-width: 767px) {
+        @media all and (max-width: 991px) {
             display:none;
         }
 }
@@ -7465,7 +7482,7 @@ header label.toggle.burger {
     position: static;
     float: left;
 
-    @media all and (min-width: 768px) {
+    @media all and (min-width: 992px) {
                 display:none;
             }
 }
