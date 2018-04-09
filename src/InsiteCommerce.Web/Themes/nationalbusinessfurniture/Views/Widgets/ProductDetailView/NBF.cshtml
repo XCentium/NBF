@@ -48,9 +48,15 @@
                                     <span ng-if="vm.getStarRatingNumeric(vm.product) > 0">
                                         {{vm.getStarRatingNumeric(vm.product) | number : 1 }}
                                     </span>
-                                    (5 Reviews)
+                                    <span ng-if="vm.getReviewCount(vm.product) <= 1">
+                                        ({{vm.getReviewCount(vm.product)}} Review)
+                                    </span>
+                                    <span ng-if="vm.getReviewCount(vm.product) > 1">
+                                        ({{vm.getReviewCount(vm.product)}} Reviews)
+                                    </span>
                                 </div>
-                                <a href="#reviews">Read 5 reviews</a>
+                                <a href ng-click="vm.scrollTo('pr-reviewdisplay')" ng-if="vm.getReviewCount(vm.product) == 1">Read {{vm.getReviewCount(vm.product)}} review</a>
+                                <a href ng-click="vm.scrollTo('pr-reviewdisplay')" ng-if="vm.getReviewCount(vm.product) > 1">Read {{vm.getReviewCount(vm.product)}} reviews</a>
                                 <a href="#">Write a Review</a>
                             </div>
                         </div>
