@@ -121,28 +121,15 @@
             </div>
         </div>
     </div>
-    <div class="row">
-        <div class="small-12 medium-6 column">
-            <div class="address-phone" ng-if="addressFields.phone.isVisible">
-                <isc-address-field field-label="{{addressFields.phone.displayName}}"
-                                   field-name="{{prefix}}phone"
-                                   field-value="address.phone"
-                                   validation="address.validation.phone"
-                                   is-read-only="isReadOnly"
-                                   is-phone="true">
-                </isc-address-field>
-            </div>
-        </div>
-        <div class="small-12 medium-6 column">
-            <div class="address-phoneext" ng-if="addressFields.phone.isVisible">
-                <label>Ext.</label>
-                <input type="text" />
-            </div>
-        </div>
+    <div class="address-phone" ng-if="addressFields.phone.isVisible">
+        <isc-address-field field-label="{{addressFields.phone.displayName}}"
+                            field-name="{{prefix}}phone"
+                            field-value="address.phone"
+                            validation="address.validation.phone"
+                            is-read-only="isReadOnly"
+                            is-phone="true">
+        </isc-address-field>
     </div>
-   
-   
-    
     <div class="address-fax" ng-if="addressFields.fax.isVisible">
         <isc-address-field field-label="{{addressFields.fax.displayName}}"
                            field-name="{{prefix}}fax"
