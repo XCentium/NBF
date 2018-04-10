@@ -8,8 +8,9 @@
     export class NbfAccountSettingsController extends AccountSettingsController {
         session: SessionModel;
         contractOptions: ContractOption[];
+        priceCode: ContractOption;
 
-        static $inject = ["accountService", "$localStorage", "settingsService", "coreService", "sessionService", "customerService"];
+        static $inject = ["accountService", "$localStorage", "settingsService", "coreService", "sessionService", "customerService", "nbfPriceCodeService"];
 
         constructor(
             protected accountService: account.IAccountService,
@@ -17,7 +18,8 @@
             protected settingsService: core.ISettingsService,
             protected coreService: core.ICoreService,
             protected sessionService: account.ISessionService,
-            protected customerService: customers.ICustomerService) {
+            protected customerService: customers.ICustomerService,
+            protected nbfPriceCodeService: nbf.PriceCode.INbfPriceCodeService) {
             super(accountService, $localStorage, settingsService, coreService, sessionService);
         }
 
@@ -38,36 +40,57 @@
 
             this.contractOptions = [];
             this.contractOptions.push({
+                displayName: "None",
+                value: "None"
+            } as ContractOption);
+            this.contractOptions.push({
                 displayName: "GSA",
                 value: "GSA"
             } as ContractOption);
             this.contractOptions.push({
                 displayName: "Vizient",
-                value: "Vizient"
+                value: "Medical"
             } as ContractOption);
             this.contractOptions.push({
                 displayName: "TXMAS",
-                value: "TXMAS"
+                value: "GSA"
             } as ContractOption);
             this.contractOptions.push({
                 displayName: "CMAS",
-                value: "CMAS"
+                value: "GSA"
             } as ContractOption);
             this.contractOptions.push({
                 displayName: "Navy BPA",
-                value: "Navy BPA"
+                value: "BPA"
             } as ContractOption);
             this.contractOptions.push({
                 displayName: "Premier",
-                value: "Premier"
+                value: "Medical"
             } as ContractOption);
         }
 
         protected getSessionCompleted(session: SessionModel): void {
             this.session = session;
+
+            this.nbfPriceCodeService.getPriceCode(this.session.billTo.id).then(
+                (contractOption: ContractOption) => {
+                    if (!contractOption.displayName && contractOption.value) {
+                        this.priceCode = this.contractOptions.filter(o => o.value.toLowerCase() === contractOption.value.toLowerCase())[0];
+                    } else if (contractOption.displayName && contractOption.value) {
+                        this.priceCode = this.contractOptions.filter(o => o.displayName.toLowerCase() === contractOption.displayName.toLowerCase())[0];
+                    } else {
+                        this.priceCode = this.contractOptions[0];
+                    }
+                });
         }
 
         protected getSessionFailed(error: any): void {
+        }
+
+        updatePriceCode(): void {
+            this.nbfPriceCodeService.setPriceCode(this.priceCode.value, this.priceCode.displayName, this.session.billTo.id).then(
+                () => { }
+            );
         }
 
         protected updateSession(): void {

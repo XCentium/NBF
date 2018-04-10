@@ -26,15 +26,19 @@
 
                 <div class="sub-tier-panel subnav level-2">
                     [% if childPage.NbfChildPages %]
-                    <ul id="sub-cat2" class="sub-tier-panel">
-                        <li class="sub-heading">[[childPage.Title]]</li>
-                        [% for grandChildPage in childPage.NbfChildPages -%]
-                        <li><a href="[[grandChildPage.Url]]" onclick="insite.nav.hideMenu();">[[grandChildPage.Title]]</a></li>
-                        [% endfor %]
-                    </ul>
+                    <div class="sub-links-wrap">
+                        <ul id="sub-cat2" class="sub-tier-cols">
+                            <li class="sub-heading">[[childPage.Title]]</li>
+                            [% for grandChildPage in childPage.NbfChildPages -%]
+                            <li><a href="[[grandChildPage.Url]]" onclick="insite.nav.hideMenu();">[[grandChildPage.Title]]</a></li>
+                            [% endfor %]
+                        </ul>
+                    </div>
                     [% endif %]
                     <div class="res-nav" style="min-width: 200px;">
-                        [[childPage.NavigationContent]]
+                        <div class="res-nav-wrap">
+                            [[childPage.NavigationContent]]
+                        </div>
                     </div>
                 </div>
             </li>

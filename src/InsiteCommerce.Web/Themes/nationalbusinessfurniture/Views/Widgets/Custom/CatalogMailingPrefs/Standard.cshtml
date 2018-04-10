@@ -1,63 +1,68 @@
 ﻿<div ng-controller="NbfCatalogMailingPrefsController as vm" class="widget-contactform" ng-cloak>
     <div class="cf-form [[Model.CssClass]]">
-        <form id="catalogMailingPrefsForm[[Model.ContentKey]]" method="post">
+        <form id="catalogMailingPrefsForm" method="post">
             <div class="required-msg"><span class="redTxt">*</span> [% translate 'Required' %]</div>
-            <div class="cf-form-firstname">
+            <div class="row cf-form-firstname">
                 <label for="firstName[[Model.ContentKey]]">[% translate 'First Name' %] <span class="redTxt">*</span></label>
-                <input name="FirstName" data-val-required="First Name is required" data-val="true" type="text" ng-model="vm.catalogPrefs.FirstName" id="firstName[[Model.ContentKey]]" />
-                <span data-valmsg-replace="true" data-valmsg-for="FirstName"></span>
+                <input name="FirstName" data-rule-required="true" data-msg-required="First Name is required" data-val="true" type="text" ng-model="vm.catalogPrefs.FirstName" id="firstName[[Model.ContentKey]]" />
+                <span class="field-validation-valid" data-valmsg-replace="true" data-valmsg-for="FirstName"></span>
             </div>
-            <div class="cf-form-lastname">
+            <div class="row cf-form-lastname">
                 <label for="lastName[[Model.ContentKey]]">[% translate 'Last Name' %] <span class="redTxt">*</span></label>
-                <input name="LastName" data-val-required="Last Name is required" data-val="true" type="text" ng-model="vm.catalogPrefs.LastName" id="lastName[[Model.ContentKey]]" />
-                <span data-valmsg-replace="true" data-valmsg-for="LastName"></span>
+                <input name="LastName" data-rule-required="true" data-msg-required="Last Name is required" data-val="true" type="text" ng-model="vm.catalogPrefs.LastName" id="lastName[[Model.ContentKey]]" />
+                <span class="field-validation-valid" data-valmsg-replace="true" data-valmsg-for="LastName"></span>
             </div>
-            <div class="cf-form-company">
+            <div class="row cf-form-company">
                 <label for="company[[Model.ContentKey]]">[% translate 'Company' %]</label>
                 <input name="Company" type="text" ng-model="vm.catalogPrefs.Company" id="company[[Model.ContentKey]]" />
             </div>
-            <div class="cf-form-addressLine1">
+            <div class="row cf-form-addressLine1">
                 <label for="addressLine1[[Model.ContentKey]]">[% translate 'Address Line 1' %] <span class="redTxt">*</span></label>
-                <input name="AddressLine1" data-val-required="Address Line 1 is required" data-val="true" type="text" ng-model="vm.catalogPrefs.AddressLine1" id="addressLine1[[Model.ContentKey]]" />
-                <span data-valmsg-replace="true" data-valmsg-for="AddressLine1"></span>
+                <input name="AddressLine1" data-rule-required="true" data-msg-required="Address Line 1 is required" data-val="true" type="text" ng-model="vm.catalogPrefs.AddressLine1" id="addressLine1[[Model.ContentKey]]" />
+                <span class="field-validation-valid" data-valmsg-replace="true" data-valmsg-for="AddressLine1"></span>
             </div>
-            <div class="cf-form-addressLine2">
+            <div class="row cf-form-addressLine2">
                 <label for="addressLine2[[Model.ContentKey]]">[% translate 'Address Line 2' %]</label>
                 <input name="AddressLine2" type="text" ng-model="vm.catalogPrefs.AddressLine2" id="addressLine2[[Model.ContentKey]]" />
             </div>
-            <div class="cf-form-city">
+            <div class="row cf-form-city">
                 <label for="city[[Model.ContentKey]]">[% translate 'City' %] <span class="redTxt">*</span></label>
-                <input name="City" data-val-required="City is required" data-val="true" type="text" ng-model="vm.catalogPrefs.City" id="city[[Model.ContentKey]]" />
-                <span data-valmsg-replace="true" data-valmsg-for="City"></span>
+                <input name="City" data-rule-required="true" data-msg-required="City is required" data-val="true" type="text" ng-model="vm.catalogPrefs.City" id="city[[Model.ContentKey]]" />
+                <span class="field-validation-valid" data-valmsg-replace="true" data-valmsg-for="City"></span>
             </div>
-            <div class="cf-form-state">
+            <div class="row cf-form-state">
                 <label for="state[[Model.ContentKey]]">[% translate 'State' %] <span class="redTxt">*</span></label>
-                <input name="State" data-val-required="State is required" data-val="true" type="text" ng-model="vm.catalogPrefs.State" id="state[[Model.ContentKey]]" />
-                <span data-valmsg-replace="true" data-valmsg-for="State"></span>
+                <input name="State" data-rule-required="true" data-msg-required="State is required" data-val="true" type="text" ng-model="vm.catalogPrefs.State" id="state[[Model.ContentKey]]" />
+                <span class="field-validation-valid" data-valmsg-replace="true" data-valmsg-for="State"></span>
             </div>
-            <div class="cf-form-zip">
+            <div class="row cf-form-zip">
                 <label for="zip[[Model.ContentKey]]">[% translate 'Zip' %] <span class="redTxt">*</span></label>
-                <input name="Zip" data-val-required="Zip is required" data-val="true" type="text" ng-model="vm.catalogPrefs.Zip" id="zip[[Model.ContentKey]]" />
-                <span data-valmsg-replace="true" data-valmsg-for="Zip"></span>
-            </div>  
+                <input name="Zip" data-rule-required="true" data-msg-required="Zip is required" data-val="true" type="text" ng-model="vm.catalogPrefs.Zip" id="zip[[Model.ContentKey]]" />
+                <span class="field-validation-valid" data-valmsg-replace="true" data-valmsg-for="Zip"></span>
+            </div>
             <div>
                 <input style="display:none" type="text" ng-model="vm.catalogPrefs.EmailTo" id="emailTo[[Model.ContentKey]]" ng-init="vm.catalogPrefs.EmailTo='[[Model.EmailToValue]]'" />
             </div>
-            <div class="cf-form-prioritycode">
+            <div class="row cf-form-prioritycode">
                 <label for="priorityCode[[Model.ContentKey]]">[% translate 'Priority Code' %] <span class="redTxt">*</span></label>
-                <input name="PriorityCode" data-val-required="Priority Code is required" data-val="true" type="text" ng-model="vm.catalogPrefs.PriorityCode" id="priorityCode[[Model.ContentKey]]" />
-                <span data-valmsg-replace="true" data-valmsg-for="PriorityCode"></span>
-            </div>
-            <div class="cf-form-preference">
+                <input name="PriorityCode" data-rule-required="true" data-msg-required="Priority Code is required" data-val="true" type="text" ng-model="vm.catalogPrefs.PriorityCode" id="priorityCode[[Model.ContentKey]]" />
+                <span class="field-validation-valid" data-valmsg-replace="true" data-valmsg-for="PriorityCode"></span>
+            </div>            
+            [% if Model.PreferencesCount > 1 -%]
+            <div class="row cf-form-preference">
                 <label for="preference[[Model.ContentKey]]">[% translate 'Please select your preferred contact method' %] <span class="redTxt">*</span></label>
-                <select name="Preference" data-val-required="Catalog Mailing Preference is required" data-val="true" id="preference[[Model.ContentKey]]" ng-model="vm.catalogPrefs.Preference">
+                <select name="Preference" data-rule-required="true" data-msg-required="Catalog Mailing Preference is required" data-val="true" id="preference[[Model.ContentKey]]" ng-model="vm.catalogPrefs.Preference">
                     <option value="">[% translate 'Select Preference' %]</option>
                     [% for pref in Model.Preferences -%]
                     <option>[[pref]]</option>
                     [% endfor -%]
                 </select>
-                <span data-valmsg-replace="true" data-valmsg-for="Preference"></span>
-            </div>            
+                <span class="field-validation-valid" data-valmsg-replace="true" data-valmsg-for="Preference"></span>
+            </div>
+            [% endif -%]
+            [% if Model.PreferencesCount == 1 -%]
+            <input type="text" style="visibility:hidden" id="preference[[Model.ContentKey]]" name="Preference" ng-model="vm.catalogPrefs.Preference" ng-init="vm.catalogPrefs.Preference='[[Model.PreferencesFirstItem]]'" /> 
+            [% endif -%]
             <div ng-show="!vm.submitted" class="btns">
                 <button id="tst_catalogPrefsPage_send" ng-click="vm.sendEmail($event)" class="btn primary btn-send">[[Model.SubmitButtonText]]</button>
             </div>

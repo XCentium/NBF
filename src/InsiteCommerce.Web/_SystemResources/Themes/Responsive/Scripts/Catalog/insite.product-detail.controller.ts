@@ -169,6 +169,10 @@ module insite.catalog {
 
         protected getProductRealTimePricesFailed(error: any): void {
             this.failedToGetRealTimePrices = true;
+
+            if (this.settings.inventoryIncludedWithPricing) {
+                this.failedToGetRealTimeInventory = true;
+            }
         }
 
         protected getRealTimeInventory(): void {

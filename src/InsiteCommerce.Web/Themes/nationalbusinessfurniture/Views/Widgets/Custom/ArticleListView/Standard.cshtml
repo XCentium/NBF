@@ -28,6 +28,7 @@
                     [% endfor -%]
                     [% endif -%]
                 </div>
+                [% if Model.Drop.Pagination.NumberOfPages > 1 -%]
                 <div class="newslist-paging">
                     <nbf-content-pager page="[[Model.Drop.Pagination.Page]]"
                                        page-size="[[Model.Drop.Pagination.PageSize]]"
@@ -36,6 +37,7 @@
                                        number-of-pages="[[Model.Drop.Pagination.NumberOfPages]]"
                                        content-item-id="[[Model.Drop.NewsListId]]"></nbf-content-pager>
                 </div>
+                [% endif -%]
             </div>
         </div>
     </div>

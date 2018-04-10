@@ -22,6 +22,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>..\InsiteCommerce.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -33,13 +34,13 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Insite.Common">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.1.39382\lib\net452\Insite.Common.dll</HintPath>
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.2.39579\lib\net452\Insite.Common.dll</HintPath>
     </Reference>
     <Reference Include="Insite.Integration">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.1.39382\lib\net452\Insite.Integration.dll</HintPath>
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.2.39579\lib\net452\Insite.Integration.dll</HintPath>
     </Reference>
     <Reference Include="Insite.WIS.Broker">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.1.39382\lib\net452\Insite.WIS.Broker.dll</HintPath>
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.2.39579\lib\net452\Insite.WIS.Broker.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
@@ -92,6 +93,9 @@
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\OctoPack.3.6.3\build\OctoPack.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\OctoPack.3.6.3\build\OctoPack.targets'))" />
   </Target>
+  <PropertyGroup>
+    <PostBuildEvent />
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

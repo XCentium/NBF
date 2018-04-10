@@ -3,9 +3,9 @@
 
     export class NbfProductListController extends ProductListController{
         categoryAttr: string;
-        filteredResults: boolean = false;
+        filteredResults = false;
         favoritesWishlist: WishListModel;
-        isAuthenticated: boolean = false;
+        isAuthenticated = false;
 
         static $inject = [
             "$scope",
@@ -82,16 +82,17 @@
             this.initBackButton();
 
 
-            $(document).ready(function () {
+            $(document).ready(() => {
                 var windowsize = $(window).width();
                 if (windowsize < 767) {
                     setTimeout(
-                        function () {
+                        () => {
                             $("#accord-10000").prop("checked", false);
-                        }, 2000);                    
+                        },
+                        2000);
                     $("#accord-10000").removeAttr("checked");
                 }
-            })
+            });
             this.$scope.$watch(() => this.category, (newCategory) => {
                 if (!newCategory) {
                     return;
@@ -107,7 +108,7 @@
             if (this.ready) {
                 this.spinnerService.show("productlist");
             }
-            if (this.categoryAttr != "") {
+            if (this.categoryAttr !== "") {
                 this.filteredResults = true;
                 if (!params.names) {
                     params.names = [];
@@ -121,6 +122,13 @@
         }
 
         protected getProductsCompleted(productCollection: ProductCollectionModel, params: IProductCollectionParameters, expand?: string[]): void {
+            if (this.$window.dataLayer && productCollection.pagination) {
+                this.$window.dataLayer.push({
+                    'event': "searchResults",
+                    'numSearchResults': productCollection.pagination.totalItemCount
+                });
+            }
+
             if (productCollection.searchTermRedirectUrl) {
                 // use replace to prevent back button from returning to this page
                 if (productCollection.searchTermRedirectUrl.lastIndexOf("http", 0) === 0) {
@@ -200,7 +208,7 @@
                 includeSuggestions: this.includeSuggestions,
                 names: null
             };
-            if (this.categoryAttr != "") {
+            if (this.categoryAttr !== "") {
                 this.filteredResults = true;
                 if (!params.names) {
                     params.names = [];
@@ -269,7 +277,7 @@
                         let item = sorted.find(y => y.ModelNumber === x.ModelNumber);
 
                         if (item == null) {
-                            sorted.push({ ModelNumber: x.ModelNumber, Count: 1 })
+                            sorted.push({ ModelNumber: x.ModelNumber, Count: 1 });
                         }
                         else {
                             item.Count++;
@@ -299,13 +307,13 @@
         }
 
         protected isAttributeValue(product: ProductDto, attrName: string, attrValue: string): boolean {
-            let retVal: boolean = false;
+            let retVal = false;
 
             if (product && product.attributeTypes) {
-                var attrType = product.attributeTypes.find(x => x.name == attrName && x.isActive == true);
+                var attrType = product.attributeTypes.find(x => x.name === attrName && x.isActive === true);
 
                 if (attrType) {
-                    var matchingAttrValue = attrType.attributeValues.find(y => y.value == attrValue);
+                    var matchingAttrValue = attrType.attributeValues.find(y => y.value === attrValue);
 
                     if (matchingAttrValue) {
                         retVal = true;
@@ -320,7 +328,7 @@
 
             if (favoriteLine.length > 0) {
                 //Remove lines
-                this.nbfWishListService.deleteLineCollection(this.favoritesWishlist, favoriteLine).then((result) => {
+                this.nbfWishListService.deleteLineCollection(this.favoritesWishlist, favoriteLine).then(() => {
                     this.getFavorites();
                 });
             } else {
@@ -380,7 +388,7 @@
         protected getStarRating(product: ProductDto) : string {
             let retVal = "no-star";
             if (product && product.specifications && product.specifications.length > 0) {
-                let ratings = product.specifications.filter(x => x.name == "Rating");
+                let ratings = product.specifications.filter(x => x.name === "Rating");
 
                 if (ratings.length > 0 && !isNaN(parseFloat(ratings[0].value))) {
                     let rating = parseFloat(ratings[0].value);
@@ -401,7 +409,7 @@
             }
 
             return retVal;
-        }
+        }        
     }
 
     angular

@@ -2,13 +2,13 @@
     <div class="small-12 column narrow-container">
         <div class="row">
             <div class="large-8 columns">
-                <h1>Secure Checkout</h1>
-                <h1>Order Confirmation</h1>
-
-                <p>
-                    <strong id="thankYou" class="hide">[% siteMessage 'Checkout_Confirmation_Message' 'Thank you for your order!' %]</strong>
-                </p>
-
+                <h1 id="secureTitle">Secure Checkout</h1>
+                <div id="thankYou" class="hide">
+                    <h1>Order Confirmation</h1>
+                    <p>
+                        <strong>[% siteMessage 'Checkout_ConOkayfirmation_Message' 'Thank you for your order!' %]</strong>
+                    </p>
+                </div>
                 <nbf-sign-in-widget include-forgot-password-link="false" allow-create-account="false" ng-if="vm.cart.billTo.isGuest && !vm.hideSignIn"></nbf-sign-in-widget>
                 <div id="confirmation" class="content">
                     <div class="row">
@@ -30,7 +30,7 @@
                 <dl class="accordion checkout-accordion" data-accordion id="checkoutAccordion">
                     <dd class="accordion-navigation">
                         <a href="#address" id="nav1" class="nav-header active">
-                            [% translate 'Step 1: Billing / Shipping' %]
+                            [% translate 'Step 1: Shipping & Billing Address' %]
                             <span ng-click="vm.editAddresses($event)" class="edit right hide">
                                 [% translate 'Edit' %]
                             </span>
@@ -102,7 +102,7 @@
                     <form id="reviewAndPayForm">
                         <dd class="accordion-navigation">
                             <a href="#shipping" id="nav2" class="nav-header">
-                                [% translate 'Step 2: Shipping Information' %]
+                                [% translate 'Step 2: Shipping Method' %]
                                 <span ng-click="vm.editShipping($event)" class="edit right hide">
                                     [% translate 'Edit' %]
                                 </span>
@@ -111,7 +111,6 @@
                                 <div id="nav2expanded">
                                     <div class="section-container row" data-section data-section-resized="true" style="min-height: 0px;">
                                         <section class="ship-method large-6 columns">
-                                            <h3>[% translate 'Shipping Method' %]</h3>
                                             <div>
                                                 <div class="select-method" ng-show="vm.cart.carriers.length > 0">
                                                     <label for="shippingMethod">[% translate 'Select Shipping Options' %]</label>
@@ -180,18 +179,7 @@
                                     <input name="paypalpayerid" type="hidden" ng-bind="vm.cart.paymentOptions.payPalPayerId" />
                                     <div class="section-container row" data-section data-section-resized="true" style="min-height: 0px;">
                                         <section class="payment-details large-6 columns" ng-hide="vm.cart.requiresApproval">
-                                            <div class="exempt">
-                                                <span class="exempt__label">Tax Exempt?</span>
-                                                <input id="taxyes" class="customradio" type="radio" name="tax" /><label for="taxyes">Yes</label>
-                                                <input id="taxno" class="customradio" type="radio" name="tax" /><label for="taxno">No</label>
-                                                                      <div class="upload-btn">
-                                                                          UPLOAD YOUR TAX EXEMPT CERTIFICATE
-                                                                          <input type="file" class="upload-btn" />
-                                                                      </div>
-                                                <div class="doc-tag">
-                                                    Your_Tax-file.doc
-                                                </div>
-                                            </div>
+                                            <nbf-tax-exempt></nbf-tax-exempt>
                                             <div>
                                                 <span ng-show="vm.cart.paymentOptions.isPayPal">
                                                     [% translate 'Payment Method: ' %] [% translate 'PayPal' %]
@@ -225,9 +213,9 @@
                                                     <div ng-show="vm.cart.showCreditCard && vm.cart.paymentMethod.isPaymentProfile">
                                                         <div class="security-code">
                                                             <label>[% translate 'Security Code' %]&nbsp;<a href="javascript:void(0);" data-reveal-id="ppWhatsThisPopup">[% translate "What's This?" %]</a></label>
-                                                            <input id="ppSecurityCode" name="ppSecurityCode" type="text"
+                                                            <input id="ppSecurityCode" name="ppSecurityCode" type="text" minlength="3" maxlength="4"
                                                                    data-rule-required="true" data-msg-required="[% translate 'Security code is required.' %]"
-                                                                   data-rule-pattern="/(?!000)\d{3,4}$/" data-msg-pattern="[% translate 'Security code is invalid.' %]"
+                                                                   data-rule-digits="true" data-msg-digits="[% translate 'Security code is invalid.' %]"
                                                                    ng-model="vm.cart.paymentOptions.creditCard.securityCode">
                                                             <span class="field-validation-valid" data-valmsg-for="ppSecurityCode" data-valmsg-replace="true"></span>
                                                             <div id="ppWhatsThisPopup" class="checkout-review-pay reveal-modal" data-reveal>
@@ -238,7 +226,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div ng-show="vm.cart.showCreditCard && vm.cart.paymentMethod.isCreditCard">
+                                                    <div ng-show="vm.cart.showCreditCard && vm.cart.paymentMethod.isCreditCard && vm.remainingTotal > 0">
                                                         <div class="card-name">
                                                             <label for="cardHolderName">[% translate 'Name on Card' %]</label>
                                                             <input id="cardHolderName" name="cardHolderName" type="text" maxlength="30"
@@ -295,80 +283,122 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div ng-show="vm.cart.paymentOptions.canStorePaymentProfile && !vm.cart.billTo.isGuest">
-                                                            <input id="savePaymentInfo" class="customcheckbox" type="checkbox" ng-model="vm.cart.paymentOptions.storePaymentProfile" />
-                                                            <label for="savePaymentInfo">[% translate 'Save Payment Info' %]</label>
+                                                        <label for="paymentAmount">[% translate 'Payment Amount' %]</label>
+                                                        <div class="row">
+                                                            <div class="small-4 columns payment-amount">
+                                                                <input id="paymentAmount" name="paymentAmount" maxlength="16" type="number" min="1" max="vm.remainingTotal" style="display: block;"
+                                                                       data-rule-required="true" data-msg-required="[% translate 'Credit card number is required.' %]"
+                                                                       data-msg-creditcard="[% translate 'Credit card number is invalid.' %]"
+                                                                       ng-model="vm.paymentAmount"
+                                                                       ng-change="" ng-disabled="vm.cart.properties['cc1'] && vm.cart.properties['cc1'] != ''">
+                                                            </div>
+                                                            <div class="small-4 columns remaining-total">
+                                                                <input id="remainingTotal" type="number" name="remainingTotal" readonly ng-model="vm.remainingTotal" style="display: block;" />
+                                                            </div>
+                                                            <div class="small-4 columns payment-amount">
+                                                                <label></label>
+                                                                <button ng-if="vm.remainingTotal > 0" ng-click="vm.addPayment()">Add payment</button>
+                                                                <div ng-show="vm.cart.paymentOptions.canStorePaymentProfile && !vm.cart.billTo.isGuest">
+                                                                    <input id="savePaymentInfo" class="customcheckbox" type="checkbox" ng-model="vm.cart.paymentOptions.storePaymentProfile" />
+                                                                    <label for="savePaymentInfo">[% translate 'Save Payment Info' %]</label>
+                                                                </div>
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                    <div ng-show="vm.cart.showCreditCard && vm.cart.paymentMethod.isCreditCard">
-                                                        <div class="use-billing-address">
-                                                            <h4>[% translate 'Credit Card Address' %]</h4>
-                                                            <input class="customcheckbox" id="tst_reviewAndPayPage_useBillingAddress" type="checkbox" ng-model="vm.cart.paymentOptions.creditCard.useBillingAddress" />
-                                                            <label for="tst_reviewAndPayPage_useBillingAddress">
-                                                                [% translate 'Use billing address' %]
-                                                            </label>
-                                                            <div ng-show="!vm.cart.paymentOptions.creditCard.useBillingAddress">
-                                                                <div class="address1">
-                                                                    <label for="address1">[% translate 'Address' %]</label>
-                                                                    <input id="address1" name="address1" type="text" maxlength="30"
-                                                                           data-rule-required="true"
-                                                                           data-msg-required="[% translate 'Address is required.' %]"
-                                                                           ng-model="vm.cart.paymentOptions.creditCard.address1">
-                                                                    <span class="field-validation-valid" data-valmsg-for="address1" data-valmsg-replace="true"></span>
-                                                                </div>
-                                                                <div class="country">
-                                                                    <label for="country">[% translate 'Country' %]</label>
-                                                                    <select id="country" name="country"
-                                                                            data-rule-required="true" data-msg-required="[% translate 'Country is required.' %]"
-                                                                            ng-model="vm.creditCardBillingCountry"
-                                                                            ng-options="CountryModel.name for CountryModel in vm.countries">
-                                                                        <option value="">[% translate 'Select Country' %]</option>
-                                                                    </select>
-                                                                    <span class="field-validation-valid" data-valmsg-for="country" data-valmsg-replace="true"></span>
-                                                                </div>
-                                                                <div class="state" ng-if="vm.creditCardBillingCountry.states.length > 0">
-                                                                    <label for="state">[% translate 'State' %]</label>
-                                                                    <select id="state" name="state"
-                                                                            data-rule-required="true" data-msg-required="[% translate 'State is required.' %]"
-                                                                            ng-model="vm.creditCardBillingState"
-                                                                            ng-options="StateModel.name for StateModel in vm.creditCardBillingCountry.states">
-                                                                        <option value="">[% translate 'Select State' %]</option>
-                                                                    </select>
-                                                                    <span class="field-validation-valid" data-valmsg-for="state" data-valmsg-replace="true"></span>
-                                                                </div>
-                                                                <div class="city">
-                                                                    <label for="city">[% translate 'City' %]</label>
-                                                                    <input id="city" name="city" type="text" maxlength="30"
-                                                                           data-rule-required="true"
-                                                                           data-msg-required="[% translate 'City is required.' %]"
-                                                                           ng-model="vm.cart.paymentOptions.creditCard.city">
-                                                                    <span class="field-validation-valid" data-valmsg-for="city" data-valmsg-replace="true"></span>
-                                                                </div>
-                                                                <div class="postalCode">
-                                                                    <label for="postalCode">[% translate 'Postal Code' %]</label>
-                                                                    <input id="postalCode" name="postalCode" type="text" maxlength="30"
-                                                                           data-rule-required="true"
-                                                                           data-msg-required="[% translate 'Postal Code is required.' %]"
-                                                                           ng-model="vm.cart.paymentOptions.creditCard.postalCode">
-                                                                    <span class="field-validation-valid" data-valmsg-for="postalCode" data-valmsg-replace="true"></span>
+
+                                                        <div ng-show="vm.cart.showCreditCard && vm.cart.paymentMethod.isCreditCard">
+                                                            <div class="use-billing-address">
+                                                                <h4>[% translate 'Credit Card Address' %]</h4>
+                                                                <input class="customcheckbox" id="tst_reviewAndPayPage_useBillingAddress" type="checkbox" ng-model="vm.cart.paymentOptions.creditCard.useBillingAddress" />
+                                                                <label for="tst_reviewAndPayPage_useBillingAddress">
+                                                                    [% translate 'Use billing address' %]
+                                                                </label>
+                                                                <div ng-show="!vm.cart.paymentOptions.creditCard.useBillingAddress">
+                                                                    <div class="address1">
+                                                                        <label for="address1">[% translate 'Address' %]</label>
+                                                                        <input id="address1" name="address1" type="text" maxlength="30"
+                                                                               data-rule-required="true"
+                                                                               data-msg-required="[% translate 'Address is required.' %]"
+                                                                               ng-model="vm.cart.paymentOptions.creditCard.address1">
+                                                                        <span class="field-validation-valid" data-valmsg-for="address1" data-valmsg-replace="true"></span>
+                                                                    </div>
+                                                                    <div class="country">
+                                                                        <label for="country">[% translate 'Country' %]</label>
+                                                                        <select id="country" name="country"
+                                                                                data-rule-required="true" data-msg-required="[% translate 'Country is required.' %]"
+                                                                                ng-model="vm.creditCardBillingCountry"
+                                                                                ng-options="CountryModel.name for CountryModel in vm.countries">
+                                                                            <option value="">[% translate 'Select Country' %]</option>
+                                                                        </select>
+                                                                        <span class="field-validation-valid" data-valmsg-for="country" data-valmsg-replace="true"></span>
+                                                                    </div>
+                                                                    <div class="state" ng-if="vm.creditCardBillingCountry.states.length > 0">
+                                                                        <label for="state">[% translate 'State' %]</label>
+                                                                        <select id="state" name="state"
+                                                                                data-rule-required="true" data-msg-required="[% translate 'State is required.' %]"
+                                                                                ng-model="vm.creditCardBillingState"
+                                                                                ng-options="StateModel.name for StateModel in vm.creditCardBillingCountry.states">
+                                                                            <option value="">[% translate 'Select State' %]</option>
+                                                                        </select>
+                                                                        <span class="field-validation-valid" data-valmsg-for="state" data-valmsg-replace="true"></span>
+                                                                    </div>
+                                                                    <div class="city">
+                                                                        <label for="city">[% translate 'City' %]</label>
+                                                                        <input id="city" name="city" type="text" maxlength="30"
+                                                                               data-rule-required="true"
+                                                                               data-msg-required="[% translate 'City is required.' %]"
+                                                                               ng-model="vm.cart.paymentOptions.creditCard.city">
+                                                                        <span class="field-validation-valid" data-valmsg-for="city" data-valmsg-replace="true"></span>
+                                                                    </div>
+                                                                    <div class="postalCode">
+                                                                        <label for="postalCode">[% translate 'Postal Code' %]</label>
+                                                                        <input id="postalCode" name="postalCode" type="text" maxlength="30"
+                                                                               data-rule-required="true"
+                                                                               data-msg-required="[% translate 'Postal Code is required.' %]"
+                                                                               ng-model="vm.cart.paymentOptions.creditCard.postalCode">
+                                                                        <span class="field-validation-valid" data-valmsg-for="postalCode" data-valmsg-replace="true"></span>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
+                                                    <div class="payments order-subtotal" ng-if="vm.cart.properties['cc1'] != ''">
+                                                        <label>[% translate 'Payments' %]</label>
+                                                        <div class="row">
+                                                            <div class="small-4 columns payment-amount">
+                                                                <div ng-if="vm.cart.properties['cc1'] != ''">
+                                                                    <span ng-model="vm.cart.properties['cc1']">
+                                                                        {{vm.cart.properties['cc1']}}
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="small-4 columns payment-amount">
+                                                                <div ng-if="vm.cart.properties['cc2'] != ''">
+                                                                    <span ng-model="vm.cart.properties['cc2']">
+                                                                        {{vm.cart.properties['cc2']}}
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <label>[% translate 'Total balance' %]&nbsp;<label ng-model="vm.cart.orderGrandTotalDisplay"></label></label>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div ng-if="vm.cart.billTo.isGuest">
-                                                <h4>
-                                                    [% siteMessage 'Guest_Checkout_Password_Top' 'Want to track your orders, view order history and more? Register for an NBF account.' %]
-                                                </h4>
-                                                <label>[% siteMessage 'Guest_Checkout_Password_Label' 'Create your password' %]</label>
-                                                <input type="password" id="CreateNewAccountInfo_Password" name="CreateNewAccountInfo.Password"
-                                                       data-rule-minlength="{{settings.passwordMinimumLength}}"
-                                                       data-msg-minlength="{{ '[% siteMessage 'ChangePasswordInfo_Password_Too_Short' EscapeSingleQuotes %]'.replace('{0}', vm.settings.passwordMinimumLength) }}"
-                                                       ng-model="vm.password">
-                                                <span class="field-validation-valid" data-valmsg-for="CreateNewAccountInfo.Password" data-valmsg-replace="true"></span>
-                                                <div>
-                                                    [% siteMessage 'Guest_Checkout_Password_Bottom' 'Password must be 8 characters and contain 1 capitalized letter, number, and special character' %]
+                                                <div ng-if="vm.cart.billTo.isGuest">
+                                                    <p>
+                                                        <strong>
+                                                            [% siteMessage 'Guest_Checkout_Password_Top' 'To track your order, view order history and more, enter a password to create an account (optional).' %]
+                                                        </strong>
+                                                    </p>
+                                                    <label>[% siteMessage 'Guest_Checkout_Password_Label' 'Create your password' %]</label>
+                                                    <input type="password" id="CreateNewAccountInfo_Password" name="CreateNewAccountInfo.Password"
+                                                           data-rule-minlength="{{settings.passwordMinimumLength}}"
+                                                           data-msg-minlength="{{ '[% siteMessage 'ChangePasswordInfo_Password_Too_Short' EscapeSingleQuotes %]'.replace('{0}', vm.settings.passwordMinimumLength) }}"
+                                                           ng-model="vm.password">
+                                                    <span class="field-validation-valid" data-valmsg-for="CreateNewAccountInfo.Password" data-valmsg-replace="true"></span>
+                                                    <div style="display: none;">
+                                                        [% siteMessage 'Guest_Checkout_Password_Bottom' 'Password must be 8 characters and contain 1 capitalized letter, number, and special character' %]
+                                                    </div>
                                                 </div>
                                             </div>
                                         </section>
@@ -376,7 +406,6 @@
                                             <div ng-show="vm.cart.requiresApproval && !vm.cart.hasApprover" style="color: red;">
                                                 [% siteMessage 'OrderApproval_BuyerWithoutApprover' %]
                                             </div>
-
                                             <div class="error">
                                                 <span class="field-validation-error" ng-if="vm.createError" ng-bind="vm.createError"></span>
                                             </div>
@@ -393,6 +422,11 @@
                                                         </a>
                                                     </div>
                                                 </div>
+                                                <p>
+                                                    [% siteMessage 'Checkout_TermsAndConditionsText' 'By placing your order, you agree to our' %]
+                                                    <br />
+                                                    <a ng-click="vm.openTerms()">Terms and Conditions.</a>
+                                                </p>
                                             </div>
                                         </div>
                                     </div>
@@ -520,5 +554,8 @@
     </div>
     <isc-popup-template container-id="insufficientInventoryAtCheckout">
         [% siteMessage 'Cart_InsufficientInventoryAtCheckout' %]
+    </isc-popup-template>
+    <isc-popup-template container-id="removedProductsFromCart">
+        [% siteMessage 'Cart_RemovedProductsFromCart' %]
     </isc-popup-template>
 </div>

@@ -86,6 +86,12 @@
                 }
             }
 
+            .col-2 {
+                @media all and (min-width: 768px) {
+                    width: 45%;
+                }
+            }
+
             @media all and (max-width: 767px) {
                 .col {
                     margin-bottom: 30px;
@@ -95,6 +101,7 @@
             @media all and (max-width: 767px) {
                 & > div {
                     width: 100%;
+                    margin-top: 15px;
                 }
             }
         }
@@ -137,6 +144,12 @@
     }
 
     .item-block__product__samples-link {
+        margin-bottom: 10px;
+
+        strong {
+            margin-right: 20px;
+        }
+
         a {
             text-decoration: underline;
             margin-right: 10px;

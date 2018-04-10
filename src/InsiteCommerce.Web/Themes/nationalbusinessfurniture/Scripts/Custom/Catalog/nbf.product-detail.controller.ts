@@ -7,6 +7,7 @@
         favoritesWishlist: WishListModel;
         isAuthenticated: boolean = false;
         resourceAndAssemblyDocs: any[];
+        selectedSwatchProductIds: System.Guid[]=[];
 
         static $inject = [
             "$scope",
@@ -18,7 +19,12 @@
             "settingsService",
             "$stateParams",
             "sessionService",
-            "nbfWishListService"];
+            "nbfWishListService",
+            "spinnerService",
+            "$window",
+            "$anchorScroll",
+            "$location"
+        ];
 
         constructor(
             protected $scope: ng.IScope,
@@ -30,7 +36,12 @@
             protected settingsService: core.ISettingsService,
             protected $stateParams: IContentPageStateParams,
             protected sessionService: account.ISessionService,
-            protected nbfWishListService: wishlist.INbfWishListService
+            protected nbfWishListService: wishlist.INbfWishListService,
+            protected spinnerService: core.ISpinnerService,
+            protected $window: ng.IWindowService,
+            protected $anchorScroll: ng.IAnchorScrollService,
+            protected $location: ng.ILocationService
+
         ) {
             super($scope, coreService, cartService, productService, addToWishlistPopupService, productSubscriptionPopupService, settingsService, $stateParams, sessionService)
             this.sessionService.getIsAuthenticated().then((isAuth) => {
@@ -101,6 +112,20 @@
             return retVal;
         }
 
+        protected getAttributeValue(attrName: string): string {
+            let retVal: string = null;
+
+            if (this.product && this.product.attributeTypes) {
+                var attrType = this.product.attributeTypes.find(x => x.name == attrName && x.isActive == true);
+
+                if (attrType && attrType.attributeValues && attrType.attributeValues.length > 0) {
+                    retVal = attrType.attributeValues[0].valueDisplay;
+                }
+            }
+
+            return retVal;
+        }
+
         protected getSwatchImageNameFromStyleTraitValueId(styleTraitName: string, styleTraitValue: string): string {
             let retVal: string = null;
             let styleTraitNameUpper = styleTraitName.toUpperCase();
@@ -132,14 +157,78 @@
                     }
                     this.styleChange();
                 }
+            }            
+        }   
+
+        protected toggleSwatchProductSelection(styleTraitName: string, styleTraitValueId: string): void {
+            let swatch = this.swatches.find(x => x.ModelNumber == styleTraitName
+                && x.Name == styleTraitValueId);
+
+            if (swatch != null) {
+                if (this.selectedSwatchProductIds.filter(x => x == swatch.Id).length === 0) {
+                    this.selectedSwatchProductIds.push(<System.Guid>swatch.Id);
+                }
+                else {
+                    var index = this.selectedSwatchProductIds.indexOf(swatch.Id);
+                    if (index !== -1) {
+                        this.selectedSwatchProductIds.splice(index, 1);
+                    }
+                }
             }
-            //this.configurationSelection[$index] = 
-            //let dropdownSelector = "select[name=tst_styleSelect_" + styleName + "]";
-            //jQuery("select[name=tst_styleSelect_" + styleName + "]").val(styleTraitValueId);
-                //.change();
-            //jQuery(dropdownSelector + " option[value='" + styleTraitValueId + "']").prop({ defaultSelected: true });
-            
-        }               
+        }
+
+        protected isSwatchProductSelected(styleTraitName: string, styleTraitValueId: string) {
+            let retVal = false;
+
+            let swatch = this.swatches.find(x => x.ModelNumber == styleTraitName
+                && x.Name == styleTraitValueId);
+
+            if (swatch != null && this.selectedSwatchProductIds.filter(x => x == swatch.Id).length > 0) {
+                retVal = true;
+            }
+
+            return retVal;
+        }
+
+        protected showSwatchOrderForm(): void {
+            this.coreService.displayModal(angular.element("#swatchform"));
+        }
+
+        protected hideSwatchOrderForm(): void {
+            this.coreService.closeModal("#swatchform");
+        }
+
+        protected addSwatchProductsToCart() {
+            let currentCart = this.cartService.getLoadedCurrentCart();
+            let productIdsAlreadyInCart = currentCart.cartLines.map(x => x.productId);
+
+            let productDtos = this.selectedSwatchProductIds
+                .filter(x => productIdsAlreadyInCart.filter(y => y == x).length === 0)
+                .map(x => {
+                    return <ProductDto>{ id: x, qtyOrdered: 1, unitOfMeasure: 'EA' }
+                });
+
+            if (productDtos && productDtos.length > 0) {
+                this.addingToCart = true;
+                this.spinnerService.show();
+
+                this.cartService.addLineCollectionFromProducts(productDtos, true, false).then(
+                    (cartLine: CartLineCollectionModel) => {
+                        this.selectedSwatchProductIds = [];
+                        this.spinnerService.hide();
+                        this.hideSwatchOrderForm();
+                    },
+                    (error: any) => {
+                        this.spinnerService.hide();
+                        this.addToCartFailed(error);
+                    }
+                );
+            }
+            else {
+                this.selectedSwatchProductIds = [];
+                this.hideSwatchOrderForm();
+            }
+        }
 
         initVideo() {
             console.dir(document.getElementById("videofile"));
@@ -190,7 +279,58 @@
             });
 
             this.resourceAndAssemblyDocs = this.product.documents.filter(x => x.documentType != "video");
-        }     
+
+            setTimeout(() => {
+                this.setLiveExpertsWidget();
+                this.setPowerReviews();
+            }, 1000);            
+        }   
+
+        protected setPowerReviews() {
+            let powerReviewsConfig = {
+                api_key: '56b8fc6a-79a7-421e-adc5-36cbdaec7daf',
+                locale: 'en_US',
+                merchant_group_id: '47982',
+                merchant_id: '33771',
+                page_id: this.product.productCode,
+                review_wrapper_url: 'Product-Review?',
+                components: {
+                    //ReviewSnippet: 'pr-reviewsnippet',
+                    ReviewDisplay: 'pr-reviewdisplay',
+                    QuestionSnippet: 'pr-questionsnippet',
+                    QuestionDisplay: 'pr-questiondisplay'
+                }
+            };
+
+            let powerReviews = this.$window["POWERREVIEWS"];
+            powerReviews.display.render(powerReviewsConfig)
+        }
+
+        protected setLiveExpertsWidget() {
+            var liveExpertConfig = {
+                enterpriseURL: 'liveexpert.net',
+                sourceHost: 'assets.liveexpert.net',
+                assetLocation: 'nbf/multiButton/nbf',
+                apiURL: 'api.liveexpert.net',
+                companyID: 31,
+                language: 'EN',
+                callTypeID: 1,
+                micEnabled: false,
+                camEnabled: false,
+                categoryID: null
+            };
+
+            let liveProductDemoAttr = this.getAttributeValue("Live Product Demo");
+            if (liveProductDemoAttr != null && liveProductDemoAttr == "Yes"
+                && this.product.modelNumber != null
+            )
+            {
+                liveExpertConfig.categoryID = this.product.modelNumber;
+            }
+
+            let liveexpert = this.$window["liveexpert"];
+            liveexpert.LEAWidget.init(liveExpertConfig);
+        }
        
         showVideo() {            
             this.setVideo2(this.product.properties["videoFile"]);
@@ -250,6 +390,32 @@
             $("#mobile_div_container").hide();
         }
 
+        protected getReviewCount(product: ProductDto): number {
+            let retVal = 0;
+            if (product && product.specifications && product.specifications.length > 0) {
+                let ratingCountSpecs = product.specifications.filter(x => x.name == "Rating Count");
+
+                if (ratingCountSpecs.length > 0 && !isNaN(parseFloat(ratingCountSpecs[0].value))) {
+                    retVal = parseInt(ratingCountSpecs[0].value);
+                }
+            }
+
+            return retVal;
+        }
+
+        protected getStarRatingNumeric(product: ProductDto): number {
+            let retVal = 0.0;
+            if (product && product.specifications && product.specifications.length > 0) {
+                let ratings = product.specifications.filter(x => x.name == "Rating");
+
+                if (ratings.length > 0 && !isNaN(parseFloat(ratings[0].value))) {
+                    retVal = parseFloat(ratings[0].value);                    
+                }
+            }
+
+            return retVal;
+        }
+
         protected getStarRating(product: ProductDto): string {
             let retVal = "no-star";
             if (product && product.specifications && product.specifications.length > 0) {
@@ -274,6 +440,11 @@
             }
 
             return retVal;
+        }
+
+        protected scrollTo(id: string): void {
+            this.$location.hash(id);
+            this.$anchorScroll();
         }
     }
 
