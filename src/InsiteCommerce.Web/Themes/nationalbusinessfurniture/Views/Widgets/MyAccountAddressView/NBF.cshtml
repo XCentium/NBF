@@ -48,7 +48,7 @@
                 </li>
             </ul>
         </div>
-        <div class="btns"><button type="button" id="" class="btn primary btn-save" ng-click="vm.createAddress()">[% translate 'Add New Shipping Address' %]</button></div>
+        <div class="btns"><button type="button" id="" class="btn primary btn-save left" ng-click="vm.createAddress()">[% translate 'Add New Shipping Address' %]</button></div>
         <div class="small-6 columns">
             <form id="addressForm" ng-if="vm.createNewShipTo.properties['edit'] == 'true'">
                 <nbf-address-edit prefix="st" address="vm.createNewShipTo" countries="vm.countries" address-fields="vm.addressFields.shipToAddressFields"
