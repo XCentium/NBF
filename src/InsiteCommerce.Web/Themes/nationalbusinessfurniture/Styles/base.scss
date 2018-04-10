@@ -1059,6 +1059,13 @@ h2.resp-tab-active {
     position:absolute;
 }
 
+.accordion.search-orders label.accord-head:after, .accordion.search-users label.accord-head:after, .accordion.search-quotes label.accord-head:after {
+    position: relative;
+    margin-top: 3px;
+    top: auto;
+    right: auto;
+}
+
 .accordion input.accord-check:checked + label.accord-head:after {
     content: "\f077";
 }
@@ -3532,6 +3539,7 @@ div.remove a.btn:hover, div.remove a.btn:focus {
     color: #aeaeae !important;
     cursor: default !important;
     opacity: 1 !important;
+    pointer-events: none;
 }
 
 .tertiary.slim {

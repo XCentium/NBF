@@ -54,6 +54,14 @@
 
     .details-block {
         float: left;
+
+        .item-block__price {
+            display: inline;
+        }
+
+        .quantity-pricing {
+            display:block;
+        }
     }
 
     .actions-block {
@@ -77,11 +85,10 @@
         }
 
         .btn-remove-from-list {
-            color: #77BC1F;
+            /*color: #77BC1F;
             font-weight: normal;
             font-size: 0.9rem;
-            padding: 0.7rem 0;
-
+            padding: 0.7rem 0;*/
             &:hover {
                 text-decoration: underline;
             }
