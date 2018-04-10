@@ -30,8 +30,22 @@
             padding-right: 87px;
         }
     }
+
+    #addressForm{
+        input[type="text"], select, input[type="email"], input[type="password"] 
+        {
+            margin-bottom:3px;
+        }
+    }
 }
 .address-list {
     border-bottom: 1px solid $divider-gray;
     padding-top: 0px;
+}
+
+.my-address-save-modal {
+    &.reveal-modal {
+        position: fixed;
+        top: 20px !important;
+    }
 }

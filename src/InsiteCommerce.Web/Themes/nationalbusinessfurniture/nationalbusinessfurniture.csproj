@@ -163,6 +163,7 @@
     <Content Include="Views\Widgets\RelatedProducts\Standard.cshtml" />
     <Content Include="Views\Widgets\StaticListView\Standard.cshtml" />
     <Content Include="Views\Widgets\SignInView\NBF.cshtml" />
+    <Content Include="Views\Widgets\InvoicesView\NBF.cshtml" />
     <TypeScriptCompile Include="Scripts\Catalog\insite.frequently-purchased.controller.ts" />
     <TypeScriptCompile Include="Scripts\Catalog\insite.recently-viewed.controller.ts" />
     <TypeScriptCompile Include="Scripts\Catalog\insite.related-products.controller.ts" />
@@ -170,6 +171,7 @@
     <TypeScriptCompile Include="Scripts\Custom\Account\nbf.account-settings.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Account\nbf.create-account.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Account\nbf.guest-activation.service.ts" />
+    <TypeScriptCompile Include="Scripts\Custom\Account\nbf.my-account-address.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Account\nbf.tax-exempt.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Account\nbf.sign-in-fly-out.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Account\nbf.sign-in-widget.controller.ts" />
@@ -202,6 +204,7 @@
     <TypeScriptCompile Include="Scripts\Custom\Email\nbf.email-subscription.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Email\nbf.listrak.service.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Footer\nbf.footer.controller.ts" />
+    <TypeScriptCompile Include="Scripts\Custom\Invoices\nbf.invoice-list.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Invoices\nbf.invoice.directives.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Invoices\nbf.recent-invoices.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\nbf.nav.ts" />

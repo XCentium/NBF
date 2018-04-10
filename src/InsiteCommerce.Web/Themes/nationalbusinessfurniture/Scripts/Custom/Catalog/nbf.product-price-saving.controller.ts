@@ -16,12 +16,12 @@
         }
 
         showPriceSavingForOrderHistory(orderLine: OrderLineModel): boolean {
-            if (orderLine.unitNetPrice) {
+            if (orderLine) {
                 this.unitNetPrice = orderLine.unitNetPrice;
+                this.unitNetPriceDisplay = orderLine.unitNetPriceDisplay;
+                this.unitListPrice = orderLine.unitListPrice;
+                this.unitListPriceDisplay = orderLine.unitListPriceDisplay;
             }
-            this.unitNetPriceDisplay = orderLine.unitNetPriceDisplay;
-            this.unitListPrice = orderLine.unitListPrice;
-            this.unitListPriceDisplay = orderLine.unitListPriceDisplay;
 
             return this.unitNetPrice < this.unitListPrice;
         }

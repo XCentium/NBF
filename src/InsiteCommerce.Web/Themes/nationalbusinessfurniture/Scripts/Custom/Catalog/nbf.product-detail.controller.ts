@@ -20,7 +20,11 @@
             "$stateParams",
             "sessionService",
             "nbfWishListService",
-            "spinnerService"];
+            "spinnerService",
+            "$window",
+            "$anchorScroll",
+            "$location"
+        ];
 
         constructor(
             protected $scope: ng.IScope,
@@ -33,7 +37,11 @@
             protected $stateParams: IContentPageStateParams,
             protected sessionService: account.ISessionService,
             protected nbfWishListService: wishlist.INbfWishListService,
-            protected spinnerService: core.ISpinnerService
+            protected spinnerService: core.ISpinnerService,
+            protected $window: ng.IWindowService,
+            protected $anchorScroll: ng.IAnchorScrollService,
+            protected $location: ng.ILocationService
+
         ) {
             super($scope, coreService, cartService, productService, addToWishlistPopupService, productSubscriptionPopupService, settingsService, $stateParams, sessionService)
             this.sessionService.getIsAuthenticated().then((isAuth) => {
@@ -271,7 +279,58 @@
             });
 
             this.resourceAndAssemblyDocs = this.product.documents.filter(x => x.documentType != "video");
-        }     
+
+            setTimeout(() => {
+                this.setLiveExpertsWidget();
+                this.setPowerReviews();
+            }, 1000);            
+        }   
+
+        protected setPowerReviews() {
+            let powerReviewsConfig = {
+                api_key: '56b8fc6a-79a7-421e-adc5-36cbdaec7daf',
+                locale: 'en_US',
+                merchant_group_id: '47982',
+                merchant_id: '33771',
+                page_id: this.product.productCode,
+                review_wrapper_url: 'Product-Review?',
+                components: {
+                    //ReviewSnippet: 'pr-reviewsnippet',
+                    ReviewDisplay: 'pr-reviewdisplay',
+                    QuestionSnippet: 'pr-questionsnippet',
+                    QuestionDisplay: 'pr-questiondisplay'
+                }
+            };
+
+            let powerReviews = this.$window["POWERREVIEWS"];
+            powerReviews.display.render(powerReviewsConfig)
+        }
+
+        protected setLiveExpertsWidget() {
+            var liveExpertConfig = {
+                enterpriseURL: 'liveexpert.net',
+                sourceHost: 'assets.liveexpert.net',
+                assetLocation: 'nbf/multiButton/nbf',
+                apiURL: 'api.liveexpert.net',
+                companyID: 31,
+                language: 'EN',
+                callTypeID: 1,
+                micEnabled: false,
+                camEnabled: false,
+                categoryID: null
+            };
+
+            let liveProductDemoAttr = this.getAttributeValue("Live Product Demo");
+            if (liveProductDemoAttr != null && liveProductDemoAttr == "Yes"
+                && this.product.modelNumber != null
+            )
+            {
+                liveExpertConfig.categoryID = this.product.modelNumber;
+            }
+
+            let liveexpert = this.$window["liveexpert"];
+            liveexpert.LEAWidget.init(liveExpertConfig);
+        }
        
         showVideo() {            
             this.setVideo2(this.product.properties["videoFile"]);
@@ -331,6 +390,19 @@
             $("#mobile_div_container").hide();
         }
 
+        protected getReviewCount(product: ProductDto): number {
+            let retVal = 0;
+            if (product && product.specifications && product.specifications.length > 0) {
+                let ratingCountSpecs = product.specifications.filter(x => x.name == "Rating Count");
+
+                if (ratingCountSpecs.length > 0 && !isNaN(parseFloat(ratingCountSpecs[0].value))) {
+                    retVal = parseInt(ratingCountSpecs[0].value);
+                }
+            }
+
+            return retVal;
+        }
+
         protected getStarRatingNumeric(product: ProductDto): number {
             let retVal = 0.0;
             if (product && product.specifications && product.specifications.length > 0) {
@@ -368,6 +440,11 @@
             }
 
             return retVal;
+        }
+
+        protected scrollTo(id: string): void {
+            this.$location.hash(id);
+            this.$anchorScroll();
         }
     }
 
