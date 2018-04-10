@@ -295,9 +295,9 @@
                 page_id: this.product.productCode,
                 review_wrapper_url: 'Product-Review?',
                 components: {
-                    //ReviewSnippet: 'pr-reviewsnippet',
+                    ReviewSnippet: 'pr-reviewsnippet',
                     ReviewDisplay: 'pr-reviewdisplay',
-                    QuestionSnippet: 'pr-questionsnippet',
+                    //QuestionSnippet: 'pr-questionsnippet',
                     QuestionDisplay: 'pr-questiondisplay'
                 }
             };
