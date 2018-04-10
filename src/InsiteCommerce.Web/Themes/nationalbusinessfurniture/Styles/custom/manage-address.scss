@@ -42,3 +42,10 @@
     border-bottom: 1px solid $divider-gray;
     padding-top: 0px;
 }
+
+.my-address-save-modal {
+    &.reveal-modal {
+        position: fixed;
+        top: 20px !important;
+    }
+}

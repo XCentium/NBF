@@ -63,6 +63,7 @@
             }
 
             delete this.billTo.properties["edit"];
+            delete this.createNewShipTo.properties["edit"];
             this.billTo.shipTos.forEach(shipTo => {
                 delete shipTo.properties["edit"];
             });
@@ -214,11 +215,10 @@
         }
 
         setStateRequiredRule(prefix: string, address: any): void {
-            const isRequired = address.country != null && address.country.states.length > 0;
-            setTimeout(() => {
-                $(`#${prefix}state`).rules("add", { required: isRequired });
-            }, 100);
-
+            //const isRequired = address.country != null && address.country.states.length > 0;
+            //setTimeout(() => {
+            //    $(`#${prefix}state`).rules("add", { required: isRequired });
+            //}, 100);
         }
 
         checkSelectedShipTo(): void {
