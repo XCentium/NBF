@@ -586,7 +586,6 @@
     <Content Include="Views\Widgets\LinkList\HeaderTopLinks.cshtml" />
     <Content Include="Views\Widgets\LinkList\Standard.cshtml" />
     <Content Include="Views\Widgets\MyAccountAddressView\NBF.cshtml" />
-    <Content Include="Views\Widgets\MyAccountAddressView\NBF-manage-address.cshtml" />
     <Content Include="Views\Widgets\MyAccountAddressView\Standard.cshtml" />
     <Content Include="Views\Widgets\MyAccountView\NBF.cshtml" />
     <Content Include="Views\Widgets\MyAccountView\Standard.cshtml" />
