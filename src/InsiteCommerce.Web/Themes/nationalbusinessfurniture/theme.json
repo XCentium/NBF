@@ -63,6 +63,7 @@
     "Scripts/insite.core.ts",
     "Scripts/insite.responsive.ts",
     "Scripts/Common/insite.base-popup.service.ts",
+    "~/Themes/*/Scripts/DialogTech/dialog-tech.js",
     "Scripts/*"
   ],
   "Styles": [

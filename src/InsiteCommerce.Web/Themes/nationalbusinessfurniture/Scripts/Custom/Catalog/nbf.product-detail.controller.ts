@@ -181,7 +181,6 @@
         }
 
         protected addSwatchProductsToCart() {
-            debugger;
             const expand = ["attributes", "pricing"];
             const parameter: IProductCollectionParameters = { productIds: this.selectedSwatchProductIds };
             this.productService.getProducts(parameter, expand).then(

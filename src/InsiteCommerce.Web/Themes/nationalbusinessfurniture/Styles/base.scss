@@ -7422,6 +7422,10 @@ nav ul:not(.side-nav) li a {
     a[href]:after {
         content: "";
     }
+
+    .accordion article.accord-content {
+         height: auto;
+    }
 }
 
 /* Navigation Styles */

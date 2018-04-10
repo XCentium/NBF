@@ -315,9 +315,11 @@
     <Compile Include="Filters\OrderTrackerFilter.cs" />
     <Compile Include="Handlers\AddSessionHandlerNBF.cs" />
     <Compile Include="Handlers\AddCustomer.cs" />
+    <Compile Include="Handlers\GetAutocompleteHandler\HideSwatchesFromAutocomplete.cs" />
     <Compile Include="Handlers\GetDashboardPanelCollectionHandlerNBF.cs" />
     <Compile Include="Handlers\GetProductCollectionHandler\AfterProductListRetrived.cs" />
     <Compile Include="Handlers\GetProductCollectionHandler\FindProductsWithSearch.cs" />
+    <Compile Include="Handlers\GetProductCollectionHandler\HideSwatchesFromSearch.cs" />
     <Compile Include="Handlers\Helpers\NBFHtmlHelper.cs" />
     <Compile Include="Handlers\Helpers\NBFListrakHelper.cs" />
     <Compile Include="Handlers\Helpers\NBFGetOrderHelper.cs" />
@@ -363,6 +365,12 @@
     <Compile Include="WebApi\CatalogMailingPrefs\Interfaces\ICatalogMailingPrefsService.cs" />
     <Compile Include="WebApi\CatalogMailingPrefs\Repository\CatalogMailingPrefsRepository.cs" />
     <Compile Include="WebApi\CatalogMailingPrefs\Services\CatalogMailingPrefsService.cs" />
+    <Compile Include="WebApi\PDF\Controllers\PDFController.cs" />
+    <Compile Include="WebApi\PDF\Interfaces\IPDFService.cs" />
+    <Compile Include="WebApi\PDF\Interfaces\IPDFRepository.cs" />
+    <Compile Include="WebApi\PDF\Models\GetPdfParameter.cs" />
+    <Compile Include="WebApi\PDF\Repository\PDFRepository.cs" />
+    <Compile Include="WebApi\PDF\Services\PDFService.cs" />
     <Compile Include="WebApi\PriceCode\Controllers\PriceCodeController.cs" />
     <Compile Include="WebApi\PriceCode\Interfaces\IPriceCodeRepository.cs" />
     <Compile Include="WebApi\PriceCode\Interfaces\IPriceCodeService.cs" />

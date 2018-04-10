@@ -114,6 +114,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Scripts\Custom\spriteSpin\spriteSpin.js" />
+    <Content Include="Scripts\DialogTech\dialog-tech.js" />
     <Content Include="Scripts\foundation.equalizer.js" />
     <Content Include="Scripts\foundation.tooltip.js" />
     <Content Include="Scripts\isotope.pkgd.min.js" />
@@ -188,6 +189,7 @@
     <TypeScriptCompile Include="Scripts\Custom\Catalog\nbf.product-list.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Comments\nbf.commentmessage.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Comments\nbf.commentmessage.service.ts" />
+    <TypeScriptCompile Include="Scripts\Custom\Common\nbf.pdf.service.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Core\nbf.pager.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Core\nbf.pager.directives.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Dashboard\nbf.dashboard-view.controller.ts" />
