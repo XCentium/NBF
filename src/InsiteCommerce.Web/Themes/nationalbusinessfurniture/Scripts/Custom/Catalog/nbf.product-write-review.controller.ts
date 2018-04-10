@@ -26,10 +26,10 @@
 
         protected setPowerReviews() {
             let powerReviewsConfig = {
-                api_key: '56b8fc6a-79a7-421e-adc5-36cbdaec7daf',
+                api_key: this.queryString.get('pr_api_key'),
                 locale: 'en_US',
-                merchant_group_id: '47982',
-                merchant_id: '33771',
+                merchant_group_id: this.queryString.get('pr_merchant_group_id'),
+                merchant_id: this.queryString.get('pr_merchant_id'),
                 page_id: this.queryString.get('pr_page_id'),
                 components: {
                     Write: 'pr-write'
