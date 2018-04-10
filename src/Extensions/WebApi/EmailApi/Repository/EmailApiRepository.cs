@@ -1,10 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Dynamic;
-using System.Net.Mail;
+﻿using System.Dynamic;
 using System.Threading.Tasks;
 using Extensions.WebApi.Base;
-using Extensions.WebApi.CatalogMailingPrefs.Interfaces;
-using Extensions.WebApi.CatalogMailingPrefs.Models;
+using Extensions.WebApi.EmailApi.Interfaces;
+using Extensions.WebApi.EmailApi.Models;
 using Insite.Catalog.Services;
 using Insite.Core.Context;
 using Insite.Core.Interfaces.Data;
@@ -15,7 +13,7 @@ using Insite.Core.Localization;
 using Insite.Customers.Services;
 using Insite.Data.Repositories.Interfaces;
 
-namespace Extensions.WebApi.CatalogMailingPrefs.Repository
+namespace Extensions.WebApi.EmailApi.Repository
 {
     public class EmailApiRepository : BaseRepository, IEmailApiRepository, IInterceptable
     {
@@ -36,23 +34,23 @@ namespace Extensions.WebApi.CatalogMailingPrefs.Repository
         public Task SendCatalogPrefsEmail(CatalogPrefsDto catalogPrefsDto)
         {
             dynamic emailModel = new ExpandoObject();
-            emailModel.FirstName = catalogPrefsDto.firstName;
-            emailModel.LastName = catalogPrefsDto.lastName;
-            emailModel.Company = catalogPrefsDto.company;
-            emailModel.AddressLine1 = catalogPrefsDto.addressLine1;
-            emailModel.AddressLine2 = catalogPrefsDto.addressLine2;
-            emailModel.City = catalogPrefsDto.city;
-            emailModel.State = catalogPrefsDto.state;
-            emailModel.Zip = catalogPrefsDto.zip;
-            emailModel.PriorityCode = catalogPrefsDto.priorityCode;
-            emailModel.Preference = catalogPrefsDto.preference;
+            emailModel.FirstName = catalogPrefsDto.FirstName;
+            emailModel.LastName = catalogPrefsDto.LastName;
+            emailModel.Company = catalogPrefsDto.Company;
+            emailModel.AddressLine1 = catalogPrefsDto.AddressLine1;
+            emailModel.AddressLine2 = catalogPrefsDto.AddressLine2;
+            emailModel.City = catalogPrefsDto.City;
+            emailModel.State = catalogPrefsDto.State;
+            emailModel.Zip = catalogPrefsDto.Zip;
+            emailModel.PriorityCode = catalogPrefsDto.PriorityCode;
+            emailModel.Preference = catalogPrefsDto.Preference;
 
             var emailList = _unitOfWork.GetTypedRepository<IEmailListRepository>().GetOrCreateByName("CatalogMailingPreferences", "Catalog Mailing Preferences");
             EmailService.SendEmailList(
                 emailList.Id,
-                catalogPrefsDto.emailTo.Split(','),
+                catalogPrefsDto.EmailTo.Split(','),
                 emailModel,
-                $"{EntityTranslationService.TranslateProperty(emailList, o => o.Subject)}: {catalogPrefsDto.preference}",
+                $"{EntityTranslationService.TranslateProperty(emailList, o => o.Subject)}: {catalogPrefsDto.Preference}",
                 _unitOfWork,
                 SiteContext.Current.WebsiteDto.Id);
 
@@ -62,9 +60,9 @@ namespace Extensions.WebApi.CatalogMailingPrefs.Repository
         public Task SendTaxExemptEmail(TaxExemptDto taxExemptDto)
         {
             dynamic emailModel = new ExpandoObject();
-            emailModel.CustomerNumber = taxExemptDto.customerNumber;
-            emailModel.CustomerSequence = taxExemptDto.customerSequence;
-            emailModel.OrderNumber = taxExemptDto.orderNumber;
+            emailModel.CustomerNumber = taxExemptDto.CustomerNumber;
+            emailModel.CustomerSequence = taxExemptDto.CustomerSequence;
+            emailModel.OrderNumber = taxExemptDto.OrderNumber;
             //var attachments = new List<Attachment>()
             //{
             //    taxExemptDto.fileLocation
@@ -73,9 +71,9 @@ namespace Extensions.WebApi.CatalogMailingPrefs.Repository
             var emailList = _unitOfWork.GetTypedRepository<IEmailListRepository>().GetOrCreateByName("TaxExempt", "Tax Exempt File Submission");
             EmailService.SendEmailList(
                 emailList.Id,
-                taxExemptDto.emailTo.Split(','),
+                taxExemptDto.EmailTo.Split(','),
                 emailModel,
-                $"{EntityTranslationService.TranslateProperty(emailList, o => o.Subject)}- CustNo: {taxExemptDto.customerNumber} - OrderNo: {taxExemptDto.orderNumber}",
+                $"{EntityTranslationService.TranslateProperty(emailList, o => o.Subject)}- CustNo: {taxExemptDto.CustomerNumber} - OrderNo: {taxExemptDto.OrderNumber}",
                 _unitOfWork,
                 SiteContext.Current.WebsiteDto.Id);
 

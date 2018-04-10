@@ -82,23 +82,35 @@
         }
 
         saveFile(orderNum?: string) {
-            var fileReader = new FileReader();
-            if (this.file) {
-                fileReader.readAsArrayBuffer(this.file);
-                fileReader.onload = () => {
-                    var params = {
-                        customerNumber: this.customerNumber,
-                        customerSequence: this.customerSequence,
-                        emailTo: this.emailTo,
-                        orderNumber: orderNum,
-                        file: fileReader.result
-                    } as TaxExemptParams;
+            var formData = new FormData();
 
-                    this.nbfEmailService.sendTaxExemptEmail(params).then(
-                        () => { this.success = true; },
-                        () => { this.errorMessage = "An error has occurred."; });
-                };
-            }
+            formData.append("filename", this.file.name);
+            formData.append("customerNumber", this.customerNumber);
+            formData.append("customerSequence", this.customerSequence);
+            formData.append("emailTo", this.emailTo);
+            formData.append("orderNumber", orderNum);
+
+            this.nbfEmailService.sendTaxExemptEmail(formData, this.file).then(
+                () => { this.success = true; },
+                () => { this.errorMessage = "An error has occurred."; });
+
+            //var fileReader = new FileReader();
+            //if (this.file) {
+            //    fileReader.readAsArrayBuffer(this.file);
+            //    fileReader.onload = () => {
+            //        var formData = new FormData();
+
+            //        formData.append("filename", this.file.name);
+            //        formData.append("customerNumber", this.customerNumber);
+            //        formData.append("customerSequence", this.customerSequence);
+            //        formData.append("emailTo", this.emailTo);
+            //        formData.append("orderNumber", orderNum);
+
+            //        this.nbfEmailService.sendTaxExemptEmail(formData).then(
+            //            () => { this.success = true; },
+            //            () => { this.errorMessage = "An error has occurred."; });
+            //    };
+            //}
         }
     }
 

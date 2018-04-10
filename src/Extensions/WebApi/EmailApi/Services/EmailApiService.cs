@@ -1,10 +1,10 @@
 ﻿using System.Threading.Tasks;
-using Extensions.WebApi.CatalogMailingPrefs.Interfaces;
+using Extensions.WebApi.EmailApi.Interfaces;
+using Extensions.WebApi.EmailApi.Models;
 using Insite.Core.Interfaces.Data;
 using Insite.Core.Services;
-using Extensions.WebApi.CatalogMailingPrefs.Models;
 
-namespace Extensions.WebApi.CatalogMailingPrefs.Services
+namespace Extensions.WebApi.EmailApi.Services
 {
     public class EmailApiService : ServiceBase, IEmailApiService
     {

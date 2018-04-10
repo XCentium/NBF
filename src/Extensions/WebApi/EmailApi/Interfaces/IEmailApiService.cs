@@ -1,8 +1,8 @@
 ﻿using System.Threading.Tasks;
-using Extensions.WebApi.CatalogMailingPrefs.Models;
+using Extensions.WebApi.EmailApi.Models;
 using Insite.Core.Interfaces.Dependency;
 
-namespace Extensions.WebApi.CatalogMailingPrefs.Interfaces
+namespace Extensions.WebApi.EmailApi.Interfaces
 {
     public interface IEmailApiService : IDependency, IExtension
     {
