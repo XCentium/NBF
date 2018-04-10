@@ -170,6 +170,7 @@
     <TypeScriptCompile Include="Scripts\Custom\Account\nbf.account-settings.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Account\nbf.create-account.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Account\nbf.guest-activation.service.ts" />
+    <TypeScriptCompile Include="Scripts\Custom\Account\nbf.my-account-address.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Account\nbf.tax-exempt.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Account\nbf.sign-in-fly-out.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Account\nbf.sign-in-widget.controller.ts" />

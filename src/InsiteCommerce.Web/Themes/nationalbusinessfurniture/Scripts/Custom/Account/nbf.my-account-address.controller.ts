@@ -5,8 +5,13 @@
         billTo: BillToModel;
         countries: CountryModel[];
         shipTo: ShipToModel;
+        billToInShipTos: ShipToModel;
+        createNewShipTo: ShipToModel;
+        shipToAddresses: ShipToModel[];
         isReadOnly = false;
         addressFields: AddressFieldCollectionModel;
+        editAddressModel: ShipToModel;
+        editMode = false;
 
         static $inject = ["$location", "$localStorage", "customerService", "websiteService", "sessionService", "queryString"];
 
@@ -47,7 +52,7 @@
         protected getSessionFailed(error: any): void {
         }
 
-        save(): void {
+        saveAddress(id: string): void {
             const valid = angular.element("#addressForm").validate().form();
             if (!valid) {
                 angular.element("html, body").animate({
@@ -57,12 +62,20 @@
                 return;
             }
 
+            delete this.billTo.properties["edit"];
+            this.billTo.shipTos.forEach(shipTo => {
+                delete shipTo.properties["edit"];
+            });
+
+            this.scrollToElement(id);
+
             this.customerService.updateBillTo(this.billTo).then(
                 (billTo: BillToModel) => { this.updateBillToCompleted(billTo); },
                 (error: any) => { this.updateBillToFailed(error); });
         }
 
         protected updateBillToCompleted(billTo: BillToModel): void {
+            this.editMode = false;
             if (this.shipTo.id !== this.billTo.id) {
                 const shipTo = this.shipTo;
                 if ((shipTo as any).shipTos) {
@@ -81,6 +94,7 @@
         }
 
         protected updateBillToFailed(error: any): void {
+            this.editMode = false;
         }
 
         protected addOrUpdateShipToCompleted(result: any): void {
@@ -130,7 +144,6 @@
 
             const shipTos = this.billTo.shipTos;
 
-            let billToInShipTos: ShipToModel;
             shipTos.forEach(shipTo => {
                 this.setObjectToReference(this.countries, shipTo, "country");
                 if (shipTo.country) {
@@ -138,16 +151,17 @@
                 }
 
                 if (shipTo.id === this.billTo.id) {
-                    billToInShipTos = shipTo;
+                    this.billToInShipTos = shipTo;
                 }
             });
 
-            // if allow ship to billing address, remove the billto returned in the shipTos array and put in the actual billto object
-            // so that updating one side updates the other side
-            if (billToInShipTos) {
-                this.billTo.label = billToInShipTos.label;
-                shipTos.splice(shipTos.indexOf(billToInShipTos), 1); // remove the billto that's in the shiptos array
-                shipTos.unshift((this.billTo as any) as ShipToModel); // add the actual billto to top of array
+            // Remove bill to and create new from list of shipTos
+            if (this.billToInShipTos) {
+                this.billTo.label = this.billToInShipTos.label;
+                shipTos.splice(shipTos.indexOf(this.billToInShipTos), 1); // remove the billto that's in the shiptos array
+
+                this.createNewShipTo = shipTos.filter(x => x.label === "Create New")[0];
+                shipTos.splice(shipTos.indexOf(this.createNewShipTo), 1);
             }
 
             const isNewShipTo = this.queryString.get("isNewShipTo");
@@ -185,6 +199,7 @@
                 // the ship to fields to readonly.
                 this.isReadOnly = true;
             }
+            this.shipToAddresses = shipTos;
         }
 
         protected getCountriesFailed(error: any): void {
@@ -288,6 +303,38 @@
                     formInput.focus();
                 }
             });
+        }
+
+        editBtAddress(address: BillToModel) {
+            this.shipTo = this.billToInShipTos;
+            address.properties["edit"] = "true";
+            this.editMode = true;
+        }
+
+        editAddress(address: ShipToModel) {
+            this.shipTo = address;
+            address.properties["edit"] = "true";
+            this.editMode = true;
+        }
+
+        cancelEdit(address: ShipToModel, id: string) {
+            address.properties["edit"] = "false";
+            this.editMode = false;
+            this.scrollToElement(id);
+        }
+
+        createAddress() {
+            this.createNewShipTo.properties["edit"] = "true";
+            this.shipTo = this.createNewShipTo;
+            this.editMode = true;
+        }
+
+        scrollToElement(id: string) {
+            setTimeout(() => {
+                $("html, body").animate({
+                        scrollTop: ($(`#shipTo${id}`).offset().top)
+                    },500);
+            },100);
         }
     }
 
