@@ -6,7 +6,7 @@
         customerSequence: string;
         orderNumber?: string;
         emailTo: string;
-        file: any[];
+        fileLocation: string;
     }
 
     export class TaxExemptController {
@@ -82,15 +82,15 @@
         }
 
         saveFile(orderNum?: string) {
-            var formData = new FormData();
+            var params = {
+                customerNumber: this.customerNumber,
+                customerSequence: this.customerSequence,
+                emailTo: this.emailTo,
+                orderNumber: orderNum,
+                fileLocation: ""
+            } as TaxExemptParams;
 
-            formData.append("filename", this.file.name);
-            formData.append("customerNumber", this.customerNumber);
-            formData.append("customerSequence", this.customerSequence);
-            formData.append("emailTo", this.emailTo);
-            formData.append("orderNumber", orderNum);
-
-            this.nbfEmailService.sendTaxExemptEmail(formData, this.file).then(
+            this.nbfEmailService.sendTaxExemptEmail(params, this.file).then(
                 () => { this.success = true; },
                 () => { this.errorMessage = "An error has occurred."; });
 

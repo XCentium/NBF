@@ -73,12 +73,14 @@ namespace Extensions.WebApi.EmailApi.Controllers
                     .FirstOrDefault(o => o.Contains("filename="))
                     .Split(new string[] {"filename="}, StringSplitOptions.None)[1].Split(';')[0].Trim();
                 destinationFileName = Uri.UnescapeDataString(destinationFileName);
+                destinationFileName = System.IO.Path.GetInvalidFileNameChars().Aggregate(destinationFileName, (current, c) => current.Replace(c, ' ')).Trim();
+
                 var destinationFileStream = await multipart.Contents[0].ReadAsStreamAsync();
 
                 var tempFileName = StorageProvider.Combine(tempUploadDirectory, destinationFileName);
                 StorageProvider.SaveStream(tempFileName, destinationFileStream);
 
-                return Request.CreateResponse(HttpStatusCode.OK);
+                return Request.CreateResponse(HttpStatusCode.OK, tempFileName);
             }
             catch (Exception exception)
             {

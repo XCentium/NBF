@@ -1,9 +1,10 @@
 ﻿module nbf.email {
+    import TaxExemptParams = insite.account.TaxExemptParams;
     "use strict";
 
     export interface INbfEmailService {
         sendCatalogPrefsEmail(params: any): ng.IPromise<string>;
-        sendTaxExemptEmail(params: any, file: any): ng.IPromise<string>;
+        sendTaxExemptEmail(params: TaxExemptParams, file: any): ng.IPromise<string>;
     }
 
     export class NbfEmailService implements INbfEmailService {
@@ -31,8 +32,7 @@
             );
         }
 
-        sendTaxExemptEmail(params: any, file: any): ng.IPromise<string> {
-            const uri = this.serviceUri + "/taxexempt";
+        sendTaxExemptEmail(params: TaxExemptParams, file: any): ng.IPromise<string> {
             const fileUri = this.serviceUri + "/taxexemptfile";
 
             var result = "false";
@@ -49,6 +49,7 @@
                 if (data.errorMessage && data.errorMessage.length > 0) {
                     alert("error");
                 } else {
+                    params.fileLocation = data;
                     this.postFileUploadData(params).then((uploadData) => {
                         result = uploadData;
                     });
@@ -68,8 +69,8 @@
             
         }
 
-        protected postFileUploadData(params: any) : ng.IPromise<string> {
-            const uri = this.serviceUri + "/catalogPrefs";
+        protected postFileUploadData(params: TaxExemptParams) : ng.IPromise<string> {
+            const uri = this.serviceUri + "/taxexempt";
 
             return this.httpWrapperService.executeHttpRequest(
                 this,

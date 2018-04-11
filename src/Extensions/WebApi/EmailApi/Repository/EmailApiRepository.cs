@@ -1,4 +1,6 @@
-﻿using System.Dynamic;
+﻿using System.Collections.Generic;
+using System.Dynamic;
+using System.Net.Mail;
 using System.Threading.Tasks;
 using Extensions.WebApi.Base;
 using Extensions.WebApi.EmailApi.Interfaces;
@@ -63,10 +65,10 @@ namespace Extensions.WebApi.EmailApi.Repository
             emailModel.CustomerNumber = taxExemptDto.CustomerNumber;
             emailModel.CustomerSequence = taxExemptDto.CustomerSequence;
             emailModel.OrderNumber = taxExemptDto.OrderNumber;
-            //var attachments = new List<Attachment>()
-            //{
-            //    taxExemptDto.fileLocation
-            //};
+            var attachments = new List<Attachment>()
+            {       
+                new Attachment(taxExemptDto.FileLocation)
+            };
 
             var emailList = _unitOfWork.GetTypedRepository<IEmailListRepository>().GetOrCreateByName("TaxExempt", "Tax Exempt File Submission");
             EmailService.SendEmailList(
@@ -75,7 +77,8 @@ namespace Extensions.WebApi.EmailApi.Repository
                 emailModel,
                 $"{EntityTranslationService.TranslateProperty(emailList, o => o.Subject)}- CustNo: {taxExemptDto.CustomerNumber} - OrderNo: {taxExemptDto.OrderNumber}",
                 _unitOfWork,
-                SiteContext.Current.WebsiteDto.Id);
+                SiteContext.Current.WebsiteDto.Id,
+                attachments);
 
             return Task.FromResult(0);
         }
