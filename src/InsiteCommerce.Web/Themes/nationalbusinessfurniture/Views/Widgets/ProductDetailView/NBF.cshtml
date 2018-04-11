@@ -1,7 +1,9 @@
-﻿<div ng-controller="ProductDetailController as vm" ng-cloak>
-    <script src="https://ui.powerreviews.com/stable/4.0/ui.js"></script>
+﻿<div ng-controller="ProductDetailController as vm" ng-cloak
+     pr-api-key="[% siteMessage 'PowerReviews_ApiKey' '56b8fc6a-79a7-421e-adc5-36cbdaec7daf ' %]"
+     pr-merchant-group-id="[% siteMessage 'PowerReviews_MerchantGroupId' '47982' %]"
+     pr-merchant-id="[% siteMessage 'PowerReviews_MerchantId' '33771' %]"
+     >
     <script src="https://assets.liveexpert.net/widget/javascript/leaWidget.js"></script>
-
     <isc-catalog-breadcrumb ng-show="vm.product" breadcrumbs="vm.breadCrumbs"></isc-catalog-breadcrumb>
     <div class="medium-12 large-12 columns widget-1column narrow-container product-details">
         <div class="row">
@@ -38,26 +40,8 @@
                             </div>
                             <div class="col-2">
                                 <div class="item-block__product__reviews">
-                                    <div class="rating {{vm.getStarRating(vm.product)}}">
-                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                    </div>
-                                    <span ng-if="vm.getStarRatingNumeric(vm.product) > 0">
-                                        {{vm.getStarRatingNumeric(vm.product) | number : 1 }}
-                                    </span>
-                                    <span ng-if="vm.getReviewCount(vm.product) <= 1">
-                                        ({{vm.getReviewCount(vm.product)}} Review)
-                                    </span>
-                                    <span ng-if="vm.getReviewCount(vm.product) > 1">
-                                        ({{vm.getReviewCount(vm.product)}} Reviews)
-                                    </span>
-                                </div>
-                                <a href ng-click="vm.scrollTo('pr-reviewdisplay')" ng-if="vm.getReviewCount(vm.product) == 1">Read {{vm.getReviewCount(vm.product)}} review</a>
-                                <a href ng-click="vm.scrollTo('pr-reviewdisplay')" ng-if="vm.getReviewCount(vm.product) > 1">Read {{vm.getReviewCount(vm.product)}} reviews</a>
-                                <a href="#">Write a Review</a>
+                                    <div id="pr-reviewsnippet"></div>
+                                </div>                                
                             </div>
                         </div>
                         <div class="item-block__product__samples-link">
@@ -344,8 +328,6 @@
 
 
 <!--product reviews-->
-<div id="pr-reviewsnippet"></div>
-<div id="pr-questionsnippet"></div>
 <div id="pr-reviewdisplay"></div>
 <div id="pr-questiondisplay"></div>
     
