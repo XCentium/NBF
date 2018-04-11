@@ -100,48 +100,50 @@ begin
 	(
 		select 
 			oh.ERPOrderNumber,
-			sum(shvo.vo_Freight) [ShippingCharges],
-			sum(shvo.vo_TaxAmount) [TaxAmount],
-			sum(shvo.vo_PreFOBFreight) [HandlingCharges]
+			case when sho.ord_FOBFlag = 0 then sum(shvo.vo_Freight) else oh.ShippingCharges end [ShippingCharges],
+			sum(shvo.vo_TaxAmount) [TaxAmount]
 		from 
 			OEGSystemStaging.dbo.HistoryOrder sho
 			join OrderHistory oh on oh.ERPOrderNumber = sho.ord_Number
 			join OEGSystemStaging.dbo.HistoryVendorOrder shvo on shvo.vo_OrderNum = sho.ord_Number
 		group by
-			oh.ERPOrderNumber
+			oh.ERPOrderNumber, sho.ord_FOBFlag, oh.ShippingCharges 
 	)
 	update OrderHistory set
 		[ShippingCharges] = st.ShippingCharges,
 		[TaxAmount] = st.TaxAmount,
-		[HandlingCharges] = st.HandlingCharges
+		[HandlingCharges] = 0
 	from 
 		OrderHistory oh 
 		join ShipAndTax st on st.ERPOrderNumber = oh.ERPOrderNumber
 	where
 		oh.[ShippingCharges] != st.ShippingCharges
 		or oh.[TaxAmount] != st.TaxAmount
-		or oh.[HandlingCharges] != st.HandlingCharges
+		or oh.[HandlingCharges] != 0
 
 
 	;with totals as
 	(
 		select 
 			oh.ERPOrderNumber,
-			sum(shd.vd_ActualPrice*shd.vd_Qty) [ProductTotal]
+			sum(isnull(shd.vd_ActualPrice,0)*isnull(shd.vd_Qty,0)) [ProductTotal],
+			case when sho.ord_FOBFlag = 1 then sum(isnull(vd_ActualFreight,0)) else oh.ShippingCharges end [ShippingCharges]
 		from 
 			OrderHistory oh 
 			join OEGSystemStaging.dbo.HistoryOrder sho on sho.ord_Number = oh.ERPOrderNumber
 			left join OEGSystemStaging.dbo.HistoryVendorDetail shd on shd.vd_OrderNum = sho.ord_Number
 		group by
-			oh.ERPOrderNumber
+			oh.ERPOrderNumber, sho.ord_FOBFlag, oh.ShippingCharges
 	)
 	update OrderHistory set
-		[ProductTotal] = totals.ProductTotal
+		[ProductTotal] = totals.ProductTotal,
+		[ShippingCharges] = totals.ShippingCharges
 	from 
 		OrderHistory oh 
 		join totals on totals.ERPOrderNumber = oh.ERPOrderNumber
 	where
-		oh.[ProductTotal] != totals.ProductTotal
+		oh.[ProductTotal] != totals.ProductTotal 
+		or oh.[ShippingCharges] != totals.ShippingCharges
 
 
 
