@@ -101,7 +101,8 @@ begin
 		select 
 			oh.ERPOrderNumber,
 			sum(shvo.vo_Freight) [ShippingCharges],
-			sum(shvo.vo_TaxAmount) [TaxAmount]
+			sum(shvo.vo_TaxAmount) [TaxAmount],
+			sum(shvo.vo_PreFOBFreight) [HandlingCharges]
 		from 
 			OEGSystemStaging.dbo.HistoryOrder sho
 			join OrderHistory oh on oh.ERPOrderNumber = sho.ord_Number
@@ -111,13 +112,36 @@ begin
 	)
 	update OrderHistory set
 		[ShippingCharges] = st.ShippingCharges,
-		[TaxAmount] = st.TaxAmount
+		[TaxAmount] = st.TaxAmount,
+		[HandlingCharges] = st.HandlingCharges
 	from 
 		OrderHistory oh 
 		join ShipAndTax st on st.ERPOrderNumber = oh.ERPOrderNumber
 	where
 		oh.[ShippingCharges] != st.ShippingCharges
 		or oh.[TaxAmount] != st.TaxAmount
+		or oh.[HandlingCharges] != st.HandlingCharges
+
+
+	;with totals as
+	(
+		select 
+			oh.ERPOrderNumber,
+			sum(shd.vd_ActualPrice*shd.vd_Qty) [ProductTotal]
+		from 
+			OrderHistory oh 
+			join OEGSystemStaging.dbo.HistoryOrder sho on sho.ord_Number = oh.ERPOrderNumber
+			left join OEGSystemStaging.dbo.HistoryVendorDetail shd on shd.vd_OrderNum = sho.ord_Number
+		group by
+			oh.ERPOrderNumber
+	)
+	update OrderHistory set
+		[ProductTotal] = totals.ProductTotal
+	from 
+		OrderHistory oh 
+		join totals on totals.ERPOrderNumber = oh.ERPOrderNumber
+	where
+		oh.[ProductTotal] != totals.ProductTotal
 
 
 

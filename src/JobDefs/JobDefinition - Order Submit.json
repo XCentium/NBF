@@ -59,6 +59,7 @@
         "DeleteAction": "",
         "DeleteActionFieldToSet": "",
         "DeleteActionValueToSet": "",
+        "DeleteChildren": false,
         "SkipHeaderRow": true,
         "FlatFileErrorHandling": "",
         "CreatedOn": "2018-03-07T22:21:38.5995919+00:00",

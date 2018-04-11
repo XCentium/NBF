@@ -33,8 +33,10 @@ SELECT
 		oh.STCountry,
 
 		oh.ShippingCharges,
+		oh.HandlingCharges,
 		oh.TaxAmount,
 		oh.OrderTotal,
+		oh.ProductTotal,
 		oh.CreatedBy,
 		oh.ModifiedBy
 
