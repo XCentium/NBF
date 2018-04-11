@@ -165,6 +165,7 @@
     <Content Include="Views\Widgets\SignInView\NBF.cshtml" />
     <Content Include="Views\Widgets\InvoicesView\NBF.cshtml" />
     <Content Include="Views\Widgets\Custom\ProductWriteReview\Standard.cshtml" />
+    <Content Include="Styles\custom\tax-exempt.scss" />
     <TypeScriptCompile Include="Scripts\Catalog\insite.frequently-purchased.controller.ts" />
     <TypeScriptCompile Include="Scripts\Catalog\insite.recently-viewed.controller.ts" />
     <TypeScriptCompile Include="Scripts\Catalog\insite.related-products.controller.ts" />

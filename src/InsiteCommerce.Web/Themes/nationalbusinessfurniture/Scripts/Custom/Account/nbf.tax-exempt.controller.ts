@@ -10,9 +10,7 @@
     }
 
     export class TaxExemptController {
-        customerNumber: string;
-        customerSequence: string;
-        emailTo: string;
+        cart: CartModel;
         isTaxExempt = false;
         taxExemptChoice = true;
         taxExemptFileName: string;
@@ -53,13 +51,11 @@
         }
 
         protected onCartLoaded(event: ng.IAngularEvent, cart: CartModel): void {
-            if (cart.billTo) {
-                this.customerNumber = cart.billTo.customerNumber;
-                this.customerSequence = cart.billTo.customerSequence;
-
-                if (cart.billTo.properties["taxExemptFileName"]) {
+            this.cart = cart;
+            if (this.cart.billTo) {
+                if (this.cart.billTo.properties["taxExemptFileName"]) {
                     this.isTaxExempt = true;
-                    this.taxExemptFileName = cart.billTo.properties["taxExemptFileName"];
+                    this.taxExemptFileName = this.cart.billTo.properties["taxExemptFileName"];
                 }   
             }
         }
@@ -78,39 +74,39 @@
         openUpload() {
             setTimeout(() => {
                 $("#taxExemptFileUpload").click();
-            },100);
+            }, 100);
         }
 
-        saveFile(orderNum?: string) {
+        saveFile(emailTo: string, orderNum?: string) {
             var params = {
-                customerNumber: this.customerNumber,
-                customerSequence: this.customerSequence,
-                emailTo: this.emailTo,
+                customerNumber: this.cart.billTo.customerNumber,
+                customerSequence: this.cart.billTo.customerSequence,
+                emailTo: emailTo,
                 orderNumber: orderNum,
                 fileLocation: ""
             } as TaxExemptParams;
 
             this.nbfEmailService.sendTaxExemptEmail(params, this.file).then(
-                () => { this.success = true; },
+                () => {
+                    this.updateBillTo();
+                },
                 () => { this.errorMessage = "An error has occurred."; });
+        }
 
-            //var fileReader = new FileReader();
-            //if (this.file) {
-            //    fileReader.readAsArrayBuffer(this.file);
-            //    fileReader.onload = () => {
-            //        var formData = new FormData();
+        protected updateBillTo() {
+            this.cart.billTo.properties["taxExemptFileName"] = this.taxExemptFileName;
 
-            //        formData.append("filename", this.file.name);
-            //        formData.append("customerNumber", this.customerNumber);
-            //        formData.append("customerSequence", this.customerSequence);
-            //        formData.append("emailTo", this.emailTo);
-            //        formData.append("orderNumber", orderNum);
+            this.customerService.updateBillTo(this.cart.billTo).then(
+                () => { this.updateBillToCompleted(); },
+                (error: any) => { this.updateBillToFailed(error); });
+        }
 
-            //        this.nbfEmailService.sendTaxExemptEmail(formData).then(
-            //            () => { this.success = true; },
-            //            () => { this.errorMessage = "An error has occurred."; });
-            //    };
-            //}
+        protected updateBillToCompleted(): void {
+            this.success = true;
+        }
+
+        protected updateBillToFailed(error: any): void {
+            this.errorMessage = "An error has occurred.";
         }
     }
 
