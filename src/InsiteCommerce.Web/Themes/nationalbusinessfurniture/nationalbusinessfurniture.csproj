@@ -634,6 +634,7 @@
     <Content Include="Views\Widgets\UserSetupView\Standard.cshtml" />
     <Content Include="Views\Widgets\WebCrossSells\Standard.cshtml" />
     <Content Include="Views\Widgets\Wishlists\Standard.cshtml" />
+    <Content Include="Views\Widgets\WishListView\NBF.cshtml" />
     <Content Include="Views\Widgets\WishListView\Standard.cshtml" />
     <Content Include="Views\Widgets\Zone\Standard.cshtml" />
   </ItemGroup>
