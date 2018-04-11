@@ -124,7 +124,6 @@
     "Styles/template/product-detail.scss",
     "Styles/template/ma-frequently-purchased.scss",
     "Styles/template/ma-recently-purchased.scss",
-    "Styles/custom/checkout.scss",
     "Styles/custom/*"
   ],
   "Widgets": {
