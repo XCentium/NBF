@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
@@ -85,20 +86,19 @@ namespace Extensions.WebApi.EmailApi.Controllers
             catch (Exception exception)
             {
                 LogHelper.For(this).Error("Exception occurred while uploading files.", exception);
+
+                try
+                {
+                    StorageProvider.DeleteFolder(tempUploadDirectory);
+                }
+                catch
+                {
+                    Thread.Sleep(100);
+                    StorageProvider.DeleteFolder(tempUploadDirectory);
+                }
+
                 return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, exception);
             }
-            //finally
-            //{
-            //    try
-            //    {
-            //        StorageProvider.DeleteFolder(tempUploadDirectory);
-            //    }
-            //    catch
-            //    {
-            //        Thread.Sleep(100);
-            //        StorageProvider.DeleteFolder(tempUploadDirectory);
-            //    }
-            //}
         }
 
     }

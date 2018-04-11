@@ -1,4 +1,6 @@
-﻿.exempt {
+﻿@import "../variables";
+
+.exempt {
     .exempt__label {
         margin-right: 60px;
     }
@@ -29,5 +31,9 @@
             visibility: hidden;
             position: absolute;
         }
+    }
+
+    .btn-save {
+        display:block;
     }
 }

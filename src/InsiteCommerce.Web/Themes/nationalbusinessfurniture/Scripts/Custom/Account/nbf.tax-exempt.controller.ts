@@ -17,6 +17,7 @@
         file: any;
         errorMessage: string;
         success: boolean = false;
+        $form: JQuery;
 
         static $inject = [
             "$scope",
@@ -26,7 +27,8 @@
             "accountService",
             "sessionService",
             "customerService",
-            "nbfEmailService"
+            "nbfEmailService",
+            "$element"
         ];
 
         constructor(
@@ -37,11 +39,17 @@
             protected accountService: IAccountService,
             protected sessionService: ISessionService,
             protected customerService: customers.ICustomerService,
-            protected nbfEmailService: nbf.email.INbfEmailService) {
+            protected nbfEmailService: nbf.email.INbfEmailService,
+            protected $element: ng.IRootElementService) {
             this.init();
         }
 
         init(): void {
+            this.$form = this.$element.find("form");
+            this.$form.removeData("validator");
+            this.$form.removeData("unobtrusiveValidation");
+            $.validator.unobtrusive.parse(this.$form);
+
             this.$scope.$on("cartLoaded", (event: ng.IAngularEvent, cart: CartModel) => this.onCartLoaded(event, cart));
 
             var self = this;
@@ -60,7 +68,13 @@
             }
         }
 
-        setFile(arg): void {
+        setFile(arg): boolean {
+            this.errorMessage = "";
+
+            if (!this.$form.valid()) {
+                return false;
+            }
+
             if (arg.files.length > 0) {
                 this.file = arg.files[0];
                 this.taxExemptFileName = this.file.name;

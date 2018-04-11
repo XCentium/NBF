@@ -67,9 +67,10 @@ namespace Extensions.WebApi.EmailApi.Repository
             emailModel.CustomerNumber = taxExemptDto.CustomerNumber;
             emailModel.CustomerSequence = taxExemptDto.CustomerSequence;
             emailModel.OrderNumber = taxExemptDto.OrderNumber;
+            var filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "UserFiles/", taxExemptDto.FileLocation);
             var attachments = new List<Attachment>()
             {       
-                new Attachment(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "UserFiles/", taxExemptDto.FileLocation))
+                new Attachment(filePath)
             };
 
             var emailList = _unitOfWork.GetTypedRepository<IEmailListRepository>().GetOrCreateByName("TaxExempt", "Tax Exempt File Submission", "Tax Exempt File Submission");
@@ -81,6 +82,8 @@ namespace Extensions.WebApi.EmailApi.Repository
                 _unitOfWork,
                 SiteContext.Current.WebsiteDto.Id,
                 attachments);
+
+            Directory.Delete(filePath, true);
 
             return Task.FromResult(0);
         }
