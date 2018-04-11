@@ -5,9 +5,16 @@
         productNumbersString: string;
     }
 
+    export interface ProductCarouselProduct {
+        erpNumber: string;
+        sortOrder: number;
+        product: ProductDto;
+    }
+
     export class NbfProductCarouselController extends CrossSellCarouselController {
         erpNumbers: string[];
         products: ProductDto[];
+        productCarouselProducts: ProductCarouselProduct[];
         favoritesWishlist: WishListModel;
         isAuthenticated: boolean = false;
 
@@ -63,6 +70,14 @@
             this.productService.getProducts(params, expand).then(
                 (result) => {
                     this.products = result.products;
+                    this.productCarouselProducts = [];
+                    this.erpNumbers.forEach((erp, i) => {
+                        this.productCarouselProducts.push({
+                            erpNumber: erp,
+                            sortOrder: i,
+                            product: this.products.filter(x => x.erpNumber.toLowerCase() === erp.toLowerCase())[0]
+                        } as ProductCarouselProduct);
+                    });
                     this.imagesLoaded = 0;
                     this.waitForDom(this.maxTries);
 
