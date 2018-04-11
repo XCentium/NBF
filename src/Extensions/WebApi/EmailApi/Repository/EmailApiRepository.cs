@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Dynamic;
 using System.IO;
 using System.Net.Mail;
+using System.Threading;
 using System.Threading.Tasks;
 using Extensions.WebApi.Base;
 using Extensions.WebApi.EmailApi.Interfaces;
@@ -82,8 +83,22 @@ namespace Extensions.WebApi.EmailApi.Repository
                 _unitOfWork,
                 SiteContext.Current.WebsiteDto.Id,
                 attachments);
-
-            Directory.Delete(filePath, true);
+            
+            if (File.Exists(filePath))
+            {
+                try
+                {
+                    Thread.Sleep(10000);
+                    attachments.ForEach(x => x.Dispose());
+                    File.Delete(filePath);
+                }
+                catch
+                {
+                    Thread.Sleep(10000);
+                    attachments.ForEach(x => x.Dispose());
+                    File.Delete(filePath);
+                }
+            }
 
             return Task.FromResult(0);
         }
