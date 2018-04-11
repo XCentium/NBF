@@ -164,6 +164,7 @@
     <Content Include="Views\Widgets\StaticListView\Standard.cshtml" />
     <Content Include="Views\Widgets\SignInView\NBF.cshtml" />
     <Content Include="Views\Widgets\InvoicesView\NBF.cshtml" />
+    <Content Include="Views\Widgets\Custom\ProductWriteReview\Standard.cshtml" />
     <TypeScriptCompile Include="Scripts\Catalog\insite.frequently-purchased.controller.ts" />
     <TypeScriptCompile Include="Scripts\Catalog\insite.recently-viewed.controller.ts" />
     <TypeScriptCompile Include="Scripts\Catalog\insite.related-products.controller.ts" />
@@ -182,6 +183,7 @@
     <TypeScriptCompile Include="Scripts\Custom\Cart\nbf.cart-lines.directive.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Cart\nbf.checkout.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Cart\nbf.payment.service.ts" />
+    <TypeScriptCompile Include="Scripts\Custom\Catalog\nbf.product-write-review.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Catalog\nbf.product-price-saving.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Catalog\nbf.category-left-nav.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Catalog\nbf.cross-sell-carousel.controller.ts" />

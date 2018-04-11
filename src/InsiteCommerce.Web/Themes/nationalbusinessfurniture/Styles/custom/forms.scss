@@ -92,137 +92,147 @@ input[type="text"], select, input[type="email"], input[type="password"] {
         }
     }
 }
-
-.custom-select {
-    position: relative;
-
-    &:after {
-        content: '\f078';
-        font-family: $FontAwesome;
-        color: #333;
-        right: 5px;
-        /*Adjust for position however you want*/
-        top: 21px;
-        -webkit-transform: translateY(-50%);
-        -ms-transform: translateY(-50%);
-        transform: translateY(-50%);
-        /*left line */
-        position: absolute;
-        pointer-events: none;
-    }
-
-    &:focus:after {
-        content: '\f077';
-    }
-
-    select {
-        -webkit-appearance: none;
-        -moz-appearance: none;
-        appearance: none;
-        background-image:none;
-        width: 100% !important;
+.shortform {
+    input[type="text"], select, input[type="email"], input[type="password"] {
+        &.valid {
+            & ~ span.field-validation-valid:after {
+                bottom: 12px;
+                top: auto;
+            }
+        }
     }
 }
 
-.input-email-icon {
-    &:before {
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        display: inline-block;
-        font: normal normal normal 14px/1 FontAwesome;
-        content: "\f0e0";
-        font-size: 18px;
-        left: 20px;
-        pointer-events: none;
-    }
-
-    input {
-        padding-left: 50px;
-    }
-}
-
-input.customcheckbox[type=checkbox], input.customcheckbox[type=radio] {
-    visibility: hidden;
-    position: absolute;
-
-    & + label {
-        margin-left: 0;
+    .custom-select {
         position: relative;
 
-        &:before {
-            content: '';
-            display: inline-block;
-            height: 14px;
-            width: 14px;
-            border: 1px solid #868889;
-            vertical-align: text-top;
-            margin-right: 10px;
+        &:after {
+            content: '\f078';
+            font-family: $FontAwesome;
+            color: #333;
+            right: 5px;
+            /*Adjust for position however you want*/
+            top: 21px;
+            -webkit-transform: translateY(-50%);
+            -ms-transform: translateY(-50%);
+            transform: translateY(-50%);
+            /*left line */
+            position: absolute;
+            pointer-events: none;
+        }
+
+        &:focus:after {
+            content: '\f077';
+        }
+
+        select {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            background-image: none;
+            width: 100% !important;
         }
     }
 
+    .input-email-icon {
+        &:before {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            display: inline-block;
+            font: normal normal normal 14px/1 FontAwesome;
+            content: "\f0e0";
+            font-size: 18px;
+            left: 20px;
+            pointer-events: none;
+        }
 
-    &:checked {
+        input {
+            padding-left: 50px;
+        }
+    }
+
+    input.customcheckbox[type=checkbox], input.customcheckbox[type=radio] {
+        visibility: hidden;
+        position: absolute;
 
         & + label {
+            margin-left: 0;
+            position: relative;
+
             &:before {
-                background-color: #868889;
-            }
-
-            &:after {
-                background-color: #fff;
                 content: '';
-                display: block;
-                position: absolute;
-                left: 5px;
-                top: 8px;
-                height: 4px;
-                width: 4px;
+                display: inline-block;
+                height: 14px;
+                width: 14px;
+                border: 1px solid #868889;
+                vertical-align: text-top;
+                margin-right: 10px;
+            }
+        }
+
+
+        &:checked {
+
+            & + label {
+                &:before {
+                    background-color: #868889;
+                }
+
+                &:after {
+                    background-color: #fff;
+                    content: '';
+                    display: block;
+                    position: absolute;
+                    left: 5px;
+                    top: 8px;
+                    height: 4px;
+                    width: 4px;
+                }
             }
         }
     }
-}
 
 
-input.customradio[type=radio] {
-    visibility: hidden;
-    position: absolute;
-
-    & + label {
-        margin-left: 0;
-        position: relative;
-
-        &:before {
-            content: '';
-            display: inline-block;
-            height: 14px;
-            width: 14px;
-            border: 1px solid #868889;
-            vertical-align: text-top;
-            margin-right: 10px;
-            @include border-radius(50px);
-        }
-    }
-
-
-    &:checked {
+    input.customradio[type=radio] {
+        visibility: hidden;
+        position: absolute;
 
         & + label {
-            &:before {
-                background-color: #868889;
-            }
+            margin-left: 0;
+            position: relative;
 
-            &:after {
-                background-color: #fff;
+            &:before {
                 content: '';
-                display: block;
-                position: absolute;
-                left: 5px;
-                top: 8px;
-                height: 4px;
-                width: 4px;
+                display: inline-block;
+                height: 14px;
+                width: 14px;
+                border: 1px solid #868889;
+                vertical-align: text-top;
+                margin-right: 10px;
                 @include border-radius(50px);
             }
         }
+
+
+        &:checked {
+
+            & + label {
+                &:before {
+                    background-color: #868889;
+                }
+
+                &:after {
+                    background-color: #fff;
+                    content: '';
+                    display: block;
+                    position: absolute;
+                    left: 5px;
+                    top: 8px;
+                    height: 4px;
+                    width: 4px;
+                    @include border-radius(50px);
+                }
+            }
+        }
     }
-}

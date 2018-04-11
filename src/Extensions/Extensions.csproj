@@ -397,6 +397,7 @@
     <Compile Include="Widgets\CatalogMailingPrefs.cs" />
     <Compile Include="Widgets\LinkListWithTitlePreparer.cs" />
     <Compile Include="Widgets\NavigationFlyOutPreparer.cs" />
+    <Compile Include="Widgets\ProductWriteReview.cs" />
     <Compile Include="Widgets\TaxExempt.cs" />
     <Compile Include="Widgets\VideoBanner.cs" />
     <Compile Include="Widgets\ShopTheLookCta.cs" />

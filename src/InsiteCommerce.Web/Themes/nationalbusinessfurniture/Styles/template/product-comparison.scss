@@ -65,6 +65,9 @@
 
     .item-wrap div.price {
         margin-bottom: .5em;
+        h3{
+            display:inline;
+        }
     }
 
     .item-wrap .quantity-pricing {
@@ -379,8 +382,8 @@
 
         .pc-attr-list .pc-attr > span,
         .pc-attr-list .pc-value > span {
-            font-size: .875rem;
-            line-height: 1.25rem;
+            /*font-size: .875rem;
+            line-height: 1.25rem;*/
         }
 
         .pc-attr-list .pc-attr:hover, .pc-attr-list .pc-attr:focus {
