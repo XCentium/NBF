@@ -292,6 +292,44 @@ begin
 		and p.ContentManagerId = '00000000-0000-0000-0000-000000000000'
 
 
+
+
+	set @attributeName = 'Type'
+	exec ETLAttribute_FromOEG @attributeName
+	select top 1 @attributeTypeId = Id from AttributeType where [Name] = @attributeName
+
+	
+	-- since there is no "key" on this table it's tough to do an "update", we are just going to add new ones and manually delete unused ones (if needed)
+	insert into AttributeValue (AttributeTypeId, [Value], SortOrder, IsActive, CreatedBy, ModifiedBy)
+	select distinct @attributeTypeId, sicdn.DisplayName, 0, 1, 'etl', 'etl'
+	from Product p
+	join OEGSystemStaging.dbo.Products sp on sp.Number = p.ERPNumber
+		and sp.BrandId = @brand
+	join OEGSystemStaging.dbo.ItemsCategories sic on sic.ItemId = sp.ItemId
+	join OEGSystemStaging.dbo.ItemCategoryDisplayNames sicdn on sicdn.CategoryId = sic.CategoryId
+		and sicdn.BrandId = @brand
+	where sicdn.DisplayName not in (select [Value] from AttributeValue where AttributeTypeId = @attributeTypeId)
+
+
+	-- since there is no primary key here, we can just delete all associations and repopulate
+	delete from ProductAttributeValue
+	where AttributeValueId in ( select avalue.Id from AttributeValue avalue
+	join AttributeType atype on atype.Id = avalue.AttributeTypeId and atype.Id = @attributeTypeId)
+
+	
+	insert into ProductAttributeValue (ProductId, AttributeValueId) 
+	select distinct p.Id, avalue.Id 
+	from Product p
+	join OEGSystemStaging.dbo.Products sp on sp.Number = p.ERPNumber
+		and sp.BrandId = @brand
+	join OEGSystemStaging.dbo.ItemsCategories sic on sic.ItemId = sp.ItemId
+	join OEGSystemStaging.dbo.ItemCategoryDisplayNames sicdn on sicdn.CategoryId = sic.CategoryId
+		and sicdn.BrandId = @brand
+	join AttributeValue avalue on avalue.[Value] = sicdn.DisplayName
+	where avalue.AttributeTypeId = @attributeTypeId
+
+
+
 	set @attributeName = 'Brand'
 	exec ETLAttribute_FromOEG @attributeName
 	select top 1 @attributeTypeId = Id from AttributeType where [Name] = @attributeName
