@@ -6,7 +6,11 @@
              'vm-grid': !vm.isCategoryPage() && vm.view == 'grid',
              'vm-table': !vm.isCategoryPage() && vm.view == 'table'
          }"
-         ng-controller="ProductListController as vm" ng-show="vm.ready" ng-cloak>
+         ng-controller="ProductListController as vm" ng-show="vm.ready" ng-cloak
+         pr-api-key="[% siteMessage 'PowerReviews_ApiKey' '56b8fc6a-79a7-421e-adc5-36cbdaec7daf ' %]"
+         pr-merchant-group-id="[% siteMessage 'PowerReviews_MerchantGroupId' '47982' %]"
+         pr-merchant-id="[% siteMessage 'PowerReviews_MerchantId' '33771' %]"
+         >
 
         <div class="large-12 columns">
             <div>
@@ -143,14 +147,7 @@
                                                     </div>
                                                     <div class="item-block__product__col-2 clearfix">
                                                         <div class="col-1">
-                                                            <div class="item-block__product__stars">
-                                                                <div class="rating {{vm.getStarRating(product)}} ">
-                                                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                                                </div>
+                                                            <div id="pr-{{product.productCode}}" class="item-block__product__stars">                                                                
                                                             </div>
                                                         </div>
                                                         <div class="col-2">
