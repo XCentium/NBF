@@ -53,7 +53,9 @@
             </div>
             <div class="row cf-form-requestorphone">
                 <label for="requestorphone[[Model.ContentKey]]">[% translate 'Phone' %] <span class="redTxt">*</span></label>
-                <input name="Phone" data-rule-required="true" data-msg-required="Phone is required" data-val="true" type="text" ng-model="vm.catalogPrefs.RequestorPhone" id="requestorphone[[Model.ContentKey]]" />
+                <input name="Phone" data-rule-required="true" data-msg-required="Phone is required" data-val="true" type="text" ng-model="vm.catalogPrefs.RequestorPhone" id="requestorphone[[Model.ContentKey]]" 
+                       data-rule-regex="[[Model.PhoneRegexPattern]]"
+                       data-msg-regex="Phone is not in correct format"/>
                 <span class="field-validation-valid" data-valmsg-replace="true" data-valmsg-for="RequestorPhone"></span>
             </div>
             <div>

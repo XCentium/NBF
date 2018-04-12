@@ -93,5 +93,13 @@ namespace Extensions.Widgets
                 return "\\w+([-+.']\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*";
             }
         }
+
+        public virtual string PhoneRegexPattern
+        {
+            get
+            {
+                return "^([\\(\\)/\\-\\.\\+\\s]*\\d\\s?(ext)?[\\(\\)/\\-\\.\\+\\s]*){10,}$";
+            }
+        }
     }
 }
