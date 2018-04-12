@@ -44,6 +44,7 @@ begin
 					and [cst_EmailAddr] = left(co.BTEmail,100)
 			)
 
+
 	insert into OEGSystemStaging.dbo.StatusCustomer 
 	(
 		[cst_CntFName], [cst_CntLName], [cst_Company], [cst_Address], [cst_Address2], 
@@ -81,16 +82,22 @@ begin
 			)
 
 
+	-- now go back and update GUIDs where they are blank
+	update OEGSystemStaging.dbo.StatusCustomer set cst_ID = newid() where cst_ID = ''
+
+
 	insert into OEGSystemStaging.dbo.StatusOrder
 	(
-		[ord_WebNumber], [ord_CustNumber], [ord_Status], [ord_DateTime], [ord_BillToID], [ord_ShipToID],
-		[ord_Amount], [ord_PONumber], [ord_Delivery], [ord_SalesTax], [ord_ServiceCharge], [ord_SiteID]
+		[ord_WebNumber], [ord_CustNumber], [ord_Status], [ord_DateTime], [ord_BillToID], [ord_ShipToID], [ord_SourceCode],
+		[ord_Amount], [ord_CCAmount], [ord_PONumber], [ord_Delivery], [ord_SalesTax], [ord_ServiceCharge], [ord_PaymentToken], [ord_SiteID]
 	)
 	select 
-		co.OrderNumber, left(co.CustomerNumber,10), left(co.Status,1), co.OrderDate, bt.idStatusCustomer, st.idStatusCustomer,
-		co.OrderTotal, left(co.CustomerPO,32), co.ShippingCharges, co.TaxAmount, co.OtherCharges, 'NBF'
+		co.OrderNumber, left(co.CustomerNumber,10), 'P', co.OrderDate, bt.cst_ID, st.cst_ID, '99',
+		co.OrderTotal, cct.Amount, left(co.CustomerPO,32), co.ShippingCharges, co.TaxAmount, co.OtherCharges, cct.AuthCode, 'NBF'
 	from 
 		CustomerOrder co
+		join CreditCardTransaction cct on cct.CustomerOrderId = co.Id
+			and cct.Result = 0 
 		join OEGSystemStaging.dbo.StatusCustomer bt on bt.cst_WebCustomerNumber = co.CustomerNumber
 					and	bt.[cst_CntFName] = left(co.BTFirstName,15)
 					and bt.[cst_CntLName] = left(co.BTLastName,15)
@@ -133,12 +140,10 @@ begin
 	
 	insert into OEGSystemStaging.dbo.StatusVendorOrder
 	(
-		[idStatusOrder], [vo_WebNumber], [vo_VendorCode], [vo_Status],
-		[vo_Freight]
+		[idStatusOrder], [vo_WebNumber], [vo_VendorCode], [vo_Freight]
 	)
 	select
-		distinct so.idStatusOrder, co.Id, left(s.Value,3), left(co.Status,1),
-		0
+		distinct so.idStatusOrder, co.Id, left(s.Value,3), 0
 	from 
 		CustomerOrder co
 		join OrderLine ol on ol.CustomerOrderId = co.Id
@@ -158,13 +163,14 @@ begin
 	insert into OEGSystemStaging.dbo.StatusVendorOrderDetail
 	(
 		[idStatusVendorOrder],[vd_WebNumber], [vd_VendorCode], [vd_ItemNum], [vd_ItemName],
-		[vd_Options], [vd_SkuNum], [vd_Quantity], [vd_ActualPrice], [vd_ListPrice], [vd_SwatchGroupName], 
-		vd_Freight, [vd_InsideDelivery]
+		[vd_Options], [vd_SkuNum], [vd_Quantity], [vd_ActualPrice], [vd_Freight], [vd_InsideDelivery],
+		[vd_ListPrice], [vd_SwatchGroupName]
+		
 	)
 	select
 		svo.idStatusVendorOrder, co.Id, left(s.Value,3), p.ERPNumber, p.ShortDescription,
-		p.ManufacturerItem, p.Sku, ol.QtyOrdered, ol.UnitNetPrice, ol.UnitRegularPrice, p.Name, 
-		0, 0
+		p.ManufacturerItem, p.Sku, ol.QtyOrdered, ol.UnitNetPrice, 0, 0,
+		ol.UnitListPrice, p.Name
 	from 
 		CustomerOrder co
 		join OrderLine ol on ol.CustomerOrderId = co.Id
