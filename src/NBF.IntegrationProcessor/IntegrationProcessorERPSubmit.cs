@@ -35,8 +35,6 @@ namespace NBF.IntegrationProcessor
                 || initialDataset.Tables[Data.ProductTable].Rows.Count == 0
                 || !initialDataset.Tables.Contains(Data.ShipToTable)
                 || initialDataset.Tables[Data.ShipToTable].Rows.Count == 0
-                || !initialDataset.Tables.Contains(Data.CreditCardTransactionTable)
-                || initialDataset.Tables[Data.CreditCardTransactionTable].Rows.Count == 0
             )
             {
                 throw new ArgumentException(Messages.InvalidInitialDataSetExceptionMessage);
@@ -222,52 +220,55 @@ namespace NBF.IntegrationProcessor
             }
 
 
-            foreach (DataRow dr in dtCreditCardTransaction.Rows)
+            if (initialDataset.Tables.Contains(Data.CreditCardTransactionTable))
             {
-                #region create credit card record
-                using (SqlConnection conn = new SqlConnection(connStr))
+                foreach (DataRow dr in dtCreditCardTransaction.Rows)
                 {
-                    conn.Open();
-                    using (SqlCommand cmd = new SqlCommand("ETLSync_CreditCardTransaction", conn))
+                    #region create credit card record
+                    using (SqlConnection conn = new SqlConnection(connStr))
                     {
-                        cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.Parameters.Add(new SqlParameter("@Id", SqlDbType.UniqueIdentifier)).Value = new Guid(dr["Id"].ToString());
-                        cmd.Parameters.Add(new SqlParameter("@" + Data.CustomerIdColumn, SqlDbType.UniqueIdentifier)).Value = new Guid(dr[Data.CustomerIdColumn].ToString());
-                        cmd.Parameters.Add(new SqlParameter("@" + "TransactionType", SqlDbType.NVarChar)).Value = dr["TransactionType"];
-                        cmd.Parameters.Add(new SqlParameter("@" + Data.TransactionDateColumn, SqlDbType.DateTimeOffset)).Value = dr["TransactionType"];
-                        cmd.Parameters.Add(new SqlParameter("@" + Data.ResultColumn, SqlDbType.NVarChar)).Value = dr[Data.ResultColumn];
-                        cmd.Parameters.Add(new SqlParameter("@" + Data.AuthCodeColumn, SqlDbType.NVarChar)).Value = dr[Data.AuthCodeColumn];
-                        cmd.Parameters.Add(new SqlParameter("@" + Data.PnRefColumn, SqlDbType.NVarChar)).Value = dr[Data.PnRefColumn];
-                        cmd.Parameters.Add(new SqlParameter("@" + Data.RespMsgColumn, SqlDbType.NVarChar)).Value = dr[Data.RespMsgColumn];
-                        cmd.Parameters.Add(new SqlParameter("@" + "RespText", SqlDbType.NVarChar)).Value = dr["RespText"];
-                        cmd.Parameters.Add(new SqlParameter("@" + Data.AvsAddrColumn, SqlDbType.NVarChar)).Value = dr[Data.AvsAddrColumn];
-                        cmd.Parameters.Add(new SqlParameter("@" + Data.AvsZipColumn, SqlDbType.NVarChar)).Value = dr[Data.AvsZipColumn];
-                        cmd.Parameters.Add(new SqlParameter("@" + Data.Cvv2MatchColumn, SqlDbType.NVarChar)).Value = dr[Data.Cvv2MatchColumn];
-                        cmd.Parameters.Add(new SqlParameter("@" + "RequestId", SqlDbType.NVarChar)).Value = dr["RequestId"];
-                        cmd.Parameters.Add(new SqlParameter("@" + Data.RequestStringColumn, SqlDbType.NVarChar)).Value = dr[Data.RequestStringColumn];
-                        cmd.Parameters.Add(new SqlParameter("@" + "ResponseString", SqlDbType.NVarChar)).Value = dr["ResponseString"];
-                        cmd.Parameters.Add(new SqlParameter("@" + Data.AmountColumn, SqlDbType.Decimal)).Value = dr[Data.AmountColumn];
-                        cmd.Parameters.Add(new SqlParameter("@" + "Status", SqlDbType.NVarChar)).Value = dr["Status"];
-                        cmd.Parameters.Add(new SqlParameter("@" + Data.CreditCardNumberColumn, SqlDbType.NVarChar)).Value = dr[Data.CreditCardNumberColumn];
-                        cmd.Parameters.Add(new SqlParameter("@" + Data.NameColumn, SqlDbType.NVarChar)).Value = dr[Data.NameColumn];
-                        cmd.Parameters.Add(new SqlParameter("@" + Data.ExpirationDateColumn, SqlDbType.NVarChar)).Value = dr[Data.ExpirationDateColumn];
-                        cmd.Parameters.Add(new SqlParameter("@" + Data.OrderNumberColumn, SqlDbType.NVarChar)).Value = dr[Data.OrderNumberColumn];
-                        cmd.Parameters.Add(new SqlParameter("@" + "ShipmentNumber", SqlDbType.NVarChar)).Value = dr["ShipmentNumber"];
-                        cmd.Parameters.Add(new SqlParameter("@" + Data.CustomerNumberColumn, SqlDbType.NVarChar)).Value = dr[Data.CustomerNumberColumn];
-                        cmd.Parameters.Add(new SqlParameter("@" + "Site", SqlDbType.NVarChar)).Value = dr["Site"];
-                        cmd.Parameters.Add(new SqlParameter("@" + "OrigId", SqlDbType.NVarChar)).Value = dr["OrigId"];
-                        cmd.Parameters.Add(new SqlParameter("@" + Data.BankCodeColumn, SqlDbType.NVarChar)).Value = dr[Data.BankCodeColumn];
-                        cmd.Parameters.Add(new SqlParameter("@" + Data.Token1Column, SqlDbType.NVarChar)).Value = dr[Data.Token1Column];
-                        cmd.Parameters.Add(new SqlParameter("@" + Data.Token2Column, SqlDbType.NVarChar)).Value = dr[Data.Token2Column];
-                        cmd.Parameters.Add(new SqlParameter("@" + Data.CardTypeColumn, SqlDbType.NVarChar)).Value = dr[Data.CardTypeColumn];
-                        cmd.Parameters.Add(new SqlParameter("@" + "PostedToERP", SqlDbType.Bit)).Value = dr["PostedToERP"];
-                        cmd.Parameters.Add(new SqlParameter("@" + "InvoiceNumber", SqlDbType.NVarChar)).Value = dr["InvoiceNumber"];
+                        conn.Open();
+                        using (SqlCommand cmd = new SqlCommand("ETLSync_CreditCardTransaction", conn))
+                        {
+                            cmd.CommandType = CommandType.StoredProcedure;
+                            cmd.Parameters.Add(new SqlParameter("@Id", SqlDbType.UniqueIdentifier)).Value = new Guid(dr["Id"].ToString());
+                            cmd.Parameters.Add(new SqlParameter("@" + "CustomerOrderId", SqlDbType.UniqueIdentifier)).Value = new Guid(dr["CustomerOrderId"].ToString());
+                            cmd.Parameters.Add(new SqlParameter("@" + "TransactionType", SqlDbType.NVarChar)).Value = dr["TransactionType"];
+                            cmd.Parameters.Add(new SqlParameter("@" + Data.TransactionDateColumn, SqlDbType.DateTimeOffset)).Value = dr[Data.TransactionDateColumn];
+                            cmd.Parameters.Add(new SqlParameter("@" + Data.ResultColumn, SqlDbType.NVarChar)).Value = dr[Data.ResultColumn];
+                            cmd.Parameters.Add(new SqlParameter("@" + Data.AuthCodeColumn, SqlDbType.NVarChar)).Value = dr[Data.AuthCodeColumn];
+                            cmd.Parameters.Add(new SqlParameter("@" + Data.PnRefColumn, SqlDbType.NVarChar)).Value = dr[Data.PnRefColumn];
+                            cmd.Parameters.Add(new SqlParameter("@" + Data.RespMsgColumn, SqlDbType.NVarChar)).Value = dr[Data.RespMsgColumn];
+                            cmd.Parameters.Add(new SqlParameter("@" + "RespText", SqlDbType.NVarChar)).Value = dr["RespText"];
+                            cmd.Parameters.Add(new SqlParameter("@" + Data.AvsAddrColumn, SqlDbType.NVarChar)).Value = dr[Data.AvsAddrColumn];
+                            cmd.Parameters.Add(new SqlParameter("@" + Data.AvsZipColumn, SqlDbType.NVarChar)).Value = dr[Data.AvsZipColumn];
+                            cmd.Parameters.Add(new SqlParameter("@" + Data.Cvv2MatchColumn, SqlDbType.NVarChar)).Value = dr[Data.Cvv2MatchColumn];
+                            cmd.Parameters.Add(new SqlParameter("@" + "RequestId", SqlDbType.NVarChar)).Value = dr["RequestId"];
+                            cmd.Parameters.Add(new SqlParameter("@" + Data.RequestStringColumn, SqlDbType.NVarChar)).Value = dr[Data.RequestStringColumn];
+                            cmd.Parameters.Add(new SqlParameter("@" + "ResponseString", SqlDbType.NVarChar)).Value = dr["ResponseString"];
+                            cmd.Parameters.Add(new SqlParameter("@" + Data.AmountColumn, SqlDbType.Decimal)).Value = dr[Data.AmountColumn];
+                            cmd.Parameters.Add(new SqlParameter("@" + "Status", SqlDbType.NVarChar)).Value = dr["Status"];
+                            cmd.Parameters.Add(new SqlParameter("@" + Data.CreditCardNumberColumn, SqlDbType.NVarChar)).Value = dr[Data.CreditCardNumberColumn];
+                            cmd.Parameters.Add(new SqlParameter("@" + Data.NameColumn, SqlDbType.NVarChar)).Value = dr[Data.NameColumn];
+                            cmd.Parameters.Add(new SqlParameter("@" + Data.ExpirationDateColumn, SqlDbType.NVarChar)).Value = dr[Data.ExpirationDateColumn];
+                            cmd.Parameters.Add(new SqlParameter("@" + Data.OrderNumberColumn, SqlDbType.NVarChar)).Value = dr[Data.OrderNumberColumn];
+                            cmd.Parameters.Add(new SqlParameter("@" + "ShipmentNumber", SqlDbType.NVarChar)).Value = dr["ShipmentNumber"];
+                            cmd.Parameters.Add(new SqlParameter("@" + Data.CustomerNumberColumn, SqlDbType.NVarChar)).Value = dr[Data.CustomerNumberColumn];
+                            cmd.Parameters.Add(new SqlParameter("@" + "Site", SqlDbType.NVarChar)).Value = dr["Site"];
+                            cmd.Parameters.Add(new SqlParameter("@" + "OrigId", SqlDbType.NVarChar)).Value = dr["OrigId"];
+                            cmd.Parameters.Add(new SqlParameter("@" + Data.BankCodeColumn, SqlDbType.NVarChar)).Value = dr[Data.BankCodeColumn];
+                            cmd.Parameters.Add(new SqlParameter("@" + Data.Token1Column, SqlDbType.NVarChar)).Value = dr[Data.Token1Column];
+                            cmd.Parameters.Add(new SqlParameter("@" + Data.Token2Column, SqlDbType.NVarChar)).Value = dr[Data.Token2Column];
+                            cmd.Parameters.Add(new SqlParameter("@" + Data.CardTypeColumn, SqlDbType.NVarChar)).Value = dr[Data.CardTypeColumn];
+                            cmd.Parameters.Add(new SqlParameter("@" + "PostedToERP", SqlDbType.Bit)).Value = dr["PostedToERP"];
+                            cmd.Parameters.Add(new SqlParameter("@" + "InvoiceNumber", SqlDbType.NVarChar)).Value = dr["InvoiceNumber"];
 
 
-                        cmd.ExecuteNonQuery();
+                            cmd.ExecuteNonQuery();
+                        }
                     }
+                    #endregion
                 }
-                #endregion
             }
 
 
