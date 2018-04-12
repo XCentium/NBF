@@ -334,7 +334,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Settings\PhoneNumberSettings.cs" />
     <Compile Include="Settings\OrderTrackerSettings.cs" />
-    <Compile Include="WebApi\CatalogMailingPrefs\Models\CatalogPrefsDto.cs" />
+    <Compile Include="WebApi\EmailApi\Models\TaxExemptDto.cs" />
+    <Compile Include="WebApi\EmailApi\Models\CatalogPrefsDto.cs" />
     <Compile Include="WebApi\CreditCardTransaction\Controllers\NBFCCTransactionController.cs" />
     <Compile Include="WebApi\CreditCardTransaction\Interfaces\ICCTransactionRepository.cs" />
     <Compile Include="WebApi\CreditCardTransaction\Interfaces\ICCTransactionService.cs" />
@@ -358,11 +359,11 @@
     <Compile Include="WebApi\Messages\Models\CreateMessagesParameter.cs" />
     <Compile Include="WebApi\Messages\Repository\MessageRepository.cs" />
     <Compile Include="WebApi\Messages\Services\MessagesService.cs" />
-    <Compile Include="WebApi\CatalogMailingPrefs\Controllers\CatalogMailingPrefsController.cs" />
-    <Compile Include="WebApi\CatalogMailingPrefs\Interfaces\ICatalogMailingPrefsRepository.cs" />
-    <Compile Include="WebApi\CatalogMailingPrefs\Interfaces\ICatalogMailingPrefsService.cs" />
-    <Compile Include="WebApi\CatalogMailingPrefs\Repository\CatalogMailingPrefsRepository.cs" />
-    <Compile Include="WebApi\CatalogMailingPrefs\Services\CatalogMailingPrefsService.cs" />
+    <Compile Include="WebApi\EmailApi\Controllers\EmailApiController.cs" />
+    <Compile Include="WebApi\EmailApi\Interfaces\IEmailApiRepository.cs" />
+    <Compile Include="WebApi\EmailApi\Interfaces\IEmailApiService.cs" />
+    <Compile Include="WebApi\EmailApi\Repository\EmailApiRepository.cs" />
+    <Compile Include="WebApi\EmailApi\Services\EmailApiService.cs" />
     <Compile Include="WebApi\PriceCode\Controllers\PriceCodeController.cs" />
     <Compile Include="WebApi\PriceCode\Interfaces\IPriceCodeRepository.cs" />
     <Compile Include="WebApi\PriceCode\Interfaces\IPriceCodeService.cs" />

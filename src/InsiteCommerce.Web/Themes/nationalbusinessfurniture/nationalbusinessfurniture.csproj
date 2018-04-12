@@ -165,6 +165,7 @@
     <Content Include="Views\Widgets\SignInView\NBF.cshtml" />
     <Content Include="Views\Widgets\InvoicesView\NBF.cshtml" />
     <Content Include="Views\Widgets\Custom\ProductWriteReview\Standard.cshtml" />
+    <Content Include="Styles\custom\tax-exempt.scss" />
     <TypeScriptCompile Include="Scripts\Catalog\insite.frequently-purchased.controller.ts" />
     <TypeScriptCompile Include="Scripts\Catalog\insite.recently-viewed.controller.ts" />
     <TypeScriptCompile Include="Scripts\Catalog\insite.related-products.controller.ts" />
@@ -202,6 +203,7 @@
     <TypeScriptCompile Include="Scripts\Custom\Core\nbf.pager.directives.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Dashboard\nbf.dashboard-view.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Dealers\nbf.dealer-list.controller.ts" />
+    <TypeScriptCompile Include="Scripts\Custom\Email\nbf.email.service.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Email\nbf.email-subscription.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Email\nbf.listrak.service.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Footer\nbf.footer.controller.ts" />
@@ -217,7 +219,6 @@
     <TypeScriptCompile Include="Scripts\Custom\ShopTheLook\nbf.shop-the-look.landing-view.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\SocialMediaSharing\nbf.social-media.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\CatalogMailingPrefs\nbf.catalogmailingprefs.controller.ts" />
-    <TypeScriptCompile Include="Scripts\Custom\CatalogMailingPrefs\nbf.catalogmailingprefs.service.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Videos\nbf.video.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\PriceCode\nbf.price-code.service.ts" />
     <TypeScriptCompile Include="Scripts\Custom\WebCode\nbf.web-code.controller.ts" />
@@ -588,7 +589,6 @@
     <Content Include="Views\Widgets\LinkList\HeaderTopLinks.cshtml" />
     <Content Include="Views\Widgets\LinkList\Standard.cshtml" />
     <Content Include="Views\Widgets\MyAccountAddressView\NBF.cshtml" />
-    <Content Include="Views\Widgets\MyAccountAddressView\NBF-manage-address.cshtml" />
     <Content Include="Views\Widgets\MyAccountAddressView\Standard.cshtml" />
     <Content Include="Views\Widgets\MyAccountView\NBF.cshtml" />
     <Content Include="Views\Widgets\MyAccountView\Standard.cshtml" />
