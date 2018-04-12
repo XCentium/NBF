@@ -65,6 +65,8 @@ begin
 	update Product set
 		ERPDescription = ltrim(rtrim(isnull(si.[Description],''))),
 		ShortDescription = ltrim(rtrim(isnull(spwd.[Description],''))),
+		PageTitle = ltrim(rtrim(isnull(spwd.[Description],''))) + ' by ' + v.Name + ' | NBF.com',
+		MetaDescription = 'View our ' + ltrim(rtrim(isnull(spwd.[Description],''))) + ', and shop our wide selection of furniture to customize your office space. All products backed by our lifetime guarantee!',
 		UnitOfMeasure = isnull(luUOM.Code,'EA'),
 		UnitOfMeasureDescription = isnull(luUOM.[Name],'Each'),
 		ShippingLength = 0,
