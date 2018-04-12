@@ -393,6 +393,7 @@
     <Compile Include="Widgets\BetterBusinessBureau.cs" />
     <Compile Include="Widgets\CallUsPreparer.cs" />
     <Compile Include="Widgets\CallUs.cs" />
+    <Compile Include="Widgets\ReturnsWidget.cs" />
     <Compile Include="Widgets\CategoryListView.cs" />
     <Compile Include="Widgets\CTALinkWidget.cs" />
     <Compile Include="Widgets\CatalogMailingPrefs.cs" />

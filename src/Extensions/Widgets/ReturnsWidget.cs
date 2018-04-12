@@ -7,8 +7,8 @@ using System.Linq;
 
 namespace Extensions.Widgets
 {
-    [DisplayName("NBF - Catalog Mailing Preferences Widget")]
-    public class CatalogMailingPrefs : ContentWidget
+    [DisplayName("NBF - Returns Widget")]
+    public class ReturnsWidget : ContentWidget
     {
         [RichTextContentField(IsRequired = true)]
         public virtual string SuccessMessage
@@ -44,34 +44,34 @@ namespace Extensions.Widgets
             }
         }
 
-        [ListContentField(DisplayName = "Available Preferences (Note: Use default single option for 'Catalog Request Page')", IsRequired = true)]
-        public virtual List<string> Preferences
-        {
-            get
-            { 
-                return this.GetValue<List<string>>("Preferences", new List<string>() { "New Catalog Request" }, FieldType.Contextual);
-            }
-            set
-            {
-                this.SetValue<List<string>>("Preferences", value, FieldType.Contextual);
-            }
-        }
+        //[ListContentField(DisplayName = "Available Preferences (Note: Use default single option for 'Catalog Request Page')", IsRequired = true)]
+        //public virtual List<string> Preferences
+        //{
+        //    get
+        //    { 
+        //        return this.GetValue<List<string>>("Preferences", new List<string>() { "New Catalog Request" }, FieldType.Contextual);
+        //    }
+        //    set
+        //    {
+        //        this.SetValue<List<string>>("Preferences", value, FieldType.Contextual);
+        //    }
+        //}
 
-        public virtual int PreferencesCount
-        {
-            get
-            {
-                return this.Preferences.Count;
-            }
-        }
+        //public virtual int PreferencesCount
+        //{
+        //    get
+        //    {
+        //        return this.Preferences.Count;
+        //    }
+        //}
 
-        public virtual string PreferencesFirstItem
-        {
-            get
-            {
-                return this.Preferences.Any() ? this.Preferences.First() : string.Empty;
-            }
-        }
+        //public virtual string PreferencesFirstItem
+        //{
+        //    get
+        //    {
+        //        return this.Preferences.Any() ? this.Preferences.First() : string.Empty;
+        //    }
+        //}
 
         [TextContentField(IsRequired = true, DisplayName ="Submit Button Text")]
         public virtual string SubmitButtonText
@@ -83,14 +83,6 @@ namespace Extensions.Widgets
             set
             {
                 this.SetValue<string>("SubmitButtonText", value, FieldType.Contextual);
-            }
-        }
-
-        public virtual string EmailAddressRegexPattern
-        {
-            get
-            {
-                return "\\w+([-+.']\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*";
             }
         }
     }

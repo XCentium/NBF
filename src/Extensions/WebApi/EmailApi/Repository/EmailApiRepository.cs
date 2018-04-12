@@ -42,6 +42,7 @@ namespace Extensions.WebApi.EmailApi.Repository
             emailModel.FirstName = catalogPrefsDto.FirstName;
             emailModel.LastName = catalogPrefsDto.LastName;
             emailModel.Company = catalogPrefsDto.Company;
+            emailModel.Title = catalogPrefsDto.Title;
             emailModel.AddressLine1 = catalogPrefsDto.AddressLine1;
             emailModel.AddressLine2 = catalogPrefsDto.AddressLine2;
             emailModel.City = catalogPrefsDto.City;
@@ -49,6 +50,9 @@ namespace Extensions.WebApi.EmailApi.Repository
             emailModel.Zip = catalogPrefsDto.Zip;
             emailModel.PriorityCode = catalogPrefsDto.PriorityCode;
             emailModel.Preference = catalogPrefsDto.Preference;
+            emailModel.RequestorEmail = catalogPrefsDto.RequestorEmail;
+            emailModel.RequestorPhone = catalogPrefsDto.RequestorPhone;
+            emailModel.SendMeUpdates = catalogPrefsDto.SendMeUpdates;
 
             var emailList = _unitOfWork.GetTypedRepository<IEmailListRepository>().GetOrCreateByName("CatalogMailingPreferences", "Catalog Mailing Preferences");
             EmailService.SendEmailList(
