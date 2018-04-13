@@ -3,6 +3,9 @@
 
     export interface IFeaturedProductsWidgetControllerAttributes extends ng.IAttributes {
         productNumbersString: string;
+        prApiKey: string;
+        prMerchantGroupId: string;
+        prMerchantId: string;
     }
 
     export class FeaturedProductsWidgetController {
@@ -49,8 +52,31 @@
                             this.getFavorites();
                         }
                     });
+
+                    setTimeout(() => {
+                        this.setPowerReviews();
+                    }, 2000);
                 }
             );            
+        }
+
+        protected setPowerReviews() {
+            let powerReviewsConfigs = this.products.map(x => {
+                return {
+                    api_key: this.$attrs.prApiKey,
+                    locale: 'en_US',
+                    merchant_group_id: this.$attrs.prMerchantGroupId,
+                    merchant_id: this.$attrs.prMerchantId,
+                    page_id: x.productCode,
+                    review_wrapper_url: 'Product-Review?',
+                    components: {
+                        CategorySnippet: 'pr-' + x.productCode
+                    }
+                }
+            });
+
+            let powerReviews = this.$window["POWERREVIEWS"];
+            powerReviews.display.render(powerReviewsConfigs)
         }
 
         protected getTop3Swatches(swatchesJson): string[] {
@@ -182,33 +208,6 @@
                 }, 20);
             }
         }
-
-        protected getStarRating(product: ProductDto): string {
-            let retVal = "no-star";
-            if (product && product.specifications && product.specifications.length > 0) {
-                let ratings = product.specifications.filter(x => x.name == "Rating");
-
-                if (ratings.length > 0 && !isNaN(parseFloat(ratings[0].value))) {
-                    let rating = parseFloat(ratings[0].value);
-                    if (rating > 0.0) {
-                        let ratingRoundedToHalf = Math.round(rating * 2) / 2;
-                        retVal = ratingRoundedToHalf > 0 && ratingRoundedToHalf <= 0.5 ? "half-star" :
-                            ratingRoundedToHalf > 0.5 && ratingRoundedToHalf <= 1.0 ? "one-star" :
-                                ratingRoundedToHalf > 1.0 && ratingRoundedToHalf <= 1.5 ? "onehalf-star" :
-                                    ratingRoundedToHalf > 1.5 && ratingRoundedToHalf <= 2.0 ? "two-star" :
-                                        ratingRoundedToHalf > 2.0 && ratingRoundedToHalf <= 2.5 ? "twohalf-star" :
-                                            ratingRoundedToHalf > 2.5 && ratingRoundedToHalf <= 3.0 ? "three-star" :
-                                                ratingRoundedToHalf > 3.0 && ratingRoundedToHalf <= 3.5 ? "threehalf-star" :
-                                                    ratingRoundedToHalf > 3.5 && ratingRoundedToHalf <= 4.0 ? "four-star" :
-                                                        ratingRoundedToHalf > 4.0 && ratingRoundedToHalf <= 4.5 ? "fourhalf-star" :
-                                                            ratingRoundedToHalf > 4.5 ? "five-star" : "no-star";
-                    }
-                }
-            }
-
-            return retVal;
-        }
-
     }
 
     angular
