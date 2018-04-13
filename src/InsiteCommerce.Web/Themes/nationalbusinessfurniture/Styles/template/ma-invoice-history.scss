@@ -29,6 +29,9 @@
         text-align: right;
     }
 
+    .input-lbl {
+        padding-left:0;
+    }
     #invoice-balance {
         width: 100%;
         margin-top: .5rem;
@@ -48,8 +51,8 @@
     .search-orders {
         .accord-head {
             &:after {
-                position:relative;
-                margin-top:3px;
+                position: relative;
+                margin-top: 3px;
             }
         }
     }
