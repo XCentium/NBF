@@ -205,20 +205,6 @@ begin
 
 	insert into Specification
 	(ContentManagerId, [Name], [Description], IsActive, CreatedBy, ModifiedBy, ProductId)
-	select newid(), 'Rating', 'Rating', 1, 'etl', 'etl', Id
-	from Product
-	where Id not in (select ProductId from Specification where [Name] = 'Rating')
-	and ERPNumber not like '%:%' -- ignore swatches
-
-	insert into Specification
-	(ContentManagerId, [Name], [Description], IsActive, CreatedBy, ModifiedBy, ProductId)
-	select newid(), 'Rating Count', 'Rating Count', 1, 'etl', 'etl', Id
-	from Product
-	where Id not in (select ProductId from Specification where [Name] = 'Rating Count')
-	and ERPNumber not like '%:%' -- ignore swatches
-
-	insert into Specification
-	(ContentManagerId, [Name], [Description], IsActive, CreatedBy, ModifiedBy, ProductId)
 	select newid(), 'Features', 'Features', 1, 'etl', 'etl', Id
 	from Product
 	where Id not in (select ProductId from Specification where [Name] = 'Features')
