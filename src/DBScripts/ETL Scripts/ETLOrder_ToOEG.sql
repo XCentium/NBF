@@ -85,19 +85,36 @@ begin
 	-- now go back and update GUIDs where they are blank
 	update OEGSystemStaging.dbo.StatusCustomer set cst_ID = newid() where cst_ID = ''
 
-
+	;with orderdCCT as
+	(
+		SELECT Id, CustomerOrderId, AuthCode, Amount,  row_number() 
+		over (partition by CustomerOrderId order by Amount desc) as RowNumber
+		FROM CreditCardTransaction
+		where CustomerOrderId is not null and Result = 0
+	),
+	maxCCT as
+	(
+		select CustomerOrderId, Amount, AuthCode from orderdCCT where RowNumber = 1
+	)
 	insert into OEGSystemStaging.dbo.StatusOrder
 	(
 		[ord_WebNumber], [ord_CustNumber], [ord_Status], [ord_DateTime], [ord_BillToID], [ord_ShipToID], [ord_SourceCode],
-		[ord_Amount], [ord_CCAmount], [ord_PONumber], [ord_Delivery], [ord_SalesTax], [ord_ServiceCharge], [ord_PaymentToken], [ord_SiteID]
+		[ord_Amount], [ord_CCAmount], [ord_PONumber], [ord_Delivery], [ord_SalesTax], [ord_ServiceCharge], [ord_SiteID],
+		[ord_PaymentType], 
+		[ord_PaymentToken], 
+		[ord_PPToken], 
+		[ord_PPPayerID]
 	)
 	select 
 		co.OrderNumber, left(co.CustomerNumber,10), 'P', co.OrderDate, bt.cst_ID, st.cst_ID, '99',
-		co.OrderTotal, cct.Amount, left(co.CustomerPO,32), co.ShippingCharges, co.TaxAmount, co.OtherCharges, cct.AuthCode, 'NBF'
+		co.OrderTotal, isnull(maxCCT.Amount,0) [ord_CCAmount], left(co.CustomerPO,32), co.ShippingCharges, co.TaxAmount, co.OtherCharges, 'NBF',
+		'cc' [ord_PaymentType],
+		isnull(maxCCT.AuthCode,'') [ord_PaymentToken],
+		'' [ord_PPToken],
+		'' [ord_PPPayerID]
 	from 
 		CustomerOrder co
-		join CreditCardTransaction cct on cct.CustomerOrderId = co.Id
-			and cct.Result = 0 
+		left join maxCCT on maxCCT.CustomerOrderId = co.Id
 		join OEGSystemStaging.dbo.StatusCustomer bt on bt.cst_WebCustomerNumber = co.CustomerNumber
 					and	bt.[cst_CntFName] = left(co.BTFirstName,15)
 					and bt.[cst_CntLName] = left(co.BTLastName,15)
