@@ -28,7 +28,7 @@
             <span class="field-validation-error" ng-if="vm.errorMessage">{{vm.errorMessage}}</span>
         </p>
         <div ng-show="vm.showIsDefaultCheckbox && vm.billTo && vm.shipTo && !vm.shipTo.isNew">
-            <input type="checkbox" id="useDefaultCustomer" ng-change="vm.setAsDefaultCustomer()" ng-model="vm.useDefaultCustomer">
+            <input class="customcheckbox" type="checkbox" id="useDefaultCustomer" ng-change="vm.setAsDefaultCustomer()" ng-model="vm.useDefaultCustomer">
             <label for="useDefaultCustomer">[% siteMessage 'DefaultCustomer_SetToUser' %]</label>
         </div>
         <div class="btns">

@@ -129,8 +129,8 @@
     <Content Include="Styles\custom\checkout-cart.scss" />
     <Content Include="Styles\custom\font-awesome.scss" />
     <Content Include="Styles\custom\font-icomoon.scss" />
-    <Content Include="Styles\custom\portfolio-isotope.scss" />
     <None Include="Styles\custom\selectize.scss" />
+    <Content Include="Styles\custom\portfolio-isotope.scss" />
     <Content Include="Styles\fonts\fontawesome-webfont.svg" />
     <Content Include="Styles\img\sprocket.png" />
     <Content Include="theme.json" />

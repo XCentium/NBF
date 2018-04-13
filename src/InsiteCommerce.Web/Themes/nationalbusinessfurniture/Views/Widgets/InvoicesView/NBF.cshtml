@@ -51,9 +51,10 @@
                         </div>
                         <div class="medium-12 large-4 columns search-col-3">
                             <div class="search-open-inv">
-                                <label class="input-lbl">
-                                    <input type="checkbox" name="ShowOpenOnly" id="ShowOpenOnly" ng-model="vm.searchFilter.showOpenOnly" value="true" />[% translate 'Open Invoices Only' %]
-                                </label>
+                                    <input type="checkbox" name="ShowOpenOnly" class="customcheckbox" id="ShowOpenOnly" ng-model="vm.searchFilter.showOpenOnly" value="true" />
+                                    <label class="input-lbl" for="ShowOpenOnly">
+                                        [% translate 'Open Invoices Only' %]
+                                    </label>
                             </div>
                         </div>
                     </div>
