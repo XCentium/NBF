@@ -2,7 +2,7 @@
     <li id="tst_cartLines_{{::cartLine.productId}}_{{cartLine.unitOfMeasure}}" class="row item-block checkout-item" ng-repeat="cartLine in cart.cartLines | filter: quoteRequiredFilter">
         <isc-product-thumb product="cartLine"></isc-product-thumb>
         <div class="small-10 columns item-details">
-            <div class="remove" ng-if="!cartLine.isPromotionItem && cart.canModifyOrder && editable">
+            <div class="remove hide-for-print" ng-if="!cartLine.isPromotionItem && cart.canModifyOrder && editable">
                 <a class="btn btn-remove" ng-click="vm.removeLine(cartLine)">
                     <i class="foundicon-remove"></i>
                 </a>
@@ -95,7 +95,7 @@
         </div>
 
         <div ng-if="editable && cart.showLineNotes && !cartLine.isPromotionItem" class="actions-panel edit">
-            <a href="" class="btn tertiary add-to-cart panel-trigger" data-cartnotes="true" ng-click="vm.notePanelClicked(cartLine.id)">[% translate 'Line Notes' %]</a>
+            <a href="" class="btn tertiary add-to-cart panel-trigger hide-for-print" data-cartnotes="true" ng-click="vm.notePanelClicked(cartLine.id)">[% translate 'Line Notes' %]</a>
             <div class="item-actions" data-cartnotes="true" ng-class="{open : (cartLine.id == vm.openLineNoteId)}">
                 <div class="item-actions-wrap">
                     <div class="large-9 columns item-code-notes">

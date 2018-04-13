@@ -1090,6 +1090,16 @@ h2.resp-tab-active {
     margin-top: -1px;
 }
 
+@media print {
+    .accordion article.accord-content {
+        height: auto;
+        overflow: visible;
+        visibility: visible;
+        margin-bottom: .125em;
+        padding: 15px;
+    }
+}
+
 // This is a necessary hack
 .accordion article.accord-content:before,
 .accordion article.accord-content:after {

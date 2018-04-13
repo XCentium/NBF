@@ -58,7 +58,7 @@
                                ng-disabled="!cart.canModifyOrder || cartLine.isPromotionItem || vm.isUpdateInProgress || cart.type == 'Job'" />
                     </div>
                     <div class="" ng-if="!cartLine.isPromotionItem && cart.canModifyOrder && editable">
-                        <a class="" ng-click="vm.removeLine(cartLine)">
+                        <a class="hide-for-print" ng-click="vm.removeLine(cartLine)">
                             Remove
                         </a>
                     </div>
@@ -97,7 +97,7 @@
         </div>
 
         <div ng-if="editable && cart.showLineNotes && !cartLine.isPromotionItem" class="actions-panel edit">
-            <a href="" class="btn tertiary add-to-cart panel-trigger" data-cartnotes="true" ng-click="vm.notePanelClicked(cartLine.id)">[% translate 'Line Notes' %]</a>
+            <a href="" class="btn tertiary add-to-cart panel-trigger hide-for-print" data-cartnotes="true" ng-click="vm.notePanelClicked(cartLine.id)">[% translate 'Line Notes' %]</a>
             <div class="item-actions" data-cartnotes="true" ng-class="{open : (cartLine.id == vm.openLineNoteId)}">
                 <div class="item-actions-wrap">
                     <div class="large-9 columns item-code-notes">
