@@ -85,6 +85,10 @@ begin
 	-- now go back and update GUIDs where they are blank
 	update OEGSystemStaging.dbo.StatusCustomer set cst_ID = newid() where cst_ID = ''
 
+	
+	-- INSERT into StatusOrder
+
+
 	;with orderdCCT as
 	(
 		SELECT Id, CustomerOrderId, AuthCode, Amount,  row_number() 
@@ -154,6 +158,50 @@ begin
 				)
 
 
+	-- INSERT into StatusOrderPayment
+
+	;with orderdCCT as
+	(
+		SELECT Id, CustomerOrderId, AuthCode, Amount, TransactionDate,  row_number() 
+		over (partition by CustomerOrderId order by Amount desc) as RowNumber
+		FROM CreditCardTransaction
+		where CustomerOrderId is not null and Result = 0
+	),
+	otherCCT as
+	(
+		select Id, CustomerOrderId, Amount, AuthCode, TransactionDate from orderdCCT where RowNumber > 1
+	)
+	insert into OEGSystemStaging.dbo.StatusOrderPayment
+	(
+		[idStatusOrder], [Status], [TransactionDate],
+		[Amount], 
+		[PaymentType], 
+		[PaymentToken], 
+		[PayPalId],
+		[PaymentDescription]
+	)
+	select 
+		so.idStatusOrder, 'P' [Status], otherCCT.TransactionDate [TransactionDate],
+		convert(decimal(10,2),isnull(otherCCT.Amount,0)) [Amount],
+		'cc' [PaymentType],
+		convert(varchar(50),isnull(otherCCT.AuthCode,'')) [PaymentToken],
+		convert(varchar(50), '') [PayPalId],
+		convert(varchar(256),otherCCT.Id) [PaymentDescription]
+	from 
+		CustomerOrder co
+		join otherCCT on otherCCT.CustomerOrderId = co.Id
+		join OEGSystemStaging.dbo.StatusOrder so on so.ord_WebNumber = co.OrderNumber
+	where
+		co.[Status] = 'Submitted'
+		and not exists (
+				select ID 
+				from  OEGSystemStaging.dbo.StatusOrderPayment
+				where [PaymentDescription] = convert(varchar(256),otherCCT.Id)
+				)
+
+
+
+	-- INSERT into StatusVendorOrder
 	
 	insert into OEGSystemStaging.dbo.StatusVendorOrder
 	(
@@ -175,6 +223,9 @@ begin
 				from  OEGSystemStaging.dbo.StatusVendorOrder
 				where [vo_WebNumber]  = co.Id
 				)
+
+
+	-- INSERT into StatusVendorOrderDetail
 
 
 	insert into OEGSystemStaging.dbo.StatusVendorOrderDetail
@@ -210,8 +261,15 @@ ETLOrder_ToOEG
 select * from CustomerOrder
 select * from OEGSystemStaging.dbo.StatusCustomer where [cst_WebCustomerNumber] is not null
 select * from OEGSystemStaging.dbo.StatusOrder where [ord_SiteID] = 'nbf'
+select * from OEGSystemStaging.dbo.StatusOrderPayment
 select * from OEGSystemStaging.dbo.StatusVendorOrder  where [vo_WebNumber] is not null
 select * from OEGSystemStaging.dbo.StatusVendorOrderDetail where [vd_WebNumber] is not null
+
+delete from OEGSystemStaging.dbo.StatusCustomer where [cst_WebCustomerNumber] is not null
+delete from OEGSystemStaging.dbo.StatusOrder where [ord_SiteID] = 'nbf'
+delete from OEGSystemStaging.dbo.StatusOrderPayment 
+delete from OEGSystemStaging.dbo.StatusVendorOrder  where [vo_WebNumber] is not null
+delete from OEGSystemStaging.dbo.StatusVendorOrderDetail where [vd_WebNumber] is not null
 
 */
 
