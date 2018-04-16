@@ -85,5 +85,21 @@ namespace Extensions.Widgets
                 this.SetValue<string>("SubmitButtonText", value, FieldType.Contextual);
             }
         }
+
+        public virtual string EmailAddressRegexPattern
+        {
+            get
+            {
+                return "\\w+([-+.']\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*";
+            }
+        }
+
+        public virtual string PhoneRegexPattern
+        {
+            get
+            {
+                return "^([\\(\\)/\\-\\.\\+\\s]*\\d\\s?(ext)?[\\(\\)/\\-\\.\\+\\s]*){10,}$";
+            }
+        }
     }
 }

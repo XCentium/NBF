@@ -1,7 +1,9 @@
-﻿<div ng-controller="ProductDetailController as vm" ng-cloak>
-    <script src="https://ui.powerreviews.com/stable/4.0/ui.js"></script>
+﻿<div ng-controller="ProductDetailController as vm" ng-cloak
+     pr-api-key="[% siteMessage 'PowerReviews_ApiKey' '56b8fc6a-79a7-421e-adc5-36cbdaec7daf ' %]"
+     pr-merchant-group-id="[% siteMessage 'PowerReviews_MerchantGroupId' '47982' %]"
+     pr-merchant-id="[% siteMessage 'PowerReviews_MerchantId' '33771' %]"
+     >
     <script src="https://assets.liveexpert.net/widget/javascript/leaWidget.js"></script>
-
     <isc-catalog-breadcrumb ng-show="vm.product" breadcrumbs="vm.breadCrumbs"></isc-catalog-breadcrumb>
     <div class="medium-12 large-12 columns widget-1column narrow-container product-details">
         <div class="row">
@@ -9,7 +11,7 @@
                 <div class="detail-info">
                     <div class="small-12 column medium-6 detail-image">
                         <isc-product-images ng-if="vm.product" product="vm.product"></isc-product-images>
-                        <div class="image-buttons">
+                        <div class="image-buttons hide-for-print">
                             <button class="btn btn-secondary" ng-if="vm.product && vm.product.unspsc !== '0000'" ng-click="vm.show360()"><i class="ico-ViewIcon"></i> 360 View</button>
                             <button ng-show="vm.product.properties['videoUrl']" class="btn btn-secondary" ng-click="vm.showVideo()"><i class="ico-SmallplaybuttonIcon"></i> Product Video</button>
                         </div>
@@ -38,32 +40,14 @@
                             </div>
                             <div class="col-2">
                                 <div class="item-block__product__reviews">
-                                    <div class="rating {{vm.getStarRating(vm.product)}}">
-                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                    </div>
-                                    <span ng-if="vm.getStarRatingNumeric(vm.product) > 0">
-                                        {{vm.getStarRatingNumeric(vm.product) | number : 1 }}
-                                    </span>
-                                    <span ng-if="vm.getReviewCount(vm.product) <= 1">
-                                        ({{vm.getReviewCount(vm.product)}} Review)
-                                    </span>
-                                    <span ng-if="vm.getReviewCount(vm.product) > 1">
-                                        ({{vm.getReviewCount(vm.product)}} Reviews)
-                                    </span>
-                                </div>
-                                <a href ng-click="vm.scrollTo('pr-reviewdisplay')" ng-if="vm.getReviewCount(vm.product) == 1">Read {{vm.getReviewCount(vm.product)}} review</a>
-                                <a href ng-click="vm.scrollTo('pr-reviewdisplay')" ng-if="vm.getReviewCount(vm.product) > 1">Read {{vm.getReviewCount(vm.product)}} reviews</a>
-                                <a href="#">Write a Review</a>
+                                    <div id="pr-reviewsnippet"></div>
+                                </div>                                
                             </div>
                         </div>
-                        <div class="item-block__product__samples-link">
+                        <div class="item-block__product__samples-link hide-for-print">
                             <strong>Available Colors/Finishes</strong> <a href="javascript:void(0);" ng-click="vm.showSwatchOrderForm()">Order Free Samples</a>
                         </div>
-                        <div class="item-block__product__swatches">
+                        <div class="item-block__product__swatches hide-for-print">
                             <div class="item-block__product__swatches__label" ng-repeat-start="styleTrait in vm.styleTraitFiltered | orderBy: 'sortOrder'">{{styleTrait.nameDisplay}}:</div>
                             <ul ng-repeat-end>
                                 <li ng-class="{'active': (vm.styleSelection[$parent.$index] && vm.styleSelection[$parent.$index].styleTraitValueId  == style.styleTraitValueId)}" ng-repeat="style in styleTrait.styleValues | orderBy: 'sortOrder' track by style.styleTraitValueId">
@@ -84,7 +68,7 @@
 
                         </div>
                     </div>
-                    <div class="detail-options small-12 column medium-6">
+                    <div class="detail-options small-12 column medium-6 hide-for-print">
                         <div class="panel" ng-show="vm.product.isConfigured && vm.product.configurationDto && !vm.product.configurationDto.isKit || vm.product.styleTraits.length > 0">
                             <div class="row collapse detail-options-wrap">
                                 <!-- Configuration part -->
@@ -344,8 +328,6 @@
 
 
 <!--product reviews-->
-<div id="pr-reviewsnippet"></div>
-<div id="pr-questionsnippet"></div>
-<div id="pr-reviewdisplay"></div>
-<div id="pr-questiondisplay"></div>
+<div class="hide-for-print" id="pr-reviewdisplay"></div>
+<div class="hide-for-print" id="pr-questiondisplay"></div>
     

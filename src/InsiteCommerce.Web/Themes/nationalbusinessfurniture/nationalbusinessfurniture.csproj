@@ -130,6 +130,7 @@
     <Content Include="Styles\custom\font-awesome.scss" />
     <Content Include="Styles\custom\font-icomoon.scss" />
     <None Include="Styles\custom\selectize.scss" />
+    <Content Include="Styles\custom\portfolio-isotope.scss" />
     <Content Include="Styles\fonts\fontawesome-webfont.svg" />
     <Content Include="Styles\img\sprocket.png" />
     <Content Include="theme.json" />
@@ -164,6 +165,8 @@
     <Content Include="Views\Widgets\StaticListView\Standard.cshtml" />
     <Content Include="Views\Widgets\SignInView\NBF.cshtml" />
     <Content Include="Views\Widgets\InvoicesView\NBF.cshtml" />
+    <Content Include="Views\Widgets\Custom\ProductWriteReview\Standard.cshtml" />
+    <Content Include="Styles\custom\tax-exempt.scss" />
     <TypeScriptCompile Include="Scripts\Catalog\insite.frequently-purchased.controller.ts" />
     <TypeScriptCompile Include="Scripts\Catalog\insite.recently-viewed.controller.ts" />
     <TypeScriptCompile Include="Scripts\Catalog\insite.related-products.controller.ts" />
@@ -182,6 +185,7 @@
     <TypeScriptCompile Include="Scripts\Custom\Cart\nbf.cart-lines.directive.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Cart\nbf.checkout.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Cart\nbf.payment.service.ts" />
+    <TypeScriptCompile Include="Scripts\Custom\Catalog\nbf.product-write-review.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Catalog\nbf.product-price-saving.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Catalog\nbf.category-left-nav.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Catalog\nbf.cross-sell-carousel.controller.ts" />
@@ -200,6 +204,7 @@
     <TypeScriptCompile Include="Scripts\Custom\Core\nbf.pager.directives.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Dashboard\nbf.dashboard-view.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Dealers\nbf.dealer-list.controller.ts" />
+    <TypeScriptCompile Include="Scripts\Custom\Email\nbf.email.service.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Email\nbf.email-subscription.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Email\nbf.listrak.service.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Footer\nbf.footer.controller.ts" />
@@ -215,7 +220,6 @@
     <TypeScriptCompile Include="Scripts\Custom\ShopTheLook\nbf.shop-the-look.landing-view.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\SocialMediaSharing\nbf.social-media.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\CatalogMailingPrefs\nbf.catalogmailingprefs.controller.ts" />
-    <TypeScriptCompile Include="Scripts\Custom\CatalogMailingPrefs\nbf.catalogmailingprefs.service.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Videos\nbf.video.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\PriceCode\nbf.price-code.service.ts" />
     <TypeScriptCompile Include="Scripts\Custom\WebCode\nbf.web-code.controller.ts" />
@@ -634,6 +638,7 @@
     <Content Include="Views\Widgets\UserSetupView\Standard.cshtml" />
     <Content Include="Views\Widgets\WebCrossSells\Standard.cshtml" />
     <Content Include="Views\Widgets\Wishlists\Standard.cshtml" />
+    <Content Include="Views\Widgets\WishListView\NBF.cshtml" />
     <Content Include="Views\Widgets\WishListView\Standard.cshtml" />
     <Content Include="Views\Widgets\Zone\Standard.cshtml" />
   </ItemGroup>

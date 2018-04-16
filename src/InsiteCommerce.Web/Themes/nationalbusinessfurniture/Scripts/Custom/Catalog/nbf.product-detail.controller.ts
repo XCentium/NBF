@@ -1,5 +1,10 @@
 ﻿module insite.catalog {
     "use strict";
+    export interface IProductDetailControllerAttributes extends ng.IAttributes {
+        prApiKey: string;
+        prMerchantGroupId: string;
+        prMerchantId: string;
+    }
 
     export class NbfProductDetailController extends ProductDetailController {
         videoUrl = "";       
@@ -23,7 +28,8 @@
             "spinnerService",
             "$window",
             "$anchorScroll",
-            "$location"
+            "$location",
+            "$attrs",
         ];
 
         constructor(
@@ -40,8 +46,8 @@
             protected spinnerService: core.ISpinnerService,
             protected $window: ng.IWindowService,
             protected $anchorScroll: ng.IAnchorScrollService,
-            protected $location: ng.ILocationService
-
+            protected $location: ng.ILocationService,
+            protected $attrs: IProductDetailControllerAttributes
         ) {
             super($scope, coreService, cartService, productService, addToWishlistPopupService, productSubscriptionPopupService, settingsService, $stateParams, sessionService)
             this.sessionService.getIsAuthenticated().then((isAuth) => {
@@ -283,21 +289,21 @@
             setTimeout(() => {
                 this.setLiveExpertsWidget();
                 this.setPowerReviews();
-            }, 1000);            
+            }, 2000);            
         }   
 
         protected setPowerReviews() {
             let powerReviewsConfig = {
-                api_key: '56b8fc6a-79a7-421e-adc5-36cbdaec7daf',
+                api_key: this.$attrs.prApiKey,
                 locale: 'en_US',
-                merchant_group_id: '47982',
-                merchant_id: '33771',
+                merchant_group_id: this.$attrs.prMerchantGroupId,
+                merchant_id: this.$attrs.prMerchantId,
                 page_id: this.product.productCode,
                 review_wrapper_url: 'Product-Review?',
                 components: {
-                    //ReviewSnippet: 'pr-reviewsnippet',
+                    ReviewSnippet: 'pr-reviewsnippet',
                     ReviewDisplay: 'pr-reviewdisplay',
-                    QuestionSnippet: 'pr-questionsnippet',
+                    //QuestionSnippet: 'pr-questionsnippet',
                     QuestionDisplay: 'pr-questiondisplay'
                 }
             };
@@ -388,59 +394,7 @@
             $("#Wrapper360").show();
             $("#overlaych1").hide();
             $("#mobile_div_container").hide();
-        }
-
-        protected getReviewCount(product: ProductDto): number {
-            let retVal = 0;
-            if (product && product.specifications && product.specifications.length > 0) {
-                let ratingCountSpecs = product.specifications.filter(x => x.name == "Rating Count");
-
-                if (ratingCountSpecs.length > 0 && !isNaN(parseFloat(ratingCountSpecs[0].value))) {
-                    retVal = parseInt(ratingCountSpecs[0].value);
-                }
-            }
-
-            return retVal;
-        }
-
-        protected getStarRatingNumeric(product: ProductDto): number {
-            let retVal = 0.0;
-            if (product && product.specifications && product.specifications.length > 0) {
-                let ratings = product.specifications.filter(x => x.name == "Rating");
-
-                if (ratings.length > 0 && !isNaN(parseFloat(ratings[0].value))) {
-                    retVal = parseFloat(ratings[0].value);                    
-                }
-            }
-
-            return retVal;
-        }
-
-        protected getStarRating(product: ProductDto): string {
-            let retVal = "no-star";
-            if (product && product.specifications && product.specifications.length > 0) {
-                let ratings = product.specifications.filter(x => x.name == "Rating");
-
-                if (ratings.length > 0 && !isNaN(parseFloat(ratings[0].value))) {
-                    let rating = parseFloat(ratings[0].value);
-                    if (rating > 0.0) {
-                        let ratingRoundedToHalf = Math.round(rating * 2) / 2;
-                        retVal = ratingRoundedToHalf > 0 && ratingRoundedToHalf <= 0.5 ? "half-star" :
-                            ratingRoundedToHalf > 0.5 && ratingRoundedToHalf <= 1.0 ? "one-star" :
-                                ratingRoundedToHalf > 1.0 && ratingRoundedToHalf <= 1.5 ? "onehalf-star" :
-                                    ratingRoundedToHalf > 1.5 && ratingRoundedToHalf <= 2.0 ? "two-star" :
-                                        ratingRoundedToHalf > 2.0 && ratingRoundedToHalf <= 2.5 ? "twohalf-star" :
-                                            ratingRoundedToHalf > 2.5 && ratingRoundedToHalf <= 3.0 ? "three-star" :
-                                                ratingRoundedToHalf > 3.0 && ratingRoundedToHalf <= 3.5 ? "threehalf-star" :
-                                                    ratingRoundedToHalf > 3.5 && ratingRoundedToHalf <= 4.0 ? "four-star" :
-                                                        ratingRoundedToHalf > 4.0 && ratingRoundedToHalf <= 4.5 ? "fourhalf-star" :
-                                                            ratingRoundedToHalf > 4.5 ? "five-star" : "no-star";
-                    }
-                }
-            }
-
-            return retVal;
-        }
+        }        
 
         protected scrollTo(id: string): void {
             this.$location.hash(id);
