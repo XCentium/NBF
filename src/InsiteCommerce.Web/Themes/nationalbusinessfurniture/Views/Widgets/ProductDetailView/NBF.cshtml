@@ -11,7 +11,7 @@
                 <div class="detail-info">
                     <div class="small-12 column medium-6 detail-image">
                         <isc-product-images ng-if="vm.product" product="vm.product"></isc-product-images>
-                        <div class="image-buttons">
+                        <div class="image-buttons hide-for-print">
                             <button class="btn btn-secondary" ng-if="vm.product && vm.product.unspsc !== '0000'" ng-click="vm.show360()"><i class="ico-ViewIcon"></i> 360 View</button>
                             <button ng-show="vm.product.properties['videoUrl']" class="btn btn-secondary" ng-click="vm.showVideo()"><i class="ico-SmallplaybuttonIcon"></i> Product Video</button>
                         </div>
@@ -44,10 +44,10 @@
                                 </div>                                
                             </div>
                         </div>
-                        <div class="item-block__product__samples-link">
+                        <div class="item-block__product__samples-link hide-for-print">
                             <strong>Available Colors/Finishes</strong> <a href="javascript:void(0);" ng-click="vm.showSwatchOrderForm()">Order Free Samples</a>
                         </div>
-                        <div class="item-block__product__swatches">
+                        <div class="item-block__product__swatches hide-for-print">
                             <div class="item-block__product__swatches__label" ng-repeat-start="styleTrait in vm.styleTraitFiltered | orderBy: 'sortOrder'">{{styleTrait.nameDisplay}}:</div>
                             <ul ng-repeat-end>
                                 <li ng-class="{'active': (vm.styleSelection[$parent.$index] && vm.styleSelection[$parent.$index].styleTraitValueId  == style.styleTraitValueId)}" ng-repeat="style in styleTrait.styleValues | orderBy: 'sortOrder' track by style.styleTraitValueId">
@@ -68,7 +68,7 @@
 
                         </div>
                     </div>
-                    <div class="detail-options small-12 column medium-6">
+                    <div class="detail-options small-12 column medium-6 hide-for-print">
                         <div class="panel" ng-show="vm.product.isConfigured && vm.product.configurationDto && !vm.product.configurationDto.isKit || vm.product.styleTraits.length > 0">
                             <div class="row collapse detail-options-wrap">
                                 <!-- Configuration part -->
@@ -328,6 +328,6 @@
 
 
 <!--product reviews-->
-<div id="pr-reviewdisplay"></div>
-<div id="pr-questiondisplay"></div>
+<div class="hide-for-print" id="pr-reviewdisplay"></div>
+<div class="hide-for-print" id="pr-questiondisplay"></div>
     

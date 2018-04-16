@@ -289,7 +289,7 @@
             setTimeout(() => {
                 this.setLiveExpertsWidget();
                 this.setPowerReviews();
-            }, 1000);            
+            }, 2000);            
         }   
 
         protected setPowerReviews() {
