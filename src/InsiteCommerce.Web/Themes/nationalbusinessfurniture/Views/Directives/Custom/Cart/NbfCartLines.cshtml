@@ -35,9 +35,6 @@
                         <isc-product-price product="cartLine"></isc-product-price>
                         <isc-unit-of-measure-display product="cartLine"> </isc-unit-of-measure-display>
                         <isc-product-price-saving product="cartLine" currency-symbol="cart.currencySymbol"></isc-product-price-saving>
-                        <div class="quantity-pricing">
-                            <isc-quantity-break-pricing product-id="cartLine.id" break-prices="cartLine.breakPrices"></isc-quantity-break-pricing>
-                        </div>
                     </div>
                     <div class="price" ng-if="cart.cartNotPriced">
                         <div>[% siteMessage 'RealTimePricing_PriceLoadFailed' %]</div>
