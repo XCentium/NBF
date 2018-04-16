@@ -197,7 +197,6 @@
     <TypeScriptCompile Include="Scripts\Custom\Catalog\nbf.product-images.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Catalog\nbf.featuredproducts-widget.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Catalog\nbf.category-widget.controller.ts" />
-    <TypeScriptCompile Include="Scripts\Custom\Catalog\nbf.product-image-carousel.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Catalog\nbf.catalog.directives.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Catalog\nbf.product-image-carousel.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Catalog\nbf.category-list.controller.ts" />
@@ -760,7 +759,6 @@
     <Content Include="Styles\custom\main-nav.scss" />
     <Content Include="Styles\custom\article-page.scss" />
     <Content Include="Views\Widgets\RichContent\article-quote.cshtml" />
-    <Content Include="Views\Widgets\Carousel\ProductCarousel.cshtml" />
     <Content Include="Styles\custom\flex-slider.scss" />
     <Content Include="Views\Widgets\DealerLocatorView\NBF.cshtml" />
     <Content Include="Styles\custom\sales-rep-finder.scss" />
