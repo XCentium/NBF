@@ -179,7 +179,22 @@
                                     <input name="paypalpayerid" type="hidden" ng-bind="vm.cart.paymentOptions.payPalPayerId" />
                                     <div class="section-container row" data-section data-section-resized="true" style="min-height: 0px;">
                                         <section class="payment-details large-6 columns" ng-hide="vm.cart.requiresApproval">
-                                            <nbf-tax-exempt></nbf-tax-exempt>
+                                            <div class="exempt" ng-cloak>
+                                                <div id="tax_exempt_form">
+                                                    <span class="exempt__label">[% siteMessage 'TaxExempt_Label' 'Tax Exempt?' %]</span>
+                                                    <input id="taxyes" class="customradio" type="radio" name="tax" ng-model="vm.taxExemptChoice" ng-disabled="vm.isTaxExempt || vm.taxExemptFileName" ng-value="true" /><label for="taxyes">Yes</label>
+                                                    <input id="taxno" class="customradio" type="radio" name="tax" ng-model="vm.taxExemptChoice" ng-disabled="vm.isTaxExempt || vm.taxExemptFileName" ng-value="false" /><label for="taxno">No</label>
+                                                    <div class="upload-btn" ng-show="!vm.isTaxExempt && vm.taxExemptChoice && !vm.taxExemptFileName" ng-click="vm.openUpload()">
+                                                        <span ng-if="!vm.taxExemptFileName">[% siteMessage 'TaxExempt_UploadText' 'UPLOAD YOUR TAX EXEMPT CERTIFICATE' %]</span>
+                                                        <input type="file" accept=".jpg,.pdf,.png,.gif,.doc,.docx," id="taxExemptFileUpload" name="attachment"
+                                                               data-val-required="[% siteMessage 'TaxExempt_Upload_Required' 'Please select a file to upload.' %]"
+                                                               data-val="true"
+                                                               data-val-regex-pattern="^.*\.(jpg|JPG|jpeg|JPEG|doc|DOC|docx|DOCX|gif|GIF|pdf|PDF|png|PNG)$"
+                                                               data-val-regex="[% siteMessage 'TaxExempt_Upload_FileType' 'Please select a file with one of the following extensions: doc, docx, pdf, png, gif, and jpg' %]" />
+                                                    </div>
+                                                    <div class="doc-tag" ng-if="vm.isTaxExempt || vm.taxExemptChoice && vm.taxExemptFileName" ng-bind="vm.taxExemptFileName" ng-click="!vm.isTaxExempt ? vm.openUpload() : angular.noop()"></div>
+                                                </div>
+                                            </div>
                                             <div>
                                                 <span ng-show="vm.cart.paymentOptions.isPayPal">
                                                     [% translate 'Payment Method: ' %] [% translate 'PayPal' %]
@@ -196,7 +211,7 @@
                                                         <span class="field-validation-valid" data-valmsg-for="paymentMethod" data-valmsg-replace="true"></span>
                                                     </div>
                                                     <div class="paypal" ng-show="vm.cartSettings.showPayPal">
-                                                        <a href ng-click="vm.submitPaypal('[% urlForPage 'ReviewAndPayPage' %]', '[% urlForPage 'SignInPage' %]')">
+                                                        <a href="javascript:void(0);" ng-click="vm.submitPaypal('[% urlForPage 'ReviewAndPayPage' %]', '[% urlForPage 'SignInPage' %]')">
                                                             <img src="https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif" alt="Express Checkout" />
                                                         </a>
                                                     </div>
@@ -412,7 +427,7 @@
                                             <div class="small-12 column">
                                                 <div class="btns">
                                                     <a id="tst_submitForApproval_button" href="" class="btn primary btn-submit-for-approval" ng-show="vm.cart.requiresApproval && vm.cart.hasApprover && !vm.submitting" ng-click="vm.submit('[% urlForPage 'OrderApprovalDetailPage' %]')">[% translate 'Submit for approval' %]</a>
-                                                    <a id="tst_placeOrder_button" href="" class="btn primary btn-place-order" ng-hide="vm.cart.requiresApproval || vm.submitting" ng-click="vm.submit('[% urlForPage 'SignInPage' %]')">[% translate 'Place Order' %]</a>
+                                                    <a id="tst_placeOrder_button" href="" class="btn primary btn-place-order" ng-hide="vm.cart.requiresApproval || vm.submitting" ng-click="vm.submit('[% urlForPage 'SignInPage' %]','[% siteMessage 'TaxExempt_Upload_EmailTo' 'dylan.barter@xcentium.com' %]')">[% translate 'Place Order' %]</a>
                                                     <div id="tst_submitErrorMessage" style="color: red;" ng-bind="vm.submitErrorMessage"></div>
                                                     <div id="tst_userFound" style="color: red;" ng-if="vm.userFound">
                                                         [% siteMessage 'Guest_Checkout_UserFoundError' 'Email is already associated with an account, would you like to sign in?' %]
@@ -513,10 +528,10 @@
                 <div ng-if="vm.cart.cartLines.length > 0">
                     <nbf-cart-total-display ng-if="!vm.cart.cartNotPriced" cart="vm.cart" promotions="vm.promotions" order-taxes="vm.cart.customerOrderTaxes"></nbf-cart-total-display>
                 </div>
-                <div class="cc-warp">
+                <div class="cc-warp hide-for-print">
                     <img src="/UserFiles/SystemImages/credit-cards.png" />
                 </div>
-                <div class="confidence-box">
+                <div class="confidence-box hide-for-print">
                     <div class="confidence-box__title">Shop With Confidence</div>
                     <ul>
                         <li>

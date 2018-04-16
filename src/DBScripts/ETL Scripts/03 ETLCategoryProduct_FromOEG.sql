@@ -58,7 +58,7 @@ begin
 		not exists (select Id from CategoryProduct where CategoryId = c.Id and ProductId = p.Id)
 
 
-	-- last we add all of the products that belong into the DisplayProductPageOnly Category
+	-- next we add all of the products that belong into the DisplayProductPageOnly Category
 
 	declare @DisplayProductPageOnlyCategoryId uniqueidentifier
 	select top 1 @DisplayProductPageOnlyCategoryId = Id from Category where [Name] = 'DisplayProductPageOnly'
@@ -75,6 +75,28 @@ begin
 		not exists (select Id from CategoryProduct where CategoryId = @DisplayProductPageOnlyCategoryId and ProductId = p.Id)
 		and sp.BrandId = @brand and sp.IsProductPageDisplay = 1
 
+
+	-- next we add all of the products that are swatches into the swatch category
+
+	declare @SwatchCategoryId uniqueidentifier
+
+	select top 1 @SwatchCategoryId = Id from Category where [Name] = 'Swatches'
+
+	if @SwatchCategoryId is not null
+	begin
+
+		-- associate every swatch product with the new swatch category
+		insert into CategoryProduct
+		(CategoryId, ProductId, CreatedBy, ModifiedBy)
+		select 
+			@SwatchCategoryId, p.Id, 'etl', 'etl'--, p.ShortDescription, sic.[Name], swc.DisplayName
+		from
+			product p
+		where
+			not exists (select Id from CategoryProduct where CategoryId = @SwatchCategoryId and ProductId = p.Id)
+			and p.ContentManagerId = '00000000-0000-0000-0000-000000000000'
+
+	end
 
 /*
 exec ETLCategoryProduct_FromOEG

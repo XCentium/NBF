@@ -1,4 +1,8 @@
-﻿<div ng-controller="NbfProductCarouselController as vm" product-numbers-string="[[Model.ProductNumbersString]]" ng-cloak>
+﻿<div ng-controller="NbfProductCarouselController as vm" product-numbers-string="[[Model.ProductNumbersString]]" ng-cloak
+     pr-api-key="[% siteMessage 'PowerReviews_ApiKey' '56b8fc6a-79a7-421e-adc5-36cbdaec7daf ' %]"
+     pr-merchant-group-id="[% siteMessage 'PowerReviews_MerchantGroupId' '47982' %]"
+     pr-merchant-id="[% siteMessage 'PowerReviews_MerchantId' '33771' %]"
+     >
     <div class="row" role="cross-sells">
         <div class="medium-12 large-12 columns">
             <div class="carousel-title">
@@ -7,7 +11,7 @@
             <div class="carousel-wrapper">
                 <div class="cs-carousel">
                     <ul class="items slides tst_crossSellProduct_slides">
-                        <li id="tst_crossSellProduct_{{product.id}}" class="medium-3 large-3 columns isc-productContainer tst_crossSellProduct_productContainer" ng-repeat="product in vm.products track by product.id">
+                        <li id="tst_crossSellProduct_{{product.id}}" class="medium-3 large-3 columns isc-productContainer tst_crossSellProduct_productContainer" ng-repeat="product in vm.productCarouselProducts track by product.id | orderBy:'sortOrder'">
                             <div class="item-wrap">
                                 <div class="carousel-item-equalize">
                                     <div class="favorite-btn" ng-if="vm.isAuthenticated">
@@ -69,14 +73,7 @@
                                     </div>
                                     <div class="item-block__product__col-2 clearfix">
                                         <div class="col-1">
-                                            <div class="item-block__product__stars">
-                                                <div class="rating {{vm.getStarRating(product)}} ">
-                                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                                </div>
+                                            <div id="pr-{{product.productCode}}" class="item-block__product__stars">
                                             </div>
                                         </div>
                                         <div class="col-2">

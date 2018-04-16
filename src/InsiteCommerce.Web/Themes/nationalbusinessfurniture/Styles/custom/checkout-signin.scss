@@ -8,7 +8,9 @@
 
     .btns .btn-sign-in {
         width: 100%;
-        margin-top: 31px;
+        margin-top: 31px !important;
+        margin-bottom:0 !important;
+        width:auto !important;        
     }
 
     .si-step-1 {

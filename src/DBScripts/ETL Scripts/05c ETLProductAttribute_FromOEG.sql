@@ -17,6 +17,319 @@ begin
 	declare @attributeTypeId uniqueidentifier
 
 
+	-- start price ranges
+
+	set @attributeName = 'Price Range'
+	exec ETLAttribute_FromOEG @attributeName
+	select top 1 @attributeTypeId = Id from AttributeType where [Name] = @attributeName
+
+	if not exists (select 1 from AttributeValue where AttributeTypeId = @attributeTypeId and [value] = 'Under $100')
+	begin
+		insert into AttributeValue (AttributeTypeId, [Value], SortOrder, IsActive, CreatedBy, ModifiedBy)
+		select @attributeTypeId, 'Under $100', 0, 1, 'etl', 'etl'
+	end
+	if not exists (select 1 from AttributeValue where AttributeTypeId = @attributeTypeId and [value] = '$100 - $199')
+	begin
+		insert into AttributeValue (AttributeTypeId, [Value], SortOrder, IsActive, CreatedBy, ModifiedBy)
+		select @attributeTypeId, '$100 - $199', 0, 1, 'etl', 'etl'
+	end
+	if not exists (select 1 from AttributeValue where AttributeTypeId = @attributeTypeId and [value] = '$200 - $299')
+	begin
+		insert into AttributeValue (AttributeTypeId, [Value], SortOrder, IsActive, CreatedBy, ModifiedBy)
+		select @attributeTypeId, '$200 - $299', 0, 1, 'etl', 'etl'
+	end
+	if not exists (select 1 from AttributeValue where AttributeTypeId = @attributeTypeId and [value] = '$300 - $399')
+	begin
+		insert into AttributeValue (AttributeTypeId, [Value], SortOrder, IsActive, CreatedBy, ModifiedBy)
+		select @attributeTypeId, '$300 - $399', 0, 1, 'etl', 'etl'
+	end
+	if not exists (select 1 from AttributeValue where AttributeTypeId = @attributeTypeId and [value] = '$400 - $499')
+	begin
+		insert into AttributeValue (AttributeTypeId, [Value], SortOrder, IsActive, CreatedBy, ModifiedBy)
+		select @attributeTypeId, '$400 - $499', 0, 1, 'etl', 'etl'
+	end
+	if not exists (select 1 from AttributeValue where AttributeTypeId = @attributeTypeId and [value] = '$500 - $599')
+	begin
+		insert into AttributeValue (AttributeTypeId, [Value], SortOrder, IsActive, CreatedBy, ModifiedBy)
+		select @attributeTypeId, '$500 - $599', 0, 1, 'etl', 'etl'
+	end
+	if not exists (select 1 from AttributeValue where AttributeTypeId = @attributeTypeId and [value] = '$600 - $699')
+	begin
+		insert into AttributeValue (AttributeTypeId, [Value], SortOrder, IsActive, CreatedBy, ModifiedBy)
+		select @attributeTypeId, '$600 - $699', 0, 1, 'etl', 'etl'
+	end
+	if not exists (select 1 from AttributeValue where AttributeTypeId = @attributeTypeId and [value] = '$700 - $799')
+	begin
+		insert into AttributeValue (AttributeTypeId, [Value], SortOrder, IsActive, CreatedBy, ModifiedBy)
+		select @attributeTypeId, '$700 - $799', 0, 1, 'etl', 'etl'
+	end
+	if not exists (select 1 from AttributeValue where AttributeTypeId = @attributeTypeId and [value] = '$800 - $899')
+	begin
+		insert into AttributeValue (AttributeTypeId, [Value], SortOrder, IsActive, CreatedBy, ModifiedBy)
+		select @attributeTypeId, '$800 - $899', 0, 1, 'etl', 'etl'
+	end
+	if not exists (select 1 from AttributeValue where AttributeTypeId = @attributeTypeId and [value] = '$900 - $999')
+	begin
+		insert into AttributeValue (AttributeTypeId, [Value], SortOrder, IsActive, CreatedBy, ModifiedBy)
+		select @attributeTypeId, '$900 - $999', 0, 1, 'etl', 'etl'
+	end
+	if not exists (select 1 from AttributeValue where AttributeTypeId = @attributeTypeId and [value] = '$1000 - $1099')
+	begin
+		insert into AttributeValue (AttributeTypeId, [Value], SortOrder, IsActive, CreatedBy, ModifiedBy)
+		select @attributeTypeId, '$1000 - $1099', 0, 1, 'etl', 'etl'
+	end
+	if not exists (select 1 from AttributeValue where AttributeTypeId = @attributeTypeId and [value] = '$1100 - $1199')
+	begin
+		insert into AttributeValue (AttributeTypeId, [Value], SortOrder, IsActive, CreatedBy, ModifiedBy)
+		select @attributeTypeId, '$1100 - $1199', 0, 1, 'etl', 'etl'
+	end
+	if not exists (select 1 from AttributeValue where AttributeTypeId = @attributeTypeId and [value] = '$1200 - $1299')
+	begin
+		insert into AttributeValue (AttributeTypeId, [Value], SortOrder, IsActive, CreatedBy, ModifiedBy)
+		select @attributeTypeId, '$1200 - $1299', 0, 1, 'etl', 'etl'
+	end
+	if not exists (select 1 from AttributeValue where AttributeTypeId = @attributeTypeId and [value] = '$1300 - $1399')
+	begin
+		insert into AttributeValue (AttributeTypeId, [Value], SortOrder, IsActive, CreatedBy, ModifiedBy)
+		select @attributeTypeId, '$1300 - $1399', 0, 1, 'etl', 'etl'
+	end
+	if not exists (select 1 from AttributeValue where AttributeTypeId = @attributeTypeId and [value] = '$1400 - $1499')
+	begin
+		insert into AttributeValue (AttributeTypeId, [Value], SortOrder, IsActive, CreatedBy, ModifiedBy)
+		select @attributeTypeId, '$1400 - $1499', 0, 1, 'etl', 'etl'
+	end
+	if not exists (select 1 from AttributeValue where AttributeTypeId = @attributeTypeId and [value] = '$1500 - $1999')
+	begin
+		insert into AttributeValue (AttributeTypeId, [Value], SortOrder, IsActive, CreatedBy, ModifiedBy)
+		select @attributeTypeId, '$1500 - $1999', 0, 1, 'etl', 'etl'
+	end
+	if not exists (select 1 from AttributeValue where AttributeTypeId = @attributeTypeId and [value] = '$2000 - $2500')
+	begin
+		insert into AttributeValue (AttributeTypeId, [Value], SortOrder, IsActive, CreatedBy, ModifiedBy)
+		select @attributeTypeId, '$2000 - $2500', 0, 1, 'etl', 'etl'
+	end
+	if not exists (select 1 from AttributeValue where AttributeTypeId = @attributeTypeId and [value] = 'Over $2500')
+	begin
+		insert into AttributeValue (AttributeTypeId, [Value], SortOrder, IsActive, CreatedBy, ModifiedBy)
+		select @attributeTypeId, 'Over $2500', 0, 1, 'etl', 'etl'
+	end
+
+
+	-- since there is no primary key here, we can just delete all associations and repopulate
+	delete from ProductAttributeValue
+	where AttributeValueId in ( select avalue.Id from AttributeValue avalue
+	join AttributeType atype on atype.Id = avalue.AttributeTypeId and atype.Id = @attributeTypeId)
+
+	-- all base products are set to a price range
+	insert into ProductAttributeValue (ProductId, AttributeValueId) 
+	select distinct p.Id, avalue.Id--, p.ERPNumber, pp.Price 
+	from Product p
+	join OEGSystemStaging.dbo.Products sp on sp.Number = p.ERPNumber and sp.BrandId = @brand
+	join OEGSystemStaging.dbo.ProductPrices pp on pp.ProductId = sp.ProductId and pp.Price between 0 and 99.99 and pp.PricingTierId = 1 and pp.Quantity = 1  and pp.EffStartDate < getdate() and pp.effenddate > getdate()
+	join AttributeValue avalue on avalue.[Value] = 'Under $100'	where avalue.AttributeTypeId = @attributeTypeId
+
+	insert into ProductAttributeValue (ProductId, AttributeValueId) 
+	select distinct p.Id, avalue.Id--, p.ERPNumber, pp.Price 
+	from Product p
+	join OEGSystemStaging.dbo.Products sp on sp.Number = p.ERPNumber and sp.BrandId = @brand
+	join OEGSystemStaging.dbo.ProductPrices pp on pp.ProductId = sp.ProductId and pp.Price between 100 and 199.99 and pp.PricingTierId = 1 and pp.Quantity = 1  and pp.EffStartDate < getdate() and pp.effenddate > getdate()
+	join AttributeValue avalue on avalue.[Value] = '$100 - $199'	where avalue.AttributeTypeId = @attributeTypeId
+
+	insert into ProductAttributeValue (ProductId, AttributeValueId) 
+	select distinct p.Id, avalue.Id--, p.ERPNumber, pp.Price 
+	from Product p
+	join OEGSystemStaging.dbo.Products sp on sp.Number = p.ERPNumber and sp.BrandId = @brand
+	join OEGSystemStaging.dbo.ProductPrices pp on pp.ProductId = sp.ProductId and pp.Price between 200 and 299.99 and pp.PricingTierId = 1 and pp.Quantity = 1  and pp.EffStartDate < getdate() and pp.effenddate > getdate()
+	join AttributeValue avalue on avalue.[Value] = '$200 - $299'	where avalue.AttributeTypeId = @attributeTypeId
+
+	insert into ProductAttributeValue (ProductId, AttributeValueId) 
+	select distinct p.Id, avalue.Id--, p.ERPNumber, pp.Price 
+	from Product p
+	join OEGSystemStaging.dbo.Products sp on sp.Number = p.ERPNumber and sp.BrandId = @brand
+	join OEGSystemStaging.dbo.ProductPrices pp on pp.ProductId = sp.ProductId and pp.Price between 300 and 399.99 and pp.PricingTierId = 1 and pp.Quantity = 1  and pp.EffStartDate < getdate() and pp.effenddate > getdate()
+	join AttributeValue avalue on avalue.[Value] = '$300 - $399'	where avalue.AttributeTypeId = @attributeTypeId
+
+	insert into ProductAttributeValue (ProductId, AttributeValueId) 
+	select distinct p.Id, avalue.Id--, p.ERPNumber, pp.Price 
+	from Product p
+	join OEGSystemStaging.dbo.Products sp on sp.Number = p.ERPNumber and sp.BrandId = @brand
+	join OEGSystemStaging.dbo.ProductPrices pp on pp.ProductId = sp.ProductId and pp.Price between 400 and 499.99 and pp.PricingTierId = 1 and pp.Quantity = 1  and pp.EffStartDate < getdate() and pp.effenddate > getdate()
+	join AttributeValue avalue on avalue.[Value] = '$400 - $499'	where avalue.AttributeTypeId = @attributeTypeId
+
+	insert into ProductAttributeValue (ProductId, AttributeValueId) 
+	select distinct p.Id, avalue.Id--, p.ERPNumber, pp.Price 
+	from Product p
+	join OEGSystemStaging.dbo.Products sp on sp.Number = p.ERPNumber and sp.BrandId = @brand
+	join OEGSystemStaging.dbo.ProductPrices pp on pp.ProductId = sp.ProductId and pp.Price between 500 and 599.99 and pp.PricingTierId = 1 and pp.Quantity = 1  and pp.EffStartDate < getdate() and pp.effenddate > getdate()
+	join AttributeValue avalue on avalue.[Value] = '$500 - $599'	where avalue.AttributeTypeId = @attributeTypeId
+
+	insert into ProductAttributeValue (ProductId, AttributeValueId) 
+	select distinct p.Id, avalue.Id--, p.ERPNumber, pp.Price 
+	from Product p
+	join OEGSystemStaging.dbo.Products sp on sp.Number = p.ERPNumber and sp.BrandId = @brand
+	join OEGSystemStaging.dbo.ProductPrices pp on pp.ProductId = sp.ProductId and pp.Price between 600 and 699.99 and pp.PricingTierId = 1 and pp.Quantity = 1  and pp.EffStartDate < getdate() and pp.effenddate > getdate()
+	join AttributeValue avalue on avalue.[Value] = '$600 - $699'	where avalue.AttributeTypeId = @attributeTypeId
+
+	insert into ProductAttributeValue (ProductId, AttributeValueId) 
+	select distinct p.Id, avalue.Id--, p.ERPNumber, pp.Price 
+	from Product p
+	join OEGSystemStaging.dbo.Products sp on sp.Number = p.ERPNumber and sp.BrandId = @brand
+	join OEGSystemStaging.dbo.ProductPrices pp on pp.ProductId = sp.ProductId and pp.Price between 700 and 799.99 and pp.PricingTierId = 1 and pp.Quantity = 1  and pp.EffStartDate < getdate() and pp.effenddate > getdate()
+	join AttributeValue avalue on avalue.[Value] = '$700 - $799'	where avalue.AttributeTypeId = @attributeTypeId
+
+	insert into ProductAttributeValue (ProductId, AttributeValueId) 
+	select distinct p.Id, avalue.Id--, p.ERPNumber, pp.Price 
+	from Product p
+	join OEGSystemStaging.dbo.Products sp on sp.Number = p.ERPNumber and sp.BrandId = @brand
+	join OEGSystemStaging.dbo.ProductPrices pp on pp.ProductId = sp.ProductId and pp.Price between 800 and 899.99 and pp.PricingTierId = 1 and pp.Quantity = 1  and pp.EffStartDate < getdate() and pp.effenddate > getdate()
+	join AttributeValue avalue on avalue.[Value] = '$800 - $899'	where avalue.AttributeTypeId = @attributeTypeId
+
+	insert into ProductAttributeValue (ProductId, AttributeValueId) 
+	select distinct p.Id, avalue.Id--, p.ERPNumber, pp.Price 
+	from Product p
+	join OEGSystemStaging.dbo.Products sp on sp.Number = p.ERPNumber and sp.BrandId = @brand
+	join OEGSystemStaging.dbo.ProductPrices pp on pp.ProductId = sp.ProductId and pp.Price between 900 and 999.99 and pp.PricingTierId = 1 and pp.Quantity = 1  and pp.EffStartDate < getdate() and pp.effenddate > getdate()
+	join AttributeValue avalue on avalue.[Value] = '$900 - $999'	where avalue.AttributeTypeId = @attributeTypeId
+
+	insert into ProductAttributeValue (ProductId, AttributeValueId) 
+	select distinct p.Id, avalue.Id--, p.ERPNumber, pp.Price 
+	from Product p
+	join OEGSystemStaging.dbo.Products sp on sp.Number = p.ERPNumber and sp.BrandId = @brand
+	join OEGSystemStaging.dbo.ProductPrices pp on pp.ProductId = sp.ProductId and pp.Price between 1000 and 1099.99 and pp.PricingTierId = 1 and pp.Quantity = 1  and pp.EffStartDate < getdate() and pp.effenddate > getdate()
+	join AttributeValue avalue on avalue.[Value] = '$1000 - $1099'	where avalue.AttributeTypeId = @attributeTypeId
+
+	insert into ProductAttributeValue (ProductId, AttributeValueId) 
+	select distinct p.Id, avalue.Id--, p.ERPNumber, pp.Price 
+	from Product p
+	join OEGSystemStaging.dbo.Products sp on sp.Number = p.ERPNumber and sp.BrandId = @brand
+	join OEGSystemStaging.dbo.ProductPrices pp on pp.ProductId = sp.ProductId and pp.Price between 1100 and 1199.99 and pp.PricingTierId = 1 and pp.Quantity = 1  and pp.EffStartDate < getdate() and pp.effenddate > getdate()
+	join AttributeValue avalue on avalue.[Value] = '$1100 - $1199'	where avalue.AttributeTypeId = @attributeTypeId
+
+	insert into ProductAttributeValue (ProductId, AttributeValueId) 
+	select distinct p.Id, avalue.Id--, p.ERPNumber, pp.Price 
+	from Product p
+	join OEGSystemStaging.dbo.Products sp on sp.Number = p.ERPNumber and sp.BrandId = @brand
+	join OEGSystemStaging.dbo.ProductPrices pp on pp.ProductId = sp.ProductId and pp.Price between 1200 and 1299.99 and pp.PricingTierId = 1 and pp.Quantity = 1  and pp.EffStartDate < getdate() and pp.effenddate > getdate()
+	join AttributeValue avalue on avalue.[Value] = '$1200 - $1299'	where avalue.AttributeTypeId = @attributeTypeId
+
+	insert into ProductAttributeValue (ProductId, AttributeValueId) 
+	select distinct p.Id, avalue.Id--, p.ERPNumber, pp.Price 
+	from Product p
+	join OEGSystemStaging.dbo.Products sp on sp.Number = p.ERPNumber and sp.BrandId = @brand
+	join OEGSystemStaging.dbo.ProductPrices pp on pp.ProductId = sp.ProductId and pp.Price between 1300 and 1399.99 and pp.PricingTierId = 1 and pp.Quantity = 1  and pp.EffStartDate < getdate() and pp.effenddate > getdate()
+	join AttributeValue avalue on avalue.[Value] = '$1300 - $1399'	where avalue.AttributeTypeId = @attributeTypeId
+
+	insert into ProductAttributeValue (ProductId, AttributeValueId) 
+	select distinct p.Id, avalue.Id--, p.ERPNumber, pp.Price 
+	from Product p
+	join OEGSystemStaging.dbo.Products sp on sp.Number = p.ERPNumber and sp.BrandId = @brand
+	join OEGSystemStaging.dbo.ProductPrices pp on pp.ProductId = sp.ProductId and pp.Price between 1400 and 1499.99 and pp.PricingTierId = 1 and pp.Quantity = 1  and pp.EffStartDate < getdate() and pp.effenddate > getdate()
+	join AttributeValue avalue on avalue.[Value] = '$1400 - $1499'	where avalue.AttributeTypeId = @attributeTypeId
+
+	insert into ProductAttributeValue (ProductId, AttributeValueId) 
+	select distinct p.Id, avalue.Id--, p.ERPNumber, pp.Price 
+	from Product p
+	join OEGSystemStaging.dbo.Products sp on sp.Number = p.ERPNumber and sp.BrandId = @brand
+	join OEGSystemStaging.dbo.ProductPrices pp on pp.ProductId = sp.ProductId and pp.Price between 1500 and 1999.99 and pp.PricingTierId = 1 and pp.Quantity = 1  and pp.EffStartDate < getdate() and pp.effenddate > getdate()
+	join AttributeValue avalue on avalue.[Value] = '$1500 - $1999'	where avalue.AttributeTypeId = @attributeTypeId
+
+	insert into ProductAttributeValue (ProductId, AttributeValueId) 
+	select distinct p.Id, avalue.Id--, p.ERPNumber, pp.Price 
+	from Product p
+	join OEGSystemStaging.dbo.Products sp on sp.Number = p.ERPNumber and sp.BrandId = @brand
+	join OEGSystemStaging.dbo.ProductPrices pp on pp.ProductId = sp.ProductId and pp.Price between 2000 and 2500 and pp.PricingTierId = 1 and pp.Quantity = 1  and pp.EffStartDate < getdate() and pp.effenddate > getdate()
+	join AttributeValue avalue on avalue.[Value] = '$2000 - $2500'	where avalue.AttributeTypeId = @attributeTypeId
+
+	insert into ProductAttributeValue (ProductId, AttributeValueId) 
+	select distinct p.Id, avalue.Id--, p.ERPNumber, pp.Price 
+	from Product p
+	join OEGSystemStaging.dbo.Products sp on sp.Number = p.ERPNumber and sp.BrandId = @brand
+	join OEGSystemStaging.dbo.ProductPrices pp on pp.ProductId = sp.ProductId and pp.Price > 2500 and pp.PricingTierId = 1 and pp.Quantity = 1  and pp.EffStartDate < getdate() and pp.effenddate > getdate()
+	join AttributeValue avalue on avalue.[Value] = 'Over $2500'	where avalue.AttributeTypeId = @attributeTypeId
+
+	--- end price ranges
+
+
+	set @attributeName = 'HideInSearch'
+	exec ETLAttribute_FromOEG @attributeName, 0
+	select top 1 @attributeTypeId = Id from AttributeType where [Name] = @attributeName
+
+	
+	-- since there is no "key" on this table it's tough to do an "update", we are just going to add new ones and manually delete unused ones (if needed)
+	if not exists (select 1 from AttributeValue where AttributeTypeId = @attributeTypeId and [value] = 'Yes')
+	begin
+		insert into AttributeValue (AttributeTypeId, [Value], SortOrder, IsActive, CreatedBy, ModifiedBy)
+		select @attributeTypeId, 'Yes', 0, 1, 'etl', 'etl'
+	end
+	if not exists (select 1 from AttributeValue where AttributeTypeId = @attributeTypeId and [value] = 'No')
+	begin
+		insert into AttributeValue (AttributeTypeId, [Value], SortOrder, IsActive, CreatedBy, ModifiedBy)
+		select @attributeTypeId, 'No', 0, 1, 'etl', 'etl'
+	end
+
+
+	-- since there is no primary key here, we can just delete all associations and repopulate
+	delete from ProductAttributeValue
+	where AttributeValueId in ( select avalue.Id from AttributeValue avalue
+	join AttributeType atype on atype.Id = avalue.AttributeTypeId and atype.Id = @attributeTypeId)
+
+	-- all base products are set to No
+	insert into ProductAttributeValue (ProductId, AttributeValueId) 
+	select distinct p.Id, avalue.Id 
+	from Product p
+	join OEGSystemStaging.dbo.Products sp on sp.Number = p.ERPNumber
+		and sp.BrandId = @brand
+	join AttributeValue avalue on avalue.[Value] = 'No'
+	where avalue.AttributeTypeId = @attributeTypeId
+
+	-- all swatches are set to Yes
+	insert into ProductAttributeValue (ProductId, AttributeValueId) 
+	select distinct p.Id, avalue.Id 
+	from Product p
+		join OEGSystemStaging.dbo.ItemSwatches sis on convert(nvarchar(max),sis.SwatchId) = RIGHT(p.ERPNumber,CHARINDEX(':',REVERSE(p.ERPNumber))-1) 
+	join AttributeValue avalue on avalue.[Value] = 'Yes'
+	where avalue.AttributeTypeId = @attributeTypeId
+		and p.ContentManagerId = '00000000-0000-0000-0000-000000000000'
+
+
+
+
+	set @attributeName = 'Type'
+	exec ETLAttribute_FromOEG @attributeName
+	select top 1 @attributeTypeId = Id from AttributeType where [Name] = @attributeName
+
+	
+	-- since there is no "key" on this table it's tough to do an "update", we are just going to add new ones and manually delete unused ones (if needed)
+	insert into AttributeValue (AttributeTypeId, [Value], SortOrder, IsActive, CreatedBy, ModifiedBy)
+	select distinct @attributeTypeId, sicdn.DisplayName, 0, 1, 'etl', 'etl'
+	from Product p
+	join OEGSystemStaging.dbo.Products sp on sp.Number = p.ERPNumber
+		and sp.BrandId = @brand
+	join OEGSystemStaging.dbo.ItemsCategories sic on sic.ItemId = sp.ItemId
+	join OEGSystemStaging.dbo.ItemCategoryDisplayNames sicdn on sicdn.CategoryId = sic.CategoryId
+		and sicdn.BrandId = @brand
+	where sicdn.DisplayName not in (select [Value] from AttributeValue where AttributeTypeId = @attributeTypeId)
+
+
+	-- since there is no primary key here, we can just delete all associations and repopulate
+	delete from ProductAttributeValue
+	where AttributeValueId in ( select avalue.Id from AttributeValue avalue
+	join AttributeType atype on atype.Id = avalue.AttributeTypeId and atype.Id = @attributeTypeId)
+
+	
+	insert into ProductAttributeValue (ProductId, AttributeValueId) 
+	select distinct p.Id, avalue.Id 
+	from Product p
+	join OEGSystemStaging.dbo.Products sp on sp.Number = p.ERPNumber
+		and sp.BrandId = @brand
+	join OEGSystemStaging.dbo.ItemsCategories sic on sic.ItemId = sp.ItemId
+	join OEGSystemStaging.dbo.ItemCategoryDisplayNames sicdn on sicdn.CategoryId = sic.CategoryId
+		and sicdn.BrandId = @brand
+	join AttributeValue avalue on avalue.[Value] = sicdn.DisplayName
+	where avalue.AttributeTypeId = @attributeTypeId
+
+
+
 	set @attributeName = 'Brand'
 	exec ETLAttribute_FromOEG @attributeName
 	select top 1 @attributeTypeId = Id from AttributeType where [Name] = @attributeName
@@ -106,6 +419,7 @@ begin
 	join OEGSystemStaging.dbo.Products sp on sp.Number = p.ERPNumber
 		and sp.BrandId = @brand
 	join OEGSystemStaging.dbo.ProductSKUs spsku on spsku.ProductId = sp.ProductId
+		and spsku.EffStartDate < getdate() and spsku.effenddate > getdate() and spsku.IsWebEnabled = 1
 	join OEGSystemStaging.dbo.ItemSKUsColors sd on sd.ItemSKUId = spsku.ItemSKUId
 	join OEGSystemStaging.dbo.LookupWebColors slu on slu.ColorId = sd.ColorId
 	join AttributeValue avalue on avalue.[Value] = slu.[Name]
@@ -317,6 +631,7 @@ begin
 		select distinct sp.Number ERPNumber
 		from OEGSystemStaging.dbo.Products sp
 		join OEGSystemStaging.dbo.ProductSKUs spsku on spsku.ProductId = sp.ProductId
+			and spsku.EffStartDate < getdate() and spsku.effenddate > getdate() and spsku.IsWebEnabled = 1
 		join OEGSystemStaging.dbo.ItemSKUs sisku on sisku.ItemSKUId = spsku.ItemSKUId
 		join Product p on p.ERPNumber = sp.Number + '_' + spsku.OptionCode
 		where sisku.IsGSAEnabled = 1
@@ -359,6 +674,7 @@ begin
 		select sp.Number ERPNumber 
 		from OEGSystemStaging.dbo.Products sp
 		join OEGSystemStaging.dbo.ProductSKUs spsku on spsku.ProductId = sp.ProductId
+			and spsku.EffStartDate < getdate() and spsku.effenddate > getdate() and spsku.IsWebEnabled = 1
 		join OEGSystemStaging.dbo.ItemSKUs sisku on sisku.ItemSKUId = spsku.ItemSKUId
 		join Product p on p.ERPNumber = sp.Number + '_' + spsku.OptionCode
 		where sisku.NormalLeadTimeId = 1 and sisku.CurrentLeadTimeId is null
