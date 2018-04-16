@@ -9,9 +9,7 @@
          ng-controller="ProductListController as vm" ng-show="vm.ready" ng-cloak
          pr-api-key="[% siteMessage 'PowerReviews_ApiKey' '56b8fc6a-79a7-421e-adc5-36cbdaec7daf ' %]"
          pr-merchant-group-id="[% siteMessage 'PowerReviews_MerchantGroupId' '47982' %]"
-         pr-merchant-id="[% siteMessage 'PowerReviews_MerchantId' '33771' %]"
-         >
-
+         pr-merchant-id="[% siteMessage 'PowerReviews_MerchantId' '33771' %]">
         <div class="large-12 columns">
             <div>
                 <div ng-if="!vm.filteredResults" class="category-list">
@@ -99,10 +97,10 @@
                                             <div class="item-thumb">
                                                 <a ng-href="{{product.productDetailUrl}}">
                                                     <img ng-src="https://s7d9.scene7.com/is/image/NationalBusinessFurniture/{{product.mediumImagePath}}?hei=250&id=Iu1rN2&fmt=jpg&fit=constrain,1&wid=250&hei=250" alt="{{product.altText}}" increment-images-loaded />
-                                                </a>                                                
+                                                </a>
                                                 <div ng-if="vm.settings.enableProductComparisons" class="product-compare-add">
                                                     <a href="javascript:void(0);" data-id="{{product.id}}" class="compare-link" ng-class="{ 'compare-active': product.isBeingCompared }" ng-click="vm.compareProduct(product);">[% translate 'Compare' %]</a>
-                                                </div>                                                
+                                                </div>
                                                 <div class="favorite-btn" ng-if="vm.isAuthenticated">
                                                     <a id="tst_productDetail_addToWishList" ng-class="{'in-favorites': product.properties['isFavorite'] == 'true' } "
                                                        ng-click="vm.toggleFavorite(product)" role="button"
@@ -147,7 +145,7 @@
                                                     </div>
                                                     <div class="item-block__product__col-2 clearfix">
                                                         <div class="col-1">
-                                                            <div id="pr-{{product.productCode}}" class="item-block__product__stars">                                                                
+                                                            <div id="pr-{{product.productCode}}" class="item-block__product__stars">
                                                             </div>
                                                         </div>
                                                         <div class="col-2">
@@ -540,37 +538,6 @@
                                                 <ul> <li class="f-selected"></li></ul>
                                             </li>
                                         </ul>
-                                    </div>
-                                </div>
-                                <div class="filter-select-wrap product-list-filters">
-                                    <div>
-                                        <section class="accordion">
-                                            <div>
-                                                <input type="checkbox" id="accord-11" class="accord-check">
-                                                <label for="accord-11" class="accord-head">Edit Filters</label>
-                                                <article class="accord-content">
-                                                    <div class="f-wrap">
-                                                        <ul>
-                                                            <li id="tst_productList_categoryLeftNav_attributeValueFacet_b8318efc-87fd-e711-a98c-a3e0f1200094">
-                                                                <a href="javascript:;">
-                                                                    <span class="f-name">Colors</span>
-                                                                </a>
-                                                            </li><!-- end ngRepeat: attributeValue in section.attributeValueFacets | orderBy : ['sortOrder','valueDisplay'] -->
-                                                            <li id="tst_productList_categoryLeftNav_attributeValueFacet_bc318efc-87fd-e711-a98c-a3e0f1200094">
-                                                                <a href="javascript:;">
-                                                                    <span class="f-name">Matrials</span>
-                                                                </a>
-                                                            </li><!-- end ngRepeat: attributeValue in section.attributeValueFacets | orderBy : ['sortOrder','valueDisplay'] -->
-                                                            <li id="tst_productList_categoryLeftNav_attributeValueFacet_bd318efc-87fd-e711-a98c-a3e0f1200094">
-                                                                <a href="javascript:;">
-                                                                    <span class="f-name">Rooms</span>
-                                                                </a>
-                                                            </li><!-- end ngRepeat: attributeValue in section.attributeValueFacets | orderBy : ['sortOrder','valueDisplay'] -->
-                                                        </ul>
-                                                    </div>
-                                                </article>
-                                            </div>
-                                        </section>
                                     </div>
                                 </div>
                             </div>
