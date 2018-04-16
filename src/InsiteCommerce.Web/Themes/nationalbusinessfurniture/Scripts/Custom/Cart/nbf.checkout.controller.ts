@@ -4,6 +4,7 @@
     import ShipToModel = Insite.Customers.WebApi.V1.ApiModels.ShipToModel;
     import StateModel = Insite.Websites.WebApi.V1.ApiModels.StateModel;
     import CountryModel = Insite.Websites.WebApi.V1.ApiModels.CountryModel;
+    import TaxExemptParams = insite.account.TaxExemptParams;
 
     export interface INbfCheckoutControllerAttributes extends ng.IAttributes {
         cartUrl: string;
@@ -55,13 +56,19 @@
         userFound = false;
         newUser = false;
         hideSignIn = false;
-        isTaxExempt = false;
-        taxExemptRadioValue = true;
-        taxExemptFileName = "";
 
         //Split Payment variables
         paymentAmount: number;
         remainingTotal: number;
+
+        //Tax Exempt variables
+        isTaxExempt = false;
+        taxExemptChoice = true;
+        taxExemptFileName: string;
+        file: any;
+        errorMessage: string;
+        success: boolean = false;
+        $form: JQuery;
 
         static $inject = [
             "$scope",
@@ -82,7 +89,9 @@
             "$localStorage",
             "nbfGuestActivationService",
             "nbfPaymentService",
-            "termsAndConditionsPopupService"
+            "termsAndConditionsPopupService",
+            "nbfEmailService",
+            "$element"
         ];
 
         constructor(
@@ -104,7 +113,9 @@
             protected $localStorage: insite.common.IWindowStorage,
             protected nbfGuestActivationService: guest.INbfGuestActivationService,
             protected nbfPaymentService: cart.INbfPaymentService,
-            protected termsAndConditionsPopupService: insite.cart.ITermsAndConditionsPopupService) {
+            protected termsAndConditionsPopupService: insite.cart.ITermsAndConditionsPopupService,
+            protected nbfEmailService: nbf.email.INbfEmailService,
+            protected $element: ng.IRootElementService) {
             this.init();
         }
 
@@ -151,6 +162,16 @@
             });
 
             $(".masked-phone").mask("999-999-9999", { autoclear: false });
+
+            this.$form = this.$element.find("#tax_exempt_form");
+            this.$form.removeData("validator");
+            this.$form.removeData("unobtrusiveValidation");
+            $.validator.unobtrusive.parse(this.$form);
+
+            var self = this;
+            document.getElementById('taxExemptFileUpload').onchange = function () {
+                self.setFile(this);
+            };
         }
 
         protected getSettingsCompleted(settingsCollection: insite.core.SettingsCollection): void {
@@ -210,8 +231,15 @@
             if (this.cart.properties['cc2']) {
                 this.remainingTotal -= Number(this.cart.properties['cc2']);
             }
-            this.originalBillTo = cart.billTo;
-            this.isGuest = cart.billTo.isGuest;
+
+            if (this.cart.billTo) {
+                if (this.cart.billTo.properties["taxExemptFileName"]) {
+                    this.isTaxExempt = true;
+                    this.taxExemptFileName = this.cart.billTo.properties["taxExemptFileName"];
+                }
+                this.originalBillTo = cart.billTo;
+                this.isGuest = cart.billTo.isGuest;
+            }
 
             if (this.cart.shipTo && this.cart.shipTo.id) {
                 this.initialShipToId = this.cart.shipTo.id;
@@ -968,13 +996,29 @@
             this.getCart();
         }
 
-        submit(signInUri: string): void {
+        submit(signInUri: string, emailTo: string): void {
             this.submitting = true;
             this.submitErrorMessage = "";
 
             if (!this.validateReviewAndPayForm()) {
                 this.submitting = false;
                 return;
+            }
+
+            if (!this.isTaxExempt && this.taxExemptChoice && this.taxExemptFileName) {
+                var params = {
+                    customerNumber: this.cart.billTo.customerNumber,
+                    customerSequence: this.cart.billTo.customerSequence,
+                    emailTo: emailTo,
+                    orderNumber: this.cart.orderNumber,
+                    fileLocation: ""
+                } as TaxExemptParams;
+
+                this.nbfEmailService.sendTaxExemptEmail(params, this.file).then(
+                    () => {
+                        this.updatebillToTaxExempt();
+                    },
+                    () => { this.errorMessage = "An error has occurred."; });
             }
 
             var pass = $("#CreateNewAccountInfo_Password").val();
@@ -1321,6 +1365,62 @@
 
             this.termsAndConditionsPopupService.display(data)
         };
+
+        //Tax Exempt
+        setFile(arg): boolean {
+            this.errorMessage = "";
+
+            if (!this.$form.valid()) {
+                return false;
+            }
+
+            if (arg.files.length > 0) {
+                this.file = arg.files[0];
+                this.taxExemptFileName = this.file.name;
+
+                setTimeout(() => {
+                    this.$scope.$apply();
+                });
+            }
+        }
+
+        openUpload() {
+            setTimeout(() => {
+                $("#taxExemptFileUpload").click();
+            }, 100);
+        }
+
+        saveFile(emailTo: string, orderNum?: string) {
+            var params = {
+                customerNumber: this.cart.billTo.customerNumber,
+                customerSequence: this.cart.billTo.customerSequence,
+                emailTo: emailTo,
+                orderNumber: orderNum,
+                fileLocation: ""
+            } as TaxExemptParams;
+
+            this.nbfEmailService.sendTaxExemptEmail(params, this.file).then(
+                () => {
+                    this.updatebillToTaxExempt();
+                },
+                () => { this.submitErrorMessage = "An error uploading your file has occurred."; });
+        }
+
+        protected updatebillToTaxExempt() {
+            this.cart.billTo.properties["taxExemptFileName"] = this.taxExemptFileName;
+
+            this.customerService.updateBillTo(this.cart.billTo).then(
+                () => { this.updatebillToTaxExemptCompleted(); },
+                (error: any) => { this.updatebillToTaxExemptFailed(error); });
+        }
+
+        protected updatebillToTaxExemptCompleted(): void {
+            this.success = true;
+        }
+
+        protected updatebillToTaxExemptFailed(error: any): void {
+            this.submitErrorMessage = "An error uploading your file has occurred.";
+        }
     }
 
     angular
