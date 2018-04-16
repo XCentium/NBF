@@ -28,7 +28,8 @@
             "sessionService",
             "customerService",
             "nbfEmailService",
-            "$element"
+            "$element",
+            "cartService"
         ];
 
         constructor(
@@ -40,7 +41,8 @@
             protected sessionService: ISessionService,
             protected customerService: customers.ICustomerService,
             protected nbfEmailService: nbf.email.INbfEmailService,
-            protected $element: ng.IRootElementService) {
+            protected $element: ng.IRootElementService,
+            protected cartService: cart.ICartService) {
             this.init();
         }
 
@@ -50,7 +52,8 @@
             this.$form.removeData("unobtrusiveValidation");
             $.validator.unobtrusive.parse(this.$form);
 
-            this.$scope.$on("cartLoaded", (event: ng.IAngularEvent, cart: CartModel) => this.onCartLoaded(event, cart));
+            this.cartService.getCart().then(
+                (confirmedCart: CartModel) => { this.onCartLoaded(confirmedCart); });
 
             var self = this;
             document.getElementById('taxExemptFileUpload').onchange = function () {
@@ -58,7 +61,7 @@
             };
         }
 
-        protected onCartLoaded(event: ng.IAngularEvent, cart: CartModel): void {
+        protected onCartLoaded(cart: CartModel): void {
             this.cart = cart;
             if (this.cart.billTo) {
                 if (this.cart.billTo.properties["taxExemptFileName"]) {

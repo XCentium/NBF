@@ -107,19 +107,6 @@ begin
 		join OEGSystemStaging.dbo.ItemSwatches sis on convert(nvarchar(max),sis.SwatchId) = RIGHT(p.ERPNumber,CHARINDEX(':',REVERSE(p.ERPNumber))-1) 
 	where
 		p.ContentManagerId = '00000000-0000-0000-0000-000000000000'
-		and not exists (select Id from ProductImage where ProductId = p.Id)
-
-	-- associate every swatch product with the new swatch category
-	insert into CategoryProduct
-	(CategoryId, ProductId, CreatedBy, ModifiedBy)
-	select 
-		@SwatchCategoryId, p.Id, 'etl', 'etl'--, p.ShortDescription, sic.[Name], swc.DisplayName
-	from
-		product p
-	where
-		not exists (select Id from CategoryProduct where CategoryId = @SwatchCategoryId and ProductId = p.Id)
-		and p.ContentManagerId = '00000000-0000-0000-0000-000000000000'
-
 
 	end
 
