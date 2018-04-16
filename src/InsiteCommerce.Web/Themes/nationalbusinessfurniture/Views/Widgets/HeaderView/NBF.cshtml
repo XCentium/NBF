@@ -299,11 +299,11 @@
                                     <div class="mini-cart-subtotal" ng-if="!cartLine.quoteRequired && !vm.cart.cartNotPriced"><strong><span>Estimated Total:</span> <span ng-bind="vm.cart.orderGrandTotalDisplay"></span></strong></div>
                                 </div>
                                 <div class="mini-cart-btns">
-                                    <button class="checkout-btn">Check Out</button>
-                                    <span class="">
+                                    <button ng-if="vm.cart.canCheckOut && !vm.cart.properties['isPunchout']" class="checkout-btn" ng-click="vm.checkout('/Checkout')">[% translate 'Checkout' %]</button>
+                                    <span>
                                         <a href="javascript: void(0);" ng-click="vm.saveCart('[% urlForPage 'SavedOrderDetailPage' %]', '[% urlForPage 'SignInPage' %]')">Save Cart</a>
                                     </span>
-                                    <span class="right"><a  href="[% urlForPage 'RfqRequestQuotePage' %]" ng-bind="'[% translate 'Request Quote' %]'" ng-disabled="vm.cart.isAwaitingApproval"></a></span>
+                                    <span class="right"><a href="[% urlForPage 'RfqRequestQuotePage' %]" ng-bind="'[% translate 'Request Quote' %]'" ng-disabled="vm.cart.isAwaitingApproval"></a></span>
                                 </div>
                             </div>
                         </div>
