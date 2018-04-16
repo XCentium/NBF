@@ -8,12 +8,12 @@ AS
 
 
 	SELECT 
-		ShipmentNumber,
-		ShipmentDate,
+		s.ShipmentNumber,
+		convert(nvarchar(10), s.ShipmentDate, 101) ShipmentDate,
 		ERPOrderNumber
 
 	FROM
-		Shipment
+		Shipment s
 
 /*
 select * from vwShipment 
