@@ -59,7 +59,7 @@ begin
 	ContentManagerId, CreatedBy, ModifiedBy)	
 	select 
 		@WebSiteId, convert(nvarchar(max), sic.ClassId), sic.[Name],
-		LOWER(replace(dbo.UrlFriendlyString(ltrim(rtrim(isnull(sic.[Name],'')+'-'+convert(nvarchar(max), sic.ClassId)))),'/','-')),
+		LOWER(replace(dbo.UrlFriendlyString(ltrim(rtrim(isnull(sic.[Name],'')))),'/','-')),
 		newid(),'etl','etl'
 	from 
 		OEGSystemStaging.dbo.LookupItemClasses sic
@@ -69,13 +69,11 @@ begin
 
 	update Category set
 		ShortDescription = sic.[Name],
-		UrlSegment = LOWER(replace(dbo.UrlFriendlyString(ltrim(rtrim(isnull(sic.[Name],'')+'-'+convert(nvarchar(max), sic.ClassId)))),'/','-')),
+		UrlSegment = LOWER(replace(dbo.UrlFriendlyString(ltrim(rtrim(isnull(sic.[Name],'')))),'/','-')),
 		ModifiedOn = SYSDATETIMEOFFSET()
 	from 
 		OEGSystemStaging.dbo.LookupItemClasses sic
 		join Category c on c.[Name] = convert(nvarchar(max), sic.ClassId)
-	where 
-		ShortDescription != sic.[Name]
 
 	-- level two
 	insert into Category 
@@ -83,7 +81,7 @@ begin
 	ContentManagerId, CreatedBy, ModifiedBy)	
 	select 
 		@WebSiteId, c.Id, c.[Name] + '-' + convert(nvarchar(max), swc.Id), swc.DisplayName,
-		LOWER(replace(dbo.UrlFriendlyString(ltrim(rtrim(isnull(sic.[Name],'')+'-'+isnull(swc.DisplayName,'')+'-'+convert(nvarchar(max), swc.Id)))),'/','-')),
+		LOWER(replace(dbo.UrlFriendlyString(ltrim(rtrim(isnull(sic.[Name],'')+'-'+isnull(swc.DisplayName,'')))),'/','-')),
 		newid(),'etl','etl'
 	from 
 		OEGSystemStaging.dbo.ItemWebCategoryDisplayNames swc
@@ -95,14 +93,12 @@ begin
 
 	update Category set
 		ShortDescription = swc.DisplayName,
-		UrlSegment = LOWER(replace(dbo.UrlFriendlyString(ltrim(rtrim(isnull(sic.[Name],'')+'-'+isnull(swc.DisplayName,'')+'-'+convert(nvarchar(max), swc.Id)))),'/','-')),
+		UrlSegment = LOWER(replace(dbo.UrlFriendlyString(ltrim(rtrim(isnull(sic.[Name],'')+'-'+isnull(swc.DisplayName,'')))),'/','-')),
 		ModifiedOn = SYSDATETIMEOFFSET()
 	from 
 		OEGSystemStaging.dbo.ItemWebCategoryDisplayNames swc
 		cross join OEGSystemStaging.dbo.LookupItemClasses sic
 		join Category c on c.[Name] = convert(nvarchar(max), sic.ClassId) + '-' + convert(nvarchar(max), swc.Id)
-	where 
-		ShortDescription != swc.DisplayName
 
 
 	-- NOW, reverse it - every child is now a parent and every parent is now a child
@@ -113,7 +109,7 @@ begin
 	ContentManagerId, CreatedBy, ModifiedBy)	
 	select 
 		@WebSiteId, convert(nvarchar(max), swc.Id), swc.DisplayName,
-		LOWER(replace(dbo.UrlFriendlyString(ltrim(rtrim(isnull(swc.DisplayName,'')+'-'+convert(nvarchar(max), swc.Id)))),'/','-')),
+		LOWER(replace(dbo.UrlFriendlyString(ltrim(rtrim(isnull(swc.DisplayName,'')))),'/','-')),
 		newid(),'etl','etl'
 	from 
 		OEGSystemStaging.dbo.ItemWebCategoryDisplayNames swc
@@ -123,13 +119,11 @@ begin
 	
 	update Category set
 		ShortDescription = swc.DisplayName,
-		UrlSegment = LOWER(replace(dbo.UrlFriendlyString(ltrim(rtrim(isnull(swc.DisplayName,'')+'-'+convert(nvarchar(max), swc.Id)))),'/','-')),
+		UrlSegment = LOWER(replace(dbo.UrlFriendlyString(ltrim(rtrim(isnull(swc.DisplayName,'')))),'/','-')),
 		ModifiedOn = SYSDATETIMEOFFSET()
 	from
 		OEGSystemStaging.dbo.ItemWebCategoryDisplayNames swc
 		join Category c on c.[Name] = convert(nvarchar(max), swc.Id)
-	where 
-		ShortDescription != swc.DisplayName
 
 	-- level 2
 	insert into Category 
@@ -137,7 +131,7 @@ begin
 	ContentManagerId, CreatedBy, ModifiedBy)	
 	select 
 		@WebSiteId, c.Id, c.[Name] + '-' + convert(nvarchar(max), sic.ClassId), sic.[Name],
-		LOWER(replace(dbo.UrlFriendlyString(ltrim(rtrim(isnull(swc.DisplayName,'')+'-'+isnull(sic.[Name],'')+'-'+convert(nvarchar(max), sic.ClassId)))),'/','-')),
+		LOWER(replace(dbo.UrlFriendlyString(ltrim(rtrim(isnull(swc.DisplayName,'')+'-'+isnull(sic.[Name],'')))),'/','-')),
 		newid(),'etl','etl'
 	from 
 		OEGSystemStaging.dbo.LookupItemClasses sic 
@@ -150,16 +144,19 @@ begin
 
 	update Category set
 		ShortDescription = sic.[Name],
-		UrlSegment = LOWER(replace(dbo.UrlFriendlyString(ltrim(rtrim(isnull(swc.DisplayName,'')+'-'+isnull(sic.[Name],'')+'-'+convert(nvarchar(max), sic.ClassId)))),'/','-')),
+		UrlSegment = LOWER(replace(dbo.UrlFriendlyString(ltrim(rtrim(isnull(swc.DisplayName,'')+'-'+isnull(sic.[Name],'')))),'/','-')),
 		ModifiedOn = SYSDATETIMEOFFSET()
 	from 
 		OEGSystemStaging.dbo.LookupItemClasses sic 
 		cross join OEGSystemStaging.dbo.ItemWebCategoryDisplayNames swc
 		join Category c on c.[Name] = convert(nvarchar(max), swc.Id) + '-' + convert(nvarchar(max), sic.ClassId)
-	where 
-		ShortDescription != sic.[Name]	
 
 	end
+
+	-- trim last hyphen
+	update Category set
+		UrlSegment=LEFT(UrlSegment, LEN(UrlSegment)-1)
+	where right(UrlSegment,1) = '-'
 
 
 	insert into ContentManager
@@ -174,7 +171,7 @@ begin
 /*
 
 exec ETLCategory_FromOEG
-select * from category
+select * from category 
 --delete from category
 
 */

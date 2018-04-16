@@ -65,6 +65,8 @@ begin
 	update Product set
 		ERPDescription = ltrim(rtrim(isnull(si.[Description],''))),
 		ShortDescription = ltrim(rtrim(isnull(spwd.[Description],''))),
+		PageTitle = ltrim(rtrim(isnull(spwd.[Description],''))) + ' by ' + v.Name + ' | NBF.com',
+		MetaDescription = 'View our ' + ltrim(rtrim(isnull(spwd.[Description],''))) + ', and shop our wide selection of furniture to customize your office space. All products backed by our lifetime guarantee!',
 		UnitOfMeasure = isnull(luUOM.Code,'EA'),
 		UnitOfMeasureDescription = isnull(luUOM.[Name],'Each'),
 		ShippingLength = 0,
@@ -78,6 +80,8 @@ begin
 		DeactivateOn = case when luStatus.Name = 'Active' then null else '1/1/2010' end,
 		VendorId = v.Id,
 		Unspsc = format(isnull(sp.ImageRows,0),'00')+format(isnull(sp.ImageColumns,0),'00'), -- for 360 spin
+		ProductCode = si.ItemId,
+		ModelNumber = isnull(convert(nvarchar(max),si.ShowroomWebId),''),
 		CreatedOn = isnull(sp.CreatedDate,SYSDATETIMEOFFSET()),
 		CreatedBy = 'etl',
 		ModifiedOn = isnull(sp.ModifiedDate,SYSDATETIMEOFFSET()),
@@ -102,6 +106,7 @@ begin
 	from 
 		OEGSystemStaging.dbo.Products sp
 		join OEGSystemStaging.dbo.ProductSKUs spsku on spsku.ProductId = sp.ProductId
+			and spsku.EffStartDate < getdate() and spsku.effenddate > getdate() and spsku.IsWebEnabled = 1
 		join OEGSystemStaging.dbo.ItemSKUs sisku on sisku.ItemSKUId = spsku.ItemSKUId
 		join Product p on p.ERPNumber = sp.Number
 	where 
@@ -124,6 +129,7 @@ begin
 		left join OEGSystemStaging.dbo.ProductsWebDescriptions spwd on spwd.ProductId = sp.ProductId
 			and spwd.TypeId = 1
 		join OEGSystemStaging.dbo.ProductSKUs spsku on spsku.ProductId = sp.ProductId
+			and spsku.EffStartDate < getdate() and spsku.effenddate > getdate() and spsku.IsWebEnabled = 1
 		join OEGSystemStaging.dbo.ItemSKUs sisku on sisku.ItemSKUId = spsku.ItemSKUId
 		join OEGSystemStaging.dbo.LookupItemClasses sic on sic.ClassId = si.ClassId
 			and sic.[Name] not in ('Bedroom Furniture', 'Entertainment/AV', 'Misc.', 'Parts')
@@ -164,6 +170,7 @@ begin
 		left join OEGSystemStaging.dbo.ProductsWebDescriptions spwd on spwd.ProductId = sp.ProductId
 			and spwd.TypeId = 1
 		join OEGSystemStaging.dbo.ProductSKUs spsku on spsku.ProductId = sp.ProductId
+			and spsku.EffStartDate < getdate() and spsku.effenddate > getdate() and spsku.IsWebEnabled = 1
 		join OEGSystemStaging.dbo.ItemSKUs sisku on sisku.ItemSKUId = spsku.ItemSKUId
 		left join OEGSystemStaging.dbo.LookupUnitOfMeasures luUOM on luUOM.Id = si.UnitOfMeasureId
 		left join OEGSystemStaging.dbo.LookupItemStatuses luStatus on luStatus.Id = sp.StatusId
@@ -195,22 +202,6 @@ begin
 	from Product
 	where Id not in (select ProductId from Specification where [Name] = 'Vendor Code')
 	and ERPNumber not like '%:%' -- ignore swatches
-
-	insert into Specification
-	(ContentManagerId, [Name], [Description], IsActive, CreatedBy, ModifiedBy, ProductId)
-	select newid(), 'Rating', 'Rating', 1, 'etl', 'etl', Id
-	from Product
-	where Id not in (select ProductId from Specification where [Name] = 'Rating')
-	and ERPNumber not like '%:%' -- ignore swatches
-
-	/* this has been moved to an attribute
-	insert into Specification
-	(ContentManagerId, [Name], [Description], IsActive, CreatedBy, ModifiedBy, ProductId)
-	select newid(), 'Collection', 'Collection', 1, 'etl', 'etl', Id
-	from Product
-	where Id not in (select ProductId from Specification where [Name] = 'Collection')
-	and ERPNumber not like '%:%' -- ignore swatches
-	*/
 
 	insert into Specification
 	(ContentManagerId, [Name], [Description], IsActive, CreatedBy, ModifiedBy, ProductId)
@@ -294,7 +285,7 @@ begin
 		OEGSystemStaging.dbo.ItemSKUsSwatches siskus
 		join OEGSystemStaging.dbo.ItemSwatches sis on sis.SwatchId = siskus.SwatchId
 		join OEGSystemStaging.dbo.ProductSKUs spsku on spsku.ItemSKUId = siskus.ItemSKUId
-			and spsku.EffEndDate > getdate() and spsku.IsWebEnabled = 1
+			and spsku.EffStartDate < getdate() and spsku.effenddate > getdate() and spsku.IsWebEnabled = 1
 		join OEGSystemStaging.dbo.Products sp on sp.ProductId = spsku.ProductId
 		join Product p on p.ERPNumber = sp.Number + '_' + spsku.OptionCode
 		join StyleTraitValue traitValue on traitValue.[Description] = convert(nvarchar(max),sis.SwatchId)
