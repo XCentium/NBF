@@ -3,8 +3,13 @@
 
     export class NbfCartController extends CartController {
         checkoutPage: string;
+        cartId: string;
+        promotionAppliedMessage: string;
+        promotionErrorMessage: string;
+        promotionCode: string;
 
-        static $inject = ["$scope", "cartService", "promotionService", "settingsService", "coreService", "$localStorage", "addToWishlistPopupService", "spinnerService", "accountService", "sessionService", "accessToken", "$window"];
+        static $inject = ["$scope", "cartService", "promotionService", "settingsService", "coreService", "$localStorage", "addToWishlistPopupService", "spinnerService", "accountService", "sessionService", "accessToken",
+            "queryString", "$window"];
         
         constructor(
             protected $scope: ICartScope,
@@ -18,9 +23,25 @@
             protected accountService: account.IAccountService,
             protected sessionService: account.ISessionService,
             protected accessToken: common.IAccessTokenService,
+            protected queryString: common.IQueryStringService,
             protected $window: ng.IWindowService ) {
             super($scope, cartService, promotionService, settingsService, coreService, $localStorage, addToWishlistPopupService, spinnerService);
             
+        }
+
+        protected getCart(): void {
+            this.cartService.expand = "cartlines,shipping,tax,carriers,paymentoptions";
+            if (this.settings.showTaxAndShipping) {
+                this.cartService.expand += ",shipping,tax";
+            }
+            const hasRestrictedProducts = this.$localStorage.get("hasRestrictedProducts");
+            if (hasRestrictedProducts === true.toString()) {
+                this.cartService.expand += ",restrictions";
+            }
+            this.spinnerService.show();
+            this.cartService.getCart().then(
+                (cart: CartModel) => { this.getCartCompleted(cart); },
+                (error: any) => { this.getCartFailed(error); });
         }
 
         protected getCartCompleted(cart: CartModel): void {
@@ -32,8 +53,10 @@
                 this.productsCannotBePurchased = true;
             }
 
+            this.cartId = this.queryString.get("cartId") || "current";
+
             cart.cartLines.forEach(cartLine => {
-                var split = cartLine.shortDescription.split(' - ');
+                var split = cartLine.shortDescription.split(" - ");
                 var name = split[0];
                 var details = split[1];
 
@@ -89,9 +112,35 @@
         protected generateAccessTokenForAccountCreationFailed(error: any): void {
             //something went wrong
         }
+
+
+        applyPromotion(): void {
+            this.promotionAppliedMessage = "";
+            this.promotionErrorMessage = "";
+
+            this.promotionService.applyCartPromotion(this.cartId, this.promotionCode).then(
+                (promotion: PromotionModel) => { this.applyPromotionCompleted(promotion); },
+                (error: any) => { this.applyPromotionFailed(error); });
+        }
+
+        protected applyPromotionCompleted(promotion: PromotionModel): void {
+            if (promotion.promotionApplied) {
+                this.promotionAppliedMessage = promotion.message;
+            } else {
+                this.promotionErrorMessage = promotion.message;
+            }
+
+            this.getCart();
+        }
+
+        protected applyPromotionFailed(error: any): void {
+            this.promotionErrorMessage = error.message;
+            this.getCart();
+        }
     }
 
     angular
         .module("insite")
+        .filter("negate", (): (promoVal: any) => string => promoVal => `- ${promoVal}`)
         .controller("CartController", NbfCartController);
 }

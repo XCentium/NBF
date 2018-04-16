@@ -9,8 +9,7 @@
     <div class="row promo-applied" ng-repeat="promotion in promotions | filter: discountOrderFilter">
         <div class="columns sub-label">[% translate 'Promotion' %]: <em><span ng-bind="promotion.name"></span></em>
         </div>
-        -
-        <div id="tst_cartTotalDisplay_orderDiscountPromotion" class="columns sub-amount" ng-bind="promotion.amountDisplay"></div>
+        <div id="tst_cartTotalDisplay_orderDiscountPromotion" class="columns sub-amount" ng-bind="promotion.amountDisplay | negate"></div>
     </div>
     <div class="row" ng-if="showSeparateShippingAndHandling && (cart.showTaxAndShipping || !isCartPage) && cart.shippingChargesDisplay.length > 0">
         <div class="columns sub-label">[% translate 'Shipping' %]</div>
