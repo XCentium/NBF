@@ -2,16 +2,28 @@
 
 module nbf.analytics {
 
-    export class AdobeAnalyticsService {
+    export interface IAnalyticsEventHandler {
+        handleAnalyticsEvent(event: AnalyticsEvent, data: AnalyticsDataLayer): void;
+    }
+
+    export class AnalyticsService {
+
+        static $inject = ["$window"];
+
+        private _handlers: IAnalyticsEventHandler[] = [];
+
+        constructor(protected $window: ng.IWindowService) {
+            this.AddHandler(new AdobeAnalytics());
+        }
 
         get Data(): AnalyticsDataLayer {
-            if (window["digitalData"]) {
-                window["digitalData"] = new AnalyticsDataLayer();
+            if (!this.$window["digitalData"]) {
+                this.$window["digitalData"] = new AnalyticsDataLayer();
             }
-            return window["digitalData"];
+            return this.$window["digitalData"];
         }
         set Data(dataLayer: AnalyticsDataLayer) {
-            window["digitalData"] = dataLayer;
+            this.$window["digitalData"] = dataLayer;
         }
 
         get PageInfo(): AnalyticsPageInfo {
@@ -49,125 +61,55 @@ module nbf.analytics {
             this.Data.profile = profile;
         }     
 
-        public PageLoad(): void {
-            this.FireEvent("PageLoad");
+        public AddHandler(handler: IAnalyticsEventHandler) {
+            this._handlers.push(handler);
         }
 
-        public ViewProductPage(): void {
-            this.FireEvent("ProductView");
+        public RemoveHandler(handler: IAnalyticsEventHandler) {
+            this._handlers = this._handlers.filter(h => h !== handler);
         }
 
-        public SwatchRequest(): void {
-            this.FireEvent("SwatchRequest");
+        public FireEvent(event: AnalyticsEvent) {
+            for (var handler of this._handlers) {
+                handler.handleAnalyticsEvent(event, this.Data);
+            }
         }
-
-        public CatalogRequest(): void {
-            this.FireEvent("CatalogRequest");
-        }
-
-        public QuoteRequest(): void {
-            this.FireEvent("QuoteRequest");
-        }
-
-        public MiniCartQuoteRequest(): void {
-            this.FireEvent("MiniCartQuoteRequest");
-        }
-
-        public InternalSearch(): void {
-            this.FireEvent("InternalSearch");
-        }
-
-        public SuccessfulSearch(): void {
-            this.FireEvent("SuccessfulSearch");
-        }
-
-        public FailedSearch(): void {
-            this.FireEvent("FailedSearch");
-        }
-
-        public ContactUsInitiated(): void {
-            this.FireEvent("ContactUsInitiated");
-        }
-
-        public ContactUsCompleted(): void {
-            this.FireEvent("ContactUsCompleted");
-        }
-
-        public AccountCreation(): void {
-            this.FireEvent("AccountCreation");
-        }
-
-        public CheckoutAccountCreation(): void {
-            this.FireEvent("CheckoutAccountCreation");
-        }
-
-        public Login(): void {
-            this.FireEvent("Login");
-        }
-
-        public CrossSellSelected(): void {
-            this.FireEvent("CrossSellSelected");
-        }
-
-        public EmailSignUp(): void {
-            this.FireEvent("EmailSignUp");
-        }
-
-        public LiveVideoChatStarted(): void {
-            this.FireEvent("LiveVideoChatStarted");
-        }
-
-        public LiveTextChatStarted(): void {
-            this.FireEvent("LiveTextChatStarted");
-        }
-
-        public ProductAddedToCart(): void {
-            this.FireEvent("ProductAddedToCart");
-        }
-
-        public CheckoutInitiated(): void {
-            this.FireEvent("CheckoutInitiated");
-        }
-
-        public ProductQuestionAsked(): void {
-            this.FireEvent("ProductQuestionAsked");
-        }
-
-        public Selected360View(): void {
-            this.FireEvent("Selected360View");
-        }
-
-        public AddProductToWishlist(): void {
-            this.FireEvent("AddProductToWishlist");
-        }
-
-        public SaveOrderFromCartPage(): void {
-            this.FireEvent("SaveOrderFromCartPage");
-        }
-
-        public ContinueShoppingFromCartPage(): void {
-            this.FireEvent("ContinueShoppingFromCartPage");
-        }
-
-        public ReadReviewsSelected(): void {
-            this.FireEvent("ReadReviewsSelected");
-        }
-
-        public MiniCartHover(): void {
-            this.FireEvent("MiniCartHover");
-        }
-
-        public SaveCart(): void {
-            this.FireEvent("SaveCart");
-        }
-
-        private FireEvent(event: string) {
-            console.log("Firing event: " + event);
-            console.log(this.Data);
-        }
-
-
 
     }
+
+    //Should be an enum, but the version of typescript available is archaic.. 
+    export const AnalyticsEvents = {
+        PageLoad: "PageLoad" as AnalyticsEvent,
+        SwatchRequest: "SwatchRequest" as AnalyticsEvent,
+        CatalogRequest: "CatalogRequest" as AnalyticsEvent,
+        QuoteRequest: "QuoteRequest" as AnalyticsEvent,
+        MiniCartQuoteRequest: "MiniCartQuoteRequest" as AnalyticsEvent,
+        InternalSearch: "InternalSearch" as AnalyticsEvent,
+        SuccessfulSearch: "SuccessfulSearch" as AnalyticsEvent,
+        FailedSearch: "FailedSearch" as AnalyticsEvent,
+        ContactUsInitiated: "ContactUsInitiated" as AnalyticsEvent,
+        ContactUsCompleted: "ContactUsCompleted" as AnalyticsEvent,
+        AccountCreation: "AccountCreation" as AnalyticsEvent,
+        CheckoutAccountCreation: "CheckoutAccountCreation" as AnalyticsEvent,
+        Login: "Login" as AnalyticsEvent,
+        CrossSellSelected: "CrossSellSelected" as AnalyticsEvent,
+        EmailSignUp: "EmailSignUp" as AnalyticsEvent,
+        LiveVideoChatStarted: "LiveVideoChatStarted" as AnalyticsEvent,
+        LiveTextChatStarted: "LiveTextChatStarted" as AnalyticsEvent,
+        ProductAddedToCart: "ProductAddedToCart" as AnalyticsEvent,
+        CheckoutInitiated: "CheckoutInitiated" as AnalyticsEvent,
+        Selected360View: "Selected360View" as AnalyticsEvent,
+        AddProductToWishlist: "AddProductToWishlist" as AnalyticsEvent,
+        SaveOrderFromCartPage: "SaveOrderFromCartPage" as AnalyticsEvent,
+        ContinueShoppingFromCartPage: "ContinueShoppingFromCartPage" as AnalyticsEvent,
+        ReadReviewsSelected: "ReadReviewsSelected" as AnalyticsEvent,
+        MiniCartHover: "MiniCartHover" as AnalyticsEvent,
+        SaveCart: "SaveCart" as AnalyticsEvent        
+    }
+
+    export type AnalyticsEvent = "PageLoad" | "ProductPageView" | "SwatchRequest" | "CatalogRequest" | "QuoteRequest" | "MiniCartQuoteRequest" | "InternalSearch" | "SuccessfulSearch" | 
+        "FailedSearch" | "ContactUsInitiated" | "ContactUsCompleted" | "AccountCreation" | "CheckoutAccountCreation" | "Login" | "CrossSellSelected" | "EmailSignUp" | "LiveVideoChatStarted" | 
+        "LiveTextChatStarted" | "ProductAddedToCart" | "CheckoutInitiated" | "ProductQuestionAsked" | "Selected360View" | "AddProductToWishlist" | "SaveOrderFromCartPage" | "ContinueShoppingFromCartPage" |
+        "ReadReviewsSelected" | "MiniCartHover" | "SaveCart";
 
 }

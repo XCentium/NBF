@@ -49,7 +49,6 @@
     export class AnalyticsProductInfo {
         productName: string;
         sku: string;
-        description: string;
         productImage: string;
         vendor: string;
         collection: string;
@@ -67,7 +66,7 @@
         siteSubsection: string;
         destinationUrl: string;
         referringUrl: string;
-        breadCrumbs: string;
+        breadCrumbs: string[];
         isErrorPage: boolean;
         transId: string;
         internalSearch: AnalyticsPageSearchInfo;
