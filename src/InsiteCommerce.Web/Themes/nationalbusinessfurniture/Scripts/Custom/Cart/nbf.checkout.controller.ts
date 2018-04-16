@@ -163,7 +163,7 @@
 
             $(".masked-phone").mask("999-999-9999", { autoclear: false });
 
-            this.$form = this.$element.find("#tax_exempt_form");
+            this.$form = $("#taxExemptFileUpload");
             this.$form.removeData("validator");
             this.$form.removeData("unobtrusiveValidation");
             $.validator.unobtrusive.parse(this.$form);
@@ -1019,6 +1019,8 @@
                         this.updatebillToTaxExempt();
                     },
                     () => { this.errorMessage = "An error has occurred."; });
+            } else if (!this.isTaxExempt && this.taxExemptChoice) {
+                //tax exempt choice is yes but no file was uploaded
             }
 
             var pass = $("#CreateNewAccountInfo_Password").val();
