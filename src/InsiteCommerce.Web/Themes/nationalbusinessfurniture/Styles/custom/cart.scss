@@ -1,12 +1,12 @@
 ﻿@import "../variables";
 
 .checkout-cart {
-    margin-top: 2em!important;
-
     .result-lbl {
         font-weight: 600;
     }
     .cart-standard {
+        margin-top: 2em!important;
+
         .cart-terms {
             padding:30px;
         }
@@ -18,11 +18,6 @@
         }
         .secure {
             margin-bottom:1em;
-        }
-        .item-list {
-            .item-details {
-                padding: 0 20px 2.5em 10px !important;
-            }
         }
     }
 

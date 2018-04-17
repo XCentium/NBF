@@ -2,6 +2,39 @@
 @import "../variables";
 
 
+
+
+
+.people-item {
+    position: relative;
+
+    img {
+        width: 100%;
+    }
+
+    .content {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        opacity: 0;
+
+        h5 {
+            margin-bottom: 0;
+            color: $nbf-navy;
+        }
+    }
+
+    &:hover {
+        img {
+            opacity: .3;
+        }
+
+        .content {
+            opacity: 1;
+        }
+    }
+}
+
 .portfolio-wrap {
     @include clearfix();
 
