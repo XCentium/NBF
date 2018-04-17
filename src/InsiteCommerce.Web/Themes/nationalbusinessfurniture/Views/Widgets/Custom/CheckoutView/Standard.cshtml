@@ -9,7 +9,7 @@
                         <strong>[% siteMessage 'Checkout_ConOkayfirmation_Message' 'Thank you for your order!' %]</strong>
                     </p>
                 </div>
-                <nbf-sign-in-widget include-forgot-password-link="false" allow-create-account="false" ng-if="vm.cart.billTo.isGuest && !vm.hideSignIn"></nbf-sign-in-widget>
+                <nbf-sign-in-widget include-forgot-password-link="true" allow-create-account="false" ng-if="vm.cart.billTo.isGuest && !vm.hideSignIn"></nbf-sign-in-widget>
                 <div id="confirmation" class="content">
                     <div class="row">
                         <div class="large-12 columns">
