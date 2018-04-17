@@ -32,7 +32,7 @@
                     <div ng-if="!vm.category.largeImagePath" class="medium-12 large-12 columns widget-1column narrow-container">
                         <div class="row">
                             <div class="medium-12 column">
-                                <h1>{{vm.category.shortDescription}}</h1>
+                                <h1 class="brand-underline">{{vm.category.shortDescription}}</h1>
                                 <p ng-bind-html="vm.category.htmlContent|trusted"></p>
                             </div>
                         </div>
@@ -155,7 +155,7 @@
                                                         </div>
                                                     </div>
                                                     <div ng-if="vm.view == 'list' && (product.specifications | filter: { name: 'Features' }).length > 0">
-                                                        Features:
+                                                        <strong>Features:</strong>
                                                         <div ng-repeat="specification in product.specifications | filter: { name: 'Features' } | orderBy: 'sortOrder'" ng-bind-html="specification.htmlContent|trusted"></div>
                                                     </div>
                                                 </div>
