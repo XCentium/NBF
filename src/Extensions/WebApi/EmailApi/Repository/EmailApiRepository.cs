@@ -106,5 +106,32 @@ namespace Extensions.WebApi.EmailApi.Repository
 
             return Task.FromResult(0);
         }
+
+        public Task SendContactUsSpanishForm(ContactUsSpanishDto contactUsSpanishDto)
+        {
+            dynamic emailModel = new ExpandoObject();
+            emailModel.Name = contactUsSpanishDto.Name;
+            emailModel.Company = contactUsSpanishDto.Company;
+            emailModel.Zip = contactUsSpanishDto.Zip;
+            emailModel.RequestorEmail = contactUsSpanishDto.RequestorEmail;
+            emailModel.RequestorPhone = contactUsSpanishDto.RequestorPhone;
+            emailModel.ContactMethod = contactUsSpanishDto.ContactMethod;
+            emailModel.OrderNumber = contactUsSpanishDto.OrderNumber;
+            emailModel.PriorityCode = contactUsSpanishDto.PriorityCode;
+            emailModel.Subject = contactUsSpanishDto.Subject;
+            emailModel.Comments = contactUsSpanishDto.Comments;
+            emailModel.SendMeUpdates = contactUsSpanishDto.SendMeUpdates;
+
+            var emailList = _unitOfWork.GetTypedRepository<IEmailListRepository>().GetOrCreateByName("ContactUsSpanish", "Contact Us");
+            EmailService.SendEmailList(
+                emailList.Id,
+                contactUsSpanishDto.EmailTo.Split(','),
+                emailModel,
+                "Contact Us Form - Spanish",
+                _unitOfWork,
+                SiteContext.Current.WebsiteDto.Id);
+
+            return Task.FromResult(0);
+        }
     }
 }

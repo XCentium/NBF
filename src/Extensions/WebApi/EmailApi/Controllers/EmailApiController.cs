@@ -40,6 +40,16 @@ namespace Extensions.WebApi.EmailApi.Controllers
             return Ok();
         }
 
+        [Route("contactusspanish", Name = "sendContactUsSpanishForm")]
+        [ResponseType(typeof(string))]
+        [HttpPost]
+        public async Task<IHttpActionResult> SendContactUsSpanishForm([FromBody] ContactUsSpanishDto contactUsSpanishDto)
+        {
+            await _emailApiService.SendContactUsSpanishForm(contactUsSpanishDto);
+
+            return Ok();
+        }
+
         [Route("taxexempt", Name = "sendTaxExemptEmail")]
         [ResponseType(typeof(string))]
         [HttpPost]

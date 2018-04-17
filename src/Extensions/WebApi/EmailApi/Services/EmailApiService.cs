@@ -26,5 +26,11 @@ namespace Extensions.WebApi.EmailApi.Services
         {
             await _emailApiRepository.SendTaxExemptEmail(taxExemptDto);
         }
+
+        [Transaction]
+        public async Task SendContactUsSpanishForm(ContactUsSpanishDto contactUsSpanishDto)
+        {
+            await _emailApiRepository.SendContactUsSpanishForm(contactUsSpanishDto);
+        }
     }
 }
