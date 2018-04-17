@@ -505,6 +505,11 @@
                                         </section>
                                     </div>
 
+
+
+
+
+
                                     <div ng-repeat="section in vm.products.attributeTypeFacets | orderBy : ['sort','nameDisplay']" class="f-cat" ng-if="vm.products.attributeTypeFacets.length > 0">
                                         <section class="accordion">
                                             <div>
@@ -529,6 +534,41 @@
                                             </div>
                                         </section>
                                     </div>
+
+                                    <div>
+                                        
+
+                                        <div class="exrta-filter-wrap collapsed"  style="clear:both;">
+                                            <div class=""><a href="#" ng-click="vm.toggleexrtafilter()" class="toggle-filters">[% translate 'More Filters' %]</a></div>
+                                            <div class="exrta-filters">
+                                                <div ng-repeat="section in vm.products.attributeTypeFacets | orderBy : ['sort','nameDisplay']" class="f-cat" ng-if="vm.products.attributeTypeFacets.length > 0">
+                                                    <section class="accordion">
+                                                        <div>
+                                                            <input type="checkbox" id="accord-{{$index + 3}}" class="accord-check" />
+                                                            <label for="accord-{{$index + 3}}" class="accord-head">{{section.nameDisplay}}</label>
+                                                            <article class="accord-content">
+                                                                <div class="f-wrap">
+                                                                    <ul>
+                                                                        <li class="view-all" ng-if="vm.isViewAllAttributeFiltersCheckboxSelected(section.attributeValueFacets)"><a ng-click="vm.selectAllAttributeFilters(section.attributeValueFacets)"><span>View All</span></a></li>
+                                                                        <li id="tst_productList_categoryLeftNav_attributeValueFacet_{{attributeValue.attributeValueId}}"
+                                                                            ng-repeat="attributeValue in section.attributeValueFacets | orderBy : ['sortOrder','valueDisplay']"
+                                                                            ng-class="{'f-selected' : vm.isAttributeValueFacetSelected(attributeValue)}"
+                                                                            ng-click="vm.toggleFilter(attributeValue.attributeValueId)">
+                                                                            <a href="javascript:;">
+                                                                                <span class="f-name">{{attributeValue.valueDisplay}}</span>
+                                                                                <span class="f-count">({{attributeValue.count}})</span>
+                                                                            </a>
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+                                                            </article>
+                                                        </div>
+                                                    </section>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                     [[filterStatusControls]]
 
                                     <!-- hidden div to force load of checked image -->
