@@ -19,13 +19,13 @@
                 <div class="item-sku-wrap">
                     <div class="item-label">item #:</div>
                     <isc-product-name product="cartLine" no-link="true"></isc-product-name>
-                    <div class="item-flags gsa" ng-if="vm.isAttributeValue('GSA', 'Yes');">GSA</div>
+                    <div class="item-flags gsa" ng-if="vm.isAttributeValue(cartLine, 'GSA', 'Yes');">GSA</div>
                 </div>
                 <div ng-show="includeInventory && !cartLine.quoteRequired" class="availability">
                     <isc-availability-message availability="cartLine.availability" failed-to-get-real-time-inventory="failedToGetRealTimeInventory"></isc-availability-message>
                 </div>
                 <div class="ship-info">
-                    <div class="item-block__product__ships-today" ng-if="vm.isAttributeValue('Ships Today', 'Yes');"><span class="ico-Truck"></span> Ships Today!</div>
+                    <div class="item-block__product__ships-today" ng-if="vm.isAttributeValue(cartLine, 'Ships Today', 'Yes');"><span class="ico-Truck"></span> Ships Today!</div>
                 </div>
             </div>
             <div class="details-right">
