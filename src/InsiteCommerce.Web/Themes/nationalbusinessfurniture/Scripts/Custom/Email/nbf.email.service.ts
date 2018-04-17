@@ -5,6 +5,7 @@
     export interface INbfEmailService {
         sendCatalogPrefsEmail(params: any): ng.IPromise<string>;
         sendTaxExemptEmail(params: TaxExemptParams, file: any): ng.IPromise<string>;
+        sendContactUsSpanishForm(params: any): ng.IPromise<string>;
     }
 
     export class NbfEmailService implements INbfEmailService {
@@ -27,6 +28,17 @@
             return this.httpWrapperService.executeHttpRequest(
                 this,
                 this.$http({ url: uri, method: "POST", data: params}),
+                this.sendEmailCompleted,
+                this.sendEmailFailed
+            );
+        }
+
+        sendContactUsSpanishForm(params: any): ng.IPromise<string> {
+            const uri = this.serviceUri + "/contactusspanish";
+
+            return this.httpWrapperService.executeHttpRequest(
+                this,
+                this.$http({ url: uri, method: "POST", data: params }),
                 this.sendEmailCompleted,
                 this.sendEmailFailed
             );
