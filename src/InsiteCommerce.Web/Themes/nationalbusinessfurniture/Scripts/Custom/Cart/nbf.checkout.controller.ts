@@ -671,6 +671,7 @@
             $("#nav1min,#nav2min,#nav1 .edit,#nav2 .edit").hide();
 
             $("#shipping").removeClass("active");
+            $("#nav1").addClass("active");
             $("#nav2").removeClass("active");
             $("#nav3").removeClass("active");
             $("#payment").removeClass("active");
@@ -688,6 +689,8 @@
             $("#nav2min, #nav2 .edit").hide();
 
             $("#payment").removeClass("active");
+            $("#nav2").addClass("active");
+            $("#nav1").removeClass("active");
             $("#nav3").removeClass("active");
             $("html:not(:animated), body:not(:animated)").animate({
                     scrollTop: $("#nav2").offset().top
@@ -1226,6 +1229,9 @@
             $("#nav2expanded").hide();
             $("#nav2min, #nav2 .edit").show();
 
+
+            $("#nav1").removeClass("active");
+            $("#nav2").removeClass("active");
             $("#payment").addClass("active");
             $("#nav3").addClass("active");
             $("html:not(:animated), body:not(:animated)").animate({
