@@ -12,7 +12,7 @@
     .filter-middle {
 
         @media (min-width: 768px) {
-        padding-left: 115px;
+        padding-left: 100px;
         padding-right: 215px;
         }
     }
@@ -42,6 +42,48 @@
     }
 }
 
+.exrta-filter-wrap {
+    .toggle-filters {
+        display: block;
+        margin-bottom: 15px;
+        text-decoration: none;
+
+        @media (max-width: 761px) {
+            display:none;
+        }
+        &:after {
+            content: "\f068";
+            position: relative;
+            margin-left: 10px;
+            font-family: "FontAwesome";
+        }
+    }
+
+    .exrta-filters {
+        height: auto;
+        overflow: hidden;
+        transition: max-height 0.5s ease-in;
+        max-height: 1600px;
+    }
+
+    &.collapsed {
+
+        @media (min-width: 768px) {
+
+            .exrta-filters {
+                max-height: 0;
+                transition: max-height 0.5s ease-out;
+            }
+
+            .toggle-filters {
+                &:after {
+                    content: "\f067";
+                }
+            }
+        }
+    }
+}
+
 .product-list .n-filter {
 
     .product-list-filters {
@@ -65,6 +107,28 @@
             }
         }
 
+        .exrta-filter-wrap {
+            .exrta-filters {
+                @media (min-width: 768px) and (max-width: 991px) {
+                    & > div:nth-child(2n + 1) {
+                        clear: left;
+                    }
+                }
+
+                @media (min-width: 992px) and (max-width: 1197px) {
+                    & > div:nth-child(3n + 1) {
+                        clear: left;
+                    }
+                }
+
+
+                @media (min-width: 1198px) {
+                    & > div:nth-child(4n + 1) {
+                        clear: left;
+                    }
+                }
+            }
+        }
 
 
         .f-cat {
@@ -126,5 +190,26 @@
                 }
             }
         }
+    }
+}
+
+
+.product-list {
+
+    .n-filtered {
+        margin: 0;
+        clear: both;
+
+        ul {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+    }
+}
+
+@media (min-width: 767px) {
+    .mobile-title + article.accord-content {
+        margin-top: 0;
     }
 }

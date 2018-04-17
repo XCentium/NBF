@@ -3,19 +3,21 @@
 
     export interface IProductCarouselControllerAttributes extends ng.IAttributes {
         productNumbersString: string;
+        prApiKey: string;
+        prMerchantGroupId: string;
+        prMerchantId: string;
+    }
+
+    export interface ProductCarouselProduct {
+        erpNumber: string;
+        sortOrder: number;
+        product: ProductDto;
     }
 
     export class NbfProductCarouselController extends CrossSellCarouselController {
-        product: ProductDto;
-        maxTries: number;
-        imagesLoaded: number;
-        carousel: any;
-        productSettings: ProductSettingsModel;
-        failedToGetRealTimePrices = false;
-        addingToCart = true;
-
         erpNumbers: string[];
         products: ProductDto[];
+        productCarouselProducts: ProductCarouselProduct[];
         favoritesWishlist: WishListModel;
         isAuthenticated: boolean = false;
 
@@ -63,7 +65,7 @@
         }
 
         protected getProducts(): void {
-            const expand = ["pricing", "attributes"];
+            const expand = ["pricing", "attributes", "specifications"];
             var params = {
                 erpNumbers: this.erpNumbers
             } as IProductCollectionParameters;
@@ -71,15 +73,54 @@
             this.productService.getProducts(params, expand).then(
                 (result) => {
                     this.products = result.products;
-                    this.getFavorites();
+                    this.productCarouselProducts = [];
+                    this.erpNumbers.forEach((erp, i) => {
+                        this.productCarouselProducts.push({
+                            erpNumber: erp,
+                            sortOrder: i,
+                            product: this.products.filter(x => x.erpNumber.toLowerCase() === erp.toLowerCase())[0]
+                        } as ProductCarouselProduct);
+                    });
                     this.imagesLoaded = 0;
                     this.waitForDom(this.maxTries);
 
                     this.sessionService.getIsAuthenticated().then(x => {
                         this.isAuthenticated = x;
-                    })
+                        if (x) {
+                            this.getFavorites();
+                        }
+                    });
+
+                    if (this.productSettings.realTimePricing && this.products && this.products.length > 0) {
+                        this.productService.getProductRealTimePrices(this.products).then(
+                            (realTimePricing: RealTimePricingModel) => this.getProductRealTimePricesCompleted(realTimePricing),
+                            (error: any) => this.getProductRealTimePricesFailed(error));
+                    }
+
+                    setTimeout(() => {
+                        this.setPowerReviews();
+                    }, 2000);
                 }
             );
+        }
+
+        protected setPowerReviews() {
+            let powerReviewsConfigs = this.products.map(x => {
+                return {
+                    api_key: this.$attrs.prApiKey,
+                    locale: 'en_US',
+                    merchant_group_id: this.$attrs.prMerchantGroupId,
+                    merchant_id: this.$attrs.prMerchantId,
+                    page_id: x.productCode,
+                    review_wrapper_url: 'Product-Review?',
+                    components: {
+                        CategorySnippet: 'pr-' + x.productCode
+                    }
+                }
+            });
+
+            let powerReviews = this.$window["POWERREVIEWS"];
+            powerReviews.display.render(powerReviewsConfigs)
         }
 
         protected getTop3Swatches(swatchesJson): string[] {
@@ -91,10 +132,10 @@
                     var sorted = [];
 
                     swatches.forEach(x => {
-                        let item = sorted.find(y => y.ModelNumber == x.ModelNumber);
+                        let item = sorted.find(y => y.ModelNumber === x.ModelNumber);
 
                         if (item == null) {
-                            sorted.push({ ModelNumber: x.ModelNumber, Count: 1 })
+                            sorted.push({ ModelNumber: x.ModelNumber, Count: 1 });
                         }
                         else {
                             item.Count++;
@@ -103,7 +144,7 @@
                     sorted.sort((a, b) => a.Count > b.Count ? 1 : -1);
                     sorted = sorted.reverse();
 
-                    retVal = swatches.filter(x => x.ModelNumber == sorted[0].ModelNumber).slice(0, 3).map((x: any) => x.ImageName);
+                    retVal = swatches.filter(x => x.ModelNumber === sorted[0].ModelNumber).slice(0, 3).map((x: any) => x.ImageName);
                 }
             }
 
@@ -114,10 +155,10 @@
             let retVal: boolean = false;
 
             if (product && product.attributeTypes) {
-                var attrType = product.attributeTypes.find(x => x.name == attrName && x.isActive == true);
+                var attrType = product.attributeTypes.find(x => x.name === attrName && x.isActive === true);
 
                 if (attrType) {
-                    var matchingAttrValue = attrType.attributeValues.find(y => y.value == attrValue);
+                    var matchingAttrValue = attrType.attributeValues.find(y => y.value === attrValue);
 
                     if (matchingAttrValue) {
                         retVal = true;
@@ -132,7 +173,7 @@
 
             if (favoriteLine.length > 0) {
                 //Remove lines
-                this.nbfWishListService.deleteLineCollection(this.favoritesWishlist, favoriteLine).then((result) => {
+                this.nbfWishListService.deleteLineCollection(this.favoritesWishlist, favoriteLine).then(() => {
                     this.getFavorites();
                 });
             } else {
@@ -275,13 +316,15 @@
         protected initializeCarousel(): void {
             $(".cs-carousel").flexslider({
                 animation: "slide",
-                controlNav: false,
+                controlNav: true,
                 animationLoop: true,
                 slideshow: false,
                 itemWidth: this.getItemSize(),
                 minItems: this.getItemsNumber(),
                 maxItems: this.getItemsNumber(),
+                itemMargin: 36,
                 move: this.getItemsMove(),
+                controlsContainer: $(".custom-controls-container"),
                 customDirectionNav: $(".carousel-control-nav"),
                 start: (slider: any) => { this.onCarouselStart(slider); }
             });
@@ -428,7 +471,7 @@
             } else {
                 $(".carousel-control-nav").hide();
             }
-        }
+        }        
     }
 
     angular

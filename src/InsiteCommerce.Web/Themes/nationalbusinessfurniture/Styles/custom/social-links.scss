@@ -1,7 +1,29 @@
 ﻿@import "../variables";
 
+.social-bar {
+    .social {
+        .inline-list {
+            li {
+                a {
+                    padding: 3px;
+                    text-decoration: none;
+                }
+            }
+        }
 
-.social-links {
+        &.text-center {
+            margin: 40px 0;
+
+            .inline-list {
+                display: inline-block;
+            }
+
+            .title {
+                margin-bottom:10px;
+            }
+        }
+    }
+}.social-links {
 
 
 

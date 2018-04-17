@@ -25,7 +25,7 @@ begin
 		OEGSystemStaging.dbo.Products sp
 		join OEGSystemStaging.dbo.Items si on si.ItemId = sp.ItemId
 		join OEGSystemStaging.dbo.LookupItemClasses sic on sic.ClassId = si.ClassId
-			and sic.[Name] not in ('Bedroom Furniture', 'Entertainment/AV', 'Misc.', 'Parts')
+			and sic.[Name] not in ('Bedroom Furniture', 'Entertainment/AV', 'Parts')
 		left join OEGSystemStaging.dbo.ProductsWebDescriptions spwd on spwd.ProductId = sp.ProductId
 			and spwd.TypeId = 1
 	where 
@@ -52,7 +52,7 @@ begin
 		left join OEGSystemStaging.dbo.ProductsWebDescriptions spwd on spwd.ProductId = sp.ProductId
 			and spwd.TypeId = 1
 		join OEGSystemStaging.dbo.LookupItemClasses sic on sic.ClassId = si.ClassId
-			and sic.[Name] not in ('Bedroom Furniture', 'Entertainment/AV', 'Misc.', 'Parts')
+			and sic.[Name] not in ('Bedroom Furniture', 'Entertainment/AV', 'Parts')
 		join StyleClass styles on styles.[Name] = sp.Number
 	where 
 		sp.BrandId = @brand
@@ -65,9 +65,10 @@ begin
 	update Product set
 		ERPDescription = ltrim(rtrim(isnull(si.[Description],''))),
 		ShortDescription = ltrim(rtrim(isnull(spwd.[Description],''))),
+		PageTitle = ltrim(rtrim(isnull(spwd.[Description],''))) + ' by ' + v.Name + ' | NBF.com',
+		MetaDescription = 'View our ' + ltrim(rtrim(isnull(spwd.[Description],''))) + ', and shop our wide selection of furniture to customize your office space. All products backed by our lifetime guarantee!',
 		UnitOfMeasure = isnull(luUOM.Code,'EA'),
 		UnitOfMeasureDescription = isnull(luUOM.[Name],'Each'),
-		ShippingWeight = 0,
 		ShippingLength = 0,
 		ShippingWidth = 0,
 		ShippingHeight = 0,
@@ -75,10 +76,12 @@ begin
 		QtyPerShippingPackage = 0,
 		UrlSegment = LOWER(replace(dbo.UrlFriendlyString(ltrim(rtrim(isnull(spwd.[Description],''))) + '-' + sp.Number),'/','-')),
 		IsDiscontinued = case when luStatus.Name = 'Active' then 0 else 1 end,
-		ActivateOn = isnull(sp.FirstAvailableDate,dateadd(day, 10, SYSDATETIMEOFFSET())),
-		DeactivateOn = case when luStatus.Name = 'Active' then null else dateadd(day, -1, SYSDATETIMEOFFSET()) end,
+		ActivateOn = isnull(sp.FirstAvailableDate,'1/1/2049'),
+		DeactivateOn = case when luStatus.Name = 'Active' then null else '1/1/2010' end,
 		VendorId = v.Id,
 		Unspsc = format(isnull(sp.ImageRows,0),'00')+format(isnull(sp.ImageColumns,0),'00'), -- for 360 spin
+		ProductCode = si.ItemId,
+		ModelNumber = isnull(convert(nvarchar(max),si.ShowroomWebId),''),
 		CreatedOn = isnull(sp.CreatedDate,SYSDATETIMEOFFSET()),
 		CreatedBy = 'etl',
 		ModifiedOn = isnull(sp.ModifiedDate,SYSDATETIMEOFFSET()),
@@ -97,6 +100,17 @@ begin
 		sp.BrandId = @brand
 		and isnull(spwd.[Description],'') != ''
 
+	-- update weight on base product 
+	update Product set
+		ShippingWeight = isnull(sisku.Weight,0)
+	from 
+		OEGSystemStaging.dbo.Products sp
+		join OEGSystemStaging.dbo.ProductSKUs spsku on spsku.ProductId = sp.ProductId
+			and spsku.EffStartDate < getdate() and spsku.effenddate > getdate() and spsku.IsWebEnabled = 1
+		join OEGSystemStaging.dbo.ItemSKUs sisku on sisku.ItemSKUId = spsku.ItemSKUId
+		join Product p on p.ERPNumber = sp.Number
+	where 
+		sp.BrandId = @brand
 		
 	--variant product info per website
 
@@ -115,6 +129,7 @@ begin
 		left join OEGSystemStaging.dbo.ProductsWebDescriptions spwd on spwd.ProductId = sp.ProductId
 			and spwd.TypeId = 1
 		join OEGSystemStaging.dbo.ProductSKUs spsku on spsku.ProductId = sp.ProductId
+			and spsku.EffStartDate < getdate() and spsku.effenddate > getdate() and spsku.IsWebEnabled = 1
 		join OEGSystemStaging.dbo.ItemSKUs sisku on sisku.ItemSKUId = spsku.ItemSKUId
 		join OEGSystemStaging.dbo.LookupItemClasses sic on sic.ClassId = si.ClassId
 			and sic.[Name] not in ('Bedroom Furniture', 'Entertainment/AV', 'Misc.', 'Parts')
@@ -140,8 +155,8 @@ begin
 		QtyPerShippingPackage = case when isnull(si.RequireTruck,0) > 0 then si.RequireTruck when isnull(sisku.ShipTypeId,0) = 12 then 1 else 0 end,
 		UrlSegment = sp.Number + '-' + convert(nvarchar(max),spsku.ProductSKUId),
 		IsDiscontinued = case when luStatus.Name = 'Active' and spsku.EffEndDate > getdate() and spsku.IsWebEnabled=1 then 0 else 1 end,
-		ActivateOn = isnull(spsku.EffStartDate,dateadd(day, 10, SYSDATETIMEOFFSET())),
-		DeactivateOn = case when luStatus.Name = 'Active' and spsku.IsWebEnabled=1 then spsku.EffEndDate else dateadd(day, -1, SYSDATETIMEOFFSET()) end,
+		ActivateOn = isnull(spsku.EffStartDate,'1/1/2049'),
+		DeactivateOn = case when luStatus.Name = 'Active' and spsku.IsWebEnabled=1 then spsku.EffEndDate else '1/1/2010' end,
 		VendorId = v.Id,
 		UPCCode = isnull(sisku.UPCCode,''),
 		ManufacturerItem = spsku.OptionCode,
@@ -155,6 +170,7 @@ begin
 		left join OEGSystemStaging.dbo.ProductsWebDescriptions spwd on spwd.ProductId = sp.ProductId
 			and spwd.TypeId = 1
 		join OEGSystemStaging.dbo.ProductSKUs spsku on spsku.ProductId = sp.ProductId
+			and spsku.EffStartDate < getdate() and spsku.effenddate > getdate() and spsku.IsWebEnabled = 1
 		join OEGSystemStaging.dbo.ItemSKUs sisku on sisku.ItemSKUId = spsku.ItemSKUId
 		left join OEGSystemStaging.dbo.LookupUnitOfMeasures luUOM on luUOM.Id = si.UnitOfMeasureId
 		left join OEGSystemStaging.dbo.LookupItemStatuses luStatus on luStatus.Id = sp.StatusId
@@ -175,16 +191,16 @@ begin
 
 	insert into Specification
 	(ContentManagerId, [Name], [Description], IsActive, CreatedBy, ModifiedBy, ProductId)
-	select newid(), 'Vendor Code', 'Vendor Code', 0, 'etl', 'etl', Id
+	select newid(), 'Delivery', 'Delivery', 1, 'etl', 'etl', Id
 	from Product
-	where Id not in (select ProductId from Specification where [Name] = 'Vendor Code')
+	where Id not in (select ProductId from Specification where [Name] = 'Delivery')
 	and ERPNumber not like '%:%' -- ignore swatches
 
 	insert into Specification
 	(ContentManagerId, [Name], [Description], IsActive, CreatedBy, ModifiedBy, ProductId)
-	select newid(), 'Collection', 'Collection', 1, 'etl', 'etl', Id
+	select newid(), 'Vendor Code', 'Vendor Code', 0, 'etl', 'etl', Id
 	from Product
-	where Id not in (select ProductId from Specification where [Name] = 'Collection')
+	where Id not in (select ProductId from Specification where [Name] = 'Vendor Code')
 	and ERPNumber not like '%:%' -- ignore swatches
 
 	insert into Specification
@@ -269,7 +285,7 @@ begin
 		OEGSystemStaging.dbo.ItemSKUsSwatches siskus
 		join OEGSystemStaging.dbo.ItemSwatches sis on sis.SwatchId = siskus.SwatchId
 		join OEGSystemStaging.dbo.ProductSKUs spsku on spsku.ItemSKUId = siskus.ItemSKUId
-			and spsku.EffEndDate > getdate() and spsku.IsWebEnabled = 1
+			and spsku.EffStartDate < getdate() and spsku.effenddate > getdate() and spsku.IsWebEnabled = 1
 		join OEGSystemStaging.dbo.Products sp on sp.ProductId = spsku.ProductId
 		join Product p on p.ERPNumber = sp.Number + '_' + spsku.OptionCode
 		join StyleTraitValue traitValue on traitValue.[Description] = convert(nvarchar(max),sis.SwatchId)
@@ -285,7 +301,6 @@ begin
 /*
 
 exec ETLProduct_FromOEG
-exec ETLProduct_ToInsite
 
 select styleclassid,vendorid,ShippingAmountOverride,QtyPerShippingPackage,* from product
 select * from styleclass

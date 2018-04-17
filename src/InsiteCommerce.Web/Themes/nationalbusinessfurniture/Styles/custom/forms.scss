@@ -23,147 +23,216 @@ input[type="text"], select, input[type="email"], input[type="password"] {
         box-shadow: 0 2px 5px 0 rgba(0,0,0,0.1);
     }
 
+    .ng-submitted &.ng-valid:not(.error) {
+        border: 2px solid #31CD95;
+    }
+
+    .ng-submitted &.ng-invalid:not(.error) {
+        border: 2px solid #D22338;
+        margin-bottom: 0;
+        background-color: white !important;
+
+        & + .field-validation-error {
+            font-size: 14px;
+            margin-bottom: 9px;
+            position: relative;
+            color: #f04124;
+            padding: 0;
+            border: none;
+            font-weight: 500;
+
+            &:after {
+                display: block;
+                position: absolute;
+                right: 12px;
+                top: -34px;
+                content: "\f00d";
+                font-family: $FontAwesome;
+            }
+        }
+    }
+
     &.error {
         border: 2px solid #D22338;
-        margin-bottom:0;
+        margin-bottom: 0;
 
         & + label.error {
-            font-size:14px;
-            margin-bottom:9px;
-        }
-    }
-}
-
-.custom-select {
-    position: relative;
-
-    &:after {
-        content: '\f078';
-        font-family: $FontAwesome;
-        color: #333;
-        right: 5px;
-        /*Adjust for position however you want*/
-        top: 21px;
-        -webkit-transform: translateY(-50%);
-        -ms-transform: translateY(-50%);
-        transform: translateY(-50%);
-        /*left line */
-        position: absolute;
-        pointer-events: none;
-    }
-
-    &:focus:after {
-        content: '\f077';
-    }
-
-    select {
-        -webkit-appearance: none;
-        -moz-appearance: none;
-        appearance: none;
-        background-image:none;
-        width: 100% !important;
-    }
-}
-
-.input-email-icon {
-    &:before {
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        display: inline-block;
-        font: normal normal normal 14px/1 FontAwesome;
-        content: "\f0e0";
-        font-size: 18px;
-        left: 20px;
-        pointer-events: none;
-    }
-
-    input {
-        padding-left: 50px;
-    }
-}
-
-input.customcheckbox[type=checkbox], input.customcheckbox[type=radio] {
-    visibility: hidden;
-    position: absolute;
-
-    & + label {
-        margin-left: 0;
-        position: relative;
-
-        &:before {
-            content: '';
-            display: inline-block;
-            height: 14px;
-            width: 14px;
-            border: 1px solid #868889;
-            vertical-align: text-top;
-            margin-right: 10px;
-        }
-    }
-
-
-    &:checked {
-
-        & + label {
-            &:before {
-                background-color: #868889;
-            }
+            font-size: 14px;
+            margin-bottom: 9px;
+            position: relative;
 
             &:after {
-                background-color: #fff;
-                content: '';
                 display: block;
                 position: absolute;
-                left: 5px;
-                top: 8px;
-                height: 4px;
-                width: 4px;
+                right: 12px;
+                top: -34px;
+                content: "\f00d";
+                font-family: $FontAwesome;
+            }
+        }
+    }
+
+    &.valid {
+        border: 2px solid #31CD95;
+
+        & ~ span.field-validation-valid {
+            position: relative;
+            display: block;
+            width: 100%;
+
+            &:after {
+                content: "\f00c";
+                color: #31CD95;
+                position: absolute;
+                right: 7px;
+                z-index: 100;
+                top: -67px;
+                font-family: $FontAwesome;
+            }
+        }
+    }
+}
+.shortform {
+    input[type="text"], select, input[type="email"], input[type="password"] {
+        &.valid {
+            & ~ span.field-validation-valid:after {
+                bottom: 12px;
+                top: auto;
             }
         }
     }
 }
 
-
-input.customradio[type=radio] {
-    visibility: hidden;
-    position: absolute;
-
-    & + label {
-        margin-left: 0;
+    .custom-select {
         position: relative;
 
+        &:after {
+            content: '\f078';
+            font-family: $FontAwesome;
+            color: #333;
+            right: 5px;
+            /*Adjust for position however you want*/
+            top: 21px;
+            -webkit-transform: translateY(-50%);
+            -ms-transform: translateY(-50%);
+            transform: translateY(-50%);
+            /*left line */
+            position: absolute;
+            pointer-events: none;
+        }
+
+        &:focus:after {
+            content: '\f077';
+        }
+
+        select {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            background-image: none;
+            width: 100% !important;
+        }
+    }
+
+    .input-email-icon {
         &:before {
-            content: '';
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
             display: inline-block;
-            height: 14px;
-            width: 14px;
-            border: 1px solid #868889;
-            vertical-align: text-top;
-            margin-right: 10px;
-            @include border-radius(50px);
+            font: normal normal normal 14px/1 FontAwesome;
+            content: "\f0e0";
+            font-size: 18px;
+            left: 20px;
+            pointer-events: none;
+        }
+
+        input {
+            padding-left: 50px;
+        }
+    }
+
+    input.customcheckbox[type=checkbox], input.customcheckbox[type=radio] {
+        visibility: hidden;
+        position: absolute;
+
+        & + label {
+            margin-left: 0;
+            position: relative;
+
+            &:before {
+                content: '';
+                display: inline-block;
+                height: 14px;
+                width: 14px;
+                border: 1px solid #868889;
+                vertical-align: text-top;
+                margin-right: 10px;
+            }
+        }
+
+
+        &:checked {
+
+            & + label {
+                &:before {
+                    background-color: #868889;
+                }
+
+                &:after {
+                    background-color: #fff;
+                    content: '';
+                    display: block;
+                    position: absolute;
+                    left: 5px;
+                    top: 8px;
+                    height: 4px;
+                    width: 4px;
+                }
+            }
         }
     }
 
 
-    &:checked {
+    input.customradio[type=radio] {
+        visibility: hidden;
+        position: absolute;
 
         & + label {
-            &:before {
-                background-color: #868889;
-            }
+            margin-left: 0;
+            position: relative;
 
-            &:after {
-                background-color: #fff;
+            &:before {
                 content: '';
-                display: block;
-                position: absolute;
-                left: 5px;
-                top: 8px;
-                height: 4px;
-                width: 4px;
+                display: inline-block;
+                height: 14px;
+                width: 14px;
+                border: 1px solid #868889;
+                vertical-align: text-top;
+                margin-right: 10px;
                 @include border-radius(50px);
             }
         }
+
+
+        &:checked {
+
+            & + label {
+                &:before {
+                    background-color: #868889;
+                }
+
+                &:after {
+                    background-color: #fff;
+                    content: '';
+                    display: block;
+                    position: absolute;
+                    left: 5px;
+                    top: 8px;
+                    height: 4px;
+                    width: 4px;
+                    @include border-radius(50px);
+                }
+            }
+        }
     }
-}

@@ -3,6 +3,9 @@
 
     export interface IFeaturedProductsWidgetControllerAttributes extends ng.IAttributes {
         productNumbersString: string;
+        prApiKey: string;
+        prMerchantGroupId: string;
+        prMerchantId: string;
     }
 
     export class FeaturedProductsWidgetController {
@@ -32,7 +35,7 @@
         }
 
         protected getProducts(): void {
-            const expand = ["pricing", "attributes"];
+            const expand = ["pricing", "attributes", "specifications"];
             var params = {
                 erpNumbers: this.erpNumbers
             } as IProductCollectionParameters;
@@ -40,15 +43,40 @@
             this.productService.getProducts(params, expand).then(
                 (result) => {
                     this.products = result.products;
-                    this.getFavorites();
                     this.imagesLoaded = 0;
                     this.waitForDom();
 
                     this.sessionService.getIsAuthenticated().then(x => {
                         this.isAuthenticated = x;
-                    })
+                        if (x) {
+                            this.getFavorites();
+                        }
+                    });
+
+                    setTimeout(() => {
+                        this.setPowerReviews();
+                    }, 2000);
                 }
             );            
+        }
+
+        protected setPowerReviews() {
+            let powerReviewsConfigs = this.products.map(x => {
+                return {
+                    api_key: this.$attrs.prApiKey,
+                    locale: 'en_US',
+                    merchant_group_id: this.$attrs.prMerchantGroupId,
+                    merchant_id: this.$attrs.prMerchantId,
+                    page_id: x.productCode,
+                    review_wrapper_url: 'Product-Review?',
+                    components: {
+                        CategorySnippet: 'pr-' + x.productCode
+                    }
+                }
+            });
+
+            let powerReviews = this.$window["POWERREVIEWS"];
+            powerReviews.display.render(powerReviewsConfigs)
         }
 
         protected getTop3Swatches(swatchesJson): string[] {
@@ -180,7 +208,6 @@
                 }, 20);
             }
         }
-
     }
 
     angular

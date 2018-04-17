@@ -8,9 +8,10 @@
         margin: 0;
         padding: 0;
         list-style: none;
-        li{
-            display:block;
-            padding-bottom:0;
+
+        li {
+            display: block;
+            padding-bottom: 0;
         }
     }
 
@@ -18,7 +19,8 @@
         position: relative;
         margin-bottom: 40px;
         display: block;
-        min-height:162px;
+        min-height: 162px;
+        padding-right: 65px;
 
         .edit-btn {
             position: absolute;
@@ -27,11 +29,30 @@
         }
 
         .name {
-            padding-right: 87px;
+            padding-right: 27px;
+        }
+
+        .email {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    }
+
+    #addressForm {
+        input[type="text"], select, input[type="email"], input[type="password"] {
+            margin-bottom: 3px;
         }
     }
 }
 .address-list {
     border-bottom: 1px solid $divider-gray;
     padding-top: 0px;
+}
+
+.my-address-save-modal {
+    &.reveal-modal {
+        position: fixed;
+        top: 20px !important;
+    }
 }

@@ -32,29 +32,48 @@ begin
 	end
 	else
 	begin
+
+	declare @DisplayProductPageOnlyCategoryId uniqueidentifier
+
+	-- create a swatches category if it doesn't exists
+	if not exists (select Id from Category where [Name] = 'DisplayProductPageOnly')
+	begin
+		set @DisplayProductPageOnlyCategoryId = newid()
+
+		insert into Category 
+			(Id, WebSiteId, [Name], ShortDescription, 
+			UrlSegment, ContentManagerId, CreatedBy, ModifiedBy)	
+		values 
+			(@DisplayProductPageOnlyCategoryId, @WebSiteId, 'DisplayProductPageOnly', 'DisplayProductPageOnly',
+			'displayproductpageonly',	newid(),'etl','etl')
+	end
+	else
+	begin
+		select top 1 @DisplayProductPageOnlyCategoryId = Id from Category where [Name] = 'DisplayProductPageOnly'
+	end
+
+
 	-- level one categories
 	insert into Category 
 	(WebSiteId, [Name], ShortDescription, UrlSegment, 
 	ContentManagerId, CreatedBy, ModifiedBy)	
 	select 
 		@WebSiteId, convert(nvarchar(max), sic.ClassId), sic.[Name],
-		LOWER(replace(dbo.UrlFriendlyString(ltrim(rtrim(isnull(sic.[Name],'')+'-'+convert(nvarchar(max), sic.ClassId)))),'/','-')),
+		LOWER(replace(dbo.UrlFriendlyString(ltrim(rtrim(isnull(sic.[Name],'')))),'/','-')),
 		newid(),'etl','etl'
 	from 
 		OEGSystemStaging.dbo.LookupItemClasses sic
 	where 
-		sic.[Name] not in ('Bedroom Furniture', 'Entertainment/AV', 'Misc.', 'Parts')
+		sic.[Name] not in ('Bedroom Furniture', 'Entertainment/AV', 'Parts')
 		and not exists (select [Name] from Category where [Name] = convert(nvarchar(max), sic.ClassId))
 
 	update Category set
 		ShortDescription = sic.[Name],
-		UrlSegment = LOWER(replace(dbo.UrlFriendlyString(ltrim(rtrim(isnull(sic.[Name],'')+'-'+convert(nvarchar(max), sic.ClassId)))),'/','-')),
+		UrlSegment = LOWER(replace(dbo.UrlFriendlyString(ltrim(rtrim(isnull(sic.[Name],'')))),'/','-')),
 		ModifiedOn = SYSDATETIMEOFFSET()
 	from 
 		OEGSystemStaging.dbo.LookupItemClasses sic
 		join Category c on c.[Name] = convert(nvarchar(max), sic.ClassId)
-	where 
-		ShortDescription != sic.[Name]
 
 	-- level two
 	insert into Category 
@@ -62,7 +81,7 @@ begin
 	ContentManagerId, CreatedBy, ModifiedBy)	
 	select 
 		@WebSiteId, c.Id, c.[Name] + '-' + convert(nvarchar(max), swc.Id), swc.DisplayName,
-		LOWER(replace(dbo.UrlFriendlyString(ltrim(rtrim(isnull(sic.[Name],'')+'-'+isnull(swc.DisplayName,'')+'-'+convert(nvarchar(max), swc.Id)))),'/','-')),
+		LOWER(replace(dbo.UrlFriendlyString(ltrim(rtrim(isnull(sic.[Name],'')+'-'+isnull(swc.DisplayName,'')))),'/','-')),
 		newid(),'etl','etl'
 	from 
 		OEGSystemStaging.dbo.ItemWebCategoryDisplayNames swc
@@ -74,14 +93,12 @@ begin
 
 	update Category set
 		ShortDescription = swc.DisplayName,
-		UrlSegment = LOWER(replace(dbo.UrlFriendlyString(ltrim(rtrim(isnull(sic.[Name],'')+'-'+isnull(swc.DisplayName,'')+'-'+convert(nvarchar(max), swc.Id)))),'/','-')),
+		UrlSegment = LOWER(replace(dbo.UrlFriendlyString(ltrim(rtrim(isnull(sic.[Name],'')+'-'+isnull(swc.DisplayName,'')))),'/','-')),
 		ModifiedOn = SYSDATETIMEOFFSET()
 	from 
 		OEGSystemStaging.dbo.ItemWebCategoryDisplayNames swc
 		cross join OEGSystemStaging.dbo.LookupItemClasses sic
 		join Category c on c.[Name] = convert(nvarchar(max), sic.ClassId) + '-' + convert(nvarchar(max), swc.Id)
-	where 
-		ShortDescription != swc.DisplayName
 
 
 	-- NOW, reverse it - every child is now a parent and every parent is now a child
@@ -92,7 +109,7 @@ begin
 	ContentManagerId, CreatedBy, ModifiedBy)	
 	select 
 		@WebSiteId, convert(nvarchar(max), swc.Id), swc.DisplayName,
-		LOWER(replace(dbo.UrlFriendlyString(ltrim(rtrim(isnull(swc.DisplayName,'')+'-'+convert(nvarchar(max), swc.Id)))),'/','-')),
+		LOWER(replace(dbo.UrlFriendlyString(ltrim(rtrim(isnull(swc.DisplayName,'')))),'/','-')),
 		newid(),'etl','etl'
 	from 
 		OEGSystemStaging.dbo.ItemWebCategoryDisplayNames swc
@@ -102,13 +119,11 @@ begin
 	
 	update Category set
 		ShortDescription = swc.DisplayName,
-		UrlSegment = LOWER(replace(dbo.UrlFriendlyString(ltrim(rtrim(isnull(swc.DisplayName,'')+'-'+convert(nvarchar(max), swc.Id)))),'/','-')),
+		UrlSegment = LOWER(replace(dbo.UrlFriendlyString(ltrim(rtrim(isnull(swc.DisplayName,'')))),'/','-')),
 		ModifiedOn = SYSDATETIMEOFFSET()
 	from
 		OEGSystemStaging.dbo.ItemWebCategoryDisplayNames swc
 		join Category c on c.[Name] = convert(nvarchar(max), swc.Id)
-	where 
-		ShortDescription != swc.DisplayName
 
 	-- level 2
 	insert into Category 
@@ -116,33 +131,47 @@ begin
 	ContentManagerId, CreatedBy, ModifiedBy)	
 	select 
 		@WebSiteId, c.Id, c.[Name] + '-' + convert(nvarchar(max), sic.ClassId), sic.[Name],
-		LOWER(replace(dbo.UrlFriendlyString(ltrim(rtrim(isnull(swc.DisplayName,'')+'-'+isnull(sic.[Name],'')+'-'+convert(nvarchar(max), sic.ClassId)))),'/','-')),
+		LOWER(replace(dbo.UrlFriendlyString(ltrim(rtrim(isnull(swc.DisplayName,'')+'-'+isnull(sic.[Name],'')))),'/','-')),
 		newid(),'etl','etl'
 	from 
 		OEGSystemStaging.dbo.LookupItemClasses sic 
 		cross join Category c
 		join OEGSystemStaging.dbo.ItemWebCategoryDisplayNames swc on convert(nvarchar(max), swc.Id) = c.[Name]
 	where
-		sic.[Name] not in ('Bedroom Furniture', 'Entertainment/AV', 'Misc.', 'Parts')
+		sic.[Name] not in ('Bedroom Furniture', 'Entertainment/AV', 'Parts')
 		and swc.BrandId = @brand
 		and not exists (select [Name] from Category where [Name] = c.[Name] + '-' + convert(nvarchar(max), sic.ClassId))
 
 	update Category set
 		ShortDescription = sic.[Name],
-		UrlSegment = LOWER(replace(dbo.UrlFriendlyString(ltrim(rtrim(isnull(swc.DisplayName,'')+'-'+isnull(sic.[Name],'')+'-'+convert(nvarchar(max), sic.ClassId)))),'/','-')),
+		UrlSegment = LOWER(replace(dbo.UrlFriendlyString(ltrim(rtrim(isnull(swc.DisplayName,'')+'-'+isnull(sic.[Name],'')))),'/','-')),
 		ModifiedOn = SYSDATETIMEOFFSET()
 	from 
 		OEGSystemStaging.dbo.LookupItemClasses sic 
 		cross join OEGSystemStaging.dbo.ItemWebCategoryDisplayNames swc
 		join Category c on c.[Name] = convert(nvarchar(max), swc.Id) + '-' + convert(nvarchar(max), sic.ClassId)
-	where 
-		ShortDescription != sic.[Name]	
 
 	end
+
+	-- trim last hyphen
+	update Category set
+		UrlSegment=LEFT(UrlSegment, LEN(UrlSegment)-1)
+	where right(UrlSegment,1) = '-'
+
+
+	insert into ContentManager
+	(Id, [Name], CreatedBy, ModifiedBy)
+	select ContentManagerId, 'Category', 'etl', 'etl'
+	from Category
+	where ContentManagerId not in (select Id from ContentManager)
+
+
+	
+
 /*
 
 exec ETLCategory_FromOEG
-select * from category
+select * from category 
 --delete from category
 
 */

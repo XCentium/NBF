@@ -5,30 +5,29 @@
         catalogPrefs: any = {};
         submitted: boolean = false;
         $form: JQuery;
-        static $inject = ["$element", "$scope", "nbfCatalogMailingPrefsService"];
+        static $inject = ["$element", "$scope", "nbfEmailService"];
 
         constructor(
             protected $element: ng.IRootElementService,
             protected $scope: ng.IScope,
-            protected nbfCatalogMailingPrefsService: CatalogMailingPrefs.INbfCatalogMailingPrefsService) {
+            protected nbfEmailService: email.INbfEmailService) {
             this.init();
         }
 
         init(): void {
-            this.$form = this.$element.find("form");
-            this.$form.removeData("validator");
-            this.$form.removeData("unobtrusiveValidation");
-            $.validator.unobtrusive.parse(this.$form);
         }
 
         sendEmail($event): boolean
         {
-            $event.preventDefault();
-
-            if (!this.$form.valid()) {
-                return false;
-            }            
-            this.nbfCatalogMailingPrefsService.sendEmail(this.catalogPrefs).then(
+            const valid = angular.element("#catalogMailingPrefsForm").validate().form();
+            if (!valid) {
+                angular.element("html, body").animate({
+                    scrollTop: angular.element(".error:visible").offset().top
+                }, 300);
+                return;
+            }
+            
+            this.nbfEmailService.sendCatalogPrefsEmail(this.catalogPrefs).then(
                 (catalogMailingPrefs: string) => {
                     this.getCatalogMailingPrefsCompleted(catalogMailingPrefs);
                     this.submitted = true;

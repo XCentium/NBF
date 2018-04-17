@@ -43,17 +43,17 @@ begin
 
 	-- sale
 
-	exec ETLPriceMatrix_ByPriceCode_FromOEG 1, 'sale', 1
-	exec ETLPriceMatrix_ByPriceCode_FromOEG 1, 'sale', 2
-	exec ETLPriceMatrix_ByPriceCode_FromOEG 1, 'sale', 3
-	exec ETLPriceMatrix_ByPriceCode_FromOEG 1, 'sale', 4
-	exec ETLPriceMatrix_ByPriceCode_FromOEG 1, 'sale', 5
-	exec ETLPriceMatrix_ByPriceCode_FromOEG 1, 'sale', 6
-	exec ETLPriceMatrix_ByPriceCode_FromOEG 1, 'sale', 7
-	exec ETLPriceMatrix_ByPriceCode_FromOEG 1, 'sale', 8
-	exec ETLPriceMatrix_ByPriceCode_FromOEG 1, 'sale', 9
-	exec ETLPriceMatrix_ByPriceCode_FromOEG 1, 'sale', 10
-	exec ETLPriceMatrix_ByPriceCode_FromOEG 1, 'sale', 11
+	exec ETLPriceMatrix_ByPriceCode_FromOEG 1, 'Product Sale', 1
+	exec ETLPriceMatrix_ByPriceCode_FromOEG 1, 'Product Sale', 2
+	exec ETLPriceMatrix_ByPriceCode_FromOEG 1, 'Product Sale', 3
+	exec ETLPriceMatrix_ByPriceCode_FromOEG 1, 'Product Sale', 4
+	exec ETLPriceMatrix_ByPriceCode_FromOEG 1, 'Product Sale', 5
+	exec ETLPriceMatrix_ByPriceCode_FromOEG 1, 'Product Sale', 6
+	exec ETLPriceMatrix_ByPriceCode_FromOEG 1, 'Product Sale', 7
+	exec ETLPriceMatrix_ByPriceCode_FromOEG 1, 'Product Sale', 8
+	exec ETLPriceMatrix_ByPriceCode_FromOEG 1, 'Product Sale', 9
+	exec ETLPriceMatrix_ByPriceCode_FromOEG 1, 'Product Sale', 10
+	exec ETLPriceMatrix_ByPriceCode_FromOEG 1, 'Product Sale', 11
 
 	-- medical
 
@@ -73,23 +73,11 @@ begin
 	-- the box functionality for Insite
 	update Product set
 		BasicSalePrice = 0,
-		BasicSaleStartDate = null
-
-	update Product set
-		BasicSalePrice = pm.Amount01,
-		BasicSaleStartDate = '1/1/2010'
-	from Product p
-	join PriceMatrix pm on pm.ProductKeyPart = p.Id 
-		and pm.CustomerKeyPart = 'sale'
-	where
-		p.IsDiscontinued = 0
-		and p.Id in (select ProductId from CategoryProduct)
-
-
+		BasicSaleStartDate = null,
+		BasicListPrice = 0
 
 /*
 exec ETLPriceMatrix_FromOEG
-exec ETLPriceMatrix_ToInsite
 select * from PriceMatrix where breakqty05 != 0
 
 

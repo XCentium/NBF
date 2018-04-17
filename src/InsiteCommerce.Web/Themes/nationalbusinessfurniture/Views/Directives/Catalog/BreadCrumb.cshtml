@@ -1,30 +1,41 @@
 ﻿{% comment %}
     usage example:
-    <isc-catalog-breadcrumb breadcrumbs="category.breadCrumbs" search-query="query"></isc-breadcrumb>
+<isc-catalog-breadcrumb breadcrumbs="category.breadCrumbs" search-query="query"></isc-catalog-breadcrumb>
 
     breadcrumbs is a list of objects of type BreadCrumbModel
 {% endcomment %}
-        <div class="row breadcrumb-wrap clearfix">
-            <ul class="breadcrumbs" ng-class="{bsearch: searchQuery}">
-                <li ng-repeat="crumb in breadcrumbs" ng-class="{'hide-for-small': (breadcrumbs.length - $index) != 2, 'current': $last}">
-                    <a ng-if="crumb.url" ng-href="{{crumb.url}}">{{crumb.text}}</a>
-                    <isc-no-element ng-show="!crumb.url">{{crumb.text}}</isc-no-element>
-                </li>
-                <li ng-if="searchQuery">
-                    <a href="[% urlForPage 'HomePage' %]">[% translate 'Home' %]</a>
-                </li>
-                <li ng-if="searchQuery" class="hide-for-small current">
-                    [% translate 'Search Results:' %]
-                    <em>{{searchQuery}}</em>
-                </li>
-            </ul>
+<div class="row breadcrumb-wrap clearfix">
+    <ul class="breadcrumbs" ng-class="{bsearch: searchQuery}">
+        <li ng-repeat="crumb in breadcrumbs" ng-class="{'hide-for-small': (breadcrumbs.length - $index) != 2, 'current': $last}">
+            <a ng-if="crumb.url" ng-href="{{crumb.url}}">{{crumb.text}}</a>
+            <isc-no-element ng-show="!crumb.url">{{crumb.text}}</isc-no-element>
+        </li>
+        <li ng-if="searchQuery">
+            <a href="[% urlForPage 'HomePage' %]">[% translate 'Home' %]</a>
+        </li>
+        <li ng-if="searchQuery" class="hide-for-small current">
+            [% translate 'Search Results:' %]
+            <em>{{searchQuery}}</em>
+        </li>
+    </ul>
 
-            <ul class="share-links">
-                <li>Share</li>
-                <li class="cell"><a href="#"><i class="fa fa-envelope" aria-hidden="true"></i></a></li>
-                <li class="cell"><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-                <li class="cell"><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-                <li class="cell"><a href="#"><i class="fa fa-pinterest-p" aria-hidden="true"></i></a></li>
-                <li class="cell"><a href="#" class="ico ico-printer-with-paper" aria-hidden="true"></a></li>
-            </ul>
-        </div>
+    <ul class="share-links hide-for-print">
+        <li>Share</li>
+        <li class="cell">
+            <a class="fa fa-envelope" href="mailto:?subject=[% siteMessage 'SocialMediaLinks_EmailSubject' 'I wanted you to see this site' %]&amp;body={{vm.url}} [[CurrentPage.Title]]" title="Share by Email">
+            </a>
+        </li>
+        <li class="cell">
+            <a target="_blank" class="stb-btn stb-twitter fa fa-twitter" aria-label="tweet" href="https://twitter.com/share?url={{vm.url}}&amp;text=[[CurrentPage.Title]]"></a>
+        </li>
+        <li class="cell">
+            <a class="fa fa-facebook" href="https://www.facebook.com/sharer/sharer.php?app_id=242711322507315&sdk=joey&u={{vm.url}}&display=popup&ref=plugin&src=share_button" onclick="return !window.open(this.href, 'Facebook', 'width=640,height=300')"></a>
+        </li>
+        <li class="cell">
+            <a class="" href="https://www.pinterest.com/pin/create/button/?url={{vm.url}}&description=[[CurrentPage.Title]]">
+                <i class="fa fa-pinterest-p" aria-hidden="true"></i>
+            </a>
+        </li>
+        <li class="cell"><a href="javascript: window.print();" class="ico ico-printer-with-paper" aria-hidden="true"></a></li>
+    </ul>
+</div>

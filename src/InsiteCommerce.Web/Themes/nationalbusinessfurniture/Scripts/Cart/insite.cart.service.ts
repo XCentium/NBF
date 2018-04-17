@@ -12,7 +12,7 @@ module insite.cart {
         expand: string;
 
         getCarts(filter?: IQueryStringFilter, pagination?: PaginationModel): ng.IPromise<CartCollectionModel>;
-        getCart(cartId?: string, bypassErrorInterceptor?: boolean): ng.IPromise<CartModel>;
+        getCart(cartId?: string, suppressApiErrors?: boolean): ng.IPromise<CartModel>;
         updateCart(cart: CartModel, suppressApiErrors?: boolean): ng.IPromise<CartModel>;
         saveCart(cart: CartModel): ng.IPromise<CartModel>;
         submitRequisition(cart: CartModel): ng.IPromise<CartModel>;
@@ -84,7 +84,7 @@ module insite.cart {
         protected getCartsFailed(error: ng.IHttpPromiseCallbackArg<any>): void {
         }
 
-        getCart(cartId?: string, bypassErrorInterceptor = true): ng.IPromise<CartModel> {
+        getCart(cartId?: string, suppressApiErrors = false): ng.IPromise<CartModel> {
             if (!cartId) {
                 cartId = "current";
             }
@@ -97,9 +97,9 @@ module insite.cart {
 
             return this.httpWrapperService.executeHttpRequest(
                 this,
-                this.$http({ method: "GET", url: uri, params: this.getCartParams(), bypassErrorInterceptor: bypassErrorInterceptor }),
+                this.$http({ method: "GET", url: uri, params: this.getCartParams(), bypassErrorInterceptor: true }),
                 (response: ng.IHttpPromiseCallbackArg<CartModel>) => { this.getCartCompleted(response, cartId); },
-                this.getCartFailed);
+                suppressApiErrors ? this.getCartFailedSuppressErrors : this.getCartFailed);
         }
 
         protected getCartParams(): any {
@@ -114,6 +114,9 @@ module insite.cart {
                 this.currentCartLinesUri = cart.cartLinesUri;
                 this.$rootScope.$broadcast("cartLoaded", cart);
             }
+        }
+
+        protected getCartFailedSuppressErrors(error: ng.IHttpPromiseCallbackArg<any>): void {
         }
 
         protected getCartFailed(error: ng.IHttpPromiseCallbackArg<any>): void {

@@ -1,4 +1,4 @@
-﻿<div ng-controller="SavedOrderDetailController as vm" ng-cloak>
+﻿<div ng-controller="SavedOrderDetailController as vm" ng-init="vm.listPageUri = '[% urlForPage 'SavedOrderListPage' %]'" ng-cloak>
     <div ng-show="vm.cart">
         <div class="hide-for-small back-btn">
             <a href="[% urlForPage 'SavedOrderListPage' %]" class="btn tertiary btn-return">[% translate 'Return to Saved Orders' %]</a>

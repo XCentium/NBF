@@ -11,21 +11,21 @@
                     </a>
                 </div>
                 <div class="item-name-options">
-                    <span>Color: Black Faux Leather / Gray Mesh / Iridescent Sliver</span>
+                    <span ng-if="cartLine.properties['details']">{{cartLine.properties['details']}}</span>
                     <span ng-if="!cartLine.isFixedConfiguration" ng-repeat="sectionOption in cartLine.sectionOptions">
-                        <br /> <span ng-bind="sectionOption.sectionName + ':' + sectionOption.optionName"></span>
+                        <br/> <span ng-bind="sectionOption.sectionName + ':' + sectionOption.optionName"></span>
                     </span>
                 </div>
                 <div class="item-sku-wrap">
                     <div class="item-label">item #:</div>
                     <isc-product-name product="cartLine" no-link="true"></isc-product-name>
-                    <div class="item-flags gsa">GSA</div>
+                    <div class="item-flags gsa" ng-if="vm.isAttributeValue(cartLine, 'GSA', 'Yes');">GSA</div>
                 </div>
                 <div ng-show="includeInventory && !cartLine.quoteRequired" class="availability">
                     <isc-availability-message availability="cartLine.availability" failed-to-get-real-time-inventory="failedToGetRealTimeInventory"></isc-availability-message>
                 </div>
                 <div class="ship-info">
-                    <span class="ico-Truck"></span> Ships Within: 14 days
+                    <div class="item-block__product__ships-today" ng-if="vm.isAttributeValue(cartLine, 'Ships Today', 'Yes');"><span class="ico-Truck"></span> Ships Today!</div>
                 </div>
             </div>
             <div class="details-right">
@@ -35,9 +35,6 @@
                         <isc-product-price product="cartLine"></isc-product-price>
                         <isc-unit-of-measure-display product="cartLine"> </isc-unit-of-measure-display>
                         <isc-product-price-saving product="cartLine" currency-symbol="cart.currencySymbol"></isc-product-price-saving>
-                        <div class="quantity-pricing">
-                            <isc-quantity-break-pricing product-id="cartLine.id" break-prices="cartLine.breakPrices"></isc-quantity-break-pricing>
-                        </div>
                     </div>
                     <div class="price" ng-if="cart.cartNotPriced">
                         <div>[% siteMessage 'RealTimePricing_PriceLoadFailed' %]</div>
@@ -58,7 +55,7 @@
                                ng-disabled="!cart.canModifyOrder || cartLine.isPromotionItem || vm.isUpdateInProgress || cart.type == 'Job'" />
                     </div>
                     <div class="" ng-if="!cartLine.isPromotionItem && cart.canModifyOrder && editable">
-                        <a class="" ng-click="vm.removeLine(cartLine)">
+                        <a class="hide-for-print" ng-click="vm.removeLine(cartLine)">
                             Remove
                         </a>
                     </div>
@@ -68,17 +65,11 @@
                     <div class="item-subtotal"><span ng-if="!cartLine.quoteRequired && !cart.cartNotPriced" ng-bind="cartLine.pricing.extendedUnitNetPriceDisplay"></span></div>
                 </div>
             </div>
-           
-            
-
             <div class="row promo-applied" ng-repeat="promotion in promotions | filter: {orderLineId : cartLine.id}">
                 <div class="small-6 columns sub-label">
                     <em><span class="tst_cartLine_lineLevelPromo" ng-bind="promotion.name"></span></em>
                 </div>
             </div>
-            
-            
-
             <div>
                 <a id="tst_cartLine_productSubscription" href="" class="btn primary btn-product-subscription"
                    ng-show="cartLine.isSubscription && editable"
@@ -103,7 +94,7 @@
         </div>
 
         <div ng-if="editable && cart.showLineNotes && !cartLine.isPromotionItem" class="actions-panel edit">
-            <a href="" class="btn tertiary add-to-cart panel-trigger" data-cartnotes="true" ng-click="vm.notePanelClicked(cartLine.id)">[% translate 'Line Notes' %]</a>
+            <a href="" class="btn tertiary add-to-cart panel-trigger hide-for-print" data-cartnotes="true" ng-click="vm.notePanelClicked(cartLine.id)">[% translate 'Line Notes' %]</a>
             <div class="item-actions" data-cartnotes="true" ng-class="{open : (cartLine.id == vm.openLineNoteId)}">
                 <div class="item-actions-wrap">
                     <div class="large-9 columns item-code-notes">

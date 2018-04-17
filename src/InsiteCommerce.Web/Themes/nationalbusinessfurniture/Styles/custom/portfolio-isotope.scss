@@ -1,0 +1,134 @@
+﻿
+@import "../variables";
+
+
+
+
+
+.people-item {
+    position: relative;
+
+    img {
+        width: 100%;
+    }
+
+    .content {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        opacity: 0;
+
+        h5 {
+            margin-bottom: 0;
+            color: $nbf-navy;
+        }
+    }
+
+    &:hover {
+        img {
+            opacity: .3;
+        }
+
+        .content {
+            opacity: 1;
+        }
+    }
+}
+
+.portfolio-wrap {
+    @include clearfix();
+
+    ul {
+        margin: 0;
+        padding: 0;
+
+        li {
+            width: 100%;
+            overflow: hidden;
+            position: relative;
+
+            .port-item {
+                height: 1px;
+                padding-bottom: 75%;
+            }
+
+            img {
+                width: 100%;
+            }
+
+            .content {
+                @include center(true,true);
+                text-align: center;
+                color: #fff;
+                z-index: 3;
+                opacity: 0;
+                -webkit-transition: opacity .6s ease-out;
+                transition: opacity .6s ease-out;
+            }
+
+            &:before {
+                content: "";
+                width: 0;
+                height: 0;
+                border-style: solid;
+                border-width: 180px 320px 0 0;
+                border-color: rgba(255,255,255,0.3) transparent transparent;
+                position: absolute;
+                top: 0;
+                left: 0;
+                z-index: 2;
+                opacity: 0;
+                -webkit-transition: opacity .6s ease-out;
+                transition: opacity .6s ease-out;
+            }
+
+            &:after {
+                content: "";
+                display: block;
+                height: 100%;
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                z-index: 1;
+                opacity: 0;
+                background-color: rgba(87,167,198,0.8);
+                -webkit-transition: opacity .6s ease-out;
+                transition: opacity .6s ease-out;
+            }
+
+            &:hover {
+                .content, &:before, &:after {
+                    opacity: 1;
+                }
+            }
+        }
+    }
+
+    @media all and (min-width: 501px) {
+        ul {
+            li {
+                width: 50%;
+                float: left;
+            }
+        }
+    }
+
+    @media all and (min-width: 991px) {
+        ul {
+            li {
+                width: 33%;
+                float: left;
+            }
+        }
+    }
+
+    @media all and (min-width: 1201px) {
+        ul {
+            li {
+                width: 20%;
+                float: left;
+            }
+        }
+    }
+}

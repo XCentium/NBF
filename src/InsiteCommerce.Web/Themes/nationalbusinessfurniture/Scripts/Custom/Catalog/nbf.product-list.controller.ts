@@ -1,11 +1,16 @@
 ﻿module insite.catalog {
     "use strict";
+    export interface IProductListControllerAttributes extends ng.IAttributes {
+        prApiKey: string;
+        prMerchantGroupId: string;
+        prMerchantId: string;
+    }
 
     export class NbfProductListController extends ProductListController{
         categoryAttr: string;
-        filteredResults: boolean = false;
+        filteredResults = false;
         favoritesWishlist: WishListModel;
-        isAuthenticated: boolean = false;
+        isAuthenticated = false;
 
         static $inject = [
             "$scope",
@@ -25,7 +30,8 @@
             "queryString",
             "$location",
             "sessionService",
-            "nbfWishListService"
+            "nbfWishListService",
+            "$attrs"
         ];
 
         constructor(
@@ -46,7 +52,8 @@
             protected queryString: common.IQueryStringService,
             protected $location: ng.ILocationService,
             protected sessionService: account.ISessionService,
-            protected nbfWishListService: wishlist.INbfWishListService) {
+            protected nbfWishListService: wishlist.INbfWishListService,
+            protected $attrs: IProductListControllerAttributes) {
 
             super($scope, coreService, cartService, productService, compareProductsService, $rootScope, $window, $localStorage, paginationService, searchService, spinnerService, addToWishlistPopupService, settingsService, $stateParams, queryString, $location);
         }
@@ -82,16 +89,17 @@
             this.initBackButton();
 
 
-            $(document).ready(function () {
+            $(document).ready(() => {
                 var windowsize = $(window).width();
                 if (windowsize < 767) {
                     setTimeout(
-                        function () {
+                        () => {
                             $("#accord-10000").prop("checked", false);
-                        }, 2000);                    
+                        },
+                        2000);
                     $("#accord-10000").removeAttr("checked");
                 }
-            })
+            });
             this.$scope.$watch(() => this.category, (newCategory) => {
                 if (!newCategory) {
                     return;
@@ -107,7 +115,7 @@
             if (this.ready) {
                 this.spinnerService.show("productlist");
             }
-            if (this.categoryAttr != "") {
+            if (this.categoryAttr !== "") {
                 this.filteredResults = true;
                 if (!params.names) {
                     params.names = [];
@@ -121,6 +129,13 @@
         }
 
         protected getProductsCompleted(productCollection: ProductCollectionModel, params: IProductCollectionParameters, expand?: string[]): void {
+            if (this.$window.dataLayer && productCollection.pagination) {
+                this.$window.dataLayer.push({
+                    'event': "searchResults",
+                    'numSearchResults': productCollection.pagination.totalItemCount
+                });
+            }
+
             if (productCollection.searchTermRedirectUrl) {
                 // use replace to prevent back button from returning to this page
                 if (productCollection.searchTermRedirectUrl.lastIndexOf("http", 0) === 0) {
@@ -184,13 +199,35 @@
             this.imagesLoaded = 0;
             this.waitForDom();
 
-
             this.sessionService.getIsAuthenticated().then(result => {
                 this.isAuthenticated = result;
                 if (this.isAuthenticated) {
                     this.getFavorites();
                 }
             });
+
+            setTimeout(() => {
+                this.setPowerReviews();
+            }, 2000);
+        }
+
+        protected setPowerReviews() {
+            let powerReviewsConfigs = this.products.products.map(x => {
+                return {
+                    api_key: this.$attrs.prApiKey,
+                    locale: 'en_US',
+                    merchant_group_id: this.$attrs.prMerchantGroupId,
+                    merchant_id: this.$attrs.prMerchantId,
+                    page_id: x.productCode,
+                    review_wrapper_url: 'Product-Review?',
+                    components: {
+                        CategorySnippet: 'pr-' + x.productCode
+                    }
+                }
+            });
+
+            let powerReviews = this.$window["POWERREVIEWS"];
+            powerReviews.display.render(powerReviewsConfigs)
         }
 
         protected getFacets(categoryId: string): void {
@@ -200,7 +237,7 @@
                 includeSuggestions: this.includeSuggestions,
                 names: null
             };
-            if (this.categoryAttr != "") {
+            if (this.categoryAttr !== "") {
                 this.filteredResults = true;
                 if (!params.names) {
                     params.names = [];
@@ -257,7 +294,7 @@
             });
         }
 
-        protected getTop3Swatches(swatchesJson): string[] {
+        protected getTop6Swatches(swatchesJson): string[] {
             let retVal = [];
             if (swatchesJson) {
                 let swatches = JSON.parse(swatchesJson) as any[];
@@ -266,10 +303,10 @@
                     var sorted = [];
 
                     swatches.forEach(x => {
-                        let item = sorted.find(y => y.ModelNumber == x.ModelNumber);
+                        let item = sorted.find(y => y.ModelNumber === x.ModelNumber);
 
                         if (item == null) {
-                            sorted.push({ ModelNumber: x.ModelNumber, Count: 1 })
+                            sorted.push({ ModelNumber: x.ModelNumber, Count: 1 });
                         }
                         else {
                             item.Count++;
@@ -278,21 +315,34 @@
                     sorted.sort((a, b) => a.Count > b.Count ? 1 : -1);
                     sorted = sorted.reverse();
 
-                    retVal = swatches.filter(x => x.ModelNumber == sorted[0].ModelNumber).slice(0, 3).map((x: any) => x.ImageName);
+                    retVal = swatches.filter(x => x.ModelNumber === sorted[0].ModelNumber).slice(0, 6).map((x: any) => x.ImageName);
                 }
             }
 
             return retVal;
         }
 
+        protected getTotalSwatchCount(swatchesJson): number {
+            let count = 0;
+            if (swatchesJson) {
+                const swatches = JSON.parse(swatchesJson) as any[];
+
+                if (swatches.length > 0) {
+                    count = swatches.length;
+                }
+            }
+
+            return count;
+        }
+
         protected isAttributeValue(product: ProductDto, attrName: string, attrValue: string): boolean {
-            let retVal: boolean = false;
+            let retVal = false;
 
             if (product && product.attributeTypes) {
-                var attrType = product.attributeTypes.find(x => x.name == attrName && x.isActive == true);
+                var attrType = product.attributeTypes.find(x => x.name === attrName && x.isActive === true);
 
                 if (attrType) {
-                    var matchingAttrValue = attrType.attributeValues.find(y => y.value == attrValue);
+                    var matchingAttrValue = attrType.attributeValues.find(y => y.value === attrValue);
 
                     if (matchingAttrValue) {
                         retVal = true;
@@ -307,7 +357,7 @@
 
             if (favoriteLine.length > 0) {
                 //Remove lines
-                this.nbfWishListService.deleteLineCollection(this.favoritesWishlist, favoriteLine).then((result) => {
+                this.nbfWishListService.deleteLineCollection(this.favoritesWishlist, favoriteLine).then(() => {
                     this.getFavorites();
                 });
             } else {
@@ -362,34 +412,7 @@
                     }
                 }, 20);
             }
-        }
-
-        protected getStarRating(product: ProductDto) : string {
-            let retVal = "no-star";
-            debugger;
-            if (product && product.specifications && product.specifications.length > 0) {
-                let ratings = product.specifications.filter(x => x.name == "Rating");
-
-                if (ratings.length > 0 && !isNaN(parseFloat(ratings[0].value))) {
-                    let rating = parseFloat(ratings[0].value);
-                    if (rating > 0.0) {
-                        let ratingRoundedToHalf = Math.round(rating * 2) / 2;
-                        retVal = ratingRoundedToHalf > 0 && ratingRoundedToHalf <= 0.5 ? "half-star" :
-                            ratingRoundedToHalf > 0.5 && ratingRoundedToHalf <= 1.0 ? "one-star" :
-                                ratingRoundedToHalf > 1.0 && ratingRoundedToHalf <= 1.5 ? "onehalf-star" :
-                                    ratingRoundedToHalf > 1.5 && ratingRoundedToHalf <= 2.0 ? "two-star" :
-                                        ratingRoundedToHalf > 2.0 && ratingRoundedToHalf <= 2.5 ? "twohalf-star" :
-                                            ratingRoundedToHalf > 2.5 && ratingRoundedToHalf <= 3.0 ? "three-star" :
-                                                ratingRoundedToHalf > 3.0 && ratingRoundedToHalf <= 3.5 ? "threehalf-star" :
-                                                    ratingRoundedToHalf > 3.5 && ratingRoundedToHalf <= 4.0 ? "four-star" :
-                                                        ratingRoundedToHalf > 4.0 && ratingRoundedToHalf <= 4.5 ? "fourhalf-star" :
-                                                            ratingRoundedToHalf > 4.5 ? "five-star" : "no-star";
-                    }
-                }
-            }
-
-            return retVal;
-        }
+        }             
     }
 
     angular

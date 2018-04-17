@@ -1,7 +1,7 @@
 @import "../variables";
 .product-list {
     .pl4-cm {
-        margin-bottom: 1.5em;
+        /*margin-bottom: 1.5em;*/
     }
 
     .item-block .price span {
@@ -819,6 +819,10 @@
             .item-name-grid {
                 display: none;
             }
+
+            .item-block__product__more-link{
+                float:none;
+            }
         }
 
         .vm-list div.item-details div.item-inf-wrapper {
@@ -837,7 +841,7 @@
             right: 0;
 
             .item-block__product__price, h3, .item-block__product__flag, .strike ori-price-tag {
-                display: block !important;
+                display: inline-block !important;
                 text-align: right;
             }
         }
@@ -969,6 +973,8 @@
 
         .vm-grid .item-block .item-name {
             //font-size: .8em;
+            height: 54px;
+            overflow: hidden;
         }
 
         .vm-grid .item-block .item-info {

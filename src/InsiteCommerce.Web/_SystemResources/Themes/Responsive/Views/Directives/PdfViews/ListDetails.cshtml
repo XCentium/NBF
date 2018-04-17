@@ -115,11 +115,13 @@
 </head>
 <body>
     <div>
+        [% if Model.LogoImagePath != null and Model.LogoImagePath != "" -%]
         <div>
             <a href="[[Model.CurrentWebsiteUrl]]">
-                <img src="/userfiles/images/logo.png" />
+                <img src="[[Model.LogoImagePath]]" />
             </a>
         </div>
+        [% endif -%]
         <div>
             <h2 class="list-name">[[Model.Name]]</h2>
             [% for descriptionLine in Model.DescriptionLines -%]

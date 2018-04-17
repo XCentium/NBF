@@ -10,7 +10,11 @@
                             <label>[% translate 'List Name' %] *</label>
                         </div>
                         <div>
-                            <input type="text" ng-model="vm.listName" name="listName" placeholder="[% translate 'Enter list name' %]" autofocus="autofocus" ng-maxlength="255" required />
+                            <input type="text" ng-model="vm.listName" name="listName" class="list-name" placeholder="[% translate 'Enter list name' %]" autofocus="autofocus" isc-limit-number-of-characters="100" ng-maxlength="100" required />
+                        </div>
+                        <div class="max-field-tooltip spacer-element">
+                            <isc-characters-left-counter form-element="vm.listForm.listName" field-model="vm.listName" limit="100"></isc-characters-left-counter>
+                            [% translate 'characters left' %].
                         </div>
                         <div>
                             <label>[% translate 'Description' %]</label>

@@ -1,6 +1,26 @@
 ﻿@import "../variables";
 
 .checkout-cart {
+    margin-top: 2em!important;
+
+    .result-lbl {
+        font-weight: 600;
+    }
+    .cart-standard {
+        .cart-terms {
+            padding:30px;
+        }
+
+        .item-block .price {
+            .selected-uom {
+                margin-right: 0;
+            }
+        }
+        .secure {
+            margin-bottom:1em;
+        }
+    }
+
     .item-list {
         .item-details {
             padding: 0 20px 4.5em 10px !important;

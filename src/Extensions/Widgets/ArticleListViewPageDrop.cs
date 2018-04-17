@@ -10,6 +10,10 @@ namespace Extensions.Widgets
 
         public string Author { get; set; }
 
+        public string Image { get; set; }
+
+        public string ImageFocalPosition { get; set; }
+
         public string PublishDateDisplay { get; set; }
 
         public string QuickSummaryDisplay { get; set; }

@@ -3,6 +3,7 @@ using Insite.ContentLibrary.Widgets;
 using Insite.Data.Entities;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 
 namespace Extensions.Widgets
 {
@@ -43,16 +44,32 @@ namespace Extensions.Widgets
             }
         }
 
-        [ListContentField(DisplayName = "Available Preferences", IsRequired = true)]
+        [ListContentField(DisplayName = "Available Preferences (Note: Use default single option for 'Catalog Request Page')", IsRequired = true)]
         public virtual List<string> Preferences
         {
             get
-            {
-                return this.GetValue<List<string>>("Preferences", new List<string>(), FieldType.Contextual);
+            { 
+                return this.GetValue<List<string>>("Preferences", new List<string>() { "New Catalog Request" }, FieldType.Contextual);
             }
             set
             {
                 this.SetValue<List<string>>("Preferences", value, FieldType.Contextual);
+            }
+        }
+
+        public virtual int PreferencesCount
+        {
+            get
+            {
+                return this.Preferences.Count;
+            }
+        }
+
+        public virtual string PreferencesFirstItem
+        {
+            get
+            {
+                return this.Preferences.Any() ? this.Preferences.First() : string.Empty;
             }
         }
 
@@ -66,6 +83,22 @@ namespace Extensions.Widgets
             set
             {
                 this.SetValue<string>("SubmitButtonText", value, FieldType.Contextual);
+            }
+        }
+
+        public virtual string EmailAddressRegexPattern
+        {
+            get
+            {
+                return "\\w+([-+.']\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*";
+            }
+        }
+
+        public virtual string PhoneRegexPattern
+        {
+            get
+            {
+                return "^([\\(\\)/\\-\\.\\+\\s]*\\d\\s?(ext)?[\\(\\)/\\-\\.\\+\\s]*){10,}$";
             }
         }
     }

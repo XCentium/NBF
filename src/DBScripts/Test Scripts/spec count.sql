@@ -1,0 +1,5 @@
+select count(*) from content where ContentManagerId in (select ContentManagerId from Specification where [name] = 'Delivery')
+select count(*) from content where ContentManagerId in (select ContentManagerId from Specification where [name] = 'Dimensions')
+select count(*) from content where ContentManagerId in (select ContentManagerId from Specification where [name] = 'Vendor Code')
+select count(*) from content where ContentManagerId in (select ContentManagerId from Specification where [name] = 'Rating')
+select count(*) from content where ContentManagerId in (select ContentManagerId from Specification where [name] = 'Features')
