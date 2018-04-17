@@ -12,6 +12,7 @@ using Insite.Common.Logging;
 using Insite.Core.Plugins.StorageProvider;
 using Insite.Core.Plugins.Utilities;
 using Insite.Core.WebApi;
+using Insite.Order.WebApi.V1.ApiModels;
 
 namespace Extensions.WebApi.EmailApi.Controllers
 {
@@ -59,8 +60,23 @@ namespace Extensions.WebApi.EmailApi.Controllers
             return Ok();
         }
 
+        [Route("rma", Name = "sendRmaEmail")]
+        [ResponseType(typeof(string))]
+        [HttpPost]
+        public async Task<IHttpActionResult> SendRmaEmail([FromBody] RmaModel rmaDto)
+        {
+            await _emailApiService.SendRmaEmail(rmaDto);
+            return Ok();
+        }
+
         [Route("taxexemptfile", Name = "uploadTaxExemptEmailFile")]
         public async Task<HttpResponseMessage> UploadTaxExemptFile()
+        {
+            return await ProcessUploadedFile(false);
+        }
+
+        [Route("rmafile", Name = "uploadRmaFile")]
+        public async Task<HttpResponseMessage> UploadRmaFile()
         {
             return await ProcessUploadedFile(false);
         }

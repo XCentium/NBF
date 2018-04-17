@@ -3,6 +3,7 @@ using Extensions.WebApi.EmailApi.Interfaces;
 using Extensions.WebApi.EmailApi.Models;
 using Insite.Core.Interfaces.Data;
 using Insite.Core.Services;
+using Insite.Order.WebApi.V1.ApiModels;
 
 namespace Extensions.WebApi.EmailApi.Services
 {
@@ -25,6 +26,12 @@ namespace Extensions.WebApi.EmailApi.Services
         public async Task SendTaxExemptEmail(TaxExemptDto taxExemptDto)
         {
             await _emailApiRepository.SendTaxExemptEmail(taxExemptDto);
+        }
+        
+        [Transaction]
+        public async Task SendRmaEmail(RmaModel rmaDto)
+        {
+            await _emailApiRepository.SendRmaEmail(rmaDto);
         }
 
         [Transaction]

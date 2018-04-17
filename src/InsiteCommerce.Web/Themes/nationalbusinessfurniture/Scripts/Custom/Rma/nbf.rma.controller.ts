@@ -12,19 +12,47 @@
         errorMessage: string;
         returnNotes: string;
         order: OrderModel;
+        file: any;
+        rmaPictureFileName: string;
+        $form: JQuery;
 
-        static $inject = ["orderService", "coreService", "queryString"];
+        static $inject = ["$scope", "orderService", "coreService", "queryString", "nbfEmailService"];
 
         constructor(
+            protected $scope: ng.IScope,
             protected orderService: order.IOrderService,
             protected coreService: core.ICoreService,
-            protected queryString: common.IQueryStringService) {
+            protected queryString: common.IQueryStringService,
+            protected nbfEmailService: nbf.email.INbfEmailService
+            ) {
             this.init();
         }
 
         init(): void {
             this.getOrder();
+
+            var self = this;
+            document.getElementById('rmaPictureFileUpload').onchange = function () {
+                self.setFile(this);
+            };
         }
+
+        setFile(arg): boolean {
+            this.errorMessage = "";
+
+            if (!this.$form.valid()) {
+                return false;
+            }
+
+            if (arg.files.length > 0) {
+                this.file = arg.files[0];
+                this.rmaPictureFileName = this.file.name;
+
+                setTimeout(() => {
+                    this.$scope.$apply();
+                });
+            }
+        }        
 
         getOrder(): void {
             this.orderService.getOrder(this.getOrderNumber(), "orderlines").then(
@@ -99,6 +127,12 @@
                 this.requestSubmitted = true;
                 this.orderLinesForm.$submitted = false;
             }
+
+            this.nbfEmailService.sendRmaEmail(rma, this.file).then(
+                () => {
+                    //this.updateBillTo();
+                },
+                () => { this.errorMessage = "An error has occurred."; });
 
             this.coreService.displayModal(angular.element("#popup-rma"));
         }
