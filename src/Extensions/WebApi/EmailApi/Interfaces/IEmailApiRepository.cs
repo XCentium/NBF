@@ -8,5 +8,6 @@ namespace Extensions.WebApi.EmailApi.Interfaces
     {
         Task SendCatalogPrefsEmail(CatalogPrefsDto catalogPrefsDto);
         Task SendTaxExemptEmail(TaxExemptDto taxExemptDto);
+        Task SendContactUsSpanishForm(ContactUsSpanishDto contactUsSpanishDto);
     }
 }
