@@ -5,7 +5,8 @@ GO
 
 create procedure ETLAttribute_FromOEG  
 (
-	@attributeName nvarchar(255)
+	@attributeName nvarchar(255),
+	@isActive bit = 1
 )
 as
 begin
@@ -19,7 +20,7 @@ begin
 	begin
 		insert into AttributeType 
 		([Name], IsActive, Label, IsFilter, IsComparable, CreatedBy, ModifiedBy)
-		values (@attributeName, 1, @attributeName, 1, 1, 'etl', 'etl')
+		values (@attributeName, @isActive, @attributeName, 1, 1, 'etl', 'etl')
 	end
 
 	select top 1 @attributeTypeId = Id from AttributeType where [Name] = @attributeName

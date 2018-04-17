@@ -18,11 +18,16 @@
 <a ng-if="vm.cart.canRequisition" href="#" class="btn primary btn-submit-requisition tst_cartPage_submitRequisition" ng-click="vm.submitRequisition('[% urlForPage 'RequisitionConfirmationPage' %]')">[% translate 'Submit Requisition' %]</a>
 
 [% endcapture %]
-<div class="medium-12 large-12 columns widget-1column narrow-container cart">
+<div class="medium-12 large-12 columns widget-1column narrow-container cart cart-standard">
     <div class="row">
-            <div>
+        <div class="row">
+            <div class="medium-8 columns">
                 <h2 class="cart__title">My Shopping Cart</h2>
             </div>
+            <div class="medium-4 columns">
+                [% zone 'Content Right Above' %]
+            </div>
+        </div>
         <div ng-controller="CartController as vm" ng-cloak ng-show="vm.cart">
             [[ContinueShoppingButton]]
             <div>
@@ -35,7 +40,8 @@
                     </div>
                     <div ng-if="vm.cart.cartLines.length > 0">
                         <div id="tst_cartPage_approvingMessage" ng-if="vm.cart.isAwaitingApproval" class="app-for">
-                            <h3>[% translate 'Approving Order For' %]: <em ng-bind="vm.cart.initiatedByUserName"></em></h3>
+                            <h3>[% translate 'Approving Order For' %]: <em ng-bind="vm.cart.initiatedByUserName"></em>
+                            </h3>
                         </div>
                         <div ng-if="vm.cart.quoteRequiredCount > 0" class="quote-items-note messaging">
                             [% siteMessage 'Rfq_QuoteRequiredMsg' %]
@@ -64,19 +70,21 @@
                                             class="item-list cart-items">
                             </nbf-cart-lines>
                         </div>
-                    </div>
-                    <div class="promo-code hide-for-print">
-                        <a href="#">Have a promo code?</a>
-                        <div class="row">
-                            <div class="medium-6 column">
-                                <div class="row">
-                                    <div class="medium-8 column">
-                                        <input type="text" id="" name="promo" class="promo-code-input" placeholder="Enter Promo Code" required="" maxlength="75">
-                                    </div>
-                                    <div class="medium-4 column">
-                                        <button class="btn btn-secondary btn-navy">
-                                            Apply Code
-                                        </button>
+                        <div class="promo-code hide-for-print" ng-hide="vm.cart.paymentOptions.isPayPal || vm.cart.type == 'Quote' || vm.cart.type == 'Job'">
+                            <label for="tst_reviewAndPayPage_promoCode">[% translate 'Have a Promo Code?' %]</label>
+                            <div class="row">
+                                <div class="medium-6 column">
+                                    <div class="row">
+                                        <div class="medium-8 column">
+                                            <input id="tst_reviewAndPayPage_promoCode" name="PromoCode" type="text" ng-model="vm.promotionCode"/>
+                                            <span id="tst_reviewAndPayPage_promotionErrorMessage" class="field-validation-error" ng-if="vm.promotionErrorMessage" ng-bind="vm.promotionErrorMessage"></span>
+                                            <span id="tst_reviewAndPayPage_promotionAppliedMessage" class="field-validation-valid" ng-if="vm.promotionAppliedMessage" ng-bind="vm.promotionAppliedMessage"></span>
+                                        </div>
+                                        <div class="medium-4 column">
+                                            <button class="btn btn-secondary btn-navy" ng-click="vm.applyPromotion()">
+                                                [% translate 'Apply Code' %]
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -85,26 +93,31 @@
                     <div class="btns hide-for-small">
                         <a id="tst_cartPage_continueShopping" ng-show="vm.cart.displayContinueShoppingLink" href="[% urlForPage 'HomePage' %]" ng-click="vm.continueShopping($event)" class="btn btn-long btn-continue-shopping">[% translate 'Continue Shopping' %]</a>
                     </div>
+                    <div ng-show="vm.cart.cartLines.length > 0" class="cart-terms gray-bg">
+                        [% zone 'Content Left Below' %]
+                    </div>
                 </div>
-                <div ng-if="vm.cart.cartLines.length > 0" class="cart-right">
-                    <nbf-cart-total-display ng-if="!vm.cart.cartNotPriced" cart="vm.cart" promotions="vm.promotions" order-taxes="vm.cart.customerOrderTaxes"></nbf-cart-total-display>
+                <div class="cart-right" ng-show="vm.cart.cartLines.length > 0">
+                    <div class="right-top secure"><span class="ico-lock"></span><strong> Secure Form</strong>
+                    </div>
+                    <nbf-cart-total-display ng-if="!vm.cart.cartNotPriced" cart="vm.cart" promotions="vm.promotions" order-taxes="vm.cart.customerOrderTaxes" label="'[% translate 'Order Summary' %]'"></nbf-cart-total-display>
                     <div class="btns hide-for-print" id="tst_cartPage_buttons">
                         [[CheckoutButtons]]
                     </div>
                     <div class="cc-warp hide-for-print">
-                        <img src="/UserFiles/SystemImages/credit-cards.png" />
+                        <img src="/UserFiles/SystemImages/credit-cards.png"/>
                     </div>
                     <div class="confidence-box hide-for-print">
                         <div class="confidence-box__title">Shop With Confidence</div>
                         <ul>
                             <li>
-                                <img src="/UserFiles/SystemImages/LifetimeBadge.svg" />
+                                <img src="/UserFiles/SystemImages/LifetimeBadge.svg"/>
                             </li>
                             <li>
-                                <img src="/UserFiles/SystemImages/BBB-logo.png" />
+                                <img src="/UserFiles/SystemImages/BBB-logo.png"/>
                             </li>
                             <li>
-                                <img src="/UserFiles/SystemImages/Mcafee.png" />
+                                <img src="/UserFiles/SystemImages/Mcafee.png"/>
                             </li>
                         </ul>
                     </div>
