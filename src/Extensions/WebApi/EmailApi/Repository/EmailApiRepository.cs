@@ -108,48 +108,6 @@ namespace Extensions.WebApi.EmailApi.Repository
             return Task.FromResult(0);
         }
 
-        public Task SendRmaEmail(RmaModel rmaDto)
-        {
-            dynamic emailModel = new ExpandoObject();
-            //emailModel.CustomerNumber = taxExemptDto.CustomerNumber;
-            //emailModel.CustomerSequence = taxExemptDto.CustomerSequence;
-            //emailModel.OrderNumber = taxExemptDto.OrderNumber;
-            var filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "UserFiles/", rmaDto.Message);
-            var attachments = new List<Attachment>()
-            {
-                new Attachment(filePath)
-            };
-
-            var emailList = _unitOfWork.GetTypedRepository<IEmailListRepository>().GetOrCreateByName("RMA", "RMA", "RMA");
-            EmailService.SendEmailList(
-                emailList.Id,"test@test.com",
-                //taxExemptDto.EmailTo.Split(','),
-                emailModel,
-                "",
-                //$"{EntityTranslationService.TranslateProperty(emailList, o => o.Subject)} - CustNo: {taxExemptDto.CustomerNumber} - OrderNo: {taxExemptDto.OrderNumber}",
-                _unitOfWork,
-                SiteContext.Current.WebsiteDto.Id,
-                attachments);
-
-            if (File.Exists(filePath))
-            {
-                try
-                {
-                    Thread.Sleep(10000);
-                    attachments.ForEach(x => x.Dispose());
-                    File.Delete(filePath);
-                }
-                catch
-                {
-                    Thread.Sleep(10000);
-                    attachments.ForEach(x => x.Dispose());
-                    File.Delete(filePath);
-                }
-            }
-
-            return Task.FromResult(0);
-        }
-
         public Task SendContactUsSpanishForm(ContactUsSpanishDto contactUsSpanishDto)
         {
             dynamic emailModel = new ExpandoObject();

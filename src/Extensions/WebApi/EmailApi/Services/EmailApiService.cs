@@ -29,12 +29,6 @@ namespace Extensions.WebApi.EmailApi.Services
         }
         
         [Transaction]
-        public async Task SendRmaEmail(RmaModel rmaDto)
-        {
-            await _emailApiRepository.SendRmaEmail(rmaDto);
-        }
-
-        [Transaction]
         public async Task SendContactUsSpanishForm(ContactUsSpanishDto contactUsSpanishDto)
         {
             await _emailApiRepository.SendContactUsSpanishForm(contactUsSpanishDto);

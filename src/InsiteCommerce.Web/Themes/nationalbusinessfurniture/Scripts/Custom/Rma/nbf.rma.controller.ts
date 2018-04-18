@@ -16,19 +16,21 @@
         rmaPictureFileName: string;
         $form: JQuery;
 
-        static $inject = ["$scope", "orderService", "coreService", "queryString", "nbfEmailService"];
+        static $inject = ["$scope", "orderService", "coreService", "queryString", "$element", "nbfEmailService"];
 
         constructor(
             protected $scope: ng.IScope,
             protected orderService: order.IOrderService,
             protected coreService: core.ICoreService,
             protected queryString: common.IQueryStringService,
-            protected nbfEmailService: nbf.email.INbfEmailService
+            protected $element: ng.IRootElementService,
+            protected nbfEmailService: nbf.email.INbfEmailService          
             ) {
             this.init();
         }
 
         init(): void {
+            this.$form = this.$element.find("form");
             this.getOrder();
 
             var self = this;
@@ -40,10 +42,6 @@
         setFile(arg): boolean {
             this.errorMessage = "";
 
-            if (!this.$form.valid()) {
-                return false;
-            }
-
             if (arg.files.length > 0) {
                 this.file = arg.files[0];
                 this.rmaPictureFileName = this.file.name;
@@ -52,6 +50,8 @@
                     this.$scope.$apply();
                 });
             }
+
+            return true;
         }        
 
         getOrder(): void {
@@ -102,22 +102,33 @@
                 return;
             }
 
-            const rmaModel = {
-                orderNumber: this.order.webOrderNumber || this.order.erpOrderNumber,
-                notes: typeof this.returnNotes === "undefined" ? "" : this.returnNotes,
-                message: "",
-                rmaLines: this.order.orderLines.map(orderLine => {
-                    return {
-                        line: orderLine.lineNumber,
-                        rmaQtyRequested: orderLine.rmaQtyRequested,
-                        rmaReasonCode: orderLine.returnReason
-                    } as RmaLineDto;
-                }).filter(x => x.rmaQtyRequested > 0)
-            } as RmaModel;
+            this.nbfEmailService.uploadRmaFile(this.file).then(
+                (x: any) => {
+                    let notes = typeof this.returnNotes === "undefined" ? "" : this.returnNotes;
 
-            this.orderService.addRma(rmaModel).then(
-                (rma: RmaModel) => { this.addRmaCompleted(rma); },
-                (error: any) => { this.addRmaFailed(error); });
+                    let fileName = x.data;
+                    if (fileName != null && fileName.trim().length > 0) {
+                        notes = notes + "\n\n<br>" + "~~" + fileName + "~~";
+                    }
+
+                    const rmaModel = {
+                        orderNumber: this.order.webOrderNumber || this.order.erpOrderNumber,
+                        notes: notes,
+                        message: "",
+                        rmaLines: this.order.orderLines.map(orderLine => {
+                            return {
+                                line: orderLine.lineNumber,
+                                rmaQtyRequested: orderLine.rmaQtyRequested,
+                                rmaReasonCode: orderLine.returnReason
+                            } as RmaLineDto;
+                        }).filter(x => x.rmaQtyRequested > 0)
+                    } as RmaModel;
+
+                    this.orderService.addRma(rmaModel).then(
+                        (rma: RmaModel) => { this.addRmaCompleted(rma); },
+                        (error: any) => { this.addRmaFailed(error); });
+                },
+                () => { this.errorMessage = "An error has occurred."; });            
         }
 
         protected addRmaCompleted(rma: RmaModel): void {
@@ -127,12 +138,6 @@
                 this.requestSubmitted = true;
                 this.orderLinesForm.$submitted = false;
             }
-
-            this.nbfEmailService.sendRmaEmail(rma, this.file).then(
-                () => {
-                    //this.updateBillTo();
-                },
-                () => { this.errorMessage = "An error has occurred."; });
 
             this.coreService.displayModal(angular.element("#popup-rma"));
         }

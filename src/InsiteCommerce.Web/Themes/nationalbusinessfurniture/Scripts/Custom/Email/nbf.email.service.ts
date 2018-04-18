@@ -6,7 +6,7 @@
         sendCatalogPrefsEmail(params: any): ng.IPromise<string>;
         sendTaxExemptEmail(params: TaxExemptParams, file: any): ng.IPromise<string>;
         sendContactUsSpanishForm(params: any): ng.IPromise<string>;
-        sendRmaEmail(params: RmaModel, file: any): ng.IPromise<string>;
+        uploadRmaFile(file: any);
     }
 
     export class NbfEmailService implements INbfEmailService {
@@ -74,11 +74,8 @@
             return defer.promise;
         } 
 
-        sendRmaEmail(params: RmaModel, file: any): ng.IPromise<string> {
+        uploadRmaFile(file: any) {
             const fileUri = this.serviceUri + "/rmafile";
-
-            var result = "false";
-            //upload File
 
             const formData = new FormData();
             formData.append("file", file);
@@ -87,21 +84,7 @@
                 headers: { "Content-Type": undefined }
             };
 
-            this.$http.post(fileUri, formData, config).success((data: any) => {
-                if (data.errorMessage && data.errorMessage.length > 0) {
-                    alert("error");
-                } else {
-                    //put file location in message field
-                    params.message = data;
-                    this.postRmaFileUpload(params).then((uploadData) => {
-                        result = uploadData;
-                    });
-                }
-            });
-
-            const defer = this.$q.defer<string>();
-            defer.resolve(result);
-            return defer.promise;
+            return this.$http.post(fileUri, formData, config);
         } 
 
         protected sendEmailCompleted(catalogMailingPrefs: string): void {
@@ -121,18 +104,7 @@
                 this.sendEmailCompleted,
                 this.sendEmailFailed
             );
-        }
-
-        protected postRmaFileUpload(params: RmaModel): ng.IPromise<string> {
-            const uri = this.serviceUri + "/rma";
-
-            return this.httpWrapperService.executeHttpRequest(
-                this,
-                this.$http({ url: uri, method: "POST", data: params }),
-                this.sendEmailCompleted,
-                this.sendEmailFailed
-            );
-        }
+        }        
     }
 
     angular
