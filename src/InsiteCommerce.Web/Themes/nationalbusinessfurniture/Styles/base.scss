@@ -2551,8 +2551,8 @@ header div.head-cm {
 
 .item-block .item-thumb {
     width: 25%;
-    padding: 0 0 20px !important;
-    max-width: 160px;
+    padding: 0 0 33px !important;
+    max-width: 273px;
     float: left;
     position: relative;
     border: 1px solid $divider-gray;
@@ -2567,6 +2567,11 @@ header div.head-cm {
             &:before {
                 padding-right:0;
             }
+        }
+    }
+    a {
+        img{
+            width:100%;
         }
     }
 }
@@ -2640,12 +2645,12 @@ ul.attribute-list span.attrib-name {
 @media all and (min-width: 768px) {
 
     .item-list .item-thumb {
-        width: 20%;
+        width: 27%;
     }
 
     .item-list .item-details,
     .item-list .item-code-notes {
-        width: 80%;
+        width: 73%;
         padding: 0 4em .5em 2em !important;
     }
 }

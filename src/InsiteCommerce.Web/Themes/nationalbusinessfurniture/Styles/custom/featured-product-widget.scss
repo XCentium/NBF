@@ -84,6 +84,12 @@
             }
         }
 
+        &__features {
+            .vm-list & {
+                margin-top:30px;
+            }
+        }
+
         &__ships-today {
             font-size: 16px;
             text-align: right;
@@ -155,7 +161,7 @@
                 margin: 0;
                 padding: 0;
                 list-style: none;
-                height:32px;
+                height: 32px;
 
                 li {
                     display: inline-block;
@@ -188,4 +194,8 @@
             }
         }
     }
+}
+
+.nbf-product-feature-style {
+    list-style-type: disc;
 }

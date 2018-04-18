@@ -154,7 +154,7 @@
                                                             <div class="item-block__product__ships-today" ng-if="vm.isAttributeValue(product, 'Ships Today', 'Yes');"><span class="ico-Truck"></span> Ships Today!</div>
                                                         </div>
                                                     </div>
-                                                    <div ng-if="vm.view == 'list' && (product.specifications | filter: { name: 'Features' }).length > 0">
+                                                    <div class="item-block__product__features" ng-if="vm.view == 'list' && (product.specifications | filter: { name: 'Features' }).length > 0">
                                                         <strong>Features:</strong>
                                                         <div ng-repeat="specification in product.specifications | filter: { name: 'Features' } | orderBy: 'sortOrder'" ng-bind-html="specification.htmlContent|trusted"></div>
                                                     </div>
