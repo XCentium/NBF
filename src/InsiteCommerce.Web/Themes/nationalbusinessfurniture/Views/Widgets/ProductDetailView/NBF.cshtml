@@ -45,7 +45,7 @@
                             </div>
                         </div>
                         <div class="item-block__product__samples-link hide-for-print">
-                            <strong>Available Colors/Finishes</strong> <a href="javascript:void(0);" ng-click="vm.showSwatchOrderForm()">Order Free Samples</a>
+                            <strong>Available Colors/Finishes</strong> <a href="javascript:void(0);" ng-click="vm.showSwatchOrderForm()" ng-if="vm.styleTraitFiltered.length > 0">Order Free Samples</a>
                         </div>
                         <div class="item-block__product__swatches hide-for-print">
                             <div class="item-block__product__swatches__label" ng-repeat-start="styleTrait in vm.styleTraitFiltered | orderBy: 'sortOrder'">{{styleTrait.nameDisplay}}:</div>
