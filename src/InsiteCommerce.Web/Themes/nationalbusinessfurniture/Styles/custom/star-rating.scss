@@ -42,6 +42,32 @@
     box-shadow:none;
 }
 
+#pr-reviewsnippet {
+    .pr-snippet-rating-decimal {
+        font-size: 18px;
+        border: none;
+    }
+
+
+    .pr-snippet-review-count {
+        display: block;
+        font-size: 18px !important;
+        color: $nbf-black;
+        margin-bottom: 10px;
+        padding: 0;
+    }
+
+    .pr-snippet-write-review-link {
+        display: block;
+        font-size: 18px !important;
+        color: $nbf-black;
+    }
+
+    .p-w-r a {
+        text-decoration: underline;
+    }
+}
+
 
 .rating {
     color: #009ce0;
