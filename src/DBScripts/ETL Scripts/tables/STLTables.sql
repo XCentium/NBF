@@ -226,7 +226,7 @@ GO
 EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'' , @level0type=N'SCHEMA',@level0name=N'extensions', @level1type=N'TABLE',@level1name=N'STLRoomLooksProduct'
 GO
 
-/****** Object:  Table [extensions].[STLRoomLooksStyle]    Script Date: 4/17/2018 6:59:50 PM ******/
+/****** Object:  Table [extensions].[STLRoomLooksStyle]    Script Date: 4/18/2018 5:33:10 PM ******/
 SET ANSI_NULLS ON
 GO
 
@@ -237,6 +237,7 @@ CREATE TABLE [extensions].[STLRoomLooksStyle](
 	[Id] [uniqueidentifier] NOT NULL,
 	[STLRoomLookId] [uniqueidentifier] NOT NULL,
 	[StyleName] [nvarchar](50) NOT NULL,
+	[SortOrder] [int] NULL,
 	[CreatedOn] [datetimeoffset](7) NULL,
 	[CreatedBy] [nvarchar](100) NOT NULL,
 	[ModifiedOn] [datetimeoffset](7) NULL,
@@ -251,7 +252,7 @@ GO
 SET ANSI_PADDING ON
 GO
 
-/****** Object:  Index [IX_STLRoomLooksStyle_NaturalKey]    Script Date: 4/17/2018 6:59:50 PM ******/
+/****** Object:  Index [IX_STLRoomLooksStyle_NaturalKey]    Script Date: 4/18/2018 5:33:10 PM ******/
 CREATE UNIQUE NONCLUSTERED INDEX [IX_STLRoomLooksStyle_NaturalKey] ON [extensions].[STLRoomLooksStyle]
 (
 	[STLRoomLookId] ASC,
@@ -280,5 +281,4 @@ GO
 
 ALTER TABLE [extensions].[STLRoomLooksStyle] CHECK CONSTRAINT [FK_STLRoomLooksStyle_STLRoomLook]
 GO
-
 
