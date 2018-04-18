@@ -3,19 +3,20 @@
 .category-list {
 
     &__wrap {
-        list-style:none;
+        list-style: none;
 
-        a{
-            text-decoration:none;
+        a {
+            text-decoration: none;
         }
     }
+
     &__item {
-        margin-bottom:60px;
+        margin-bottom: 60px;
         display: block;
 
 
-            &:last-child {
-            float:left !important;
+        &:last-child {
+            float: left !important;
         }
     }
 
@@ -32,16 +33,16 @@
     &__title {
         h2 {
             margin-bottom: 0;
-            font-weight:500;
-        }
+            font-weight: 500;
+            line-height: 1.5em;
+            display:inline-block;
 
-        &:after {
-            display: block;
-            content: "";
-            max-width: 120px;
-            width: 86%;
-            border-bottom: 1px solid $nbf-orange;
-            margin-top: 5px;
+            &:after {
+                display: block;
+                content: "";
+                border-bottom: 1px solid $nbf-orange;
+                margin-top: 5px;
+            }
         }
     }
 }

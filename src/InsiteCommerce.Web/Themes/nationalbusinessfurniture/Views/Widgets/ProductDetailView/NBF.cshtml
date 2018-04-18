@@ -17,8 +17,10 @@
                         </div>
                     </div>
                     <div class="name-price small-12 column medium-6">
-                        <h1>{{vm.product.shortDescription}}</h1>
-                        Item#: {{vm.product.erpNumber}}<span class="item-divider"></span>Brand: {{vm.getAttributeValue("Brand")}}<span class="item-divider"></span>Collection: {{vm.getAttributeValue("Collection")}}
+                        <div class="wrap">
+                            <h1>{{vm.product.shortDescription}}</h1>
+                            Item#: {{vm.product.erpNumber}}<span class="item-divider"></span>Brand: {{vm.getAttributeValue("Brand")}}<span class="item-divider"></span>Collection: {{vm.getAttributeValue("Collection")}}
+                        </div>
                         <div class="item-block__product__price-wrap">
                             <div class="item-block__product__price">
                                 <isc-product-price product="vm.product" ng-cloak></isc-product-price>
@@ -44,10 +46,10 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="item-block__product__samples-link hide-for-print">
-                            <strong>Available Colors/Finishes</strong> <a href="javascript:void(0);" ng-click="vm.showSwatchOrderForm()">Order Free Samples</a>
+                        <div class="item-block__product__samples-link">
+                            <strong>Available Colors/Finishes</strong> <a class="hide-for-print" href="javascript:void(0);" ng-click="vm.showSwatchOrderForm()">Order Free Samples</a>
                         </div>
-                        <div class="item-block__product__swatches hide-for-print">
+                        <div class="item-block__product__swatches">
                             <div class="item-block__product__swatches__label" ng-repeat-start="styleTrait in vm.styleTraitFiltered | orderBy: 'sortOrder'">{{styleTrait.nameDisplay}}:</div>
                             <ul ng-repeat-end>
                                 <li ng-class="{'active': (vm.styleSelection[$parent.$index] && vm.styleSelection[$parent.$index].styleTraitValueId  == style.styleTraitValueId)}" ng-repeat="style in styleTrait.styleValues | orderBy: 'sortOrder' track by style.styleTraitValueId">
@@ -107,7 +109,7 @@
                                 <div class="small-12 primary-button">
                                     <button ng-show="(vm.product.availability.messageType != 2 || vm.product.canBackOrder) && vm.product.allowedAddToCart && (vm.product.canAddToCart || vm.configurationCompleted || vm.styleSelectionCompleted && !vm.product.canConfigure)"
                                             id="tst_productDetail_addToCart" ng-click="vm.addToCart(vm.product)"
-                                            role="button" class="btn primary btn-add-to-cart" ng-disabled="!vm.product.qtyOrdered || vm.product.qtyOrdered == 0 || vm.showUnitError || vm.addingToCart">
+                                            role="button" class="btn-long btn primary btn-add-to-cart" ng-disabled="!vm.product.qtyOrdered || vm.product.qtyOrdered == 0 || vm.showUnitError || vm.addingToCart">
                                         <span class="ico-CartIcon"></span> [% translate 'Add To Cart' %]
                                     </button>
                                 </div>
@@ -211,7 +213,7 @@
     <!--swatch popup-->
     <div id="swatchform" class="swatchform reveal-modal" data-reveal data-reveal-init aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
         <div class="swatchform__scrollarea">
-            <h1 id="swatchform__title">Order Free Color Samples</h1>
+            <h2 id="swatchform__title">Order Free Color Samples</h2>
             <p class="lead">
                 Simply select the color samples you’d like to receive and click the Add To Cart button below.<br />
                 Or, call us at <strong>800-558-1010</strong> to request samples.<br />

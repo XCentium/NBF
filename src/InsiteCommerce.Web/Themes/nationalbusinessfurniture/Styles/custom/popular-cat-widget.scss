@@ -1,6 +1,15 @@
 ﻿@import "../variables";
 
 .popular-cat {
+    .widget-title {
+        h2 {
+            font-size: 54px;
+            font-weight: bold;
+            line-height: 64px;
+        }
+    }
+
+
     &__item {
         display: block;
     }

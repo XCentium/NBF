@@ -44,6 +44,7 @@ body [role="main"] div.paginator-34 {
     height: 48px;
     padding-top: 0.5em;
     padding-bottom: 0.5em;
+    border: 1px solid #cccccc;
     border-top: 0;
     border-bottom: 0;
 }
@@ -191,7 +192,11 @@ body [role="main"] div.paginator-34 {
 }
 
 .paginator-34 .sort-list div.small-4, .paginator-34 li.results-list .per-page {
-    width: auto !important;
+
+
+    @media all and (max-width: 991px) {
+        width: auto !important;
+    }
 }
 
 .paginator-34 li.results-list .per-page-select {
@@ -220,6 +225,7 @@ body [role="main"] div.paginator-34 {
     max-width: 80px;
     padding: 0 5px;
     font-size: 18px;
+    border: 1px solid #cccccc;
 }
 
 .paginator-34 .pagination input {
@@ -260,6 +266,10 @@ h3.results-count {
     text-align: left;
     padding-left: 0;
     width: 210px;
+
+    @media all and (min-width: 992px) {
+        margin-right: 60px;
+    }
 }
 
 @media all and (max-width: 767px) {

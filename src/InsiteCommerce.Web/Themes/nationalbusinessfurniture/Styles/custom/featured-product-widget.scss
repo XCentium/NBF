@@ -71,8 +71,13 @@
             .item-block__price {
                 font-family: $ProximaNova;
                 display: inline;
+                margin-right: 10px;
                 margin-bottom: 0;
                 font-weight: bold;
+
+                .vm-list & {
+                    font-size: 36px;
+                }
             }
 
             .ori-price-tag {
@@ -86,7 +91,7 @@
 
         &__features {
             .vm-list & {
-                margin-top:30px;
+                margin-top: 30px;
             }
         }
 
