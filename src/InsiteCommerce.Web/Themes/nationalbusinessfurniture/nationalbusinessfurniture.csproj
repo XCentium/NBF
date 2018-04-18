@@ -163,10 +163,15 @@
     <Content Include="Views\Widgets\RecentlyViewed\Standard.cshtml" />
     <Content Include="Views\Widgets\RelatedProducts\Standard.cshtml" />
     <Content Include="Views\Widgets\StaticListView\Standard.cshtml" />
+    <TypeScriptCompile Include="Scripts\Analytics\nbf.analytics.service.ts" />
+    <TypeScriptCompile Include="Scripts\Analytics\nbf.analytics.datalayer.ts" />
     <Content Include="Views\Widgets\SignInView\NBF.cshtml" />
     <Content Include="Views\Widgets\InvoicesView\NBF.cshtml" />
     <Content Include="Views\Widgets\Custom\ProductWriteReview\Standard.cshtml" />
     <Content Include="Styles\custom\tax-exempt.scss" />
+    <TypeScriptCompile Include="Scripts\Analytics\nbf.analytics.adobe.ts" />
+    <Content Include="Views\Widgets\RequestRmaView\Nbf.cshtml" />
+    <Content Include="Views\Widgets\Custom\ContactUsSpanish\Standard.cshtml" />
     <TypeScriptCompile Include="Scripts\Catalog\insite.frequently-purchased.controller.ts" />
     <TypeScriptCompile Include="Scripts\Catalog\insite.recently-viewed.controller.ts" />
     <TypeScriptCompile Include="Scripts\Catalog\insite.related-products.controller.ts" />
@@ -179,6 +184,7 @@
     <TypeScriptCompile Include="Scripts\Custom\Account\nbf.sign-in-fly-out.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Account\nbf.sign-in-widget.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Account\nbf.account.directives.ts" />
+    <TypeScriptCompile Include="Scripts\Custom\Cart\nbf.cart-lines.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Cart\nbf.terms-and-conditions-popup.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Cart\nbf.cart.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Cart\nbf.cart-total-display.directive.ts" />
@@ -200,6 +206,7 @@
     <TypeScriptCompile Include="Scripts\Custom\Catalog\nbf.product-list.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Comments\nbf.commentmessage.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Comments\nbf.commentmessage.service.ts" />
+    <TypeScriptCompile Include="Scripts\Custom\ContactUs\nbf.contactusspanish.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Core\nbf.pager.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Core\nbf.pager.directives.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Dashboard\nbf.dashboard-view.controller.ts" />
@@ -216,6 +223,7 @@
     <TypeScriptCompile Include="Scripts\Custom\OrderTracker\nbf.order-tracker.order-detail.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\OrderTracker\nbf.order-tracker.service.ts" />
     <TypeScriptCompile Include="Scripts\Custom\OrderTracker\nbf.order-tracker.controller.ts" />
+    <TypeScriptCompile Include="Scripts\Custom\Rma\nbf.rma.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\ShopTheLook\nbf.shop-the-look.widget.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\ShopTheLook\nbf.shop-the-look.landing-view.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\SocialMediaSharing\nbf.social-media.controller.ts" />

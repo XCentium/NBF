@@ -5,8 +5,9 @@
         cart: CartModel;
         session: any;
         isVisibleSearchInput = false;
+        checkoutPage: string;
 
-        static $inject = ["$scope", "$timeout", "cartService", "sessionService", "$window", "coreService"];
+        static $inject = ["$scope", "$timeout", "cartService", "sessionService", "$window", "coreService", "$localStorage", "spinnerService", "accountService", "accessToken"];
 
         constructor(
             protected $scope: ng.IScope,
@@ -14,7 +15,11 @@
             protected cartService: cart.ICartService,
             protected sessionService: account.ISessionService,
             protected $window: ng.IWindowService,
-            protected coreService: core.ICoreService) {
+            protected coreService: core.ICoreService,
+            protected $localStorage: common.IWindowStorage,
+            protected spinnerService: core.ISpinnerService,
+            protected accountService: account.IAccountService,
+            protected accessToken: common.IAccessTokenService) {
             this.init();
         }
 
@@ -94,6 +99,49 @@
             this.cartService.saveCart(this.cart).then(
                 (cart: CartModel) => this.saveCartCompleted(saveSuccessUri, cart),
                 (error: any) => { this.saveCartFailed(error); });
+        }
+
+        checkout(checkoutPage: string) {
+            this.checkoutPage = checkoutPage;
+
+            this.spinnerService.show("mainLayout", true);
+
+            this.sessionService.getIsAuthenticated().then(
+                (authenticated: boolean) => {
+                    if (!authenticated) {
+                        this.guestCheckout();
+                    } else {
+                        this.$window.location.href = this.checkoutPage;
+                    }
+                });
+        }
+
+        guestCheckout(): void {
+            const account = { isGuest: true } as AccountModel;
+
+            this.accountService.createAccount(account).then(
+                (createdAccount: AccountModel) => { this.createAccountCompleted(createdAccount); },
+                (error: any) => { this.createAccountFailed(error); });
+        }
+
+        protected createAccountCompleted(account: AccountModel): void {
+            this.$localStorage.set("guestId", account.password);
+            this.accessToken.generate(account.userName, account.password).then(
+                (accessTokenDto: common.IAccessTokenDto) => { this.generateAccessTokenForAccountCreationCompleted(accessTokenDto); },
+                (error: any) => { this.generateAccessTokenForAccountCreationFailed(error); });
+        }
+
+        protected createAccountFailed(error: any): void {
+            //Something went wrong
+        }
+
+        protected generateAccessTokenForAccountCreationCompleted(accessTokenDto: common.IAccessTokenDto): void {
+            this.accessToken.set(accessTokenDto.accessToken);
+            this.$window.location.href = this.checkoutPage;
+        }
+
+        protected generateAccessTokenForAccountCreationFailed(error: any): void {
+            //something went wrong
         }
 
         protected saveCartCompleted(saveSuccessUri: string, cart: CartModel): void {

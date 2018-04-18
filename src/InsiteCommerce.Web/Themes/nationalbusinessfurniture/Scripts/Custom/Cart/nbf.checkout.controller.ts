@@ -4,6 +4,7 @@
     import ShipToModel = Insite.Customers.WebApi.V1.ApiModels.ShipToModel;
     import StateModel = Insite.Websites.WebApi.V1.ApiModels.StateModel;
     import CountryModel = Insite.Websites.WebApi.V1.ApiModels.CountryModel;
+    import TaxExemptParams = insite.account.TaxExemptParams;
 
     export interface INbfCheckoutControllerAttributes extends ng.IAttributes {
         cartUrl: string;
@@ -55,13 +56,19 @@
         userFound = false;
         newUser = false;
         hideSignIn = false;
-        isTaxExempt = false;
-        taxExemptRadioValue = true;
-        taxExemptFileName = "";
 
         //Split Payment variables
         paymentAmount: number;
         remainingTotal: number;
+
+        //Tax Exempt variables
+        isTaxExempt = false;
+        taxExemptChoice = true;
+        taxExemptFileName: string;
+        file: any;
+        errorMessage: string;
+        success: boolean = false;
+        $form: JQuery;
 
         static $inject = [
             "$scope",
@@ -82,7 +89,9 @@
             "$localStorage",
             "nbfGuestActivationService",
             "nbfPaymentService",
-            "termsAndConditionsPopupService"
+            "termsAndConditionsPopupService",
+            "nbfEmailService",
+            "$element"
         ];
 
         constructor(
@@ -104,7 +113,9 @@
             protected $localStorage: insite.common.IWindowStorage,
             protected nbfGuestActivationService: guest.INbfGuestActivationService,
             protected nbfPaymentService: cart.INbfPaymentService,
-            protected termsAndConditionsPopupService: insite.cart.ITermsAndConditionsPopupService) {
+            protected termsAndConditionsPopupService: insite.cart.ITermsAndConditionsPopupService,
+            protected nbfEmailService: nbf.email.INbfEmailService,
+            protected $element: ng.IRootElementService) {
             this.init();
         }
 
@@ -151,6 +162,16 @@
             });
 
             $(".masked-phone").mask("999-999-9999", { autoclear: false });
+
+            this.$form = $("#taxExemptFileUpload");
+            this.$form.removeData("validator");
+            this.$form.removeData("unobtrusiveValidation");
+            $.validator.unobtrusive.parse(this.$form);
+
+            var self = this;
+            document.getElementById("taxExemptFileUpload").onchange = function () {
+                self.setFile(this);
+            };
         }
 
         protected getSettingsCompleted(settingsCollection: insite.core.SettingsCollection): void {
@@ -182,11 +203,11 @@
                     this.getCartCompleted(cart);
                     this.paymentAmount = cart.orderGrandTotal;
                     this.remainingTotal = cart.orderGrandTotal;
-                    if (this.cart.properties['cc1']) {
-                        this.remainingTotal -= Number(this.cart.properties['cc1']);
+                    if (this.cart.properties["cc1"]) {
+                        this.remainingTotal -= Number(this.cart.properties["cc1"]);
                     }
-                    if (this.cart.properties['cc2']) {
-                        this.remainingTotal -= Number(this.cart.properties['cc2']);
+                    if (this.cart.properties["cc2"]) {
+                        this.remainingTotal -= Number(this.cart.properties["cc2"]);
                     }
                     this.paymentAmount = this.remainingTotal;
                 },
@@ -204,14 +225,21 @@
             }
 
             this.remainingTotal = this.cart.orderGrandTotal;
-            if (this.cart.properties['cc1']) {
-                this.remainingTotal -= Number(this.cart.properties['cc1']);
+            if (this.cart.properties["cc1"]) {
+                this.remainingTotal -= Number(this.cart.properties["cc1"]);
             }
-            if (this.cart.properties['cc2']) {
-                this.remainingTotal -= Number(this.cart.properties['cc2']);
+            if (this.cart.properties["cc2"]) {
+                this.remainingTotal -= Number(this.cart.properties["cc2"]);
             }
-            this.originalBillTo = cart.billTo;
-            this.isGuest = cart.billTo.isGuest;
+
+            if (this.cart.billTo) {
+                if (this.cart.billTo.properties["taxExemptFileName"]) {
+                    this.isTaxExempt = true;
+                    this.taxExemptFileName = this.cart.billTo.properties["taxExemptFileName"];
+                }
+                this.originalBillTo = cart.billTo;
+                this.isGuest = cart.billTo.isGuest;
+            }
 
             if (this.cart.shipTo && this.cart.shipTo.id) {
                 this.initialShipToId = this.cart.shipTo.id;
@@ -219,6 +247,11 @@
 
             this.websiteService.getCountries("states").then(
                 (countryCollection: CountryCollectionModel) => { this.getCountriesCompleted(countryCollection); });
+
+            this.promotionService.getCartPromotions(this.cart.id).then(
+                (promotionCollection: PromotionCollectionModel) => {
+                    this.getCartPromotionsCompleted(promotionCollection);
+                });
         }
 
         protected getCartFailed(error: any): void {
@@ -638,6 +671,7 @@
             $("#nav1min,#nav2min,#nav1 .edit,#nav2 .edit").hide();
 
             $("#shipping").removeClass("active");
+            $("#nav1").addClass("active");
             $("#nav2").removeClass("active");
             $("#nav3").removeClass("active");
             $("#payment").removeClass("active");
@@ -655,6 +689,8 @@
             $("#nav2min, #nav2 .edit").hide();
 
             $("#payment").removeClass("active");
+            $("#nav2").addClass("active");
+            $("#nav1").removeClass("active");
             $("#nav3").removeClass("active");
             $("html:not(:animated), body:not(:animated)").animate({
                     scrollTop: $("#nav2").offset().top
@@ -841,11 +877,6 @@
             this.setUpPaymentMethod(isInit, paymentMethod || this.cart.paymentMethod);
             this.setUpPayPal(isInit);
 
-            this.promotionService.getCartPromotions(this.cart.id).then(
-                (promotionCollection: PromotionCollectionModel) => {
-                    this.getCartPromotionsCompleted(promotionCollection);
-                });
-
             if (!isInit) {
                 this.pageIsReady = true;
             }
@@ -968,13 +999,31 @@
             this.getCart();
         }
 
-        submit(signInUri: string): void {
+        submit(signInUri: string, emailTo: string): void {
             this.submitting = true;
             this.submitErrorMessage = "";
 
             if (!this.validateReviewAndPayForm()) {
                 this.submitting = false;
                 return;
+            }
+
+            if (!this.isTaxExempt && this.taxExemptChoice && this.taxExemptFileName) {
+                var params = {
+                    customerNumber: this.cart.billTo.customerNumber,
+                    customerSequence: this.cart.billTo.customerSequence,
+                    emailTo: emailTo,
+                    orderNumber: this.cart.orderNumber,
+                    fileLocation: ""
+                } as TaxExemptParams;
+
+                this.nbfEmailService.sendTaxExemptEmail(params, this.file).then(
+                    () => {
+                        this.updatebillToTaxExempt();
+                    },
+                    () => { this.errorMessage = "An error has occurred."; });
+            } else if (!this.isTaxExempt && this.taxExemptChoice) {
+                //tax exempt choice is yes but no file was uploaded
             }
 
             var pass = $("#CreateNewAccountInfo_Password").val();
@@ -1180,6 +1229,9 @@
             $("#nav2expanded").hide();
             $("#nav2min, #nav2 .edit").show();
 
+
+            $("#nav1").removeClass("active");
+            $("#nav2").removeClass("active");
             $("#payment").addClass("active");
             $("#nav3").addClass("active");
             $("html:not(:animated), body:not(:animated)").animate({
@@ -1236,28 +1288,28 @@
             this.nbfPaymentService.addPayment(model).then((result) => {
                 if (result.toLowerCase() == "true") {
                     this.remainingTotal = self.cart.orderGrandTotal;
-                    var propName = '';
-                    if (!self.cart.properties['cc1']) {
-                        propName = 'cc1';
+                    var propName = "";
+                    if (!self.cart.properties["cc1"]) {
+                        propName = "cc1";
                         self.cart.properties[propName] = self.paymentAmount.toString();
                         self.cart.paymentOptions.creditCard.cardHolderName = "";
                         self.cart.paymentOptions.creditCard.cardNumber = "";
                         self.cart.paymentOptions.creditCard.securityCode = "";
                         self.cart.paymentOptions.creditCard.expirationYear = (new Date()).getFullYear();
                         self.cart.paymentOptions.creditCard.expirationMonth = (new Date()).getMonth() + 1;
-                    } else if (!self.cart.properties['cc2']) {
-                        propName = 'cc2';
+                    } else if (!self.cart.properties["cc2"]) {
+                        propName = "cc2";
                         self.cart.properties[propName] = self.paymentAmount.toString();
                     }
 
                     self.cartService.updateCart(self.cart).then((cart) => {
                         this.cart.properties = cart.properties;
                         this.remainingTotal = cart.orderGrandTotal;
-                        if (cart.properties['cc1']) {
-                            this.remainingTotal -= Number(cart.properties['cc1']);
+                        if (cart.properties["cc1"]) {
+                            this.remainingTotal -= Number(cart.properties["cc1"]);
                         }
-                        if (cart.properties['cc2']) {
-                            this.remainingTotal -= Number(cart.properties['cc2']);
+                        if (cart.properties["cc2"]) {
+                            this.remainingTotal -= Number(cart.properties["cc2"]);
 
                         }
                         this.paymentAmount = this.remainingTotal;
@@ -1321,9 +1373,66 @@
 
             this.termsAndConditionsPopupService.display(data)
         };
+
+        //Tax Exempt
+        setFile(arg): boolean {
+            this.errorMessage = "";
+
+            if (!this.$form.valid()) {
+                return false;
+            }
+
+            if (arg.files.length > 0) {
+                this.file = arg.files[0];
+                this.taxExemptFileName = this.file.name;
+
+                setTimeout(() => {
+                    this.$scope.$apply();
+                });
+            }
+        }
+
+        openUpload() {
+            setTimeout(() => {
+                $("#taxExemptFileUpload").click();
+            }, 100);
+        }
+
+        saveFile(emailTo: string, orderNum?: string) {
+            var params = {
+                customerNumber: this.cart.billTo.customerNumber,
+                customerSequence: this.cart.billTo.customerSequence,
+                emailTo: emailTo,
+                orderNumber: orderNum,
+                fileLocation: ""
+            } as TaxExemptParams;
+
+            this.nbfEmailService.sendTaxExemptEmail(params, this.file).then(
+                () => {
+                    this.updatebillToTaxExempt();
+                },
+                () => { this.submitErrorMessage = "An error uploading your file has occurred."; });
+        }
+
+        protected updatebillToTaxExempt() {
+            this.cart.billTo.properties["taxExemptFileName"] = this.taxExemptFileName;
+
+            this.customerService.updateBillTo(this.cart.billTo).then(
+                () => { this.updatebillToTaxExemptCompleted(); },
+                (error: any) => { this.updatebillToTaxExemptFailed(error); });
+        }
+
+        protected updatebillToTaxExemptCompleted(): void {
+            this.success = true;
+        }
+
+        protected updatebillToTaxExemptFailed(error: any): void {
+            this.submitErrorMessage = "An error uploading your file has occurred.";
+        }
     }
 
     angular
         .module("insite")
+        .filter("negate", (): (promoVal: any) => string => promoVal => `- ${promoVal}`)
         .controller("NbfCheckoutController", NbfCheckoutController);
 }
