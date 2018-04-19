@@ -265,7 +265,7 @@
     }
 
     // hide unnecessary global UI elements
-    .top-content, .top-panel, [role="secondary-nav"], header#header, .isc-primary-nav, footer#footer, .show-for-small, .hide-for-medium-up, .f-dropdown.content, .btns a.btn-print, .btn-return, .btn-continue-shopping {
+    .top-content, .top-panel, [role="secondary-nav"], header .isc-nav-bar, .isc-primary-nav, footer#footer, .show-for-small, .hide-for-medium-up, .f-dropdown.content, .btns a.btn-print, .btn-return, .btn-continue-shopping {
         display: none !important;
     }
 
@@ -1984,6 +1984,11 @@ header div.head-cm {
 
 .header-zone {
     width: 100%;
+}
+@media print {
+    .header-zone {
+        width: 33%;
+    }
 }
 
 @media all and (min-width: 992px) {
@@ -7452,7 +7457,7 @@ nav ul:not(.side-nav) li a {
 
 @media print {
 
-    header#header, #footer, .show-for-small {
+     #footer, .show-for-small {
         display: none !important;
     }
 
@@ -7525,8 +7530,12 @@ header label.toggle.burger {
     float: left;
 
     @media all and (min-width: 992px) {
-                display:none;
-            }
+        display: none;
+    }
+
+    @media print {
+            display: none;
+    }
 }
 
 header label.toggle.burger {
