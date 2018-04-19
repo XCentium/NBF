@@ -45,7 +45,7 @@
                             </div>
                         </div>
                         <div class="item-block__product__samples-link hide-for-print">
-                            <strong>Available Colors/Finishes</strong> <a href="javascript:void(0);" ng-click="vm.showSwatchOrderForm()">Order Free Samples</a>
+                            <strong>Available Colors/Finishes</strong> <a href="javascript:void(0);" ng-click="vm.showSwatchOrderForm()" ng-if="vm.styleTraitFiltered.length > 0">Order Free Samples</a>
                         </div>
                         <div class="item-block__product__swatches hide-for-print">
                             <div class="item-block__product__swatches__label" ng-repeat-start="styleTrait in vm.styleTraitFiltered | orderBy: 'sortOrder'">{{styleTrait.nameDisplay}}:</div>
@@ -127,10 +127,7 @@
                             <a id="tst_productDetail_addToWishList" ng-if="vm.isAuthenticated" ng-class="{'in-favorites': vm.product.properties['isFavorite'] == 'true' } "
                                ng-click="vm.toggleFavorite(vm.product)" role="button"
                                class="btn secondary btn-add-to-list" href="javascript:;">{{vm.product.properties['isFavorite'] == "false" ? "Add To Favorites" : "Remove From Favorites"}}</a>
-                            <div ng-show="vm.product" class="small-12 detail-share">
-                                <a id="tst_productDetail_share" href="javascript:;" class="pd-zoom" data-reveal-id="TellAFriendDialogContainer">[% translate 'Share' %]</a>
-                                <isc-tell-a-friend-popup product="vm.product" data-reveal></isc-tell-a-friend-popup>
-                            </div>
+                            
                         </div>
                     </div>
                     <div class="accordion-details-page">

@@ -72,6 +72,14 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Insite.Commerce.Private.4.4.2.39579\lib\net452\DotLiquid.dll</HintPath>
     </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Elasticsearch.Net, Version=5.0.0.0, Culture=neutral, PublicKeyToken=96c599bbe3e70f5d, processorArchitecture=MSIL">
       <HintPath>..\packages\Elasticsearch.Net.5.4.0\lib\net45\Elasticsearch.Net.dll</HintPath>
     </Reference>
@@ -235,6 +243,7 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.Entity" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
@@ -313,8 +322,10 @@
     <Compile Include="Enums\Listrak\EventIdEnum.cs" />
     <Compile Include="Enums\Listrak\TransactionalMessageEnum.cs" />
     <Compile Include="Filters\OrderTrackerFilter.cs" />
+    <Compile Include="Handlers\AddRmaHandler\SendEmail.cs" />
     <Compile Include="Handlers\AddSessionHandlerNBF.cs" />
     <Compile Include="Handlers\AddCustomer.cs" />
+    <Compile Include="Handlers\AddWishListHandler\AddWishList.cs" />
     <Compile Include="Handlers\GetDashboardPanelCollectionHandlerNBF.cs" />
     <Compile Include="Handlers\GetProductCollectionHandler\AfterProductListRetrived.cs" />
     <Compile Include="Handlers\GetProductCollectionHandler\FindProductsWithSearch.cs" />
@@ -327,6 +338,18 @@
     <Compile Include="Handlers\UpdateCartHandler.cs" />
     <Compile Include="Mappers\GetTrackedOrderMapper.cs" />
     <Compile Include="Mappers\Interfaces\IGetTrackedOrderMapper.cs" />
+    <Compile Include="Models\AffiliateCode\AffiliateCodeModel.cs" />
+    <Compile Include="Models\AffiliateCode\AffiliateCodeModelMapping.cs" />
+    <Compile Include="Models\ShopTheLook\StlCategory.cs" />
+    <Compile Include="Models\ShopTheLook\StlCategoryMapping.cs" />
+    <Compile Include="Models\ShopTheLook\StlRoomLooksStyle.cs" />
+    <Compile Include="Models\ShopTheLook\StlRoomLooksProduct.cs" />
+    <Compile Include="Models\ShopTheLook\StlRoomLooksCategory.cs" />
+    <Compile Include="Models\ShopTheLook\StlRoomLook.cs" />
+    <Compile Include="Models\ShopTheLook\StlRoomLooksStyleMapping.cs" />
+    <Compile Include="Models\ShopTheLook\StlRoomLooksProductMapping.cs" />
+    <Compile Include="Models\ShopTheLook\StlRoomLooksCategoryMapping.cs" />
+    <Compile Include="Models\ShopTheLook\StlRoomLookMapping.cs" />
     <Compile Include="Plugins\Cart\CalculateVendorBreakPricing.cs" />
     <Compile Include="Plugins\Cart\CalculateShipping.cs" />
     <Compile Include="Plugins\Cart\Models\AdditionalChargesRule.cs" />
@@ -372,6 +395,11 @@
     <Compile Include="WebApi\PriceCode\Models\SetPriceCodeRequest.cs" />
     <Compile Include="WebApi\PriceCode\Repository\PriceCodeRepository.cs" />
     <Compile Include="WebApi\PriceCode\Services\PriceCodeService.cs" />
+    <Compile Include="WebApi\ShopTheLook\Controllers\ShopTheLookController.cs" />
+    <Compile Include="WebApi\ShopTheLook\Interfaces\IShopTheLookRepository.cs" />
+    <Compile Include="WebApi\ShopTheLook\Interfaces\IShopTheLookService.cs" />
+    <Compile Include="WebApi\ShopTheLook\Repository\ShopTheLookRepository.cs" />
+    <Compile Include="WebApi\ShopTheLook\Services\ShopTheLookService.cs" />
     <Compile Include="WebApi\WebCode\Controllers\WebCodeController.cs" />
     <Compile Include="WebApi\WebCode\Interfaces\IWebCodeRepository.cs" />
     <Compile Include="WebApi\WebCode\Interfaces\IWebCodeService.cs" />
@@ -450,6 +478,8 @@
     <Compile Include="Widgets\WebCode.cs" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="DatabaseScripts\2018.04.18.02.CreateWebCodeTables.sql" />
+    <EmbeddedResource Include="DatabaseScripts\2018.04.18.01.CreateSTLTables.sql" />
     <Content Include="packages.config">
       <SubType>Designer</SubType>
     </Content>

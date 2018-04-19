@@ -20,7 +20,6 @@
         }
 
         addPayment(payment: any): ng.IPromise<string> {
-
             var uri = this.serviceUri;
             //var query = "?" + this.coreService.parseParameters(parameters);
             uri += "/AddCCTransaction";
@@ -31,16 +30,16 @@
             return this.httpWrapperService.executeHttpRequest(
                 this,
                 this.$http.post(uri, payment, config),
-                this.getWebCodeCompleted,
-                this.getWebCodeFailed
+                this.addPaymentCompleted,
+                this.addPaymentFailed
             );
         }
        
-        protected getWebCodeCompleted(webCode: string): void {
+        protected addPaymentCompleted(): void {
 
         }
 
-        protected getWebCodeFailed(error: ng.IHttpPromiseCallbackArg<any>): void {
+        protected addPaymentFailed(error: ng.IHttpPromiseCallbackArg<any>): void {
 
         }
     }

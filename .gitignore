@@ -88,3 +88,4 @@ src/InSiteCommerce.Web/App_Data/luceneindex/
 src/InsiteCommerce.Web/Themes/**/*.css
 /src/InSiteCommerce.Web/App_Data/insiteidentity.pfx
 src/InsiteCommerce.Web/UserFiles/_system/DataSet/TempChunkStorage/
+/src/InsiteCommerce.Web/UserFiles/_system/fileuploadtemp
