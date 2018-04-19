@@ -71,8 +71,13 @@
             .item-block__price {
                 font-family: $ProximaNova;
                 display: inline;
+                margin-right: 10px;
                 margin-bottom: 0;
                 font-weight: bold;
+
+                .vm-list & {
+                    font-size: 36px;
+                }
             }
 
             .ori-price-tag {
@@ -81,6 +86,12 @@
                 &.strike {
                     text-decoration: line-through;
                 }
+            }
+        }
+
+        &__features {
+            .vm-list & {
+                margin-top: 30px;
             }
         }
 
@@ -155,7 +166,7 @@
                 margin: 0;
                 padding: 0;
                 list-style: none;
-                height:32px;
+                height: 32px;
 
                 li {
                     display: inline-block;
@@ -188,4 +199,8 @@
             }
         }
     }
+}
+
+.nbf-product-feature-style {
+    list-style-type: disc;
 }

@@ -116,7 +116,8 @@
         protected generateAccessTokenForGuestAccountCreationCompleted(accessTokenDto: common.IAccessTokenDto): void {
             this.accessToken.set(accessTokenDto.accessToken);
             this.spinnerService.hide("mainLayout");
-            this.getSession();
+            //this.getSession();
+            this.getAddressFields();
         }
 
         protected generateAccessTokenForGuestAccountCreationFailed(error: any): void {

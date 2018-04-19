@@ -36,7 +36,7 @@
                                     <li ng-bind="vm.invoice.stAddress1"></li>
                                     <li ng-if="vm.invoice.stAddress2" ng-bind="vm.invoice.stAddress2"></li>
                                     <li ng-bind="vm.stFormat"></li>
-                                    <li class="hide" ng-bind="vm.invoice.stCountry"></li>
+                                    <li ng-bind="vm.invoice.stCountry"></li>
                                 </ul>
                             </div>
                         </div>
@@ -50,7 +50,7 @@
                                     <li ng-bind="vm.invoice.btAddress1"></li>
                                     <li ng-if="vm.invoice.btAddress2" ng-bind="vm.invoice.btAddress2"></li>
                                     <li ng-bind="vm.btFormat"></li>
-                                    <li class="hide" ng-bind="vm.invoice.btCountry"></li>
+                                    <li ng-bind="vm.invoice.btCountry"></li>
                                 </ul>
                             </div>
                             <div ng-if="vm.invoice.shipCode" class="ship-method">
@@ -78,13 +78,17 @@
                         <div class="small-6 columns sub-label">[% translate 'Subtotal' %]</div>
                         <div class="small-6 columns sub-amount" ng-bind="vm.invoice.productTotalDisplay"></div>
                     </div>
-                    <div class="row">
+                    <div class="row promo-applied" ng-if="vm.invoice.discountAmount > 0">
+                        <div class="small-6 columns sub-label">[% translate 'Discounts' %]</div>
+                        <div class="small-6 columns sub-amount" ng-bind="'-' + vm.invoice.discountAmountDisplay"></div>
+                    </div>
+                    <div class="row" ng-if="vm.invoice.shippingAndHandling > 0">
                         <div class="small-6 columns sub-label">[% translate 'Shipping & Handling' %]</div>
                         <div class="small-6 columns sub-amount" ng-bind="vm.invoice.shippingAndHandlingDisplay"></div>
                     </div>
-                    <div class="row promo-applied" ng-if="vm.invoice.discountAmount > 0">
-                        <div class="small-6 columns sub-label">[% translate 'Order Discount' %]</div>
-                        <div class="small-6 columns sub-amount" ng-bind="'-' + vm.invoice.discountAmountDisplay"></div>
+                    <div class="row" ng-if="vm.invoice.otherCharges > 0">
+                        <div class="small-6 columns sub-label">[% translate 'Other Charges' %]</div>
+                        <div class="small-6 columns sub-amount" ng-bind="vm.invoice.otherChargesDisplay"></div>
                     </div>
                     <div class="row" ng-if="vm.invoice.invoiceHistoryTaxes.length == 0">
                         <div class="small-6 columns sub-label">[% translate 'Taxes' %]</div>
@@ -93,7 +97,7 @@
                     <div class="row" ng-repeat="invoiceHistoryTax in vm.invoice.invoiceHistoryTaxes | orderBy:'sortOrder'">
                         <div class="small-6 columns sub-label">
                             <span ng-show="invoiceHistoryTax.taxDescription" ng-bind="invoiceHistoryTax.taxDescription"></span>
-                            <span ng-hide="invoiceHistoryTax.taxDescription">[% translate 'Taxes' %]</span>
+                            <span ng-hide="invoiceHistoryTax.taxDescription">[% translate 'Tax' %]</span>
                         </div>
                         <div class="small-6 columns sub-amount" ng-bind="invoiceHistoryTax.taxAmountDisplay"></div>
                     </div>
@@ -109,17 +113,17 @@
                 <ul class="item-list cart-items">
                     <li class="row item-block header">
                         <div class="small-2 columns">
-                            <h4>[% translate 'Product' %]</h4>
+                            <strong>[% translate 'Product' %]</strong>
                         </div>
                         <div class="small-10 columns">
                             <div class="small-6 small-offset-6 large-4 large-offset-4 columns">
-                                <h4 class="right">[% translate 'Price' %]</h4>
+                                <strong class="right">[% translate 'Price' %]</strong>
                             </div>
                             <div class="large-2 columns show-for-large-up">
-                                <h4 class="right">[% translate 'QTY_quantity' %]</h4>
+                                <strong class="right">[% translate 'Qty Invoiced' %]</strong>
                             </div>
                             <div class="large-2 columns show-for-large-up">
-                                <h4 class="right">[% translate 'Subtotal' %]</h4>
+                                <strong class="right">[% translate 'Subtotal' %]</strong>
                             </div>
                         </div>
                     </li>
@@ -132,8 +136,8 @@
                         <div class="small-10 columns item-details">
                             <div class="small-6 large-4 columns">
                                 <div class="item-name">
-                                    <a ng-if="line.productUri" ng-href="{{ line.productUri }}">{{ line.shortDescription }}</a>
-                                    <span ng-if="!line.productUri" ng-bind="line.productERPNumber"></span>
+                                    <a ng-if="line.productUri" ng-href="{{ line.productUri }}">{{ line.shortDescription || line.description }}</a>
+                                    <span ng-if="!line.productUri">{{ line.shortDescription || line.description }}</span>
                                 </div>
                                 <div class="item-num">
                                     <span class="item-num-sku" ng-bind="line.productERPNumber"></span>
@@ -147,7 +151,7 @@
                             <div class="small-12 medium-6 large-2 columns">
                                 <div class="item-opt">
                                     <div class="item-qty">
-                                        <strong class="hide-for-large-up">[% translate 'QTY_quantity' %]:</strong>
+                                        <strong class="hide-for-large-up">[% translate 'Qty Invoiced' %]:</strong>
                                         <span ng-bind="line.qtyInvoiced"></span>
                                     </div>
                                 </div>
@@ -158,7 +162,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="large-10 columns item-code-notes">
+                        <div class="large-10 columns item-code-notes" ng-if="line.notes">
                             <div class="large-6 columns item-notes">
                                 <strong>[% translate 'Item Notes' %]:</strong><span ng-bind="line.notes"></span>
                             </div>
