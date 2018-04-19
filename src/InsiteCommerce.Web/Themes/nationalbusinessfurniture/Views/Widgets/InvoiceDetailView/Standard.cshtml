@@ -113,17 +113,17 @@
                 <ul class="item-list cart-items">
                     <li class="row item-block header">
                         <div class="small-2 columns">
-                            <strong>[% translate 'Product' %]</strong>
+                            <h4>[% translate 'Product' %]</h4>
                         </div>
                         <div class="small-10 columns">
                             <div class="small-6 small-offset-6 large-4 large-offset-4 columns">
-                                <strong class="right">[% translate 'Price' %]</strong>
+                                <h4 class="right">[% translate 'Price' %]</h4>
                             </div>
                             <div class="large-2 columns show-for-large-up">
-                                <strong class="right">[% translate 'Qty Invoiced' %]</strong>
+                                <h4 class="right">[% translate 'Qty Invoiced' %]</h4>
                             </div>
                             <div class="large-2 columns show-for-large-up">
-                                <strong class="right">[% translate 'Subtotal' %]</strong>
+                                <h4 class="right">[% translate 'Subtotal' %]</h4>
                             </div>
                         </div>
                     </li>
@@ -136,8 +136,8 @@
                         <div class="small-10 columns item-details">
                             <div class="small-6 large-4 columns">
                                 <div class="item-name">
-                                    <a ng-if="line.productUri" ng-href="{{ line.productUri }}">{{ line.shortDescription }}</a>
-                                    <span ng-if="!line.productUri" ng-bind="line.productERPNumber"></span>
+                                    <a ng-if="line.productUri" ng-href="{{ line.productUri }}">{{ line.shortDescription || line.description }}</a>
+                                    <span ng-if="!line.productUri">{{ line.shortDescription || line.description }}</span>
                                 </div>
                                 <div class="item-num">
                                     <span class="item-num-sku" ng-bind="line.productERPNumber"></span>

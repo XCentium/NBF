@@ -78,6 +78,10 @@
                 })
             }
         }
+
+        toggleexrtafilter(): void {
+            $('.exrta-filter-wrap').toggleClass('collapsed');
+        }
     }
 
     angular

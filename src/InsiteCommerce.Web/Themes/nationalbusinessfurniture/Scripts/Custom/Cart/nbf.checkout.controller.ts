@@ -169,7 +169,7 @@
             $.validator.unobtrusive.parse(this.$form);
 
             var self = this;
-            document.getElementById('taxExemptFileUpload').onchange = function () {
+            document.getElementById("taxExemptFileUpload").onchange = function () {
                 self.setFile(this);
             };
         }
@@ -203,11 +203,11 @@
                     this.getCartCompleted(cart);
                     this.paymentAmount = cart.orderGrandTotal;
                     this.remainingTotal = cart.orderGrandTotal;
-                    if (this.cart.properties['cc1']) {
-                        this.remainingTotal -= Number(this.cart.properties['cc1']);
+                    if (this.cart.properties["cc1"]) {
+                        this.remainingTotal -= Number(this.cart.properties["cc1"]);
                     }
-                    if (this.cart.properties['cc2']) {
-                        this.remainingTotal -= Number(this.cart.properties['cc2']);
+                    if (this.cart.properties["cc2"]) {
+                        this.remainingTotal -= Number(this.cart.properties["cc2"]);
                     }
                     this.paymentAmount = this.remainingTotal;
                 },
@@ -225,11 +225,11 @@
             }
 
             this.remainingTotal = this.cart.orderGrandTotal;
-            if (this.cart.properties['cc1']) {
-                this.remainingTotal -= Number(this.cart.properties['cc1']);
+            if (this.cart.properties["cc1"]) {
+                this.remainingTotal -= Number(this.cart.properties["cc1"]);
             }
-            if (this.cart.properties['cc2']) {
-                this.remainingTotal -= Number(this.cart.properties['cc2']);
+            if (this.cart.properties["cc2"]) {
+                this.remainingTotal -= Number(this.cart.properties["cc2"]);
             }
 
             if (this.cart.billTo) {
@@ -247,6 +247,11 @@
 
             this.websiteService.getCountries("states").then(
                 (countryCollection: CountryCollectionModel) => { this.getCountriesCompleted(countryCollection); });
+
+            this.promotionService.getCartPromotions(this.cart.id).then(
+                (promotionCollection: PromotionCollectionModel) => {
+                    this.getCartPromotionsCompleted(promotionCollection);
+                });
         }
 
         protected getCartFailed(error: any): void {
@@ -666,6 +671,7 @@
             $("#nav1min,#nav2min,#nav1 .edit,#nav2 .edit").hide();
 
             $("#shipping").removeClass("active");
+            $("#nav1").addClass("active");
             $("#nav2").removeClass("active");
             $("#nav3").removeClass("active");
             $("#payment").removeClass("active");
@@ -683,6 +689,8 @@
             $("#nav2min, #nav2 .edit").hide();
 
             $("#payment").removeClass("active");
+            $("#nav2").addClass("active");
+            $("#nav1").removeClass("active");
             $("#nav3").removeClass("active");
             $("html:not(:animated), body:not(:animated)").animate({
                     scrollTop: $("#nav2").offset().top
@@ -868,11 +876,6 @@
             this.setUpShipVia(isInit);
             this.setUpPaymentMethod(isInit, paymentMethod || this.cart.paymentMethod);
             this.setUpPayPal(isInit);
-
-            this.promotionService.getCartPromotions(this.cart.id).then(
-                (promotionCollection: PromotionCollectionModel) => {
-                    this.getCartPromotionsCompleted(promotionCollection);
-                });
 
             if (!isInit) {
                 this.pageIsReady = true;
@@ -1226,6 +1229,9 @@
             $("#nav2expanded").hide();
             $("#nav2min, #nav2 .edit").show();
 
+
+            $("#nav1").removeClass("active");
+            $("#nav2").removeClass("active");
             $("#payment").addClass("active");
             $("#nav3").addClass("active");
             $("html:not(:animated), body:not(:animated)").animate({
@@ -1282,28 +1288,28 @@
             this.nbfPaymentService.addPayment(model).then((result) => {
                 if (result.toLowerCase() == "true") {
                     this.remainingTotal = self.cart.orderGrandTotal;
-                    var propName = '';
-                    if (!self.cart.properties['cc1']) {
-                        propName = 'cc1';
+                    var propName = "";
+                    if (!self.cart.properties["cc1"]) {
+                        propName = "cc1";
                         self.cart.properties[propName] = self.paymentAmount.toString();
                         self.cart.paymentOptions.creditCard.cardHolderName = "";
                         self.cart.paymentOptions.creditCard.cardNumber = "";
                         self.cart.paymentOptions.creditCard.securityCode = "";
                         self.cart.paymentOptions.creditCard.expirationYear = (new Date()).getFullYear();
                         self.cart.paymentOptions.creditCard.expirationMonth = (new Date()).getMonth() + 1;
-                    } else if (!self.cart.properties['cc2']) {
-                        propName = 'cc2';
+                    } else if (!self.cart.properties["cc2"]) {
+                        propName = "cc2";
                         self.cart.properties[propName] = self.paymentAmount.toString();
                     }
 
                     self.cartService.updateCart(self.cart).then((cart) => {
                         this.cart.properties = cart.properties;
                         this.remainingTotal = cart.orderGrandTotal;
-                        if (cart.properties['cc1']) {
-                            this.remainingTotal -= Number(cart.properties['cc1']);
+                        if (cart.properties["cc1"]) {
+                            this.remainingTotal -= Number(cart.properties["cc1"]);
                         }
-                        if (cart.properties['cc2']) {
-                            this.remainingTotal -= Number(cart.properties['cc2']);
+                        if (cart.properties["cc2"]) {
+                            this.remainingTotal -= Number(cart.properties["cc2"]);
 
                         }
                         this.paymentAmount = this.remainingTotal;
@@ -1427,5 +1433,6 @@
 
     angular
         .module("insite")
+        .filter("negate", (): (promoVal: any) => string => promoVal => `- ${promoVal}`)
         .controller("NbfCheckoutController", NbfCheckoutController);
 }

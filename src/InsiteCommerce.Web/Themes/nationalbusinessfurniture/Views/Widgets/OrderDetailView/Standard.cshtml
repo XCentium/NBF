@@ -170,20 +170,20 @@
                 <ul class="item-list cart-items">
                     <li class="row item-block header">
                         <div class="small-2 columns">
-                            <strong>[% translate 'Product' %]</strong>
+                            <h4>[% translate 'Product' %]</h4>
                         </div>
                         <div class="small-10 columns">
                             <div class="medium-6 medium-offset-6 large-4 large-offset-2 columns hide-for-small">
-                                <strong class="right">[% translate 'Price' %]</strong>
+                                <h4 class="right">[% translate 'Price' %]</h4>
                             </div>
                             <div class="large-2 columns show-for-large-up">
-                                <strong class="right">[% translate 'Qty Ordered' %]</strong>
+                                <h4 class="right">[% translate 'Qty Ordered' %]</h4>
                             </div>
                             <div class="large-2 columns show-for-large-up">
-                                <strong class="right">[% translate 'Qty Shipped' %]</strong>
+                                <h4 class="right">[% translate 'Qty Shipped' %]</h4>
                             </div>
                             <div class="large-2 columns show-for-large-up">
-                                <strong class="right">[% translate 'Subtotal' %]</strong>
+                                <h4 class="right">[% translate 'Subtotal' %]</h4>
                             </div>
                         </div>
                     </li>
@@ -196,12 +196,11 @@
                         <div class="small-10 columns item-details">
                             <div class="small-12 medium-6 large-4 columns">
                                 <div class="item-name">
-                                    <a ng-if="line.productUri && line.isActiveProduct" ng-href="{{ line.productUri }}">{{ line.description || line.shortDescription }}</a>
+                                    <a ng-if="line.productUri && line.isActiveProduct" ng-href="{{ line.productUri }}">{{ line.shortDescription || line.description }}</a>
+                                    <span ng-if="!line.productUri || !line.isActiveProduct">{{ line.shortDescription || line.description }}</span>
                                     <span ng-if="line.sectionOptions" ng-repeat="sectionOption in line.sectionOptions">
                                         <br /> <span ng-bind="sectionOption.sectionName + ':' + sectionOption.optionName"></span>
                                     </span>
-                                    <span ng-if="!line.isActiveProduct">{{ line.description || line.shortDescription }}</span>
-                                    <span ng-if="!line.productUri" ng-bind="line.productErpNumber"></span>
                                 </div>
                                 <div class="item-num">
                                     <span class="item-num-sku" ng-bind="line.productErpNumber"></span>

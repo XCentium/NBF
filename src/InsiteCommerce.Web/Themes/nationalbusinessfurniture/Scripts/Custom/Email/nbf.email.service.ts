@@ -5,6 +5,8 @@
     export interface INbfEmailService {
         sendCatalogPrefsEmail(params: any): ng.IPromise<string>;
         sendTaxExemptEmail(params: TaxExemptParams, file: any): ng.IPromise<string>;
+        sendContactUsSpanishForm(params: any): ng.IPromise<string>;
+        uploadRmaFile(file: any);
     }
 
     export class NbfEmailService implements INbfEmailService {
@@ -32,6 +34,17 @@
             );
         }
 
+        sendContactUsSpanishForm(params: any): ng.IPromise<string> {
+            const uri = this.serviceUri + "/contactusspanish";
+
+            return this.httpWrapperService.executeHttpRequest(
+                this,
+                this.$http({ url: uri, method: "POST", data: params }),
+                this.sendEmailCompleted,
+                this.sendEmailFailed
+            );
+        }
+
         sendTaxExemptEmail(params: TaxExemptParams, file: any): ng.IPromise<string> {
             const fileUri = this.serviceUri + "/taxexemptfile";
 
@@ -50,7 +63,7 @@
                     alert("error");
                 } else {
                     params.fileLocation = data;
-                    this.postFileUploadData(params).then((uploadData) => {
+                    this.postTaxExemptFileUpload(params).then((uploadData) => {
                         result = uploadData;
                     });
                 }
@@ -61,6 +74,19 @@
             return defer.promise;
         } 
 
+        uploadRmaFile(file: any) {
+            const fileUri = this.serviceUri + "/rmafile";
+
+            const formData = new FormData();
+            formData.append("file", file);
+
+            const config = {
+                headers: { "Content-Type": undefined }
+            };
+
+            return this.$http.post(fileUri, formData, config);
+        } 
+
         protected sendEmailCompleted(catalogMailingPrefs: string): void {
             
         }
@@ -69,7 +95,7 @@
             
         }
 
-        protected postFileUploadData(params: TaxExemptParams) : ng.IPromise<string> {
+        protected postTaxExemptFileUpload(params: TaxExemptParams) : ng.IPromise<string> {
             const uri = this.serviceUri + "/taxexempt";
 
             return this.httpWrapperService.executeHttpRequest(
@@ -78,7 +104,7 @@
                 this.sendEmailCompleted,
                 this.sendEmailFailed
             );
-        }
+        }        
     }
 
     angular

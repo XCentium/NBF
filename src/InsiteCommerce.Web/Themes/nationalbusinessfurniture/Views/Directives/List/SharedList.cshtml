@@ -22,7 +22,7 @@
     <div ng-if="!list.isSharedList && list.wishListSharesCount === 0" id="tst_sharedList_private_{{list.id}}">
         [% translate 'Private' %]
         <div class="hover-tooltip-wrapper">
-            <i data-dropdown="{{::('qtip-share-' + list.id)}}" data-options="is_hover:true" class="icon-help hover-tooltip"></i>
+            <i data-dropdown="{{::('qtip-share-' + list.id)}}" class="icon-help hover-tooltip"></i>
             <span id="{{::('qtip-share-' + list.id)}}" class="f-dropdown content hover-tooltip-content" data-dropdown-content>
                 <span class="title">[% translate 'Shared Lists' %]</span>
                 <span>[% siteMessage 'Lists_Share_List_Tooltip' %]</span>

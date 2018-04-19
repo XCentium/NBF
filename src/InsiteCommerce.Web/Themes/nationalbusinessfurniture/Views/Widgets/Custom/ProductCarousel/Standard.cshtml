@@ -6,12 +6,12 @@
     <div class="row" role="cross-sells">
         <div class="medium-12 large-12 columns">
             <div class="carousel-title">
-                [[Model.Title]]
+                [[Model.Title]]                
             </div>
             <div class="carousel-wrapper">
                 <div class="cs-carousel">
                     <ul class="items slides tst_crossSellProduct_slides">
-                        <li id="tst_crossSellProduct_{{product.id}}" class="medium-3 large-3 columns isc-productContainer tst_crossSellProduct_productContainer" ng-repeat="product in vm.productCarouselProducts track by product.id | orderBy:'sortOrder'">
+                        <li id="tst_crossSellProduct_{{product.id}}" class="medium-3 large-3 columns isc-productContainer tst_crossSellProduct_productContainer" ng-repeat="product in vm.products">
                             <div class="item-wrap">
                                 <div class="carousel-item-equalize">
                                     <div class="favorite-btn" ng-if="vm.isAuthenticated">
@@ -64,7 +64,7 @@
                                         <div class="price" ng-if="vm.failedToGetRealTimePrices">
                                             <div>[% siteMessage 'RealTimePricing_PriceLoadFailed' %]</div>
                                         </div>
-                                        <div class="um-pack" ng-if="::product.canShowUnitOfMeasure">
+                                        <div class="um-pack" ng-if="product.canShowUnitOfMeasure">
                                             <div class="um">
                                                 <label ng-if="::vm.showUnitOfMeasure(product)">[% translate 'U/M' %]:</label>
                                                 <isc-unit-of-measure-select-list product="product" alternate-units-of-measure="{{::vm.productSettings.alternateUnitsOfMeasure}}" display-pack="true" change-unit-of-measure="vm.changeUnitOfMeasure(product)"></isc-unit-of-measure-select-list>

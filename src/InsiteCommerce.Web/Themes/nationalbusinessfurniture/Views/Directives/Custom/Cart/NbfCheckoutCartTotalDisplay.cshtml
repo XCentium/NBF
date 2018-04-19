@@ -1,6 +1,6 @@
 ﻿<div class="order-subtotal">
     <div ng-if="label" class="oc-head">
-        <span class="summary-title" ng-bind="label">Order Summery</span>
+        <span class="summary-title" ng-bind="label"></span>
     </div>
     <div class="row">
         <div class="columns sub-label">[% translate 'Subtotal' %]</div>
@@ -9,8 +9,7 @@
     <div class="row promo-applied" ng-repeat="promotion in promotions | filter: discountOrderFilter">
         <div class="columns sub-label">[% translate 'Promotion' %]: <em><span ng-bind="promotion.name"></span></em>
         </div>
-        -
-        <div id="tst_cartTotalDisplay_orderDiscountPromotion" class="columns sub-amount" ng-bind="promotion.amountDisplay"></div>
+        <div id="tst_cartTotalDisplay_orderDiscountPromotion" class="columns sub-amount" ng-bind="promotion.amountDisplay | negate"></div>
     </div>
     <div class="row" ng-if="showSeparateShippingAndHandling && (cart.showTaxAndShipping || !isCartPage) && cart.shippingChargesDisplay.length > 0">
         <div class="columns sub-label">[% translate 'Shipping' %]</div>

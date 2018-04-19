@@ -9,9 +9,7 @@
          ng-controller="ProductListController as vm" ng-show="vm.ready" ng-cloak
          pr-api-key="[% siteMessage 'PowerReviews_ApiKey' '56b8fc6a-79a7-421e-adc5-36cbdaec7daf ' %]"
          pr-merchant-group-id="[% siteMessage 'PowerReviews_MerchantGroupId' '47982' %]"
-         pr-merchant-id="[% siteMessage 'PowerReviews_MerchantId' '33771' %]"
-         >
-
+         pr-merchant-id="[% siteMessage 'PowerReviews_MerchantId' '33771' %]">
         <div class="large-12 columns">
             <div>
                 <div ng-if="!vm.filteredResults" class="category-list">
@@ -32,7 +30,7 @@
                     <div ng-if="!vm.category.largeImagePath" class="medium-12 large-12 columns widget-1column narrow-container">
                         <div class="row">
                             <div class="medium-12 column">
-                                <h1>{{vm.category.shortDescription}}</h1>
+                                <h1 class="page-title brand-underline">{{vm.category.shortDescription}}</h1>
                                 <p ng-bind-html="vm.category.htmlContent|trusted"></p>
                             </div>
                         </div>
@@ -99,10 +97,10 @@
                                             <div class="item-thumb">
                                                 <a ng-href="{{product.productDetailUrl}}">
                                                     <img ng-src="https://s7d9.scene7.com/is/image/NationalBusinessFurniture/{{product.mediumImagePath}}?hei=250&id=Iu1rN2&fmt=jpg&fit=constrain,1&wid=250&hei=250" alt="{{product.altText}}" increment-images-loaded />
-                                                </a>                                                
+                                                </a>
                                                 <div ng-if="vm.settings.enableProductComparisons" class="product-compare-add">
                                                     <a href="javascript:void(0);" data-id="{{product.id}}" class="compare-link" ng-class="{ 'compare-active': product.isBeingCompared }" ng-click="vm.compareProduct(product);">[% translate 'Compare' %]</a>
-                                                </div>                                                
+                                                </div>
                                                 <div class="favorite-btn" ng-if="vm.isAuthenticated">
                                                     <a id="tst_productDetail_addToWishList" ng-class="{'in-favorites': product.properties['isFavorite'] == 'true' } "
                                                        ng-click="vm.toggleFavorite(product)" role="button"
@@ -147,15 +145,15 @@
                                                     </div>
                                                     <div class="item-block__product__col-2 clearfix">
                                                         <div class="col-1">
-                                                            <div id="pr-{{product.productCode}}" class="item-block__product__stars">                                                                
+                                                            <div id="pr-{{product.productCode}}" class="item-block__product__stars">
                                                             </div>
                                                         </div>
                                                         <div class="col-2">
                                                             <div class="item-block__product__ships-today" ng-if="vm.isAttributeValue(product, 'Ships Today', 'Yes');"><span class="ico-Truck"></span> Ships Today!</div>
                                                         </div>
                                                     </div>
-                                                    <div ng-if="vm.view == 'list' && (product.specifications | filter: { name: 'Features' }).length > 0">
-                                                        Features:
+                                                    <div class="item-block__product__features" ng-if="vm.view == 'list' && (product.specifications | filter: { name: 'Features' }).length > 0">
+                                                        <strong>Features:</strong>
                                                         <div ng-repeat="specification in product.specifications | filter: { name: 'Features' } | orderBy: 'sortOrder'" ng-bind-html="specification.htmlContent|trusted"></div>
                                                     </div>
                                                 </div>
@@ -210,10 +208,15 @@
                                                                             <isc-availability-message availability="product.availability" failed-to-get-real-time-inventory="vm.failedToGetRealTimeInventory"></isc-availability-message>
                                                                         </td>
                                                                         <td class="price-column">
-                                                                            <isc-product-price product="product" id-key="_tv"></isc-product-price>
-                                                                            <isc-quantity-break-pricing ng-show="product.canShowPrice && !product.quoteRequired"
-                                                                                                        product-id="product.id + '_tv'" break-prices="product.pricing.unitRegularBreakPrices">
-                                                                            </isc-quantity-break-pricing>
+                                                                            <div ng-if="!vm.failedToGetRealTimePrices">
+                                                                                <isc-product-price product="product" id-key="_tv"></isc-product-price>
+                                                                                <isc-quantity-break-pricing ng-show="product.canShowPrice && !product.quoteRequired"
+                                                                                                            product-id="product.id + '_tv'" break-prices="product.pricing.unitRegularBreakPrices">
+                                                                                </isc-quantity-break-pricing>
+                                                                            </div>
+                                                                            <div ng-if="vm.failedToGetRealTimePrices">
+                                                                                <div>[% siteMessage 'RealTimePricing_PriceLoadFailed' %]</div>
+                                                                            </div>
                                                                         </td>
                                                                         <td>
                                                                             <span class="um displayUnitOfMeasure isc-uomDisplay">{{product.unitOfMeasureDescription || product.unitOfMeasureDisplay}}</span>
@@ -507,7 +510,7 @@
                                         </section>
                                     </div>
 
-                                    <div ng-repeat="section in vm.products.attributeTypeFacets | orderBy : ['sort','nameDisplay']" class="f-cat" ng-if="vm.products.attributeTypeFacets.length > 0">
+                                    <div ng-repeat="section in vm.products.attributeTypeFacets | orderBy : ['sort','nameDisplay'] | limitTo: 4" class="f-cat" ng-if="vm.products.attributeTypeFacets.length > 0">
                                         <section class="accordion">
                                             <div>
                                                 <input type="checkbox" id="accord-{{$index + 3}}" class="accord-check" />
@@ -531,6 +534,39 @@
                                             </div>
                                         </section>
                                     </div>
+
+                                    <div ng-if="vm.products.attributeTypeFacets.length > 4">                                       
+                                        <div class="exrta-filter-wrap collapsed"  style="clear:both;">
+                                            <div class=""><a href="#" ng-click="vm.toggleexrtafilter()" class="toggle-filters">[% translate 'More Filters' %]</a></div>
+                                            <div class="exrta-filters">
+                                                <div ng-repeat="section in vm.products.attributeTypeFacets | orderBy : ['sort','nameDisplay'] | limitTo: (4 - vm.products.attributeTypeFacets.length)" class="f-cat" ng-if="vm.products.attributeTypeFacets.length > 0">
+                                                    <section class="accordion">
+                                                        <div>
+                                                            <input type="checkbox" id="accord-{{$index + 3}}" class="accord-check" />
+                                                            <label for="accord-{{$index + 3}}" class="accord-head">{{section.nameDisplay}}</label>
+                                                            <article class="accord-content">
+                                                                <div class="f-wrap">
+                                                                    <ul>
+                                                                        <li class="view-all" ng-if="vm.isViewAllAttributeFiltersCheckboxSelected(section.attributeValueFacets)"><a ng-click="vm.selectAllAttributeFilters(section.attributeValueFacets)"><span>View All</span></a></li>
+                                                                        <li id="tst_productList_categoryLeftNav_attributeValueFacet_{{attributeValue.attributeValueId}}"
+                                                                            ng-repeat="attributeValue in section.attributeValueFacets | orderBy : ['sortOrder','valueDisplay']"
+                                                                            ng-class="{'f-selected' : vm.isAttributeValueFacetSelected(attributeValue)}"
+                                                                            ng-click="vm.toggleFilter(attributeValue.attributeValueId)">
+                                                                            <a href="javascript:;">
+                                                                                <span class="f-name">{{attributeValue.valueDisplay}}</span>
+                                                                                <span class="f-count">({{attributeValue.count}})</span>
+                                                                            </a>
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+                                                            </article>
+                                                        </div>
+                                                    </section>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                     [[filterStatusControls]]
 
                                     <!-- hidden div to force load of checked image -->
@@ -540,37 +576,6 @@
                                                 <ul> <li class="f-selected"></li></ul>
                                             </li>
                                         </ul>
-                                    </div>
-                                </div>
-                                <div class="filter-select-wrap product-list-filters">
-                                    <div>
-                                        <section class="accordion">
-                                            <div>
-                                                <input type="checkbox" id="accord-11" class="accord-check">
-                                                <label for="accord-11" class="accord-head">Edit Filters</label>
-                                                <article class="accord-content">
-                                                    <div class="f-wrap">
-                                                        <ul>
-                                                            <li id="tst_productList_categoryLeftNav_attributeValueFacet_b8318efc-87fd-e711-a98c-a3e0f1200094">
-                                                                <a href="javascript:;">
-                                                                    <span class="f-name">Colors</span>
-                                                                </a>
-                                                            </li><!-- end ngRepeat: attributeValue in section.attributeValueFacets | orderBy : ['sortOrder','valueDisplay'] -->
-                                                            <li id="tst_productList_categoryLeftNav_attributeValueFacet_bc318efc-87fd-e711-a98c-a3e0f1200094">
-                                                                <a href="javascript:;">
-                                                                    <span class="f-name">Matrials</span>
-                                                                </a>
-                                                            </li><!-- end ngRepeat: attributeValue in section.attributeValueFacets | orderBy : ['sortOrder','valueDisplay'] -->
-                                                            <li id="tst_productList_categoryLeftNav_attributeValueFacet_bd318efc-87fd-e711-a98c-a3e0f1200094">
-                                                                <a href="javascript:;">
-                                                                    <span class="f-name">Rooms</span>
-                                                                </a>
-                                                            </li><!-- end ngRepeat: attributeValue in section.attributeValueFacets | orderBy : ['sortOrder','valueDisplay'] -->
-                                                        </ul>
-                                                    </div>
-                                                </article>
-                                            </div>
-                                        </section>
                                     </div>
                                 </div>
                             </div>

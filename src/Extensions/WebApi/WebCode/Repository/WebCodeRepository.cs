@@ -1,4 +1,6 @@
-﻿using Extensions.WebApi.Base;
+﻿using System.Linq;
+using Extensions.Models.AffiliateCode;
+using Extensions.WebApi.Base;
 using Extensions.WebApi.WebCode.Interfaces;
 using Insite.Catalog.Services;
 using Insite.Core.Interfaces.Data;
@@ -10,7 +12,7 @@ namespace Extensions.WebApi.WebCode.Repository
 {
     public class WebCodeRepository : BaseRepository, IWebCodeRepository, IInterceptable
     {
-        private IUnitOfWork _unitOfWork;
+        private readonly IUnitOfWork _unitOfWork;
 
         public WebCodeRepository(IUnitOfWorkFactory unitOfWorkFactory, ICustomerService customerService, IProductService productService, IAuthenticationService authenticationService)
             : base(unitOfWorkFactory, customerService, productService, authenticationService)
@@ -18,9 +20,22 @@ namespace Extensions.WebApi.WebCode.Repository
             _unitOfWork = unitOfWorkFactory.GetUnitOfWork();
         }
 
-        public string GetWebCode(string siteId)
+        public string GetWebCode(string siteId, string userId)
         {
-            return siteId;
+            var webCodeId = _unitOfWork.GetRepository<AffiliateCodeModel>().GetTable()
+                .FirstOrDefault(x => x.AffiliateCode.ToLower().Contains(siteId.ToLower()))?.AffiliateId.ToString();
+
+            if (string.IsNullOrWhiteSpace(webCodeId))
+            {
+                webCodeId = _unitOfWork.GetRepository<AffiliateCodeModel>().GetTable()
+                    .FirstOrDefault(x => x.AffiliateCode.ToLower().Contains("default"))?.AffiliateId.ToString();
+            }
+
+            if (!string.IsNullOrWhiteSpace(webCodeId))
+            {
+                return userId + '-' + webCodeId;
+            }
+            return webCodeId;
         }
     }
 }

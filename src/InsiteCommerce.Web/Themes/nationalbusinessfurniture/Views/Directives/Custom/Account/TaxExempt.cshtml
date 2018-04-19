@@ -1,9 +1,9 @@
-﻿<div class="exempt" ng-cloak>
-    <form id="tax_exempt_form">
+﻿<div class="exempt">
+    <form id="tax_exempt_form" ng-cloak>
         <span class="exempt__label">[% siteMessage 'TaxExempt_Label' 'Tax Exempt?' %]</span>
         <input id="taxyes" class="customradio" type="radio" name="tax" ng-model="vm.taxExemptChoice" ng-disabled="vm.isTaxExempt || vm.taxExemptFileName" ng-value="true" /><label for="taxyes">Yes</label>
         <input id="taxno" class="customradio" type="radio" name="tax" ng-model="vm.taxExemptChoice" ng-disabled="vm.isTaxExempt || vm.taxExemptFileName" ng-value="false" /><label for="taxno">No</label>
-        <div class="upload-btn" ng-show="!vm.isTaxExempt && vm.taxExemptChoice && !vm.taxExemptFileName" ng-click="vm.openUpload()">
+        <div class="upload-btn" ng-show="!vm.isTaxExempt && vm.taxExemptChoice && !vm.taxExemptFileName" ng-click="vm.openUpload()" ng-cloak>
             <span ng-if="!vm.taxExemptFileName">[% siteMessage 'TaxExempt_UploadText' 'UPLOAD YOUR TAX EXEMPT CERTIFICATE' %]</span>
             <input type="file" accept=".jpg,.pdf,.png,.gif,.doc,.docx," id="taxExemptFileUpload" name="attachment"
                    data-val-required="[% siteMessage 'TaxExempt_Upload_Required' 'Please select a file to upload.' %]"
