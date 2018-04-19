@@ -466,7 +466,7 @@
                                         <section class="accordion">
                                             <div>
                                                 <input type="checkbox" id="accord-1" class="accord-check" />
-                                                <label for="accord-1" class="accord-head">[% translate 'Categories' %]</label>
+                                                <label for="accord-1" class="accord-head"  ng-click="vm.togglefilteroff()">[% translate 'Categories' %]</label>
                                                 <article class="accord-content">
                                                     <div class="f-wrap">
                                                         <ul>
@@ -490,7 +490,7 @@
                                         <section class="accordion">
                                             <div>
                                                 <input type="checkbox" id="accord-2" class="accord-check" />
-                                                <label for="accord-2" class="accord-head">[% translate 'Price' %]</label>
+                                                <label for="accord-2" class="accord-head"  ng-click="vm.togglefilteroff()">[% translate 'Price' %]</label>
                                                 <article class="accord-content">
                                                     <div class="f-wrap">
                                                         <ul>
@@ -514,7 +514,7 @@
                                         <section class="accordion">
                                             <div>
                                                 <input type="checkbox" id="accord-{{$index + 3}}" class="accord-check" />
-                                                <label for="accord-{{$index + 3}}" class="accord-head">{{section.nameDisplay}}</label>
+                                                <label for="accord-{{$index + 3}}" class="accord-head"  ng-click="vm.togglefilteroff()">{{section.nameDisplay}}</label>
                                                 <article class="accord-content">
                                                     <div class="f-wrap">
                                                         <ul>
@@ -543,7 +543,7 @@
                                                     <section class="accordion">
                                                         <div>
                                                             <input type="checkbox" id="accord-{{$index + 3}}" class="accord-check" />
-                                                            <label for="accord-{{$index + 3}}" class="accord-head">{{section.nameDisplay}}</label>
+                                                            <label for="accord-{{$index + 3}}" class="accord-head" ng-click="vm.togglefilteroff()">{{section.nameDisplay}}</label>
                                                             <article class="accord-content">
                                                                 <div class="f-wrap">
                                                                     <ul>

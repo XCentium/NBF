@@ -82,6 +82,10 @@
         toggleexrtafilter(): void {
             $('.exrta-filter-wrap').toggleClass('collapsed');
         }
+
+        togglefilteroff(): void {
+            $('.product-list-filters .accord-check').prop('checked', false);
+        }
     }
 
     angular
