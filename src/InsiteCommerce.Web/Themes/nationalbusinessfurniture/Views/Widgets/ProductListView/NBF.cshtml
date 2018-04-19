@@ -208,10 +208,15 @@
                                                                             <isc-availability-message availability="product.availability" failed-to-get-real-time-inventory="vm.failedToGetRealTimeInventory"></isc-availability-message>
                                                                         </td>
                                                                         <td class="price-column">
-                                                                            <isc-product-price product="product" id-key="_tv"></isc-product-price>
-                                                                            <isc-quantity-break-pricing ng-show="product.canShowPrice && !product.quoteRequired"
-                                                                                                        product-id="product.id + '_tv'" break-prices="product.pricing.unitRegularBreakPrices">
-                                                                            </isc-quantity-break-pricing>
+                                                                            <div ng-if="!vm.failedToGetRealTimePrices">
+                                                                                <isc-product-price product="product" id-key="_tv"></isc-product-price>
+                                                                                <isc-quantity-break-pricing ng-show="product.canShowPrice && !product.quoteRequired"
+                                                                                                            product-id="product.id + '_tv'" break-prices="product.pricing.unitRegularBreakPrices">
+                                                                                </isc-quantity-break-pricing>
+                                                                            </div>
+                                                                            <div ng-if="vm.failedToGetRealTimePrices">
+                                                                                <div>[% siteMessage 'RealTimePricing_PriceLoadFailed' %]</div>
+                                                                            </div>
                                                                         </td>
                                                                         <td>
                                                                             <span class="um displayUnitOfMeasure isc-uomDisplay">{{product.unitOfMeasureDescription || product.unitOfMeasureDisplay}}</span>

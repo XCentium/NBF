@@ -40,7 +40,7 @@ module insite.catalog {
         }
 
         init(): void {
-            this.criteria = this.queryString.get("criteria");
+            this.criteria = decodeURIComponent(this.queryString.get("criteria"));
 
             this.$scope.$on("$locationChangeStart", (event: ng.IAngularEvent, uri: string) => {
                 this.onLocationChangeStart(event, uri);
@@ -64,7 +64,9 @@ module insite.catalog {
         }
 
         protected onLocationChangeStart(event: ng.IAngularEvent, uri: string): void {
-            if (this.criteria !== "" && uri.indexOf(`criteria=${this.criteria}`) === -1) {
+            let localCriteria = this.criteria;
+            let encodedCriteria = `criteria=${encodeURIComponent(localCriteria)}`; // note: encodeURIComponent does not seem to work an an angular watched var like this.criteria
+            if (encodedCriteria !== "" && uri.indexOf(encodedCriteria) === -1) {
                 this.clearSearchTerm();
             }
         }
@@ -299,7 +301,7 @@ module insite.catalog {
         }
 
         protected getAutocompleteContentTemplate(suggestion: any, pattern: string): string {
-            return `<div class="group-${suggestion.type}">${suggestion.title}</div>`;
+            return `<div class="group-${suggestion.type} tst_autocomplete_content_${suggestion.url.replace("/", "-")}">${suggestion.title}</div>`;
         }
 
         protected getAutocompleteProductTemplate(suggestion: any, pattern: string): string {
@@ -416,7 +418,7 @@ module insite.catalog {
         }
 
         protected redirectToSearchPage(searchTerm: string, includeSuggestions?: boolean): void {
-            let url = `/search?criteria=${searchTerm}`;
+            let url = `/search?criteria=${encodeURIComponent(searchTerm)}`;
 
             if (includeSuggestions === false) {
                 url = `${url}&includeSuggestions=false`;

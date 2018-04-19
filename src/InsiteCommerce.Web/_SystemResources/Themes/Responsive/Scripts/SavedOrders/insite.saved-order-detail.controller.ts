@@ -46,6 +46,7 @@
         protected getCartCompleted(cart: CartModel): void {
             this.cartService.expand = "";
             this.cart = cart;
+            this.cart.showTaxAndShipping = false;
             this.canAddAllToList = this.cart.cartLines.every(l => l.canAddToWishlist);
             this.canAddToCart = this.cart.cartLines.some(l => l.canAddToCart);
             this.canAddAllToCart = this.cart.cartLines.every(l => l.canAddToCart);

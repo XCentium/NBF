@@ -64,7 +64,7 @@
                 for (let orderLineIndex = 0; orderLineIndex < orderLines.length && this.productItems.length <= this.maxProducts; orderLineIndex++) {
                     let orderLine = orderLines[orderLineIndex];
                     if (orderLine.canAddToCart) {
-                        const productItem = { id: orderLine.productId, unitOfMeasure: orderLine.unitOfMeasure, product: {} as any };
+                        const productItem = { id: orderLine.productId, unitOfMeasure: orderLine.unitOfMeasure, product: null as any };
                         if (productItem.id && !this.productItems.some((pi) => (pi.id === orderLine.productId && pi.unitOfMeasure === orderLine.unitOfMeasure)) && this.productItems.length < this.maxProducts) {
                             this.productItems.push(productItem);
                         }
@@ -120,7 +120,7 @@
             }
 
             if (this.realTimePricing && this.productItems && this.productItems.length > 0) {
-                this.productService.getProductRealTimePrices(this.productItems.map(o => o.product)).then(
+                this.productService.getProductRealTimePrices(this.productItems.filter(o => o.product != null ).map(o => o.product)).then(
                     (realTimePricing: RealTimePricingModel) => this.getProductRealTimePricesCompleted(realTimePricing),
                     (error: any) => this.getProductRealTimePricesFailed(error));
             }
