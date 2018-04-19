@@ -101,7 +101,7 @@
     }
     /* Left Navigation 2 Advanced Filtering */
     .n-filter {
-        margin-top: 20px;
+        /*margin-top: 20px;*/
     }
 
     .nav-head-2 {
@@ -490,6 +490,10 @@
         display: inline-block;
         text-decoration: none;
         line-height: 1.5em;
+
+        @media all and (max-width:520px) {
+            font-size: 9px;
+        }
     }
 
     a.compare-link:before {
@@ -804,7 +808,7 @@
         }
 
         .vm-list .item-details {
-            width: 80%;
+            width: 73%;
             padding-right: 1em !important;
 
             .item-name {
@@ -820,8 +824,8 @@
                 display: none;
             }
 
-            .item-block__product__more-link{
-                float:none;
+            .item-block__product__more-link {
+                float: none;
             }
         }
 
