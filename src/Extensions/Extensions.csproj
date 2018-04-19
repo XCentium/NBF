@@ -338,8 +338,18 @@
     <Compile Include="Handlers\UpdateCartHandler.cs" />
     <Compile Include="Mappers\GetTrackedOrderMapper.cs" />
     <Compile Include="Mappers\Interfaces\IGetTrackedOrderMapper.cs" />
-    <Compile Include="Models\TestTable.cs" />
-    <Compile Include="Models\TestTableMapping.cs" />
+    <Compile Include="Models\AffiliateCode\AffiliateCodeModel.cs" />
+    <Compile Include="Models\AffiliateCode\AffiliateCodeModelMapping.cs" />
+    <Compile Include="Models\ShopTheLook\StlCategory.cs" />
+    <Compile Include="Models\ShopTheLook\StlCategoryMapping.cs" />
+    <Compile Include="Models\ShopTheLook\StlRoomLooksStyle.cs" />
+    <Compile Include="Models\ShopTheLook\StlRoomLooksProduct.cs" />
+    <Compile Include="Models\ShopTheLook\StlRoomLooksCategory.cs" />
+    <Compile Include="Models\ShopTheLook\StlRoomLook.cs" />
+    <Compile Include="Models\ShopTheLook\StlRoomLooksStyleMapping.cs" />
+    <Compile Include="Models\ShopTheLook\StlRoomLooksProductMapping.cs" />
+    <Compile Include="Models\ShopTheLook\StlRoomLooksCategoryMapping.cs" />
+    <Compile Include="Models\ShopTheLook\StlRoomLookMapping.cs" />
     <Compile Include="Plugins\Cart\CalculateVendorBreakPricing.cs" />
     <Compile Include="Plugins\Cart\CalculateShipping.cs" />
     <Compile Include="Plugins\Cart\Models\AdditionalChargesRule.cs" />
@@ -385,6 +395,11 @@
     <Compile Include="WebApi\PriceCode\Models\SetPriceCodeRequest.cs" />
     <Compile Include="WebApi\PriceCode\Repository\PriceCodeRepository.cs" />
     <Compile Include="WebApi\PriceCode\Services\PriceCodeService.cs" />
+    <Compile Include="WebApi\ShopTheLook\Controllers\ShopTheLookController.cs" />
+    <Compile Include="WebApi\ShopTheLook\Interfaces\IShopTheLookRepository.cs" />
+    <Compile Include="WebApi\ShopTheLook\Interfaces\IShopTheLookService.cs" />
+    <Compile Include="WebApi\ShopTheLook\Repository\ShopTheLookRepository.cs" />
+    <Compile Include="WebApi\ShopTheLook\Services\ShopTheLookService.cs" />
     <Compile Include="WebApi\WebCode\Controllers\WebCodeController.cs" />
     <Compile Include="WebApi\WebCode\Interfaces\IWebCodeRepository.cs" />
     <Compile Include="WebApi\WebCode\Interfaces\IWebCodeService.cs" />
@@ -463,7 +478,8 @@
     <Compile Include="Widgets\WebCode.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="DatabaseScripts\2018.03.26.01.CreateTestTable.sql" />
+    <EmbeddedResource Include="DatabaseScripts\2018.04.18.02.CreateWebCodeTables.sql" />
+    <EmbeddedResource Include="DatabaseScripts\2018.04.18.01.CreateSTLTables.sql" />
     <Content Include="packages.config">
       <SubType>Designer</SubType>
     </Content>
