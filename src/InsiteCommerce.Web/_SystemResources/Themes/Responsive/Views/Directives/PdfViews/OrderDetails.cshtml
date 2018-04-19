@@ -408,7 +408,13 @@
                 <tr class="product-line">
                     <td>
                         <div class="item-name">
-                            <h3>[[line.ShortDescription]]</h3>
+                            <h3>
+                                [% if line.ShortDescription != null and line.ShortDescription != "" -%]
+                                    [[line.ShortDescription]]
+                                [% else -%]
+                                    [[line.Description]]
+                                [% endif -%]
+                            </h3>
                         </div>
                         <div class="item-num">
                             <h3>

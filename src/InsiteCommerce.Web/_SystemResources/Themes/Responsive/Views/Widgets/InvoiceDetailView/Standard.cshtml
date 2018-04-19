@@ -136,8 +136,8 @@
                         <div class="small-10 columns item-details">
                             <div class="small-6 large-4 columns">
                                 <div class="item-name">
-                                    <a ng-if="line.productUri" ng-href="{{ line.productUri }}">{{ line.shortDescription }}</a>
-                                    <span ng-if="!line.productUri" ng-bind="line.productERPNumber"></span>
+                                    <a ng-if="line.productUri" ng-href="{{ line.productUri }}">{{ line.shortDescription || line.description }}</a>
+                                    <span ng-if="!line.productUri">{{ line.shortDescription || line.description }}</span>
                                 </div>
                                 <div class="item-num">
                                     <span class="item-num-sku" ng-bind="line.productERPNumber"></span>

@@ -421,13 +421,19 @@ module insite.catalog {
         protected getConfigurablePrice(product: ProductDto): void {
             const configuration: string[] = [];
             angular.forEach(this.configurationSelection, (selection) => {
-                configuration.push(selection ? selection.sectionOptionId.toString() : "");
+                configuration.push(selection ? selection.sectionOptionId.toString() : guidHelper.emptyGuid());
             });
 
-            this.productService.getProductPrice(product, configuration).then(
-                (productPrice: ProductPriceModel) => { this.getConfigurablePriceCompleted(productPrice); },
-                (error: any) => { this.getConfigurablePriceFailed(error); }
-            );
+            if (this.settings.realTimePricing) {
+                this.productService.getProductRealTimePrice(product, configuration).then(
+                    (realTimePrice: RealTimePricingModel) => this.getProductRealTimePricesCompleted(realTimePrice),
+                    (error: any) => this.getProductRealTimePricesFailed(error));
+            } else {
+                this.productService.getProductPrice(product, configuration).then(
+                    (productPrice: ProductPriceModel) => { this.getConfigurablePriceCompleted(productPrice); },
+                    (error: any) => { this.getConfigurablePriceFailed(error); }
+                );
+            }
         }
 
         protected getConfigurablePriceCompleted(productPrice: ProductPriceModel): void {

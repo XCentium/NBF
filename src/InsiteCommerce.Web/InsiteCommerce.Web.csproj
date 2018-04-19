@@ -142,7 +142,7 @@
     </Reference>
     <Reference Include="DotLiquid, Version=2.0.24.0, Culture=neutral, PublicKeyToken=82e46016ecf9f07c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.2.39579\lib\net452\DotLiquid.dll</HintPath>
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\DotLiquid.dll</HintPath>
     </Reference>
     <Reference Include="Elasticsearch.Net, Version=5.0.0.0, Culture=neutral, PublicKeyToken=96c599bbe3e70f5d, processorArchitecture=MSIL">
       <HintPath>..\packages\Elasticsearch.Net.5.4.0\lib\net45\Elasticsearch.Net.dll</HintPath>
@@ -518,209 +518,209 @@
     <Reference Include="Z.EntityFramework.Plus.EF6, Version=1.6.10.0, Culture=neutral, PublicKeyToken=59b66d028979105b, processorArchitecture=MSIL">
       <HintPath>..\packages\Z.EntityFramework.Plus.EF6.1.6.10\lib\net45\Z.EntityFramework.Plus.EF6.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.ContentLibrary, Version=4.4.2.39579">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.2.39579\lib\net452\Insite.ContentLibrary.dll</HintPath>
+    <Reference Include="Insite.ContentLibrary, Version=4.4.3.39891">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.ContentLibrary.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.Common, Version=4.4.2.39579">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.2.39579\lib\net452\Insite.Common.dll</HintPath>
+    <Reference Include="Insite.Common, Version=4.4.3.39891">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.Common.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.Core.Interfaces, Version=4.4.2.39579">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.2.39579\lib\net452\Insite.Core.Interfaces.dll</HintPath>
+    <Reference Include="Insite.Core.Interfaces, Version=4.4.3.39891">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.Core.Interfaces.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.Core, Version=4.4.2.39579">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.2.39579\lib\net452\Insite.Core.dll</HintPath>
+    <Reference Include="Insite.Core, Version=4.4.3.39891">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.Core.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.Git, Version=4.4.2.39579">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.2.39579\lib\net452\Insite.Git.dll</HintPath>
+    <Reference Include="Insite.Git, Version=4.4.3.39891">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.Git.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.Data.Entities, Version=4.4.2.39579">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.2.39579\lib\net452\Insite.Data.Entities.dll</HintPath>
+    <Reference Include="Insite.Data.Entities, Version=4.4.3.39891">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.Data.Entities.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.IocContainer.Unity, Version=4.4.2.39579">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.2.39579\lib\net452\Insite.IocContainer.Unity.dll</HintPath>
+    <Reference Include="Insite.IocContainer.Unity, Version=4.4.3.39891">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.IocContainer.Unity.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.Data.Providers.EntityFramework, Version=4.4.2.39579">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.2.39579\lib\net452\Insite.Data.Providers.EntityFramework.dll</HintPath>
+    <Reference Include="Insite.Data.Providers.EntityFramework, Version=4.4.3.39891">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.Data.Providers.EntityFramework.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.Data.Repositories, Version=4.4.2.39579">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.2.39579\lib\net452\Insite.Data.Repositories.dll</HintPath>
+    <Reference Include="Insite.Data.Repositories, Version=4.4.3.39891">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.Data.Repositories.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.Data, Version=4.4.2.39579">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.2.39579\lib\net452\Insite.Data.dll</HintPath>
+    <Reference Include="Insite.Data, Version=4.4.3.39891">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.Data.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.WebFramework, Version=4.4.2.39579">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.2.39579\lib\net452\Insite.WebFramework.dll</HintPath>
+    <Reference Include="Insite.WebFramework, Version=4.4.3.39891">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.WebFramework.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.Payments, Version=4.4.2.39579">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.2.39579\lib\net452\Insite.Payments.dll</HintPath>
+    <Reference Include="Insite.Payments, Version=4.4.3.39891">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.Payments.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.RealTimeInventory, Version=4.4.2.39579">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.2.39579\lib\net452\Insite.RealTimeInventory.dll</HintPath>
+    <Reference Include="Insite.RealTimeInventory, Version=4.4.3.39891">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.RealTimeInventory.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.SystemResources, Version=4.4.2.39579">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.2.39579\lib\net452\Insite.SystemResources.dll</HintPath>
+    <Reference Include="Insite.SystemResources, Version=4.4.3.39891">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.SystemResources.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.Account, Version=4.4.2.39579">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.2.39579\lib\net452\Insite.Account.dll</HintPath>
+    <Reference Include="Insite.Account, Version=4.4.3.39891">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.Account.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.Admin, Version=4.4.2.39579">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.2.39579\lib\net452\Insite.Admin.dll</HintPath>
+    <Reference Include="Insite.Admin, Version=4.4.3.39891">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.Admin.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.Budget, Version=4.4.2.39579">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.2.39579\lib\net452\Insite.Budget.dll</HintPath>
+    <Reference Include="Insite.Budget, Version=4.4.3.39891">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.Budget.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.Cart, Version=4.4.2.39579">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.2.39579\lib\net452\Insite.Cart.dll</HintPath>
+    <Reference Include="Insite.Cart, Version=4.4.3.39891">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.Cart.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.Catalog, Version=4.4.2.39579">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.2.39579\lib\net452\Insite.Catalog.dll</HintPath>
+    <Reference Include="Insite.Catalog, Version=4.4.3.39891">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.Catalog.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.Configurator, Version=4.4.2.39579">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.2.39579\lib\net452\Insite.Configurator.dll</HintPath>
+    <Reference Include="Insite.Configurator, Version=4.4.3.39891">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.Configurator.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.ContentAdmin, Version=4.4.2.39579">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.2.39579\lib\net452\Insite.ContentAdmin.dll</HintPath>
+    <Reference Include="Insite.ContentAdmin, Version=4.4.3.39891">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.ContentAdmin.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.Customers, Version=4.4.2.39579">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.2.39579\lib\net452\Insite.Customers.dll</HintPath>
+    <Reference Include="Insite.Customers, Version=4.4.3.39891">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.Customers.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.Dashboard, Version=4.4.2.39579">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.2.39579\lib\net452\Insite.Dashboard.dll</HintPath>
+    <Reference Include="Insite.Dashboard, Version=4.4.3.39891">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.Dashboard.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.Dealers, Version=4.4.2.39579">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.2.39579\lib\net452\Insite.Dealers.dll</HintPath>
+    <Reference Include="Insite.Dealers, Version=4.4.3.39891">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.Dealers.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.Email, Version=4.4.2.39579">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.2.39579\lib\net452\Insite.Email.dll</HintPath>
+    <Reference Include="Insite.Email, Version=4.4.3.39891">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.Email.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.IdentityServer, Version=4.4.2.39579">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.2.39579\lib\net452\Insite.IdentityServer.dll</HintPath>
+    <Reference Include="Insite.IdentityServer, Version=4.4.3.39891">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.IdentityServer.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.Integration.WebService, Version=4.4.2.39579">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.2.39579\lib\net452\Insite.Integration.WebService.dll</HintPath>
+    <Reference Include="Insite.Integration.WebService, Version=4.4.3.39891">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.Integration.WebService.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.Integration, Version=4.4.2.39579">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.2.39579\lib\net452\Insite.Integration.dll</HintPath>
+    <Reference Include="Insite.Integration, Version=4.4.3.39891">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.Integration.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.WIS.Broker, Version=4.4.2.39579">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.2.39579\lib\net452\Insite.WIS.Broker.dll</HintPath>
+    <Reference Include="Insite.WIS.Broker, Version=4.4.3.39891">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.WIS.Broker.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.Invoice, Version=4.4.2.39579">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.2.39579\lib\net452\Insite.Invoice.dll</HintPath>
+    <Reference Include="Insite.Invoice, Version=4.4.3.39891">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.Invoice.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.JobQuote, Version=4.4.2.39579">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.2.39579\lib\net452\Insite.JobQuote.dll</HintPath>
+    <Reference Include="Insite.JobQuote, Version=4.4.3.39891">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.JobQuote.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.Message, Version=4.4.2.39579">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.2.39579\lib\net452\Insite.Message.dll</HintPath>
+    <Reference Include="Insite.Message, Version=4.4.3.39891">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.Message.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.OrderApproval, Version=4.4.2.39579">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.2.39579\lib\net452\Insite.OrderApproval.dll</HintPath>
+    <Reference Include="Insite.OrderApproval, Version=4.4.3.39891">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.OrderApproval.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.Order, Version=4.4.2.39579">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.2.39579\lib\net452\Insite.Order.dll</HintPath>
+    <Reference Include="Insite.Order, Version=4.4.3.39891">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.Order.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.Promotions, Version=4.4.2.39579">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.2.39579\lib\net452\Insite.Promotions.dll</HintPath>
+    <Reference Include="Insite.Promotions, Version=4.4.3.39891">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.Promotions.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.Punchout, Version=4.4.2.39579">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.2.39579\lib\net452\Insite.Punchout.dll</HintPath>
+    <Reference Include="Insite.Punchout, Version=4.4.3.39891">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.Punchout.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.QuickOrder, Version=4.4.2.39579">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.2.39579\lib\net452\Insite.QuickOrder.dll</HintPath>
+    <Reference Include="Insite.QuickOrder, Version=4.4.3.39891">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.QuickOrder.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.RealTimePricing, Version=4.4.2.39579">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.2.39579\lib\net452\Insite.RealTimePricing.dll</HintPath>
+    <Reference Include="Insite.RealTimePricing, Version=4.4.3.39891">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.RealTimePricing.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.Requisition, Version=4.4.2.39579">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.2.39579\lib\net452\Insite.Requisition.dll</HintPath>
+    <Reference Include="Insite.Requisition, Version=4.4.3.39891">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.Requisition.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.Rfq, Version=4.4.2.39579">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.2.39579\lib\net452\Insite.Rfq.dll</HintPath>
+    <Reference Include="Insite.Rfq, Version=4.4.3.39891">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.Rfq.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.Swagger, Version=4.4.2.39579">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.2.39579\lib\net452\Insite.Swagger.dll</HintPath>
+    <Reference Include="Insite.Swagger, Version=4.4.3.39891">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.Swagger.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.UserFiles, Version=4.4.2.39579">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.2.39579\lib\net452\Insite.UserFiles.dll</HintPath>
+    <Reference Include="Insite.UserFiles, Version=4.4.3.39891">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.UserFiles.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.Websites, Version=4.4.2.39579">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.2.39579\lib\net452\Insite.Websites.dll</HintPath>
+    <Reference Include="Insite.Websites, Version=4.4.3.39891">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.Websites.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.WishLists, Version=4.4.2.39579">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.2.39579\lib\net452\Insite.WishLists.dll</HintPath>
+    <Reference Include="Insite.WishLists, Version=4.4.3.39891">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.WishLists.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.CurrencyConversion.WebserviceX, Version=4.4.2.39579">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.2.39579\lib\net452\Insite.CurrencyConversion.WebserviceX.dll</HintPath>
+    <Reference Include="Insite.CurrencyConversion.WebserviceX, Version=4.4.3.39891">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.CurrencyConversion.WebserviceX.dll</HintPath>
     </Reference>
-    <Reference Include="Elmah.Mvc, Version=4.4.2.39579">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.2.39579\lib\net452\Elmah.Mvc.dll</HintPath>
+    <Reference Include="Elmah.Mvc, Version=4.4.3.39891">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Elmah.Mvc.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.GeocoderProvider.FreeGeoip, Version=4.4.2.39579">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.2.39579\lib\net452\Insite.GeocoderProvider.FreeGeoip.dll</HintPath>
+    <Reference Include="Insite.GeocoderProvider.FreeGeoip, Version=4.4.3.39891">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.GeocoderProvider.FreeGeoip.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.GeocoderProvider.Google, Version=4.4.2.39579">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.2.39579\lib\net452\Insite.GeocoderProvider.Google.dll</HintPath>
+    <Reference Include="Insite.GeocoderProvider.Google, Version=4.4.3.39891">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.GeocoderProvider.Google.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.Plugins, Version=4.4.2.39579">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.2.39579\lib\net452\Insite.Plugins.dll</HintPath>
+    <Reference Include="Insite.Plugins, Version=4.4.3.39891">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.Plugins.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.PaymentGateway.AuthorizeDotNet, Version=4.4.2.39579">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.2.39579\lib\net452\Insite.PaymentGateway.AuthorizeDotNet.dll</HintPath>
+    <Reference Include="Insite.PaymentGateway.AuthorizeDotNet, Version=4.4.3.39891">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.PaymentGateway.AuthorizeDotNet.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.PaymentGateway.Cenpos, Version=4.4.2.39579">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.2.39579\lib\net452\Insite.PaymentGateway.Cenpos.dll</HintPath>
+    <Reference Include="Insite.PaymentGateway.Cenpos, Version=4.4.3.39891">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.PaymentGateway.Cenpos.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.PaymentGateway.CyberSource, Version=4.4.2.39579">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.2.39579\lib\net452\Insite.PaymentGateway.CyberSource.dll</HintPath>
+    <Reference Include="Insite.PaymentGateway.CyberSource, Version=4.4.3.39891">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.PaymentGateway.CyberSource.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.PaymentGateway.VantivExpress, Version=4.4.2.39579">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.2.39579\lib\net452\Insite.PaymentGateway.VantivExpress.dll</HintPath>
+    <Reference Include="Insite.PaymentGateway.VantivExpress, Version=4.4.3.39891">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.PaymentGateway.VantivExpress.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.PaymentGateway.Orbital, Version=4.4.2.39579">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.2.39579\lib\net452\Insite.PaymentGateway.Orbital.dll</HintPath>
+    <Reference Include="Insite.PaymentGateway.Orbital, Version=4.4.3.39891">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.PaymentGateway.Orbital.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.PaymentGateway.PayflowPro, Version=4.4.2.39579">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.2.39579\lib\net452\Insite.PaymentGateway.PayflowPro.dll</HintPath>
+    <Reference Include="Insite.PaymentGateway.PayflowPro, Version=4.4.3.39891">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.PaymentGateway.PayflowPro.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.PaymentGateway.PaypalExpress, Version=4.4.2.39579">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.2.39579\lib\net452\Insite.PaymentGateway.PaypalExpress.dll</HintPath>
+    <Reference Include="Insite.PaymentGateway.PaypalExpress, Version=4.4.3.39891">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.PaymentGateway.PaypalExpress.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.PaymentGateway.Vantiv, Version=4.4.2.39579">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.2.39579\lib\net452\Insite.PaymentGateway.Vantiv.dll</HintPath>
+    <Reference Include="Insite.PaymentGateway.Vantiv, Version=4.4.3.39891">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.PaymentGateway.Vantiv.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.Search.Elasticsearch, Version=4.4.2.39579">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.2.39579\lib\net452\Insite.Search.Elasticsearch.dll</HintPath>
+    <Reference Include="Insite.Search.Elasticsearch, Version=4.4.3.39891">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.Search.Elasticsearch.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.RatingService.FedEx, Version=4.4.2.39579">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.2.39579\lib\net452\Insite.RatingService.FedEx.dll</HintPath>
+    <Reference Include="Insite.RatingService.FedEx, Version=4.4.3.39891">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.RatingService.FedEx.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.RatingService.Ups, Version=4.4.2.39579">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.2.39579\lib\net452\Insite.RatingService.Ups.dll</HintPath>
+    <Reference Include="Insite.RatingService.Ups, Version=4.4.3.39891">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.RatingService.Ups.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.StorageProviders.Amazon, Version=4.4.2.39579">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.2.39579\lib\net452\Insite.StorageProviders.Amazon.dll</HintPath>
+    <Reference Include="Insite.StorageProviders.Amazon, Version=4.4.3.39891">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.StorageProviders.Amazon.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.StorageProviders.Azure, Version=4.4.2.39579">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.2.39579\lib\net452\Insite.StorageProviders.Azure.dll</HintPath>
+    <Reference Include="Insite.StorageProviders.Azure, Version=4.4.3.39891">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.StorageProviders.Azure.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.TaxCalculator.Avalara, Version=4.4.2.39579">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.2.39579\lib\net452\Insite.TaxCalculator.Avalara.dll</HintPath>
+    <Reference Include="Insite.TaxCalculator.Avalara, Version=4.4.3.39891">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.TaxCalculator.Avalara.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.TaxCalculator.CyberSource, Version=4.4.2.39579">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.2.39579\lib\net452\Insite.TaxCalculator.CyberSource.dll</HintPath>
+    <Reference Include="Insite.TaxCalculator.CyberSource, Version=4.4.3.39891">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.TaxCalculator.CyberSource.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.TaxCalculator.Sx, Version=4.4.2.39579">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.2.39579\lib\net452\Insite.TaxCalculator.Sx.dll</HintPath>
+    <Reference Include="Insite.TaxCalculator.Sx, Version=4.4.3.39891">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.TaxCalculator.Sx.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.Public.Core, Version=4.4.2.39579">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.2.39579\lib\net452\Insite.Public.Core.dll</HintPath>
+    <Reference Include="Insite.Public.Core, Version=4.4.3.39891">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.Public.Core.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.Public.Integration, Version=4.4.2.39579">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.2.39579\lib\net452\Insite.Public.Integration.dll</HintPath>
+    <Reference Include="Insite.Public.Integration, Version=4.4.3.39891">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.Public.Integration.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.Public.WebFramework, Version=4.4.2.39579">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.2.39579\lib\net452\Insite.Public.WebFramework.dll</HintPath>
+    <Reference Include="Insite.Public.WebFramework, Version=4.4.3.39891">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.Public.WebFramework.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

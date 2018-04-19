@@ -108,15 +108,20 @@
                                             </div>
                                             <isc-sorted-attribute-value-list ng-if="product.attributeTypes.length > 0" attribute-types="product.attributeTypes" maximum-number="3" class="attribute-list"></isc-sorted-attribute-value-list>
                                         </div>
-                                        <div class="item-price" ng-if="!vm.failedToGetRealTimePrices">
+                                        <div class="item-price">
                                             <div class="product-info">
-                                                <isc-product-price product="product"></isc-product-price>
+                                                <div ng-if="!vm.failedToGetRealTimePrices">
+                                                    <isc-product-price product="product"></isc-product-price>
 
-                                                <span ng-if="product.canShowPrice && product.unitOfMeasureDisplay" class="um displayUnitOfMeasure isc-uomDisplay">/ {{product.unitOfMeasureDescription || product.unitOfMeasureDisplay}}</span>
-                                                <isc-product-price-saving product="product" currency-symbol="product.currencySymbol"></isc-product-price-saving>
+                                                    <span ng-if="product.canShowPrice && product.unitOfMeasureDisplay" class="um displayUnitOfMeasure isc-uomDisplay">/ {{product.unitOfMeasureDescription || product.unitOfMeasureDisplay}}</span>
+                                                    <isc-product-price-saving product="product" currency-symbol="product.currencySymbol"></isc-product-price-saving>
 
-                                                <div class="d-block" ng-show="product.canShowPrice && !product.quoteRequired">
-                                                    <isc-quantity-break-pricing product-id="product.id" break-prices="product.pricing.unitRegularBreakPrices"></isc-quantity-break-pricing>
+                                                    <div class="d-block" ng-show="product.canShowPrice && !product.quoteRequired">
+                                                        <isc-quantity-break-pricing product-id="product.id" break-prices="product.pricing.unitRegularBreakPrices"></isc-quantity-break-pricing>
+                                                    </div>
+                                                </div>
+                                                <div ng-if="vm.failedToGetRealTimePrices">
+                                                    <div>[% siteMessage 'RealTimePricing_PriceLoadFailed' %]</div>
                                                 </div>
                                                 <div class="um-pack">
                                                     <div class="um">
@@ -142,9 +147,6 @@
                                                     <a id="tst_productList_{{product.id}}_addToWishList" ng-if="product.canAddToWishlist" ng-click="vm.openWishListPopup(product)" role="button" class="btn secondary btn-add-list" href="javascript:;">[% translate 'Add to List' %]</a>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="item-price" ng-if="vm.failedToGetRealTimePrices">
-                                            <div>[% siteMessage 'RealTimePricing_PriceLoadFailed' %]</div>
                                         </div>
                                     </div>
                                 </li>
@@ -190,10 +192,15 @@
                                             <isc-availability-message availability="product.availability" failed-to-get-real-time-inventory="vm.failedToGetRealTimeInventory"></isc-availability-message>
                                         </td>
                                         <td class="price-column">
-                                            <isc-product-price product="product" id-key="_tv"></isc-product-price>
-                                            <isc-quantity-break-pricing ng-show="product.canShowPrice && !product.quoteRequired"
-                                                                        product-id="product.id + '_tv'" break-prices="product.pricing.unitRegularBreakPrices">
-                                            </isc-quantity-break-pricing>
+                                            <div ng-if="!vm.failedToGetRealTimePrices">
+                                                <isc-product-price product="product" id-key="_tv"></isc-product-price>
+                                                <isc-quantity-break-pricing ng-show="product.canShowPrice && !product.quoteRequired"
+                                                                            product-id="product.id + '_tv'" break-prices="product.pricing.unitRegularBreakPrices">
+                                                </isc-quantity-break-pricing>
+                                            </div>
+                                            <div ng-if="vm.failedToGetRealTimePrices">
+                                                <div>[% siteMessage 'RealTimePricing_PriceLoadFailed' %]</div>
+                                            </div>
                                         </td>
                                         <td>
                                             <span class="um displayUnitOfMeasure isc-uomDisplay">{{product.unitOfMeasureDescription || product.unitOfMeasureDisplay}}</span>
