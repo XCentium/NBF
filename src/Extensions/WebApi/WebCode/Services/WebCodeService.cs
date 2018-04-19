@@ -15,9 +15,9 @@ namespace Extensions.WebApi.WebCode.Services
         }
 
         [Transaction]
-        public async Task<string> GetWebCode(string siteId)
+        public async Task<string> GetWebCode(string siteId, string userId)
         {
-            var result = await Task.FromResult(_webCodeRepository.GetWebCode(siteId));
+            var result = await Task.FromResult(_webCodeRepository.GetWebCode(siteId, userId));
             return result;
         }
     }

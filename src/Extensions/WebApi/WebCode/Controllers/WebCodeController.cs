@@ -21,14 +21,14 @@ namespace Extensions.WebApi.WebCode.Controllers
 
         [Route("", Name = "getwebcode")]
         [ResponseType(typeof(string))]
-        public async Task<IHttpActionResult> Get(string siteId)
+        public async Task<IHttpActionResult> Get(string siteId, string userId)
         {
             if (siteId.IsNullOrWhiteSpace())
             {
                 return null;
             }
 
-            var a = await _webCodeService.GetWebCode(siteId);
+            var a = await _webCodeService.GetWebCode(siteId, userId);
 
             return Ok(a);
         }
