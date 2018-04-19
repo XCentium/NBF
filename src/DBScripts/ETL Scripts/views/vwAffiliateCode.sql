@@ -8,7 +8,7 @@ AS
 
 
 	SELECT 
-		s.Id AffiliateID,
+		s.Id AffiliateNumber,
 		s.Code AffiliateCode
 
 	FROM

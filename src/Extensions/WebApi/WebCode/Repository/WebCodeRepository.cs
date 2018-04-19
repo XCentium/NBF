@@ -23,12 +23,12 @@ namespace Extensions.WebApi.WebCode.Repository
         public string GetWebCode(string siteId, string userId)
         {
             var webCodeId = _unitOfWork.GetRepository<AffiliateCodeModel>().GetTable()
-                .FirstOrDefault(x => x.AffiliateCode.ToLower().Contains(siteId.ToLower()))?.AffiliateId.ToString();
+                .FirstOrDefault(x => x.AffiliateCode.ToLower().Contains(siteId.ToLower()))?.AffiliateNumber.ToString();
 
             if (string.IsNullOrWhiteSpace(webCodeId))
             {
                 webCodeId = _unitOfWork.GetRepository<AffiliateCodeModel>().GetTable()
-                    .FirstOrDefault(x => x.AffiliateCode.ToLower().Contains("default"))?.AffiliateId.ToString();
+                    .FirstOrDefault(x => x.AffiliateCode.ToLower().Contains("default"))?.AffiliateNumber.ToString();
             }
 
             if (!string.IsNullOrWhiteSpace(webCodeId))
