@@ -55,6 +55,7 @@ module insite.catalog {
         updateAvailability(product: ProductDto): void;
         getProductPrice(product: ProductDto, configuration?: string[]): ng.IPromise<ProductPriceModel>;
         getProductRealTimePrices(products: ProductDto[]): ng.IPromise<RealTimePricingModel>;
+        getProductRealTimePrice(product: ProductDto, configuration?: string[]): ng.IPromise<RealTimePricingModel>;
         getProductRealTimeInventory(products: ProductDto[]): ng.IPromise<RealTimeInventoryModel>;
         getCatalogPage(path: string): ng.IPromise<CatalogPageModel>;
         getCategoryTree(startCategoryId?: string, maxDepth?: number): ng.IPromise<CategoryCollectionModel>;
@@ -146,6 +147,10 @@ module insite.catalog {
         }
 
         protected changeUnitOfMeasureGetProductPriceCompleted(product: ProductDto, unitOfMeasure: ProductUnitOfMeasureDto, productPrice: ProductPriceModel, deferred: ng.IDeferred<ProductDto>): void {
+            if (!unitOfMeasure) {
+                deferred.reject();
+            }
+
             product.unitOfMeasureDisplay = unitOfMeasure.unitOfMeasureDisplay;
             product.unitOfMeasureDescription = unitOfMeasure.description;
             deferred.resolve(product);
@@ -189,13 +194,13 @@ module insite.catalog {
         getProductRealTimePrices(products: ProductDto[]): ng.IPromise<RealTimePricingModel> {
             return this.httpWrapperService.executeHttpRequest(
                 this,
-                this.$http.post(this.realTimePricingUri, this.getProductRealTimePriceParams(products)),
-                (response: ng.IHttpPromiseCallbackArg<RealTimePricingModel>) => { this.getProductRealTimePriceCompleted(response, products); },
-                this.getProductRealTimePriceFailed
+                this.$http.post(this.realTimePricingUri, this.getProductRealTimePricesParams(products)),
+                (response: ng.IHttpPromiseCallbackArg<RealTimePricingModel>) => { this.getProductRealTimePricesCompleted(response, products); },
+                this.getProductRealTimePricesFailed
             );
         }
 
-        protected getProductRealTimePriceParams(products: ProductDto[]): any {
+        protected getProductRealTimePricesParams(products: ProductDto[]): any {
             return {
                 productPriceParameters: products.map((product) => {
                     return {
@@ -207,10 +212,43 @@ module insite.catalog {
             };
         }
 
-        protected getProductRealTimePriceCompleted(response: ng.IHttpPromiseCallbackArg<RealTimePricingModel>, products: ProductDto[]): void {
+        protected getProductRealTimePricesCompleted(response: ng.IHttpPromiseCallbackArg<RealTimePricingModel>, products: ProductDto[]): void {
             response.data.realTimePricingResults.forEach((productPrice: ProductPriceDto) => {
                 const product = products.find((p: ProductDto) => p.id === productPrice.productId);
                 if (product) {
+                    product.pricing = productPrice;
+                }
+            });
+        }
+
+        protected getProductRealTimePricesFailed(error: ng.IHttpPromiseCallbackArg<any>): void {
+        }
+
+        getProductRealTimePrice(product: ProductDto, configuration?: string[]): ng.IPromise<RealTimePricingModel> {
+            return this.httpWrapperService.executeHttpRequest(
+                this,
+                this.$http.post(this.realTimePricingUri, this.getProductRealTimePriceParams(product, configuration)),
+                (response: ng.IHttpPromiseCallbackArg<RealTimePricingModel>) => { this.getProductRealTimePriceCompleted(response, product); },
+                this.getProductRealTimePriceFailed
+            );
+        }
+
+        protected getProductRealTimePriceParams(product: ProductDto, configuration?: string[]): any {
+            return {
+                productPriceParameters: [
+                    {
+                        productId: product.id,
+                        unitOfMeasure: product.selectedUnitOfMeasure,
+                        qtyOrdered: product.qtyOrdered,
+                        configuration: configuration
+                    }
+                ]
+            };
+        }
+
+        protected getProductRealTimePriceCompleted(response: ng.IHttpPromiseCallbackArg<RealTimePricingModel>, product: ProductDto): void {
+            response.data.realTimePricingResults.forEach((productPrice: ProductPriceDto) => {
+                if (product.id === productPrice.productId) {
                     product.pricing = productPrice;
                 }
             });

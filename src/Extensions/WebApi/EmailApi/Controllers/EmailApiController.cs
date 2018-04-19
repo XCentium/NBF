@@ -12,6 +12,7 @@ using Insite.Common.Logging;
 using Insite.Core.Plugins.StorageProvider;
 using Insite.Core.Plugins.Utilities;
 using Insite.Core.WebApi;
+using Insite.Order.WebApi.V1.ApiModels;
 
 namespace Extensions.WebApi.EmailApi.Controllers
 {
@@ -65,6 +66,12 @@ namespace Extensions.WebApi.EmailApi.Controllers
             return await ProcessUploadedFile(false);
         }
 
+        [Route("rmafile", Name = "uploadRmaFile")]
+        public async Task<HttpResponseMessage> UploadRmaFile()
+        {
+            return await ProcessUploadedFile(false);
+        }
+
         protected async Task<HttpResponseMessage> ProcessUploadedFile(bool overwriteFile)
         {
             if (!Request.Content.IsMimeMultipartContent())
@@ -72,25 +79,31 @@ namespace Extensions.WebApi.EmailApi.Controllers
                 throw new HttpResponseException(HttpStatusCode.UnsupportedMediaType);
             }
 
-            var tempUploadDirectory = StorageProvider.Combine("_system/fileuploadtemp", Guid.NewGuid().ToString());
+            var tempUploadDirectory = StorageProvider.Combine(@"_system\fileuploadtemp", Guid.NewGuid().ToString());
             StorageProvider.CreateFolder(tempUploadDirectory);
 
             try
             {
                 var multipart = await Request.Content.ReadAsMultipartAsync();
+                var tempFileName = string.Empty;
 
-                var destinationFileName = multipart.Contents[0].Headers
-                    .FirstOrDefault(o => o.Key == "Content-Disposition").Value
-                    .FirstOrDefault(o => o.Contains("filename="))
-                    .Split(new string[] {"filename="}, StringSplitOptions.None)[1].Split(';')[0].Trim();
-                destinationFileName = Uri.UnescapeDataString(destinationFileName);
-                destinationFileName = System.IO.Path.GetInvalidFileNameChars().Aggregate(destinationFileName, (current, c) => current.Replace(c, ' ')).Trim();
+                if (multipart.Contents[0].Headers.Any(x => x.Key == "Content-Disposition"
+                && x.Value.Any(y => y.Contains("filename="))
+                ))
+                {
 
-                var destinationFileStream = await multipart.Contents[0].ReadAsStreamAsync();
+                    var destinationFileName = multipart.Contents[0].Headers
+                        .FirstOrDefault(o => o.Key == "Content-Disposition").Value
+                        .FirstOrDefault(o => o.Contains("filename="))
+                        .Split(new string[] { "filename=" }, StringSplitOptions.None)[1].Split(';')[0].Trim();
+                    destinationFileName = Uri.UnescapeDataString(destinationFileName);
+                    destinationFileName = System.IO.Path.GetInvalidFileNameChars().Aggregate(destinationFileName, (current, c) => current.Replace(c, ' ')).Trim();
 
-                var tempFileName = StorageProvider.Combine(tempUploadDirectory, destinationFileName);
-                StorageProvider.SaveStream(tempFileName, destinationFileStream);
+                    var destinationFileStream = await multipart.Contents[0].ReadAsStreamAsync();
 
+                    tempFileName = StorageProvider.Combine(tempUploadDirectory, destinationFileName);
+                    StorageProvider.SaveStream(tempFileName, destinationFileStream);
+                }
                 return Request.CreateResponse(HttpStatusCode.OK, tempFileName);
             }
             catch (Exception exception)

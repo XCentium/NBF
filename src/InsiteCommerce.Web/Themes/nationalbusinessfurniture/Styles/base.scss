@@ -332,6 +332,10 @@ body {
     border-color:$nbf-orange;
 }
 
+.page-title {
+    margin-top: 60px;
+}
+
 .brand-underline {
     display: inline-block;
 
@@ -343,6 +347,7 @@ body {
         width: 100%;
         bottom: 0;
         position: relative;
+        margin-top: 5px;
     }
 }
 
@@ -376,6 +381,7 @@ body {
 * {
     outline: none !important;
 }
+
 
 .container {
     width: 100%;
@@ -443,7 +449,7 @@ h2 {
     font-size: 36px;
     font-family: $ProximaNova;
     font-weight: 700;
-    line-height: 1.2em;
+    line-height: 1.5em;
     margin-bottom: .75em;
     color: inherit;
 
@@ -469,7 +475,7 @@ h4 {
     font-size: 24px;
     font-family: $ProximaNova;
     font-weight: 700;
-    line-height: 1.2em;
+    line-height: 1.5em;
     margin-bottom: 1em;
 
     @media all and (max-width: 767px) {
@@ -480,7 +486,7 @@ h4 {
 h5, h6 {
     font-family: $ProximaNova;
     font-size: 24px;
-    line-height:  1.2em;
+    line-height:  1.5em;
     margin-bottom: 1em;
     color: inherit;
     font-weight: 400;
@@ -1119,7 +1125,7 @@ h2.resp-tab-active {
     overflow: visible;
     visibility: visible;
     margin-bottom: .125em;
-    padding: 15px;
+    padding: 30px 15px;
     
 
       @media (max-width: 767px) {
@@ -2551,8 +2557,8 @@ header div.head-cm {
 
 .item-block .item-thumb {
     width: 25%;
-    padding: 0 0 20px !important;
-    max-width: 160px;
+    padding: 0 0 33px !important;
+    max-width: 273px;
     float: left;
     position: relative;
     border: 1px solid $divider-gray;
@@ -2567,6 +2573,11 @@ header div.head-cm {
             &:before {
                 padding-right:0;
             }
+        }
+    }
+    a {
+        img{
+            width:100%;
         }
     }
 }
@@ -2640,12 +2651,12 @@ ul.attribute-list span.attrib-name {
 @media all and (min-width: 768px) {
 
     .item-list .item-thumb {
-        width: 20%;
+        width: 27%;
     }
 
     .item-list .item-details,
     .item-list .item-code-notes {
-        width: 80%;
+        width: 73%;
         padding: 0 4em .5em 2em !important;
     }
 }

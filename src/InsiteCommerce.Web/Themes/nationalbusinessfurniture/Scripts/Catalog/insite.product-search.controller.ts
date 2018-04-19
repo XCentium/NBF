@@ -40,7 +40,7 @@ module insite.catalog {
         }
 
         init(): void {
-            this.criteria = this.queryString.get("criteria");
+            this.criteria = decodeURIComponent(this.queryString.get("criteria"));
 
             this.$scope.$on("$locationChangeStart", (event: ng.IAngularEvent, uri: string) => {
                 this.onLocationChangeStart(event, uri);
@@ -64,7 +64,9 @@ module insite.catalog {
         }
 
         protected onLocationChangeStart(event: ng.IAngularEvent, uri: string): void {
-            if (this.criteria !== "" && uri.indexOf(`criteria=${this.criteria}`) === -1) {
+            let localCriteria = this.criteria;
+            let encodedCriteria = `criteria=${encodeURIComponent(localCriteria)}`; // note: encodeURIComponent does not seem to work an an angular watched var like this.criteria
+            if (encodedCriteria !== "" && uri.indexOf(encodedCriteria) === -1) {
                 this.clearSearchTerm();
             }
         }
@@ -289,7 +291,7 @@ module insite.catalog {
         }
 
         protected getAutocompleteSearchHistoryTemplate(suggestion: any): string {
-            return `<div class="group-${suggestion.type}">${suggestion.q}</div>`;
+            return `<div class="group-${suggestion.type}">${suggestion.q.replace(/</g, "&lt").replace(/>/g, "&gt")}</div>`;
         }
 
         protected getAutocompleteCategoryTemplate(suggestion: any, pattern: string): string {
@@ -299,7 +301,7 @@ module insite.catalog {
         }
 
         protected getAutocompleteContentTemplate(suggestion: any, pattern: string): string {
-            return `<div class="group-${suggestion.type}">${suggestion.title}</div>`;
+            return `<div class="group-${suggestion.type} tst_autocomplete_content_${suggestion.url.replace("/", "-")}">${suggestion.title}</div>`;
         }
 
         protected getAutocompleteProductTemplate(suggestion: any, pattern: string): string {
@@ -329,7 +331,7 @@ module insite.catalog {
                 additionalInfo += `<span class='manufacturer-item-number'><span class='label'>${manufacturerItemNumberLabel}</span><span class='value'>${manufacturerItemNumber}</span></span>`;
             }
 
-            return `<div class="group-${suggestion.type} tst_autocomplete_product_${suggestion.id}"><div class="image"><img src='https://s7d9.scene7.com/is/image/NationalBusinessFurniture/${suggestion.image}?hei=100&id=Iu1rN2&fmt=jpg&fit=constrain,1&wid=100&hei=100' /></div><div><div class='shortDescription'>${shortDescription}</div>${additionalInfo}</div></div>`;
+            return `<div class="group-${suggestion.type} tst_autocomplete_product_${suggestion.id}"><div class="image"><img src='${suggestion.image}' /></div><div><div class='shortDescription'>${shortDescription}</div>${additionalInfo}</div></div>`;
         }
 
         onEnter(): void {
@@ -416,17 +418,20 @@ module insite.catalog {
         }
 
         protected redirectToSearchPage(searchTerm: string, includeSuggestions?: boolean): void {
-            // search states are needed for when the /search page is redirecting to itself
-            if (insiteMicrositeUriPrefix) {
-                const stateParams = {
-                    microsite: insiteMicrositeUriPrefix.substring(1),
-                    criteria: searchTerm,
-                    includeSuggestions: includeSuggestions === false ? false : null
-                };
-                this.$state.go("search_microsite", stateParams);
-            } else {
-                this.$state.go("search", { criteria: searchTerm });
+            let url = `/search?criteria=${encodeURIComponent(searchTerm)}`;
+
+            if (includeSuggestions === false) {
+                url = `${url}&includeSuggestions=false`;
             }
+
+            if (insiteMicrositeUriPrefix) {
+                url = `${insiteMicrositeUriPrefix}${url}`;
+            }
+
+            setTimeout(() => {
+                this.coreService.redirectToPath(url);
+                this.$scope.$apply();
+            }, 0);
         }
 
         getTranslation(key: string): string {

@@ -3,6 +3,7 @@ using Extensions.WebApi.EmailApi.Interfaces;
 using Extensions.WebApi.EmailApi.Models;
 using Insite.Core.Interfaces.Data;
 using Insite.Core.Services;
+using Insite.Order.WebApi.V1.ApiModels;
 
 namespace Extensions.WebApi.EmailApi.Services
 {
@@ -26,7 +27,7 @@ namespace Extensions.WebApi.EmailApi.Services
         {
             await _emailApiRepository.SendTaxExemptEmail(taxExemptDto);
         }
-
+        
         [Transaction]
         public async Task SendContactUsSpanishForm(ContactUsSpanishDto contactUsSpanishDto)
         {

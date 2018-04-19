@@ -116,7 +116,7 @@
                                             [% translate 'Status' %]
                                         </a>
                                     </th>
-                                    <th class="col-ordernum" ng-if="vm.settings.showWebOrderNumber" style="display: none;">
+                                    <th class="col-ordernum" ng-if="vm.settings.showWebOrderNumber">
                                         <a href="javascript:void(0)" class="sort"
                                            ng-class="{'sort-ascending': vm.searchFilter.sort === 'WebOrderNumber', 'sort-descending': vm.searchFilter.sort === 'WebOrderNumber DESC'}"
                                            ng-click="vm.changeSort('WebOrderNumber')">

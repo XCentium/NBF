@@ -30,7 +30,7 @@
                     <div ng-if="!vm.category.largeImagePath" class="medium-12 large-12 columns widget-1column narrow-container">
                         <div class="row">
                             <div class="medium-12 column">
-                                <h1 class="brand-underline">{{vm.category.shortDescription}}</h1>
+                                <h1 class="page-title brand-underline">{{vm.category.shortDescription}}</h1>
                                 <p ng-bind-html="vm.category.htmlContent|trusted"></p>
                             </div>
                         </div>
@@ -152,7 +152,7 @@
                                                             <div class="item-block__product__ships-today" ng-if="vm.isAttributeValue(product, 'Ships Today', 'Yes');"><span class="ico-Truck"></span> Ships Today!</div>
                                                         </div>
                                                     </div>
-                                                    <div ng-if="vm.view == 'list' && (product.specifications | filter: { name: 'Features' }).length > 0">
+                                                    <div class="item-block__product__features" ng-if="vm.view == 'list' && (product.specifications | filter: { name: 'Features' }).length > 0">
                                                         <strong>Features:</strong>
                                                         <div ng-repeat="specification in product.specifications | filter: { name: 'Features' } | orderBy: 'sortOrder'" ng-bind-html="specification.htmlContent|trusted"></div>
                                                     </div>
@@ -208,10 +208,15 @@
                                                                             <isc-availability-message availability="product.availability" failed-to-get-real-time-inventory="vm.failedToGetRealTimeInventory"></isc-availability-message>
                                                                         </td>
                                                                         <td class="price-column">
-                                                                            <isc-product-price product="product" id-key="_tv"></isc-product-price>
-                                                                            <isc-quantity-break-pricing ng-show="product.canShowPrice && !product.quoteRequired"
-                                                                                                        product-id="product.id + '_tv'" break-prices="product.pricing.unitRegularBreakPrices">
-                                                                            </isc-quantity-break-pricing>
+                                                                            <div ng-if="!vm.failedToGetRealTimePrices">
+                                                                                <isc-product-price product="product" id-key="_tv"></isc-product-price>
+                                                                                <isc-quantity-break-pricing ng-show="product.canShowPrice && !product.quoteRequired"
+                                                                                                            product-id="product.id + '_tv'" break-prices="product.pricing.unitRegularBreakPrices">
+                                                                                </isc-quantity-break-pricing>
+                                                                            </div>
+                                                                            <div ng-if="vm.failedToGetRealTimePrices">
+                                                                                <div>[% siteMessage 'RealTimePricing_PriceLoadFailed' %]</div>
+                                                                            </div>
                                                                         </td>
                                                                         <td>
                                                                             <span class="um displayUnitOfMeasure isc-uomDisplay">{{product.unitOfMeasureDescription || product.unitOfMeasureDisplay}}</span>
@@ -505,12 +510,7 @@
                                         </section>
                                     </div>
 
-
-
-
-
-
-                                    <div ng-repeat="section in vm.products.attributeTypeFacets | orderBy : ['sort','nameDisplay']" class="f-cat" ng-if="vm.products.attributeTypeFacets.length > 0">
+                                    <div ng-repeat="section in vm.products.attributeTypeFacets | orderBy : ['sort','nameDisplay'] | limitTo: 4" class="f-cat" ng-if="vm.products.attributeTypeFacets.length > 0">
                                         <section class="accordion">
                                             <div>
                                                 <input type="checkbox" id="accord-{{$index + 3}}" class="accord-check" />
@@ -535,13 +535,11 @@
                                         </section>
                                     </div>
 
-                                    <div>
-                                        
-
+                                    <div ng-if="vm.products.attributeTypeFacets.length > 4">                                       
                                         <div class="exrta-filter-wrap collapsed"  style="clear:both;">
                                             <div class=""><a href="#" ng-click="vm.toggleexrtafilter()" class="toggle-filters">[% translate 'More Filters' %]</a></div>
                                             <div class="exrta-filters">
-                                                <div ng-repeat="section in vm.products.attributeTypeFacets | orderBy : ['sort','nameDisplay']" class="f-cat" ng-if="vm.products.attributeTypeFacets.length > 0">
+                                                <div ng-repeat="section in vm.products.attributeTypeFacets | orderBy : ['sort','nameDisplay'] | limitTo: (4 - vm.products.attributeTypeFacets.length)" class="f-cat" ng-if="vm.products.attributeTypeFacets.length > 0">
                                                     <section class="accordion">
                                                         <div>
                                                             <input type="checkbox" id="accord-{{$index + 3}}" class="accord-check" />

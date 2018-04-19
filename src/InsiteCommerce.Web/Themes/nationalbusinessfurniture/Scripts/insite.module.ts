@@ -82,7 +82,8 @@ module insite {
 
         sendGoogleAnalytics(): void {
             if (typeof ga !== "undefined") {
-                ga("set", "page", this.$location.path());
+                ga("set", "location", this.$location.absUrl());
+                ga("set", "page", this.$location.url());
                 ga("send", "pageview");
             }
         }
@@ -93,7 +94,7 @@ module insite {
                     event: "virtualPageView",
                     page: {
                         title: window.document.title,
-                        url: this.$location.path()
+                        url: this.$location.url()
                     }
                 });
             }

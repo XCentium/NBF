@@ -17,6 +17,7 @@ using Insite.Core.Interfaces.Plugins.Security;
 using Insite.Core.Localization;
 using Insite.Customers.Services;
 using Insite.Data.Repositories.Interfaces;
+using Insite.Order.WebApi.V1.ApiModels;
 
 namespace Extensions.WebApi.EmailApi.Repository
 {
