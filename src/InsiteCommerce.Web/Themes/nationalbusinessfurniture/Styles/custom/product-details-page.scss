@@ -50,6 +50,10 @@
             height: 558px;
             overflow: auto;
         }
+
+        .item-block__product__price-wrap {
+            margin: 20px 0;
+        }
     }
 
     .item-num {
@@ -83,12 +87,18 @@
                     border-right: 1px solid $divider-gray;
                     margin-right: 20px;
                     width: 45%;
+                    float: left;
+                }
+
+                .item-block__product__bluk-pricing > div {
+                    margin-bottom:5px;
                 }
             }
 
             .col-2 {
                 @media all and (min-width: 768px) {
                     width: 45%;
+                    float: left;
                 }
             }
 
@@ -218,6 +228,7 @@
 
         a.btn.btn-add-to-list:link {
             width: auto;
+            padding-top: 10px;
         }
     }
 
@@ -234,5 +245,31 @@
             @include flex(1 1 210px);
             margin: 10px;
         }
+    }
+}
+
+@media print {
+    /* All your print styles go here */
+    #liveExpert-widget-container {
+        display: none !important;
+    }
+
+    .product-detail .detail-image, .product-details .name-price {
+        width: 45% !important;
+        overflow: hidden;
+        display: table-cell !important;
+    }
+
+    #InfoMessage_s7classic_4, .product-detail .images-carousel-wrapper .isc-imageContainer.active:after, .product-detail .images-carousel-wrapper .img-carousel-control-prev, .product-detail .images-carousel-wrapper .img-carousel-control-next {
+        display: none !important;
+    }
+
+    body {
+        -webkit-transform: scale(0.85); /* Saf3.1+, Chrome */
+        -moz-transform: scale(0.85); /* FF3.5+ */
+        -ms-transform: scale(0.85); /* IE9 */
+        -o-transform: scale(0.85); /* Opera 10.5+ */
+        transform: scale(0.85);
+        margin: -50px -73px 0; /* big hack to reposition the page top the top and left of the viewer control */
     }
 }
