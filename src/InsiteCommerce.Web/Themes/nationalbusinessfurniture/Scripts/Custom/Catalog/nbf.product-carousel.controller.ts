@@ -17,7 +17,6 @@
     export class NbfProductCarouselController extends CrossSellCarouselController {
         erpNumbers: string[];
         products: ProductDto[];
-        productCarouselProducts: ProductCarouselProduct[];
         favoritesWishlist: WishListModel;
         isAuthenticated: boolean = false;
 
@@ -73,14 +72,14 @@
             this.productService.getProducts(params, expand).then(
                 (result) => {
                     this.products = result.products;
-                    this.productCarouselProducts = [];
+                    let sortedProducts: ProductDto[] = [];
                     this.erpNumbers.forEach((erp, i) => {
-                        this.productCarouselProducts.push({
-                            erpNumber: erp,
-                            sortOrder: i,
-                            product: this.products.filter(x => x.erpNumber.toLowerCase() === erp.toLowerCase())[0]
-                        } as ProductCarouselProduct);
+                        sortedProducts.push(this.products.find(x => x.erpNumber.toLowerCase().trim() === erp.toLowerCase().trim()));
                     });
+
+                    //replace the original products list with the sorted list
+                    this.products = sortedProducts.filter(x => x != null);
+
                     this.imagesLoaded = 0;
                     this.waitForDom(this.maxTries);
 
@@ -99,7 +98,7 @@
 
                     setTimeout(() => {
                         this.setPowerReviews();
-                    }, 2000);
+                    }, 1000);
                 }
             );
         }
@@ -263,7 +262,7 @@
         }
 
         showUnitOfMeasureLabel(product: ProductDto): boolean {
-            return product.canShowUnitOfMeasure
+            return product != null && product.canShowUnitOfMeasure
                 && !!product.unitOfMeasureDisplay
                 && !product.quoteRequired;
         }
