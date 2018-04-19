@@ -42,13 +42,13 @@
     box-shadow:none;
 }
 
-#pr-reviewsnippet {
+
     .pr-snippet-rating-decimal {
-        font-size: 18px;
-        border: none;
+        font-size: 18px !important;
+        border: none !important;
     }
 
-
+#pr-reviewsnippet {
     .pr-snippet-review-count {
         display: block;
         font-size: 18px !important;
@@ -65,6 +65,8 @@
 
     .p-w-r a {
         text-decoration: underline;
+        font-size: 18px !important;
+        color: $nbf-black;
     }
 }
 

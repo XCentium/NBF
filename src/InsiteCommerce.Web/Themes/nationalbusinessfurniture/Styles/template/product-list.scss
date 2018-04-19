@@ -843,10 +843,17 @@
             position: absolute;
             top: 0;
             right: 0;
+            text-align: right;
 
-            .item-block__product__price, h3, .item-block__product__flag, .strike ori-price-tag {
-                display: inline-block !important;
+            .item-block__product__price, h3, .strike ori-price-tag {
+                display: block !important;
                 text-align: right;
+            }
+
+            h3{
+                margin-right:0;
+            } .item-block__product__price {
+                display: block !important;
             }
         }
 
