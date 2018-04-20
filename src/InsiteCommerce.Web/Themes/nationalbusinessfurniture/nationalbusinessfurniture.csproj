@@ -796,6 +796,7 @@
     <Content Include="Views\Widgets\Custom\TaxExempt\Standard.cshtml" />
     <Content Include="Views\Directives\Custom\Account\TaxExempt.cshtml" />
     <Content Include="Views\Directives\Custom\Cart\NbfTermsAndConditionsPopup.cshtml" />
+    <Content Include="Views\Widgets\Breadcrumb\NoShareLinks.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <PropertyGroup>
