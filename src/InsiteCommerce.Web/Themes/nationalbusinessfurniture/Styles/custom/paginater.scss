@@ -230,9 +230,13 @@ body [role="main"] div.paginator-34 {
 
 .paginator-34 .pagination input {
     height: 48px !important;
-    border-bottom:0;
-    border-top:0;
-    text-align:center;
+    border-bottom: 0;
+    border-top: 0;
+    text-align: center;
+
+    &:focus {
+        border: 1px solid black;
+    }
 }
 
 .paginator-34.pbtm .pagination input, .paginator-34.pbtm .pagination a.next-prev {
