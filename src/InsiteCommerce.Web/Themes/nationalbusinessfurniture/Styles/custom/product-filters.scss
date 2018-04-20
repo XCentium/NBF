@@ -49,8 +49,9 @@
         text-decoration: none;
 
         @media (max-width: 761px) {
-            display:none;
+            display: none;
         }
+
         &:after {
             content: "\f068";
             position: relative;
@@ -61,12 +62,14 @@
 
     .exrta-filters {
         height: auto;
-        overflow: hidden;
         transition: max-height 0.5s ease-in;
         max-height: 1600px;
     }
 
     &.collapsed {
+        .exrta-filters {
+            overflow: hidden;
+        }
 
         @media (min-width: 768px) {
 
