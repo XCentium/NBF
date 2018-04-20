@@ -244,6 +244,12 @@ body [role="main"] div.paginator-34 {
     height: 50px !important;
 }
 
+.paginator-34.pbtm .pagination input {
+    &:focus {
+        border: 1px solid black;
+    }
+}
+
 @media all and (max-width: 767px) {
 
     .pagination input {
