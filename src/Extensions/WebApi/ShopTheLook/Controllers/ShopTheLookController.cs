@@ -2,6 +2,7 @@
 using System.Web.Http;
 using System.Web.Http.Description;
 using Extensions.WebApi.ShopTheLook.Interfaces;
+using Extensions.WebApi.ShopTheLook.Models;
 using Insite.Core.Plugins.Utilities;
 using Insite.Core.WebApi;
 using Microsoft.Ajax.Utilities;
@@ -29,6 +30,15 @@ namespace Extensions.WebApi.ShopTheLook.Controllers
             }
 
             var a = await _shopTheLookService.GetLook(id);
+
+            return Ok(a);
+        }
+
+        [Route("", Name = "getLookCollection")]
+        [ResponseType(typeof(ShopTheLookCategoryDto))]
+        public async Task<IHttpActionResult> GetLookCollection()
+        {
+            var a = await _shopTheLookService.GetLookCollection();
 
             return Ok(a);
         }

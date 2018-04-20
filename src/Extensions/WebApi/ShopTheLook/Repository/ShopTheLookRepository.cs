@@ -2,6 +2,7 @@
 using Extensions.Models.ShopTheLook;
 using Extensions.WebApi.Base;
 using Extensions.WebApi.ShopTheLook.Interfaces;
+using Extensions.WebApi.ShopTheLook.Models;
 using Insite.Catalog.Services;
 using Insite.Core.Interfaces.Data;
 using Insite.Core.Interfaces.Dependency;
@@ -22,13 +23,23 @@ namespace Extensions.WebApi.ShopTheLook.Repository
 
         public StlRoomLook GetLook(string id)
         {
-            var stls1 = _unitOfWork.GetRepository<StlRoomLook>().GetTable().ToList();
-            var stls2 = _unitOfWork.GetRepository<StlCategory>().GetTable().ToList();
-            var stls3 = _unitOfWork.GetRepository<StlRoomLooksCategory>().GetTable().ToList();
-            var stls4 = _unitOfWork.GetRepository<StlRoomLooksProduct>().GetTable().ToList();
-            var stls5 = _unitOfWork.GetRepository<StlRoomLooksStyle>().GetTable().ToList();
+            var look = _unitOfWork.GetRepository<StlRoomLook>().GetTable().FirstOrDefault(x => x.Id.ToString().Equals(id));
+            //var stls2 = _unitOfWork.GetRepository<StlCategory>().GetTable().ToList();
+            //var stls3 = _unitOfWork.GetRepository<StlRoomLooksCategory>().GetTable().ToList();
+            //var stls4 = _unitOfWork.GetRepository<StlRoomLooksProduct>().GetTable().ToList();
+            //var stls5 = _unitOfWork.GetRepository<StlRoomLooksStyle>().GetTable().ToList();
 
-            return stls1.FirstOrDefault();
+            return look;
+        }
+
+        public ShopTheLookCategoryDto GetLookCollection()
+        {
+            var categories = new ShopTheLookCategoryDto
+            {
+                Categories = _unitOfWork.GetRepository<StlRoomLooksCategory>().GetTable().ToList()
+            };
+
+            return categories;
         }
     }
 }
