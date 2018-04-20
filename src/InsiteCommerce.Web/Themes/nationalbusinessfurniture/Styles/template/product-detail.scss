@@ -108,6 +108,13 @@
 
     .detail-image {
         margin-bottom: 20px;
+
+
+        .s7staticimage {
+            @media print {
+                left: 0 !important;
+            }
+        }
     }
 
     .detail-share {
@@ -188,6 +195,10 @@
         visibility: hidden;
         position: absolute;
         margin: 0 auto;
+
+        @media print {
+            display: none;
+        }
 
         @media all and (max-width: 767px) {
             padding: 20px 0 10px;
