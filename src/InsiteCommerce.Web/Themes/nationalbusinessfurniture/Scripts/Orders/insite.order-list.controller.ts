@@ -12,7 +12,7 @@ module insite.order {
             sort: "OrderDate DESC,ErpOrderNumber DESC,WebOrderNumber DESC",
             toDate: "",
             fromDate: "",
-            expand: "",
+            expand: "orderlines",
             ponumber: "",
             ordernumber: "",
             search: "",
@@ -26,15 +26,17 @@ module insite.order {
         validationMessage: string;
         orderStatusMappings: KeyValuePair<string, string[]>;
         settings: Insite.Order.WebApi.V1.ApiModels.OrderSettingsModel;
+        addingToCart = false;
 
-        static $inject = ["orderService", "customerService", "coreService", "paginationService", "settingsService"];
+        static $inject = ["orderService", "customerService", "coreService", "paginationService", "settingsService", "cartService"];
 
         constructor(
             protected orderService: order.IOrderService,
             protected customerService: customers.ICustomerService,
             protected coreService: core.ICoreService,
             protected paginationService: core.IPaginationService,
-            protected settingsService: core.ISettingsService) {
+            protected settingsService: core.ISettingsService,
+            protected cartService: cart.ICartService) {
             this.init();
         }
 
@@ -186,6 +188,32 @@ module insite.order {
                     }
                 }
             }
+        }
+
+        protected addToCart(order: OrderModel): void {
+            this.addingToCart = true;
+            const cartLines = this.orderService.convertToCartLines(order.orderLines);
+            if (cartLines.length > 0) {
+                this.cartService.addLineCollection(cartLines, true).then(
+                    (cartLineCollection: CartLineCollectionModel) => { this.addLineCollectionCompleted(cartLineCollection); },
+                    (error: any) => { this.addLineCollectionFailed(error); });
+            }
+        }
+
+        protected addLineCollectionCompleted(cartLineCollection: CartLineCollectionModel): void {
+            this.addingToCart = false;
+        }
+
+        protected addLineCollectionFailed(error: any): void {
+            this.addingToCart = false;
+        }
+
+        protected addToCartCompleted(cartLine: CartLineModel): void {
+            this.addingToCart = false;
+        }
+
+        protected addToCartFailed(error: any): void {
+            this.addingToCart = false;
         }
     }
 

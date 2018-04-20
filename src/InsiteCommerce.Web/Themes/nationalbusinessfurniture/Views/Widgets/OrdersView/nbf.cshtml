@@ -152,7 +152,7 @@
                                     <td class="col-po"  ng-if="vm.settings.showPoNumber" ng-bind="order.customerPO" ng-click="copyToSearch(order.customerPO)"></td>
                                     <td class="col-tot" ng-bind="order.orderTotalDisplay"></td>
                                     <td class="col-btn">
-                                        <a href="javascript:void(0)" class="btn btn-primary"><span class="ico-CartIcon"></span> Add To Cart</a>
+                                        <a href="javascript:void(0)" class="btn btn-primary" ng-click="vm.addToCart(order)" ><span class="ico-CartIcon"></span> Add To Cart</a>                                        
                                     </td>
                                 </tr>
                             </tbody>
