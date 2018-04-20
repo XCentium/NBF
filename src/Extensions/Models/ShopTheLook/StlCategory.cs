@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using Insite.Core.Interfaces.Data;
 using Insite.Data.Entities;
+using System.Collections.Generic;
 
 namespace Extensions.Models.ShopTheLook
 {
@@ -10,10 +11,11 @@ namespace Extensions.Models.ShopTheLook
     {
         [Required]
         [NaturalKeyField]
-        public string Name { get; set; }
-        public string Status { get; set; }
-        public string Description { get; set; }
-        public string MainImage { get; set; }
-        public int SortOrder { get; set; }
+        public virtual string Name { get; set; }
+        public virtual string Status { get; set; }
+        public virtual string Description { get; set; }
+        public virtual string MainImage { get; set; }
+        public virtual int SortOrder { get; set; }
+        //public virtual ICollection<StlRoomLooksCategory> StlRoomLooksCategories { get; set; } = new HashSet<StlRoomLooksCategory>();
     }
 }

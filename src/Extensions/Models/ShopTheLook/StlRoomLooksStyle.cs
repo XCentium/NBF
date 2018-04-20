@@ -10,12 +10,12 @@ namespace Extensions.Models.ShopTheLook
     public class StlRoomLooksStyle : EntityBase
     {
         [Required]
-        [NaturalKeyField]
-        public Guid StlRoomLookId { get; set; }
+        [NaturalKeyField(Order = 0)]
+        public virtual Guid StlRoomLookId { get; set; }
         [Required]
-        [NaturalKeyField]
-        public string StyleName { get; set; }
-        public StlRoomLook StlRoomLook { get; set; }
-        public int SortOrder { get; set; }
+        [NaturalKeyField(Order = 1)]
+        public virtual string StyleName { get; set; }
+        public virtual StlRoomLook StlRoomLook { get; set; }
+        public virtual int SortOrder { get; set; }
     }
 }

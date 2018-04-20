@@ -10,13 +10,13 @@ namespace Extensions.Models.ShopTheLook
     public class StlRoomLooksCategory : EntityBase
     {
         [Required]
-        [NaturalKeyField]
-        public Guid StlRoomLookId { get; set; }
+        [NaturalKeyField(Order = 0)]
+        public virtual Guid StlRoomLookId { get; set; }
         [Required]
-        [NaturalKeyField]
-        public Guid StlCategoryId { get; set; }
-        public int? SortOrder { get; set; }
-        public StlCategory StlCategory { get; set; }
-        public StlRoomLook StlRoomLook { get; set; }
+        [NaturalKeyField(Order = 1)]
+        public virtual Guid StlCategoryId { get; set; }
+        public virtual int? SortOrder { get; set; }
+        public virtual StlCategory StlCategory { get; set; }
+        public virtual StlRoomLook StlRoomLook { get; set; }
     }
 }
