@@ -11,6 +11,10 @@
 .breadcrumb-wrap {
     border-bottom: 1px solid $divider-gray;
 
+    @media print {
+        display:none;
+    }
+
     .breadcrumbs {
         float: left;
         @media all and (max-width: 991px){

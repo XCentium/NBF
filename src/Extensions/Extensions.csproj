@@ -483,6 +483,8 @@
   <ItemGroup>
     <EmbeddedResource Include="DatabaseScripts\2018.04.18.02.CreateWebCodeTables.sql" />
     <EmbeddedResource Include="DatabaseScripts\2018.04.18.01.CreateSTLTables.sql" />
+    <EmbeddedResource Include="DatabaseScripts\2018.04.19.01.DropAndCreateSTLTables.sql" />
+    <EmbeddedResource Include="DatabaseScripts\2018.04.19.02.DropAndCreateAffiliateTable.sql" />
     <Content Include="packages.config">
       <SubType>Designer</SubType>
     </Content>
