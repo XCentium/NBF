@@ -1,4 +1,11 @@
-
+DROP TABLE [Extensions].[STLRoomLooksStyle]
+GO
+DROP TABLE [Extensions].[STLRoomLooksProduct]
+GO
+DROP TABLE [Extensions].[STLRoomLooksCategory]
+GO
+DROP TABLE [Extensions].[STLRoomLook]
+GO
 DROP TABLE [Extensions].[STLCategory]
 GO
 
@@ -64,8 +71,6 @@ GO
 ALTER TABLE [Extensions].[STLCategory] ADD  CONSTRAINT [DF_STLCategory_ModifiedBy]  DEFAULT ('') FOR [ModifiedBy]
 GO
 
-DROP TABLE [Extensions].[STLRoomLook]
-GO
 
 /*    ==Scripting Parameters==
 
@@ -128,8 +133,6 @@ GO
 ALTER TABLE [Extensions].[STLRoomLook] ADD  CONSTRAINT [DF_STLRoomLook_ModifiedBy]  DEFAULT ('') FOR [ModifiedBy]
 GO
 
-DROP TABLE [Extensions].[STLRoomLooksCategory]
-GO
 
 
 /*    ==Scripting Parameters==
@@ -205,8 +208,6 @@ GO
 ALTER TABLE [Extensions].[STLRoomLooksCategory] CHECK CONSTRAINT [FK_STLRoomLooksCategory_STLRoomLooksCategory]
 GO
 
-DROP TABLE [Extensions].[STLRoomLooksProduct]
-GO
 
 /*    ==Scripting Parameters==
 
@@ -288,8 +289,6 @@ GO
 EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'' , @level0type=N'SCHEMA',@level0name=N'Extensions', @level1type=N'TABLE',@level1name=N'STLRoomLooksProduct'
 GO
 
-DROP TABLE [Extensions].[STLRoomLooksStyle]
-GO
 
 /*    ==Scripting Parameters==
 

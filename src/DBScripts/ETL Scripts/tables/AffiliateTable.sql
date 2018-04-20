@@ -1,3 +1,6 @@
+DROP TABLE [Extensions].[AffiliateCode]
+GO
+
 SET ANSI_NULLS ON
 GO
 
