@@ -109,7 +109,7 @@
                                 <div class="small-12 primary-button">
                                     <button ng-show="(vm.product.availability.messageType != 2 || vm.product.canBackOrder) && vm.product.allowedAddToCart && (vm.product.canAddToCart || vm.configurationCompleted || vm.styleSelectionCompleted && !vm.product.canConfigure)"
                                             id="tst_productDetail_addToCart" ng-click="vm.addToCart(vm.product)"
-                                            role="button" class="btn-long btn primary btn-add-to-cart" ng-disabled="!vm.product.qtyOrdered || vm.product.qtyOrdered == 0 || vm.showUnitError || vm.addingToCart">
+                                            role="button" class="btn primary btn-add-to-cart" ng-disabled="!vm.product.qtyOrdered || vm.product.qtyOrdered == 0 || vm.showUnitError || vm.addingToCart">
                                         <span class="ico-CartIcon"></span> [% translate 'Add To Cart' %]
                                     </button>
                                 </div>
