@@ -9,5 +9,6 @@ namespace Extensions.WebApi.ShopTheLook.Models
     public class ShopTheLookCategoryDto
     {
         public List<StlRoomLooksCategory> Categories { get; set; }
+        public List<StlRoomLook> Looks { get; set; }
     }
 }

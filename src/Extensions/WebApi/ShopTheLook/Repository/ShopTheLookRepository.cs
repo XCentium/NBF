@@ -36,7 +36,8 @@ namespace Extensions.WebApi.ShopTheLook.Repository
         {
             var categories = new ShopTheLookCategoryDto
             {
-                Categories = _unitOfWork.GetRepository<StlRoomLooksCategory>().GetTable().ToList()
+                Categories = _unitOfWork.GetRepository<StlRoomLooksCategory>().GetTable().ToList(),
+                Looks = _unitOfWork.GetRepository<StlRoomLook>().GetTable().ToList()
             };
 
             return categories;

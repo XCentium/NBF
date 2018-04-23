@@ -58,11 +58,14 @@
     }
 
     export interface ShopTheLookCollection {
-        
+        looks: ShopTheLook[];
     }
 
     export interface ShopTheLook {
-
+        title: string;
+        description: string;
+        mainImage: string;
+        sortOrder: number;
     }
 
     angular

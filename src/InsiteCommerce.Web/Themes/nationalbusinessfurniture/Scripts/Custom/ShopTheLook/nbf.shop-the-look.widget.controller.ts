@@ -1,13 +1,6 @@
-﻿module nbf.shopthelook {
-    import IProductService = insite.catalog.IProductService;
-    import Account = insite.account;
-    import IProductCollectionParameters = insite.catalog.IProductCollectionParameters;
+﻿module nbf.ShopTheLook {
 
     "use strict";
-
-    export interface INbfShopTheLookWidgetControllerAttributes extends ng.IAttributes {
-        productString: string;
-    }
 
     export interface ProductHotSpot {
         productErp: string;
@@ -18,36 +11,43 @@
     export class NbfShopTheLookWidgetController {
         productHotSpots: ProductHotSpot[];
 
-        static $inject = ["$timeout", "$window", "$scope", "$rootScope", "$attrs", "productService", "sessionService"];
+        static $inject = ["$timeout", "$window", "$scope", "$rootScope", "$attrs", "productService", "sessionService", "nbfShopTheLookService", "queryString"];
 
         constructor(
             protected $timeout: ng.ITimeoutService,
             protected $window: ng.IWindowService,
             protected $scope: ng.IScope,
             protected $rootScope: ng.IRootScopeService,
-            protected $attrs: INbfShopTheLookWidgetControllerAttributes,
-            protected productService: IProductService,
-            protected sessionService: Account.ISessionService) {
+            protected productService: insite.catalog.IProductService,
+            protected sessionService: insite.account.ISessionService,
+            protected nbfShopTheLookService: INbfShopTheLookService,
+            protected queryString: insite.common.IQueryStringService) {
             this.init();
         }
 
         init(): void {
+            this.nbfShopTheLookService.getLook(this.queryString.get("lookId")).then(
+                (look: ShopTheLook) => { this.getLookCompleted(look); },
+                (error: any) => { this.getLookFailed(error); });
+        }
+
+        protected getLookCompleted(look: ShopTheLook): void {
             var hotSpots = [];
-            if (this.$attrs.productString) {
-                this.$attrs.productString.split("||").forEach(group => {
-                    var split = group.split(";");
-                    hotSpots.push({
-                        productErp: split[0],
-                        hotSpotPosition: split[1] + ";" + split[2]
-                    } as ProductHotSpot);
-                });
-            }
+            //if (this.$attrs.productString) {
+            //    this.$attrs.productString.split("||").forEach(group => {
+            //        var split = group.split(";");
+            //        hotSpots.push({
+            //            productErp: split[0],
+            //            hotSpotPosition: split[1] + ";" + split[2]
+            //        } as ProductHotSpot);
+            //    });
+            //}
 
             const expand = ["pricing", "attributes"];
             var params = {
                 erpNumbers: hotSpots.map(a => a.productErp)
-            } as IProductCollectionParameters;
-            
+            } as insite.catalog.IProductCollectionParameters;
+
             this.productService.getProducts(params, expand).then(
                 (result) => {
                     hotSpots.forEach(hotSpot => {
@@ -57,6 +57,10 @@
             );
 
             this.productHotSpots = hotSpots;
+        }
+
+        protected getLookFailed(error: ng.IHttpPromiseCallbackArg<any>): void {
+
         }
 
         protected hotspot_clicked(hotspotId: string, index: number): void {
