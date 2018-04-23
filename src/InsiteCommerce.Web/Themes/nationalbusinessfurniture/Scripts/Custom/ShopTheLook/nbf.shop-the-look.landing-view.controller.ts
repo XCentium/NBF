@@ -24,13 +24,6 @@
             });
 
             $(document).ready(() => {
-                
-            });
-
-            this.nbfShopTheLookService.getLooks().then((result) => {
-                this.collection = result;
-                this.mapFilters();
-
                 var $grid = $(".shopthelook__gird").isotope({
                     itemSelector: ".grid-item",
                     masonry: {
@@ -54,6 +47,11 @@
                         $(this).addClass("is-checked");
                     });
                 });
+            });
+
+            this.nbfShopTheLookService.getLooks().then((result) => {
+                this.collection = result;
+                this.mapFilters();
             });
         }
 

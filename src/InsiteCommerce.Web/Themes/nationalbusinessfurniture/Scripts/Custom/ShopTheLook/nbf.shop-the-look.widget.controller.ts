@@ -3,9 +3,8 @@
 
     export class NbfShopTheLookWidgetController {
         look: ShopTheLook;
-        productHotSpots: ProductHotSpot[];
 
-        static $inject = ["$timeout", "$window", "$scope", "$rootScope", "$attrs", "productService", "sessionService", "nbfShopTheLookService", "queryString"];
+        static $inject = ["$timeout", "$window", "$scope", "$rootScope", "productService", "sessionService", "nbfShopTheLookService", "queryString"];
 
         constructor(
             protected $timeout: ng.ITimeoutService,
@@ -20,7 +19,8 @@
         }
 
         init(): void {
-            this.nbfShopTheLookService.getLook(this.queryString.get("lookId")).then(
+            var id = this.queryString.get("lookId");
+            this.nbfShopTheLookService.getLook(id).then(
                 (look: ShopTheLook) => { this.getLookCompleted(look); },
                 (error: any) => { this.getLookFailed(error); });
         }

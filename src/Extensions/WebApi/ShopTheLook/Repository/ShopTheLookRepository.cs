@@ -17,11 +17,13 @@ namespace Extensions.WebApi.ShopTheLook.Repository
     public class ShopTheLookRepository : BaseRepository, IShopTheLookRepository, IInterceptable
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IProductService _productService;
 
         public ShopTheLookRepository(IUnitOfWorkFactory unitOfWorkFactory, ICustomerService customerService, IProductService productService, IAuthenticationService authenticationService)
             : base(unitOfWorkFactory, customerService, productService, authenticationService)
         {
             _unitOfWork = unitOfWorkFactory.GetUnitOfWork();
+            _productService = productService;
         }
 
         public ShopTheLookDto GetLook(string id)
@@ -36,7 +38,8 @@ namespace Extensions.WebApi.ShopTheLook.Repository
                 Id = look.Id,
                 MainImage = look.MainImage,
                 Status = look.Status,
-                Title = look.Title
+                Title = look.Title,
+                ProductHotSpots = new List<ShopTheLookHotSpotDto>()
             };
 
             var lookProducts = _unitOfWork.GetRepository<StlRoomLooksProduct>().GetTable().Where(x => x.StlRoomLookId.ToString().Equals(id)).ToList();
@@ -46,14 +49,14 @@ namespace Extensions.WebApi.ShopTheLook.Repository
                 {
                     ProductId = prod.ProductId
                 };
-                var product = this.ProductService.GetProduct(param);
+                var product = _productService.GetProduct(param);
 
                 var hotSpot = new ShopTheLookHotSpotDto
                 {
                     SortOrder = prod.SortOrder,
                     AdditionalProduct = prod.AdditionalProduct,
                     AdditionalProductSort = prod.AdditionalProductSort,
-                    HotSpotPosition = prod.XPosition + ";" + prod.YPosition,
+                    HotSpotPosition = "left:" + prod.XPosition + "%;top:" + prod.YPosition + "%;",
                     Product = product
                 };
 
