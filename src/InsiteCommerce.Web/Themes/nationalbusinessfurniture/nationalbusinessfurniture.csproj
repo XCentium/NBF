@@ -224,6 +224,7 @@
     <TypeScriptCompile Include="Scripts\Custom\OrderTracker\nbf.order-tracker.service.ts" />
     <TypeScriptCompile Include="Scripts\Custom\OrderTracker\nbf.order-tracker.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Rma\nbf.rma.controller.ts" />
+    <TypeScriptCompile Include="Scripts\Custom\ShopTheLook\nbf.shop-the-look.service.ts" />
     <TypeScriptCompile Include="Scripts\Custom\ShopTheLook\nbf.shop-the-look.widget.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\ShopTheLook\nbf.shop-the-look.landing-view.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\SocialMediaSharing\nbf.social-media.controller.ts" />
@@ -568,7 +569,7 @@
     <Content Include="Views\Widgets\Custom\ProductFlyOut\Standard.cshtml" />
     <Content Include="Views\Widgets\Custom\NavigationFlyOut\Header.cshtml" />
     <Content Include="Views\Widgets\Custom\NavigationFlyOut\MyAccount.cshtml" />
-    <Content Include="Views\Widgets\Custom\ShopTheLookLandingView\Standard.cshtml" />
+    <Content Include="Views\Widgets\Custom\ShopTheLookLandingView\Standard1.cshtml" />
     <Content Include="Views\Widgets\Custom\ShopTheLookWidget\Standard.cshtml" />
     <Content Include="Views\Widgets\Custom\ProductCTAFourSquares\Standard.cshtml" />
     <Content Include="Views\Widgets\Custom\ArticlePageComment\Standard.cshtml" />
@@ -797,6 +798,7 @@
     <Content Include="Views\Directives\Custom\Account\TaxExempt.cshtml" />
     <Content Include="Views\Directives\Custom\Cart\NbfTermsAndConditionsPopup.cshtml" />
     <Content Include="Views\Widgets\Breadcrumb\NoShareLinks.cshtml" />
+    <Content Include="Views\Widgets\Custom\ShopTheLookLandingView\Standard.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <PropertyGroup>
