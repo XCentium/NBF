@@ -103,36 +103,37 @@ input[type="text"], select, input[type="email"], input[type="password"] {
     }
 }
 
-    .custom-select {
-        position: relative;
+.custom-select {
+    position: relative;
 
-        &:after {
-            content: '\f078';
-            font-family: $FontAwesome;
-            color: #333;
-            right: 10px;
-            /*Adjust for position however you want*/
-            top: 21px;
-            -webkit-transform: translateY(-50%);
-            -ms-transform: translateY(-50%);
-            transform: translateY(-50%);
-            /*left line */
-            position: absolute;
-            pointer-events: none;
-        }
-
-        &:focus:after {
-            content: '\f077';
-        }
-
-        select {
-            -webkit-appearance: none;
-            -moz-appearance: none;
-            appearance: none;
-            background-image: none;
-            width: 100% !important;
-        }
+    &:after {
+        content: "\e90f";
+        font-family: $icomoon;
+        color: #333;
+        right: 10px;
+        /*Adjust for position however you want*/
+        font-size: 22px;
+        top: 24px;
+        -webkit-transform: translateY(-50%);
+        -ms-transform: translateY(-50%);
+        transform: translateY(-50%);
+        /*left line */
+        position: absolute;
+        pointer-events: none;
     }
+
+    &:focus:after {
+        content: "\e91a";
+    }
+
+    select {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        background-image: none;
+        width: 100% !important;
+    }
+}
 
     .input-email-icon {
         &:before {

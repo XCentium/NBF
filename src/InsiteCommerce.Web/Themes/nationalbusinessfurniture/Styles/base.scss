@@ -1050,7 +1050,7 @@ h2.resp-tab-active {
 }
 
 .accordion label.accord-head:after {
-    font-family: $FontAwesome;
+    font-family: $icomoon;
     speak: none;
     font-style: normal;
     font-weight: normal;
@@ -1066,14 +1066,14 @@ h2.resp-tab-active {
     background-image: none;
     background-position: 0 0;
     background-repeat: repeat;
-    content: '\f078';
+    content: "\e90f";
     float: right;
-    font-size: 14px;
+    font-size: 22px;
     line-height: 1.2em;
-    top: 15px;
+    top: 11px;
     margin-left: .75em;
-    right:10px;
-    position:absolute;
+    right: 10px;
+    position: absolute;
 }
 
 .accordion.search-orders label.accord-head:after, .accordion.search-users label.accord-head:after, .accordion.search-quotes label.accord-head:after {
@@ -1084,7 +1084,7 @@ h2.resp-tab-active {
 }
 
 .accordion input.accord-check:checked + label.accord-head:after {
-    content: "\f077";
+    content: "\e91a";
 }
 
 .accordion article.accord-content {
