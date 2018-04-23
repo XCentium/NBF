@@ -148,7 +148,7 @@
             <input type="text" style="visibility:hidden" id="preference[[Model.ContentKey]]" name="Preference" ng-model="vm.catalogPrefs.Preference" ng-init="vm.catalogPrefs.Preference='[[Model.PreferencesFirstItem]]'" />
             [% endif -%]
             <div class="row cf-form-sendmeupdates">
-                <input name="SendMeUpdates" type="checkbox" ng-model="vm.catalogPrefs.SendMeUpdates" id="sendmeupdates[[Model.ContentKey]]" /><span>Send me email updates with special offers and new product information.</span>
+                <input name="SendMeUpdates" type="checkbox" ng-model="vm.catalogPrefs.SendMeUpdates" id="sendmeupdates[[Model.ContentKey]]" ng-init="vm.catalogPrefs.SendMeUpdates=true" /><span>Send me email updates with special offers and new product information.</span>
                 <p>
                     <a href="/About-NBF/Privacy-And-Security" target="_blank">Privacy Policy</a>
                 </p>
