@@ -1,14 +1,8 @@
 ﻿module nbf.ShopTheLook {
-
     "use strict";
 
-    export interface ProductHotSpot {
-        productErp: string;
-        product: ProductModel;
-        hotSpotPosition:string;
-    }
-
     export class NbfShopTheLookWidgetController {
+        look: ShopTheLook;
         productHotSpots: ProductHotSpot[];
 
         static $inject = ["$timeout", "$window", "$scope", "$rootScope", "$attrs", "productService", "sessionService", "nbfShopTheLookService", "queryString"];
@@ -32,31 +26,7 @@
         }
 
         protected getLookCompleted(look: ShopTheLook): void {
-            var hotSpots = [];
-            //if (this.$attrs.productString) {
-            //    this.$attrs.productString.split("||").forEach(group => {
-            //        var split = group.split(";");
-            //        hotSpots.push({
-            //            productErp: split[0],
-            //            hotSpotPosition: split[1] + ";" + split[2]
-            //        } as ProductHotSpot);
-            //    });
-            //}
-
-            const expand = ["pricing", "attributes"];
-            var params = {
-                erpNumbers: hotSpots.map(a => a.productErp)
-            } as insite.catalog.IProductCollectionParameters;
-
-            this.productService.getProducts(params, expand).then(
-                (result) => {
-                    hotSpots.forEach(hotSpot => {
-                        hotSpot.product = result.products.filter(x => x.erpNumber === hotSpot.productErp)[0];
-                    });
-                }
-            );
-
-            this.productHotSpots = hotSpots;
+            this.look = look;
         }
 
         protected getLookFailed(error: ng.IHttpPromiseCallbackArg<any>): void {

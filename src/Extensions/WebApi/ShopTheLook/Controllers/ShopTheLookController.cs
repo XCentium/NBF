@@ -21,7 +21,7 @@ namespace Extensions.WebApi.ShopTheLook.Controllers
         }
 
         [Route("{id}", Name = "getLook")]
-        [ResponseType(typeof(string))]
+        [ResponseType(typeof(ShopTheLookDto))]
         public async Task<IHttpActionResult> Get(string id)
         {
             if (id.IsNullOrWhiteSpace())
@@ -35,7 +35,7 @@ namespace Extensions.WebApi.ShopTheLook.Controllers
         }
 
         [Route("", Name = "getLookCollection")]
-        [ResponseType(typeof(ShopTheLookCategoryDto))]
+        [ResponseType(typeof(ShopTheLookCollectionDto))]
         public async Task<IHttpActionResult> GetLookCollection()
         {
             var a = await _shopTheLookService.GetLookCollection();

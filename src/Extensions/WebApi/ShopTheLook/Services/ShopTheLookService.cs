@@ -1,5 +1,4 @@
 ﻿using System.Threading.Tasks;
-using Extensions.Models.ShopTheLook;
 using Extensions.WebApi.ShopTheLook.Interfaces;
 using Extensions.WebApi.ShopTheLook.Models;
 using Insite.Core.Interfaces.Data;
@@ -17,13 +16,13 @@ namespace Extensions.WebApi.ShopTheLook.Services
         }
 
         [Transaction]
-        public async Task<StlRoomLook> GetLook(string id)
+        public async Task<ShopTheLookDto> GetLook(string id)
         {
             var result = await Task.FromResult(_shopTheLookRepository.GetLook(id));
             return result;
         }
         [Transaction]
-        public async Task<ShopTheLookCategoryDto> GetLookCollection()
+        public async Task<ShopTheLookCollectionDto> GetLookCollection()
         {
             var result = await Task.FromResult(_shopTheLookRepository.GetLookCollection());
             return result;

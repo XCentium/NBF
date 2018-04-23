@@ -1,8 +1,8 @@
-﻿module nbf.shopthelook {
+﻿module nbf.ShopTheLook {
     "use strict";
 
     export class NbfShopTheLookLandingViewController {
-        looks: ShopTheLook.ShopTheLookCollection;
+        collection: ShopTheLookCollection;
 
         static $inject = [
             "nbfShopTheLookService"
@@ -13,15 +13,6 @@
         }
 
         init(): void {
-            this.runJavascript();
-            this.nbfShopTheLookService.getLooks().then((result) => {
-                this.looks = result;
-            });
-        }
-
-        private runJavascript() {
-            var self = this;
-
             $(".shopthelook__dropdown").on("click", function (e) {
                 e.preventDefault();
                 var p = $(this);
@@ -33,6 +24,13 @@
             });
 
             $(document).ready(() => {
+                
+            });
+
+            this.nbfShopTheLookService.getLooks().then((result) => {
+                this.collection = result;
+                this.mapFilters();
+
                 var $grid = $(".shopthelook__gird").isotope({
                     itemSelector: ".grid-item",
                     masonry: {
@@ -59,11 +57,39 @@
             });
         }
 
+        private mapFilters() {
+            this.collection.categories.forEach(cat => {
+                cat.lookIds.forEach(id => {
+                    var look = this.collection.looks.filter(x => x.id === id)[0];
+                    if (look) {
+                        if (!look.categoryNames) {
+                            look.categoryNames = [];
+                        }
+                        look.categoryNames.push(cat.name.replace(/\s/g, ''));
+                    }
+                });
+            });
 
-
+            this.collection.styles.forEach(style => {
+                style.lookIds.forEach(id => {
+                    var look = this.collection.looks.filter(x => x.id === id)[0];
+                    if (look) {
+                        if (!look.styleNames) {
+                            look.styleNames = [];
+                        }
+                        look.styleNames.push(style.styleName.replace(/\s/g, ''));
+                    }
+                });
+            });
+        }
     }
 
     angular
         .module("insite")
+        .filter('removeSpaces', function () {
+            return function (text: string) {
+                return text.replace(/\s/g, '');
+            };
+        })
         .controller("NbfShopTheLookLandingViewController", NbfShopTheLookLandingViewController);
 }

@@ -58,14 +58,46 @@
     }
 
     export interface ShopTheLookCollection {
-        looks: ShopTheLook[];
+        categories: ShopTheLookCategory[];
+        styles: ShopTheLookStyle[];
+        looks: ShopTheLookPreview[];
     }
 
     export interface ShopTheLook {
+        id: System.Guid;
+        status: string;
         title: string;
         description: string;
         mainImage: string;
         sortOrder: number;
+        productHotSpots: ProductHotSpot[];
+    }
+
+    export interface ShopTheLookPreview extends ShopTheLook {
+        categoryNames: System.Guid[];
+        styleNames: System.Guid[];
+    }
+
+    export interface ShopTheLookCategory {
+        id: System.Guid;
+        name: string;
+        status: string;
+        description: string;
+        mainImage: string;
+        sortOrder: number;
+        lookIds: System.Guid[];
+    }
+
+    export interface ShopTheLookStyle {
+        id: System.Guid;
+        styleName: string;
+        sortOrder: number;
+        lookIds: System.Guid[];
+    }
+
+    export interface ProductHotSpot {
+        product: ProductModel;
+        hotSpotPosition: string;
     }
 
     angular

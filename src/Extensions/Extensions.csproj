@@ -401,6 +401,10 @@
     <Compile Include="WebApi\ShopTheLook\Controllers\ShopTheLookController.cs" />
     <Compile Include="WebApi\ShopTheLook\Interfaces\IShopTheLookRepository.cs" />
     <Compile Include="WebApi\ShopTheLook\Interfaces\IShopTheLookService.cs" />
+    <Compile Include="WebApi\ShopTheLook\Models\ShopTheLookHotSpotDto.cs" />
+    <Compile Include="WebApi\ShopTheLook\Models\ShopTheLookDto.cs" />
+    <Compile Include="WebApi\ShopTheLook\Models\ShopTheLookStyleDto.cs" />
+    <Compile Include="WebApi\ShopTheLook\Models\ShopTheLookCollectionDto.cs" />
     <Compile Include="WebApi\ShopTheLook\Models\ShopTheLookCategoryDto.cs" />
     <Compile Include="WebApi\ShopTheLook\Repository\ShopTheLookRepository.cs" />
     <Compile Include="WebApi\ShopTheLook\Services\ShopTheLookService.cs" />

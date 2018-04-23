@@ -6,7 +6,7 @@ namespace Extensions.WebApi.ShopTheLook.Interfaces
 {
     public interface IShopTheLookRepository : IExtension, IDependency
     {
-        StlRoomLook GetLook(string id);
-        ShopTheLookCategoryDto GetLookCollection();
+        ShopTheLookDto GetLook(string id);
+        ShopTheLookCollectionDto GetLookCollection();
     }
 }
