@@ -101,5 +101,13 @@ namespace Extensions.Widgets
                 return "^([\\(\\)/\\-\\.\\+\\s]*\\d\\s?(ext)?[\\(\\)/\\-\\.\\+\\s]*){10,}$";
             }
         }
+
+        public virtual string ZipRegexPattern
+        {
+            get
+            {
+                return @"^(\d{5}|\d{5}-\d{4})$";
+            }
+        }
     }
 }

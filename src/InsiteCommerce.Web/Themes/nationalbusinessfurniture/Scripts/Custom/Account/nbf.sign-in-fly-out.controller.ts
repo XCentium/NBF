@@ -296,6 +296,9 @@
             this.email = "";
             this.userNameToReset = "";
             this.resetPasswordSuccess = false;
+
+            this.coreService.displayModal(angular.element("#forgotPasswordPopup"));
+
             return true;
         }
 

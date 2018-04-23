@@ -16,6 +16,15 @@
             protected sessionService: account.ISessionService)
         {
             super($timeout, $window, $scope, $rootScope, sessionService);
+            this.init();
+        }
+
+        init(): void {
+            $('.product-list-filters .accord-check').click(function () {
+                alert("Handler for .click() called.");
+                $('.product-list-filters .accord-check').prop('checked', false);
+                console.log('test');
+            });
         }
 
         protected isViewAllCategoryFacetsCheckboxSelected(facets: CategoryFacetDto[]): boolean {
@@ -83,9 +92,14 @@
             $('.exrta-filter-wrap').toggleClass('collapsed');
         }
 
-        togglefilteroff(): void {
+        togglefilteroff(i): void {
             $('.product-list-filters .accord-check').prop('checked', false);
         }
+
+
+
+
+
     }
 
     angular
