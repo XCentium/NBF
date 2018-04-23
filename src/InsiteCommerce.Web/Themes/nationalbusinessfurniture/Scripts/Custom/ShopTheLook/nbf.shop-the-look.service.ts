@@ -42,7 +42,7 @@
             var uri = this.serviceUri + "/" + shopTheLookId;
             return this.httpWrapperService.executeHttpRequest(
                 this,
-                this.$http({ url: this.serviceUri, method: "GET" }),
+                this.$http({ url: uri, method: "GET" }),
                 this.getLookCompleted,
                 this.getLookFailed
             );
