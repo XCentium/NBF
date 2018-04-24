@@ -191,6 +191,7 @@
     <TypeScriptCompile Include="Scripts\Custom\Cart\nbf.cart-lines.directive.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Cart\nbf.checkout.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Cart\nbf.payment.service.ts" />
+    <TypeScriptCompile Include="Scripts\Custom\Catalog\nbf.tell-a-friend.directives.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Catalog\nbf.product-write-review.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Catalog\nbf.product-price-saving.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Catalog\nbf.category-left-nav.controller.ts" />
@@ -226,6 +227,7 @@
     <TypeScriptCompile Include="Scripts\Custom\Rma\nbf.rma.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\ShopTheLook\nbf.shop-the-look.widget.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\ShopTheLook\nbf.shop-the-look.landing-view.controller.ts" />
+    <TypeScriptCompile Include="Scripts\Custom\SocialMediaSharing\nbf.tell-a-friend.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\SocialMediaSharing\nbf.social-media.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\CatalogMailingPrefs\nbf.catalogmailingprefs.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Videos\nbf.video.controller.ts" />
