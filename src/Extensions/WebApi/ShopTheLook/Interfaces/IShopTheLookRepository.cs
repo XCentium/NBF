@@ -1,10 +1,12 @@
 ﻿using Extensions.Models.ShopTheLook;
+using Extensions.WebApi.ShopTheLook.Models;
 using Insite.Core.Interfaces.Dependency;
 
 namespace Extensions.WebApi.ShopTheLook.Interfaces
 {
     public interface IShopTheLookRepository : IExtension, IDependency
     {
-        StlRoomLook GetLook(string id);
+        ShopTheLookDto GetLook(string id);
+        ShopTheLookCollectionDto GetLookCollection();
     }
 }
