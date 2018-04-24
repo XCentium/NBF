@@ -87,6 +87,10 @@
                     max-width: 260px;
                     float: right;
                 }
+
+                @media print {
+                    float:none;
+                }
             }
         }
 
