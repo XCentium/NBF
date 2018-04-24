@@ -102,7 +102,7 @@ begin
 	)
 	insert into OEGSystemStaging.dbo.StatusOrder
 	(
-		[ord_WebNumber], [ord_CustNumber], [ord_Status], [ord_DateTime], [ord_BillToID], [ord_ShipToID], [ord_SourceCode],
+		[BasketID], [ord_WebNumber], [ord_CustNumber], [ord_Status], [ord_DateTime], [ord_BillToID], [ord_ShipToID], [ord_SourceCode],
 		[ord_Amount], [ord_CCAmount], [ord_PONumber], [ord_Delivery], [ord_SalesTax], [ord_ServiceCharge], [ord_SiteID],
 		[ord_PaymentType], 
 		[ord_PaymentToken], 
@@ -110,9 +110,9 @@ begin
 		[ord_PPPayerID]
 	)
 	select 
-		co.OrderNumber, left(co.CustomerNumber,10), 'P', co.OrderDate, bt.cst_ID, st.cst_ID, '99',
+		1, co.OrderNumber, left(co.CustomerNumber,10), 'P', co.OrderDate, bt.cst_ID, st.cst_ID, '99',
 		co.OrderTotal, isnull(maxCCT.Amount,0) [ord_CCAmount], left(co.CustomerPO,32), co.ShippingCharges, co.TaxAmount, co.OtherCharges, 'NBF',
-		'cc' [ord_PaymentType],
+		case when TermsCode = 'Open_Credit' then 'oc' else 'cc' end [ord_PaymentType],
 		isnull(maxCCT.AuthCode,'') [ord_PaymentToken],
 		'' [ord_PPToken],
 		'' [ord_PPPayerID]
@@ -183,7 +183,7 @@ begin
 	select 
 		so.idStatusOrder, 'P' [Status], otherCCT.TransactionDate [TransactionDate],
 		convert(decimal(10,2),isnull(otherCCT.Amount,0)) [Amount],
-		'cc' [PaymentType],
+		case when TermsCode = 'Open_Credit' then 'oc' else 'cc' end [PaymentType],
 		convert(varchar(50),isnull(otherCCT.AuthCode,'')) [PaymentToken],
 		convert(varchar(50), '') [PayPalId],
 		convert(varchar(256),otherCCT.Id) [PaymentDescription]
