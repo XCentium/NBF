@@ -103,7 +103,7 @@ begin
 	insert into OEGSystemStaging.dbo.StatusOrder
 	(
 		[BasketID], [ord_WebNumber], [ord_CustNumber], [ord_Status], [ord_DateTime], [ord_BillToID], [ord_ShipToID], [ord_SourceCode],
-		[ord_Amount], [ord_CCAmount], [ord_PONumber], [ord_Delivery], [ord_SalesTax], [ord_ServiceCharge], [ord_SiteID],
+		[ord_Amount], [ord_CCAmount], [ord_PONumber], [ord_Delivery], [ord_SalesTax], [ord_ServiceCharge], [ord_SiteID], [ord_GSADiscountPercent],
 		[ord_PaymentType], 
 		[ord_PaymentToken], 
 		[ord_PPToken], 
@@ -111,7 +111,7 @@ begin
 	)
 	select 
 		1, co.OrderNumber, left(co.CustomerNumber,10), 'P', co.OrderDate, bt.cst_ID, st.cst_ID, '99',
-		co.OrderTotal, isnull(maxCCT.Amount,0) [ord_CCAmount], left(co.CustomerPO,32), co.ShippingCharges, co.TaxAmount, co.OtherCharges, 'NBF',
+		co.OrderTotal, isnull(maxCCT.Amount,0) [ord_CCAmount], left(co.CustomerPO,32), co.ShippingCharges, co.TaxAmount, co.OtherCharges, '1', 0,
 		case when TermsCode = 'Open_Credit' then 'oc' else 'cc' end [ord_PaymentType],
 		isnull(maxCCT.AuthCode,'') [ord_PaymentToken],
 		'' [ord_PPToken],
@@ -246,13 +246,14 @@ begin
 		
 	)
 	select
-		svo.idStatusVendorOrder, co.Id, left(s.Value,3), p.ERPNumber, p.ShortDescription,
+		svo.idStatusVendorOrder, co.Id, left(s.Value,3), parentP.ERPNumber, p.ShortDescription,
 		p.ManufacturerItem, p.Sku, ol.QtyOrdered, ol.UnitNetPrice, 0, 0,
 		ol.UnitListPrice, p.Name
 	from 
 		CustomerOrder co
 		join OrderLine ol on ol.CustomerOrderId = co.Id
 		join Product p on p.Id = ol.ProductId
+		join Product parentP on parentP.Id = p.StyleParentId
 		join Specification s on s.ProductId = p.Id
 			and s.[Name] = 'Vendor Code'
 		join OEGSystemStaging.dbo.StatusVendorOrder svo on svo.vo_WebNumber = co.Id
@@ -270,16 +271,16 @@ begin
 ETLOrder_ToOEG
 select * from CustomerOrder
 select * from OEGSystemStaging.dbo.StatusCustomer where [cst_WebCustomerNumber] is not null
-select * from OEGSystemStaging.dbo.StatusOrder where [ord_SiteID] = 'nbf'
+select * from OEGSystemStaging.dbo.StatusOrder where left([ord_WebNumber],1) in ('d','q','s','w')
 select * from OEGSystemStaging.dbo.StatusOrderPayment
-select * from OEGSystemStaging.dbo.StatusLinkShare where [OrderID] in (select idStatusOrder from OEGSystemStaging.dbo.StatusOrder where [ord_SiteID] = 'nbf') 
+select * from OEGSystemStaging.dbo.StatusLinkShare where [OrderID] in (select idStatusOrder from OEGSystemStaging.dbo.StatusOrder where left([ord_WebNumber],1) in ('d','q','s','w')) 
 select * from OEGSystemStaging.dbo.StatusVendorOrder  where [vo_WebNumber] is not null
 select * from OEGSystemStaging.dbo.StatusVendorOrderDetail where [vd_WebNumber] is not null
 
 delete from OEGSystemStaging.dbo.StatusCustomer where [cst_WebCustomerNumber] is not null
-delete from OEGSystemStaging.dbo.StatusOrder where [ord_SiteID] = 'nbf'
+delete from OEGSystemStaging.dbo.StatusOrder where left([ord_WebNumber],1) in ('d','q','s','w')
 delete from OEGSystemStaging.dbo.StatusOrderPayment 
-delete from OEGSystemStaging.dbo.StatusLinkShare where [OrderID] in (select idStatusOrder from OEGSystemStaging.dbo.StatusOrder where [ord_SiteID] = 'nbf') 
+delete from OEGSystemStaging.dbo.StatusLinkShare where [OrderID] in (select idStatusOrder from OEGSystemStaging.dbo.StatusOrder where left([ord_WebNumber],1) in ('d','q','s','w')) 
 delete from OEGSystemStaging.dbo.StatusVendorOrder  where [vo_WebNumber] is not null
 delete from OEGSystemStaging.dbo.StatusVendorOrderDetail where [vd_WebNumber] is not null
 
