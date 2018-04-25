@@ -536,7 +536,7 @@
 
                                     <div ng-if="vm.products.attributeTypeFacets.length > 4">                                       
                                         <div class="exrta-filter-wrap collapsed"  style="clear:both;">
-                                            <div class=""><a href="#" ng-click="vm.toggleexrtafilter()" class="toggle-filters">[% translate 'More Filters' %]</a></div>
+                                            <div class=""><a href="#" ng-model="vm.test"  ng-click="vm.toggleexrtafilter()" class="toggle-filters">[% translate 'More Filters' %]</a></div>
                                             <div class="exrta-filters">
                                                 <div ng-repeat="section in vm.products.attributeTypeFacets | orderBy : ['sort','nameDisplay'] | limitTo: (4 - vm.products.attributeTypeFacets.length)" class="f-cat" ng-if="vm.products.attributeTypeFacets.length > 0">
                                                     <section class="accordion">
