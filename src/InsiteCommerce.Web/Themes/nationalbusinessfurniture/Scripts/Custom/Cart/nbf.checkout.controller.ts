@@ -91,6 +91,7 @@
             "nbfPaymentService",
             "termsAndConditionsPopupService",
             "nbfEmailService",
+            "productService",
             "$element"
         ];
 
@@ -115,6 +116,7 @@
             protected nbfPaymentService: cart.INbfPaymentService,
             protected termsAndConditionsPopupService: insite.cart.ITermsAndConditionsPopupService,
             protected nbfEmailService: nbf.email.INbfEmailService,
+            protected productService: insite.catalog.IProductService,
             protected $element: ng.IRootElementService) {
             this.init();
         }
@@ -252,6 +254,25 @@
                 (promotionCollection: PromotionCollectionModel) => {
                     this.getCartPromotionsCompleted(promotionCollection);
                 });
+
+            let baseProductErpNumbers = cart.cartLines.map(x => x.erpNumber.split("_")[0]);
+            const expand = ["attributes"];
+            const parameter: insite.catalog.IProductCollectionParameters = { erpNumbers: baseProductErpNumbers };
+            this.productService.getProducts(parameter, expand).then(
+                (productCollection: ProductCollectionModel) => {
+                    cart.cartLines.forEach(cartLine => {
+                        let erpNumber = cartLine.erpNumber.split("_")[0];
+                        let baseProduct = productCollection.products.find(x => x.erpNumber === erpNumber);
+
+                        if (baseProduct) {
+                            cartLine.properties["GSA"] = this.isAttributeValue(baseProduct, "GSA", "Yes") ? "Yes" : "No";
+                            cartLine.properties["ShipsToday"] = this.isAttributeValue(baseProduct, "Ships Today", "Yes") ? "Yes" : "No";
+                        }
+                    });
+
+                    //this.$scope.$apply();
+                },
+                (error: any) => { });
         }
 
         protected getCartFailed(error: any): void {
@@ -890,7 +911,24 @@
             $("html:not(:animated), body:not(:animated)").animate({
                     scrollTop: $("#nav1").offset().top
                 },
-                200);
+                200);            
+        }
+
+        protected isAttributeValue(product: ProductDto, attrName: string, attrValue: string): boolean {
+            let retVal = false;
+
+            if (product && product.attributeTypes) {
+                const attrType = product.attributeTypes.find(x => x.name === attrName && x.isActive === true);
+
+                if (attrType) {
+                    const matchingAttrValue = attrType.attributeValues.find(y => y.value === attrValue);
+
+                    if (matchingAttrValue) {
+                        retVal = true;
+                    }
+                }
+            }
+            return retVal;
         }
 
         protected saveTransientCard(): Insite.Core.Plugins.PaymentGateway.Dtos.CreditCardDto {

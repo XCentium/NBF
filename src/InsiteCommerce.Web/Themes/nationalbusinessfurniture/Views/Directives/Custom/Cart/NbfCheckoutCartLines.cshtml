@@ -50,9 +50,9 @@
                 <span>{{cartLine.properties['details']}}</span>
             </div>
             <div class="item-sku-wrap">
-                <div class="item-label">item #:</div>
+                <div class="item-label">Item #:</div>
                 <isc-product-name product="cartLine" no-link="true"></isc-product-name>
-                <div class="item-flags gsa" ng-if="vm.isAttributeValue('GSA', 'Yes');">GSA</div>
+                <div class="item-flags gsa" ng-if="cartLine.properties['GSA'] == 'Yes'">GSA</div>
             </div>
             <div class="price-wrap" ng-if="!inventoryCheck || cartLine.quoteRequired || (inventoryCheck && (cartLine.availability.messageType != 2 || cartLine.canBackOrder))">
                 <div class=""><span ng-if="!cartLine.quoteRequired && !cart.cartNotPriced" ng-bind="cartLine.pricing.extendedUnitNetPriceDisplay"></span></div>
