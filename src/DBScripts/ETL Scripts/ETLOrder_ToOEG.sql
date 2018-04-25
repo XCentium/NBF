@@ -151,6 +151,8 @@ begin
 					and st.[cst_EmailAddr] = left(co.STEmail,100)	
 	where
 		co.[Status] = 'Submitted'
+		and co.TermsCode != 'po'
+		and co.OrderDate > '2018-04-19'
 		and not exists (
 				select idStatusOrder 
 				from  OEGSystemStaging.dbo.StatusOrder
@@ -164,7 +166,7 @@ begin
 	select 
 		ord_DateTime, 'test123', idStatusOrder 
 	from OEGSystemStaging.dbo.StatusOrder tso 
-	where [ord_SiteID] = 'nbf'
+	where left([ord_WebNumber],1) in ('d','q','s','w')
 	and not exists (select LinkShareID from OEGSystemStaging.dbo.StatusLinkShare where OrderID = tso.idStatusOrder)
 	
 	
