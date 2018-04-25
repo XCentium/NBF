@@ -802,7 +802,9 @@
     <Content Include="Views\Widgets\Breadcrumb\NoShareLinks.cshtml" />
     <Content Include="Views\Widgets\Custom\ShopTheLookLandingView\Standard.cshtml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Scripts\Custom\Orders\" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

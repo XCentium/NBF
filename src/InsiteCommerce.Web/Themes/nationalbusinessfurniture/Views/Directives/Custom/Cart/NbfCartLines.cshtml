@@ -4,7 +4,6 @@
         <div class="small-10 columns item-details">
             <div class="details-left">
                 <span ng-if="cartLine.isPromotionItem && editable">[% siteMessage 'Cart_PromotionalItem' %]</span>
-
                 <div class="item-name">
                     <a ng-href="{{cartLine.productUri}}">
                         <strong ng-bind="cartLine.shortDescription"></strong>
@@ -13,19 +12,19 @@
                 <div class="item-name-options">
                     <span ng-if="cartLine.properties['details']">{{cartLine.properties['details']}}</span>
                     <span ng-if="!cartLine.isFixedConfiguration" ng-repeat="sectionOption in cartLine.sectionOptions">
-                        <br/> <span ng-bind="sectionOption.sectionName + ':' + sectionOption.optionName"></span>
+                        <br /> <span ng-bind="sectionOption.sectionName + ':' + sectionOption.optionName"></span>
                     </span>
                 </div>
                 <div class="item-sku-wrap">
-                    <div class="item-label">item #:</div>
+                    <div class="item-label">Item #:</div>
                     <isc-product-name product="cartLine" no-link="true"></isc-product-name>
-                    <div class="item-flags gsa" ng-if="vm.isAttributeValue(cartLine, 'GSA', 'Yes');">GSA</div>
+                    <div class="item-flags gsa" ng-if="cartLine.properties['GSA'] == 'Yes'">GSA</div>
                 </div>
                 <div ng-show="includeInventory && !cartLine.quoteRequired" class="availability">
                     <isc-availability-message availability="cartLine.availability" failed-to-get-real-time-inventory="failedToGetRealTimeInventory"></isc-availability-message>
                 </div>
                 <div class="ship-info">
-                    <div class="item-block__product__ships-today" ng-if="vm.isAttributeValue(cartLine, 'Ships Today', 'Yes');"><span class="ico-Truck"></span> Ships Today!</div>
+                    <div class="item-block__product__ships-today" ng-if="cartLine.properties['ShipsToday'] == 'Yes'"><span class="ico-Truck"></span> Ships Today!</div>
                 </div>
             </div>
             <div class="details-right">
