@@ -158,6 +158,16 @@ begin
 				)
 
 
+	-- INSERT into StatusLinkShare
+	insert into OEGSystemStaging.dbo.StatusLinkShare
+		([dtDateEntered], [SiteID], [OrderID])
+	select 
+		ord_DateTime, 'test123', idStatusOrder 
+	from OEGSystemStaging.dbo.StatusOrder tso 
+	where [ord_SiteID] = 'nbf'
+	and not exists (select LinkShareID from OEGSystemStaging.dbo.StatusLinkShare where OrderID = tso.idStatusOrder)
+	
+	
 	-- INSERT into StatusOrderPayment
 
 	;with orderdCCT as
@@ -262,12 +272,14 @@ select * from CustomerOrder
 select * from OEGSystemStaging.dbo.StatusCustomer where [cst_WebCustomerNumber] is not null
 select * from OEGSystemStaging.dbo.StatusOrder where [ord_SiteID] = 'nbf'
 select * from OEGSystemStaging.dbo.StatusOrderPayment
+select * from OEGSystemStaging.dbo.StatusLinkShare where [OrderID] in (select idStatusOrder from OEGSystemStaging.dbo.StatusOrder where [ord_SiteID] = 'nbf') 
 select * from OEGSystemStaging.dbo.StatusVendorOrder  where [vo_WebNumber] is not null
 select * from OEGSystemStaging.dbo.StatusVendorOrderDetail where [vd_WebNumber] is not null
 
 delete from OEGSystemStaging.dbo.StatusCustomer where [cst_WebCustomerNumber] is not null
 delete from OEGSystemStaging.dbo.StatusOrder where [ord_SiteID] = 'nbf'
 delete from OEGSystemStaging.dbo.StatusOrderPayment 
+delete from OEGSystemStaging.dbo.StatusLinkShare where [OrderID] in (select idStatusOrder from OEGSystemStaging.dbo.StatusOrder where [ord_SiteID] = 'nbf') 
 delete from OEGSystemStaging.dbo.StatusVendorOrder  where [vo_WebNumber] is not null
 delete from OEGSystemStaging.dbo.StatusVendorOrderDetail where [vd_WebNumber] is not null
 
