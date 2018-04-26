@@ -1,18 +1,18 @@
-﻿<div class="row" ng-controller="NbfShopTheLookWidgetController as vm" product-string="[[Model.ProductAndHotSpotString]]" ng-cloak>
+﻿<div class="row" ng-controller="NbfShopTheLookWidgetController as vm" ng-cloak>
     <div class="medium-12 large-12 columns widget-1column narrow-container shopthelookdetail [[Model.CssClass]]">
         <div class="row">
             <div class="medium-12 large-12 columns">
                 <div>
-                    <h1 class="shopthelookdetail__title">[[Model.Title]]</h1>
+                    <h1 class="shopthelookdetail__title">{{vm.look.title}}</h1>
                 </div>
-                <p class="shopthelookdetail__page-desc">[% zone 'Above Content' %]</p>
+                <p class="shopthelookdetail__page-desc">{{vm.look.description}}</p>
             </div>
         </div>
         <div class="row">
             <div class="small-12 medium-12 large-7 columns">
                 <div class="shopthelookdetail__image-col">
-                    <img src="[[Model.BackgroundImage]]" alt="[[Model.Title]]" />
-                    <div class="hotspot has-tip link{{$index+1}}" style="{{hotSpot.hotSpotPosition}}" div id="{{hotSpot.product.id}}-{{$index+1}}" ng-click="vm.hotspot_clicked(hotSpot.product.id, $index)" ng-repeat="hotSpot in vm.productHotSpots">
+                    <img ng-src="https://s7d9.scene7.com/is/image/NationalBusinessFurniture/{{vm.look.mainImage}}?hei=200&id=5-zsy2&fmt=jpg&fit=constrain,1&wid=344&hei=344" alt="[[Model.Title]]" />
+                    <div class="hotspot has-tip link{{$index+1}}" style="{{hotSpot.hotSpotPosition}}" div id="{{hotSpot.product.id}}-{{$index+1}}" ng-click="vm.hotspot_clicked(hotSpot.product.id, $index)" ng-repeat="hotSpot in vm.look.productHotSpots">
                         <div class="tooltip">
                             <div class="tooltip__img">
                                 <img ng-src="https://s7d9.scene7.com/is/image/NationalBusinessFurniture/{{hotSpot.product.smallImagePath ? hotSpot.product.smallImagePath : hotSpot.product.mediumImagePath}}?hei=200&id=5-zsy2&fmt=jpg&fit=constrain,1&wid=344&hei=344" alt="{{hotSpot.product.altText}}" />
@@ -40,7 +40,7 @@
                     <div class="shopthelookdetail__list-col">
                         <h4 class="shopthelookdetail__list-title">Shop The Room</h4>
                         <ul>
-                            <li ng-repeat="hotSpot in vm.productHotSpots">
+                            <li ng-repeat="hotSpot in vm.look.productHotSpots">
                                 <div class="shopthelookdetail__list-item">
                                     <div class="shopthelookdetail__list-item__image">
                                         <img ng-src="https://s7d9.scene7.com/is/image/NationalBusinessFurniture/{{hotSpot.product.smallImagePath ? hotSpot.product.smallImagePath : hotSpot.product.mediumImagePath}}?hei=200&id=5-zsy2&fmt=jpg&fit=constrain,1&wid=344&hei=344" alt="{{hotSpot.product.altText}}" />

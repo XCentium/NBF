@@ -117,20 +117,6 @@ namespace Extensions.Widgets
             {
                 SetValue(nameof(LinkedInUrl), value, FieldType.Contextual);
             }
-        }
-
-        [TextContentField]
-        [DisplayName("Email Address")]
-        public virtual string EmailAddress
-        {
-            get
-            {
-                return GetValue(nameof(EmailAddress), "", FieldType.Contextual);
-            }
-            set
-            {
-                SetValue(nameof(EmailAddress), value, FieldType.Contextual);
-            }
-        }
+        }        
     }
 }

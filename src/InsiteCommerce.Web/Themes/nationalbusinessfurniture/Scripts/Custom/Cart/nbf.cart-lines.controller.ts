@@ -2,22 +2,18 @@
     "use strict";
 
     export class NbfCartLinesController extends CartLinesController {
-        protected isAttributeValue(product: ProductDto, attrName: string, attrValue: string): boolean {
-            let retVal = false;
+        static $inject = ["$scope", "cartService", "productService", "productSubscriptionPopupService", "addToWishlistPopupService", "spinnerService", "$q"];
 
-            if (product && product.attributeTypes) {
-                const attrType = product.attributeTypes.find(x => x.name === attrName && x.isActive === true);
+        constructor(
+            protected $scope: ICartScope,
+            protected cartService: ICartService,            
+            protected productSubscriptionPopupService: catalog.ProductSubscriptionPopupService,
+            protected addToWishlistPopupService: wishlist.AddToWishlistPopupService,
+            protected spinnerService: core.ISpinnerService,
+            protected $q: ng.IQService) {
 
-                if (attrType) {
-                    const matchingAttrValue = attrType.attributeValues.find(y => y.value === attrValue);
-
-                    if (matchingAttrValue) {
-                        retVal = true;
-                    }
-                }
-            }
-            return retVal;
-        }
+            super($scope, cartService, productSubscriptionPopupService, addToWishlistPopupService, spinnerService);
+        }        
     }
 
     angular
