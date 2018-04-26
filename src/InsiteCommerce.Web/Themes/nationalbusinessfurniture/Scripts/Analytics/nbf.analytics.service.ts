@@ -72,10 +72,17 @@ module nbf.analytics {
         public FireEvent(event: AnalyticsEvent) {
             for (var handler of this._handlers) {
                 handler.handleAnalyticsEvent(event, this.Data);
+                window.console.dir("fireEvent - pageLoad");
+                console.dir(this.Data);
             }
         }
 
     }
+    angular
+        .module("insite")
+        .service("analyticsService", AnalyticsService);
+
+
 
     //Should be an enum, but the version of typescript available is archaic.. 
     export const AnalyticsEvents = {

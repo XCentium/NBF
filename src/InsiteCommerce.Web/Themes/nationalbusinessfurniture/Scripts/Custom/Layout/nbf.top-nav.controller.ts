@@ -9,7 +9,7 @@
         session: any;
         dashboardUrl: string;
         
-        static $inject = ["$scope", "$window", "$attrs", "sessionService", "websiteService", "coreService"];
+        static $inject = ["$scope", "$window", "$attrs", "sessionService", "websiteService", "coreService", "analyticsService"];
 
         constructor(
             protected $scope: ng.IScope,
@@ -17,8 +17,20 @@
             protected $attrs: ITopNavControllerAttributes,
             protected sessionService: account.ISessionService,
             protected websiteService: websites.IWebsiteService,
-            protected coreService: core.ICoreService) {
+            protected coreService: core.ICoreService,
+            protected analyticsService: nbf.analytics.AnalyticsService) {
             this.init();
+        }
+
+        protected pageLoad(): void {
+            var data = this.analyticsService.Data;
+            data.pageInfo.destinationUrl = window.location.href;
+            window.console.log("history");
+            window.console.dir(this.$window.history);
+            data.pageInfo.referringUrl = this.$window.document.referrer;
+            this.analyticsService.Data = data;
+            this.analyticsService.FireEvent("PageLoad");
+            window.console.dir("firing pageLoad");
         }
 
         init(): void {
@@ -30,8 +42,15 @@
 
             this.$scope.$on("sessionUpdated", (event, session) => {
                 this.onSessionUpdated(session);
-            });            
+            });
+            var self = this;
+            this.$scope.$on("$locationChangeSuccess", (event, session) => {
+
+                this.pageLoad();
+            });
         }
+
+
 
         protected onSessionUpdated(session: SessionModel): void {
             this.session = session;
@@ -46,6 +65,7 @@
         protected getSessionCompleted(session: SessionModel): void {
             this.session = session;
             this.getWebsite("languages,currencies");
+
         }
 
         protected getSessionFailed(error: any): void {
