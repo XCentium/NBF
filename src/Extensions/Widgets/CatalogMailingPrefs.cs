@@ -109,5 +109,18 @@ namespace Extensions.Widgets
                 return @"^(\d{5}|\d{5}-\d{4})$";
             }
         }
+
+        [TextContentField(IsRequired = true, DisplayName = "Redirect Url After Submit")]
+        public virtual string RedirectUrlAfterSubmit
+        {
+            get
+            {
+                return this.GetValue<string>("RedirectUrlAfterSubmit", "", FieldType.Contextual);
+            }
+            set
+            {
+                this.SetValue<string>("RedirectUrlAfterSubmit", value, FieldType.Contextual);
+            }
+        }
     }
 }
