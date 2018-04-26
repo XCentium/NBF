@@ -393,12 +393,10 @@
             this.coreService.closeModal(selector);
         }
         flyOutFocus(): void {
-            console.log('im here');
             $('.user-nav .sub-tier-panel').css('display', 'block');
         }
 
         flyOutFocusOff(): void {
-            console.log('im not here');
             $('.user-nav .sub-tier-panel').removeAttr("style");
         }
     }

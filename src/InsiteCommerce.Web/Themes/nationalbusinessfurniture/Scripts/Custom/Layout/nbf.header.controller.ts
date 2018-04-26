@@ -165,6 +165,10 @@
 
         protected removeLineFailed(error: any): void {
         }
+        flyOutFocusOff(): void {
+            $('.user-nav .sub-tier-panel').removeAttr("style");
+        }
+
     }
 
     angular
