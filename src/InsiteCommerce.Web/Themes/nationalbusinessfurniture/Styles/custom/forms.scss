@@ -10,7 +10,7 @@ label {
 }
 
 
-input[type="text"], select, input[type="email"], input[type="password"] {
+input[type="text"], input[type="number"], select, input[type="email"], input[type="password"] {
     border: 1px solid #868889;
     background-color: $nbf-white;
     height: 46px;
@@ -93,7 +93,7 @@ input[type="text"], select, input[type="email"], input[type="password"] {
     }
 }
 .shortform {
-    input[type="text"], select, input[type="email"], input[type="password"] {
+    input[type="number"], input[type="text"], select, input[type="email"], input[type="password"] {
         &.valid {
             & ~ span.field-validation-valid:after {
                 bottom: 12px;
