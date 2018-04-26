@@ -122,5 +122,18 @@ namespace Extensions.Widgets
                 this.SetValue<string>("RedirectUrlAfterSubmit", value, FieldType.Contextual);
             }
         }
+
+        [TextContentField(IsRequired = true, DisplayName = "Privacy Policy Url")]
+        public virtual string PrivacyPolicyUrl
+        {
+            get
+            {
+                return this.GetValue<string>("PrivacyPolicyUrl", "", FieldType.Contextual);
+            }
+            set
+            {
+                this.SetValue<string>("PrivacyPolicyUrl", value, FieldType.Contextual);
+            }
+        }
     }
 }
