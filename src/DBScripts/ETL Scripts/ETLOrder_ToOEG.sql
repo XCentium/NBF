@@ -113,7 +113,7 @@ begin
 		1, co.OrderNumber, left(co.CustomerNumber,10), 'P', co.OrderDate, bt.cst_ID, st.cst_ID, '99',
 		co.OrderTotal, isnull(maxCCT.Amount,0) [ord_CCAmount], left(co.CustomerPO,32), co.ShippingCharges, co.TaxAmount, co.OtherCharges, '1', 0,
 		case when TermsCode = 'Open_Credit' then 'oc' else 'cc' end [ord_PaymentType],
-		isnull(maxCCT.AuthCode,'') [ord_PaymentToken],
+		TermsCode [ord_PaymentToken],
 		'' [ord_PPToken],
 		'' [ord_PPPayerID]
 	from 
