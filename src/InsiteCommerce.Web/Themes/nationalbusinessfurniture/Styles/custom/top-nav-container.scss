@@ -1,6 +1,9 @@
 ﻿@import "../variables";
 
-
+.top-nav {
+    max-width: 1440px;
+    margin: 0 auto;
+}
 
 .top-nav-container {
     [role="secondary-nav"] {
