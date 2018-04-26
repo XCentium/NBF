@@ -226,7 +226,7 @@
                 [% if Model.Drop.DisplayCart -%]
                 <ul class="user-nav">
                     <li ng-cloak ng-show="::(vm.session && (!vm.session.isAuthenticated || vm.session.billTo.isGuest) && !vm.session.rememberMe)">
-                        <a ng-click="flyOutFocusOff()" href="[% urlForPage 'SignInPage' %]" isc-redirect-to-sign-in return-to-url="true" class="btn sign-in fastClick tst_header_signInButton"><span class="ico-LoginIcon"></span> <span>[% translate 'Login' %]</span></a>
+                        <a ng-click="vm.flyOutFocusOff()" href="[% urlForPage 'SignInPage' %]" isc-redirect-to-sign-in return-to-url="true" class="btn sign-in fastClick tst_header_signInButton"><span class="ico-LoginIcon"></span> <span>[% translate 'Login' %]</span></a>
                         <div class="sub-tier-panel single show-heading level-2">
                             <nbf-sign-in-fly-out include-forgot-password-link="true" allow-create-account="true"></nbf-sign-in-fly-out>
                         </div>

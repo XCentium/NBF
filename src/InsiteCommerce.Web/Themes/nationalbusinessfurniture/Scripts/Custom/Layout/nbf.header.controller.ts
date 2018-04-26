@@ -167,6 +167,8 @@
         }
         flyOutFocusOff(): void {
             $('.user-nav .sub-tier-panel').removeAttr("style");
+            var $activeElement = angular.element(document.activeElement);
+            $activeElement.blur();
         }
 
     }
