@@ -74,6 +74,10 @@
                 line-height: 1.2;
                 margin-bottom: 10px;
 
+                a {
+                    text-decoration: none;
+                }
+
 
                 @media all and (max-width: 641px) {
                     border-bottom: 1px solid $divider-gray;
