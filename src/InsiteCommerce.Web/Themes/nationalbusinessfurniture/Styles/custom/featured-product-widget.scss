@@ -1,6 +1,27 @@
 ﻿@import "../variables";
 
 
+.featured-product {
+    .pr-snippet-rating-decimal, .pr-category-snippet__total {
+        display: none !important;
+    }
+
+    .item-block__product__col-2 {
+        .col-1, .col-2 {
+            display: inline-block;
+        }
+
+
+        .col-2 {
+            float: right;
+            .item-block__product__ships-today{
+                margin-top:5px;
+
+            }
+        }
+    }
+}
+
 .product-list-wrap {
     margin: 0;
     padding: 0;

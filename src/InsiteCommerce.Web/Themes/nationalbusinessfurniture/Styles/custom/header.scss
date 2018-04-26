@@ -26,6 +26,7 @@
                     border: none;
                     font-size: 17px;
                     padding-right: 0;
+                    padding-left: 0;
 
                     &:focus {
                         box-shadow: none;
@@ -89,7 +90,7 @@
                 }
 
                 @media print {
-                    float:none;
+                    float: none;
                 }
             }
         }
@@ -117,6 +118,7 @@
                 font-size: 36px;
                 font-weight: 500;
                 line-height: 1.3;
+                text-decoration: none;
 
                 @media all and (max-width: 1439px) {
                     font-size: 25px;
@@ -168,6 +170,7 @@
                     background-position: center;
                     background-repeat: no-repeat;
                     padding: 40px 0;
+                    text-decoration: none;
 
                     @media only screen and (max-width: 1025px) {
                         display: none;
@@ -184,6 +187,7 @@
                     &__second-line {
                         display: block;
                         line-height: normal;
+                        font-weight: bold;
                     }
                 }
             }

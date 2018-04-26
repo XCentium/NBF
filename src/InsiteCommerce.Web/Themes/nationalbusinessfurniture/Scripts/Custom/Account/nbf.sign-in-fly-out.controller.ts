@@ -392,6 +392,13 @@
         protected closeModal(selector: string): void {
             this.coreService.closeModal(selector);
         }
+        flyOutFocus(): void {
+            $('.user-nav .sub-tier-panel').css('display', 'block');
+        }
+
+        flyOutFocusOff(): void {
+            $('.user-nav .sub-tier-panel').removeAttr("style");
+        }
     }
 
     angular
