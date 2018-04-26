@@ -109,7 +109,6 @@ div.cart-button a.cart-link:before {
                 bottom: 26px;
                 position: relative;
             }
-
         }
 
         .sub-tier-panel {
@@ -180,7 +179,7 @@ div.cart-button a.cart-link:before {
             }
         }
 
-        & > li:hover {
+        & > li:hover, & > li:focus, & > li:focus-within {
             & > .sub-tier-panel {
                 display: block;
             }
