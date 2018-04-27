@@ -181,7 +181,7 @@
         }
 
         protected getAddressFieldsCompleted(addressFields: AddressFieldCollectionModel): void {
-            debugger;
+            //debugger;
             this.addressFields = addressFields;
 
             this.cartService.expand = "shiptos,validation,cartlines";
@@ -201,7 +201,7 @@
         }
 
         protected getCartInitial(cartId: string) {
-            debugger;
+            //debugger;
             this.cartService.getCart(this.cartId).then(
                 (cart: CartModel) => {
                     this.getCartCompleted(cart);
@@ -219,7 +219,7 @@
         }
 
         protected getCartCompleted(cart: CartModel): void {
-            debugger;
+            //debugger;
             this.cartService.expand = "";
             this.cart = cart;
 
