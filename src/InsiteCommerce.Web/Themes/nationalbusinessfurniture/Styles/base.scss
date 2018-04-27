@@ -363,6 +363,11 @@ body {
     border:1px solid $divider-gray;
 }
 
+.linkstyle{
+   text-decoration:underline;
+   color:$nbf-orange;
+}
+
 
 @media all and (min-width: 960px) {
 
@@ -498,6 +503,10 @@ h5, h6 {
 
 a {
     color:$nbf-black;
+}
+
+a:link {
+    text-decoration: underline;
 }
 
 .footnote {
@@ -2003,6 +2012,9 @@ header div.head-cm {
 
 .header-zone.rt {
     float: right;
+    a{
+        text-decoration:none;
+    }
 }
 
 
@@ -2689,6 +2701,7 @@ div.remove a.btn {
 .item-block .item-name a,
 .qo-item .item-name a {
     font-weight: normal;
+    text-decoration: none;
 }
 
 .item-block .item-num, ul.attribute-list, .item-details .item-num, .availability, .qo-item .item-num {
