@@ -91,14 +91,14 @@ begin
 
 	;with orderdCCT as
 	(
-		SELECT Id, CustomerOrderId, AuthCode, Amount,  row_number() 
+		SELECT Id, CustomerOrderId, AuthCode, Amount, CreditCardNumber, ExpirationDate, row_number() 
 		over (partition by CustomerOrderId order by Amount desc) as RowNumber
 		FROM CreditCardTransaction
 		where CustomerOrderId is not null and Result = 0
 	),
 	maxCCT as
 	(
-		select CustomerOrderId, Amount, AuthCode from orderdCCT where RowNumber = 1
+		select CustomerOrderId, Amount, AuthCode, CreditCardNumber, ExpirationDate from orderdCCT where RowNumber = 1
 	)
 	insert into OEGSystemStaging.dbo.StatusOrder
 	(
@@ -107,7 +107,9 @@ begin
 		[ord_PaymentType], 
 		[ord_PaymentToken], 
 		[ord_PPToken], 
-		[ord_PPPayerID]
+		[ord_PPPayerID],
+		[ord_CCNumber],
+		[ord_CCExpire]
 	)
 	select 
 		1, co.OrderNumber, left(co.CustomerNumber,10), 'P', co.OrderDate, bt.cst_ID, st.cst_ID, '99',
@@ -115,7 +117,9 @@ begin
 		case when TermsCode = 'Open_Credit' then 'oc' else 'cc' end [ord_PaymentType],
 		TermsCode [ord_PaymentToken],
 		'' [ord_PPToken],
-		'' [ord_PPPayerID]
+		'' [ord_PPPayerID],
+		left(maxCCT.CreditCardNumber,16) [ord_CCNumber],
+		left(maxCCT.ExpirationDate,4) [ord_CCExpire]
 	from 
 		CustomerOrder co
 		left join maxCCT on maxCCT.CustomerOrderId = co.Id
