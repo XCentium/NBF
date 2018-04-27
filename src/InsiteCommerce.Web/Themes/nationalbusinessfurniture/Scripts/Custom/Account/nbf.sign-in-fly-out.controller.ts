@@ -54,7 +54,8 @@
             "$localStorage",
             "wishListService",
             "$q",
-            "ipCookie"
+            "ipCookie",
+            "$rootScope"
         ];
 
         constructor(
@@ -74,7 +75,8 @@
             protected $localStorage: common.IWindowStorage,
             protected wishListService: IWishListService,
             protected $q: ng.IQService,
-            protected ipCookie: any) {
+            protected ipCookie: any,
+            protected $rootScope: ng.IRootScopeService) {
             this.init();
         }
 
@@ -362,7 +364,7 @@
             if (session.isRestrictedProductExistInCart) {
                 this.$localStorage.set("hasRestrictedProducts", true.toString());
             }
-
+            this.$rootScope.$broadcast("initAnalyticsEvent", "Login", null, null);
             if (this.invitedToList) {
                 const inviteParam = "invite=";
                 const lowerCaseReturnUrl = this.returnUrl.toLowerCase();

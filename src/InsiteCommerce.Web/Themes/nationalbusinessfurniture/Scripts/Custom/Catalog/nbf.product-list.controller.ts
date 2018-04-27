@@ -90,6 +90,11 @@
 
 
             $(document).ready(() => {
+                if (this.noResults) {
+                    this.$rootScope.$broadcast("initAnalyticsEvent", "FailedSearch", null);
+                } else {
+                    this.$rootScope.$broadcast("initAnalyticsEvent", "SuccessfulSearch", null);
+                }
                 var windowsize = $(window).width();
                 if (windowsize < 767) {
                     setTimeout(

@@ -72,8 +72,6 @@ module nbf.analytics {
         public FireEvent(event: AnalyticsEvent) {
             for (var handler of this._handlers) {
                 handler.handleAnalyticsEvent(event, this.Data);
-                window.console.dir("fireEvent - pageLoad");
-                console.dir(this.Data);
             }
         }
 
