@@ -10,18 +10,6 @@ namespace Extensions.Widgets
     [DisplayName("NBF - Catalog Mailing Preferences Widget")]
     public class CatalogMailingPrefs : ContentWidget
     {
-        [RichTextContentField(IsRequired = true)]
-        public virtual string SuccessMessage
-        {
-            get
-            {
-                return this.GetValue<string>("SuccessMessage", "<p>Your message has been sent.</p>", FieldType.Contextual);
-            }
-            set
-            {
-                this.SetValue<string>("SuccessMessage", value, FieldType.Contextual);
-            }
-        }
 
         [ListContentField(DisplayName = "Send Email To", InvalidRegExMessage = "Invalid Email Address", IsRequired = true, RegExValidation = "\\w+([-+.']\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*")]
         public virtual List<string> EmailTo
@@ -120,6 +108,19 @@ namespace Extensions.Widgets
             set
             {
                 this.SetValue<string>("RedirectUrlAfterSubmit", value, FieldType.Contextual);
+            }
+        }
+
+        [TextContentField(IsRequired = true, DisplayName = "Privacy Policy Url")]
+        public virtual string PrivacyPolicyUrl
+        {
+            get
+            {
+                return this.GetValue<string>("PrivacyPolicyUrl", "", FieldType.Contextual);
+            }
+            set
+            {
+                this.SetValue<string>("PrivacyPolicyUrl", value, FieldType.Contextual);
             }
         }
     }
