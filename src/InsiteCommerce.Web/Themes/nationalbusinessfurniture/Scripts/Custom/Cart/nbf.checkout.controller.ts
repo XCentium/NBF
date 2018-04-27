@@ -189,10 +189,12 @@
             if (this.queryCartId) {
                 this.cartService.getCart(this.queryCartId).then(
                     (cart: CartModel) => {
-                        if (cart.status === "Submitted" || cart.status === "QuoteProposed") {
-                            this.getCartCompleted(cart);
+                        this.getCartCompleted(cart);
+                        if (cart.status === "Submitted") {
+                            //this.getCartCompleted(cart);
                             this.loadStep4();
                         }
+                        
                     },
                     () => { this.getCartInitial(this.cartId) });
             } else {
