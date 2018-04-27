@@ -181,6 +181,7 @@
         }
 
         protected getAddressFieldsCompleted(addressFields: AddressFieldCollectionModel): void {
+            debugger;
             this.addressFields = addressFields;
 
             this.cartService.expand = "shiptos,validation,cartlines";
@@ -188,7 +189,7 @@
             if (this.queryCartId) {
                 this.cartService.getCart(this.queryCartId).then(
                     (cart: CartModel) => {
-                        if (cart.status === "Submitted") {
+                        if (cart.status === "Submitted" || cart.status === "QuoteProposed") {
                             this.getCartCompleted(cart);
                             this.loadStep4();
                         }
@@ -200,6 +201,7 @@
         }
 
         protected getCartInitial(cartId: string) {
+            debugger;
             this.cartService.getCart(this.cartId).then(
                 (cart: CartModel) => {
                     this.getCartCompleted(cart);
@@ -217,6 +219,7 @@
         }
 
         protected getCartCompleted(cart: CartModel): void {
+            debugger;
             this.cartService.expand = "";
             this.cart = cart;
 
@@ -1291,10 +1294,11 @@
 
             $("#confirmation").addClass("active");
 
-            $("html:not(:animated), body:not(:animated)").animate({
-                    scrollTop: $("#nav4").offset().top
-                },
-                200);
+            //Commenting out the line below because #nav4 cannot be found and is throwing error
+            //$("html:not(:animated), body:not(:animated)").animate({
+            //        scrollTop: $("#nav4").offset().top
+            //    },
+            //    200);
 
             this.orderConfirmationInit();
         }
