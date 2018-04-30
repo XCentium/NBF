@@ -333,6 +333,7 @@
     <Compile Include="Handlers\GetDashboardPanelCollectionHandlerNBF.cs" />
     <Compile Include="Handlers\GetProductCollectionHandler\AfterProductListRetrived.cs" />
     <Compile Include="Handlers\GetProductCollectionHandler\FindProductsWithSearch.cs" />
+    <Compile Include="Handlers\GetProductCollectionHandler\HideSwatchesFromSearch.cs" />
     <Compile Include="Handlers\Helpers\NBFHtmlHelper.cs" />
     <Compile Include="Handlers\Helpers\NBFListrakHelper.cs" />
     <Compile Include="Handlers\Helpers\NBFGetOrderHelper.cs" />
@@ -514,7 +515,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>0</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:54995/</IISUrl>
+          <IISUrl>http://localhost:57879/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

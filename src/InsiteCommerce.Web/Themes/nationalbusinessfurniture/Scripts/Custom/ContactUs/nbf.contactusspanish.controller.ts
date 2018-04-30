@@ -5,16 +5,19 @@
         contactUsForm: any = {};
         submitted: boolean = false;
         $form: JQuery;
-        static $inject = ["$element", "$scope", "nbfEmailService"];
+        static $inject = ["$element", "$scope", "nbfEmailService", "$rootScope"];
 
         constructor(
             protected $element: ng.IRootElementService,
             protected $scope: ng.IScope,
-            protected nbfEmailService: email.INbfEmailService) {
+            protected nbfEmailService: email.INbfEmailService,
+            protected $rootScope: ng.IRootScopeService
+        ) {
             this.init();
         }
 
         init(): void {
+            this.$rootScope.$broadcast("initAnalyticsEvent", "ContactUsInitiated");
         }
 
         sendEmail($event): boolean
@@ -41,6 +44,7 @@
             //if (this.contactUsFormForm) {
             //    this.contactUsFormForm.$setPristine();
             //} 
+            this.$rootScope.$broadcast("initAnalyticsEvent", "ContactUsCompleted");
         }
 
         protected getContactUsSpanishFailed(error?: any): void {

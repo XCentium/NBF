@@ -113,6 +113,7 @@
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Scripts\Custom\nbf.analytics.body.js" />
     <Content Include="Scripts\Custom\spriteSpin\spriteSpin.js" />
     <Content Include="Scripts\foundation.equalizer.js" />
     <Content Include="Scripts\foundation.tooltip.js" />
@@ -176,6 +177,10 @@
     <TypeScriptCompile Include="Scripts\Catalog\insite.recently-viewed.controller.ts" />
     <TypeScriptCompile Include="Scripts\Catalog\insite.related-products.controller.ts" />
     <TypeScriptCompile Include="Scripts\Common\insite.base-upload.ts" />
+    <TypeScriptCompile Include="Scripts\Custom\Account\nbf.sign-in.controller.ts" />
+    <TypeScriptCompile Include="Scripts\Custom\Cart\nbf.cart.service.ts" />
+    <TypeScriptCompile Include="Scripts\Custom\ContactUs\nbf.contact-us.controller.ts" />
+    <TypeScriptCompile Include="Scripts\nbf.custom.models.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Account\nbf.account-settings.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Account\nbf.create-account.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Account\nbf.guest-activation.service.ts" />

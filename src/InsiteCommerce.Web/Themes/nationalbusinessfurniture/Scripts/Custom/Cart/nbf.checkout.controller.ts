@@ -92,7 +92,8 @@
             "termsAndConditionsPopupService",
             "nbfEmailService",
             "productService",
-            "$element"
+            "$element",
+            "$rootScope"
         ];
 
         constructor(
@@ -117,7 +118,9 @@
             protected termsAndConditionsPopupService: insite.cart.ITermsAndConditionsPopupService,
             protected nbfEmailService: nbf.email.INbfEmailService,
             protected productService: insite.catalog.IProductService,
-            protected $element: ng.IRootElementService) {
+            protected $element: ng.IRootElementService,
+            protected $rootScope: ng.IRootScopeService
+        ) {
             this.init();
         }
 
@@ -225,6 +228,7 @@
             this.cartService.expand = "";
             this.cart = cart;
 
+            this.$rootScope.$broadcast("initAnalyticsEvent", "CheckoutInitiated");
             const hasRestrictions = cart.cartLines.some(o => o.isRestricted);
             // if cart does not have cartLines or any cartLine is restricted, go to Cart page
             if (!this.cart.cartLines || this.cart.cartLines.length === 0 || hasRestrictions) {

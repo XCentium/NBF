@@ -30,6 +30,7 @@
             "$anchorScroll",
             "$location",
             "$attrs",
+            "$rootScope"
         ];
 
         constructor(
@@ -47,7 +48,8 @@
             protected $window: ng.IWindowService,
             protected $anchorScroll: ng.IAnchorScrollService,
             protected $location: ng.ILocationService,
-            protected $attrs: IProductDetailControllerAttributes
+            protected $attrs: IProductDetailControllerAttributes,
+            protected $rootScope: ng.IRootScopeService
         ) {
             super($scope, coreService, cartService, productService, addToWishlistPopupService, productSubscriptionPopupService, settingsService, $stateParams, sessionService)
             this.sessionService.getIsAuthenticated().then((isAuth) => {
@@ -77,6 +79,7 @@
                 this.nbfWishListService.addWishListLines(this.favoritesWishlist, addLines).then(() => {
                     this.getFavorites();
                 });
+                this.$rootScope.$broadcast("initAnalyticsEvent", "AddProductToWIshList");
             }
         }
 
@@ -243,6 +246,10 @@
 
         protected getProductCompleted(productModel: ProductModel): void {
             this.product = productModel.product;
+
+            
+            this.$rootScope.$broadcast("initAnalyticsEvent", "ProductPageView", null, null, this.product);
+            
             this.product.qtyOrdered = this.product.minimumOrderQty || 1;
             this.product.documents.forEach((doc) => {
                 if (doc.documentType == "video") {
@@ -342,7 +349,8 @@
             this.setVideo2(this.product.properties["videoFile"]);
         }
 
-        show360() {            
+        show360() {
+            this.$rootScope.$broadcast("initAnalyticsEvent", "Selected360View");
             this.set360(this.product.erpNumber, 3, 16);
         }
 

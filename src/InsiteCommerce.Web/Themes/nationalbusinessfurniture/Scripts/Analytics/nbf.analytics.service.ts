@@ -76,6 +76,11 @@ module nbf.analytics {
         }
 
     }
+    angular
+        .module("insite")
+        .service("analyticsService", AnalyticsService);
+
+
 
     //Should be an enum, but the version of typescript available is archaic.. 
     export const AnalyticsEvents = {
