@@ -223,7 +223,7 @@
             this.cartService.expand = "";
             this.cart = cart;
 
-            this.$rootScope.$broadcast("initAnalyticsEvent", "CheckoutInitiated", data);
+            this.$rootScope.$broadcast("initAnalyticsEvent", "CheckoutInitiated");
             const hasRestrictions = cart.cartLines.some(o => o.isRestricted);
             // if cart does not have cartLines or any cartLine is restricted, go to Cart page
             if (!this.cart.cartLines || this.cart.cartLines.length === 0 || hasRestrictions) {

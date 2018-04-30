@@ -9,7 +9,7 @@
         session: any;
         dashboardUrl: string;
         
-        static $inject = ["$scope", "$window", "$attrs", "sessionService", "websiteService", "coreService", "analyticsService"];
+        static $inject = ["$scope", "$window", "$attrs", "sessionService", "websiteService", "coreService", "analyticsService", "$rootScope"];
 
         constructor(
             protected $scope: ng.IScope,
@@ -18,7 +18,9 @@
             protected sessionService: account.ISessionService,
             protected websiteService: websites.IWebsiteService,
             protected coreService: core.ICoreService,
-            protected analyticsService: nbf.analytics.AnalyticsService) {
+            protected analyticsService: nbf.analytics.AnalyticsService,
+            protected $rootScope: ng.IRootScopeService
+        ) {
             this.init();
         }
 
@@ -37,6 +39,7 @@
         }
 
         init(): void {
+            var self = this;
             this.dashboardUrl = this.$attrs.dashboardUrl;
             // TODO ISC-4406
             // TODO ISC-2937 SPA kill all of the things that depend on broadcast for session and convert them to this, assuming we can properly cache this call
@@ -54,6 +57,25 @@
                 this.setCartData(cart);
             });
 
+            // click events not working with live-expert and questions
+            $(".option-video").click(function () {
+                self.$rootScope.$broadcast("initAnalyticsEvent", "LiveVideoChatStarted");
+            });
+
+            $(".liveExpert-widget .option-text").click(function () {
+                self.$rootScope.$broadcast("initAnalyticsEvent", "LiveTextChatStarted");
+            });
+            // live-expert
+            
+            $(".pr-submit").click(function () {
+                self.$rootScope.$broadcast("initAnalyticsEvent", "ProductQuestionAsked");
+            });
+
+            $(".head-row .cart-button").hover(function () {
+                $(this).unbind('mouseenter mouseleave')
+                self.$rootScope.$broadcast("initAnalyticsEvent", "MiniCartHover");
+            });
+            
             this.$scope.$on("initAnalyticsEvent", (event, analyticsEvent, navigationUri, analyticsData, data2) => {
                 if (analyticsData) {
                     this.analyticsService.Data = analyticsData;
@@ -65,6 +87,10 @@
 
                 if (analyticsEvent == "ProductPageView") {
                     this.setProductData(data2);
+                }
+
+                if (analyticsEvent == "FailedSearch" || analyticsEvent == "SuccessfulSearch") {
+                    this.setSearchData(data2);
                 }
                 
                 this.analyticsService.FireEvent(analyticsEvent);
@@ -81,6 +107,13 @@
                 
                 
             });
+        }
+
+        setSearchData(search: nbf.analytics.AnalyticsPageSearchInfo): void {
+            var internalSearch = new nbf.analytics.AnalyticsPageSearchInfo();
+            internalSearch.searchResults = search.searchResults;
+            internalSearch.searchTerm = search.searchTerm;
+            this.analyticsService.Data.pageInfo.internalSearch = internalSearch;
         }
 
         setProductData(product: ProductDto): void {

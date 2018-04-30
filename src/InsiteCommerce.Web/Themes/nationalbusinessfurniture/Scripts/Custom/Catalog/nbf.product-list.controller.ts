@@ -90,11 +90,6 @@
 
 
             $(document).ready(() => {
-                if (this.noResults) {
-                    this.$rootScope.$broadcast("initAnalyticsEvent", "FailedSearch", null);
-                } else {
-                    this.$rootScope.$broadcast("initAnalyticsEvent", "SuccessfulSearch", null);
-                }
                 var windowsize = $(window).width();
                 if (windowsize < 767) {
                     setTimeout(
@@ -139,6 +134,15 @@
                     'event': "searchResults",
                     'numSearchResults': productCollection.pagination.totalItemCount
                 });
+            }
+
+            var search = new nbf.analytics.AnalyticsPageSearchInfo();
+            search.searchResults = productCollection.pagination.totalItemCount;
+            search.searchTerm = this.query;
+            if (this.noResults) {
+                this.$rootScope.$broadcast("initAnalyticsEvent", "FailedSearch", null, null, search);
+            } else {
+                this.$rootScope.$broadcast("initAnalyticsEvent", "SuccessfulSearch", null, null, search);
             }
 
             if (productCollection.searchTermRedirectUrl) {
@@ -371,6 +375,7 @@
                 this.nbfWishListService.addWishListLines(this.favoritesWishlist, addLines).then(() => {
                     this.getFavorites();
                 });
+                this.$rootScope.$broadcast("initAnalyticsEvent", "AddProductToWIshList");
             }
         }
 

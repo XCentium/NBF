@@ -189,6 +189,10 @@
             }
             return retVal;
         }
+
+        continueShopping($event): void {
+            this.$rootScope.$broadcast("initAnalyticsEvent", "ContinueShoppingFromCartPage");
+        }
     }
 
     angular
