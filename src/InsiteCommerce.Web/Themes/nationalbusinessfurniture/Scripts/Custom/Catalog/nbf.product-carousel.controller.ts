@@ -20,7 +20,7 @@
         favoritesWishlist: WishListModel;
         isAuthenticated: boolean = false;
 
-        static $inject = ["cartService", "productService", "$timeout", "addToWishlistPopupService", "settingsService", "$scope", "$window", "$attrs", "sessionService", "nbfWishListService" ];
+        static $inject = ["cartService", "productService", "$timeout", "addToWishlistPopupService", "settingsService", "$scope", "$window", "$attrs", "sessionService", "nbfWishListService", "$rootScope" ];
 
         constructor(
             protected cartService: cart.ICartService,
@@ -32,7 +32,9 @@
             protected $window: ng.IWindowService,
             protected $attrs: IFeaturedProductsWidgetControllerAttributes,
             protected sessionService: account.ISessionService,
-            protected nbfWishListService: wishlist.INbfWishListService) {
+            protected nbfWishListService: wishlist.INbfWishListService,
+            protected $rootScope: ng.IRootScopeService
+        ) {
             super(cartService, productService, $timeout, addToWishlistPopupService, settingsService, $scope);
         }
 
