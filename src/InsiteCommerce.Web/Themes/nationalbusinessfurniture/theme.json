@@ -65,7 +65,6 @@
     "Scripts/insite.core.ts",
     "Scripts/insite.responsive.ts",
     "Scripts/Common/insite.base-popup.service.ts",
-    "Scripts/Custom/nbf.analytics.body.js",
     "Scripts/*"
   ],
   "Styles": [

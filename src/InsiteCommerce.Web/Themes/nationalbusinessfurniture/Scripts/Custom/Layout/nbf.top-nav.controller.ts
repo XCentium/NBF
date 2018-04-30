@@ -29,10 +29,12 @@
             var data = this.analyticsService.Data;
             data.pageInfo.destinationUrl = window.location.href;
             data.pageInfo.referringUrl = this.$window.document.referrer;
-            data.profile.isAuthenticated = this.session.isAuthenticated;
-            if (data.profile.isAuthenticated == true) {
-                data.profile.profileInfo.email = this.session.email;
-                data.profile.profileInfo.profileId = this.session.userName;
+            if (this.session) {
+                data.profile.isAuthenticated = this.session.isAuthenticated;
+                if (data.profile.isAuthenticated == true) {
+                    data.profile.profileInfo.email = this.session.email;
+                    data.profile.profileInfo.profileId = this.session.userName;
+                }
             }
             this.analyticsService.Data = data;
             
