@@ -7,6 +7,7 @@
     export class NbfCategoryLeftNavController extends CategoryLeftNavController {
         
         static $inject = ["$timeout", "$window", "$scope", "$rootScope", "sessionService"];
+        fakeCheckBoxes = [];
 
         constructor(
             protected $timeout: ng.ITimeoutService,

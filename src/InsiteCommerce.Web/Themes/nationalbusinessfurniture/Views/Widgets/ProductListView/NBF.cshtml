@@ -464,7 +464,7 @@
                                     <div class="f-cat" ng-if="vm.products.categoryFacets.length > 0 && !vm.category">
                                         <section class="accordion">
                                             <div>
-                                                <input type="checkbox" id="accord-1" class="accord-check" ng-model="vm.test" />
+                                                <input type="checkbox" id="accord-1" class="accord-check" ng-change="vm.toggleFacet('accord-{{$index}}')" ng-model="vm.fakeCheckBoxes" />
                                                 <label for="accord-1" class="accord-head"  >[% translate 'Categories' %]</label>
                                                 <article class="accord-content">
                                                     <div class="f-wrap">
@@ -488,7 +488,7 @@
                                     <div class="f-cat" ng-if="vm.products.priceRange.priceFacets.length > 0">
                                         <section class="accordion">
                                             <div>
-                                                <input type="checkbox" id="accord-2" class="accord-check" ng-model="vm.test" />
+                                                <input type="checkbox" id="accord-2" class="accord-check" ng-change="vm.toggleFacet('accord-{{$index}}')" ng-model="vm.fakeCheckBoxes[$index]" />
                                                 <label for="accord-2" class="accord-head"  >[% translate 'Price' %]</label>
                                                 <article class="accord-content">
                                                     <div class="f-wrap">
@@ -512,7 +512,7 @@
                                     <div ng-repeat="section in vm.products.attributeTypeFacets | orderBy : ['sort','nameDisplay'] | limitTo: 4" class="f-cat" ng-if="vm.products.attributeTypeFacets.length > 0">
                                         <section class="accordion">
                                             <div>
-                                                <input type="checkbox" id="accord-{{$index}}" class="accord-check" ng-model="vm.test" />
+                                                <input type="checkbox" id="accord-{{$index}}" class="accord-check" ng-change="vm.toggleFacet('accord-{{$index}}')" ng-model="vm.fakeCheckBoxes[$index]" />
                                                 <label for="accord-{{$index}}" class="accord-head"  >{{section.nameDisplay}}</label>
                                                 <article class="accord-content">
                                                     <div class="f-wrap">
@@ -536,12 +536,12 @@
 
                                     <div ng-if="vm.products.attributeTypeFacets.length > 4">                                       
                                         <div class="exrta-filter-wrap collapsed"  style="clear:both;">
-                                            <div class=""><a href="#" ng-model="vm.test"  ng-click="vm.toggleexrtafilter()" class="toggle-filters">[% translate 'More Filters' %]</a></div>
+                                            <div class=""><a href="#" ng-click="vm.toggleexrtafilter()" class="toggle-filters">[% translate 'More Filters' %]</a></div>
                                             <div class="exrta-filters">
                                                 <div ng-repeat="section in vm.products.attributeTypeFacets | orderBy : ['sort','nameDisplay'] | limitTo: (4 - vm.products.attributeTypeFacets.length)" class="f-cat" ng-if="vm.products.attributeTypeFacets.length > 0">
                                                     <section class="accordion">
                                                         <div>
-                                                            <input type="checkbox" id="accord-{{$index + 4}}" class="accord-check" />
+                                                            <input type="checkbox" id="accord-{{$index + 4}}" class="accord-check" ng-change="vm.toggleFacet('accord-{{$index + 4}}')"  ng-model="vm.fakeCheckBoxes[$index + 4]"  />
                                                             <label for="accord-{{$index + 4}}" class="accord-head"  >{{section.nameDisplay}}</label>
                                                             <article class="accord-content">
                                                                 <div class="f-wrap">
