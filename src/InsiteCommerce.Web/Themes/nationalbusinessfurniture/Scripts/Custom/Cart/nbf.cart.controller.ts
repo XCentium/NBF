@@ -9,7 +9,7 @@
         promotionCode: string;
 
         static $inject = ["$scope", "cartService", "promotionService", "settingsService", "coreService", "$localStorage", "addToWishlistPopupService", "spinnerService", "accountService", "sessionService", "productService", "accessToken",
-            "queryString", "$window"];
+            "queryString", "$window", "$rootScope"];
         
         constructor(
             protected $scope: ICartScope,
@@ -25,7 +25,9 @@
             protected productService: insite.catalog.IProductService,
             protected accessToken: common.IAccessTokenService,
             protected queryString: common.IQueryStringService,
-            protected $window: ng.IWindowService ) {
+            protected $window: ng.IWindowService,
+            protected $rootScope: ng.IRootScopeService
+        ) {
             super($scope, cartService, promotionService, settingsService, coreService, $localStorage, addToWishlistPopupService, spinnerService);
             
         }
@@ -46,6 +48,7 @@
         }
 
         protected getCartCompleted(cart: CartModel): void {
+            this.$rootScope.$broadcast("setAnalyticsCart", cart);
             this.cartService.expand = "";
             if (!cart.cartLines.some(o => o.isRestricted)) {
                 this.$localStorage.remove("hasRestrictedProducts");
@@ -88,7 +91,19 @@
             
             this.displayCart(cart);
         }
+        
+        saveCart(saveSuccessUri: string, signInUri: string): void {
+            
+            this.$rootScope.$broadcast("initAnalyticsEvent", "SaveOrderFromCartPage", null);
+            super.saveCart(saveSuccessUri, signInUri);
+        }
 
+
+
+        requestQuote(quoteUri: string): void {
+            
+            this.$rootScope.$broadcast("initAnalyticsEvent", "QuoteRequest", quoteUri, null);
+        }
 
         checkout(checkoutPage: string) {
             this.checkoutPage = checkoutPage;
@@ -173,6 +188,10 @@
                 }
             }
             return retVal;
+        }
+
+        continueShopping($event): void {
+            this.$rootScope.$broadcast("initAnalyticsEvent", "ContinueShoppingFromCartPage");
         }
     }
 
