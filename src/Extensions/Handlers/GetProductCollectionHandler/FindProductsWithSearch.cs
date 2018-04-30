@@ -96,6 +96,19 @@ namespace Extensions.Handlers.GetProductCollectionHandler
 
                 }
             }
+            //var hideAttribute = unitOfWork.GetRepository<AttributeType>().GetTable().Where(x => x.Name == "HideInSearch").FirstOrDefault();
+            //if (hideAttribute != null)
+            //{
+            //    var attributevalue = unitOfWork.GetRepository<AttributeValue>().GetTable().Where(x => x.AttributeTypeId == hideAttribute.Id && x.Value == "No").FirstOrDefault();
+            //    if (attributevalue != null)
+            //    {
+            //        if (parameter.AttributeValueIds == null)
+            //        {
+            //            parameter.AttributeValueIds = new List<string>();
+            //        }
+            //        parameter.AttributeValueIds.Add(attributevalue.Id.ToString());
+            //    }
+            //}
             return this.NextHandler.Execute(unitOfWork, parameter, result);
         }
     }

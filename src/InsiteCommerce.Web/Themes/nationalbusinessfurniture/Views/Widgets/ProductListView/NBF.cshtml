@@ -464,7 +464,7 @@
                                     <div class="f-cat" ng-if="vm.products.categoryFacets.length > 0 && !vm.category">
                                         <section class="accordion">
                                             <div>
-                                                <input type="checkbox" id="accord-1" class="accord-check" ng-model="vm.test" ng-change="vm.toggleFacet('accord-{{$index}}')" />
+                                                <input type="checkbox" id="accord-1" class="accord-check" ng-model="vm.test" />
                                                 <label for="accord-1" class="accord-head"  >[% translate 'Categories' %]</label>
                                                 <article class="accord-content">
                                                     <div class="f-wrap">
@@ -488,7 +488,7 @@
                                     <div class="f-cat" ng-if="vm.products.priceRange.priceFacets.length > 0">
                                         <section class="accordion">
                                             <div>
-                                                <input type="checkbox" id="accord-2" class="accord-check" ng-model="vm.test" ng-change="vm.toggleFacet('accord-{{$index}}')" />
+                                                <input type="checkbox" id="accord-2" class="accord-check" ng-model="vm.test" />
                                                 <label for="accord-2" class="accord-head"  >[% translate 'Price' %]</label>
                                                 <article class="accord-content">
                                                     <div class="f-wrap">
@@ -512,7 +512,7 @@
                                     <div ng-repeat="section in vm.products.attributeTypeFacets | orderBy : ['sort','nameDisplay'] | limitTo: 4" class="f-cat" ng-if="vm.products.attributeTypeFacets.length > 0">
                                         <section class="accordion">
                                             <div>
-                                                <input type="checkbox" id="accord-{{$index}}" class="accord-check" ng-model="vm.test" ng-change="vm.toggleFacet('accord-{{$index}}')" />
+                                                <input type="checkbox" id="accord-{{$index}}" class="accord-check" ng-model="vm.test" />
                                                 <label for="accord-{{$index}}" class="accord-head"  >{{section.nameDisplay}}</label>
                                                 <article class="accord-content">
                                                     <div class="f-wrap">
@@ -541,7 +541,7 @@
                                                 <div ng-repeat="section in vm.products.attributeTypeFacets | orderBy : ['sort','nameDisplay'] | limitTo: (4 - vm.products.attributeTypeFacets.length)" class="f-cat" ng-if="vm.products.attributeTypeFacets.length > 0">
                                                     <section class="accordion">
                                                         <div>
-                                                            <input type="checkbox" id="accord-{{$index + 4}}" class="accord-check"  ng-change="toggleFacet('accord-{{$index}}')" />
+                                                            <input type="checkbox" id="accord-{{$index + 4}}" class="accord-check" />
                                                             <label for="accord-{{$index + 4}}" class="accord-head"  >{{section.nameDisplay}}</label>
                                                             <article class="accord-content">
                                                                 <div class="f-wrap">
