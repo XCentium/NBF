@@ -316,21 +316,25 @@
             };
 
             let powerReviews = this.$window["POWERREVIEWS"];
-            powerReviews.display.render(powerReviewsConfig)
+            powerReviews.display.render(powerReviewsConfig);
+
+            $(document).on('click', '.pr-qa-display-btn', function () {
+                this.$rootScope.$broadcast("initAnalyticsEvent", "ProductQuestionAsked");
+            });
         }
 
         protected setLiveExpertsWidget() {
             var liveExpertConfig = {
                 enterpriseURL: 'liveexpert.net',
                 sourceHost: 'assets.liveexpert.net',
-                assetLocation: 'nbf/multiButton/nbf',
+                assetLocation: 'nbf/hidden-widget/nbf',
                 apiURL: 'api.liveexpert.net',
                 companyID: 31,
                 language: 'EN',
                 callTypeID: 1,
                 micEnabled: false,
                 camEnabled: false,
-                categoryID: null
+                categoryID: 222
             };
 
             let liveProductDemoAttr = this.getAttributeValue("Live Product Demo");
@@ -338,11 +342,14 @@
                 && this.product.modelNumber != null
             )
             {
-                liveExpertConfig.categoryID = this.product.modelNumber;
+                var catId = parseInt(this.product.modelNumber);
+                if (catId) { liveExpertConfig.categoryID = catId; }
             }
 
             let liveexpert = this.$window["liveexpert"];
             liveexpert.LEAWidget.init(liveExpertConfig);
+            window.console.dir(liveexpert);
+            //liveexpert.startCall();
         }
        
         showVideo() {            

@@ -179,6 +179,7 @@
     <TypeScriptCompile Include="Scripts\Common\insite.base-upload.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Account\nbf.sign-in.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Cart\nbf.cart.service.ts" />
+    <TypeScriptCompile Include="Scripts\Custom\Catalog\nbf.product-search.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\ContactUs\nbf.contact-us.controller.ts" />
     <TypeScriptCompile Include="Scripts\nbf.custom.models.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Account\nbf.account-settings.controller.ts" />

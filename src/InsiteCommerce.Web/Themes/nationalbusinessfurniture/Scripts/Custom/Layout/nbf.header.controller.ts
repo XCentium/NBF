@@ -174,6 +174,12 @@
             $activeElement.blur();
         }
 
+        protected requestQuote(uri: string): void {
+            this.$rootScope.$broadcast("initAnalyticsEvent", "MiniCartQuoteRequest");
+            window.location.href = uri;
+
+        }
+
     }
 
     angular
