@@ -7,7 +7,7 @@
     export class NbfCategoryLeftNavController extends CategoryLeftNavController {
         
         static $inject = ["$timeout", "$window", "$scope", "$rootScope", "sessionService"];
-        fakeCheckBoxes = [];
+        filterCheckBoxesModel: { [key: string]: boolean; } = {};
 
         constructor(
             protected $timeout: ng.ITimeoutService,
@@ -86,10 +86,11 @@
             $('.exrta-filter-wrap').toggleClass('collapsed');
         }
         toggleFacet(i): void {
-            console.log(i);
-            var element = $('#' + i);
-            $('.product-list-filters .accord-check').not(element).prop('checked', false);
-            console.log(element.prop('checked'));
+            for (let key in this.filterCheckBoxesModel) {
+                if (key !== i) {
+                    this.filterCheckBoxesModel[key] = false;
+                }
+            }
         }
 
 
