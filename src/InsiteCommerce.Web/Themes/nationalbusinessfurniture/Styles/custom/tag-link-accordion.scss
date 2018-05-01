@@ -12,10 +12,11 @@
         line-height: 18px;
 
         &:after {
-            content: "\f068";
-            left: 10px;
+            content: "\f067";
+            left: 6px;
             right: auto;
-            top: 12px;
+            top: 10px;
+            font-family: $FontAwesome;
         }
     }
 
@@ -25,7 +26,8 @@
         border: 1px solid $divider-gray;
 
         &:after {
-            content: "\f067";
+            content: "\f068";
+            font-family: $FontAwesome;
         }
     }
 
