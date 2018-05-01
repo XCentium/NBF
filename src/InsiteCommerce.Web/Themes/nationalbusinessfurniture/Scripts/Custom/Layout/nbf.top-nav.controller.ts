@@ -63,7 +63,8 @@
                 self.$rootScope.$broadcast("initAnalyticsEvent", "LiveVideoChatStarted");
             });
 
-            $(".liveExpert-widget .option-text").click(function () {
+            $("#liveExpert-widget").click(function (event) {
+                console.dir(event);
                 self.$rootScope.$broadcast("initAnalyticsEvent", "LiveTextChatStarted");
             });
             // live-expert
@@ -101,7 +102,14 @@
                     location.href = navigationUri;
                 }
             });
+
+            this.$scope.$on("$locationChangeStart", (event, session) => {
+                console.dir(location);
+                console.dir(document);
+            });
+
             this.$scope.$on("$locationChangeSuccess", (event, session) => {
+                console.dir(event);
                 setTimeout(function () {
                     self.$scope.$broadcast("initAnalyticsEvent", "PageLoad", null, self.analyticsService.Data);
                 }, 1000);
