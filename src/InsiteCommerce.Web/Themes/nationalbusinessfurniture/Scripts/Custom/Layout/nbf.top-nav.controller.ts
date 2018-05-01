@@ -105,8 +105,6 @@
                 setTimeout(function () {
                     self.$scope.$broadcast("initAnalyticsEvent", "PageLoad", null, self.analyticsService.Data);
                 }, 1000);
-                
-                
             });
         }
 
