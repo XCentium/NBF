@@ -37,7 +37,6 @@
                 }
             }
             this.analyticsService.Data = data;
-            
         }
 
         init(): void {
@@ -147,6 +146,7 @@
         setCartData(cart: CartModel): void {
             
             var product = new nbf.analytics.AnalyticsCartItem();
+            this.analyticsService.Data.cart.items = [];
             cart.cartLines.forEach((p) => {
                 product.description = p.shortDescription;
 
