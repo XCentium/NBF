@@ -34,7 +34,6 @@
                 if (data.profile.isAuthenticated == true) {
                     data.profile.profileInfo.email = this.session.email;
                     data.profile.profileInfo.profileId = this.session.userName;
-                    }
                 }
             }
             this.analyticsService.Data = data;
