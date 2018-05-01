@@ -10,12 +10,15 @@
         color: $nbf-navy;
         font-size: 24px;
         line-height: 18px;
+        background-color: #F8F8F8;
 
         &:after {
-            content: "\f068";
+            content: "\f067";
             left: 10px;
+            font-size: 14px;
             right: auto;
-            top: 12px;
+            top: 14px;
+            font-family: $FontAwesome;
         }
     }
 
@@ -25,7 +28,8 @@
         border: 1px solid $divider-gray;
 
         &:after {
-            content: "\f067";
+            content: "\f068";
+            font-family: $FontAwesome;
         }
     }
 
