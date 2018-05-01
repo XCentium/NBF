@@ -3860,7 +3860,7 @@ blockquote p {
 
 @media print {
   * {
-    background: transparent !important;
+    background: transparent;
     color: black !important;
     /* Black prints faster: h5bp.com/s */
     box-shadow: none !important;

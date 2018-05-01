@@ -329,6 +329,7 @@
     <Compile Include="Handlers\AddSessionHandlerNBF.cs" />
     <Compile Include="Handlers\AddCustomer.cs" />
     <Compile Include="Handlers\AddWishListHandler\AddWishList.cs" />
+    <Compile Include="Handlers\GetCartHandler\BeforeCalculateTaxes.cs" />
     <Compile Include="Handlers\GetDashboardPanelCollectionHandlerNBF.cs" />
     <Compile Include="Handlers\GetProductCollectionHandler\AfterProductListRetrived.cs" />
     <Compile Include="Handlers\GetProductCollectionHandler\FindProductsWithSearch.cs" />
