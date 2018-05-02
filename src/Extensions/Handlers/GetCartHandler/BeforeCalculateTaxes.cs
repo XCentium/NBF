@@ -48,9 +48,14 @@ namespace Insite.Cart.Services.Handlers.GetCartHandler
             if (SiteContext.Current.BillTo != null)
             {
                 var cp = SiteContext.Current.BillTo.CustomProperties?.FirstOrDefault(x =>
-                    x.Name.Equals("contractTypeDisplayName", StringComparison.CurrentCultureIgnoreCase));
+                    x.Name.Equals("taxExemptFileName", StringComparison.CurrentCultureIgnoreCase));
 
-                if (cp != null && cp.Value == "GSA")
+                //if (cp != null && cp.Value == "GSA")
+                //{
+                //    parameter.CalculateTax = false;
+                //}
+
+                if (cp != null && !string.IsNullOrEmpty(cp.Value) && !string.IsNullOrWhiteSpace(cp.Value))
                 {
                     parameter.CalculateTax = false;
                 }
