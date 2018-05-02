@@ -2582,25 +2582,29 @@ header div.head-cm {
     width: 25%;
     padding: 0 0 33px !important;
     max-width: 273px;
+    overflow: hidden;
     float: left;
     position: relative;
     border: 1px solid $divider-gray;
+
     .favorite-btn {
-        position:absolute;
-        top:5px;
-        right:5px;
-        a{
-            display:inline;
-            padding:0;
+        position: absolute;
+        top: 5px;
+        right: 5px;
+
+        a {
+            display: inline;
+            padding: 0;
 
             &:before {
-                padding-right:0;
+                padding-right: 0;
             }
         }
     }
+
     a {
-        img{
-            width:100%;
+        img {
+            width: 100%;
         }
     }
 }
