@@ -39,7 +39,7 @@ module insite.catalog {
 
         protected reloadCarousel(): void {
             const itemsNum = Math.floor((this.carouselWidth + this.carousel.vars.itemMargin) / (this.carousel.vars.itemWidth + this.carousel.vars.itemMargin));
-            this.showImageCarouselArrows(this.carousel.count > itemsNum);
+            this.showImageCarouselArrows(this.carousel.count > 4);
             const carouselWidth = (this.carousel.vars.itemWidth + this.carousel.vars.itemMargin) * this.carousel.count - this.carousel.vars.itemMargin;
             $(`#${this.prefix}-img-carousel-wrapper`)/*.css("width", carouselWidth).css("max-width", this.carouselWidth)*/.css("visibility", "visible").css("position", "relative");
 
@@ -52,7 +52,6 @@ module insite.catalog {
                 $(`.${this.prefix}-carousel-control-nav`).show();
             } else {
                 $(`.${this.prefix}-carousel-control-nav`).hide();
-                $(`.${this.prefix}-carousel-control-nav`).show();
             }
         }
 

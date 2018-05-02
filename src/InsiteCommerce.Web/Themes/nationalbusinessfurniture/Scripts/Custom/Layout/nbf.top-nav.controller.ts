@@ -37,7 +37,6 @@
                 }
             }
             this.analyticsService.Data = data;
-            
         }
 
         init(): void {
@@ -64,7 +63,8 @@
                 self.$rootScope.$broadcast("initAnalyticsEvent", "LiveVideoChatStarted");
             });
 
-            $(".liveExpert-widget .option-text").click(function () {
+            $("#liveExpert-widget").click(function (event) {
+                console.dir(event);
                 self.$rootScope.$broadcast("initAnalyticsEvent", "LiveTextChatStarted");
             });
             // live-expert
@@ -102,12 +102,17 @@
                     location.href = navigationUri;
                 }
             });
+
+            this.$scope.$on("$locationChangeStart", (event, session) => {
+                console.dir(location);
+                console.dir(document);
+            });
+
             this.$scope.$on("$locationChangeSuccess", (event, session) => {
+                console.dir(event);
                 setTimeout(function () {
                     self.$scope.$broadcast("initAnalyticsEvent", "PageLoad", null, self.analyticsService.Data);
                 }, 1000);
-                
-                
             });
         }
 
@@ -118,6 +123,19 @@
             this.analyticsService.Data.pageInfo.internalSearch = internalSearch;
         }
 
+        protected getAttributeValue(product: ProductDto, attrName: string): string {
+            let retVal: string = '';
+
+            if (product && product.attributeTypes) {
+                var attrType = product.attributeTypes.find(x => x.name == attrName && x.isActive == true);
+
+                if (attrType && attrType.attributeValues && attrType.attributeValues.length > 0) {
+                    retVal = attrType.attributeValues[0].valueDisplay;
+                }
+            }
+
+            return retVal;
+        }
         setProductData(product: ProductDto): void {
 
             this.analyticsService.Data.product.productInfo.basePrice = product.basicListPrice;
@@ -126,7 +144,7 @@
             this.analyticsService.Data.product.productInfo.salePrice = product.basicSalePrice;
             this.analyticsService.Data.product.productInfo.sku = product.erpNumber;
             this.analyticsService.Data.product.productInfo.vendor = product.vendorNumber;
-            this.analyticsService.Data.product.productInfo.collection = '';
+            this.analyticsService.Data.product.productInfo.collection = this.getAttributeValue(product, "Collection");
             this.analyticsService.Data.product.productInfo.category = '';
             if (product.relatedProducts.length > 0) {
                 product.relatedProducts.forEach((rp) => {
@@ -147,6 +165,7 @@
         setCartData(cart: CartModel): void {
             
             var product = new nbf.analytics.AnalyticsCartItem();
+            this.analyticsService.Data.cart.items = [];
             cart.cartLines.forEach((p) => {
                 product.description = p.shortDescription;
 
