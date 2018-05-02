@@ -61,7 +61,10 @@ namespace Extensions.Widgets
                         keyList.Add(tag.cif.ContentKey);
                         foreach (var tagItem in (List<string>) tag.cif.ObjectValue.ToObject())
                         {
-                            tagSet.Add(tagItem);
+                            if (!string.IsNullOrEmpty(tagItem) && !string.IsNullOrWhiteSpace(tagItem))
+                            {
+                                tagSet.Add(tagItem);
+                            }
                         }
                     }
                 }
