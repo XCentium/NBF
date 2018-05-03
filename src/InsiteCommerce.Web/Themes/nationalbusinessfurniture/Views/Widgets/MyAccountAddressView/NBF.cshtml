@@ -13,7 +13,7 @@
                                 <div class="address1">{{vm.billTo.address1}}</div>
                                 <div class="address2" ng-if="vm.billTo.address2">{{vm.billTo.address2}}</div>
                                 <div class="phone" ng-if="vm.billTo.phone">Phone: {{vm.billTo.phone}}</div>
-                                <div class="email" ng-if="vm.billTo.email">Email: {{vm.billTo.email}}</div>
+                                <div class="email" title="{{vm.billTo.email}}" ng-if="vm.billTo.email">Email: {{vm.billTo.email}}</div>
                             </div>
                             <form id="addressForm" ng-if="vm.billTo.properties['edit'] == 'true'" class="shortform">
                                 <nbf-address-edit prefix="bt" address="vm.billTo" countries="vm.countries" address-fields="vm.addressFields.billToAddressFields"
@@ -39,7 +39,7 @@
                                 <div class="address1">{{shipTo.address1}}</div>
                                 <div class="address2" ng-if="shipTo.address2">{{shipTo.address2}}</div>
                                 <div class="phone" ng-if="shipTo.phone">Phone: {{shipTo.phone}}</div>
-                                <div class="email" ng-if="shipTo.email">Email: {{shipTo.email}}</div>
+                                <div class="email" title="{{vm.billTo.email}}" ng-if="shipTo.email">Email: {{shipTo.email}}</div>
                             </div>
                             <form id="addressForm" ng-if="shipTo.properties['edit'] == 'true'"  class="shortform">
                                 <nbf-address-edit prefix="st" address="shipTo" countries="vm.countries" address-fields="vm.addressFields.shipToAddressFields"
