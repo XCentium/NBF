@@ -99,8 +99,7 @@ module nbf.analytics {
         Login: "Login" as AnalyticsEvent,
         CrossSellSelected: "CrossSellSelected" as AnalyticsEvent,
         EmailSignUp: "EmailSignUp" as AnalyticsEvent,
-        LiveVideoChatStarted: "LiveVideoChatStarted" as AnalyticsEvent,
-        LiveTextChatStarted: "LiveTextChatStarted" as AnalyticsEvent,
+        LiveChatStarted: "LiveChatStarted" as AnalyticsEvent,
         ProductAddedToCart: "ProductAddedToCart" as AnalyticsEvent,
         CheckoutInitiated: "CheckoutInitiated" as AnalyticsEvent,
         Selected360View: "Selected360View" as AnalyticsEvent,
@@ -113,8 +112,7 @@ module nbf.analytics {
     }
 
     export type AnalyticsEvent = "PageLoad" | "ProductPageView" | "SwatchRequest" | "CatalogRequest" | "QuoteRequest" | "MiniCartQuoteRequest" | "InternalSearch" | "SuccessfulSearch" | 
-        "FailedSearch" | "ContactUsInitiated" | "ContactUsCompleted" | "AccountCreation" | "CheckoutAccountCreation" | "Login" | "CrossSellSelected" | "EmailSignUp" | "LiveVideoChatStarted" | 
-        "LiveTextChatStarted" | "ProductAddedToCart" | "CheckoutInitiated" | "ProductQuestionAsked" | "Selected360View" | "AddProductToWishlist" | "SaveOrderFromCartPage" | "ContinueShoppingFromCartPage" |
+        "FailedSearch" | "ContactUsInitiated" | "ContactUsCompleted" | "AccountCreation" | "CheckoutAccountCreation" | "Login" | "CrossSellSelected" | "EmailSignUp" | "LiveChatStarted" |  "ProductAddedToCart" | "CheckoutInitiated" | "ProductQuestionAsked" | "Selected360View" | "AddProductToWishlist" | "SaveOrderFromCartPage" | "ContinueShoppingFromCartPage" |
         "ReadReviewsSelected" | "MiniCartHover" | "SaveCart";
 
 }
