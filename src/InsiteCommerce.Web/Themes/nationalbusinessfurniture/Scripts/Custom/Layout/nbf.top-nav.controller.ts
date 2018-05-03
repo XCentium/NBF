@@ -8,6 +8,7 @@
         currencies: any[];
         session: any;
         dashboardUrl: string;
+        product: ProductDto = null;
         
         static $inject = ["$scope", "$window", "$attrs", "sessionService", "websiteService", "coreService", "analyticsService", "$rootScope"];
 
@@ -37,6 +38,7 @@
                 }
             }
             this.analyticsService.Data = data;
+            console.dir(data);
         }
 
         init(): void {
@@ -50,7 +52,6 @@
             this.$scope.$on("sessionUpdated", (event, session) => {
                 this.onSessionUpdated(session);
             });
-            var self = this;
             var dataLayer = new nbf.analytics.AnalyticsDataLayer();
             this.analyticsService.Data = dataLayer;
 
@@ -58,13 +59,11 @@
                 this.setCartData(cart);
             });
 
-            // click events not working with live-expert and questions
-            $(".option-video").click(function () {
-                self.$rootScope.$broadcast("initAnalyticsEvent", "LiveVideoChatStarted");
-            });
-
-            $(".liveExpert-widget .option-text").click(function () {
-                self.$rootScope.$broadcast("initAnalyticsEvent", "LiveTextChatStarted");
+            // click events for live-expert 
+            $(document).on('click', '.live-chat-link', function () {
+                
+                self.initAnalyticsEvent("LiveChatStarted", null, null, null);
+                self.setLiveExpertsWidget();
             });
             // live-expert
             
@@ -74,38 +73,48 @@
 
             $(".head-row .cart-button").hover(function () {
                 $(this).unbind('mouseenter mouseleave')
+                
                 self.$rootScope.$broadcast("initAnalyticsEvent", "MiniCartHover");
             });
-            
-            this.$scope.$on("initAnalyticsEvent", (event, analyticsEvent, navigationUri, analyticsData, data2) => {
-                if (analyticsData) {
-                    this.analyticsService.Data = analyticsData;
-                }
-                this.getPageData();
-                if (analyticsEvent == "EmailSignUp") {
-                    this.analyticsService.Data.profile.profileInfo.email = data2;
-                }
-
-                if (analyticsEvent == "ProductPageView") {
-                    this.setProductData(data2);
-                }
-
-                if (analyticsEvent == "FailedSearch" || analyticsEvent == "SuccessfulSearch") {
-                    this.setSearchData(data2);
-                }
-                
-                this.analyticsService.FireEvent(analyticsEvent);
-                window.console.log("firing " + analyticsEvent);
-                window.console.dir(this.analyticsService.Data);
-                if (navigationUri) {
-                    location.href = navigationUri;
-                }
+            this.$rootScope.$on("productPageLoaded", (event, product) => {
+                this.product = product;
             });
+            
+            this.$rootScope.$on("initAnalyticsEvent", (event, analyticsEvent, navigationUri, analyticsData, data2) => {
+                this.initAnalyticsEvent(analyticsEvent, navigationUri, analyticsData, data2);
+            });
+
             this.$scope.$on("$locationChangeSuccess", (event, session) => {
                 setTimeout(function () {
                     self.$scope.$broadcast("initAnalyticsEvent", "PageLoad", null, self.analyticsService.Data);
                 }, 1000);
             });
+        }
+
+        initAnalyticsEvent(analyticsEvent, navigationUri, analyticsData, data2) {
+            if (analyticsData) {
+                this.analyticsService.Data = analyticsData;
+            }
+            console.log("getPageData()");
+            this.getPageData();
+            if (analyticsEvent == "EmailSignUp") {
+                this.analyticsService.Data.profile.profileInfo.email = data2;
+            }
+
+            if (analyticsEvent == "ProductPageView") {
+                this.setProductData(data2);
+            }
+
+            if (analyticsEvent == "FailedSearch" || analyticsEvent == "SuccessfulSearch") {
+                this.setSearchData(data2);
+            }
+
+            this.analyticsService.FireEvent(analyticsEvent);
+            window.console.log("firing " + analyticsEvent);
+            window.console.dir(this.analyticsService.Data);
+            if (navigationUri) {
+                location.href = navigationUri;
+            }
         }
 
         setSearchData(search: nbf.analytics.AnalyticsPageSearchInfo): void {
@@ -314,6 +323,39 @@
         }
 
         protected updateSessionFailed(error: any): void {
+        }
+        
+        protected setLiveExpertsWidget() {
+            var self = this;
+            setTimeout(function () {
+                var liveExpertConfig = {
+                    enterpriseURL: 'liveexpert.net',
+                    sourceHost: 'assets.liveexpert.net',
+                    assetLocation: 'nbf/hidden-widget/nbf',
+                    widgetViewDelegate: 'hiddenWidgetViewDelegate',
+                    apiURL: 'api.liveexpert.net',
+                    companyID: 31,
+                    language: 'EN',
+                    //callTypeID: 4, // //4=text chat 1=video 2=voice null=select option
+                    categoryID: 122
+                };
+
+                if (self.product) {
+                    let liveProductDemoAttr = self.getAttributeValue(self.product, "Live Product Demo");
+                    if (liveProductDemoAttr != null && liveProductDemoAttr == "Yes"
+                        && self.product.modelNumber != null
+                    ) {
+                        var catId = parseInt(self.product.modelNumber);
+                        if (catId) { liveExpertConfig.categoryID = catId; }
+
+                    }
+                }
+                //liveExpertConfig.callTypeID = 4;  //text chat 1=video 2=voice 
+                let liveexpert = self.$window["liveexpert"];
+                liveexpert.LEAWidget.init(liveExpertConfig);
+                
+                liveexpert.startCall();
+            }, 2000);
         }
 
         closeTopMessage(): void {

@@ -3,7 +3,6 @@
     <span>[[Model.Drop.SignOutText]]</span>
 </a>
 [% endcapture %]
-
 <script type="text/javascript">
     var insite = insite || {};
     insite.navAdjustments = [];
@@ -303,7 +302,7 @@
                                     <span>
                                         <a href="javascript: void(0);" ng-click="vm.saveCart('[% urlForPage 'SavedOrderDetailPage' %]', '[% urlForPage 'SignInPage' %]')">Save Cart</a>
                                     </span>
-                                    <span class="right"><a href="[% urlForPage 'RfqRequestQuotePage' %]" ng-bind="'[% translate 'Request Quote' %]'" ng-disabled="vm.cart.isAwaitingApproval"></a></span>
+                                    <span class="right"><a href="" ng-click="vm.requestQuote('[% urlForPage 'RfqRequestQuotePage' %]')" ng-bind="'[% translate 'Request Quote' %]'" ng-disabled="vm.cart.isAwaitingApproval"></a></span>
                                 </div>
                             </div>
                         </div>

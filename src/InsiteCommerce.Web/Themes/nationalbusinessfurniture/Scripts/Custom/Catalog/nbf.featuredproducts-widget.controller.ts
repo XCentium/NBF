@@ -108,6 +108,17 @@
             return retVal;
         }
 
+        protected getSwatchesCount(swatchesJson): number {
+            let retVal = 0;
+            if (swatchesJson) {
+                let swatches = JSON.parse(swatchesJson) as any[];
+
+                retVal = swatches.length;                    
+            }
+
+            return retVal;
+        }
+
         protected isAttributeValue(product: ProductDto, attrName: string, attrValue: string): boolean {
             let retVal: boolean = false;
 

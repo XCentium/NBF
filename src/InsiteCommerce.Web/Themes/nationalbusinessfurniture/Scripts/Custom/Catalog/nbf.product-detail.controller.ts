@@ -247,7 +247,7 @@
         protected getProductCompleted(productModel: ProductModel): void {
             this.product = productModel.product;
 
-            
+            this.$rootScope.$broadcast("productPageLoaded", this.product);
             this.$rootScope.$broadcast("initAnalyticsEvent", "ProductPageView", null, null, this.product);
             
             this.product.qtyOrdered = this.product.minimumOrderQty || 1;
@@ -294,7 +294,7 @@
             this.resourceAndAssemblyDocs = this.product.documents.filter(x => x.documentType != "video");
 
             setTimeout(() => {
-                this.setLiveExpertsWidget();
+                //this.setLiveExpertsWidget();
                 this.setPowerReviews();
             }, 1000);            
         }   
@@ -315,34 +315,21 @@
                 }
             };
 
+
             let powerReviews = this.$window["POWERREVIEWS"];
-            powerReviews.display.render(powerReviewsConfig)
+            powerReviews.display.render(powerReviewsConfig);
+
+            $(document).on('click', '.pr-qa-display-btn', function () {
+                this.$rootScope.$broadcast("initAnalyticsEvent", "ProductQuestionAsked");
+            });
+
+            $(document).on('click', '.pr-snippet-review-count', function () {
+                this.$rootScope.$broadcast("initAnalyticsEvent", "ReadReviewsSelected");
+            });
         }
 
-        protected setLiveExpertsWidget() {
-            var liveExpertConfig = {
-                enterpriseURL: 'liveexpert.net',
-                sourceHost: 'assets.liveexpert.net',
-                assetLocation: 'nbf/multiButton/nbf',
-                apiURL: 'api.liveexpert.net',
-                companyID: 31,
-                language: 'EN',
-                callTypeID: 1,
-                micEnabled: false,
-                camEnabled: false,
-                categoryID: null
-            };
-
-            let liveProductDemoAttr = this.getAttributeValue("Live Product Demo");
-            if (liveProductDemoAttr != null && liveProductDemoAttr == "Yes"
-                && this.product.modelNumber != null
-            )
-            {
-                liveExpertConfig.categoryID = this.product.modelNumber;
-            }
-
-            let liveexpert = this.$window["liveexpert"];
-            liveexpert.LEAWidget.init(liveExpertConfig);
+        protected readReviews() {
+            console.dir("reading reviews");
         }
        
         showVideo() {            
