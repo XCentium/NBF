@@ -18,10 +18,12 @@ begin
 	select distinct
 		left(co.BTFirstName,15), left(co.BTLastName,15), left(co.BTCompanyName,35), left(co.BTAddress1,30), left(co.BTAddress2,30), 
 		left(co.BTAddress3,5), left(co.BTAddress4,15),
-		left(co.BTCity,50), left(co.BTState,2), left(co.BTPostalCode,10), left(co.BTCountry,50), left(co.BTPhone,3), 
+		left(co.BTCity,50), left(BTState.Abbreviation,2), left(co.BTPostalCode,10), left(BTCountry.Abbreviation,50), left(co.BTPhone,3), 
 		right(co.BTPhone, 7), left(co.BTEmail,100), co.CustomerNumber, ''
 	from 
 		CustomerOrder co
+		join State BTState on BTState.Name = co.BTState
+		join Country BTCountry on BTCountry.Name = co.BTCountry
 	where
 		co.[Status] = 'Submitted'
 		and not exists (
@@ -55,10 +57,12 @@ begin
 	select distinct
 		left(co.STFirstName,15), left(co.STLastName,15), left(co.STCompanyName,35), left(co.STAddress1,30), left(co.STAddress2,30), 
 		left(co.STAddress3,5), left(co.STAddress4,15),
-		left(co.STCity,50), left(co.STState,2), left(co.STPostalCode,10), left(co.STCountry,50), left(co.STPhone,3), 
+		left(co.STCity,50), left(STState.Abbreviation,2), left(co.STPostalCode,10), left(STCountry.Abbreviation,50), left(co.STPhone,3), 
 		right(co.STPhone, 7), left(co.STEmail,100), co.CustomerNumber, ''
 	from 
 		CustomerOrder co
+		join State STState on STState.Name = co.STState
+		join Country STCountry on STCountry.Name = co.STCountry
 	where
 		co.[Status] = 'Submitted'
 		and not exists (
