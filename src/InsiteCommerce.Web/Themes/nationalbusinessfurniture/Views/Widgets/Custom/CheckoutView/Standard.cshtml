@@ -160,7 +160,9 @@
                                                 <span ng-bind="vm.cart.shipVia.description"></span>
                                             </div>
                                             <div class="oc-order-notes" ng-if="vm.cart.notes.trim().length > 0">
-                                                <h3>[% translate 'Order Notes' %]:</h3>
+                                                <div class="oc-head" style="margin-top:20px;">
+                                                    <p><strong>[% translate 'Order Notes' %]:</strong></p>
+                                                </div>
                                                 <div ng-bind="vm.cart.notes"></div>
                                             </div>
                                         </div>

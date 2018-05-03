@@ -70,8 +70,8 @@
                 line-height: 19px;
                 color: $nbf-navy;
 
-                .item-block__product__ships-today{
-                    text-align:left;
+                .item-block__product__ships-today {
+                    text-align: left;
                 }
             }
 
@@ -94,7 +94,7 @@
                 color: #fff;
                 font-weight: bold;
                 line-height: 16px;
-                font-size:14px;
+                font-size: 14px;
             }
         }
 
@@ -134,6 +134,10 @@
 
                     .selected-uom {
                         display: none;
+                    }
+
+                    .strike{
+                        text-decoration:line-through;
                     }
                 }
 
