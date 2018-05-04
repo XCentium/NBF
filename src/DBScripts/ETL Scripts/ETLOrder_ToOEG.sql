@@ -29,6 +29,8 @@ begin
 		and not exists (
 			select [idStatusCustomer] 
 			from OEGSystemStaging.dbo.StatusCustomer
+			join State BTState on BTState.Name = co.BTState
+			join Country BTCountry on BTCountry.Name = co.BTCountry
 			where	co.CustomerNumber = [cst_WebCustomerNumber]
 					and	[cst_CntFName] = left(co.BTFirstName,15)
 					and [cst_CntLName] = left(co.BTLastName,15)
@@ -38,9 +40,9 @@ begin
 					and [cst_Suite] = left(co.BTAddress3,5)
 					and [cst_POBox] = left(co.BTAddress4,15)
 					and [cst_City] = left(co.BTCity,50)
-					and [cst_State] = left(co.BTState,2)
+					and [cst_State] = left(BTState.Abbreviation,2)
 					and [cst_ZipCode] = left(co.BTPostalCode,10)
-					and [cst_Country] = left(co.BTCountry,50)
+					and [cst_Country] = left(BTCountry.Abbreviation,50)
 					and [cst_PhoneArea] = left(co.BTPhone,3)
 					and [cst_Phone] = right(co.BTPhone, 7)
 					and [cst_EmailAddr] = left(co.BTEmail,100)
@@ -68,6 +70,8 @@ begin
 		and not exists (
 			select [idStatusCustomer] 
 			from OEGSystemStaging.dbo.StatusCustomer
+			join State STState on STState.Name = co.STState
+			join Country STCountry on STCountry.Name = co.STCountry
 			where	co.CustomerNumber = [cst_WebCustomerNumber]
 					and	[cst_CntFName] = left(co.STFirstName,15)
 					and [cst_CntLName] = left(co.STLastName,15)
@@ -77,9 +81,9 @@ begin
 					and [cst_Suite] = left(co.STAddress3,5)
 					and [cst_POBox] = left(co.STAddress4,15)
 					and [cst_City] = left(co.STCity,50)
-					and [cst_State] = left(co.STState,2)
+					and [cst_State] = left(STState.Abbreviation,2)
 					and [cst_ZipCode] = left(co.STPostalCode,10)
-					and [cst_Country] = left(co.STCountry,50)
+					and [cst_Country] = left(STCountry.Abbreviation,50)
 					and [cst_PhoneArea] = left(co.STPhone,3)
 					and [cst_Phone] = right(co.STPhone, 7)
 					and [cst_EmailAddr] = left(co.STEmail,100)
@@ -127,6 +131,8 @@ begin
 	from 
 		CustomerOrder co
 		left join maxCCT on maxCCT.CustomerOrderId = co.Id
+		join State BTState on BTState.Name = co.BTState
+		join Country BTCountry on BTCountry.Name = co.BTCountry
 		join OEGSystemStaging.dbo.StatusCustomer bt on bt.cst_WebCustomerNumber = co.CustomerNumber
 					and	bt.[cst_CntFName] = left(co.BTFirstName,15)
 					and bt.[cst_CntLName] = left(co.BTLastName,15)
@@ -136,12 +142,14 @@ begin
 					and bt.[cst_Suite] = left(co.BTAddress3,5)
 					and bt.[cst_POBox] = left(co.BTAddress4,15)
 					and bt.[cst_City] = left(co.BTCity,50)
-					and bt.[cst_State] = left(co.BTState,2)
+					and bt.[cst_State] = left(BTState.Abbreviation,2)
 					and bt.[cst_ZipCode] = left(co.BTPostalCode,10)
-					and bt.[cst_Country] = left(co.BTCountry,50)
+					and bt.[cst_Country] = left(BTCountry.Abbreviation,50)
 					and bt.[cst_PhoneArea] = left(co.BTPhone,3)
 					and bt.[cst_Phone] = right(co.BTPhone, 7)
 					and bt.[cst_EmailAddr] = left(co.BTEmail,100)
+		join State STState on STState.Name = co.STState
+		join Country STCountry on STCountry.Name = co.STCountry
 		join OEGSystemStaging.dbo.StatusCustomer st on st.cst_WebCustomerNumber = co.CustomerNumber
 					and	st.[cst_CntFName] = left(co.STFirstName,15)
 					and st.[cst_CntLName] = left(co.STLastName,15)
@@ -151,9 +159,9 @@ begin
 					and st.[cst_Suite] = left(co.STAddress3,5)
 					and st.[cst_POBox] = left(co.STAddress4,15)
 					and st.[cst_City] = left(co.STCity,50)
-					and st.[cst_State] = left(co.STState,2)
+					and st.[cst_State] = left(STState.Abbreviation,2)
 					and st.[cst_ZipCode] = left(co.STPostalCode,10)
-					and st.[cst_Country] = left(co.STCountry,50)
+					and st.[cst_Country] = left(STCountry.Abbreviation,50)
 					and st.[cst_PhoneArea] = left(co.STPhone,3)
 					and st.[cst_Phone] = right(co.STPhone, 7)
 					and st.[cst_EmailAddr] = left(co.STEmail,100)	
@@ -257,7 +265,7 @@ begin
 	)
 	select
 		svo.idStatusVendorOrder, co.Id, left(s.Value,3), parentP.ERPNumber, p.ShortDescription,
-		p.ManufacturerItem, p.Sku, ol.QtyOrdered, ol.UnitNetPrice, 0, 0,
+		p.ManufacturerItem, p.Sku, ol.QtyOrdered, ol.UnitNetPrice, p.ShippingAmountOverride, 0,
 		ol.UnitListPrice, p.Name
 	from 
 		CustomerOrder co
