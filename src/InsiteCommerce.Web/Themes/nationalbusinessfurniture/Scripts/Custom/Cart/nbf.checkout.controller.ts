@@ -184,7 +184,7 @@
         }
 
         protected getAddressFieldsCompleted(addressFields: AddressFieldCollectionModel): void {
-            //debugger;
+            
             this.addressFields = addressFields;
 
             this.cartService.expand = "shiptos,validation,cartlines";
@@ -206,7 +206,7 @@
         }
 
         protected getCartInitial(cartId: string) {
-            //debugger;
+            
             this.cartService.getCart(this.cartId).then(
                 (cart: CartModel) => {
                     this.getCartCompleted(cart);
@@ -224,7 +224,7 @@
         }
 
         protected getCartCompleted(cart: CartModel): void {
-            //debugger;
+            
             this.cartService.expand = "";
             this.cart = cart;
 
@@ -262,14 +262,18 @@
             this.promotionService.getCartPromotions(this.cart.id).then(
                 (promotionCollection: PromotionCollectionModel) => {
                     this.getCartPromotionsCompleted(promotionCollection);
-                });
+                });     
 
-            let baseProductErpNumbers = cart.cartLines.map(x => x.erpNumber.split("_")[0]);
+            this.updateCartLineAttributes();
+        }
+
+        protected updateCartLineAttributes() {
+            let baseProductErpNumbers = this.cart.cartLines.map(x => x.erpNumber.split("_")[0]);
             const expand = ["attributes"];
             const parameter: insite.catalog.IProductCollectionParameters = { erpNumbers: baseProductErpNumbers };
             this.productService.getProducts(parameter, expand).then(
                 (productCollection: ProductCollectionModel) => {
-                    cart.cartLines.forEach(cartLine => {
+                    this.cart.cartLines.forEach(cartLine => {
                         let erpNumber = cartLine.erpNumber.split("_")[0];
                         let baseProduct = productCollection.products.find(x => x.erpNumber === erpNumber);
 
@@ -628,6 +632,8 @@
                     this.loadStep2();
                 }
             }
+
+            this.updateCartLineAttributes();
         }
 
         protected getCartAfterChangeShipToFailed(error: any): void {
@@ -759,6 +765,8 @@
                 (countryCollection: CountryCollectionModel) => {
                     this.getCountriesCompletedForReviewAndPay(countryCollection);
                 });
+
+            this.updateCartLineAttributes();
         }
 
         protected onCartChanged(event: ng.IAngularEvent): void {
@@ -920,7 +928,9 @@
             $("html:not(:animated), body:not(:animated)").animate({
                     scrollTop: $("#nav1").offset().top
                 },
-                200);            
+                200);  
+
+            this.updateCartLineAttributes();
         }
 
         protected isAttributeValue(product: ProductDto, attrName: string, attrValue: string): boolean {
@@ -1410,6 +1420,8 @@
                 (promotionCollection: PromotionCollectionModel) => {
                     this.getCartPromotionsCompleted(promotionCollection);
                 });
+
+            this.updateCartLineAttributes();
         }
 
         protected getOrderCompleted(orderHistory: OrderModel): void {
