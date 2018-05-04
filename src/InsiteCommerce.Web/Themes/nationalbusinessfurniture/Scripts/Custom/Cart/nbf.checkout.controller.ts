@@ -1057,6 +1057,7 @@
         }
 
         submit(signInUri: string, emailTo: string): void {
+            var self = this;
             this.submitting = true;
             this.submitErrorMessage = "";
 
@@ -1107,6 +1108,7 @@
                                 this.cart.billTo,
                                 this.cart.shipTo).then(
                                 () => {
+                                    self.$rootScope.$broadcast("initAnalyticsEvent", "CheckoutAccountCreation");
                                     this.newUser = true;
                                     this.submitOrder(signInUri);
                                 });
@@ -1118,6 +1120,10 @@
         }
 
         protected submitOrder(signInUri: string) {
+            if ((this.cart.cartLines.filter((line: CartLineModel) => line.erpNumber.search('^[^:]*[:][^:]*[:][^:]*$') > 0)).length > 0) {
+                this.$rootScope.$broadcast("initAnalyticsEvent", "SwatchRequest");
+            }
+            this.$rootScope.$broadcast("initAnalyticsEvent", "CheckoutInitiated");
             this.sessionService.getIsAuthenticated().then(
                 (isAuthenticated: boolean) => {
                     this.getIsAuthenticatedForSubmitCompleted(isAuthenticated, signInUri);

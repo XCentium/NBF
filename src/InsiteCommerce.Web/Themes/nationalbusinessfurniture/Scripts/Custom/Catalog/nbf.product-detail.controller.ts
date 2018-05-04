@@ -247,7 +247,7 @@
         protected getProductCompleted(productModel: ProductModel): void {
             this.product = productModel.product;
 
-            
+            this.$rootScope.$broadcast("productPageLoaded", this.product);
             this.$rootScope.$broadcast("initAnalyticsEvent", "ProductPageView", null, null, this.product);
             
             this.product.qtyOrdered = this.product.minimumOrderQty || 1;
@@ -314,13 +314,22 @@
                 }
             };
 
+
             let powerReviews = this.$window["POWERREVIEWS"];
             powerReviews.display.render(powerReviewsConfig);
 
             $(document).on('click', '.pr-qa-display-btn', function () {
                 this.$rootScope.$broadcast("initAnalyticsEvent", "ProductQuestionAsked");
             });
-        }        
+
+            $(document).on('click', '.pr-snippet-review-count', function () {
+                this.$rootScope.$broadcast("initAnalyticsEvent", "ReadReviewsSelected");
+            });
+        }
+
+        protected readReviews() {
+            console.dir("reading reviews");
+        }
        
         showVideo() {            
             this.setVideo2(this.product.properties["videoFile"]);

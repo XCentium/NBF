@@ -9,11 +9,11 @@
         catalogPrefs: any = {};
         submitted: boolean = false;
         $form: JQuery;
-        static $inject = ["$element", "$scope", "$window", "nbfEmailService", "$attrs"];
+        static $inject = ["$element", "$rootScope", "$window", "nbfEmailService", "$attrs"];
 
         constructor(
             protected $element: ng.IRootElementService,
-            protected $scope: ng.IScope,
+            protected $rootScope: ng.IRootScopeService,
             protected $window: ng.IWindowService,
             protected nbfEmailService: email.INbfEmailService,
             protected $attrs: INbfCatalogMailingPrefsControllerAttributes) {
@@ -35,6 +35,7 @@
             
             this.nbfEmailService.sendCatalogPrefsEmail(this.catalogPrefs).then(
                 (catalogMailingPrefs: string) => {
+                    this.$rootScope.$broadcast("initAnalyticsEvent", "CatalogRequest");
                     this.getCatalogMailingPrefsCompleted(catalogMailingPrefs);
                     this.submitted = true;
 
