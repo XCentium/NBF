@@ -294,7 +294,6 @@
             this.resourceAndAssemblyDocs = this.product.documents.filter(x => x.documentType != "video");
 
             setTimeout(() => {
-                this.setLiveExpertsWidget();
                 this.setPowerReviews();
             }, 1000);            
         }   
@@ -321,36 +320,7 @@
             $(document).on('click', '.pr-qa-display-btn', function () {
                 this.$rootScope.$broadcast("initAnalyticsEvent", "ProductQuestionAsked");
             });
-        }
-
-        protected setLiveExpertsWidget() {
-            var liveExpertConfig = {
-                enterpriseURL: 'liveexpert.net',
-                sourceHost: 'assets.liveexpert.net',
-                assetLocation: 'nbf/hidden-widget/nbf',
-                apiURL: 'api.liveexpert.net',
-                companyID: 31,
-                language: 'EN',
-                callTypeID: 1,
-                micEnabled: false,
-                camEnabled: false,
-                categoryID: 222
-            };
-
-            let liveProductDemoAttr = this.getAttributeValue("Live Product Demo");
-            if (liveProductDemoAttr != null && liveProductDemoAttr == "Yes"
-                && this.product.modelNumber != null
-            )
-            {
-                var catId = parseInt(this.product.modelNumber);
-                if (catId) { liveExpertConfig.categoryID = catId; }
-            }
-
-            let liveexpert = this.$window["liveexpert"];
-            liveexpert.LEAWidget.init(liveExpertConfig);
-            window.console.dir(liveexpert);
-            //liveexpert.startCall();
-        }
+        }        
        
         showVideo() {            
             this.setVideo2(this.product.properties["videoFile"]);
