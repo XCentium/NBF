@@ -520,6 +520,7 @@
         }
 
         continueToStep2(cartUri: string): void {
+            debugger;
             const valid = $("#addressForm").validate().form();
             if (!valid) {
                 angular.element("html, body").animate({
@@ -596,6 +597,8 @@
             }
 
             this.updateSession(this.cart, customerWasUpdated);
+
+            this.$scope.$apply();
         }
 
         protected addOrUpdateShipToFailed(error: any): void {
