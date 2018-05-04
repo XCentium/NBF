@@ -17,7 +17,6 @@ using Insite.Core.Interfaces.Plugins.Security;
 using Insite.Core.Localization;
 using Insite.Customers.Services;
 using Insite.Data.Repositories.Interfaces;
-using Insite.Order.WebApi.V1.ApiModels;
 
 namespace Extensions.WebApi.EmailApi.Repository
 {
@@ -67,7 +66,7 @@ namespace Extensions.WebApi.EmailApi.Repository
             return Task.FromResult(0);
         }
 
-        public Task SendTaxExemptEmail(TaxExemptDto taxExemptDto)
+        public Task SendTaxExemptEmail(TaxExemptEmailDto taxExemptDto)
         {
             dynamic emailModel = new ExpandoObject();
             emailModel.CustomerNumber = taxExemptDto.CustomerNumber;

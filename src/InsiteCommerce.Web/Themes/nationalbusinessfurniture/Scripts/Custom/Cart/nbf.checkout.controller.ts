@@ -93,7 +93,8 @@
             "nbfEmailService",
             "productService",
             "$element",
-            "$rootScope"
+            "$rootScope",
+            "nbfTaxExemptService"
         ];
 
         constructor(
@@ -119,7 +120,8 @@
             protected nbfEmailService: nbf.email.INbfEmailService,
             protected productService: insite.catalog.IProductService,
             protected $element: ng.IRootElementService,
-            protected $rootScope: ng.IRootScopeService
+            protected $rootScope: ng.IRootScopeService,
+            protected nbfTaxExemptService: insite.account.INbfTaxExemptService
         ) {
             this.init();
         }
@@ -1065,9 +1067,7 @@
                 } as TaxExemptParams;
 
                 this.nbfEmailService.sendTaxExemptEmail(params, this.file).then(
-                    () => {
-                        this.updatebillToTaxExempt();
-                    },
+                    () => {},
                     () => { this.errorMessage = "An error has occurred."; });
             } else if (!this.isTaxExempt && this.taxExemptChoice) {
                 //tax exempt choice is yes but no file was uploaded
@@ -1419,7 +1419,7 @@
                 showTermsAndConditionsPopup: true
             } as insite.cart.ITermsAndConditionsPopupServiceDisplayData;
 
-            this.termsAndConditionsPopupService.display(data)
+            this.termsAndConditionsPopupService.display(data);
         };
 
         //Tax Exempt
@@ -1434,6 +1434,10 @@
                 this.file = arg.files[0];
                 this.taxExemptFileName = this.file.name;
 
+                if (this.taxExemptFileName) {
+                    this.updatebillToTaxExempt();
+                }
+
                 setTimeout(() => {
                     this.$scope.$apply();
                 });
@@ -1446,24 +1450,10 @@
             }, 100);
         }
 
-        saveFile(emailTo: string, orderNum?: string) {
-            var params = {
-                customerNumber: this.cart.billTo.customerNumber,
-                customerSequence: this.cart.billTo.customerSequence,
-                emailTo: emailTo,
-                orderNumber: orderNum,
-                fileLocation: ""
-            } as TaxExemptParams;
-
-            this.nbfEmailService.sendTaxExemptEmail(params, this.file).then(
-                () => {
-                    this.updatebillToTaxExempt();
-                },
-                () => { this.submitErrorMessage = "An error uploading your file has occurred."; });
-        }
-
         protected updatebillToTaxExempt() {
             this.cart.billTo.properties["taxExemptFileName"] = this.taxExemptFileName;
+
+            this.nbfTaxExemptService.updateBillto(this.cart.billTo.id);
 
             this.customerService.updateBillTo(this.cart.billTo).then(
                 () => { this.updatebillToTaxExemptCompleted(); },
