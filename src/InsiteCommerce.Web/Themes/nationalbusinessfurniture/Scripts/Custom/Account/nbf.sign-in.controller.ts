@@ -45,7 +45,7 @@
         
         protected signInCompleted(session: SessionModel): void {
             super.signInCompleted(session);
-            console.log("signincompleted");
+            
             this.$scope.$broadcast("initAnalyticsEvent", "Login", null, null);
         }
     }
