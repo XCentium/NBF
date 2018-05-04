@@ -294,7 +294,6 @@
             this.resourceAndAssemblyDocs = this.product.documents.filter(x => x.documentType != "video");
 
             setTimeout(() => {
-                //this.setLiveExpertsWidget();
                 this.setPowerReviews();
             }, 1000);            
         }   
