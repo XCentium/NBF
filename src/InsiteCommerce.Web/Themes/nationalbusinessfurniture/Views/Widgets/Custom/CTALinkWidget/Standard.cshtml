@@ -1,10 +1,10 @@
 ﻿<li class="medium-4 small-12 column [[Model.CssClass]]">
     <div class="cta-link__item">
-        <div data-equalizer-watch class="padding-bottom">
+        <div data-mh="cta-box" class="padding-bottom">
             [% if Model.ImageReady -%]
             <img class="cta-link__icon" src="[[Model.CtaLogoImage]]"/>
             [% endif -%]
-            <h2 class="cta-link__title">[[Model.CtaTitle]]</h2>
+            <h2 class="cta-link__title"  data-mh="cta-title">[[Model.CtaTitle]]</h2>
             <p>[[Model.CtaSummary]]</p>
             [% if Model.ButtonReady -%]
             <a href="[[Model.CtaButtonUrl]]" class="cta-link__btn btn btn-primary">[[Model.CtaButtonText]]</a>

@@ -118,6 +118,7 @@
     <Content Include="Scripts\foundation.equalizer.js" />
     <Content Include="Scripts\foundation.tooltip.js" />
     <Content Include="Scripts\isotope.pkgd.min.js" />
+    <Content Include="Scripts\jquery.matchHeight-min.js" />
     <Content Include="Scripts\Libraries\jquery.inputmask\0.0.0\jquery.inputmask.js" />
     <Content Include="Scripts\Libraries\jquery.inputmask\0.0.0\jquery.inputmask.numeric.extensions.js" />
     <Content Include="Scripts\Libraries\jquery.maskedinput\jquery.maskedinput.js" />
