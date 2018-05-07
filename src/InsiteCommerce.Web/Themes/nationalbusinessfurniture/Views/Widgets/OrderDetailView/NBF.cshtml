@@ -23,7 +23,7 @@
                             <div class="od-head">
                                 <h3 class="od-lbl">[% translate 'Order Date' %]:</h3>
                                 <h3 id="tst_orderDetailPage_orderDate" class="od-data" ng-bind="vm.order.orderDate | date:'shortDate'"></h3>
-                                <h3 class="od-lbl" ng-if="vm.showOrderStatus && vm.order.statusDisplay">[% translate 'Order Status' %]</h3>
+                                <h3 class="od-lbl" ng-if="vm.showOrderStatus && vm.order.statusDisplay">[% translate 'Order Status' %]:</h3>
                                 <h3 id="tst_orderDetailPage_statusDisplay" class="od-data" ng-if="vm.showOrderStatus && vm.order.statusDisplay" ng-bind="vm.order.statusDisplay"></h3>
                                 <h3 class="od-lbl" ng-if="vm.showTermsCode && vm.order.terms">[% translate 'Terms' %]</h3>
                                 <h3 class="od-data" ng-if="vm.showTermsCode && vm.order.terms" ng-bind="vm.order.terms"></h3>
