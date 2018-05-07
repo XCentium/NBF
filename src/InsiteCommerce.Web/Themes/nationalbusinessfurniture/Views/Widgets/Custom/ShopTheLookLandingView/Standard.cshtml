@@ -1,11 +1,13 @@
-﻿<div class="row"  ng-controller="NbfShopTheLookLandingViewController as vm">
+﻿<div class="row"  ng-controller="NbfShopTheLookLandingViewController as vm" data-ng-init="vm.runIsotope()">
     <div class="medium-12 large-12 columns widget-1column narrow-container shopthelook [[Model.CssClass]]">
         <div class="row">
             <div class="medium-12 large-12 columns">
                 <div>
                     <h1 class="shopthelook__title">[% siteMessage 'STL_Landing_Title' 'Shop The Look' %]</h1>
                 </div>
-                [% zone 'Above Content' %]
+                <div class="shopthelook__page-desc">
+                    [% zone 'Above Content' %]
+                </div>
                 <div class="shopthelook__filters clearfix">
                     <div class="shopthelook__dropdown">
                         <label>[% siteMessage 'STL_Landing_Filter1Label' 'Style' %]</label>
@@ -14,7 +16,6 @@
                             <div ng-repeat="style in vm.collection.styles">
                                 <button class="button" data-filter=".{{style.styleName | removeSpaces}}">{{style.styleName}}</button>
                             </div>
-                            <button class="button" data-filter=".blue">blue</button>
                         </div>
                     </div>
                     <div class="shopthelook__dropdown">
@@ -29,15 +30,9 @@
                 </div>
                 <div class="shopthelook__wrapper">
                     <div class="shopthelook__gird">
-                        <div ng-repeat="look in vm.collection.looks">
-                            <div class="shopthelook__item grid-item {{look.categoryNames.join(' ')}} {{look.styleNames.join(' ')}}">
-                                <img ng-src='https://s7d9.scene7.com/is/image/NationalBusinessFurniture/{{look.mainImage}}?hei=200&id=5-zsy2&fmt=jpg&fit=constrain,1&wid=344&hei=344' alt="{{look.title}}" />
-                                <a href="/shop-the-look/STL?lookId={{look.id}}" class="btn btn-secondary">See Room</a>
-                            </div>
-                        </div>
-                        <div class="shopthelook__item grid-item blue">
-                            <img src="http://www.portersofaccrington.co.uk/wpimages/wpbe847065_05_06.jpg" />
-                            <a href="#" class="btn btn-secondary">See Room</a>
+                        <div ng-repeat="look in vm.collection.looks" class="shopthelook__item grid-item {{look.categoryNames.join(' ')}} {{look.styleNames.join(' ')}}">
+                            <img ng-src='https://s7d9.scene7.com/is/image/NationalBusinessFurniture/{{look.mainImage}}?hei=200&id=5-zsy2&fmt=jpg&fit=constrain,1&wid=344&hei=344' alt="{{look.title}}" />
+                            <a href="/shop-the-look/STL?lookId={{look.id}}" class="btn btn-secondary">See Room</a>
                         </div>
                         <div class="gutter-sizer"></div>
                     </div>

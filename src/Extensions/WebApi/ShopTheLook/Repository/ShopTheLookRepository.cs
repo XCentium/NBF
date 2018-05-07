@@ -56,9 +56,17 @@ namespace Extensions.WebApi.ShopTheLook.Repository
                     SortOrder = prod.SortOrder,
                     AdditionalProduct = prod.AdditionalProduct,
                     AdditionalProductSort = prod.AdditionalProductSort,
-                    HotSpotPosition = "left:" + prod.XPosition + "%;top:" + prod.YPosition + "%;",
-                    Product = product
+                    Product = product.ProductDto
                 };
+
+                if (prod.XPosition != 0 && prod.YPosition != 0)
+                {
+                    hotSpot.HotSpotPosition = "left:" + prod.XPosition + "%;top:" + prod.YPosition + "%;";
+                }
+                else
+                {
+                    hotSpot.HotSpotPosition = "NA";
+                }
 
                 dto.ProductHotSpots.Add(hotSpot);
             }

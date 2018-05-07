@@ -1,5 +1,5 @@
-﻿<div class="row" ng-controller="NbfShopTheLookWidgetController as vm" ng-cloak>
-    <div class="medium-12 large-12 columns widget-1column narrow-container shopthelookdetail [[Model.CssClass]]">
+﻿<div class="row" ng-controller="NbfShopTheLookWidgetController as vm">
+    <div class="medium-12 large-12 columns widget-1column narrow-container shopthelookdetail [[Model.CssClass]]" ng-cloak>
         <div class="row">
             <div class="medium-12 large-12 columns">
                 <div>
@@ -12,30 +12,30 @@
             <div class="small-12 medium-12 large-7 columns">
                 <div class="shopthelookdetail__image-col">
                     <img ng-src="https://s7d9.scene7.com/is/image/NationalBusinessFurniture/{{vm.look.mainImage}}?hei=200&id=5-zsy2&fmt=jpg&fit=constrain,1&wid=344&hei=344" alt="[[Model.Title]]" />
-                    <div class="hotspot has-tip link{{$index+1}}" style="{{hotSpot.hotSpotPosition}}" div id="{{hotSpot.product.productDto.id}}-{{$index+1}}" ng-click="vm.hotspot_clicked(hotSpot.product.productDto.id, $index)" ng-repeat="hotSpot in vm.look.productHotSpots">
+                    <div class="hotspot has-tip link{{$index+1}}" style="{{hotSpot.hotSpotPosition}}" div id="{{hotSpot.product.id}}-{{$index+1}}" ng-click="vm.hotspot_clicked(hotSpot.product.id, $index)" ng-repeat="hotSpot in vm.look.productHotSpots | validateHotSpots">
                         <div class="tooltip">
                             <div class="tooltip__img">
-                                <img ng-src="https://s7d9.scene7.com/is/image/NationalBusinessFurniture/{{hotSpot.product.productDto.smallImagePath ? hotSpot.product.productDto.smallImagePath : hotSpot.product.productDto.mediumImagePath}}?hei=200&id=5-zsy2&fmt=jpg&fit=constrain,1&wid=344&hei=344" alt="{{hotSpot.product.productDto.altText}}" />
+                                <img ng-src="https://s7d9.scene7.com/is/image/NationalBusinessFurniture/{{hotSpot.product.smallImagePath ? hotSpot.product.smallImagePath : hotSpot.product.mediumImagePath}}?hei=200&id=5-zsy2&fmt=jpg&fit=constrain,1&wid=344&hei=344" alt="{{hotSpot.product.altText}}" />
                             </div>
                             <div class="tooltip__details">
                                 <div class="tooltip__details__desc">
-                                    {{hotSpot.product.productDto.shortDescription}}
+                                    {{hotSpot.product.shortDescription}}
                                 </div>
                                 <div class="tooltip__details__number">
-                                    Item No: {{hotSpot.product.productDto.erpNumber}}
+                                    Item No: {{hotSpot.product.erpNumber}}
                                 </div>
                                 <div class="tooltip__details__price">
                                     <isc-product-price product="hotSpot.product"></isc-product-price>
                                 </div>
                             </div>
                             <div class="tooltip__details__btn">
-                                <a href="{{hotSpot.product.productDto.productDetailUrl}}" class="btn btn-primary">See Product Details</a>
+                                <a href="{{hotSpot.product.productDetailUrl}}" class="btn btn-primary">See Product Details</a>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="small-12 medium-12 large-5 columns end">
+            <div class="small-12 medium-12 large-5 columns end" ng-cloak>
                 <div class="shopthelookdetail__room-details">
                     <div class="shopthelookdetail__list-col">
                         <h4 class="shopthelookdetail__list-title">Shop The Room</h4>
@@ -43,21 +43,24 @@
                             <li ng-repeat="hotSpot in vm.look.productHotSpots">
                                 <div class="shopthelookdetail__list-item">
                                     <div class="shopthelookdetail__list-item__image">
-                                        <img ng-src="https://s7d9.scene7.com/is/image/NationalBusinessFurniture/{{hotSpot.product.productDto.smallImagePath ? hotSpot.product.productDto.smallImagePath : hotSpot.product.productDto.mediumImagePath}}?hei=200&id=5-zsy2&fmt=jpg&fit=constrain,1&wid=344&hei=344" alt="{{hotSpot.product.productDto.altText}}" />
+                                        <img ng-src="https://s7d9.scene7.com/is/image/NationalBusinessFurniture/{{hotSpot.product.smallImagePath ? hotSpot.product.smallImagePath : hotSpot.product.mediumImagePath}}?hei=200&id=5-zsy2&fmt=jpg&fit=constrain,1&wid=344&hei=344" alt="{{hotSpot.product.altText}}" />
                                     </div>
+                                    <a id="tst_productDetail_addToWishList" ng-if="vm.isAuthenticated" ng-class="{'in-favorites': vm.product.properties['isFavorite'] == 'true' } "
+                                       ng-click="vm.toggleFavorite(vm.product)" role="button"
+                                       class="btn secondary btn-add-to-list" href="javascript:;">{{vm.product.properties['isFavorite'] == "false" ? "Add To Favorites" : "Remove From Favorites"}}</a>
                                     <div class="shopthelookdetail__list-item__details-wrap">
                                         <div class="shopthelookdetail__list-item__details">
                                             <div class="shopthelookdetail__list-item__desc">
-                                                {{hotSpot.product.productDto.shortDescription}}
+                                                {{hotSpot.product.shortDescription}}
                                             </div>
                                             <div class="shopthelookdetail__list-item__number">
-                                                Item No: {{hotSpot.product.productDto.erpNumber}}
+                                                Item No: {{hotSpot.product.erpNumber}}
                                             </div>
                                             <div class="shopthelookdetail__list-item__price">
                                                 <isc-product-price product="hotSpot.product"></isc-product-price>
                                             </div>
                                             <div class="shopthelookdetail__list-item__btn">
-                                                <button onclick="window.location.href='{{hotSpot.product.productDto.productDetailUrl}}'">See Product Details</button>
+                                                <a href="{{hotSpot.product.productDetailUrl}}" class="btn btn-primary">See Product Details</a>
                                             </div>
                                         </div>
                                     </div>
