@@ -42,7 +42,7 @@ namespace Extensions.WebApi.ShopTheLook.Repository
                 ProductHotSpots = new List<ShopTheLookHotSpotDto>()
             };
 
-            var lookProducts = _unitOfWork.GetRepository<StlRoomLooksProduct>().GetTable().Where(x => x.StlRoomLookId.ToString().Equals(id)).ToList();
+            var lookProducts = _unitOfWork.GetRepository<StlRoomLooksProduct>().GetTable().Where(x => x.StlRoomLookId.ToString().Equals(id)).OrderBy(x => x.AdditionalProduct).ThenBy(x => x.SortOrder).ToList();
             foreach (var prod in lookProducts)
             {
                 var param = new GetProductParameter()

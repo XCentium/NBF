@@ -27,6 +27,7 @@
 
         protected getLookCompleted(look: ShopTheLook): void {
             this.look = look;
+            console.dir(this.look);
         }
 
         protected getLookFailed(error: ng.IHttpPromiseCallbackArg<any>): void {
