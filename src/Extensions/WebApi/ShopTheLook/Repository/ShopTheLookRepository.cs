@@ -42,7 +42,7 @@ namespace Extensions.WebApi.ShopTheLook.Repository
                 ProductHotSpots = new List<ShopTheLookHotSpotDto>()
             };
 
-            var lookProducts = _unitOfWork.GetRepository<StlRoomLooksProduct>().GetTable().Where(x => x.StlRoomLookId.ToString().Equals(id)).ToList();
+            var lookProducts = _unitOfWork.GetRepository<StlRoomLooksProduct>().GetTable().Where(x => x.StlRoomLookId.ToString().Equals(id)).OrderBy(x => x.AdditionalProduct).ThenBy(x => x.SortOrder).ToList();
             foreach (var prod in lookProducts)
             {
                 var param = new GetProductParameter()
@@ -56,9 +56,17 @@ namespace Extensions.WebApi.ShopTheLook.Repository
                     SortOrder = prod.SortOrder,
                     AdditionalProduct = prod.AdditionalProduct,
                     AdditionalProductSort = prod.AdditionalProductSort,
-                    HotSpotPosition = "left:" + prod.XPosition + "%;top:" + prod.YPosition + "%;",
-                    Product = product
+                    Product = product.ProductDto
                 };
+
+                if (prod.XPosition != 0 && prod.YPosition != 0)
+                {
+                    hotSpot.HotSpotPosition = "left:" + prod.XPosition + "%;top:" + prod.YPosition + "%;";
+                }
+                else
+                {
+                    hotSpot.HotSpotPosition = "NA";
+                }
 
                 dto.ProductHotSpots.Add(hotSpot);
             }
