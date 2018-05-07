@@ -3,21 +3,28 @@
 
     export class NbfTellAFriendController {
         tellAFriendModel: TellAFriendModel;
-        isSuccess: boolean;
-        isError: boolean;
+        product: ProductDto;
+        isSuccess: boolean = false;
+        isError: boolean = false;
+        url: string;
 
-        static $inject = ["$scope", "emailService"];
+        static $inject = ["$scope", "emailService", "coreService", "$anchorScroll"];
 
         constructor(
             protected $scope: ng.IScope,
-            protected emailService: email.IEmailService) {
+            protected emailService: email.IEmailService,
+            protected coreService: insite.core.ICoreService,
+            protected $anchorScroll: ng.IAnchorScrollService) {
             this.init();
         }
 
         init(): void {
+            this.resetPopup();
             angular.element("#TellAFriendDialogContainer").on("closed", () => {
                 this.onTellAFriendPopupClosed();
             });
+
+            this.url = window.location.href;
         }
 
         protected onTellAFriendPopupClosed(): void {
@@ -34,6 +41,7 @@
             this.tellAFriendModel.yourMessage = "";
             this.isSuccess = false;
             this.isError = false;
+            //angular.element("#tellAFriendForm").$setPristine();
         }
 
         shareWithFriend(): void {
@@ -57,6 +65,11 @@
         protected tellAFriendFailed(error: any): void {
             this.isSuccess = false;
             this.isError = true;
+        }
+
+        protected openShareWithFriendPopup(): void {
+            this.coreService.displayModal(angular.element("#TellAFriendDialogContainer"));
+            this.$anchorScroll();
         }
     }
 

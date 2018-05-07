@@ -14,8 +14,7 @@
     <ul class="share-links hide-for-print">
         <li class="share-label">Share</li>
         <li class="cell">
-            <a class="fa fa-envelope" href="mailto:?subject=I wanted you to see this site&amp;body={{vm.url}} [[CurrentPage.Title]]" title="Share by Email">
-            </a>
+            <a id="tst_productDetail_share" ng-controller="NbfTellAFriendController as vm" ng-cloak class="fa fa-envelope pd-zoom" href="javascript:void(0);" ng-click="vm.openShareWithFriendPopup()"></a>
         </li>
         <li class="cell">
             <a target="_blank" class="stb-btn stb-twitter fa fa-twitter" aria-label="tweet" href="https://twitter.com/share?url={{vm.url}}&amp;text=[[CurrentPage.Title]]"></a>

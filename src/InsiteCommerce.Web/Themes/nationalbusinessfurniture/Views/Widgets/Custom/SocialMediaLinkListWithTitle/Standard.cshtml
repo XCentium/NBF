@@ -23,77 +23,9 @@
         <li class="cell"><a href="[[Model.LinkedInUrl]]" target="_blank"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
         [% endif -%]
         <li class="cell">
-            <a id="tst_productDetail_share" ng-controller="NbfSocialMediaController as vm" ng-cloak href="javascript:void(0);" ng-click="vm.openShareWithFriendPopup()"><i class="fa fa-envelope" aria-hidden="true"></i></a>
-            <nbf-tell-a-friend-footer-popup data-reveal></nbf-tell-a-friend-footer-popup>
+            <a id="tst_productDetail_share" ng-controller="NbfTellAFriendController as vm" ng-cloak href="javascript:void(0);" ng-click="vm.openShareWithFriendPopup()"><i class="fa fa-envelope" aria-hidden="true"></i></a>
+            <nbf-tell-a-friend-popup data-reveal></nbf-tell-a-friend-popup>
 
         </li>
     </ul>
-
-
-    <script type="text/ng-template" id="productDetailFooter_tellAFriend">
-        <div style="display: none;">
-            <div id="TellAFriendDialogContainer" class="product-detail popup-share reveal-modal" data-reveal data-reveal-init>
-                <div class="modal-wrap">
-                    <h2>[% translate 'Share with a Friend' %]</h2>
-                    <form novalidate id="tellAFriendForm" class="custom">
-                        <div class="row share-name">
-                            <isc-tell-a-friend-field field-label="[% translate 'Friend's Name' %]"
-                                                     field-name="friendsName"
-                                                     field-value="vm.tellAFriendModel.friendsName"
-                                                     is-required="true"
-                                                     is-email="false">
-                            </isc-tell-a-friend-field>
-                        </div>
-                        <div class="row share-email">
-                            <isc-tell-a-friend-field field-label="[% translate 'Friend's Email' %]"
-                                                     field-name="friendsEmail"
-                                                     field-value="vm.tellAFriendModel.friendsEmailAddress"
-                                                     is-required="true"
-                                                     is-email="true">
-                            </isc-tell-a-friend-field>
-                        </div>
-                        <div class="row share-you">
-                            <isc-tell-a-friend-field field-label="[% translate 'Your Name' %]"
-                                                     field-name="yourName"
-                                                     field-value="vm.tellAFriendModel.yourName"
-                                                     is-required="true"
-                                                     is-email="false">
-                            </isc-tell-a-friend-field>
-                        </div>
-                        <div class="row share-youmail">
-                            <isc-tell-a-friend-field field-label="[% translate 'Your Email' %]"
-                                                     field-name="yourEmail"
-                                                     field-value="vm.tellAFriendModel.yourEmailAddress"
-                                                     is-required="true"
-                                                     is-email="true">
-                            </isc-tell-a-friend-field>
-                        </div>
-                        <div class="row share-msg">
-                            <div class="large-5 columns">
-                                <span>[% translate 'Your Message' %]</span>
-                                <span class="redTxt">*</span>
-                            </div>
-                            <div class="large-7 columns">
-                                <textarea ng-model="vm.tellAFriendModel.yourMessage" autofocus="autofocus"
-                                          id="yourMessage"
-                                          name="yourMessage"
-                                          data-rule-required="true"
-                                          data-msg-required="{{ '[% siteMessage 'Field_Required' EscapeSingleQuotes %]'.replace('{0}', '[% translate 'Your Message' EscapeSingleQuotes %]') }}"></textarea>
-                                <span class="field-validation-valid" data-valmsg-for="yourMessage" data-valmsg-replace="true"></span>
-                            </div>
-                        </div>
-                        <div class="row btns">
-                            <button id="tst_productDetail_shareSubmit" ng-click="vm.shareWithFriend()" class="btn primary btn-create-wishlist" type="button">[% translate 'Share' %]</button>
-                        </div>
-                    </form>
-                    <div id="tst_productDetail_shareSubmitMessage" class="messaging" ng-show="vm.isSuccess || vm.isError">
-                        <span ng-show="vm.isSuccess">[% siteMessage 'TellAFriend_Success' %]</span>
-                        <span ng-show="vm.isError">[% siteMessage 'TellAFriend_Error' %]</span>
-                    </div>
-                    <a class="close-reveal-modal">&#215;</a>
-                </div>
-            </div>
-        </div>
-    </script>   
-
 </div>
