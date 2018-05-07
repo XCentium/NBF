@@ -2,6 +2,7 @@
     "use strict";
 
     export class NbfTellAFriendController {
+       // myForm: any;
         tellAFriendModel: TellAFriendModel;
         product: ProductDto;
         isSuccess: boolean = false;
@@ -19,7 +20,6 @@
         }
 
         init(): void {
-            this.resetPopup();
             angular.element("#TellAFriendDialogContainer").on("closed", () => {
                 this.onTellAFriendPopupClosed();
             });
@@ -41,7 +41,7 @@
             this.tellAFriendModel.yourMessage = "";
             this.isSuccess = false;
             this.isError = false;
-            //angular.element("#tellAFriendForm").$setPristine();
+            //this.myForm.$setPristine();
         }
 
         shareWithFriend(): void {
@@ -70,6 +70,7 @@
         protected openShareWithFriendPopup(): void {
             this.coreService.displayModal(angular.element("#TellAFriendDialogContainer"));
             this.$anchorScroll();
+            this.resetPopup();
         }
     }
 

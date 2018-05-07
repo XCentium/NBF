@@ -27,7 +27,7 @@
         <div id="TellAFriendDialogContainer" class="product-detail popup-share reveal-modal" data-reveal data-reveal-init>
             <div class="modal-wrap">
                 <h2>[% translate 'Share with a Friend' %]</h2>
-                <form novalidate id="tellAFriendForm" class="custom">
+                <form novalidate id="tellAFriendForm" class="custom" name="myForm">
                     <div class="row share-name">
                         <isc-tell-a-friend-field field-label="[% translate 'Friend's Name' %]"
                                                  field-name="friendsName"
@@ -74,9 +74,9 @@
                             <span class="field-validation-valid" data-valmsg-for="yourMessage" data-valmsg-replace="true"></span>
                         </div>
                     </div>
-                    <div class="row btns" ng-if="!vm.isSuccess">                        
+                    <div class="row btns" ng-if="!vm.isSuccess">
                         <button id="tst_productDetail_shareSubmit" ng-click="vm.shareWithFriend()" class="btn primary btn-create-wishlist" type="button">[% translate 'Share' %]</button>
-                    </div>
+                    </div>                 
                 </form>
                 <div id="tst_productDetail_shareSubmitMessage" class="messaging" ng-show="vm.isSuccess || vm.isError">
                     <span ng-show="vm.isSuccess">[% siteMessage 'TellAFriend_Success' %]</span>
