@@ -15,7 +15,7 @@
             <div class="small-12 medium-12 large-7 columns">
                 <div class="shopthelookdetail__image-col">
                     <img ng-src="https://s7d9.scene7.com/is/image/NationalBusinessFurniture/{{vm.look.mainImage}}?hei=200&id=5-zsy2&fmt=jpg&fit=constrain,1&wid=344&hei=344" alt="{{vm.look.description}}" />
-                    <div class="hotspot has-tip link{{$index+1}}" style="{{hotSpot.hotSpotPosition}}" div id="{{hotSpot.product.id}}-{{$index+1}}" ng-click="vm.hotspot_clicked(hotSpot.product.id, $index)" ng-repeat="hotSpot in vm.look.productHotSpots | validateHotSpots">
+                    <div class="hotspot has-tip link{{$index+1}}" style="{{hotSpot.hotSpotPosition}}" div id="{{hotSpot.product.id}}-{{$index+1}}" ng-click="vm.hotspotClicked(hotSpot.product.id, $index)" ng-repeat="hotSpot in vm.look.productHotSpots | validateHotSpots">
                         <div class="tooltip">
                             <div class="tooltip__img">
                                 <img ng-src="https://s7d9.scene7.com/is/image/NationalBusinessFurniture/{{hotSpot.product.smallImagePath ? hotSpot.product.smallImagePath : hotSpot.product.mediumImagePath}}?hei=200&id=5-zsy2&fmt=jpg&fit=constrain,1&wid=344&hei=344" alt="{{hotSpot.product.altText}}" />
@@ -43,7 +43,7 @@
                     <div class="shopthelookdetail__list-col">
                         <h4 class="shopthelookdetail__list-title">Shop The Room</h4>
                         <ul>
-                            <li ng-repeat="hotSpot in vm.look.productHotSpots">
+                            <li ng-repeat="hotSpot in vm.look.productHotSpots | validateHotSpots">
                                 <div class="shopthelookdetail__list-item">
                                     <div class="shopthelookdetail__list-item__image">
                                         <img ng-src="https://s7d9.scene7.com/is/image/NationalBusinessFurniture/{{hotSpot.product.smallImagePath ? hotSpot.product.smallImagePath : hotSpot.product.mediumImagePath}}?hei=200&id=5-zsy2&fmt=jpg&fit=constrain,1&wid=344&hei=344" alt="{{hotSpot.product.altText}}" />
@@ -65,6 +65,8 @@
                                             <div class="shopthelookdetail__list-item__btn">
                                                 <a href="{{hotSpot.product.productDetailUrl}}" class="btn btn-primary">See Product Details</a>
                                             </div>
+                                            <div id="pr-{{hotSpot.product.productCode}}" style="display: none;">
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -82,7 +84,7 @@
             </div>
             <div class="medium-12 large-12 columns widget-1column">
                 <div class="featured-product-wrap four-col__item-container">
-                    <div class="item-block__product four-col__item" ng-repeat="product in vm.featuredAccessories">
+                    <div class="item-block__product four-col__item" ng-repeat="product in vm.look.productHotSpots | featuredAccessories">
                         <div class="favorite-btn" ng-if="vm.isAuthenticated">
                             <a id="tst_productDetail_addToWishList" ng-class="{'in-favorites': product.properties['isFavorite'] == 'true' } "
                                ng-click="vm.toggleFavorite(product)" role="button"
@@ -140,7 +142,7 @@
             </div>
             <div class="medium-12 large-12 columns widget-1column">
                 <div class="featured-product-wrap four-col__item-container">
-                    <div class="item-block__product four-col__item" ng-repeat="product in vm.featuredProducts">
+                    <div class="item-block__product four-col__item" ng-repeat="product in vm.look.productHotSpots | featuredProducts">
                         <div class="favorite-btn" ng-if="vm.isAuthenticated">
                             <a id="tst_productDetail_addToWishList" ng-class="{'in-favorites': product.properties['isFavorite'] == 'true' } "
                                ng-click="vm.toggleFavorite(product)" role="button"

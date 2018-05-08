@@ -2,7 +2,6 @@
     "use strict";
 
     export interface INbfShopTheLookWidgetControllerAttributes extends ng.IAttributes {
-        productNumbersString: string;
         prApiKey: string;
         prMerchantGroupId: string;
         prMerchantId: string;
@@ -12,12 +11,7 @@
         look: ShopTheLook;
         favoritesWishlist: WishListModel;
         isAuthenticated: boolean = false;
-        featuredAccessories: ProductDto[];
-        featuredProducts: ProductDto[];
-
-        prApiKey: string;
-        prMerchantGroupId: string;
-        prMerchantId: string;
+        imagesLoaded: number;
 
         static $inject = ["$timeout", "$window", "$scope", "$rootScope", "productService", "sessionService", "nbfShopTheLookService", "queryString", "spinnerService", "nbfWishListService", "$attrs"];
 
@@ -46,27 +40,7 @@
 
         protected getLookCompleted(look: ShopTheLook): void {
             this.look = look;
-            
-            var hotSpots = [];
-            this.look.productHotSpots.forEach((hotSpot) => {
-                if (!this.featuredAccessories) {
-                    this.featuredAccessories = [];
-                }
-                if (!this.featuredProducts) {
-                    this.featuredProducts = [];
-                }
 
-                if (hotSpot.isAccessory) {
-                    this.featuredAccessories.push(hotSpot.product);
-                } else if (hotSpot.isFeatured) {
-                    this.featuredProducts.push(hotSpot.product);
-                } else {
-                    hotSpots.push(hotSpot);
-                }
-            });
-
-            this.look.productHotSpots = hotSpots;
-            
             this.sessionService.getIsAuthenticated().then(authenticated => {
                 this.isAuthenticated = authenticated;
                 if (authenticated) {
@@ -74,6 +48,9 @@
                 }
             });
 
+            this.imagesLoaded = 0;
+            this.waitForDom();
+            
             setTimeout(() => {
                 this.setPowerReviews();
             }, 100);
@@ -144,37 +121,37 @@
         }
 
         protected setPowerReviews() {
-            let powerReviewsConfigsFeaturedProducts = this.featuredProducts.map(x => {
+            let powerReviewsConfigsFeaturedProducts = this.look.productHotSpots.map(x => {
                 return {
                     api_key: this.$attrs.prApiKey,
                     locale: 'en_US',
                     merchant_group_id: this.$attrs.prMerchantGroupId,
                     merchant_id: this.$attrs.prMerchantId,
-                    page_id: x.productCode,
+                    page_id: x.product.productCode,
                     review_wrapper_url: 'Product-Review?',
                     components: {
-                        CategorySnippet: 'pr-' + x.productCode
+                        CategorySnippet: 'pr-' + x.product.productCode
                     }
                 }
             });
 
-            let powerReviewsConfigsFeaturedAccessories = this.featuredAccessories.map(x => {
-                return {
-                    api_key: this.$attrs.prApiKey,
-                    locale: 'en_US',
-                    merchant_group_id: this.$attrs.prMerchantGroupId,
-                    merchant_id: this.$attrs.prMerchantId,
-                    page_id: x.productCode,
-                    review_wrapper_url: 'Product-Review?',
-                    components: {
-                        CategorySnippet: 'pr-' + x.productCode
-                    }
-                }
-            });
+            //let powerReviewsConfigsFeaturedAccessories = this.featuredAccessories.map(x => {
+            //    return {
+            //        api_key: this.$attrs.prApiKey,
+            //        locale: 'en_US',
+            //        merchant_group_id: this.$attrs.prMerchantGroupId,
+            //        merchant_id: this.$attrs.prMerchantId,
+            //        page_id: x.productCode,
+            //        review_wrapper_url: 'Product-Review?',
+            //        components: {
+            //            CategorySnippet: 'pr-' + x.productCode
+            //        }
+            //    }
+            //});
 
             let powerReviews = this.$window["POWERREVIEWS"];
             powerReviews.display.render(powerReviewsConfigsFeaturedProducts);
-            powerReviews.display.render(powerReviewsConfigsFeaturedAccessories);
+            //powerReviews.display.render(powerReviewsConfigsFeaturedAccessories);
         }
 
         protected getTop3Swatches(swatchesJson): string[] {
@@ -197,8 +174,7 @@
                     });
                     sorted.sort((a, b) => a.Count > b.Count ? 1 : -1);
                     sorted = sorted.reverse();
-
-                    retVal = swatches.filter(x => x.ModelNumber === sorted[0].ModelNumber).slice(0, 3).map((x: any) => x.ImageName);
+                    
                     retVal = swatches.filter(x => x.ModelNumber === sorted[0].ModelNumber).slice(0, 3).map((x: any) => x.ImageName);
                 }
             }
@@ -233,6 +209,46 @@
             }
             return retVal;
         }
+
+        protected cEqualize(): void {
+            const $itemBlocks = $(".item-block__product");
+            if ($itemBlocks.length > 0) {
+                let thumbHeight = -1;
+                let productInfoHeight = -1;
+
+                $itemBlocks.each((i, elem) => {
+                    const $elem = $(elem);
+                    thumbHeight = thumbHeight > $elem.find(".item-block__product__img-wrap").height() ? thumbHeight : $elem.find(".item-block__product__img-wrap").height();
+                    productInfoHeight = productInfoHeight > $elem.find(".item-block__product__details").height() ? productInfoHeight : $elem.find(".item-block__product__details").height();
+                });
+                if (productInfoHeight > 0) {
+                    $itemBlocks.each((i, elem) => {
+                        const $elem = $(elem);
+                        $elem.find(".item-block__product__img-wrap").height(thumbHeight);
+                        $elem.find(".item-block__product__details").height(productInfoHeight);
+                        $elem.addClass("eq");
+                    });
+                }
+            }
+        }
+
+        // Equalize the product grid after all of the images have been downloaded or they will be misaligned (grid view only)
+        protected waitForDom(tries?: number): void {
+            if (isNaN(+tries)) {
+                tries = 1000; // Max 20000ms
+            }
+
+            // If DOM isn't ready after max number of tries then stop
+            if (tries > 0) {
+                setTimeout(() => {
+                    if (this.imagesLoaded >= this.look.productHotSpots.filter(x => x.isAccessory || x.isFeatured).length) {
+                        this.cEqualize();
+                    } else {
+                        this.waitForDom(tries - 1);
+                    }
+                }, 20);
+            }
+        }
     }
     angular
         .module("insite")
@@ -240,8 +256,28 @@
             var validHotSpots = [];
             angular.forEach(hotSpots,
                 hotSpot => {
-                    if (hotSpot["hotSpotPosition"] !== "NA") {
+                    if (!hotSpot["isFeatured"] && !hotSpot["isAccessory"]) {
                         validHotSpots.push(hotSpot);
+                    }
+                });
+            return validHotSpots;
+        })
+        .filter("featuredProducts", () => hotSpots => {
+            var validHotSpots = [];
+            angular.forEach(hotSpots,
+                hotSpot => {
+                    if (hotSpot["isFeatured"] === true) {
+                        validHotSpots.push(hotSpot["product"]);
+                    }
+                });
+            return validHotSpots;
+        })
+        .filter("featuredAccessories", () => hotSpots => {
+            var validHotSpots = [];
+            angular.forEach(hotSpots,
+                hotSpot => {
+                    if (hotSpot["isAccessory"] === true) {
+                        validHotSpots.push(hotSpot["product"]);
                     }
                 });
             return validHotSpots;
