@@ -96,8 +96,10 @@
     }
 
     export interface ProductHotSpot {
-        product: ProductModel;
+        product: ProductDto;
         hotSpotPosition: string;
+        isAccessory: boolean;
+        isFeatured: boolean;
     }
 
     angular

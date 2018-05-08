@@ -31,47 +31,62 @@ namespace Extensions.WebApi.ShopTheLook.Repository
             var look = _unitOfWork.GetRepository<StlRoomLook>().GetTable()
                 .FirstOrDefault(x => x.Id.ToString().Equals(id));
 
-            var dto = new ShopTheLookDto
+            if (look != null)
             {
-                SortOrder = look.SortOrder,
-                Description = look.Description,
-                Id = look.Id,
-                MainImage = look.MainImage,
-                Status = look.Status,
-                Title = look.Title,
-                ProductHotSpots = new List<ShopTheLookHotSpotDto>()
-            };
-
-            var lookProducts = _unitOfWork.GetRepository<StlRoomLooksProduct>().GetTable().Where(x => x.StlRoomLookId.ToString().Equals(id)).OrderBy(x => x.AdditionalProduct).ThenBy(x => x.SortOrder).ToList();
-            foreach (var prod in lookProducts)
-            {
-                var param = new GetProductParameter()
+                var dto = new ShopTheLookDto
                 {
-                    ProductId = prod.ProductId
-                };
-                var product = _productService.GetProduct(param);
-
-                var hotSpot = new ShopTheLookHotSpotDto
-                {
-                    SortOrder = prod.SortOrder,
-                    AdditionalProduct = prod.AdditionalProduct,
-                    AdditionalProductSort = prod.AdditionalProductSort,
-                    Product = product.ProductDto
+                    SortOrder = look.SortOrder,
+                    Description = look.Description,
+                    Id = look.Id,
+                    MainImage = look.MainImage,
+                    Status = look.Status,
+                    Title = look.Title,
+                    ProductHotSpots = new List<ShopTheLookHotSpotDto>()
                 };
 
-                if (prod.XPosition != 0 && prod.YPosition != 0)
+                var lookProducts = _unitOfWork.GetRepository<StlRoomLooksProduct>().GetTable()
+                    .Where(x => x.StlRoomLookId.ToString().Equals(id)).OrderBy(x => x.AdditionalProduct)
+                    .ThenBy(x => x.SortOrder).ThenBy(x => x.AdditionalProductSort).ToList();
+                foreach (var prod in lookProducts)
                 {
-                    hotSpot.HotSpotPosition = "left:" + prod.XPosition + "%;top:" + prod.YPosition + "%;";
-                }
-                else
-                {
-                    hotSpot.HotSpotPosition = "NA";
+                    var param = new GetProductParameter()
+                    {
+                        ProductId = prod.ProductId
+                    };
+                    var product = _productService.GetProduct(param);
+
+                    var hotSpot = new ShopTheLookHotSpotDto
+                    {
+                        Product = product.ProductDto,
+                        HotSpotPosition = "left:" + prod.XPosition + "%;top:" + prod.YPosition + "%;"
+                    };
+
+                    if (prod.AdditionalProduct)
+                    {
+                        if (prod.AdditionalProductSort > 0 && prod.AdditionalProductSort <= 4)
+                        {
+                            hotSpot.IsFeatured = false;
+                            hotSpot.IsAccessory = true;
+                        }
+                        else
+                        {
+                            hotSpot.IsFeatured = true;
+                            hotSpot.IsAccessory = false;
+                        }
+                    }
+                    else
+                    {
+                        hotSpot.IsFeatured = false;
+                        hotSpot.IsAccessory = false;
+                    }
+
+                    dto.ProductHotSpots.Add(hotSpot);
                 }
 
-                dto.ProductHotSpots.Add(hotSpot);
+                return dto;
             }
 
-            return dto;
+            return null;
         }
 
         public ShopTheLookCollectionDto GetLookCollection()

@@ -6,8 +6,7 @@ namespace Extensions.WebApi.ShopTheLook.Models
     {
         public ProductDto Product { get; set; }
         public string HotSpotPosition { get; set; }
-        public int SortOrder { get; set; }
-        public bool AdditionalProduct { get; set; }
-        public int AdditionalProductSort { get; set; }
+        public bool IsAccessory { get; set; }
+        public bool IsFeatured { get; set; }
     }
 }
