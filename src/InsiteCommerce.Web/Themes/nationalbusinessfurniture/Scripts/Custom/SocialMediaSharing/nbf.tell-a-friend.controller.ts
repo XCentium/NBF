@@ -41,11 +41,15 @@
             this.tellAFriendModel.yourMessage = "";
             this.isSuccess = false;
             this.isError = false;
-            //this.myForm.$setPristine();
+
+            var form = angular.element("#tellAFriendForm");
+            form.validate().resetForm();
+            (form[0] as any).reset();
         }
 
         shareWithFriend(): void {
-            const valid = angular.element("#tellAFriendForm").validate().form();
+            const validator = angular.element("#tellAFriendForm").validate();
+            const valid = validator.form();
             if (!valid) {
                 return;
             }
