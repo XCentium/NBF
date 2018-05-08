@@ -2,6 +2,8 @@
 
 
 .shopthelook {
+    margin-top:60px;
+
     &__title {
         margin-bottom: 30px;
         display: inline-block;
@@ -19,7 +21,11 @@
     }
 
     &__page-desc {
-        max-width: 685px;
+        @media all and (min-width: 767px) {
+            max-width: 75%;
+        }
+        font-size:24px;
+        margin-bottom:40px;
     }
 
     &__filters {

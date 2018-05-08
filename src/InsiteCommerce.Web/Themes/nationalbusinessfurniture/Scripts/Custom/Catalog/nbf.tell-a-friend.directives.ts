@@ -13,14 +13,5 @@
             controllerAs: "vm",
             bindToController: true
         }))
-        .directive("nbfTellAFriendFooterPopup", () => ({
-            restrict: "E",
-            replace: true,
-            scope: {
-            },
-            templateUrl: "productDetailFooter_tellAFriend",
-            controller: "NbfTellAFriendController",
-            controllerAs: "vm",
-            bindToController: true
-        }));        
+        ;        
 }

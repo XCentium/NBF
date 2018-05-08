@@ -225,30 +225,40 @@
                                 <table>
                                     <tr>
                                         <td>
-                                            <h3 class="od-lbl">[% translate "Order Date" %]:</h3></td>
+                                            <h3 class="od-lbl">[% translate "Order Date" %]:</h3>
+                                        </td>
                                         <td>
-                                            <h3 class="od-data">[[Model.OrderDateDisplay]]</h3></td>
+                                            <h3 class="od-data">[[Model.OrderDateDisplay]]</h3>
+                                        </td>
                                     </tr>
                                     [% if Model.StatusDisplay != null and Model.StatusDisplay != "" -%]
-                                        <tr>
-                                            <td>
-                                                <h3 class="od-lbl">[% translate "Status" %]:</h3></td>
-                                            <td>
-                                                <h3 class="od-data">[[Model.StatusDisplay]]</h3></td>
-                                        </tr>
+                                    <tr>
+                                        <td>
+                                            <h3 class="od-lbl">[% translate "Status" %]:</h3>
+                                        </td>
+                                        <td>
+                                            <h3 class="od-data">[[Model.StatusDisplay]]</h3>
+                                        </td>
+                                    </tr>
                                     [% endif -%]
                                     <tr>
                                         <td>
-                                            <h3 class="od-lbl">[% translate "Terms" %]:</h3></td>
+                                            <h3 class="od-lbl">[% translate "Terms" %]:</h3>
+                                        </td>
                                         <td>
-                                            <h3 class="od-data">[[Model.Terms]]</h3></td>
+                                            <h3 class="od-data">[[Model.Terms]]</h3>
+                                        </td>
                                     </tr>
+                                    [% if Model.CustomerPO != null and Model.CustomerPO != "" -%]
                                     <tr>
                                         <td>
-                                            <h3 class="od-lbl">[% translate "PO #" %]:</h3></td>
+                                            <h3 class="od-lbl">[% translate "PO #" %]:</h3>
+                                        </td>
                                         <td>
-                                            <h3 class="od-data">[[Model.CustomerPO]]</h3></td>
+                                            <h3 class="od-data">[[Model.CustomerPO]]</h3>
+                                        </td>
                                     </tr>
+                                    [% endif -%]
                                 </table>
                                 <div class="ship-info">
                                     <div class="oc-head">
@@ -275,37 +285,38 @@
                                     <p class="list-item">[[Model.BTCompanyName]]</p>
                                     <p class="list-item">[[Model.BTAddress1]]</p>
                                     [% if Model.BTAddress2 != null and Model.BTAddress2 != "" -%]
-                                        <p class="list-item">[[Model.BTAddress2]]</p>
+                                    <p class="list-item">[[Model.BTAddress2]]</p>
                                     [% endif -%]
-                                    <p class="list-item">[[Model.BillToCity]]
-                                    [% if Model.BillToCity != null and Model.BillToCity != "" and Model.BillToState != null and Model.BillToState != "" -%]
+                                    <p class="list-item">
+                                        [[Model.BillToCity]]
+                                        [% if Model.BillToState != null and Model.BillToState != "" and Model.BillToPostalCode != null and Model.BillToPostalCode != "" -%]
                                         , [[Model.BillToState]] [[Model.BillToPostalCode]]
-                                    [% endif -%]
-                                    <p class="list-item">[[Model.BTCountry]]</p>
+                                        [% endif -%]
+                                    </p><p class="list-item">[[Model.BTCountry]]</p>
                                 </div>
-                                [% if Model.ShipCode != null and Model.ShipCode != "" -%]
-                                    <div class="ship-method">
-                                        <div class="oc-head">
-                                            <h3>[% translate "Shipping Method" %]</h3>
-                                        </div>
-                                        <div>[[Model.ShipCode]]</div>
+                                [% if Model.ShipViaDescription != null and Model.ShipViaDescription != "" -%]
+                                <div class="ship-method">
+                                    <div class="oc-head">
+                                        <h3>[% translate "Shipping Method" %]</h3>
                                     </div>
+                                    <div>[[Model.ShipViaDescription]]</div>
+                                </div>
                                 [% endif -%]
                                 [% if Model.RequestedDeliveryDateDisplay != null -%]
-                                    <div class="ship-method">
-                                        <div class="oc-head">
-                                            <h3>[% translate "Requested Delivery Date" %]</h3>
-                                        </div>
-                                        <div>[[Model.RequestedDeliveryDate]]</div>
+                                <div class="ship-method">
+                                    <div class="oc-head">
+                                        <h3>[% translate "Requested Delivery Date" %]</h3>
                                     </div>
+                                    <div>[[Model.RequestedDeliveryDate]]</div>
+                                </div>
                                 [% endif -%]
                                 [% if Model.Notes != null and Model.Notes != "" -%]
-                                    <div class="notes">
-                                        <div class="oc-head">
-                                            <h3>[% translate "Order Notes" %]</h3>
-                                        </div>
-                                        <div>[[Model.Notes]]</div>
+                                <div class="notes">
+                                    <div class="oc-head">
+                                        <h3>[% translate "Order Notes" %]</h3>
                                     </div>
+                                    <div>[[Model.Notes]]</div>
+                                </div>
                                 [% endif -%]
                             </td>
                         </tr>
@@ -341,57 +352,55 @@
                             <td class="sub-amount">[[Model.OrderSubTotalDisplay]]</td>
                         </tr>
                         [% for promotion in Model.OrderPromotions -%]
-                            [% if promotion.PromotionResultType == "AmountOffOrder" or promotion.PromotionResultType == "PercentOffOrder" -%]
-                                <tr class="promotions">
-                                    <td class="sub-label">[[promotion.Name]]</td>
-                                    <td class="sub-amount">-[[promotion.AmountDisplay]]</td>
-                                </tr>
-                            [% endif -%]
+                        [% if promotion.PromotionResultType == "AmountOffOrder" or promotion.PromotionResultType == "PercentOffOrder" -%]
+                        <tr class="promotions">
+                            <td class="sub-label">[[promotion.Name]]</td>
+                            <td class="sub-amount">-[[promotion.AmountDisplay]]</td>
+                        </tr>
+                        [% endif -%]
                         [% endfor -%]
                         <tr>
-                            <td class="sub-label">[% translate "Shipping" %]</td>
-                            <td class="sub-amount">[[Model.ShippingChargesDisplay]]</td>
+                            <td class="sub-label">[% translate "Shipping & Handling" %]</td>
+                            <td class="sub-amount">[[Model.ShippingAndHandlingDisplay]]</td>
                         </tr>
                         [% for promotion in Model.OrderPromotions -%]
-                            [% if promotion.PromotionResultType == "AmountOffShipping" or promotion.PromotionResultType == "PercentOffShipping" -%]
-                                <tr class="promotions">
-                                    <td class="sub-label">[[promotion.Name]]</td>
-                                    <td class="sub-amount">-[[promotion.AmountDisplay]]</td>
-                                </tr>
-                            [% endif -%]
-                        [% endfor -%]
-                        <tr>
-                            <td class="sub-label">[% translate "Handling" %]</td>
-                            <td class="sub-amount">[[Model.HandlingChargesDisplay]]</td>
+                        [% if promotion.PromotionResultType == "AmountOffShipping" or promotion.PromotionResultType == "PercentOffShipping" -%]
+                        <tr class="promotions">
+                            <td class="sub-label">[[promotion.Name]]</td>
+                            <td class="sub-amount">-[[promotion.AmountDisplay]]</td>
                         </tr>
+                        [% endif -%]
+                        [% endfor -%]
+                        [% if Model.OtherCharges > 0 -%]
                         <tr>
                             <td class="sub-label">[% translate "Misc. Charge" %]</td>
                             <td class="sub-amount">[[Model.OtherChargesDisplay]]</td>
                         </tr>
+                        [% endif -%]
                         [% if Model.TotalTaxDisplay != null and Model.TotalTaxDisplay != "" and Model.OrderHistoryTaxes.size == 0 -%]
-                            <tr>
-                                <td class="sub-label">[% translate "Tax" %]</td>
-                                <td class="sub-amount">[[Model.TotalTaxDisplay]]</td>
-                            </tr>
+                        <tr>
+                            <td class="sub-label">[% translate "Tax" %]</td>
+                            <td class="sub-amount">[[Model.TotalTaxDisplay]]</td>
+                        </tr>
                         [% endif -%]
                         [% for orderHistoryTax in Model.OrderHistoryTaxes -%]
-                            <tr class="sub-label">
-                                [% if orderHistoryTax.TaxDescription != null and orderHistory.TaxDescription != "" -%]
-                                    <td class="sub-label">[[orderHistoryTax.TaxDescription]]</td>
-                                [% else -%]
-                                    <td class="sub-label">[% translate "Taxes" %]</td>
-                                [% endif -%]
-                                <td class="sub-amount">[[orderHistoryTax.TaxAmountDisplay]]</td>
-                            </tr>
+                        <tr class="sub-label">
+                            [% if orderHistoryTax.TaxDescription != null and orderHistory.TaxDescription != "" -%]
+                            <td class="sub-label">[[orderHistoryTax.TaxDescription]]</td>
+                            [% else -%]
+                            <td class="sub-label">[% translate "Taxes" %]</td>
+                            [% endif -%]
+                            <td class="sub-amount">[[orderHistoryTax.TaxAmountDisplay]]</td>
+                        </tr>
                         [% endfor -%]
                         <tr class="order-total">
                             <td class="sub-label">[% translate "Total" %]</td>
                             <td class="sub-amount">[[Model.OrderGrandTotalDisplay]]</td>
                         </tr>
                         [% if Model.TotalDiscountDisplay != null and Model.TotalDiscountDisplay != "" -%]
-                            <tr class="discount-total">
-                                <td class="sub-amount" colspan="2">[% translate "You saved" %] [[Model.CurrencySymbol]][[Model.TotalDiscountDisplay]]</td>
-                            </tr>
+                        <tr class="discount-total">
+                            <td class="sub-amount" colspan="2">[% translate "You saved" %] [[Model.CurrencySymbol]][[Model.TotalDiscountDisplay]]</td>
+                        </tr>
                         [% endif -%]
                     </table>
                 </td>
@@ -401,52 +410,52 @@
             <tr class="products-header">
                 <th class="left">[% translate "Product" %]</th>
                 <th class="right">[% translate "Price" %]</th>
-                <th class="right">[% translate "QTY" %]</th>
+                <th class="right">[% translate "Qty Ordered" %]</th>                
                 <th class="right">[% translate "Subtotal" %]</th>
             </tr>
             [% for line in Model.OrderLines -%]
-                <tr class="product-line">
-                    <td>
-                        <div class="item-name">
-                            <h3>
-                                [% if line.ShortDescription != null and line.ShortDescription != "" -%]
-                                    [[line.ShortDescription]]
-                                [% else -%]
-                                    [[line.Description]]
-                                [% endif -%]
-                            </h3>
-                        </div>
-                        <div class="item-num">
-                            <h3>
-                                [[line.ProductErpNumber]]
-                                [% if line.ManufacturerItem != null and line.ManufacturerItem != "" -%]
-                                    [% translate "MFG #:" %] [[line.ManufacturerItem]]
-                                [% endif -%]
-                            </h3>
-                        </div>
-                        [% for promotion in Model.OrderPromotions -%]
-                            [% if promotion.OrderHistoryLineId == line.Id -%]
-                                <h3 class="promotions">[[promotion.Name]]</h3>
+            <tr class="product-line">
+                <td>
+                    <div class="item-name">
+                        <h3>
+                            [% if line.ShortDescription != null and line.ShortDescription != "" -%]
+                            [[line.ShortDescription]]
+                            [% else -%]
+                            [[line.Description]]
                             [% endif -%]
-                        [% endfor -%]
-                    </td>
-                    <td>
-                        <div class="price right">
-                            <h3 class="price-sale">[[line.UnitNetPriceDisplay]]</h3>
-                            <h3 class="selected-uom">[[line.UnitOfMeasure]]</h3>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="item-qty right">
-                            <h3>[[ line.QtyOrderedDisplay ]]</h3>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="right">
-                            <h3 class="item-subtotal">[[line.ExtendedUnitNetPriceDisplay]]</h3>
-                        </div>
-                    </td>
-                </tr>
+                        </h3>
+                    </div>
+                    <div class="item-num">
+                        <h3>
+                            [% translate "Item #:" %] [[line.ProductErpNumber]]
+                            [% if line.ManufacturerItem != null and line.ManufacturerItem != "" -%]
+                            [% translate "MFG #:" %] [[line.ManufacturerItem]]
+                            [% endif -%]
+                        </h3>
+                    </div>
+                    [% for promotion in Model.OrderPromotions -%]
+                    [% if promotion.OrderHistoryLineId == line.Id -%]
+                    <h3 class="promotions">[[promotion.Name]]</h3>
+                    [% endif -%]
+                    [% endfor -%]
+                </td>
+                <td>
+                    <div class="price right">
+                        <h3 class="price-sale">[[line.UnitNetPriceDisplay]]</h3>
+                        <h3 class="selected-uom">[[line.UnitOfMeasure]]</h3>
+                    </div>
+                </td>
+                <td>
+                    <div class="item-qty right">
+                        <h3>[[ line.QtyOrderedDisplay ]]</h3>
+                    </div>
+                </td>
+                <td>
+                    <div class="right">
+                        <h3 class="item-subtotal">[[line.ExtendedUnitNetPriceDisplay]]</h3>
+                    </div>
+                </td>
+            </tr>
             [% endfor -%]
         </table>
     </div>

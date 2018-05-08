@@ -2,15 +2,20 @@
     "use strict";
 
     export class NbfTellAFriendController {
+       // myForm: any;
         tellAFriendModel: TellAFriendModel;
-        isSuccess: boolean;
-        isError: boolean;
+        product: ProductDto;
+        isSuccess: boolean = false;
+        isError: boolean = false;
+        url: string;
 
-        static $inject = ["$scope", "emailService"];
+        static $inject = ["$scope", "emailService", "coreService", "$anchorScroll"];
 
         constructor(
             protected $scope: ng.IScope,
-            protected emailService: email.IEmailService) {
+            protected emailService: email.IEmailService,
+            protected coreService: insite.core.ICoreService,
+            protected $anchorScroll: ng.IAnchorScrollService) {
             this.init();
         }
 
@@ -18,6 +23,8 @@
             angular.element("#TellAFriendDialogContainer").on("closed", () => {
                 this.onTellAFriendPopupClosed();
             });
+
+            this.url = window.location.href;
         }
 
         protected onTellAFriendPopupClosed(): void {
@@ -34,10 +41,15 @@
             this.tellAFriendModel.yourMessage = "";
             this.isSuccess = false;
             this.isError = false;
+
+            var form = angular.element("#tellAFriendForm");
+            form.validate().resetForm();
+            (form[0] as any).reset();
         }
 
         shareWithFriend(): void {
-            const valid = angular.element("#tellAFriendForm").validate().form();
+            const validator = angular.element("#tellAFriendForm").validate();
+            const valid = validator.form();
             if (!valid) {
                 return;
             }
@@ -57,6 +69,12 @@
         protected tellAFriendFailed(error: any): void {
             this.isSuccess = false;
             this.isError = true;
+        }
+
+        protected openShareWithFriendPopup(): void {
+            this.coreService.displayModal(angular.element("#TellAFriendDialogContainer"));
+            this.$anchorScroll();
+            this.resetPopup();
         }
     }
 
