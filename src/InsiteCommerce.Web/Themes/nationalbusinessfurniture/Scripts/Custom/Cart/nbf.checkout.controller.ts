@@ -520,6 +520,7 @@
         }
 
         continueToStep2(cartUri: string): void {
+            debugger;
             const valid = $("#addressForm").validate().form();
             if (!valid) {
                 angular.element("html, body").animate({
@@ -547,7 +548,9 @@
 
             this.customerService.updateBillTo(this.cart.billTo).then(
                 (billTo: BillToModel) => { this.updateBillToCompleted(billTo); },
-                (error: any) => { this.updateBillToFailed(error); });
+                (error: any) => { this.updateBillToFailed(error); });    
+
+            this.updateShipTo(true);
         }
 
         continueToStep3(cartUri: string): void {
@@ -566,7 +569,7 @@
         }
 
         protected updateBillToCompleted(billTo: BillToModel): void {
-            this.updateShipTo(true);
+            
         }
 
         protected updateBillToFailed(error: any): void {
@@ -596,6 +599,8 @@
             }
 
             this.updateSession(this.cart, customerWasUpdated);
+
+            this.$scope.$apply();
         }
 
         protected addOrUpdateShipToFailed(error: any): void {
