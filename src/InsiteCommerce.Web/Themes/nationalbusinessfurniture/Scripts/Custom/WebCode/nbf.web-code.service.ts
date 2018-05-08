@@ -42,11 +42,13 @@
         }
        
         protected getWebCodeCompleted(webCode: any): void {
+            var expire = new Date();
+            expire.setDate(expire.getDate() + 90);
             var webCodeSplit = webCode.data.split("-");
             this.$sessionStorage.setObject("UserAffiliateCodeID", webCodeSplit[1]);
             this.$sessionStorage.setObject("UserOmnitureTransID", webCodeSplit[1]);
-            this.ipCookie("referring_cookie", webCodeSplit[1], { path: "/"});
-            this.ipCookie("web_code_cookie", webCode.data, { path: "/" });
+            this.ipCookie("referring_cookie", webCodeSplit[1], { path: "/", expires: expire });
+            this.ipCookie("web_code_cookie", webCode.data, { path: "/", expires: expire });
         }
 
         protected getWebCodeFailed(error: ng.IHttpPromiseCallbackArg<any>): void {

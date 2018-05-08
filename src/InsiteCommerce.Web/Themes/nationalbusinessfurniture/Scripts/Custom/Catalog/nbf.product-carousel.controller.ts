@@ -85,9 +85,9 @@
                     this.imagesLoaded = 0;
                     this.waitForDom(this.maxTries);
 
-                    this.sessionService.getIsAuthenticated().then(x => {
-                        this.isAuthenticated = x;
-                        if (x) {
+                    this.sessionService.getIsAuthenticated().then(authenticated => {
+                        this.isAuthenticated = authenticated;
+                        if (authenticated) {
                             this.getFavorites();
                         }
                     });
