@@ -38,13 +38,14 @@
         background-position: center;
         background-repeat: no-repeat;
         background-size: cover;
+        -webkit-print-color-adjust: exact;
     }
 
     &__desc {
         padding: 20px;
 
-        h4{
-            margin-bottom:10px;
+        h4 {
+            margin-bottom: 10px;
         }
     }
 }
