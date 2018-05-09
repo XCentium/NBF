@@ -61,24 +61,30 @@ namespace Extensions.Utility.Shipping
                     productByVendor.VendorTotalShippingCharges = GetShippingCharges(productByVendor);
                     productByVendor.VendorTotalShippingCharges = ApplyShippingDiscount(productByVendor);
                 }
-
+                productByVendor.BaseShippingCharges = productByVendor.VendorTotalShippingCharges ?? 0;
                 if (cart.ShipVia != null && !string.IsNullOrEmpty(cart.ShipVia.ShipCode) && cart.ShipVia.ShipCode.ToLower() != "standard")
                 {
-                    productByVendor.VendorTotalShippingCharges += ApplyAdditionalCharges(productByVendor, cart, additionalCharges);
+                    var additonalCharges = ApplyAdditionalCharges(productByVendor, cart, additionalCharges);
+                    productByVendor.VendorTotalShippingCharges += additonalCharges;
+                    productByVendor.AdditonalCharges = additonalCharges ?? 0;
                 }
 
             }
 
             return productsByVendor.Select(pbv => 
                     new ShippingByVendor() {
-                        ShippingCost = pbv.VendorTotalShippingCharges ?? 0,
+                        TotalShippingCost = pbv.VendorTotalShippingCharges ?? 0,
                         VendorId = pbv.VendorId.Value,
                         ShipCode = cart.ShipVia?.ShipCode?.Substring(0, 1).ToUpper(),
-                        OrderLines = pbv.OrderLines
+                        OrderLines = pbv.OrderLines,
+                        AdditonalCharges = pbv.AdditonalCharges,
+                        BaseShippingCost = pbv.BaseShippingCharges
                     }
                 ).ToList();
         }
 
+        //I think this method needs to be rethought. Since all of the vendors are being looped through and this is being called on each vendor, the value of cart.shipvia.shipcode can change
+        //after the charges for a previous vendor have already been calculated. 
         private static decimal? ApplyAdditionalCharges(ProductsByVendor productsByVendor, CustomerOrder cart, List<ShippingChargesRuleModel> additionalChargesList)
         {
             decimal? additionalCharge = 0.0m;
@@ -86,7 +92,7 @@ namespace Extensions.Utility.Shipping
             {
 
                 //var additionalChargesList = GetAdditionalChargesJson();
-
+               
                 var totalVendorWeight = productsByVendor.OrderLines.Sum(x => x.Product.ShippingWeight * x.QtyOrdered);
                 if (cart.ShipVia.ShipCode.ToLower() == "i")  // handle inside/front door delivery
                 {
@@ -202,7 +208,9 @@ namespace Extensions.Utility.Shipping
 
     public class ShippingByVendor
     {
-        public decimal ShippingCost { get; set; }
+        public decimal TotalShippingCost { get; set; }
+        public decimal BaseShippingCost { get; set; }
+        public decimal AdditonalCharges { get; set; }
         public Guid VendorId { get; set; }
         public string ShipCode { get; set; }
         public List<OrderLine> OrderLines { get; set; }
@@ -214,5 +222,7 @@ namespace Extensions.Utility.Shipping
         public List<OrderLine> OrderLines { get; set; }
         public bool IsTruck { get; set; }
         public decimal? VendorTotalShippingCharges { get; set; }
+        public decimal AdditonalCharges { get; set; }
+        public decimal BaseShippingCharges { get; set; }
     }
 }

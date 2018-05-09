@@ -39,12 +39,13 @@ namespace Extensions.Handlers.SubmitOrderToErpHandler
 
                 foreach(var vendor in shipByVendor)
                 {
-                    var vendorTotal = vendor.ShippingCost + vendor.OrderLines.Sum(l => OrderLineUtilities.GetTotalNetPrice(l));
+                    var vendorTotal = vendor.TotalShippingCost + vendor.OrderLines.Sum(l => OrderLineUtilities.GetTotalNetPrice(l));
                     var vendorTax = (vendorTotal / pretaxTotal) * totalTax;
                     repo.Insert(new ShippingByVendorModel()
                     {
                         OrderNumber = result.GetCartResult.Cart.OrderNumber,
-                        ShippingCost = vendor.ShippingCost,
+                        BaseShippingCost = vendor.BaseShippingCost,
+                        AdditionalShippingCost = vendor.AdditonalCharges,
                         VendorId = vendor.VendorId,
                         ShipCode = vendor.ShipCode,
                         Tax = vendorTax                  

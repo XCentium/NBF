@@ -18,7 +18,10 @@ namespace Extensions.Models.ShippingByVendor
         public Guid VendorId { get; set; }
 
         [Required]
-        public decimal ShippingCost { get; set; }
+        public decimal BaseShippingCost { get; set; }
+
+        [Required]
+        public decimal AdditionalShippingCost { get; set; }
 
         [Required]
         public string ShipCode { get; set; }

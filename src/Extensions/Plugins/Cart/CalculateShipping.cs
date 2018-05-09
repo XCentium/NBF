@@ -61,7 +61,7 @@ namespace Extensions.Plugins.Cart
             var additionalCharges = unitOfWork.GetRepository<ShippingChargesRuleModel>().GetTable().ToList();
             var shippingByVendor = ShippingHelper.CalculateShippingByVendor(additionalCharges, result.Cart);
 
-            result.Cart.ShippingCharges = Math.Ceiling(Convert.ToDecimal(shippingByVendor.Sum(x => x.ShippingCost)));
+            result.Cart.ShippingCharges = Math.Ceiling(Convert.ToDecimal(shippingByVendor.Sum(x => x.TotalShippingCost)));
             //result.Cart.ShippingCharges = this.ApplyShippingDiscount(result);
 
             //if (cartPricing.ResultCode != ResultCode.Success)
