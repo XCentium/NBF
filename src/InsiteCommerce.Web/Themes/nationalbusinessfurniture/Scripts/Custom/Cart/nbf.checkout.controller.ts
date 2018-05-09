@@ -1382,6 +1382,8 @@
 
                         }
                         this.paymentAmount = this.remainingTotal;
+
+                        this.cart.paymentOptions.creditCard.cardType = null;
                     });
                 }
             });

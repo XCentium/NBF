@@ -12,6 +12,7 @@
         favoritesWishlist: WishListModel;
         isAuthenticated: boolean = false;
         imagesLoaded: number;
+        notFound: boolean = false;
 
         static $inject = ["$timeout", "$window", "$scope", "$rootScope", "productService", "sessionService", "nbfShopTheLookService", "queryString", "spinnerService", "nbfWishListService", "$attrs"];
 
@@ -32,28 +33,38 @@
 
         init(): void {
             this.spinnerService.show("mainLayout", true);
-            var id = this.queryString.get("lookId");
-            this.nbfShopTheLookService.getLook(id).then(
-                (look: ShopTheLook) => { this.getLookCompleted(look); },
-                (error: any) => { this.getLookFailed(error); });
+            const id = this.queryString.get("lookId");
+            if (id) {
+                this.nbfShopTheLookService.getLook(id).then(
+                    (look: ShopTheLook) => { this.getLookCompleted(look); },
+                    (error: any) => { this.getLookFailed(error); });
+            } else {
+                this.notFound = true;
+                this.spinnerService.hide("mainLayout");
+            }
         }
 
         protected getLookCompleted(look: ShopTheLook): void {
-            this.look = look;
+            if (look) {
+                this.look = look;
 
-            this.sessionService.getIsAuthenticated().then(authenticated => {
-                this.isAuthenticated = authenticated;
-                if (authenticated) {
-                    this.getFavorites();
-                }
-            });
+                this.sessionService.getIsAuthenticated().then(authenticated => {
+                    this.isAuthenticated = authenticated;
+                    if (authenticated) {
+                        this.getFavorites();
+                    }
+                });
 
-            this.imagesLoaded = 0;
-            this.waitForDom();
-            
-            setTimeout(() => {
-                this.setPowerReviews();
-            }, 100);
+                this.imagesLoaded = 0;
+                this.waitForDom();
+
+                setTimeout(() => {
+                        this.setPowerReviews();
+                    },
+                    100);
+            } else {
+                this.notFound = true;
+            }
 
             this.spinnerService.hide("mainLayout");
         }
