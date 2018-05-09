@@ -138,7 +138,7 @@ namespace Extensions.WebApi.ShopTheLook.Repository
             var styles = new List<ShopTheLookStyleDto>();
             foreach (var room in rooms)
             {
-                var style = styles.FirstOrDefault(x => x.Id.Equals(room.Id));
+                var style = styles.FirstOrDefault(x => x.StyleName.Equals(room.StyleName, StringComparison.CurrentCultureIgnoreCase));
                 if (style != null)
                 {
                     style.LookIds.Add(room.StlRoomLookId);
