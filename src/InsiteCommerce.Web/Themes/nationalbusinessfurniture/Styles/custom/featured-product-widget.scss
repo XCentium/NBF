@@ -49,6 +49,7 @@
             right: 5px;
             z-index: 1;
 
+
             a {
                 display: inline;
                 padding: 0;
@@ -73,6 +74,8 @@
             margin-bottom: 15px;
             border: 1px solid $divider-gray;
             position: relative;
+            @include flexbox();
+            align-items: center;
         }
 
         &__compare {
