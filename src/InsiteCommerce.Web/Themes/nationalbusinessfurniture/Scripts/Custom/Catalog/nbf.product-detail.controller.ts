@@ -71,26 +71,26 @@
             if (favoriteLine.length > 0) {
                 //Remove lines
                 this.nbfWishListService.deleteLineCollection(this.favoritesWishlist, favoriteLine).then((result) => {
-                    this.getFavorites();
+                    this.getFavorites(product);
                 });     
             } else {
                 //Add Lines
                 var addLines = [product];
                 this.nbfWishListService.addWishListLines(this.favoritesWishlist, addLines).then(() => {
-                    this.getFavorites();
+                    this.getFavorites(product);
                 });
                 this.$rootScope.$broadcast("initAnalyticsEvent", "AddProductToWIshList");
             }
         }
 
-        protected getFavorites() {
+        protected getFavorites(product : ProductDto) {
             this.nbfWishListService.getWishLists("CreatedOn", "wishlistlines").then((wishList) => {
                 this.favoritesWishlist = wishList.wishListCollection[0];
-                this.product.properties["isFavorite"] = "false";
+                product.properties["isFavorite"] = "false";
                 if (this.favoritesWishlist) {
                     if (this.favoritesWishlist.wishListLineCollection) {
-                        if (this.favoritesWishlist.wishListLineCollection.filter(x => x.productId === this.product.id)[0]) {
-                            this.product.properties["isFavorite"] = "true";
+                        if (this.favoritesWishlist.wishListLineCollection.filter(x => x.productId === product.id)[0]) {
+                            product.properties["isFavorite"] = "true";
                         }
                     } else {
                         this.favoritesWishlist.wishListLineCollection = [];
@@ -287,7 +287,7 @@
             this.sessionService.getIsAuthenticated().then(x => {
                 this.isAuthenticated = x;
                 if (this.isAuthenticated) {
-                    this.getFavorites();
+                    this.getFavorites(this.parentProduct);
                 }
             });
 
