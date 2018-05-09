@@ -65,7 +65,7 @@ namespace Extensions.Widgets
             }
         }
 
-        [ListContentField(DisplayName = "Enter upto 3 Product Numbers", SortOrder = 40)]
+        [ListContentField(DisplayName = "Enter Product Numbers and Hotspot Positions in the following template: PRODUCTNUMBER;top:XX%;left:XX%", SortOrder = 40)]
         public virtual List<string> ProductNumbers
         {
             get
@@ -78,48 +78,6 @@ namespace Extensions.Widgets
             }
         }
 
-        public virtual string ProductString => string.Join(":", ProductNumbers.ToArray());
-
-        [TextContentField(SortOrder = 50)]
-        [DisplayName("Product #1 Hotspot Position")]
-        public virtual string Product1HotspotPosition
-        {
-            get
-            {
-                return GetValue(nameof(Product1HotspotPosition), "top:23%; left:78%;", FieldType.Contextual);
-            }
-            set
-            {
-                SetValue(nameof(Product1HotspotPosition), value, FieldType.Contextual);
-            }
-        }
-
-        [TextContentField(SortOrder = 60)]
-        [DisplayName("Product #2 Hotspot Position")]
-        public virtual string Product2HotspotPosition
-        {
-            get
-            {
-                return GetValue(nameof(Product2HotspotPosition), "top:79%; left:23%;", FieldType.Contextual);
-            }
-            set
-            {
-                SetValue(nameof(Product2HotspotPosition), value, FieldType.Contextual);
-            }
-        }
-
-        [TextContentField(SortOrder = 70)]
-        [DisplayName("Product #3 Hotspot Position")]
-        public virtual string Product3HotspotPosition
-        {
-            get
-            {
-                return GetValue(nameof(Product3HotspotPosition), "top:50%; left:50%;", FieldType.Contextual);
-            }
-            set
-            {
-                SetValue(nameof(Product3HotspotPosition), value, FieldType.Contextual);
-            }
-        }
+        public virtual string ProductString => string.Join("||", ProductNumbers.ToArray());
     }
 }

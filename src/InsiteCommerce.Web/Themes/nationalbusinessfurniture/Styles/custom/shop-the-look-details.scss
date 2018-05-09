@@ -247,6 +247,10 @@
             }
         }
     }
+
+    .pr-category-snippet__total, .pr-snippet-rating-decimal {
+        display:none !important;
+    }
 }
 
 .shopthelookwidget {
