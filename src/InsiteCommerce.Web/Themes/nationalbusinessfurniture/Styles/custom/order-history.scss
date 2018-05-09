@@ -41,6 +41,10 @@
 
     .info-tbl th, .info-tbl td {
         text-align: center;
+
+        a {
+            text-decoration: none;
+        }
     }
 
     .info-tbl {
@@ -49,7 +53,7 @@
 
     .info-tbl th {
         &.col-btn {
-           min-width:170px;
+            min-width: 170px;
         }
     }
 

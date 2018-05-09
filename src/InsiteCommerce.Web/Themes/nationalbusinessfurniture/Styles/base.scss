@@ -626,6 +626,7 @@ th .sort {
     position: relative;
     display: block;
     padding-right: .75em;
+    text-decoration: none;
 }
 
 th .sort:hover, th .sort:focus {
@@ -657,6 +658,10 @@ th .sort:after {
     right: -4px;
     top: -2px;
     font-size: 1.2rem;
+}
+
+.col-btn a {
+    text-decoration: none;
 }
 
 th .sort-ascending:after {
@@ -1569,17 +1574,15 @@ select {
 .input-validation-error, .ng-submitted input.ng-invalid, .ng-submitted select.ng-invalid {
     border-color: #c60f13 !important;
     background-color: rgba(198, 15, 19, 0.1) !important;
+    margin-bottom:0 !important;
 }
 
 .validation-summary-errors {
-    padding: .25em 1em;
     line-height: 1.5em;
     color: #C60F13;
     display: block;
     clear: both;
     font-size: 16px;
-    font-weight: 700;
-    border: 1px solid #C60F13;
     padding: 1em;
     margin: 1.5em 0;
 }
@@ -1590,17 +1593,14 @@ select {
 
 span.field-validation-error,
 .messaging--error {
-    padding: .5em 1em;
     font-size: 0.9em;
     line-height: 1.5em;
-    font-weight: 600;
     background: #fff;
     color: #C60F13;
     display: block;
     clear: both;
     font-size: 14px;
-    margin-bottom: .25em;
-    border: 1px solid #C60F13;
+    margin-bottom: 9px;
 }
 
 .messaging--error {
