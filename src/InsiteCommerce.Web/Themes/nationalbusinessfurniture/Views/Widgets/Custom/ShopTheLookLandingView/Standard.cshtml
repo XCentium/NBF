@@ -27,14 +27,14 @@
                             <div id="filters" class="button-group shopthelook__filter-group">
                                 <button class="button is-checked" data-filter="*">Show All</button>
                                 <div ng-repeat="cat in vm.collection.categories">
-                                    <button class="button" data-filter=".{{cat.name | removeSpaces}}">{{cat.name}}</button>
+                                    <button class="button" data-filter=".{{cat.id | removeSpaces}}">{{cat.name}}</button>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="shopthelook__wrapper">
                         <div class="shopthelook__gird">
-                            <div ng-repeat="look in vm.collection.looks" class="shopthelook__item grid-item {{look.categoryNames.join(' ')}} {{look.styleNames.join(' ')}}">
+                            <div ng-repeat="look in vm.collection.looks" class="shopthelook__item grid-item {{look.categoryIds.join(' ')}} {{look.styleNames.join(' ')}}">
                                 <img ng-src='https://s7d9.scene7.com/is/image/NationalBusinessFurniture/{{look.mainImage}}?hei=200&id=5-zsy2&fmt=jpg&fit=constrain,1&wid=344&hei=344' alt="{{look.title}}" />
                                 <a href="/shop-the-look/STL?name={{look.title}}&lookId={{look.id}}" class="btn btn-secondary">See Room</a>
                             </div>
