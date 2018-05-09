@@ -14,6 +14,7 @@ CREATE TABLE [Extensions].[ShippingByVendor](
 	[OrderNumber] [nvarchar](50) NOT NULL,
 	[VendorId] [uniqueidentifier] NOT NULL,
 	[ShippingCost] decimal(12,2) NOT NULL,
+	[Tax] decimal(12,2) NOT NULL,
 	[ShipCode] [varchar](1) NOT NULL,
 	[CreatedOn] [datetimeoffset](7) NULL,
 	[CreatedBy] [nvarchar](100) NOT NULL,

@@ -23,5 +23,8 @@ namespace Extensions.Models.ShippingByVendor
         [Required]
         public string ShipCode { get; set; }
 
+        [Required]
+        public decimal Tax { get; set; }
+
     }
 }

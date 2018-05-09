@@ -69,7 +69,14 @@ namespace Extensions.Utility.Shipping
 
             }
 
-            return productsByVendor.Select(pbv => new ShippingByVendor() { ShippingCost = pbv.VendorTotalShippingCharges ?? 0, VendorId = pbv.VendorId.Value, ShipCode = cart.ShipVia?.ShipCode?.Substring(0, 1).ToUpper()}).ToList();
+            return productsByVendor.Select(pbv => 
+                    new ShippingByVendor() {
+                        ShippingCost = pbv.VendorTotalShippingCharges ?? 0,
+                        VendorId = pbv.VendorId.Value,
+                        ShipCode = cart.ShipVia?.ShipCode?.Substring(0, 1).ToUpper(),
+                        OrderLines = pbv.OrderLines
+                    }
+                ).ToList();
         }
 
         private static decimal? ApplyAdditionalCharges(ProductsByVendor productsByVendor, CustomerOrder cart, List<ShippingChargesRuleModel> additionalChargesList)
@@ -198,6 +205,7 @@ namespace Extensions.Utility.Shipping
         public decimal ShippingCost { get; set; }
         public Guid VendorId { get; set; }
         public string ShipCode { get; set; }
+        public List<OrderLine> OrderLines { get; set; }
     }
 
     public class ProductsByVendor
