@@ -251,6 +251,10 @@
     .pr-category-snippet__total, .pr-snippet-rating-decimal {
         display:none !important;
     }
+
+    .item-block__product__img {
+        max-height:265px;
+    }
 }
 
 .shopthelookwidget {
@@ -297,6 +301,10 @@
 
         &__default__title {
             margin: 0;
+        }
+
+        a {
+            text-decoration: none;
         }
     }
 }

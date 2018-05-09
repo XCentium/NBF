@@ -132,7 +132,7 @@
         }
 
         protected setPowerReviews() {
-            let powerReviewsConfigsFeaturedProducts = this.look.productHotSpots.map(x => {
+            let powerReviewsConfigs = this.look.productHotSpots.map(x => {
                 return {
                     api_key: this.$attrs.prApiKey,
                     locale: 'en_US',
@@ -146,23 +146,8 @@
                 }
             });
 
-            //let powerReviewsConfigsFeaturedAccessories = this.featuredAccessories.map(x => {
-            //    return {
-            //        api_key: this.$attrs.prApiKey,
-            //        locale: 'en_US',
-            //        merchant_group_id: this.$attrs.prMerchantGroupId,
-            //        merchant_id: this.$attrs.prMerchantId,
-            //        page_id: x.productCode,
-            //        review_wrapper_url: 'Product-Review?',
-            //        components: {
-            //            CategorySnippet: 'pr-' + x.productCode
-            //        }
-            //    }
-            //});
-
             let powerReviews = this.$window["POWERREVIEWS"];
-            powerReviews.display.render(powerReviewsConfigsFeaturedProducts);
-            //powerReviews.display.render(powerReviewsConfigsFeaturedAccessories);
+            powerReviews.display.render(powerReviewsConfigs);
         }
 
         protected getTop3Swatches(swatchesJson): string[] {
