@@ -74,7 +74,7 @@
     }
 
     export interface ShopTheLookPreview extends ShopTheLook {
-        categoryNames: System.Guid[];
+        categoryIds: System.Guid[];
         styleNames: System.Guid[];
     }
 
