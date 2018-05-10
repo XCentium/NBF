@@ -76,6 +76,14 @@
             min-height: 180px;
             float: left;
             margin-right: 10px;
+            position:relative;
+
+            .btn-add-to-list {
+                position:absolute;
+                top:5px;
+                right:0;
+                width:auto !important;
+            }
 
             @media all and (max-width: 1025px) {
                 width: 21%;
@@ -251,6 +259,10 @@
     .pr-category-snippet__total, .pr-snippet-rating-decimal {
         display:none !important;
     }
+
+    .item-block__product__img {
+        max-height:265px;
+    }
 }
 
 .shopthelookwidget {
@@ -297,6 +309,10 @@
 
         &__default__title {
             margin: 0;
+        }
+
+        a {
+            text-decoration: none;
         }
     }
 }

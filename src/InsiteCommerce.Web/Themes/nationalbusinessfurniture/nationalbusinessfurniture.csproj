@@ -578,7 +578,6 @@
     <Content Include="Views\Widgets\Custom\ProductFlyOut\Standard.cshtml" />
     <Content Include="Views\Widgets\Custom\NavigationFlyOut\Header.cshtml" />
     <Content Include="Views\Widgets\Custom\NavigationFlyOut\MyAccount.cshtml" />
-    <Content Include="Views\Widgets\Custom\ShopTheLookLandingView\Standard1.cshtml" />
     <Content Include="Views\Widgets\Custom\ShopTheLookWidget\Standard.cshtml" />
     <Content Include="Views\Widgets\Custom\ProductCTAFourSquares\Standard.cshtml" />
     <Content Include="Views\Widgets\Custom\ArticlePageComment\Standard.cshtml" />

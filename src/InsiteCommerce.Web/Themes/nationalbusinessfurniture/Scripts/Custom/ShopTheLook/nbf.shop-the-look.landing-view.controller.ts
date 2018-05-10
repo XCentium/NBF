@@ -67,10 +67,10 @@
                 cat.lookIds.forEach(id => {
                     var look = this.collection.looks.filter(x => x.id === id)[0];
                     if (look) {
-                        if (!look.categoryNames) {
-                            look.categoryNames = [];
+                        if (!look.categoryIds) {
+                            look.categoryIds = [];
                         }
-                        look.categoryNames.push(cat.name.replace(/\s/g, ''));
+                        look.categoryIds.push(cat.id);
                     }
                 });
             });
@@ -82,7 +82,7 @@
                         if (!look.styleNames) {
                             look.styleNames = [];
                         }
-                        look.styleNames.push(style.styleName.replace(/\s/g, ''));
+                        look.styleNames.push(style.styleName.replace(/\s/g, ""));
                     }
                 });
             });
@@ -91,10 +91,8 @@
 
     angular
         .module("insite")
-        .filter('removeSpaces', function () {
-            return function (text: string) {
-                return text.replace(/\s/g, '');
-            };
+        .filter("removeSpaces", () => (text: string) => {
+            return text.replace(/\s/g, "");
         })
         .controller("NbfShopTheLookLandingViewController", NbfShopTheLookLandingViewController);
 }
