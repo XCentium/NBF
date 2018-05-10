@@ -14,7 +14,7 @@
         }
 
         init(): void {
-            //this.$form = this.$element.find("form");
+            this.$form = this.$element.find("form");
             //this.$form.removeData("validator");
             //this.$form.removeData("unobtrusiveValidation");
             //$.validator.unobtrusive.parse(this.$form);
