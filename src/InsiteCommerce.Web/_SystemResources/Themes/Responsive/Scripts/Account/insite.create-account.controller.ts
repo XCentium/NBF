@@ -19,7 +19,8 @@
             "queryString",
             "accessToken",
             "spinnerService",
-            "$q"
+            "$q",
+            "$rootScope"
         ];
 
         constructor(
@@ -30,7 +31,9 @@
             protected queryString: common.IQueryStringService,
             protected accessToken: common.IAccessTokenService,
             protected spinnerService: core.SpinnerService,
-            protected $q: ng.IQService) {
+            protected $q: ng.IQService,
+            protected $rootScope: ng.IRootScopeService
+        ) {
             this.init();
         }
 
@@ -118,7 +121,7 @@
             const currentContext = this.sessionService.getContext();
             currentContext.billToId = account.billToId;
             currentContext.shipToId = account.shipToId;
-            
+            this.$rootScope.$broadcast("initAnalyticsEvent", "AccountCreation", null, null);
             this.sessionService.setContext(currentContext);
             this.coreService.redirectToPathAndRefreshPage(this.returnUrl);
         }

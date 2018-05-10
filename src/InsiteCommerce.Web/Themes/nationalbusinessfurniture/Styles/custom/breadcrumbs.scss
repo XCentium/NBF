@@ -11,6 +11,10 @@
 .breadcrumb-wrap {
     border-bottom: 1px solid $divider-gray;
 
+    @media print {
+        display:none;
+    }
+
     .breadcrumbs {
         float: left;
         @media all and (max-width: 991px){
@@ -43,6 +47,7 @@
         color: $nbf-navy;
         font-family: $ProximaNova;
         font-weight: 700;
+        margin-right:3px;
     }
 
     & > *:before {
@@ -80,8 +85,9 @@
         float: none;
         text-align: center;
     }
-    .share-label{
-        text-transform:uppercase;
+
+    .share-label {
+        text-transform: uppercase;
     }
 
     li {
@@ -97,6 +103,7 @@
 
         a {
             color: $nbf-navy;
+            text-decoration: none;
         }
     }
 

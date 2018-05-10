@@ -2,6 +2,7 @@
 using System.Web.Http;
 using System.Web.Http.Description;
 using Extensions.WebApi.ShopTheLook.Interfaces;
+using Extensions.WebApi.ShopTheLook.Models;
 using Insite.Core.Plugins.Utilities;
 using Insite.Core.WebApi;
 using Microsoft.Ajax.Utilities;
@@ -20,7 +21,7 @@ namespace Extensions.WebApi.ShopTheLook.Controllers
         }
 
         [Route("{id}", Name = "getLook")]
-        [ResponseType(typeof(string))]
+        [ResponseType(typeof(ShopTheLookDto))]
         public async Task<IHttpActionResult> Get(string id)
         {
             if (id.IsNullOrWhiteSpace())
@@ -29,6 +30,15 @@ namespace Extensions.WebApi.ShopTheLook.Controllers
             }
 
             var a = await _shopTheLookService.GetLook(id);
+
+            return Ok(a);
+        }
+
+        [Route("", Name = "getLookCollection")]
+        [ResponseType(typeof(ShopTheLookCollectionDto))]
+        public async Task<IHttpActionResult> GetLookCollection()
+        {
+            var a = await _shopTheLookService.GetLookCollection();
 
             return Ok(a);
         }

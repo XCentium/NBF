@@ -1,16 +1,22 @@
 ﻿module nbf.CatalogMailingPrefs {
     "use strict";
 
+    export interface INbfCatalogMailingPrefsControllerAttributes extends ng.IAttributes {
+        redirectUrl: string;
+    }
+
     export class NbfCatalogMailingPrefsController {      
         catalogPrefs: any = {};
         submitted: boolean = false;
         $form: JQuery;
-        static $inject = ["$element", "$scope", "nbfEmailService"];
+        static $inject = ["$element", "$rootScope", "$window", "nbfEmailService", "$attrs"];
 
         constructor(
             protected $element: ng.IRootElementService,
-            protected $scope: ng.IScope,
-            protected nbfEmailService: email.INbfEmailService) {
+            protected $rootScope: ng.IRootScopeService,
+            protected $window: ng.IWindowService,
+            protected nbfEmailService: email.INbfEmailService,
+            protected $attrs: INbfCatalogMailingPrefsControllerAttributes) {
             this.init();
         }
 
@@ -29,8 +35,11 @@
             
             this.nbfEmailService.sendCatalogPrefsEmail(this.catalogPrefs).then(
                 (catalogMailingPrefs: string) => {
+                    this.$rootScope.$broadcast("initAnalyticsEvent", "CatalogRequest");
                     this.getCatalogMailingPrefsCompleted(catalogMailingPrefs);
                     this.submitted = true;
+
+                    this.$window.location.href = this.$attrs.redirectUrl;
                 },
                 (error: any) => { this.getCatalogMailingPrefsFailed(error); });
 

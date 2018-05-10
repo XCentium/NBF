@@ -113,10 +113,12 @@
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Scripts\Custom\nbf.analytics.body.js" />
     <Content Include="Scripts\Custom\spriteSpin\spriteSpin.js" />
     <Content Include="Scripts\foundation.equalizer.js" />
     <Content Include="Scripts\foundation.tooltip.js" />
     <Content Include="Scripts\isotope.pkgd.min.js" />
+    <Content Include="Scripts\jquery.matchHeight-min.js" />
     <Content Include="Scripts\Libraries\jquery.inputmask\0.0.0\jquery.inputmask.js" />
     <Content Include="Scripts\Libraries\jquery.inputmask\0.0.0\jquery.inputmask.numeric.extensions.js" />
     <Content Include="Scripts\Libraries\jquery.maskedinput\jquery.maskedinput.js" />
@@ -176,6 +178,12 @@
     <TypeScriptCompile Include="Scripts\Catalog\insite.recently-viewed.controller.ts" />
     <TypeScriptCompile Include="Scripts\Catalog\insite.related-products.controller.ts" />
     <TypeScriptCompile Include="Scripts\Common\insite.base-upload.ts" />
+    <TypeScriptCompile Include="Scripts\Custom\Account\nbf.sign-in.controller.ts" />
+    <TypeScriptCompile Include="Scripts\Custom\Cart\nbf.cart.service.ts" />
+    <TypeScriptCompile Include="Scripts\Custom\Catalog\nbf.product-search.controller.ts" />
+    <TypeScriptCompile Include="Scripts\Custom\ContactUs\nbf.contact-us.controller.ts" />
+    <TypeScriptCompile Include="Scripts\Custom\ShopTheLook\nbf.shop-the-look-cta.controller.ts" />
+    <TypeScriptCompile Include="Scripts\nbf.custom.models.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Account\nbf.account-settings.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Account\nbf.create-account.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Account\nbf.guest-activation.service.ts" />
@@ -184,13 +192,13 @@
     <TypeScriptCompile Include="Scripts\Custom\Account\nbf.sign-in-fly-out.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Account\nbf.sign-in-widget.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Account\nbf.account.directives.ts" />
-    <TypeScriptCompile Include="Scripts\Custom\Cart\nbf.cart-lines.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Cart\nbf.terms-and-conditions-popup.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Cart\nbf.cart.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Cart\nbf.cart-total-display.directive.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Cart\nbf.cart-lines.directive.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Cart\nbf.checkout.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Cart\nbf.payment.service.ts" />
+    <TypeScriptCompile Include="Scripts\Custom\Catalog\nbf.tell-a-friend.directives.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Catalog\nbf.product-write-review.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Catalog\nbf.product-price-saving.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Catalog\nbf.category-left-nav.controller.ts" />
@@ -224,8 +232,10 @@
     <TypeScriptCompile Include="Scripts\Custom\OrderTracker\nbf.order-tracker.service.ts" />
     <TypeScriptCompile Include="Scripts\Custom\OrderTracker\nbf.order-tracker.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Rma\nbf.rma.controller.ts" />
+    <TypeScriptCompile Include="Scripts\Custom\ShopTheLook\nbf.shop-the-look.service.ts" />
     <TypeScriptCompile Include="Scripts\Custom\ShopTheLook\nbf.shop-the-look.widget.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\ShopTheLook\nbf.shop-the-look.landing-view.controller.ts" />
+    <TypeScriptCompile Include="Scripts\Custom\SocialMediaSharing\nbf.tell-a-friend.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\SocialMediaSharing\nbf.social-media.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\CatalogMailingPrefs\nbf.catalogmailingprefs.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Videos\nbf.video.controller.ts" />
@@ -568,7 +578,6 @@
     <Content Include="Views\Widgets\Custom\ProductFlyOut\Standard.cshtml" />
     <Content Include="Views\Widgets\Custom\NavigationFlyOut\Header.cshtml" />
     <Content Include="Views\Widgets\Custom\NavigationFlyOut\MyAccount.cshtml" />
-    <Content Include="Views\Widgets\Custom\ShopTheLookLandingView\Standard.cshtml" />
     <Content Include="Views\Widgets\Custom\ShopTheLookWidget\Standard.cshtml" />
     <Content Include="Views\Widgets\Custom\ProductCTAFourSquares\Standard.cshtml" />
     <Content Include="Views\Widgets\Custom\ArticlePageComment\Standard.cshtml" />
@@ -796,8 +805,12 @@
     <Content Include="Views\Widgets\Custom\TaxExempt\Standard.cshtml" />
     <Content Include="Views\Directives\Custom\Account\TaxExempt.cshtml" />
     <Content Include="Views\Directives\Custom\Cart\NbfTermsAndConditionsPopup.cshtml" />
+    <Content Include="Views\Widgets\Breadcrumb\NoShareLinks.cshtml" />
+    <Content Include="Views\Widgets\Custom\ShopTheLookLandingView\Standard.cshtml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Scripts\Custom\Orders\" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

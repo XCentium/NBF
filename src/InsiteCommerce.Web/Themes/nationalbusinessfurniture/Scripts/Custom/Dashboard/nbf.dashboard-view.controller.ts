@@ -74,6 +74,12 @@
             this.links = dashboardPanelCollection.dashboardPanels.filter((x) => { return !x.isPanel; });
             this.panels = dashboardPanelCollection.dashboardPanels.filter((x) => { return x.isPanel; });
             this.quickLinks = dashboardPanelCollection.dashboardPanels.filter((x) => { return x.isQuickLink; });
+
+            this.panels.push({
+                isPanel: true, url: "/Customer-Services/Catalog-Mailing-Preferences/", text: "My Catalog Preferences", panelType: "Account Settings",
+                quickLinkText: "My Catalog Mailing Preferences", count: null, isQuickLink: true, order: 300, quickLinkOrder: 300,
+                openInNewTab: false
+            });
         }
 
         protected getDashboardPanelsFailed(error: any): void {

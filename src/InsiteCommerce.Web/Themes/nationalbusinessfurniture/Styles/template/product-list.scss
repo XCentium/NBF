@@ -19,6 +19,31 @@
             margin-right: 0.9375rem;
         }
     }
+
+    .item-details {
+        .item-block__product__stars {
+            .p-w-r {
+                .pr-snippet-rating-decimal, .pr-category-snippet__total {
+                    display: none !important;
+                }
+            }
+        }
+    }
+
+    .vm-grid {
+        .item-details {
+            .item-block__product__col-2 {
+                .col-1, .col-2 {
+                    display: inline-block;
+                }
+
+                .col-2 {
+                    vertical-align: super;
+                    float: right;
+                }
+            }
+        }
+    }
     // Left Nav implementation from ISC 3.4
     .left-nav-2 {
         position: relative;
@@ -843,10 +868,19 @@
             position: absolute;
             top: 0;
             right: 0;
+            text-align: right;
 
-            .item-block__product__price, h3, .item-block__product__flag, .strike ori-price-tag {
-                display: inline-block !important;
+            .item-block__product__price, h3, .strike ori-price-tag {
+                display: block !important;
                 text-align: right;
+            }
+
+            h3 {
+                margin-right: 0;
+            }
+
+            .item-block__product__price {
+                display: block !important;
             }
         }
 

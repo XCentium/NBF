@@ -3,6 +3,11 @@
 
 .product-details {
     .detail-image {
+        #s7flyout_inline_div.s7flyoutviewer {
+            @media all and (max-width: 767px) {
+                height:400px !important;
+            }
+        }
 
 
         .s7flyoutzoomview {
@@ -45,7 +50,7 @@
         margin-bottom: 20px;
 
         @media all and (min-width: 768px) {
-            border: 1px solid $divider-gray;
+            border: 1px solid #c2c2c2;
             padding: 20px;
             height: 558px;
             overflow: auto;
@@ -91,7 +96,7 @@
                 }
 
                 .item-block__product__bluk-pricing > div {
-                    margin-bottom:5px;
+                    margin-bottom: 5px;
                 }
             }
 
@@ -197,6 +202,8 @@
                     left: 10px;
                     right: auto;
                     top: 17px;
+                    font-family: $FontAwesome;
+                    font-size: 14px;
                 }
             }
 
@@ -206,6 +213,7 @@
 
                 &:after {
                     content: "\f068";
+                    font-family: $FontAwesome;
                 }
             }
 
@@ -224,6 +232,10 @@
 
         .pd-buttons {
             margin-right: 20px;
+
+            .btn-add-to-cart {
+                min-width: 200px;
+            }
         }
 
         a.btn.btn-add-to-list:link {

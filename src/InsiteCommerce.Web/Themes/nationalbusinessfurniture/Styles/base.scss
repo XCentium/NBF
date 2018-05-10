@@ -265,7 +265,7 @@
     }
 
     // hide unnecessary global UI elements
-    .top-content, .top-panel, [role="secondary-nav"], header#header, .isc-primary-nav, footer#footer, .show-for-small, .hide-for-medium-up, .f-dropdown.content, .btns a.btn-print, .btn-return, .btn-continue-shopping {
+    .top-content, .top-panel, [role="secondary-nav"], header .isc-nav-bar, .isc-primary-nav, footer#footer, .show-for-small, .hide-for-medium-up, .f-dropdown.content, .btns a.btn-print, .btn-return, .btn-continue-shopping {
         display: none !important;
     }
 
@@ -363,6 +363,11 @@ body {
     border:1px solid $divider-gray;
 }
 
+.linkstyle{
+   text-decoration:underline;
+   color:$nbf-orange;
+}
+
 
 @media all and (min-width: 960px) {
 
@@ -394,25 +399,31 @@ body {
 div.cm {
     margin-bottom: 1em;
 }
-::-webkit-scrollbar {
-    width: 14px;
-    height: 18px;
-}
-::-webkit-scrollbar-thumb {
-    height: 6px;
-    border: 4px solid rgba(0, 0, 0, 0);
-    background-clip: padding-box;
-    -webkit-border-radius: 7px;
-    background-color: #5C7790;
-    -webkit-box-shadow: inset -1px -1px 0px rgba(0, 0, 0, 0.05), inset 1px 1px 0px rgba(0, 0, 0, 0.05);
-}
-::-webkit-scrollbar-button {
-    width: 0;
-    height: 0;
-    display: none;
-}
-::-webkit-scrollbar-corner {
-    background-color: transparent;
+
+header, div {
+    ::-webkit-scrollbar {
+        width: 14px;
+        height: 18px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        height: 6px;
+        border: 4px solid rgba(0, 0, 0, 0);
+        background-clip: padding-box;
+        -webkit-border-radius: 7px;
+        background-color: #5C7790;
+        -webkit-box-shadow: inset -1px -1px 0px rgba(0, 0, 0, 0.05), inset 1px 1px 0px rgba(0, 0, 0, 0.05);
+    }
+
+    ::-webkit-scrollbar-button {
+        width: 0;
+        height: 0;
+        display: none;
+    }
+
+    ::-webkit-scrollbar-corner {
+        background-color: transparent;
+    }
 }
 
 /* Typography */
@@ -498,6 +509,10 @@ h5, h6 {
 
 a {
     color:$nbf-black;
+}
+
+a:link {
+    text-decoration: underline;
 }
 
 .footnote {
@@ -611,6 +626,7 @@ th .sort {
     position: relative;
     display: block;
     padding-right: .75em;
+    text-decoration: none;
 }
 
 th .sort:hover, th .sort:focus {
@@ -642,6 +658,10 @@ th .sort:after {
     right: -4px;
     top: -2px;
     font-size: 1.2rem;
+}
+
+.col-btn a {
+    text-decoration: none;
 }
 
 th .sort-ascending:after {
@@ -1030,7 +1050,8 @@ h2.resp-tab-active {
     margin: 0;
     padding: 0.5em 1.25em;
     z-index: 20;
-    position:relative;
+    position: relative;
+    font-size: 18px;
 }
 
 .accordion label.accord-head:hover {
@@ -1050,7 +1071,7 @@ h2.resp-tab-active {
 }
 
 .accordion label.accord-head:after {
-    font-family: $FontAwesome;
+    font-family: $icomoon;
     speak: none;
     font-style: normal;
     font-weight: normal;
@@ -1066,14 +1087,14 @@ h2.resp-tab-active {
     background-image: none;
     background-position: 0 0;
     background-repeat: repeat;
-    content: '\f078';
+    content: "\e90f";
     float: right;
-    font-size: 14px;
+    font-size: 22px;
     line-height: 1.2em;
-    top: 15px;
+    top: 11px;
     margin-left: .75em;
-    right:10px;
-    position:absolute;
+    right: 10px;
+    position: absolute;
 }
 
 .accordion.search-orders label.accord-head:after, .accordion.search-users label.accord-head:after, .accordion.search-quotes label.accord-head:after {
@@ -1084,7 +1105,7 @@ h2.resp-tab-active {
 }
 
 .accordion input.accord-check:checked + label.accord-head:after {
-    content: "\f077";
+    content: "\e91a";
 }
 
 .accordion article.accord-content {
@@ -1553,17 +1574,15 @@ select {
 .input-validation-error, .ng-submitted input.ng-invalid, .ng-submitted select.ng-invalid {
     border-color: #c60f13 !important;
     background-color: rgba(198, 15, 19, 0.1) !important;
+    margin-bottom:0 !important;
 }
 
 .validation-summary-errors {
-    padding: .25em 1em;
     line-height: 1.5em;
     color: #C60F13;
     display: block;
     clear: both;
     font-size: 16px;
-    font-weight: 700;
-    border: 1px solid #C60F13;
     padding: 1em;
     margin: 1.5em 0;
 }
@@ -1574,17 +1593,14 @@ select {
 
 span.field-validation-error,
 .messaging--error {
-    padding: .5em 1em;
     font-size: 0.9em;
     line-height: 1.5em;
-    font-weight: 600;
     background: #fff;
     color: #C60F13;
     display: block;
     clear: both;
     font-size: 14px;
-    margin-bottom: .25em;
-    border: 1px solid #C60F13;
+    margin-bottom: 9px;
 }
 
 .messaging--error {
@@ -1985,6 +2001,11 @@ header div.head-cm {
 .header-zone {
     width: 100%;
 }
+@media print {
+    .header-zone {
+        width: 33%;
+    }
+}
 
 @media all and (min-width: 992px) {
     .header-zone {
@@ -1998,6 +2019,9 @@ header div.head-cm {
 
 .header-zone.rt {
     float: right;
+    a{
+        text-decoration:none;
+    }
 }
 
 
@@ -2559,25 +2583,29 @@ header div.head-cm {
     width: 25%;
     padding: 0 0 33px !important;
     max-width: 273px;
+    overflow: hidden;
     float: left;
     position: relative;
     border: 1px solid $divider-gray;
+
     .favorite-btn {
-        position:absolute;
-        top:5px;
-        right:5px;
-        a{
-            display:inline;
-            padding:0;
+        position: absolute;
+        top: 5px;
+        right: 5px;
+
+        a {
+            display: inline;
+            padding: 0;
 
             &:before {
-                padding-right:0;
+                padding-right: 0;
             }
         }
     }
+
     a {
-        img{
-            width:100%;
+        img {
+            width: 100%;
         }
     }
 }
@@ -2684,6 +2712,7 @@ div.remove a.btn {
 .item-block .item-name a,
 .qo-item .item-name a {
     font-weight: normal;
+    text-decoration: none;
 }
 
 .item-block .item-num, ul.attribute-list, .item-details .item-num, .availability, .qo-item .item-num {
@@ -7452,7 +7481,7 @@ nav ul:not(.side-nav) li a {
 
 @media print {
 
-    header#header, #footer, .show-for-small {
+     #footer, .show-for-small {
         display: none !important;
     }
 
@@ -7525,8 +7554,12 @@ header label.toggle.burger {
     float: left;
 
     @media all and (min-width: 992px) {
-                display:none;
-            }
+        display: none;
+    }
+
+    @media print {
+            display: none;
+    }
 }
 
 header label.toggle.burger {

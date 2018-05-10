@@ -22,17 +22,16 @@
     <ul class="share-links hide-for-print">
         <li class="share-label">Share</li>
         <li class="cell">
-            <a class="fa fa-envelope" href="mailto:?subject=[% siteMessage 'SocialMediaLinks_EmailSubject' 'I wanted you to see this site' %]&amp;body={{vm.url}} [[CurrentPage.Title]]" title="Share by Email">
-            </a>
+            <a id="tst_productDetail_share" ng-controller="NbfTellAFriendController as vm" ng-cloak class="fa fa-envelope pd-zoom" href="javascript:void(0);" ng-click="vm.openShareWithFriendPopup()"></a>
         </li>
         <li class="cell">
             <a target="_blank" class="stb-btn stb-twitter fa fa-twitter" aria-label="tweet" href="https://twitter.com/share?url={{vm.url}}&amp;text=[[CurrentPage.Title]]"></a>
         </li>
         <li class="cell">
-            <a class="fa fa-facebook" href="https://www.facebook.com/sharer/sharer.php?app_id=242711322507315&sdk=joey&u={{vm.url}}&display=popup&ref=plugin&src=share_button" onclick="return !window.open(this.href, 'Facebook', 'width=640,height=300')"></a>
+            <a class="fa fa-facebook" target="_blank" href="https://www.facebook.com/sharer/sharer.php?app_id=242711322507315&sdk=joey&u={{vm.url}}&display=popup&ref=plugin&src=share_button"></a>
         </li>
         <li class="cell">
-            <a class="" href="https://www.pinterest.com/pin/create/button/?url={{vm.url}}&description=[[CurrentPage.Title]]">
+            <a class="" target="_blank" href="https://www.pinterest.com/pin/create/button/?url={{vm.url}}&description=[[CurrentPage.Title]]">
                 <i class="fa fa-pinterest-p" aria-hidden="true"></i>
             </a>
         </li>

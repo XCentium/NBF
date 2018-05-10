@@ -10,6 +10,7 @@
          pr-api-key="[% siteMessage 'PowerReviews_ApiKey' '56b8fc6a-79a7-421e-adc5-36cbdaec7daf ' %]"
          pr-merchant-group-id="[% siteMessage 'PowerReviews_MerchantGroupId' '47982' %]"
          pr-merchant-id="[% siteMessage 'PowerReviews_MerchantId' '33771' %]">
+              
         <div class="large-12 columns">
             <div>
                 <div ng-if="!vm.filteredResults" class="category-list">
@@ -244,7 +245,6 @@
                                                                     </tr>
                                                                 </tbody>
                                                             </table>
-                                                            <nbf-product-list-pager bottom="true" pagination="vm.products.pagination" storage-key="vm.paginationStorageKey" update-data="vm.updateProductData()" custom-context="vm.customPagerContext"></nbf-product-list-pager>
                                                         </div>
                                                     </div>
                                                     <div class="item-price" ng-if="vm.failedToGetRealTimePrices">
@@ -465,8 +465,8 @@
                                     <div class="f-cat" ng-if="vm.products.categoryFacets.length > 0 && !vm.category">
                                         <section class="accordion">
                                             <div>
-                                                <input type="checkbox" id="accord-1" class="accord-check" />
-                                                <label for="accord-1" class="accord-head">[% translate 'Categories' %]</label>
+                                                <input type="checkbox" id="accord-1" class="accord-check" ng-change="vm.toggleFacet('{{$index}}')" ng-model="vm.filterCheckBoxesModel[$index]" />
+                                                <label for="accord-1" class="accord-head"  >[% translate 'Categories' %]</label>
                                                 <article class="accord-content">
                                                     <div class="f-wrap">
                                                         <ul>
@@ -489,8 +489,8 @@
                                     <div class="f-cat" ng-if="vm.products.priceRange.priceFacets.length > 0">
                                         <section class="accordion">
                                             <div>
-                                                <input type="checkbox" id="accord-2" class="accord-check" />
-                                                <label for="accord-2" class="accord-head">[% translate 'Price' %]</label>
+                                                <input type="checkbox" id="accord-2" class="accord-check" ng-change="vm.toggleFacet('{{$index + 100}}')" ng-model="vm.filterCheckBoxesModel[$index+100]" />
+                                                <label for="accord-2" class="accord-head"  >[% translate 'Price' %]</label>
                                                 <article class="accord-content">
                                                     <div class="f-wrap">
                                                         <ul>
@@ -500,7 +500,7 @@
                                                                 ng-class="{'f-selected' : vm.isPriceFacetSelected(priceFacet)}"
                                                                 ng-click="vm.togglePriceFilter(priceFacet.minimumPrice.toString())">
                                                                 <a href="javascript:;">
-                                                                    <span class="f-name tst_productList_priceFacet_{{$index}}">{{vm.priceRangeDisplay(priceFacet)}}</span> <span ng-attr-id="{{'leftNavCategoryPriceFacetCount_' + $index}}" class="f-count tst_productList_priceFacetCount_{{$index}}">({{priceFacet.count}})</span>
+                                                                    <span class="f-name tst_productList_priceFacet_{{$index+100}}">{{vm.priceRangeDisplay(priceFacet)}}</span> <span ng-attr-id="{{'leftNavCategoryPriceFacetCount_' + ($index+100)}}" class="f-count tst_productList_priceFacetCount_{{$index + 100}}">({{priceFacet.count}})</span>
                                                                 </a>
                                                             </li>
                                                         </ul>
@@ -513,8 +513,8 @@
                                     <div ng-repeat="section in vm.products.attributeTypeFacets | orderBy : ['sort','nameDisplay'] | limitTo: 4" class="f-cat" ng-if="vm.products.attributeTypeFacets.length > 0">
                                         <section class="accordion">
                                             <div>
-                                                <input type="checkbox" id="accord-{{$index + 3}}" class="accord-check" />
-                                                <label for="accord-{{$index + 3}}" class="accord-head">{{section.nameDisplay}}</label>
+                                                <input type="checkbox" id="accord-{{$index + 200}}" class="accord-check" ng-change="vm.toggleFacet('{{$index + 200}}')" ng-model="vm.filterCheckBoxesModel[$index+200]" />
+                                                <label for="accord-{{$index+200}}" class="accord-head"  >{{section.nameDisplay}}</label>
                                                 <article class="accord-content">
                                                     <div class="f-wrap">
                                                         <ul>
@@ -542,8 +542,8 @@
                                                 <div ng-repeat="section in vm.products.attributeTypeFacets | orderBy : ['sort','nameDisplay'] | limitTo: (4 - vm.products.attributeTypeFacets.length)" class="f-cat" ng-if="vm.products.attributeTypeFacets.length > 0">
                                                     <section class="accordion">
                                                         <div>
-                                                            <input type="checkbox" id="accord-{{$index + 3}}" class="accord-check" />
-                                                            <label for="accord-{{$index + 3}}" class="accord-head">{{section.nameDisplay}}</label>
+                                                            <input type="checkbox" id="accord-{{$index + 300}}" class="accord-check" ng-change="vm.toggleFacet('{{$index + 300}}')"  ng-model="vm.filterCheckBoxesModel[$index + 300]"  />
+                                                            <label for="accord-{{$index + 300}}" class="accord-head"  >{{section.nameDisplay}}</label>
                                                             <article class="accord-content">
                                                                 <div class="f-wrap">
                                                                     <ul>
@@ -565,7 +565,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div>                                   
 
                                     [[filterStatusControls]]
 

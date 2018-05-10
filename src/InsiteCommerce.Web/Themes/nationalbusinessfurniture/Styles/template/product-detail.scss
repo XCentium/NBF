@@ -108,6 +108,13 @@
 
     .detail-image {
         margin-bottom: 20px;
+
+
+        .s7staticimage {
+            @media print {
+                left: 0 !important;
+            }
+        }
     }
 
     .detail-share {
@@ -121,7 +128,7 @@
     }
 
     .pd-grid .fc-qty input {
-        max-width: 110px;
+        max-width: 90px;
         text-align: center;
         margin-right: 20px;
     }
@@ -189,6 +196,10 @@
         position: absolute;
         margin: 0 auto;
 
+        @media print {
+            display: none;
+        }
+
         @media all and (max-width: 767px) {
             padding: 20px 0 10px;
         }
@@ -244,7 +255,7 @@
     }
 
     &.popup-share {
-        max-width: 480px;
+        max-width: 660px;
         overflow: auto;
         /*height: 93vh;*/
     }

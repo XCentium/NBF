@@ -27,6 +27,16 @@
 
             .content {
                 padding: 20px 0;
+
+                .payment-amount, .remaining-total {
+                    input, button {
+                        margin-bottom: 10px;
+                    }
+                }
+
+                .save-payment {
+                    margin-bottom: 30px;
+                }
             }
         }
 
@@ -183,6 +193,12 @@
             .title {
                 display: none;
             }
+        }
+    }
+
+    .payment-details {
+        .card-type {
+            margin-bottom: 30px;
         }
     }
 

@@ -91,7 +91,9 @@
             "nbfPaymentService",
             "termsAndConditionsPopupService",
             "nbfEmailService",
-            "$element"
+            "productService",
+            "$element",
+            "$rootScope"
         ];
 
         constructor(
@@ -115,7 +117,10 @@
             protected nbfPaymentService: cart.INbfPaymentService,
             protected termsAndConditionsPopupService: insite.cart.ITermsAndConditionsPopupService,
             protected nbfEmailService: nbf.email.INbfEmailService,
-            protected $element: ng.IRootElementService) {
+            protected productService: insite.catalog.IProductService,
+            protected $element: ng.IRootElementService,
+            protected $rootScope: ng.IRootScopeService
+        ) {
             this.init();
         }
 
@@ -179,6 +184,7 @@
         }
 
         protected getAddressFieldsCompleted(addressFields: AddressFieldCollectionModel): void {
+            
             this.addressFields = addressFields;
 
             this.cartService.expand = "shiptos,validation,cartlines";
@@ -186,10 +192,12 @@
             if (this.queryCartId) {
                 this.cartService.getCart(this.queryCartId).then(
                     (cart: CartModel) => {
+                        this.getCartCompleted(cart);
                         if (cart.status === "Submitted") {
-                            this.getCartCompleted(cart);
+                            //this.getCartCompleted(cart);
                             this.loadStep4();
                         }
+                        
                     },
                     () => { this.getCartInitial(this.cartId) });
             } else {
@@ -198,6 +206,7 @@
         }
 
         protected getCartInitial(cartId: string) {
+            
             this.cartService.getCart(this.cartId).then(
                 (cart: CartModel) => {
                     this.getCartCompleted(cart);
@@ -215,9 +224,11 @@
         }
 
         protected getCartCompleted(cart: CartModel): void {
+            
             this.cartService.expand = "";
             this.cart = cart;
 
+            this.$rootScope.$broadcast("initAnalyticsEvent", "CheckoutInitiated");
             const hasRestrictions = cart.cartLines.some(o => o.isRestricted);
             // if cart does not have cartLines or any cartLine is restricted, go to Cart page
             if (!this.cart.cartLines || this.cart.cartLines.length === 0 || hasRestrictions) {
@@ -251,7 +262,30 @@
             this.promotionService.getCartPromotions(this.cart.id).then(
                 (promotionCollection: PromotionCollectionModel) => {
                     this.getCartPromotionsCompleted(promotionCollection);
-                });
+                });     
+
+            this.updateCartLineAttributes();
+        }
+
+        protected updateCartLineAttributes() {
+            let baseProductErpNumbers = this.cart.cartLines.map(x => x.erpNumber.split("_")[0]);
+            const expand = ["attributes"];
+            const parameter: insite.catalog.IProductCollectionParameters = { erpNumbers: baseProductErpNumbers };
+            this.productService.getProducts(parameter, expand).then(
+                (productCollection: ProductCollectionModel) => {
+                    this.cart.cartLines.forEach(cartLine => {
+                        let erpNumber = cartLine.erpNumber.split("_")[0];
+                        let baseProduct = productCollection.products.find(x => x.erpNumber === erpNumber);
+
+                        if (baseProduct) {
+                            cartLine.properties["GSA"] = this.isAttributeValue(baseProduct, "GSA", "Yes") ? "Yes" : "No";
+                            cartLine.properties["ShipsToday"] = this.isAttributeValue(baseProduct, "Ships Today", "Yes") ? "Yes" : "No";
+                        }
+                    });
+
+                    //this.$scope.$apply();
+                },
+                (error: any) => { });
         }
 
         protected getCartFailed(error: any): void {
@@ -486,6 +520,7 @@
         }
 
         continueToStep2(cartUri: string): void {
+            debugger;
             const valid = $("#addressForm").validate().form();
             if (!valid) {
                 angular.element("html, body").animate({
@@ -513,7 +548,9 @@
 
             this.customerService.updateBillTo(this.cart.billTo).then(
                 (billTo: BillToModel) => { this.updateBillToCompleted(billTo); },
-                (error: any) => { this.updateBillToFailed(error); });
+                (error: any) => { this.updateBillToFailed(error); });    
+
+            this.updateShipTo(true);
         }
 
         continueToStep3(cartUri: string): void {
@@ -532,7 +569,7 @@
         }
 
         protected updateBillToCompleted(billTo: BillToModel): void {
-            this.updateShipTo(true);
+            
         }
 
         protected updateBillToFailed(error: any): void {
@@ -562,6 +599,8 @@
             }
 
             this.updateSession(this.cart, customerWasUpdated);
+
+            this.$scope.$apply();
         }
 
         protected addOrUpdateShipToFailed(error: any): void {
@@ -598,6 +637,8 @@
                     this.loadStep2();
                 }
             }
+
+            this.updateCartLineAttributes();
         }
 
         protected getCartAfterChangeShipToFailed(error: any): void {
@@ -729,6 +770,8 @@
                 (countryCollection: CountryCollectionModel) => {
                     this.getCountriesCompletedForReviewAndPay(countryCollection);
                 });
+
+            this.updateCartLineAttributes();
         }
 
         protected onCartChanged(event: ng.IAngularEvent): void {
@@ -890,7 +933,26 @@
             $("html:not(:animated), body:not(:animated)").animate({
                     scrollTop: $("#nav1").offset().top
                 },
-                200);
+                200);  
+
+            this.updateCartLineAttributes();
+        }
+
+        protected isAttributeValue(product: ProductDto, attrName: string, attrValue: string): boolean {
+            let retVal = false;
+
+            if (product && product.attributeTypes) {
+                const attrType = product.attributeTypes.find(x => x.name === attrName && x.isActive === true);
+
+                if (attrType) {
+                    const matchingAttrValue = attrType.attributeValues.find(y => y.value === attrValue);
+
+                    if (matchingAttrValue) {
+                        retVal = true;
+                    }
+                }
+            }
+            return retVal;
         }
 
         protected saveTransientCard(): Insite.Core.Plugins.PaymentGateway.Dtos.CreditCardDto {
@@ -1000,6 +1062,7 @@
         }
 
         submit(signInUri: string, emailTo: string): void {
+            var self = this;
             this.submitting = true;
             this.submitErrorMessage = "";
 
@@ -1050,6 +1113,7 @@
                                 this.cart.billTo,
                                 this.cart.shipTo).then(
                                 () => {
+                                    self.$rootScope.$broadcast("initAnalyticsEvent", "CheckoutAccountCreation");
                                     this.newUser = true;
                                     this.submitOrder(signInUri);
                                 });
@@ -1061,6 +1125,10 @@
         }
 
         protected submitOrder(signInUri: string) {
+            if ((this.cart.cartLines.filter((line: CartLineModel) => line.erpNumber.search('^[^:]*[:][^:]*[:][^:]*$') > 0)).length > 0) {
+                this.$rootScope.$broadcast("initAnalyticsEvent", "SwatchRequest");
+            }
+            this.$rootScope.$broadcast("initAnalyticsEvent", "CheckoutInitiated");
             this.sessionService.getIsAuthenticated().then(
                 (isAuthenticated: boolean) => {
                     this.getIsAuthenticatedForSubmitCompleted(isAuthenticated, signInUri);
@@ -1253,10 +1321,11 @@
 
             $("#confirmation").addClass("active");
 
-            $("html:not(:animated), body:not(:animated)").animate({
-                    scrollTop: $("#nav4").offset().top
-                },
-                200);
+            //Commenting out the line below because #nav4 cannot be found and is throwing error
+            //$("html:not(:animated), body:not(:animated)").animate({
+            //        scrollTop: $("#nav4").offset().top
+            //    },
+            //    200);
 
             this.orderConfirmationInit();
         }
@@ -1313,6 +1382,8 @@
 
                         }
                         this.paymentAmount = this.remainingTotal;
+
+                        this.cart.paymentOptions.creditCard.cardType = null;
                     });
                 }
             });
@@ -1356,6 +1427,8 @@
                 (promotionCollection: PromotionCollectionModel) => {
                     this.getCartPromotionsCompleted(promotionCollection);
                 });
+
+            this.updateCartLineAttributes();
         }
 
         protected getOrderCompleted(orderHistory: OrderModel): void {

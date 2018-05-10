@@ -160,7 +160,9 @@
                                                 <span ng-bind="vm.cart.shipVia.description"></span>
                                             </div>
                                             <div class="oc-order-notes" ng-if="vm.cart.notes.trim().length > 0">
-                                                <h3>[% translate 'Order Notes' %]:</h3>
+                                                <div class="oc-head" style="margin-top:20px;">
+                                                    <p><strong>[% translate 'Special Shipping Instructions' %]:</strong></p>
+                                                </div>
                                                 <div ng-bind="vm.cart.notes"></div>
                                             </div>
                                         </div>
@@ -240,7 +242,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div ng-show="vm.cart.showCreditCard && vm.cart.paymentMethod.isCreditCard && vm.remainingTotal > 0">
+                                                    <div ng-show="vm.cart.showCreditCard && vm.cart.paymentMethod.isCreditCard && vm.cart.paymentMethod.name !== 'Open_Credit' && vm.remainingTotal > 0">
                                                         <div class="card-name">
                                                             <label for="cardHolderName">[% translate 'Name on Card' %]</label>
                                                             <input id="cardHolderName" name="cardHolderName" type="text" maxlength="30"
@@ -310,8 +312,12 @@
                                                                 <input id="remainingTotal" type="number" name="remainingTotal" readonly ng-model="vm.remainingTotal" style="display: block;" />
                                                             </div>
                                                             <div class="small-4 columns payment-amount">
-                                                                <label></label>
                                                                 <button ng-if="vm.remainingTotal > 0" ng-click="vm.addPayment()">Add payment</button>
+                                                               
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="small-12 columns save-payment">
                                                                 <div ng-show="vm.cart.paymentOptions.canStorePaymentProfile && !vm.cart.billTo.isGuest">
                                                                     <input id="savePaymentInfo" class="customcheckbox" type="checkbox" ng-model="vm.cart.paymentOptions.storePaymentProfile" />
                                                                     <label for="savePaymentInfo">[% translate 'Save Payment Info' %]</label>
@@ -319,13 +325,11 @@
                                                             </div>
                                                         </div>
 
-                                                        <div ng-show="vm.cart.showCreditCard && vm.cart.paymentMethod.isCreditCard">
+                                                        <div ng-show="vm.cart.showCreditCard && vm.cart.paymentMethod.isCreditCard && vm.cart.paymentMethod.name !== 'Open_Credit'">
                                                             <div class="use-billing-address">
                                                                 <h4>[% translate 'Credit Card Address' %]</h4>
                                                                 <input class="customcheckbox" id="tst_reviewAndPayPage_useBillingAddress" type="checkbox" ng-model="vm.cart.paymentOptions.creditCard.useBillingAddress" />
-                                                                <label for="tst_reviewAndPayPage_useBillingAddress">
-                                                                    [% translate 'Use billing address' %]
-                                                                </label>
+                                                                <label for="tst_reviewAndPayPage_useBillingAddress">[% translate 'Use billing address' %]</label>
                                                                 <div ng-show="!vm.cart.paymentOptions.creditCard.useBillingAddress">
                                                                     <div class="address1">
                                                                         <label for="address1">[% translate 'Address' %]</label>
@@ -375,7 +379,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="payments order-subtotal" ng-if="vm.cart.properties['cc1'] != ''">
+                                                    <div class="payments order-subtotal" ng-if="vm.cart.properties['cc1'] && vm.cart.properties['cc1'] != ''">
                                                         <label>[% translate 'Payments' %]</label>
                                                         <div class="row">
                                                             <div class="small-4 columns payment-amount">
