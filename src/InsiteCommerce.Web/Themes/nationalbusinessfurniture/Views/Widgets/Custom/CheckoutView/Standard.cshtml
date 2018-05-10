@@ -1,8 +1,7 @@
 ﻿<div class="checkout" ng-controller="NbfCheckoutController as vm" ng-cloak cart-url="[% urlForPage 'CartPage' %]">
     <div class="small-12 column narrow-container">
         <div class="row">
-            <div class="large-8 columns">
-                <h2 class="page-title" id="secureTitle">Secure Checkout</h2>
+            <div class="large-8 columns">                
                 <div id="thankYou" class="hide">
                     <h2 class="page-title">Order Confirmation</h2>
                     <p>
@@ -27,7 +26,7 @@
                         </div>
                     </div>
                 </div>
-                <dl class="accordion checkout-accordion" data-accordion id="checkoutAccordion">
+                <dl class="accordion checkout-accordion" data-accordion id="checkoutAccordion" style="margin-top: 10px">
                     <dd class="accordion-navigation">
                         <a href="#address" id="nav1" class="nav-header active">
                             [% translate 'Step 1: Shipping & Billing Address' %]
@@ -443,7 +442,7 @@
                                                 <p>
                                                     [% siteMessage 'Checkout_TermsAndConditionsText' 'By placing your order, you agree to our' %]
                                                     <br />
-                                                    <a ng-click="vm.openTerms()">Terms and Conditions.</a>
+                                                    <a class="terms-link" ng-click="vm.openTerms()">Terms and Conditions.</a>
                                                 </p>
                                             </div>
                                         </div>

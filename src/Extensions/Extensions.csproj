@@ -320,6 +320,7 @@
   <ItemGroup>
     <Compile Include="Cart\Handlers\ProcessCreditCardTransaction.cs" />
     <Compile Include="Cart\Handlers\SubmitCart.cs" />
+    <EmbeddedResource Include="DatabaseScripts\2018.05.09.01.CreateShippingByVendorTable.sql" />
     <Compile Include="Enums\Listrak\Fields\OrderConfirmationFieldEnum.cs" />
     <Compile Include="Enums\Listrak\Fields\WelcomeEmailFieldEnum.cs" />
     <Compile Include="Enums\Listrak\EventIdEnum.cs" />
@@ -340,11 +341,16 @@
     <Compile Include="Handlers\Interfaces\INBFGetOrderHelper.cs" />
     <Compile Include="Handlers\Interfaces\INBFListrakHelper.cs" />
     <Compile Include="Handlers\GetTrackedOrderHandler.cs" />
+    <Compile Include="Handlers\SubmitOrderToErpHandler\CreateShippingByVendor.cs" />
     <Compile Include="Handlers\UpdateCartHandler.cs" />
     <Compile Include="Mappers\GetTrackedOrderMapper.cs" />
     <Compile Include="Mappers\Interfaces\IGetTrackedOrderMapper.cs" />
     <Compile Include="Models\AffiliateCode\AffiliateCodeModel.cs" />
     <Compile Include="Models\AffiliateCode\AffiliateCodeModelMapping.cs" />
+    <Compile Include="Models\ShippingByVendor\ShippingByVendorModel.cs" />
+    <Compile Include="Models\ShippingByVendor\ShippingByVendorModelMapping.cs" />
+    <Compile Include="Models\ShippingChargesRule\ShippingChargesRuleModel.cs" />
+    <Compile Include="Models\ShippingChargesRule\ShippingChargesRuleModelMapping.cs" />
     <Compile Include="Models\ShopTheLook\StlCategory.cs" />
     <Compile Include="Models\ShopTheLook\StlCategoryMapping.cs" />
     <Compile Include="Models\ShopTheLook\StlRoomLooksStyle.cs" />
@@ -362,6 +368,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Settings\PhoneNumberSettings.cs" />
     <Compile Include="Settings\OrderTrackerSettings.cs" />
+    <Compile Include="Utility\Shipping\ShippingHelper.cs" />
     <Compile Include="WebApi\EmailApi\Models\ContactUsSpanishDto.cs" />
     <Compile Include="WebApi\EmailApi\Models\TaxExemptDto.cs" />
     <Compile Include="WebApi\EmailApi\Models\CatalogPrefsDto.cs" />
@@ -488,6 +495,7 @@
     <Compile Include="Widgets\WebCode.cs" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="DatabaseScripts\2018.05.08.01.CreateShippingChargesRuleTable.sql" />
     <Content Include="packages.config">
       <SubType>Designer</SubType>
     </Content>
