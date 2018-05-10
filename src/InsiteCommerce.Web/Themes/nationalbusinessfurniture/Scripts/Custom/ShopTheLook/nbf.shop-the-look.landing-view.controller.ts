@@ -5,26 +5,42 @@
         collection: ShopTheLookCollection;
 
         static $inject = [
-            "nbfShopTheLookService"
+            "nbfShopTheLookService",
+            "spinnerService"
         ];
 
-        constructor(protected nbfShopTheLookService: ShopTheLook.INbfShopTheLookService) {
+        constructor(protected nbfShopTheLookService: ShopTheLook.INbfShopTheLookService,
+            protected spinnerService: insite.core.SpinnerService) {
             this.init();
         }
 
         init(): void {
-            $(document).ready(() => {
-                setTimeout(() => {
-                        $(".shopthelook__dropdown").on("click", function (e) {
-                            e.preventDefault();
-                            var p = $(this);
-                            if (p.hasClass("open")) {
-                                p.removeClass("open");
-                            } else {
-                                p.addClass("open");
-                            }
-                        });
+            $(".shopthelook__dropdown").on("click", function (e) {
+                e.preventDefault();
+                var p = $(this);
+                if (p.hasClass("open")) {
+                    p.removeClass("open");
+                } else {
+                    p.addClass("open");
+                }
+            });
 
+            // change is-checked class on buttons
+            $(".button-group").each((i, buttonGroup) => {
+                var $buttonGroup = $(buttonGroup);
+                $buttonGroup.on("click",
+                    "button",
+                    function () {
+                        $buttonGroup.find(".is-checked").removeClass("is-checked");
+                        $(this).addClass("is-checked");
+                    });
+            });
+
+            this.nbfShopTheLookService.getLooks().then((result) => {
+                this.collection = result;
+                this.mapFilters();
+                
+                setTimeout(() => {
                         var $grid = $(".shopthelook__gird").isotope({
                             itemSelector: ".grid-item",
                             masonry: {
@@ -36,29 +52,13 @@
                         // bind filter button click
                         $(".shopthelook__filter-group").on("click",
                             "button",
-                            function() {
+                            function () {
                                 var filterValue = $(this).attr("data-filter");
                                 // use filterFn if matches value
                                 $grid.isotope({ filter: filterValue });
-                            });
-
-                        // change is-checked class on buttons
-                        $(".button-group").each((i, buttonGroup) => {
-                            var $buttonGroup = $(buttonGroup);
-                            $buttonGroup.on("click",
-                                "button",
-                                function() {
-                                    $buttonGroup.find(".is-checked").removeClass("is-checked");
-                                    $(this).addClass("is-checked");
-                                });
                         });
                     },
-                    500);
-            });
-
-            this.nbfShopTheLookService.getLooks().then((result) => {
-                this.collection = result;
-                this.mapFilters();
+                    1000);
             });
         }
 
