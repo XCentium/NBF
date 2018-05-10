@@ -21,7 +21,7 @@
             this.addToCartPopupService.display({ isQtyAdjusted: cartLine.isQtyAdjusted, showAddToCartPopup: showAddToCartPopup });
             cartLine.availability = cartLine.availability;
             this.getCart().then((cart) => {
-                this.$rootScope.$broadcast("initAnalyticsEvent", "ProductAddedToCart");
+                this.$rootScope.$broadcast("AnalyticsEvent", "ProductAddedToCart");
             });
             this.$rootScope.$broadcast("cartChanged");
             
@@ -36,7 +36,7 @@
             this.addToCartPopupService.display({ isAddAll: true, isQtyAdjusted: isQtyAdjusted, showAddToCartPopup: showAddToCartPopup });
 
             this.getCart().then((cart) => {
-                this.$rootScope.$broadcast("initAnalyticsEvent", "ProductAddedToCart");
+                this.$rootScope.$broadcast("AnalyticsEvent", "ProductAddedToCart");
             });
             this.$rootScope.$broadcast("cartChanged");
         }

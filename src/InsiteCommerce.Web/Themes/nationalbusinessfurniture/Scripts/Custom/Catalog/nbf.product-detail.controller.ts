@@ -79,7 +79,7 @@
                 this.nbfWishListService.addWishListLines(this.favoritesWishlist, addLines).then(() => {
                     this.getFavorites(product);
                 });
-                this.$rootScope.$broadcast("initAnalyticsEvent", "AddProductToWIshList");
+                this.$rootScope.$broadcast("AnalyticsEvent", "AddProductToWIshList");
             }
         }
 
@@ -248,7 +248,7 @@
             this.product = productModel.product;
 
             this.$rootScope.$broadcast("productPageLoaded", this.product);
-            this.$rootScope.$broadcast("initAnalyticsEvent", "ProductPageView", null, null, this.product);
+            this.$rootScope.$broadcast("AnalyticsEvent", "ProductPageView", null, null, { product: this.product, breadcrumbs: this.breadCrumbs });
             
             this.product.qtyOrdered = this.product.minimumOrderQty || 1;
             this.product.documents.forEach((doc) => {
@@ -319,11 +319,11 @@
             powerReviews.display.render(powerReviewsConfig);
 
             $(document).on('click', '.pr-qa-display-btn', function () {
-                this.$rootScope.$broadcast("initAnalyticsEvent", "ProductQuestionAsked");
+                this.$rootScope.$broadcast("AnalyticsEvent", "ProductQuestionAsked");
             });
 
             $(document).on('click', '.pr-snippet-review-count', function () {
-                this.$rootScope.$broadcast("initAnalyticsEvent", "ReadReviewsSelected");
+                this.$rootScope.$broadcast("AnalyticsEvent", "ReadReviewsSelected");
             });
         }
 
@@ -336,7 +336,7 @@
         }
 
         show360() {
-            this.$rootScope.$broadcast("initAnalyticsEvent", "Selected360View");
+            this.$rootScope.$broadcast("AnalyticsEvent", "Selected360View");
             this.set360(this.product.erpNumber, 3, 16);
         }
 

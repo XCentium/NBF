@@ -23,7 +23,7 @@
         search(query?: string, includeSuggestions?: boolean): void {
             var search = new nbf.analytics.AnalyticsPageSearchInfo();
             search.searchTerm = query;
-            this.$rootScope.$broadcast("initAnalyticsEvent", "InternalSearch", null, null, search);
+            this.$rootScope.$broadcast("AnalyticsEvent", "InternalSearch", null, null, search);
             super.search(query, includeSuggestions);
         }
 

@@ -45,7 +45,7 @@
 
         protected onCartLoaded(cart: CartModel): void {
             this.cart = cart;
-            this.$rootScope.$broadcast("setAnalyticsCart", cart);
+            this.$rootScope.$broadcast("AnalyticsCart", cart);
         }
 
         protected getCart(): void {

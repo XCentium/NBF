@@ -228,7 +228,7 @@
             this.cartService.expand = "";
             this.cart = cart;
 
-            this.$rootScope.$broadcast("initAnalyticsEvent", "CheckoutInitiated");
+            this.$rootScope.$broadcast("AnalyticsEvent", "CheckoutInitiated");
             const hasRestrictions = cart.cartLines.some(o => o.isRestricted);
             // if cart does not have cartLines or any cartLine is restricted, go to Cart page
             if (!this.cart.cartLines || this.cart.cartLines.length === 0 || hasRestrictions) {
@@ -1113,7 +1113,7 @@
                                 this.cart.billTo,
                                 this.cart.shipTo).then(
                                 () => {
-                                    self.$rootScope.$broadcast("initAnalyticsEvent", "CheckoutAccountCreation");
+                                    self.$rootScope.$broadcast("AnalyticsEvent", "CheckoutAccountCreation");
                                     this.newUser = true;
                                     this.submitOrder(signInUri);
                                 });
@@ -1126,9 +1126,9 @@
 
         protected submitOrder(signInUri: string) {
             if ((this.cart.cartLines.filter((line: CartLineModel) => line.erpNumber.search('^[^:]*[:][^:]*[:][^:]*$') > 0)).length > 0) {
-                this.$rootScope.$broadcast("initAnalyticsEvent", "SwatchRequest");
+                this.$rootScope.$broadcast("AnalyticsEvent", "SwatchRequest");
             }
-            this.$rootScope.$broadcast("initAnalyticsEvent", "CheckoutInitiated");
+            this.$rootScope.$broadcast("AnalyticsEvent", "CheckoutInitiated");
             this.sessionService.getIsAuthenticated().then(
                 (isAuthenticated: boolean) => {
                     this.getIsAuthenticatedForSubmitCompleted(isAuthenticated, signInUri);

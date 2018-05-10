@@ -140,9 +140,9 @@
             search.searchResults = productCollection.pagination.totalItemCount;
             search.searchTerm = this.query;
             if (this.noResults) {
-                this.$rootScope.$broadcast("initAnalyticsEvent", "FailedSearch", null, null, search);
+                this.$rootScope.$broadcast("AnalyticsEvent", "FailedSearch", null, null, search);
             } else {
-                this.$rootScope.$broadcast("initAnalyticsEvent", "SuccessfulSearch", null, null, search);
+                this.$rootScope.$broadcast("AnalyticsEvent", "SuccessfulSearch", null, null, search);
             }
 
             if (productCollection.searchTermRedirectUrl) {
@@ -375,7 +375,7 @@
                 this.nbfWishListService.addWishListLines(this.favoritesWishlist, addLines).then(() => {
                     this.getFavorites();
                 });
-                this.$rootScope.$broadcast("initAnalyticsEvent", "AddProductToWIshList");
+                this.$rootScope.$broadcast("AnalyticsEvent", "AddProductToWIshList");
             }
         }
 
