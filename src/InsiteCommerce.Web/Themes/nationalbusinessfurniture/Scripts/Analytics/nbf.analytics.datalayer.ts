@@ -29,7 +29,6 @@
     export class AnalyticsCartItem {
         productName: string;
         sku: string;
-        description: string;
         productImage: string;
         vendor: string;
         collection: string;
@@ -39,6 +38,7 @@
         bulkDiscount: number;
         totalDiscount: number;
         finalPrice: number;
+        quantity: number;
     }
 
     export class AnalyticsProduct {

@@ -70,21 +70,20 @@ module nbf.analytics {
         }
 
         private handleAnalyticsCart(event, cart: CartModel) {
-            var product = new nbf.analytics.AnalyticsCartItem();
             this.Data.cart.items = [];
             cart.cartLines.forEach((p) => {
-                product.description = p.shortDescription;
-
+                var product = new nbf.analytics.AnalyticsCartItem();
+                product.productName = p.shortDescription;
                 product.finalPrice = p.pricing.extendedActualPrice;
                 product.productImage = p.smallImagePath;
                 product.basePrice = p.pricing.regularPrice;
-                product.productName = p.productName;
                 if (p.isDiscounted) {
                     product.promoDiscount = p.pricing.regularPrice - p.pricing.actualPrice;
                     product.totalDiscount = p.pricing.regularPrice - p.pricing.actualPrice;
                 }
                 product.sku = p.erpNumber;
                 product.vendor = p.manufacturerItem;
+                product.quantity = p.qtyOrdered;
                 // need to fill these out
                 product.category = '';
                 product.collection = '';
@@ -95,7 +94,7 @@ module nbf.analytics {
             this.Data.cart.price.estimatedTotal = cart.orderGrandTotal;
             this.Data.cart.price.basePrice = cart.orderSubTotalWithOutProductDiscounts;
             this.Data.cart.price.tax = cart.totalTax;
-            this.Data.cart.price.totalDiscount = cart.orderSubTotalWithOutProductDiscounts - cart.orderSubTotal;
+            this.Data.cart.price.totalDiscount = parseFloat(((cart.orderSubTotalWithOutProductDiscounts + cart.shippingAndHandling) - cart.orderGrandTotal).toFixed(2));
             this.Data.cart.price.estimatedShipping = cart.shippingAndHandling;
             this.Data.cart.price.bulkDiscount = cart.orderSubTotalWithOutProductDiscounts - cart.orderSubTotal;
             this.Data.cart.price.promoDiscount = cart.orderSubTotalWithOutProductDiscounts - cart.orderSubTotal;
@@ -107,7 +106,7 @@ module nbf.analytics {
             this.sessionService.getSession()
                 .then(session => {
                     if (session) {
-                        this.Data.profile.isAuthenticated = session.isAuthenticated;
+                        this.Data.profile.isAuthenticated = session.isAuthenticated && !session.isGuest;
                         if (this.Data.profile.isAuthenticated == true) {
                             this.Data.profile.profileInfo.email = session.email;
                             this.Data.profile.profileInfo.profileId = session.userName;
