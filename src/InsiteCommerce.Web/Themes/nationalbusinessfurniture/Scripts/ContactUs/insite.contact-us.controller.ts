@@ -14,19 +14,16 @@
         }
 
         init(): void {
-            //this.$form = this.$element.find("form");
-            //this.$form.removeData("validator");
-            //this.$form.removeData("unobtrusiveValidation");
-            //$.validator.unobtrusive.parse(this.$form);
+            this.$form = this.$element.find("form");
+            this.$form.removeData("validator");
+            this.$form.removeData("unobtrusiveValidation");
+            $.validator.unobtrusive.parse(this.$form);
         }
 
         submit($event): boolean {
-            const valid = angular.element("#contactUsForm").validate().form();
-            if (!valid) {
-                angular.element("html, body").animate({
-                    scrollTop: angular.element(".error:visible").offset().top
-                }, 300);
-                return;
+            $event.preventDefault();
+            if (!this.$form.valid()) {
+                return false;
             }
 
             (this.$form as any).ajaxPost(() => {
