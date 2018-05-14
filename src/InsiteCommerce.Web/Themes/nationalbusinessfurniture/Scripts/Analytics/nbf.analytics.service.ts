@@ -11,6 +11,7 @@ module nbf.analytics {
         static $inject = ["$window", "$rootScope", "sessionService"];
 
         private _handlers: IAnalyticsEventHandler[] = [];
+        private _isInitialCartLoad = true;
 
         constructor(protected $window: ng.IWindowService, protected $rootScope: ng.IRootScopeService, protected sessionService: insite.account.ISessionService) {
             this.AddHandler(new AdobeAnalytics());
@@ -19,7 +20,10 @@ module nbf.analytics {
 
             $rootScope.$on("AnalyticsEvent", (event, analyticsEvent, navigationUri, analyticsData, data2) => self.handleAnalyticsEvent(event, analyticsEvent, navigationUri, analyticsData, data2));
             $rootScope.$on("AnalyticsCart", (event, cart) => self.handleAnalyticsCart(event, cart));
-            $rootScope.$on("$locationChangeSuccess", (event) => setTimeout(() => self.handlePageLoad(event), 1000));
+            $rootScope.$on("AnalyticsPageType", (event, pageType) => self.handlePageTypeEvent(pageType));
+            $rootScope.$on("$locationChangeSuccess", (event, newUrl, oldUrl) => setTimeout(() => self.handlePageLoad(event, newUrl, oldUrl), 100));
+            $rootScope.$on("$locationChangeStart", () => self.handleNavigationStart());
+
         }
 
         get Data(): AnalyticsDataLayer {
@@ -59,10 +63,8 @@ module nbf.analytics {
                     break;
                 case AnalyticsEvents.FailedSearch, AnalyticsEvents.SuccessfulSearch:
                     this.setSearchData(data2);
-                default:
-                    console.log("Invalid analytics event: " + analyticsEvent);
-                    break;
             }
+            console.log("Firing Analytics Event: " + analyticsEvent);
             this.FireEvent(analyticsEvent as AnalyticsEvent);
             if (navigationUri) {
                 location.href = navigationUri;
@@ -70,39 +72,83 @@ module nbf.analytics {
         }
 
         private handleAnalyticsCart(event, cart: CartModel) {
+            if (this._isInitialCartLoad) {
+                this._isInitialCartLoad = false;
+            } else {
+                //Checking if cart was opened
+                if (this.Data.cart.items.length == 0 && cart.cartLines.length > 0) {
+                    this.Data.events.push({
+                        event: AnalyticsEvents.CartOpened,
+                        data: this.convertCartLine(cart.cartLines[0])
+                    });
+                    this.FireEvent(AnalyticsEvents.CartOpened);
+                }
+
+                //Checking if a product was removed
+                if (this.Data.cart.items.length > cart.cartLines.length) {
+                    this.Data.cart.items.forEach(item => {
+                        if (!cart.cartLines.find((cl: CartLineModel) => item.sku === cl.erpNumber)) {
+                            this.Data.events.push({
+                                event: AnalyticsEvents.ProductRemovedFromCart,
+                                data: item
+                            });
+                        }
+                    });
+                    this.FireEvent(AnalyticsEvents.ProductRemovedFromCart);
+                }
+
+                //Checking if a product was added
+                if (this.Data.cart.items.length < cart.cartLines.length) {
+                    cart.cartLines.forEach(cl => {
+                        if (!this.Data.cart.items.find((item: AnalyticsCartItem) => item.sku === cl.erpNumber)) {
+                            this.Data.events.push({
+                                event: AnalyticsEvents.ProductAddedToCart,
+                                data: this.convertCartLine(cl)
+                            });
+                        }
+                    });
+                    this.FireEvent(AnalyticsEvents.ProductAddedToCart);
+                }
+            }
+
             this.Data.cart.items = [];
             cart.cartLines.forEach((p) => {
-                var product = new nbf.analytics.AnalyticsCartItem();
-                product.productName = p.shortDescription;
-                product.finalPrice = p.pricing.extendedActualPrice;
-                product.productImage = p.smallImagePath;
-                product.basePrice = p.pricing.regularPrice;
-                if (p.isDiscounted) {
-                    product.promoDiscount = p.pricing.regularPrice - p.pricing.actualPrice;
-                    product.totalDiscount = p.pricing.regularPrice - p.pricing.actualPrice;
-                }
-                product.sku = p.erpNumber;
-                product.vendor = p.manufacturerItem;
-                product.quantity = p.qtyOrdered;
-                // need to fill these out
-                product.category = '';
-                product.collection = '';
-                product.bulkDiscount = 0;
-                this.Data.cart.items.push(product);
+                this.Data.cart.items.push(this.convertCartLine(p));
             });
             this.Data.cart.cartID = cart.id;
-            this.Data.cart.price.estimatedTotal = cart.orderGrandTotal;
+            this.Data.cart.price.estimatedTotal = cart.cartLines.length > 0 ? cart.orderGrandTotal : 0;
             this.Data.cart.price.basePrice = cart.orderSubTotalWithOutProductDiscounts;
             this.Data.cart.price.tax = cart.totalTax;
-            this.Data.cart.price.totalDiscount = parseFloat(((cart.orderSubTotalWithOutProductDiscounts + cart.shippingAndHandling) - cart.orderGrandTotal).toFixed(2));
+            this.Data.cart.price.totalDiscount = parseFloat(((cart.orderSubTotalWithOutProductDiscounts + cart.shippingAndHandling) - this.Data.cart.price.estimatedTotal).toFixed(2));
             this.Data.cart.price.estimatedShipping = cart.shippingAndHandling;
             this.Data.cart.price.bulkDiscount = cart.orderSubTotalWithOutProductDiscounts - cart.orderSubTotal;
             this.Data.cart.price.promoDiscount = cart.orderSubTotalWithOutProductDiscounts - cart.orderSubTotal;
         }
 
-        private handlePageLoad(event) {
-            this.Data.pageInfo.destinationUrl = window.location.href;
-            this.Data.pageInfo.referringUrl = this.$window.document.referrer;
+        private convertCartLine(p: CartLineModel): AnalyticsCartItem {
+            var product = new nbf.analytics.AnalyticsCartItem();
+            product.productName = p.shortDescription;
+            product.finalPrice = p.pricing.extendedActualPrice;
+            product.productImage = p.smallImagePath;
+            product.basePrice = p.pricing.regularPrice;
+            if (p.isDiscounted) {
+                product.promoDiscount = p.pricing.regularPrice - p.pricing.actualPrice;
+                product.totalDiscount = p.pricing.regularPrice - p.pricing.actualPrice;
+            }
+            product.sku = p.erpNumber;
+            product.vendor = p.manufacturerItem;
+            product.quantity = p.qtyOrdered;
+            // need to fill these out
+            product.category = '';
+            product.collection = '';
+            product.bulkDiscount = 0;
+            return product;
+        }
+
+        private handlePageLoad(event, newUrl, oldUrl) {
+            this.Data.events = [];
+            this.Data.pageInfo.destinationUrl = newUrl;
+            this.Data.pageInfo.referringUrl = oldUrl;
             this.sessionService.getSession()
                 .then(session => {
                     if (session) {
@@ -157,6 +203,7 @@ module nbf.analytics {
                     this.Data.product.relatedProductsInfo.push(relatedProduct);
                 });
             }
+            this.Data.pageInfo.pageType = "Product Detail Page";
         }
 
         private getAttributeValue(product: ProductDto, attrName: string): string {
@@ -178,6 +225,15 @@ module nbf.analytics {
             internalSearch.searchResults = search.searchResults;
             internalSearch.searchTerm = search.searchTerm;
             this.Data.pageInfo.internalSearch = internalSearch;
+        }
+
+        private handlePageTypeEvent(pageType: string) {
+            this.Data.pageInfo.pageType = pageType;
+        }
+
+        private handleNavigationStart() {
+            this.Data.pageInfo.pageType = ""
+            this.Data.product = new AnalyticsProduct();
         }
 
     }
@@ -218,12 +274,14 @@ module nbf.analytics {
         ContinueShoppingFromCartPage: "ContinueShoppingFromCartPage" as AnalyticsEvent,
         ReadReviewsSelected: "ReadReviewsSelected" as AnalyticsEvent,
         MiniCartHover: "MiniCartHover" as AnalyticsEvent,
-        SaveCart: "SaveCart" as AnalyticsEvent        
+        SaveCart: "SaveCart" as AnalyticsEvent,
+        CartOpened: "CartOpened" as AnalyticsEvent,
+        ProductRemovedFromCart: "ProductRemovedFromCart" as AnalyticsEvent
     }
 
     export type AnalyticsEvent = "PageLoad" | "ProductPageView" | "SwatchRequest" | "CatalogRequest" | "QuoteRequest" | "MiniCartQuoteRequest" | "InternalSearch" | "SuccessfulSearch" | 
         "FailedSearch" | "ContactUsInitiated" | "ContactUsCompleted" | "AccountCreation" | "CheckoutAccountCreation" | "Login" | "CrossSellSelected" | "EmailSignUp" | "LiveChatStarted" |
         "ProductAddedToCart" | "CheckoutInitiated" | "ProductQuestionAsked" | "Selected360View" | "AddProductToWishlist" | "SaveOrderFromCartPage" | "ContinueShoppingFromCartPage" |
-        "ReadReviewsSelected" | "MiniCartHover" | "SaveCart";
+        "ReadReviewsSelected" | "MiniCartHover" | "SaveCart" | "CartOpened" | "ProductRemovedFromCart";
 
 }

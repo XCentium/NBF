@@ -6,6 +6,7 @@
         product: AnalyticsProduct = new AnalyticsProduct();
         transaction: AnalyticsTransaction = new AnalyticsTransaction();
         profile: AnalyticsProfile = new AnalyticsProfile();
+        events: AnalyticsDataEvent[] = [];
     }
 
 
@@ -112,5 +113,10 @@
     export class AnalyticsProfileInfo {
         profileId: string;
         email: string;
+    }
+
+    export class AnalyticsDataEvent {
+        event: string;
+        data: any;
     }
 }
