@@ -318,6 +318,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cart\Handlers\ProcessTermsCode.cs" />
     <Compile Include="Cart\Handlers\ProcessCreditCardTransaction.cs" />
     <Compile Include="Cart\Handlers\SubmitCart.cs" />
     <EmbeddedResource Include="DatabaseScripts\2018.05.09.01.CreateShippingByVendorTable.sql" />
