@@ -46,6 +46,7 @@
         cartSettings: CartSettingsModel;
         pageIsReady = false;
         showQuoteRequiredProducts: boolean;
+        paypalIndication: string;
 
         //Confirmation Variables
         showRfqMessage: boolean;
@@ -128,6 +129,8 @@
 
         init(): void {
             this.queryCartId = this.queryString.get("cartId");
+            this.paypalIndication = this.queryString.get("paypalCancel");
+
             this.cartUrl = this.$attrs.cartUrl;
 
             this.websiteService.getAddressFields().then(
@@ -196,19 +199,27 @@
                     (cart: CartModel) => {
                         this.getCartCompleted(cart);
                         if (cart.status === "Submitted") {
-                            //this.getCartCompleted(cart);
                             this.loadStep4();
                         }
 
                     },
                     () => { this.getCartInitial(this.cartId) });
+            } else if (this.paypalIndication) {
+                this.cartService.getCart(this.queryCartId).then(
+                    (cart: CartModel) => {
+                        this.getCartCompleted(cart);
+                        this.reviewAndPayInit();
+                        setTimeout(() => {
+                                this.loadStep3();
+                            },
+                            200);
+                    }, () => { this.getCartInitial(this.cartId) });
             } else {
                 this.getCartInitial(this.cartId);
             }
         }
 
         protected getCartInitial(cartId: string) {
-
             this.cartService.getCart(this.cartId).then(
                 (cart: CartModel) => {
                     this.getCartCompleted(cart);
@@ -559,8 +570,7 @@
             if (!valid) {
                 angular.element("html, body").animate({
                     scrollTop: angular.element(".error:visible").offset().top
-                },
-                    300);
+                }, 300);
 
                 return;
             }
@@ -1190,7 +1200,7 @@
             this.spinnerService.hide();
         }
 
-        submitPaypal(returnUri: string, signInUri: string): void {
+        submitPaypal(signInUri: string): void {
             this.submitErrorMessage = "";
             this.cart.paymentOptions.isPayPal = true;
 
@@ -1202,7 +1212,7 @@
 
                 this.sessionService.getIsAuthenticated().then(
                     (isAuthenticated: boolean) => {
-                        this.getIsAuthenticatedForSubmitPaypalCompleted(isAuthenticated, returnUri, signInUri);
+                        this.getIsAuthenticatedForSubmitPaypalCompleted(isAuthenticated, signInUri);
                     },
                     (error: any) => { this.getIsAuthenticatedForSubmitPaypalFailed(error); });
             },
@@ -1210,7 +1220,6 @@
         }
 
         protected getIsAuthenticatedForSubmitPaypalCompleted(isAuthenticated: boolean,
-            returnUri: string,
             signInUri: string): void {
             if (!isAuthenticated) {
                 this.coreService.redirectToPath(`${signInUri}?returnUrl=${this.coreService.getCurrentPath()}`);
@@ -1219,7 +1228,11 @@
 
             this.spinnerService.show("mainLayout", true);
             this.cart.paymentOptions.isPayPal = true;
-            this.cart.paymentOptions.payPalPaymentUrl = this.$window.location.host + returnUri;
+            var path = this.$window.location.host + this.coreService.getCurrentPath();
+            if (path.indexOf("paypalCancel") < 0) {
+                path += "?paypalCancel=true";
+            }
+            this.cart.paymentOptions.payPalPaymentUrl = path;
             this.cart.paymentMethod = null;
             this.cart.status = "PaypalSetup";
             this.cartService.updateCart(this.cart, true).then(
@@ -1292,26 +1305,24 @@
 
         protected loadStep3() {
             this.spinnerService.hide("mainLayout");
-
+            this.hideSignIn = true;
+            $("#nav1expanded").hide();
+            $("#nav1min, #nav1 .edit").show();
             $("#nav2expanded").hide();
             $("#nav2min, #nav2 .edit").show();
-
 
             $("#nav1").removeClass("active");
             $("#nav2").removeClass("active");
             $("#payment").addClass("active");
             $("#nav3").addClass("active");
             $("html:not(:animated), body:not(:animated)").animate({
-                scrollTop: $("#nav2").offset().top
-            },
-                200);
+                scrollTop: $("#nav3").offset().top
+            }, 200);
 
             this.continueCheckoutInProgress = false;
         }
 
         protected loadStep4() {
-
-
             this.hideSignIn = true;
             $("#nav1expanded,#nav2expanded,#nav3expanded,.edit").hide();
             $("#nav1,#nav2,#nav3").hide();
@@ -1344,9 +1355,7 @@
         }
 
         addPayment() {
-
             var model = {};
-
             model["orderNumber"] = this.cart.orderNumber;
             model["creditCard"] = this.cart.paymentOptions.creditCard;
             model["cartId"] = this.cart.id;
