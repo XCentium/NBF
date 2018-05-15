@@ -88,6 +88,8 @@
                     //this.$scope.$apply();
                 },
                 (error: any) => { });
+
+            if(this)
             
             this.displayCart(cart);
         }

@@ -35,7 +35,9 @@ namespace Extensions.Handlers.GetCartHandler
             if (result.Cart.Status != "Cart" && result.Cart.Status != "AwaitingApproval")
                 return NextHandler.Execute(unitOfWork, parameter, result);
             var lastPricingOn = result.Cart.LastPricingOn;
-            if (lastPricingOn.HasValue && !SiteContext.Current.BillTo.TaxCode1.Equals("NT", StringComparison.CurrentCultureIgnoreCase))
+            var billToTaxCodeTaxFree = SiteContext.Current.BillTo != null && SiteContext.Current.BillTo.TaxCode1.Equals("NT", StringComparison.CurrentCultureIgnoreCase);
+
+            if (lastPricingOn.HasValue && !billToTaxCodeTaxFree)
             {
                 lastPricingOn = result.Cart.LastPricingOn;
                 if (lastPricingOn != null && lastPricingOn.Value.DateTime.AddMinutes(cartSettings.MinutesBeforeRecalculation) > DateTimeProvider.Current.Now)
