@@ -65,7 +65,8 @@
     "Scripts/insite.responsive.ts",
     "Scripts/Common/insite.base-popup.service.ts",
     "Scripts/*",
-    "https://ui.powerreviews.com/stable/4.0/ui.js"
+    "https://ui.powerreviews.com/stable/4.0/ui.js",
+    "https://assets.liveexpert.net/widget/javascript/leaWidget.js"
   ],
   "Styles": [
     "Styles/normalize.css",
