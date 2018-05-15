@@ -40,7 +40,7 @@
                 }
             }
 
-            $(".product-list").on("click", handler);
+            $(document).on("click", handler);
         }       
 
         protected isViewAllCategoryFacetsCheckboxSelected(facets: CategoryFacetDto[]): boolean {
@@ -120,3 +120,4 @@
         .module("insite")
         .controller("CategoryLeftNavController", NbfCategoryLeftNavController);
 }
+
