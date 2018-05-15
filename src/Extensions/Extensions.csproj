@@ -514,6 +514,8 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="DatabaseScripts\2018.05.08.01.CreateShippingChargesRuleTable.sql" />
+    <EmbeddedResource Include="DatabaseScripts\2018.05.15.01.AlterTablesForNotNull.1of2.sql" />
+    <EmbeddedResource Include="DatabaseScripts\2018.05.15.02.AlterTablesForNotNull.2of2.sql" />
     <Content Include="packages.config">
       <SubType>Designer</SubType>
     </Content>

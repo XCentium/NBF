@@ -87,11 +87,6 @@ module insite.cart {
 
         displayCart(cart: CartModel): void {
             this.cart = cart;
-
-            if ((!this.cart.billTo || this.cart.shipTo) && this.cart.totalTax === 0) {
-                this.cart.totalTaxDisplay = "TBD";
-            }
-
             this.canAddAllToList = this.cart.cartLines.every(l => l.canAddToWishlist);
             this.promotionService.getCartPromotions(this.cart.id).then(
                 (promotionCollection: PromotionCollectionModel) => { this.getCartPromotionsCompleted(promotionCollection); },
