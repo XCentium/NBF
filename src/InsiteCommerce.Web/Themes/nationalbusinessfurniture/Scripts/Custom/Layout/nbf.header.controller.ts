@@ -7,7 +7,7 @@
         isVisibleSearchInput = false;
         checkoutPage: string;
 
-        static $inject = ["$scope", "$timeout", "cartService", "sessionService", "$window", "coreService", "$localStorage", "spinnerService", "accountService", "accessToken"];
+        static $inject = ["$scope", "$timeout", "cartService", "sessionService", "$window", "coreService", "$localStorage", "spinnerService", "accountService", "accessToken", '$rootScope'];
 
         constructor(
             protected $scope: ng.IScope,
@@ -19,7 +19,9 @@
             protected $localStorage: common.IWindowStorage,
             protected spinnerService: core.ISpinnerService,
             protected accountService: account.IAccountService,
-            protected accessToken: common.IAccessTokenService) {
+            protected accessToken: common.IAccessTokenService,
+            protected $rootScope: ng.IRootScopeService
+        ) {
             this.init();
         }
 
@@ -43,6 +45,7 @@
 
         protected onCartLoaded(cart: CartModel): void {
             this.cart = cart;
+            this.$rootScope.$broadcast("setAnalyticsCart", cart);
         }
 
         protected getCart(): void {
@@ -165,6 +168,18 @@
 
         protected removeLineFailed(error: any): void {
         }
+        flyOutFocusOff(): void {
+            $('.user-nav .sub-tier-panel').removeAttr("style");
+            var $activeElement = angular.element(document.activeElement);
+            $activeElement.blur();
+        }
+
+        protected requestQuote(uri: string): void {
+            this.$rootScope.$broadcast("initAnalyticsEvent", "MiniCartQuoteRequest");
+            window.location.href = uri;
+
+        }
+
     }
 
     angular

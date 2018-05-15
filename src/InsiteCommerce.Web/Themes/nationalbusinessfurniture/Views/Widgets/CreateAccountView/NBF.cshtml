@@ -65,8 +65,10 @@
                         <input type="password" id="CreateNewAccountInfo_Password" name="CreateNewAccountInfo.Password"
                                data-rule-required="true"
                                data-msg-required="{{ '[% siteMessage 'Field_Required' EscapeSingleQuotes %]'.replace('{0}', '[% translate 'Password' EscapeSingleQuotes %]') }}"
-                               data-rule-minlength="{{settings.passwordMinimumLength}}"
+                               data-rule-minlength="{{ vm.settings.passwordMinimumLength}}"
                                data-msg-minlength="{{ '[% siteMessage 'ChangePasswordInfo_Password_Too_Short' EscapeSingleQuotes %]'.replace('{0}', vm.settings.passwordMinimumLength) }}"
+                               data-rule-pattern="^(?=.*[a-z])(?=.*[A-Z])[a-zA-Z\d]{8,}$"
+                               data-msg-pattern="[% siteMessage 'ChangePasswordInfo_Password_Not_Meet_Requirements' EscapeSingleQuotes %]"
                                ng-model="vm.password">
                         <span class="field-validation-valid" data-valmsg-for="CreateNewAccountInfo.Password" data-valmsg-replace="true"></span>
                     </div>
@@ -116,7 +118,7 @@
                     <span class="field-validation-error" ng-if="vm.createError" ng-bind="vm.createError"></span>
                 </div>
                 <div class="btns">
-                    <button type="submit" class="btn primary" ng-click="vm.createAccount()">[% translate 'Create Account' %]</button>
+                    <button type="submit" class="btn primary btn-long" ng-click="vm.createAccount()">[% translate 'Create Account' %]</button>
                 </div>
             </form>
         </div>

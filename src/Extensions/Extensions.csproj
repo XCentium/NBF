@@ -68,6 +68,10 @@
     <Reference Include="Antlr3.Runtime, Version=3.4.1.9004, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
       <HintPath>..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
+    <Reference Include="Avalara.AvaTax.Adapter, Version=5.7.3.1, Culture=neutral, PublicKeyToken=34e4ef76d6267205, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Avalara.AvaTax.Adapter.dll</HintPath>
+    </Reference>
     <Reference Include="DotLiquid, Version=2.0.24.0, Culture=neutral, PublicKeyToken=82e46016ecf9f07c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\DotLiquid.dll</HintPath>
@@ -104,6 +108,10 @@
     <Reference Include="Insite.ContentLibrary, Version=4.4.3.39891, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.ContentLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.Core, Version=4.4.3.39891, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.Core.dll</HintPath>
     </Reference>
     <Reference Include="Insite.Core.Interfaces, Version=4.4.3.39891, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Insite.Commerce.Public.4.4.3.39891\lib\net452\Insite.Core.Interfaces.dll</HintPath>
@@ -173,6 +181,10 @@
     </Reference>
     <Reference Include="Insite.Search.Elasticsearch, Version=4.4.3.39891, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Insite.Commerce.Public.4.4.3.39891\lib\net452\Insite.Search.Elasticsearch.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.TaxCalculator.Avalara, Version=4.4.3.39891, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.TaxCalculator.Avalara.dll</HintPath>
     </Reference>
     <Reference Include="Insite.Websites, Version=4.4.3.39891, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Insite.Commerce.Public.4.4.3.39891\lib\net452\Insite.Websites.dll</HintPath>
@@ -318,8 +330,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cart\Handlers\ProcessTermsCode.cs" />
     <Compile Include="Cart\Handlers\ProcessCreditCardTransaction.cs" />
     <Compile Include="Cart\Handlers\SubmitCart.cs" />
+    <EmbeddedResource Include="DatabaseScripts\2018.05.09.01.CreateShippingByVendorTable.sql" />
     <Compile Include="Enums\Listrak\Fields\OrderConfirmationFieldEnum.cs" />
     <Compile Include="Enums\Listrak\Fields\WelcomeEmailFieldEnum.cs" />
     <Compile Include="Enums\Listrak\EventIdEnum.cs" />
@@ -332,17 +346,24 @@
     <Compile Include="Handlers\GetDashboardPanelCollectionHandlerNBF.cs" />
     <Compile Include="Handlers\GetProductCollectionHandler\AfterProductListRetrived.cs" />
     <Compile Include="Handlers\GetProductCollectionHandler\FindProductsWithSearch.cs" />
+    <Compile Include="Handlers\GetProductCollectionHandler\HideSwatchesFromSearch.cs" />
     <Compile Include="Handlers\Helpers\NBFHtmlHelper.cs" />
     <Compile Include="Handlers\Helpers\NBFListrakHelper.cs" />
     <Compile Include="Handlers\Helpers\NBFGetOrderHelper.cs" />
     <Compile Include="Handlers\Interfaces\INBFGetOrderHelper.cs" />
     <Compile Include="Handlers\Interfaces\INBFListrakHelper.cs" />
     <Compile Include="Handlers\GetTrackedOrderHandler.cs" />
+    <Compile Include="Handlers\SubmitOrderToErpHandler\CreateShippingByVendor.cs" />
     <Compile Include="Handlers\UpdateCartHandler.cs" />
+    <Compile Include="Handlers\GetCartHandler\RecalculateCart.cs" />
     <Compile Include="Mappers\GetTrackedOrderMapper.cs" />
     <Compile Include="Mappers\Interfaces\IGetTrackedOrderMapper.cs" />
     <Compile Include="Models\AffiliateCode\AffiliateCodeModel.cs" />
     <Compile Include="Models\AffiliateCode\AffiliateCodeModelMapping.cs" />
+    <Compile Include="Models\ShippingByVendor\ShippingByVendorModel.cs" />
+    <Compile Include="Models\ShippingByVendor\ShippingByVendorModelMapping.cs" />
+    <Compile Include="Models\ShippingChargesRule\ShippingChargesRuleModel.cs" />
+    <Compile Include="Models\ShippingChargesRule\ShippingChargesRuleModelMapping.cs" />
     <Compile Include="Models\ShopTheLook\StlCategory.cs" />
     <Compile Include="Models\ShopTheLook\StlCategoryMapping.cs" />
     <Compile Include="Models\ShopTheLook\StlRoomLooksStyle.cs" />
@@ -360,8 +381,14 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Settings\PhoneNumberSettings.cs" />
     <Compile Include="Settings\OrderTrackerSettings.cs" />
+    <Compile Include="WebApi\TaxExempt\Controllers\TaxExemptController.cs" />
+    <Compile Include="WebApi\TaxExempt\Interfaces\ITaxExemptRepository.cs" />
+    <Compile Include="WebApi\TaxExempt\Interfaces\ITaxExemptService.cs" />
+    <Compile Include="WebApi\EmailApi\Models\TaxExemptEmailDto.cs" />
+    <Compile Include="WebApi\TaxExempt\Repository\TaxExemptRepository.cs" />
+    <Compile Include="WebApi\TaxExempt\Services\TaxExemptService.cs" />
+    <Compile Include="Utility\Shipping\ShippingHelper.cs" />
     <Compile Include="WebApi\EmailApi\Models\ContactUsSpanishDto.cs" />
-    <Compile Include="WebApi\EmailApi\Models\TaxExemptDto.cs" />
     <Compile Include="WebApi\EmailApi\Models\CatalogPrefsDto.cs" />
     <Compile Include="WebApi\CreditCardTransaction\Controllers\NBFCCTransactionController.cs" />
     <Compile Include="WebApi\CreditCardTransaction\Interfaces\ICCTransactionRepository.cs" />
@@ -401,6 +428,11 @@
     <Compile Include="WebApi\ShopTheLook\Controllers\ShopTheLookController.cs" />
     <Compile Include="WebApi\ShopTheLook\Interfaces\IShopTheLookRepository.cs" />
     <Compile Include="WebApi\ShopTheLook\Interfaces\IShopTheLookService.cs" />
+    <Compile Include="WebApi\ShopTheLook\Models\ShopTheLookHotSpotDto.cs" />
+    <Compile Include="WebApi\ShopTheLook\Models\ShopTheLookDto.cs" />
+    <Compile Include="WebApi\ShopTheLook\Models\ShopTheLookStyleDto.cs" />
+    <Compile Include="WebApi\ShopTheLook\Models\ShopTheLookCollectionDto.cs" />
+    <Compile Include="WebApi\ShopTheLook\Models\ShopTheLookCategoryDto.cs" />
     <Compile Include="WebApi\ShopTheLook\Repository\ShopTheLookRepository.cs" />
     <Compile Include="WebApi\ShopTheLook\Services\ShopTheLookService.cs" />
     <Compile Include="WebApi\WebCode\Controllers\WebCodeController.cs" />
@@ -481,10 +513,7 @@
     <Compile Include="Widgets\WebCode.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="DatabaseScripts\2018.04.18.02.CreateWebCodeTables.sql" />
-    <EmbeddedResource Include="DatabaseScripts\2018.04.18.01.CreateSTLTables.sql" />
-    <EmbeddedResource Include="DatabaseScripts\2018.04.19.01.DropAndCreateSTLTables.sql" />
-    <EmbeddedResource Include="DatabaseScripts\2018.04.19.02.DropAndCreateAffiliateTable.sql" />
+    <EmbeddedResource Include="DatabaseScripts\2018.05.08.01.CreateShippingChargesRuleTable.sql" />
     <Content Include="packages.config">
       <SubType>Designer</SubType>
     </Content>
@@ -508,7 +537,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>0</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:54995/</IISUrl>
+          <IISUrl>http://localhost:57879/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

@@ -2,6 +2,8 @@
 
 
 .shopthelookdetail {
+    margin-top:60px;
+
     &__title {
         margin-bottom: 30px;
         display: inline-block;
@@ -19,7 +21,11 @@
     }
 
     &__page-desc {
-        max-width: 685px;
+        @media all and (min-width: 767px) {
+            max-width: 75%;
+        }
+        font-size:24px;
+        margin-bottom:40px;
     }
 
     &__image-col {
@@ -40,6 +46,8 @@
     }
 
     &__list-title {
+        font-weight:bold;
+        margin-bottom:.5em;
     }
 
     &__list-col {
@@ -65,9 +73,17 @@
 
         &__image {
             width: 45%;
-            //min-height: 188px;
+            min-height: 180px;
             float: left;
             margin-right: 10px;
+            position:relative;
+
+            .btn-add-to-list {
+                position:absolute;
+                top:5px;
+                right:0;
+                width:auto !important;
+            }
 
             @media all and (max-width: 1025px) {
                 width: 21%;
@@ -89,6 +105,10 @@
         }
 
         &__price {
+            h3{
+                color:#2E2A2B !important;
+                font-weight:bold;
+            }            
             h4 {
                 display: inline;
                 margin: 0;
@@ -100,7 +120,7 @@
         }
 
         &__btn {
-            button {
+            .btn {
                 padding: 11px 0;
                 width: 53%;
                 margin-bottom: 0;
@@ -197,6 +217,7 @@
                 height: 48px;
                 overflow: hidden;
                 font-weight: bold;
+                font-size:18px;
             }
             &__number {
                 font-size:18px;
@@ -206,6 +227,10 @@
                 font-weight: bold;
                 font-size: 24px;
                 line-height: 36px;
+                h3{
+                    color:#2E2A2B !important;
+                    font-weight:bold;
+                } 
             }
 
             &__btn {
@@ -229,6 +254,14 @@
                 padding-bottom: 9%;
             }
         }
+    }
+
+    .pr-category-snippet__total, .pr-snippet-rating-decimal {
+        display:none !important;
+    }
+
+    .item-block__product__img {
+        max-height:265px;
     }
 }
 
@@ -276,6 +309,10 @@
 
         &__default__title {
             margin: 0;
+        }
+
+        a {
+            text-decoration: none;
         }
     }
 }

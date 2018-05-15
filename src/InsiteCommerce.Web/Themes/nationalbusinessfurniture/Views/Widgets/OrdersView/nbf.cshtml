@@ -148,11 +148,11 @@
                                     <td class="col-erp"><a ng-href="[% urlForPage 'OrderDetailPage' %]?ordernumber={{ order.erpOrderNumber || order.webOrderNumber }}" ng-click="">{{ order.erpOrderNumber }}</a></td>
                                     <td class="col-shipto" ng-bind="order.stCompanyName"></td>
                                     <td class="col-status" ng-bind="order.statusDisplay"></td>
-                                    <td class="col-ordernum" ng-if="vm.settings.showWebOrderNumber" ng-bind="order.webOrderNumber"></td>
+                                    <td class="col-ordernum" ng-if="vm.settings.showWebOrderNumber"><a ng-href="[% urlForPage 'OrderDetailPage' %]?orderNumber={{ order.erpOrderNumber || order.webOrderNumber }}">{{ order.webOrderNumber }} </a></td>
                                     <td class="col-po"  ng-if="vm.settings.showPoNumber" ng-bind="order.customerPO" ng-click="copyToSearch(order.customerPO)"></td>
                                     <td class="col-tot" ng-bind="order.orderTotalDisplay"></td>
                                     <td class="col-btn">
-                                        <a href="javascript:void(0)" class="btn btn-primary"><span class="ico-CartIcon"></span> Add To Cart</a>
+                                        <a href="javascript:void(0)" class="btn btn-primary" ng-click="vm.addToCart(order)" ><span class="ico-CartIcon"></span> Add To Cart</a>                                        
                                     </td>
                                 </tr>
                             </tbody>

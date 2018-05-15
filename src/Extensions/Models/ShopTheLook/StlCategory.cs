@@ -2,7 +2,6 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using Insite.Core.Interfaces.Data;
 using Insite.Data.Entities;
-using System.Collections.Generic;
 
 namespace Extensions.Models.ShopTheLook
 {

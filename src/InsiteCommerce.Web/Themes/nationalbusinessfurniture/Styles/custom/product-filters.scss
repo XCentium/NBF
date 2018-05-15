@@ -12,8 +12,8 @@
     .filter-middle {
 
         @media (min-width: 768px) {
-        padding-left: 100px;
-        padding-right: 215px;
+            padding-left: 100px;
+            padding-right: 215px;
         }
     }
 
@@ -23,10 +23,10 @@
         right: 0;
 
         @media (max-width: 767px) {
-            clear:both;
-            width:auto;
-            right:auto;
-            position:relative;
+            clear: both;
+            width: auto;
+            right: auto;
+            position: relative;
             padding: 0 15px;
         }
     }
@@ -34,23 +34,32 @@
     .filter-label {
         position: absolute;
         width: 100px;
+        top: 10px;
         left: 0;
 
         @media (max-width: 767px) {
-            display:none;
+            display: none;
         }
     }
 }
 
 .exrta-filter-wrap {
+    position:relative;
+    .exrta-filter-toggler {
+        position: absolute;
+        right: -85px;
+        top: -65px;
+    }
+
     .toggle-filters {
         display: block;
         margin-bottom: 15px;
         text-decoration: none;
 
         @media (max-width: 761px) {
-            display:none;
+            display: none;
         }
+
         &:after {
             content: "\f068";
             position: relative;
@@ -61,12 +70,14 @@
 
     .exrta-filters {
         height: auto;
-        overflow: hidden;
         transition: max-height 0.5s ease-in;
         max-height: 1600px;
     }
 
     &.collapsed {
+        .exrta-filters {
+            overflow: hidden;
+        }
 
         @media (min-width: 768px) {
 
@@ -211,5 +222,13 @@
 @media (min-width: 767px) {
     .mobile-title + article.accord-content {
         margin-top: 0;
+    }
+}
+
+.product-list [role="mobile-filters"] {
+    .accord-content {
+        @media (min-width: 767px) {
+            padding: 0 15px !important;
+        }
     }
 }

@@ -6,6 +6,7 @@
                 <div>
                     <input type="checkbox" id="tag-10000" class="accord-check" />
                     <label id="tst_productList_tableView_filterButton" for="tag-10000" class="accord-head">[% translate 'Filter By Tags' %]</label>
+                    <a id="tst_productList_tableView_filterButtonClear">Clear filter</a>
                     <article class="accord-content">
                         <div class="page-tag-links tst_pageTagLinksView">
                             <div class="news-listings">
@@ -24,3 +25,32 @@
         </div>
     </div>
 </div>
+<script>
+    $(function () {
+        let tag = getUrlParameter("tag");
+
+        if (tag != null && tag !== "") {
+            $('#tst_productList_tableView_filterButtonClear').show();
+            $('#tst_productList_tableView_filterButtonClear').attr('href', window.location.href.split('?')[0]);
+        }
+        else {
+            $('#tst_productList_tableView_filterButtonClear').hide();
+        }
+    });
+
+    function getUrlParameter(sParam) {
+        var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+            sURLVariables = sPageURL.split('&'),
+            sParameterName,
+            i;
+
+        for (i = 0; i < sURLVariables.length; i++) {
+            sParameterName = sURLVariables[i].split('=');
+
+            if (sParameterName[0] === sParam) {
+                return sParameterName[1] === undefined ? true : sParameterName[1];
+            }
+        }
+    };
+
+</script>

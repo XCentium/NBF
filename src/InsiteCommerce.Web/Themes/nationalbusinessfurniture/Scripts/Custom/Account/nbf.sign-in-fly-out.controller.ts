@@ -54,7 +54,8 @@
             "$localStorage",
             "wishListService",
             "$q",
-            "ipCookie"
+            "ipCookie",
+            "$rootScope"
         ];
 
         constructor(
@@ -74,7 +75,8 @@
             protected $localStorage: common.IWindowStorage,
             protected wishListService: IWishListService,
             protected $q: ng.IQService,
-            protected ipCookie: any) {
+            protected ipCookie: any,
+            protected $rootScope: ng.IRootScopeService) {
             this.init();
         }
 
@@ -296,6 +298,9 @@
             this.email = "";
             this.userNameToReset = "";
             this.resetPasswordSuccess = false;
+
+            this.coreService.displayModal(angular.element("#forgotPasswordPopup"));
+
             return true;
         }
 
@@ -359,7 +364,7 @@
             if (session.isRestrictedProductExistInCart) {
                 this.$localStorage.set("hasRestrictedProducts", true.toString());
             }
-
+            this.$rootScope.$broadcast("initAnalyticsEvent", "Login", null, null);
             if (this.invitedToList) {
                 const inviteParam = "invite=";
                 const lowerCaseReturnUrl = this.returnUrl.toLowerCase();
@@ -388,6 +393,13 @@
 
         protected closeModal(selector: string): void {
             this.coreService.closeModal(selector);
+        }
+        flyOutFocus(): void {
+            $('.user-nav .sub-tier-panel').css('display', 'block');
+        }
+
+        flyOutFocusOff(): void {
+            $('.user-nav .sub-tier-panel').removeAttr("style");
         }
     }
 

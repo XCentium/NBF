@@ -1,6 +1,27 @@
 ﻿@import "../variables";
 
 
+.featured-product {
+    .pr-snippet-rating-decimal, .pr-category-snippet__total {
+        display: none !important;
+    }
+
+    .item-block__product__col-2 {
+        .col-1, .col-2 {
+            display: inline-block;
+        }
+
+
+        .col-2 {
+            float: right;
+            .item-block__product__ships-today{
+                margin-top:5px;
+
+            }
+        }
+    }
+}
+
 .product-list-wrap {
     margin: 0;
     padding: 0;
@@ -28,6 +49,7 @@
             right: 5px;
             z-index: 1;
 
+
             a {
                 display: inline;
                 padding: 0;
@@ -52,6 +74,8 @@
             margin-bottom: 15px;
             border: 1px solid $divider-gray;
             position: relative;
+            @include flexbox();
+            align-items: center;
         }
 
         &__compare {

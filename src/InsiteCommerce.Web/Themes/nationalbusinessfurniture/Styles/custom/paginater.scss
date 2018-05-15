@@ -101,16 +101,16 @@ body [role="main"] div.paginator-34 {
 }
 
 .pagination a.next-prev:link, .pagination a.next-prev:visited {
-    font-family:$FontAwesome;
+    font-family: $icomoon;
     width: 50px;
-    line-height: 300%;
+    line-height: 244%;
     display: inline-block;
     text-decoration: none;
     cursor: pointer !important;
     border-right: 1px solid #cccccc;
     border-left: 1px solid #cccccc;
-    font-size:16px;
-    color:$nbf-black;
+    font-size: 20px;
+    color: $nbf-black;
 }
 
 .paginator-34 .pagination a.next-prev:link, .pagination a.next-prev:visited {
@@ -124,11 +124,11 @@ body [role="main"] div.paginator-34 {
 }
 
 .pagination a.p-prev:before {
-    content: "\f053";
+    content: "\e91b";
 }
 
 .pagination a.p-next:after {
-    content: "\f054";
+    content: "\e91c";
 }
 
 .pagination div.page-prev {
@@ -230,14 +230,24 @@ body [role="main"] div.paginator-34 {
 
 .paginator-34 .pagination input {
     height: 48px !important;
-    border-bottom:0;
-    border-top:0;
-    text-align:center;
+    border-bottom: 0;
+    border-top: 0;
+    text-align: center;
+
+    &:focus {
+        border: 1px solid black;
+    }
 }
 
 .paginator-34.pbtm .pagination input, .paginator-34.pbtm .pagination a.next-prev {
     border: 1px solid #E0E0E0;
     height: 50px !important;
+}
+
+.paginator-34.pbtm .pagination input {
+    &:focus {
+        border: 1px solid black;
+    }
 }
 
 @media all and (max-width: 767px) {
@@ -306,16 +316,19 @@ h3.results-count {
 .paginator-34 .results-list {
     width: auto;
     max-width: 50%;
+    width: 200px !important;
 }
 
 .results-list label, .sort-list label {
     margin-right: 5px;
-    max-width: 80px;
+    max-width: 100px;
     overflow: hidden;
         display: inline-block;
     text-overflow: ellipsis;
 }
-
+.results-list label {
+    
+}
 .results-list select {
     width: 50px;
 }

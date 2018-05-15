@@ -136,6 +136,15 @@
                 });
             }
 
+            var search = new nbf.analytics.AnalyticsPageSearchInfo();
+            search.searchResults = productCollection.pagination.totalItemCount;
+            search.searchTerm = this.query;
+            if (this.noResults) {
+                this.$rootScope.$broadcast("initAnalyticsEvent", "FailedSearch", null, null, search);
+            } else {
+                this.$rootScope.$broadcast("initAnalyticsEvent", "SuccessfulSearch", null, null, search);
+            }
+
             if (productCollection.searchTermRedirectUrl) {
                 // use replace to prevent back button from returning to this page
                 if (productCollection.searchTermRedirectUrl.lastIndexOf("http", 0) === 0) {
@@ -366,6 +375,7 @@
                 this.nbfWishListService.addWishListLines(this.favoritesWishlist, addLines).then(() => {
                     this.getFavorites();
                 });
+                this.$rootScope.$broadcast("initAnalyticsEvent", "AddProductToWIshList");
             }
         }
 

@@ -1,16 +1,18 @@
 ﻿<div ng-controller="ProductDetailController as vm" ng-cloak
      pr-api-key="[% siteMessage 'PowerReviews_ApiKey' '56b8fc6a-79a7-421e-adc5-36cbdaec7daf ' %]"
      pr-merchant-group-id="[% siteMessage 'PowerReviews_MerchantGroupId' '47982' %]"
-     pr-merchant-id="[% siteMessage 'PowerReviews_MerchantId' '33771' %]"
-     >
-    <script src="https://assets.liveexpert.net/widget/javascript/leaWidget.js"></script>
+     pr-merchant-id="[% siteMessage 'PowerReviews_MerchantId' '33771' %]">
+
     <isc-catalog-breadcrumb ng-show="vm.product" breadcrumbs="vm.breadCrumbs"></isc-catalog-breadcrumb>
+
     <div class="medium-12 large-12 columns widget-1column narrow-container product-details">
         <div class="row">
             <div class="row pd-grid isc-productContainer">
                 <div class="detail-info">
                     <div class="small-12 column medium-6 detail-image">
-                        <isc-product-images ng-if="vm.product" product="vm.product"></isc-product-images>
+                        <div class="main-image-wrap">
+                            <isc-product-images ng-if="vm.product" product="vm.product"></isc-product-images>
+                        </div>
                         <div class="image-buttons hide-for-print">
                             <button class="btn btn-secondary" ng-if="vm.product && vm.product.unspsc !== '0000'" ng-click="vm.show360()"><i class="ico-ViewIcon"></i> 360 View</button>
                             <button ng-show="vm.product.properties['videoUrl']" class="btn btn-secondary" ng-click="vm.showVideo()"><i class="ico-SmallplaybuttonIcon"></i> Product Video</button>
@@ -33,7 +35,9 @@
                                 SAVE {{vm.product.priceCode}}%
                             </div>
                         </div>
-                        <div class="item-block__product__ships-today" ng-if="vm.isAttributeValue('Ships Today', 'Yes');"><span class="ico-Truck"></span> Ships Today!</div>
+                        <div class="item-block__product__ships-today" ng-if="vm.isAttributeValue('Ships Today', 'Yes');">
+                            <span class="ico-Truck"></span> Ships Today!
+                        </div>
 
                         <div class="item-block__product__col-2 clearfix">
                             <div class="col-1">
@@ -46,7 +50,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="item-block__product__samples-link">
+                        <div class="item-block__product__samples-link" ng-if="vm.product.styleTraits.length > 0">
                             <strong>Available Colors/Finishes</strong> <a class="hide-for-print" href="javascript:void(0);" ng-click="vm.showSwatchOrderForm()">Order Free Samples</a>
                         </div>
                         <div class="item-block__product__swatches">
@@ -101,7 +105,7 @@
                                                                  display-pack="true" change-unit-of-measure="vm.changeUnitOfMeasure(vm.product)"></isc-unit-of-measure-select-list>
                             </div>
                             <div class="fc-qty" ng-if="vm.product.canEnterQuantity || vm.configurationCompleted || vm.styleSelectionCompleted && !vm.product.canConfigure">
-                                <label style="display:none;" class="small-12">[% translate 'QTY_quantity' %]</label>
+                                <label style="display: none;" class="small-12">[% translate 'QTY_quantity' %]</label>
                                 <input id="tst_productDetail_qtyOrdered" type="text" value="1" class="small-12 numerictextbox" ng-model="vm.product.qtyOrdered">
                             </div>
                             <span class="field-validation-error" ng-if="vm.showUnitError"><span ng-bind="vm.parentProduct.unitOfMeasureDisplay"></span>[% siteMessage 'StyledProduct_WrongUnitOfMeasure' %]</span>
@@ -109,7 +113,7 @@
                                 <div class="small-12 primary-button">
                                     <button ng-show="(vm.product.availability.messageType != 2 || vm.product.canBackOrder) && vm.product.allowedAddToCart && (vm.product.canAddToCart || vm.configurationCompleted || vm.styleSelectionCompleted && !vm.product.canConfigure)"
                                             id="tst_productDetail_addToCart" ng-click="vm.addToCart(vm.product)"
-                                            role="button" class="btn-long btn primary btn-add-to-cart" ng-disabled="!vm.product.qtyOrdered || vm.product.qtyOrdered == 0 || vm.showUnitError || vm.addingToCart">
+                                            role="button" class="btn primary btn-add-to-cart" ng-disabled="!vm.product.qtyOrdered || vm.product.qtyOrdered == 0 || vm.showUnitError || vm.addingToCart">
                                         <span class="ico-CartIcon"></span> [% translate 'Add To Cart' %]
                                     </button>
                                 </div>
@@ -126,10 +130,10 @@
                                     </a>
                                 </div>
                             </div>
-                            <a id="tst_productDetail_addToWishList" ng-if="vm.isAuthenticated" ng-class="{'in-favorites': vm.product.properties['isFavorite'] == 'true' } "
-                               ng-click="vm.toggleFavorite(vm.product)" role="button"
-                               class="btn secondary btn-add-to-list" href="javascript:;">{{vm.product.properties['isFavorite'] == "false" ? "Add To Favorites" : "Remove From Favorites"}}</a>
-                            
+                            <a id="tst_productDetail_addToWishList" ng-if="vm.isAuthenticated" ng-class="{'in-favorites': vm.parentProduct.properties['isFavorite'] == 'true' } "
+                               ng-click="vm.toggleFavorite(vm.parentProduct)" role="button"
+                               class="btn secondary btn-add-to-list" href="javascript:;">{{vm.parentProduct.properties['isFavorite'] == "false" ? "Add To Favorites" : "Remove From Favorites"}}</a>
+
                         </div>
                     </div>
                     <div class="accordion-details-page">
@@ -234,93 +238,6 @@
     </div>
 </div>
 
-<script type="text/ng-template" id="productDetail_tellAFriend">
-    <div style="display: none;">
-        <div id="TellAFriendDialogContainer" class="product-detail popup-share reveal-modal" data-reveal data-reveal-init>
-            <div class="modal-wrap">
-                <h2>[% translate 'Share with a Friend' %]</h2>
-                <form novalidate id="tellAFriendForm" class="custom">
-                    <div class="row share-name">
-                        <isc-tell-a-friend-field field-label="[% translate 'Friend's Name' %]"
-                                                 field-name="friendsName"
-                                                 field-value="vm.tellAFriendModel.friendsName"
-                                                 is-required="true"
-                                                 is-email="false">
-                        </isc-tell-a-friend-field>
-                    </div>
-                    <div class="row share-email">
-                        <isc-tell-a-friend-field field-label="[% translate 'Friend's Email' %]"
-                                                 field-name="friendsEmail"
-                                                 field-value="vm.tellAFriendModel.friendsEmailAddress"
-                                                 is-required="true"
-                                                 is-email="true">
-                        </isc-tell-a-friend-field>
-                    </div>
-                    <div class="row share-you">
-                        <isc-tell-a-friend-field field-label="[% translate 'Your Name' %]"
-                                                 field-name="yourName"
-                                                 field-value="vm.tellAFriendModel.yourName"
-                                                 is-required="true"
-                                                 is-email="false">
-                        </isc-tell-a-friend-field>
-                    </div>
-                    <div class="row share-youmail">
-                        <isc-tell-a-friend-field field-label="[% translate 'Your Email' %]"
-                                                 field-name="yourEmail"
-                                                 field-value="vm.tellAFriendModel.yourEmailAddress"
-                                                 is-required="true"
-                                                 is-email="true">
-                        </isc-tell-a-friend-field>
-                    </div>
-                    <div class="row share-msg">
-                        <div class="large-5 columns">
-                            <span>[% translate 'Your Message' %]</span>
-                            <span class="redTxt">*</span>
-                        </div>
-                        <div class="large-7 columns">
-                            <textarea ng-model="vm.tellAFriendModel.yourMessage" autofocus="autofocus"
-                                      id="yourMessage"
-                                      name="yourMessage"
-                                      data-rule-required="true"
-                                      data-msg-required="{{ '[% siteMessage 'Field_Required' EscapeSingleQuotes %]'.replace('{0}', '[% translate 'Your Message' EscapeSingleQuotes %]') }}"></textarea>
-                            <span class="field-validation-valid" data-valmsg-for="yourMessage" data-valmsg-replace="true"></span>
-                        </div>
-                    </div>
-                    <div class="row btns">
-                        <button id="tst_productDetail_shareSubmit" ng-click="vm.shareWithFriend()" class="btn primary btn-create-wishlist" type="button">[% translate 'Share' %]</button>
-                    </div>
-                </form>
-                <div id="tst_productDetail_shareSubmitMessage" class="messaging" ng-show="vm.isSuccess || vm.isError">
-                    <span ng-show="vm.isSuccess">[% siteMessage 'TellAFriend_Success' %]</span>
-                    <span ng-show="vm.isError">[% siteMessage 'TellAFriend_Error' %]</span>
-                </div>
-                <a class="close-reveal-modal">&#215;</a>
-            </div>
-        </div>
-    </div>
-</script>
-
-<script type="text/ng-template" id="productDetail_tellAFriendField">
-    <div>
-        <div class="large-5 columns">
-            <span ng-bind="fieldLabel"></span>
-            <span class="redTxt" ng-show="isRequired">*</span>
-        </div>
-        <div class="large-7 columns">
-            <input type="text" ng-model="fieldValue" autofocus="autofocus"
-                   id="{{fieldName}}"
-                   name="{{fieldName}}"
-                   data-rule-required="{{isRequired}}"
-                   data-msg-required="{{'[% siteMessage 'Field_Required' EscapeSingleQuotes %]'.replace('{0}', fieldLabel)}}"
-                   data-rule-email="{{isEmail}}"
-                   data-msg-email="{{'[% siteMessage 'Field_Invalid' EscapeSingleQuotes %]'.replace('{0}', fieldLabel)}}"
-                   data-rule-regex="{{ isEmail === 'true' ? '[% emailRegex %]' : '.*' }}"
-                   data-msg-regex="{{'[% siteMessage 'Field_Invalid' EscapeSingleQuotes %]'.replace('{0}', fieldLabel)}}">
-            <span class="field-validation-valid" data-valmsg-for="{{fieldName}}" data-valmsg-replace="true"></span>
-        </div>
-    </div>
-</script>
-
 <script type="text/ng-template" id="/PartialViews/Catalog-CrossSellCarousel">
     [% partialView 'Catalog-CrossSellCarousel' %]
 </script>
@@ -332,4 +249,3 @@
 </script>
 
 
-    

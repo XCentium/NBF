@@ -22,8 +22,10 @@
         [% if Model.LinkedInUrl != null and Model.LinkedInUrl != "" -%]
         <li class="cell"><a href="[[Model.LinkedInUrl]]" target="_blank"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
         [% endif -%]
-        [% if Model.EmailAddress != null and Model.EmailAddress != "" -%]
-        <li class="cell"><a href="mailto:[[Model.EmailAddress]]"><i class="fa fa-envelope" aria-hidden="true"></i></a></li>
-        [% endif -%]
+        <li class="cell">
+            <a id="tst_productDetail_share" ng-controller="NbfTellAFriendController as vm" ng-cloak href="javascript:void(0);" ng-click="vm.openShareWithFriendPopup()"><i class="fa fa-envelope" aria-hidden="true"></i></a>
+            <nbf-tell-a-friend-popup data-reveal></nbf-tell-a-friend-popup>
+
+        </li>
     </ul>
 </div>

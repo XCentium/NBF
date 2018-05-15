@@ -12,8 +12,10 @@
                                 <div class="company-name">{{vm.billTo.companyName}}</div>
                                 <div class="address1">{{vm.billTo.address1}}</div>
                                 <div class="address2" ng-if="vm.billTo.address2">{{vm.billTo.address2}}</div>
+                                <div class="citystatezip" ng-if="vm.billTo.city && vm.billTo.state && vm.billTo.postalCode">
+                                    {{vm.billTo.city}}, {{vm.billTo.state.abbreviation}}&nbsp;{{vm.billTo.postalCode}}</div>
                                 <div class="phone" ng-if="vm.billTo.phone">Phone: {{vm.billTo.phone}}</div>
-                                <div class="email" ng-if="vm.billTo.email">Email: {{vm.billTo.email}}</div>
+                                <div class="email" title="{{vm.billTo.email}}" ng-if="vm.billTo.email">Email: {{vm.billTo.email}}</div>
                             </div>
                             <form id="addressForm" ng-if="vm.billTo.properties['edit'] == 'true'" class="shortform">
                                 <nbf-address-edit prefix="bt" address="vm.billTo" countries="vm.countries" address-fields="vm.addressFields.billToAddressFields"
@@ -31,6 +33,20 @@
                 <h3>Shipping Address</h3>
                 <div class="row">
                     <ul class="large-block-grid-4 medium-block-grid-2" data-equalizer>
+                        <li ng-if="vm.shipToAddresses.length === 0">
+                            <div class="ship-to-bill-to-text">[% siteMessage 'MyAccount_Addresses_ShipToIsBillToText' 'Use Bill To Address' %]</div>
+                            <div class="address-item" data-equalizer-watch ng-hide="vm.billTo.properties['edit'] == 'true'" id="shipToBillTo">
+                                <div class="name">{{vm.billTo.firstName}} {{vm.billTo.lastName}}</div>
+                                <div class="company-name">{{vm.billTo.companyName}}</div>
+                                <div class="address1">{{vm.billTo.address1}}</div>
+                                <div class="address2" ng-if="vm.billTo.address2">{{vm.billTo.address2}}</div>
+                                <div class="citystatezip" ng-if="vm.billTo.city && vm.billTo.state && vm.billTo.postalCode">
+                                    {{vm.billTo.city}}, {{vm.billTo.state.abbreviation}}&nbsp;{{vm.billTo.postalCode}}
+                                </div>
+                                <div class="phone" ng-if="vm.billTo.phone">Phone: {{vm.billTo.phone}}</div>
+                                <div class="email" title="{{vm.billTo.email}}" ng-if="vm.billTo.email">Email: {{vm.billTo.email}}</div>
+                            </div>
+                        </li>
                         <li ng-repeat="shipTo in vm.shipToAddresses">
                             <div class="address-item" data-equalizer-watch ng-hide="shipTo.properties['edit'] == 'true'" id="shipTo{{$index}}">
                                 <a ng-click="vm.editAddress(shipTo)" class="edit-btn edit-icon" ng-hide="vm.editMode"><i class="fa fa-edit"></i></a>
@@ -38,10 +54,13 @@
                                 <div class="company-name">{{shipTo.companyName}}</div>
                                 <div class="address1">{{shipTo.address1}}</div>
                                 <div class="address2" ng-if="shipTo.address2">{{shipTo.address2}}</div>
+                                <div class="citystatezip" ng-if="shipTo.city && shipTo.state && shipTo.postalCode">
+                                    {{shipTo.city}}, {{shipTo.state.abbreviation}}&nbsp;{{shipTo.postalCode}}
+                                </div>
                                 <div class="phone" ng-if="shipTo.phone">Phone: {{shipTo.phone}}</div>
-                                <div class="email" ng-if="shipTo.email">Email: {{shipTo.email}}</div>
+                                <div class="email" title="{{vm.billTo.email}}" ng-if="shipTo.email">Email: {{shipTo.email}}</div>
                             </div>
-                            <form id="addressForm" ng-if="shipTo.properties['edit'] == 'true'"  class="shortform">
+                            <form id="addressForm" ng-if="shipTo.properties['edit'] == 'true'" class="shortform">
                                 <nbf-address-edit prefix="st" address="shipTo" countries="vm.countries" address-fields="vm.addressFields.shipToAddressFields"
                                                   set-state-required-rule="vm.setStateRequiredRule('st', shipTo)"></nbf-address-edit>
                                 <div class="btns">

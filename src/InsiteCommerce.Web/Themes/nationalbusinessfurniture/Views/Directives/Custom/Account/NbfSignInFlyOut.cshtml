@@ -19,13 +19,17 @@
                placeholder="{{vm.settings.useEmailAsUserName ? '[% translate 'Email' EscapeSingleQuotes %]' : '[% translate 'Username' EscapeSingleQuotes %]'}}"
                required
                maxlength="75"
-               ng-model="vm.userName" />
+               ng-model="vm.userName"
+               ng-focus="vm.flyOutFocus()"
+               ng-blur="vm.flyOutFocusOff()"/>
         <label for="SignInInfo_FlyOut_Password" class="login-from__password__label">[% translate 'Password' %]</label>
         <input type="password" id="SignInInfo_FlyOut_Password" name="password" class="login-from__password__input"
                placeholder="[% translate 'Password' %]"
                required
                maxlength="75"
-               ng-model="vm.password" />
+               ng-model="vm.password"
+               ng-focus="vm.flyOutFocus()"
+               ng-blur="vm.flyOutFocusOff()"/>
 
 
         <a href="#" ng-click="vm.resetForgotPasswordPopup()" class="login-from__forgotpassword" id="tst_signIn_flyOut_openForgotPassword" data-reveal-id="forgotPasswordPopup">[% translate 'Forgot Password?' EscapeSingleQuotes %]</a>

@@ -30,6 +30,7 @@
             "$anchorScroll",
             "$location",
             "$attrs",
+            "$rootScope"
         ];
 
         constructor(
@@ -47,7 +48,8 @@
             protected $window: ng.IWindowService,
             protected $anchorScroll: ng.IAnchorScrollService,
             protected $location: ng.ILocationService,
-            protected $attrs: IProductDetailControllerAttributes
+            protected $attrs: IProductDetailControllerAttributes,
+            protected $rootScope: ng.IRootScopeService
         ) {
             super($scope, coreService, cartService, productService, addToWishlistPopupService, productSubscriptionPopupService, settingsService, $stateParams, sessionService)
             this.sessionService.getIsAuthenticated().then((isAuth) => {
@@ -69,25 +71,26 @@
             if (favoriteLine.length > 0) {
                 //Remove lines
                 this.nbfWishListService.deleteLineCollection(this.favoritesWishlist, favoriteLine).then((result) => {
-                    this.getFavorites();
+                    this.getFavorites(product);
                 });     
             } else {
                 //Add Lines
                 var addLines = [product];
                 this.nbfWishListService.addWishListLines(this.favoritesWishlist, addLines).then(() => {
-                    this.getFavorites();
+                    this.getFavorites(product);
                 });
+                this.$rootScope.$broadcast("initAnalyticsEvent", "AddProductToWIshList");
             }
         }
 
-        protected getFavorites() {
+        protected getFavorites(product : ProductDto) {
             this.nbfWishListService.getWishLists("CreatedOn", "wishlistlines").then((wishList) => {
                 this.favoritesWishlist = wishList.wishListCollection[0];
-                this.product.properties["isFavorite"] = "false";
+                product.properties["isFavorite"] = "false";
                 if (this.favoritesWishlist) {
                     if (this.favoritesWishlist.wishListLineCollection) {
-                        if (this.favoritesWishlist.wishListLineCollection.filter(x => x.productId === this.product.id)[0]) {
-                            this.product.properties["isFavorite"] = "true";
+                        if (this.favoritesWishlist.wishListLineCollection.filter(x => x.productId === product.id)[0]) {
+                            product.properties["isFavorite"] = "true";
                         }
                     } else {
                         this.favoritesWishlist.wishListLineCollection = [];
@@ -243,6 +246,10 @@
 
         protected getProductCompleted(productModel: ProductModel): void {
             this.product = productModel.product;
+
+            this.$rootScope.$broadcast("productPageLoaded", this.product);
+            this.$rootScope.$broadcast("initAnalyticsEvent", "ProductPageView", null, null, this.product);
+            
             this.product.qtyOrdered = this.product.minimumOrderQty || 1;
             this.product.documents.forEach((doc) => {
                 if (doc.documentType == "video") {
@@ -280,14 +287,13 @@
             this.sessionService.getIsAuthenticated().then(x => {
                 this.isAuthenticated = x;
                 if (this.isAuthenticated) {
-                    this.getFavorites();
+                    this.getFavorites(this.parentProduct);
                 }
             });
 
             this.resourceAndAssemblyDocs = this.product.documents.filter(x => x.documentType != "video");
 
             setTimeout(() => {
-                this.setLiveExpertsWidget();
                 this.setPowerReviews();
             }, 1000);            
         }   
@@ -308,41 +314,29 @@
                 }
             };
 
+
             let powerReviews = this.$window["POWERREVIEWS"];
-            powerReviews.display.render(powerReviewsConfig)
+            powerReviews.display.render(powerReviewsConfig);
+
+            $(document).on('click', '.pr-qa-display-btn', function () {
+                this.$rootScope.$broadcast("initAnalyticsEvent", "ProductQuestionAsked");
+            });
+
+            $(document).on('click', '.pr-snippet-review-count', function () {
+                this.$rootScope.$broadcast("initAnalyticsEvent", "ReadReviewsSelected");
+            });
         }
 
-        protected setLiveExpertsWidget() {
-            var liveExpertConfig = {
-                enterpriseURL: 'liveexpert.net',
-                sourceHost: 'assets.liveexpert.net',
-                assetLocation: 'nbf/multiButton/nbf',
-                apiURL: 'api.liveexpert.net',
-                companyID: 31,
-                language: 'EN',
-                callTypeID: 1,
-                micEnabled: false,
-                camEnabled: false,
-                categoryID: null
-            };
-
-            let liveProductDemoAttr = this.getAttributeValue("Live Product Demo");
-            if (liveProductDemoAttr != null && liveProductDemoAttr == "Yes"
-                && this.product.modelNumber != null
-            )
-            {
-                liveExpertConfig.categoryID = this.product.modelNumber;
-            }
-
-            let liveexpert = this.$window["liveexpert"];
-            liveexpert.LEAWidget.init(liveExpertConfig);
+        protected readReviews() {
+            console.dir("reading reviews");
         }
        
         showVideo() {            
             this.setVideo2(this.product.properties["videoFile"]);
         }
 
-        show360() {            
+        show360() {
+            this.$rootScope.$broadcast("initAnalyticsEvent", "Selected360View");
             this.set360(this.product.erpNumber, 3, 16);
         }
 

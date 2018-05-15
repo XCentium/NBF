@@ -47,6 +47,7 @@
         color: $nbf-navy;
         font-family: $ProximaNova;
         font-weight: 700;
+        margin-right:3px;
     }
 
     & > *:before {
@@ -84,8 +85,9 @@
         float: none;
         text-align: center;
     }
-    .share-label{
-        text-transform:uppercase;
+
+    .share-label {
+        text-transform: uppercase;
     }
 
     li {
@@ -101,6 +103,7 @@
 
         a {
             color: $nbf-navy;
+            text-decoration: none;
         }
     }
 

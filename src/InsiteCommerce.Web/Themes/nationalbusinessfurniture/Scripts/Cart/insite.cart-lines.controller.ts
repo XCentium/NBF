@@ -43,7 +43,7 @@
                 if (parseFloat(cartLine.qtyOrdered.toString()) === 0) {
                     this.removeLine(cartLine);
                 } else {
-                    this.spinnerService.show();
+                    //this.spinnerService.show();
                     this.cartService.updateLine(cartLine, refresh).then(
                         (cartLineModel: CartLineModel) => { this.updateLineCompleted(cartLineModel); },
                         (error: any) => { this.updateLineFailed(error); });

@@ -3,10 +3,13 @@
     <span>[[Model.Drop.SignOutText]]</span>
 </a>
 [% endcapture %]
-
 <script type="text/javascript">
     var insite = insite || {};
     insite.navAdjustments = [];
+
+    //let config = { "companyID": 31, "sourceHost": "assets.liveexpert.net", "assetLocation": "nbf/hidden-widget/nbf", "enterpriseURL": "liveexpert.net", "widgetViewDelegate": "hiddenWidgetViewDelegate", "language": "EN", "categoryID": 222, "enableWidget": true, };
+    //liveexpert.LEAWidget.init(config);
+    //liveexpert.startCall();
 </script>
 
 <div ng-controller="NbfTopNavController as vm" class="top-nav-container" ng-cloak dashboard-url="[% urlForPage 'MyAccountPage' %]">
@@ -17,7 +20,7 @@
                 <span>
                     [% zone 'Top' %]
                 </span>
-                <a class="close-msg isc-closemsg" ng-click="vm.closeTopMessage()">×</a>
+                <a class="close-msg isc-closemsg" ng-click="vm.closeTopMessage()">X</a>
             </div>
         </div>
     </div>
@@ -226,7 +229,7 @@
                 [% if Model.Drop.DisplayCart -%]
                 <ul class="user-nav">
                     <li ng-cloak ng-show="::(vm.session && (!vm.session.isAuthenticated || vm.session.billTo.isGuest) && !vm.session.rememberMe)">
-                        <a href="[% urlForPage 'SignInPage' %]" isc-redirect-to-sign-in return-to-url="true" class="btn sign-in fastClick tst_header_signInButton"><span class="ico-LoginIcon"></span> <span>[% translate 'Login' %]</span></a>
+                        <a ng-click="vm.flyOutFocusOff()" href="[% urlForPage 'SignInPage' %]" isc-redirect-to-sign-in return-to-url="true" class="btn sign-in fastClick tst_header_signInButton"><span class="ico-LoginIcon"></span> <span>[% translate 'Login' %]</span></a>
                         <div class="sub-tier-panel single show-heading level-2">
                             <nbf-sign-in-fly-out include-forgot-password-link="true" allow-create-account="true"></nbf-sign-in-fly-out>
                         </div>
@@ -303,7 +306,7 @@
                                     <span>
                                         <a href="javascript: void(0);" ng-click="vm.saveCart('[% urlForPage 'SavedOrderDetailPage' %]', '[% urlForPage 'SignInPage' %]')">Save Cart</a>
                                     </span>
-                                    <span class="right"><a href="[% urlForPage 'RfqRequestQuotePage' %]" ng-bind="'[% translate 'Request Quote' %]'" ng-disabled="vm.cart.isAwaitingApproval"></a></span>
+                                    <span class="right"><a href="" ng-click="vm.requestQuote('[% urlForPage 'RfqRequestQuotePage' %]')" ng-bind="'[% translate 'Request Quote' %]'" ng-disabled="vm.cart.isAwaitingApproval"></a></span>
                                 </div>
                             </div>
                         </div>

@@ -1,4 +1,4 @@
-﻿<div ng-controller="NbfCatalogMailingPrefsController as vm" class="widget-contactform" ng-cloak>
+﻿<div ng-controller="NbfCatalogMailingPrefsController as vm" class="widget-contactform" redirect-url="[[Model.RedirectUrlAfterSubmit]]" ng-cloak>
     <div class="cf-form [[Model.CssClass]]">
         <form id="catalogMailingPrefsForm" method="post">
             <div class="required-msg"><span class="redTxt">*</span> [% translate 'Required' %]</div>
@@ -36,37 +36,103 @@
             </div>
             <div class="row cf-form-state">
                 <label for="state[[Model.ContentKey]]">[% translate 'State' %] <span class="redTxt">*</span></label>
-                <input name="State" data-rule-required="true" data-msg-required="State is required" data-val="true" type="text" ng-model="vm.catalogPrefs.State" id="state[[Model.ContentKey]]" />
+                <select name="State" data-rule-required="true" data-msg-required="State is required" data-val="true" id="state[[Model.ContentKey]]" ng-model="vm.catalogPrefs.State">
+                    <option value="">[% translate 'Select State' %]</option>
+                    <option>Alabama</option>
+                    <option>Alaska</option>
+                    <option>American Samoa</option>
+                    <option>Arizona</option>
+                    <option>Arkansas</option>
+                    <option>Armed Forces Americas</option>
+                    <option>Armed Forces Europe</option>
+                    <option>Armed Forces Pacific</option>
+                    <option>California</option>
+                    <option>Colorado</option>
+                    <option>Connecticut</option>
+                    <option>Delaware</option>
+                    <option>District of Columbia</option>
+                    <option>Federated States of Micronesia</option>
+                    <option>Florida</option>
+                    <option>Georgia</option>
+                    <option>Guam</option>
+                    <option>Hawaii</option>
+                    <option>Idaho</option>
+                    <option>Illinois</option>
+                    <option>Indiana</option>
+                    <option>Iowa</option>
+                    <option>Kansas</option>
+                    <option>Kentucky</option>
+                    <option>Louisiana</option>
+                    <option>Maine</option>
+                    <option>Marshall Islands</option>
+                    <option>Maryland</option>
+                    <option>Massachusetts</option>
+                    <option>Michigan</option>
+                    <option>Minnesota</option>
+                    <option>Mississippi</option>
+                    <option>Missouri</option>
+                    <option>Montana</option>
+                    <option>Nebraska</option>
+                    <option>Nevada</option>
+                    <option>New Hampshire</option>
+                    <option>New Jersey</option>
+                    <option>New Mexico</option>
+                    <option>New York</option>
+                    <option>North Carolina</option>
+                    <option>North Dakota</option>
+                    <option>Northern Mariana Islands</option>
+                    <option>Ohio</option>
+                    <option>Oklahoma</option>
+                    <option>Oregon</option>
+                    <option>Palau</option>
+                    <option>Pennsylvania</option>
+                    <option>Puerto Rico</option>
+                    <option>Rhode Island</option>
+                    <option>South Carolina</option>
+                    <option>South Dakota</option>
+                    <option>Tennessee</option>
+                    <option>Texas</option>
+                    <option>Utah</option>
+                    <option>Vermont</option>
+                    <option>Virgin Islands</option>
+                    <option>Virginia</option>
+                    <option>Washington</option>
+                    <option>West Virginia</option>
+                    <option>Wisconsin</option>
+                    <option>Wyoming</option>
+                </select>
                 <span class="field-validation-valid" data-valmsg-replace="true" data-valmsg-for="State"></span>
             </div>
             <div class="row cf-form-zip">
                 <label for="zip[[Model.ContentKey]]">[% translate 'Zip' %] <span class="redTxt">*</span></label>
-                <input name="Zip" data-rule-required="true" data-msg-required="Zip is required" data-val="true" type="text" ng-model="vm.catalogPrefs.Zip" id="zip[[Model.ContentKey]]" />
+                <input name="Zip" data-rule-required="true" data-msg-required="Zip is required" data-val="true" type="text" ng-model="vm.catalogPrefs.Zip" id="zip[[Model.ContentKey]]"
+                       data-rule-regex="[[Model.ZipRegexPattern]]"
+                       data-msg-regex="Zip is not in correct format" />
                 <span class="field-validation-valid" data-valmsg-replace="true" data-valmsg-for="Zip"></span>
             </div>
             <div class="row cf-form-requestoremail">
                 <label for="requestoremail[[Model.ContentKey]]">[% translate 'Email Address' %] <span class="redTxt">*</span></label>
                 <input name="RequestorEmail" data-rule-required="true" data-msg-required="Email is required" data-val="true" type="text" ng-model="vm.catalogPrefs.RequestorEmail" id="requestoremail[[Model.ContentKey]]"
                        data-rule-regex="[[Model.EmailAddressRegexPattern]]"
-                       data-msg-regex="Email is not in correct format"/>
+                       data-msg-regex="Email is not in correct format" />
                 <span class="field-validation-valid" data-valmsg-replace="true" data-valmsg-for="RequestorEmail"></span>
             </div>
             <div class="row cf-form-requestorphone">
                 <label for="requestorphone[[Model.ContentKey]]">[% translate 'Phone' %] <span class="redTxt">*</span></label>
-                <input name="Phone" data-rule-required="true" data-msg-required="Phone is required" data-val="true" type="text" ng-model="vm.catalogPrefs.RequestorPhone" id="requestorphone[[Model.ContentKey]]" 
+                <input name="Phone" data-rule-required="true" data-msg-required="Phone is required" data-val="true" type="text" ng-model="vm.catalogPrefs.RequestorPhone" id="requestorphone[[Model.ContentKey]]"
                        data-rule-regex="[[Model.PhoneRegexPattern]]"
-                       data-msg-regex="Phone is not in correct format"/>
+                       data-msg-regex="Phone is not in correct format" />
                 <span class="field-validation-valid" data-valmsg-replace="true" data-valmsg-for="RequestorPhone"></span>
             </div>
             <div>
                 <input style="display:none" type="text" ng-model="vm.catalogPrefs.EmailTo" id="emailTo[[Model.ContentKey]]" ng-init="vm.catalogPrefs.EmailTo='[[Model.EmailToValue]]'" />
             </div>
+            [% if Model.PreferencesCount > 1 -%]
             <div class="row cf-form-prioritycode">
                 <label for="priorityCode[[Model.ContentKey]]">[% translate 'Priority Code' %] <span class="redTxt">*</span></label>
                 <input name="PriorityCode" data-rule-required="true" data-msg-required="Priority Code is required" data-val="true" type="text" ng-model="vm.catalogPrefs.PriorityCode" id="priorityCode[[Model.ContentKey]]" />
                 <span class="field-validation-valid" data-valmsg-replace="true" data-valmsg-for="PriorityCode"></span>
             </div>
-            [% if Model.PreferencesCount > 1 -%]
             <div class="row cf-form-preference">
                 <label for="preference[[Model.ContentKey]]">[% translate 'Please select your preferred contact method' %] <span class="redTxt">*</span></label>
                 <select name="Preference" data-rule-required="true" data-msg-required="Catalog Mailing Preference is required" data-val="true" id="preference[[Model.ContentKey]]" ng-model="vm.catalogPrefs.Preference">
@@ -81,18 +147,15 @@
             [% if Model.PreferencesCount == 1 -%]
             <input type="text" style="visibility:hidden" id="preference[[Model.ContentKey]]" name="Preference" ng-model="vm.catalogPrefs.Preference" ng-init="vm.catalogPrefs.Preference='[[Model.PreferencesFirstItem]]'" />
             [% endif -%]
-            <div class="row cf-form-sendmeupdates">               
-                <input name="SendMeUpdates" type="checkbox" ng-model="vm.catalogPrefs.SendMeUpdates" id="sendmeupdates[[Model.ContentKey]]" /><span>Send me email updates with special offers and new product information.</span>
+            <div class="row cf-form-sendmeupdates">
+                <input name="SendMeUpdates" type="checkbox" ng-model="vm.catalogPrefs.SendMeUpdates" id="sendmeupdates[[Model.ContentKey]]" ng-init="vm.catalogPrefs.SendMeUpdates=true" /><span>Send me email updates with special offers and new product information.</span>
                 <p>
-                    <a href="/About-NBF/Privacy-And-Security" target="_blank">Privacy Policy</a>
+                    <a class="text-orange" href="[[Model.PrivacyPolicyUrl]]" target="_blank">Privacy Policy</a>
                 </p>
                 <span class="field-validation-valid" data-valmsg-replace="true" data-valmsg-for="SendMeUpdates"></span>
             </div>
             <div ng-show="!vm.submitted" class="btns">
                 <button id="tst_catalogPrefsPage_send" ng-click="vm.sendEmail($event)" class="btn primary btn-send">[[Model.SubmitButtonText]]</button>
-            </div>
-            <div ng-show="vm.submitted" id="tst_catalogPrefsPage_successMessage" class="successMessage">
-                [[Model.SuccessMessage]]
             </div>
         </form>
     </div>

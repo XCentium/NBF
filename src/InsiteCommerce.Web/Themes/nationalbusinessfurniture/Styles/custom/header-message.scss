@@ -4,6 +4,8 @@
 
 .head-msg-wrap {
     background: $nbf-navy;
+    max-width: 1440px;
+    margin: 0 auto;
 
     & > .container {
         background-color: transparent;

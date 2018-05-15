@@ -8,8 +8,8 @@
         promotionErrorMessage: string;
         promotionCode: string;
 
-        static $inject = ["$scope", "cartService", "promotionService", "settingsService", "coreService", "$localStorage", "addToWishlistPopupService", "spinnerService", "accountService", "sessionService", "accessToken",
-            "queryString", "$window"];
+        static $inject = ["$scope", "cartService", "promotionService", "settingsService", "coreService", "$localStorage", "addToWishlistPopupService", "spinnerService", "accountService", "sessionService", "productService", "accessToken",
+            "queryString", "$window", "$rootScope"];
         
         constructor(
             protected $scope: ICartScope,
@@ -22,9 +22,12 @@
             protected spinnerService: core.ISpinnerService,
             protected accountService: account.IAccountService,
             protected sessionService: account.ISessionService,
+            protected productService: insite.catalog.IProductService,
             protected accessToken: common.IAccessTokenService,
             protected queryString: common.IQueryStringService,
-            protected $window: ng.IWindowService ) {
+            protected $window: ng.IWindowService,
+            protected $rootScope: ng.IRootScopeService
+        ) {
             super($scope, cartService, promotionService, settingsService, coreService, $localStorage, addToWishlistPopupService, spinnerService);
             
         }
@@ -45,6 +48,7 @@
         }
 
         protected getCartCompleted(cart: CartModel): void {
+            this.$rootScope.$broadcast("setAnalyticsCart", cart);
             this.cartService.expand = "";
             if (!cart.cartLines.some(o => o.isRestricted)) {
                 this.$localStorage.remove("hasRestrictedProducts");
@@ -62,13 +66,46 @@
 
                 if (name && details) {
                     cartLine.shortDescription = name;
-                    cartLine.properties["details"] = details;
-                }
+                    //cartLine.properties["details"] = details;
+                }                
             });
 
+            let baseProductErpNumbers = cart.cartLines.map(x => x.erpNumber.split("_")[0]);
+            const expand = ["attributes"];
+            const parameter: insite.catalog.IProductCollectionParameters = { erpNumbers: baseProductErpNumbers };
+            this.productService.getProducts(parameter, expand).then(
+                (productCollection: ProductCollectionModel) => {
+                    cart.cartLines.forEach(cartLine => {
+                        let erpNumber = cartLine.erpNumber.split("_")[0];
+                        let baseProduct = productCollection.products.find(x => x.erpNumber === erpNumber);
+
+                        if (baseProduct) {
+                            cartLine.properties["GSA"] = this.isAttributeValue(baseProduct, "GSA", "Yes") ? "Yes" : "No";
+                            cartLine.properties["ShipsToday"] = this.isAttributeValue(baseProduct, "Ships Today", "Yes") ? "Yes" : "No";
+                        }
+                    });
+
+                    //this.$scope.$apply();
+                },
+                (error: any) => { });
+
+            if(this)
+            
             this.displayCart(cart);
         }
+        
+        saveCart(saveSuccessUri: string, signInUri: string): void {
+            
+            this.$rootScope.$broadcast("initAnalyticsEvent", "SaveOrderFromCartPage", null);
+            super.saveCart(saveSuccessUri, signInUri);
+        }
 
+
+
+        requestQuote(quoteUri: string): void {
+            
+            this.$rootScope.$broadcast("initAnalyticsEvent", "QuoteRequest", quoteUri, null);
+        }
 
         checkout(checkoutPage: string) {
             this.checkoutPage = checkoutPage;
@@ -153,6 +190,10 @@
                 }
             }
             return retVal;
+        }
+
+        continueShopping($event): void {
+            this.$rootScope.$broadcast("initAnalyticsEvent", "ContinueShoppingFromCartPage");
         }
     }
 
