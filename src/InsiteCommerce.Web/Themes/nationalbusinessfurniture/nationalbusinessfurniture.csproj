@@ -808,6 +808,7 @@
     <Content Include="Views\Widgets\Breadcrumb\NoShareLinks.cshtml" />
     <Content Include="Views\Widgets\Custom\ShopTheLookLandingView\Standard.cshtml" />
     <Content Include="Styles\custom\saved-orders.scss" />
+    <Content Include="Views\Widgets\MyListDetailView\NBF.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Scripts\Custom\Orders\" />
