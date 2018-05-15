@@ -23,7 +23,7 @@
             
         }
 
-        submit($event): boolean {
+        submit($event: ng.IAngularEvent): boolean {
             const valid = angular.element("#contactUsForm").validate().form();
             if (!valid) {
                 angular.element("html, body").animate({
@@ -37,7 +37,7 @@
                 this.$scope.$apply();
             });
             this.$rootScope.$broadcast("initAnalyticsEvent", "ContactUsCompleted");
-
+            $event.preventDefault();
             return false;
         }
     }

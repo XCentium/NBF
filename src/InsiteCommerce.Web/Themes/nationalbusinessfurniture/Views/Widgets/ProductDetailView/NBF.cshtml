@@ -1,10 +1,10 @@
 ﻿<div ng-controller="ProductDetailController as vm" ng-cloak
      pr-api-key="[% siteMessage 'PowerReviews_ApiKey' '56b8fc6a-79a7-421e-adc5-36cbdaec7daf ' %]"
      pr-merchant-group-id="[% siteMessage 'PowerReviews_MerchantGroupId' '47982' %]"
-     pr-merchant-id="[% siteMessage 'PowerReviews_MerchantId' '33771' %]"
-     >
-    <script src="https://assets.liveexpert.net/widget/javascript/leaWidget.js"></script>
+     pr-merchant-id="[% siteMessage 'PowerReviews_MerchantId' '33771' %]">
+
     <isc-catalog-breadcrumb ng-show="vm.product" breadcrumbs="vm.breadCrumbs"></isc-catalog-breadcrumb>
+
     <div class="medium-12 large-12 columns widget-1column narrow-container product-details">
         <div class="row">
             <div class="row pd-grid isc-productContainer">
@@ -35,7 +35,9 @@
                                 SAVE {{vm.product.priceCode}}%
                             </div>
                         </div>
-                        <div class="item-block__product__ships-today" ng-if="vm.isAttributeValue('Ships Today', 'Yes');"><span class="ico-Truck"></span> Ships Today!</div>
+                        <div class="item-block__product__ships-today" ng-if="vm.isAttributeValue('Ships Today', 'Yes');">
+                            <span class="ico-Truck"></span> Ships Today!
+                        </div>
 
                         <div class="item-block__product__col-2 clearfix">
                             <div class="col-1">
@@ -103,7 +105,7 @@
                                                                  display-pack="true" change-unit-of-measure="vm.changeUnitOfMeasure(vm.product)"></isc-unit-of-measure-select-list>
                             </div>
                             <div class="fc-qty" ng-if="vm.product.canEnterQuantity || vm.configurationCompleted || vm.styleSelectionCompleted && !vm.product.canConfigure">
-                                <label style="display:none;" class="small-12">[% translate 'QTY_quantity' %]</label>
+                                <label style="display: none;" class="small-12">[% translate 'QTY_quantity' %]</label>
                                 <input id="tst_productDetail_qtyOrdered" type="text" value="1" class="small-12 numerictextbox" ng-model="vm.product.qtyOrdered">
                             </div>
                             <span class="field-validation-error" ng-if="vm.showUnitError"><span ng-bind="vm.parentProduct.unitOfMeasureDisplay"></span>[% siteMessage 'StyledProduct_WrongUnitOfMeasure' %]</span>
@@ -128,10 +130,10 @@
                                     </a>
                                 </div>
                             </div>
-                            <a id="tst_productDetail_addToWishList" ng-if="vm.isAuthenticated" ng-class="{'in-favorites': vm.product.properties['isFavorite'] == 'true' } "
-                               ng-click="vm.toggleFavorite(vm.product)" role="button"
-                               class="btn secondary btn-add-to-list" href="javascript:;">{{vm.product.properties['isFavorite'] == "false" ? "Add To Favorites" : "Remove From Favorites"}}</a>
-                            
+                            <a id="tst_productDetail_addToWishList" ng-if="vm.isAuthenticated" ng-class="{'in-favorites': vm.parentProduct.properties['isFavorite'] == 'true' } "
+                               ng-click="vm.toggleFavorite(vm.parentProduct)" role="button"
+                               class="btn secondary btn-add-to-list" href="javascript:;">{{vm.parentProduct.properties['isFavorite'] == "false" ? "Add To Favorites" : "Remove From Favorites"}}</a>
+
                         </div>
                     </div>
                     <div class="accordion-details-page">
@@ -247,4 +249,3 @@
 </script>
 
 
-    

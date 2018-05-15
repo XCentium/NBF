@@ -79,7 +79,7 @@
             powerReviews.display.render(powerReviewsConfigs)
         }
 
-        protected getTop3Swatches(swatchesJson): string[] {
+        protected getTop6Swatches(swatchesJson): string[] {
             let retVal = [];
             if (swatchesJson) {
                 let swatches = JSON.parse(swatchesJson) as any[];
@@ -101,7 +101,7 @@
                     sorted.sort((a, b) => a.Count > b.Count ? 1 : -1);
                     sorted = sorted.reverse();
 
-                    retVal = swatches.filter(x => x.ModelNumber == sorted[0].ModelNumber).slice(0, 3).map((x: any) => x.ImageName);  
+                    retVal = swatches.filter(x => x.ModelNumber == sorted[0].ModelNumber).slice(0, 6).map((x: any) => x.ImageName);  
                 }                
             }
 

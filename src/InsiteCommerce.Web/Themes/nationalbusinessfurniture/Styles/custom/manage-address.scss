@@ -20,7 +20,7 @@
         margin-bottom: 40px;
         display: block;
         min-height: 162px;
-        padding-right: 65px;
+        padding-right:0;
 
         .edit-btn {
             position: absolute;
@@ -43,6 +43,10 @@
         input[type="text"], select, input[type="email"], input[type="password"] {
             margin-bottom: 3px;
         }
+    }
+    .ship-to-bill-to-text {
+        font-style: italic;
+        font-weight: bold;
     }
 }
 .address-list {

@@ -74,7 +74,7 @@
     }
 
     export interface ShopTheLookPreview extends ShopTheLook {
-        categoryNames: System.Guid[];
+        categoryIds: System.Guid[];
         styleNames: System.Guid[];
     }
 
@@ -96,8 +96,10 @@
     }
 
     export interface ProductHotSpot {
-        product: ProductModel;
+        product: ProductDto;
         hotSpotPosition: string;
+        isAccessory: boolean;
+        isFeatured: boolean;
     }
 
     angular

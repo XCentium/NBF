@@ -70,8 +70,8 @@
                 line-height: 19px;
                 color: $nbf-navy;
 
-                .item-block__product__ships-today{
-                    text-align:left;
+                .item-block__product__ships-today {
+                    text-align: left;
                 }
             }
 
@@ -94,7 +94,7 @@
                 color: #fff;
                 font-weight: bold;
                 line-height: 16px;
-                font-size:14px;
+                font-size: 14px;
             }
         }
 
@@ -135,6 +135,10 @@
                     .selected-uom {
                         display: none;
                     }
+
+                    .strike{
+                        text-decoration:line-through;
+                    }
                 }
 
                 .item-subtotal {
@@ -171,7 +175,7 @@
 
     .confidence-box {
         border: 1px solid $divider-gray;
-        padding: 2em;
+        padding: 1.7em;
         margin-bottom: 1.5em;
 
         &__title {

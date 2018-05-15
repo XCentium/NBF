@@ -3,10 +3,13 @@
     <span>[[Model.Drop.SignOutText]]</span>
 </a>
 [% endcapture %]
-
 <script type="text/javascript">
     var insite = insite || {};
     insite.navAdjustments = [];
+
+    //let config = { "companyID": 31, "sourceHost": "assets.liveexpert.net", "assetLocation": "nbf/hidden-widget/nbf", "enterpriseURL": "liveexpert.net", "widgetViewDelegate": "hiddenWidgetViewDelegate", "language": "EN", "categoryID": 222, "enableWidget": true, };
+    //liveexpert.LEAWidget.init(config);
+    //liveexpert.startCall();
 </script>
 
 <div ng-controller="NbfTopNavController as vm" class="top-nav-container" ng-cloak dashboard-url="[% urlForPage 'MyAccountPage' %]">

@@ -10,7 +10,7 @@
 
     &__item {
         background-color: #F8F8F8;
-        padding: 50px 32px;
+        padding: 50px 24px;
         text-align: center;
         margin-bottom: 40px;
 
@@ -32,6 +32,7 @@
     &__icon {
         max-width: 62px;
         margin-bottom: 20px;
+        height: 62px;
     }
 
     &__btn {
@@ -46,5 +47,8 @@
 
     &__title {
         line-height: 54px;
+        @include center(false,true);
+        position: relative;
+        font-weight:normal;
     }
 }

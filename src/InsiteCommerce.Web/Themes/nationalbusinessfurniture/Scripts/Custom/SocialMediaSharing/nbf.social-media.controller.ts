@@ -18,12 +18,6 @@
         init(): void {
             this.url = window.location.href;
         }
-
-        protected openShareWithFriendPopup(): void
-        {
-            this.coreService.displayModal(angular.element("#TellAFriendDialogContainer"));
-            this.$anchorScroll();
-        }
     }
 
     angular

@@ -330,8 +330,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cart\Handlers\ProcessTermsCode.cs" />
     <Compile Include="Cart\Handlers\ProcessCreditCardTransaction.cs" />
     <Compile Include="Cart\Handlers\SubmitCart.cs" />
+    <EmbeddedResource Include="DatabaseScripts\2018.05.09.01.CreateShippingByVendorTable.sql" />
     <Compile Include="Enums\Listrak\Fields\OrderConfirmationFieldEnum.cs" />
     <Compile Include="Enums\Listrak\Fields\WelcomeEmailFieldEnum.cs" />
     <Compile Include="Enums\Listrak\EventIdEnum.cs" />
@@ -353,11 +355,16 @@
     <Compile Include="Handlers\Interfaces\INBFGetOrderHelper.cs" />
     <Compile Include="Handlers\Interfaces\INBFListrakHelper.cs" />
     <Compile Include="Handlers\GetTrackedOrderHandler.cs" />
+    <Compile Include="Handlers\SubmitOrderToErpHandler\CreateShippingByVendor.cs" />
     <Compile Include="Handlers\UpdateCartHandler.cs" />
     <Compile Include="Mappers\GetTrackedOrderMapper.cs" />
     <Compile Include="Mappers\Interfaces\IGetTrackedOrderMapper.cs" />
     <Compile Include="Models\AffiliateCode\AffiliateCodeModel.cs" />
     <Compile Include="Models\AffiliateCode\AffiliateCodeModelMapping.cs" />
+    <Compile Include="Models\ShippingByVendor\ShippingByVendorModel.cs" />
+    <Compile Include="Models\ShippingByVendor\ShippingByVendorModelMapping.cs" />
+    <Compile Include="Models\ShippingChargesRule\ShippingChargesRuleModel.cs" />
+    <Compile Include="Models\ShippingChargesRule\ShippingChargesRuleModelMapping.cs" />
     <Compile Include="Models\ShopTheLook\StlCategory.cs" />
     <Compile Include="Models\ShopTheLook\StlCategoryMapping.cs" />
     <Compile Include="Models\ShopTheLook\StlRoomLooksStyle.cs" />
@@ -383,6 +390,7 @@
     <Compile Include="WebApi\EmailApi\Models\TaxExemptEmailDto.cs" />
     <Compile Include="WebApi\TaxExempt\Repository\TaxExemptRepository.cs" />
     <Compile Include="WebApi\TaxExempt\Services\TaxExemptService.cs" />
+    <Compile Include="Utility\Shipping\ShippingHelper.cs" />
     <Compile Include="WebApi\EmailApi\Models\ContactUsSpanishDto.cs" />
     <Compile Include="WebApi\EmailApi\Models\CatalogPrefsDto.cs" />
     <Compile Include="WebApi\CreditCardTransaction\Controllers\NBFCCTransactionController.cs" />
@@ -508,10 +516,7 @@
     <Compile Include="Widgets\WebCode.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="DatabaseScripts\2018.04.18.02.CreateWebCodeTables.sql" />
-    <EmbeddedResource Include="DatabaseScripts\2018.04.18.01.CreateSTLTables.sql" />
-    <EmbeddedResource Include="DatabaseScripts\2018.04.19.01.DropAndCreateSTLTables.sql" />
-    <EmbeddedResource Include="DatabaseScripts\2018.04.19.02.DropAndCreateAffiliateTable.sql" />
+    <EmbeddedResource Include="DatabaseScripts\2018.05.08.01.CreateShippingChargesRuleTable.sql" />
     <Content Include="packages.config">
       <SubType>Designer</SubType>
     </Content>
@@ -519,7 +524,9 @@
       <SubType>Designer</SubType>
     </Content>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="DatabaseScripts\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
   <Target Name="EmbedViews" AfterTargets="BeforeBuild">

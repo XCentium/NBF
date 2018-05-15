@@ -99,20 +99,24 @@
                 <table class="info-tbl sales-my-quotes">
                     <tbody>
                         <tr>
+                            <th class="col-submitted">[% translate 'Date' %]</th>
                             <th class="col-num"><span class="sticky-first">[% translate 'Quote' %] #</span></th>
-                            <th class="col-type" ng-if="vm.quoteSettings.jobQuoteEnabled">[% translate 'Type' %]</th>
                             <th class="col-status">[% translate 'Status' %]</th>
-                            <th class="col-submitted">[% translate 'Requested' %]</th>
+                            <th class="col-type" ng-if="vm.quoteSettings.jobQuoteEnabled">[% translate 'Type' %]</th>
+                            
+
                             <th class="col-exp">[% translate 'Expires' %]</th>
                             <th class="col-rep">[% translate 'Sales Rep' %]</th>
                             <th class="col-user">[% translate 'User' %]</th>
                             <th class="col-cust">[% translate 'Customer' %]</th>
                         </tr>
                         <tr id="tst_myQuotes_quoteLine_{{::quote.id}}" ng-repeat="quote in vm.quotes">
-                            <td class="col-num"><span class="sticky-first"><a ng-href="[% urlForPage 'RfqQuoteDetailsPage' %]/?quoteId={{quote.id}}" title="[% translate 'View Quote' %]" ng-bind="quote.quoteNumber"></a></span></td>
-                            <td class="col-type" ng-if="vm.quoteSettings.jobQuoteEnabled"><span ng-bind="quote.typeDisplay"></span></td>
-                            <td class="col-status"><span ng-bind="quote.statusDisplay"></span></td>
                             <td class="col-submitted"><span ng-bind="quote.orderDate | date:'shortDate'"></span></td>
+                            <td class="col-num"><span class="sticky-first"><a ng-href="[% urlForPage 'RfqQuoteDetailsPage' %]/?quoteId={{quote.id}}" title="[% translate 'View Quote' %]" ng-bind="quote.quoteNumber"></a></span></td>
+                            <td class="col-status"><span ng-bind="quote.statusDisplay"></span></td>
+                            <td class="col-type" ng-if="vm.quoteSettings.jobQuoteEnabled"><span ng-bind="quote.typeDisplay"></span></td>
+
+
                             <td class="col-exp"><span ng-bind="quote.expirationDate | date:'shortDate'"></span></td>
                             <td class="col-rep"><span ng-bind="quote.salespersonName"></span></td>
                             <td class="col-user"><span ng-bind="quote.userName"></span></td>
@@ -135,24 +139,22 @@
             <div class="overflow-table small">
                 <table class="info-tbl my-quotes">
                     <tbody>
-                    <tr>
-                        <th class="col-num"><span class="sticky-first">[% translate 'Quote' %] #</span></th>
-                        <th class="col-type" ng-if="vm.quoteSettings.jobQuoteEnabled">[% translate 'Type' %]</th>
-                        <th class="col-status">[% translate 'Status' %]</th>
-                        <th class="col-submitted">[% translate 'Requested' %]</th>
-                        <th class="col-exp">[% translate 'Expires' %]</th>
-                        <th class="col-cust">[% translate 'Customer' %]</th>
-                        <th class="col-shipto">[% translate 'Ship To' %]</th>
-                    </tr>
-                    <tr ng-repeat="quote in vm.quotes">
-                        <td class="col-num"><span class="sticky-first"><a ng-href="[% urlForPage 'RfqQuoteDetailsPage' %]?quoteId={{quote.id}}" title="[% translate 'View Quote' %]" ng-bind="quote.quoteNumber"></a></span></td>
-                        <td class="col-type" ng-if="vm.quoteSettings.jobQuoteEnabled"><span ng-bind="quote.typeDisplay"></span></td>
-                        <td class="col-status"><span ng-bind="quote.statusDisplay"></span></td>
-                        <td class="col-submitted"><span ng-bind="quote.orderDate | date:'shortDate'"></span></td>
-                        <td class="col-exp"><span ng-bind="quote.expirationDate | date:'shortDate'"></span></td>
-                        <td class="col-cust"><span ng-bind="quote.customerName"></span></td>
-                        <td class="col-shipto"><span ng-bind="quote.shipToFullAddress"></span></td>
-                    </tr>
+                        <tr>
+                            <th class="col-submitted">[% translate 'Date' %]</th>
+                            <th class="col-num"><span class="sticky-first">[% translate 'Quote' %] #</span></th>
+                            <th class="col-status">[% translate 'Status' %]</th>                          
+                            <th class="col-exp">[% translate 'Expires' %]</th>
+                            <th class="col-cust">[% translate 'Customer' %]</th>
+                            <th class="col-shipto">[% translate 'Ship To' %]</th>
+                        </tr>
+                        <tr ng-repeat="quote in vm.quotes">
+                            <td class="col-submitted"><span ng-bind="quote.orderDate | date:'shortDate'"></span></td>
+                            <td class="col-num"><span class="sticky-first"><a ng-href="[% urlForPage 'RfqQuoteDetailsPage' %]?quoteId={{quote.id}}" title="[% translate 'View Quote' %]" ng-bind="quote.quoteNumber"></a></span></td>
+                            <td class="col-status"><span ng-bind="quote.statusDisplay"></span></td>
+                            <td class="col-exp"><span ng-bind="quote.expirationDate | date:'shortDate'"></span></td>
+                            <td class="col-cust"><span ng-bind="quote.customerName"></span></td>
+                            <td class="col-shipto"><span ng-bind="quote.shipToFullAddress"></span></td>
+                        </tr>
                     </tbody>
                 </table>
                 <isc-pager bottom="true" pagination="vm.pagination" storage-key="vm.paginationStorageKey" update-data="vm.getQuotes()"></isc-pager>

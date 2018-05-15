@@ -196,9 +196,19 @@
         }
     }
 
+    .payment-details {
+        .card-type {
+            margin-bottom: 30px;
+        }
+    }
+
     h3 {
         font-family: $ProximaNova;
         font-weight: 700;
+    }
+
+    .terms-link {
+        text-decoration:underline;
     }
 }
 
