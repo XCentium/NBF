@@ -13,66 +13,54 @@ namespace Extensions.Widgets
         {
             get
             {
-                return this.GetValue<string>(nameof(BackgroundImage), string.Empty, FieldType.General);
+                return GetValue(nameof(BackgroundImage), string.Empty, FieldType.General);
             }
             set
             {
-                this.SetValue<string>(nameof(BackgroundImage), value, FieldType.General);
+                SetValue(nameof(BackgroundImage), value, FieldType.General);
             }
         }
 
-        [DropDownContentField(new string[] { "Bottom Right", "Bottom Left", "Top Left", "Top Right" }, IsRequired = true, SortOrder = 20)]
+        [DropDownContentField(new[] { "Bottom Right", "Bottom Left", "Top Left", "Top Right" }, IsRequired = true, SortOrder = 20)]
         public virtual string Position
         {
             get
             {
-                return this.GetValue<string>("Position", "Bottom Right", FieldType.General);
+                return GetValue("Position", "Bottom Right", FieldType.General);
             }
             set
             {
-                this.SetValue<string>("Position", value, FieldType.General);
+                SetValue("Position", value, FieldType.General);
             }
         }
 
-        public virtual string PositionFormatted
-        {
-            get
-            {
-                return Position.Replace(" ", "").ToLower();
-            }
-        }
+        public virtual string PositionFormatted => Position.Replace(" ", "").ToLower();
 
-        [DropDownContentField(new string[] { "White", "Navy" }, IsRequired = true, SortOrder = 30)]
+        [DropDownContentField(new[] { "White", "Navy" }, IsRequired = true, SortOrder = 30)]
         public virtual string Style
         {
             get
             {
-                return this.GetValue<string>("Style", "Navy", FieldType.General);
+                return GetValue("Style", "Navy", FieldType.General);
             }
             set
             {
-                this.SetValue<string>("Style", value, FieldType.General);
+                SetValue("Style", value, FieldType.General);
             }
         }
 
-        public virtual string StyleFormatted
-        {
-            get
-            {
-                return Style.Replace(" ", "").ToLower();
-            }
-        }
+        public virtual string StyleFormatted => Style.Replace(" ", "").ToLower();
 
         [TextContentField(IsRequired = true, SortOrder = 40)]
         public virtual string Title
         {
             get
             {
-                return this.GetValue<string>(nameof(Title), string.Empty, FieldType.Contextual);
+                return GetValue(nameof(Title), string.Empty, FieldType.Contextual);
             }
             set
             {
-                this.SetValue<string>(nameof(Title), value, FieldType.Contextual);
+                SetValue(nameof(Title), value, FieldType.Contextual);
             }
         }
 
@@ -81,24 +69,24 @@ namespace Extensions.Widgets
         {
             get
             {
-                return this.GetValue<string>(nameof(SubTitle), string.Empty, FieldType.Contextual);
+                return GetValue(nameof(SubTitle), string.Empty, FieldType.Contextual);
             }
             set
             {
-                this.SetValue<string>(nameof(SubTitle), value, FieldType.Contextual);
+                SetValue(nameof(SubTitle), value, FieldType.Contextual);
             }
         }
 
         [TextContentField(IsRequired = true, SortOrder = 60)]
-        public virtual string Url
+        public virtual string Link
         {
             get
             {
-                return this.GetValue<string>(nameof(Url), string.Empty, FieldType.Contextual);
+                return GetValue(nameof(Link), string.Empty, FieldType.Contextual);
             }
             set
             {
-                this.SetValue<string>(nameof(Url), value, FieldType.Contextual);
+                SetValue(nameof(Link), value, FieldType.Contextual);
             }
         }
 
