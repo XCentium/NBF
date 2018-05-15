@@ -29,7 +29,8 @@
             "customerService",
             "nbfEmailService",
             "$element",
-            "cartService"
+            "cartService",
+            "nbfTaxExemptService"
         ];
 
         constructor(
@@ -42,7 +43,8 @@
             protected customerService: customers.ICustomerService,
             protected nbfEmailService: nbf.email.INbfEmailService,
             protected $element: ng.IRootElementService,
-            protected cartService: cart.ICartService) {
+            protected cartService: cart.ICartService,
+            protected nbfTaxExemptService: INbfTaxExemptService) {
             this.init();
         }
 
@@ -67,7 +69,7 @@
                 if (this.cart.billTo.properties["taxExemptFileName"]) {
                     this.isTaxExempt = true;
                     this.taxExemptFileName = this.cart.billTo.properties["taxExemptFileName"];
-                }   
+                }
             }
         }
 
@@ -112,6 +114,8 @@
 
         protected updateBillTo() {
             this.cart.billTo.properties["taxExemptFileName"] = this.taxExemptFileName;
+
+            this.nbfTaxExemptService.updateBillto(this.cart.billTo.id);
 
             this.customerService.updateBillTo(this.cart.billTo).then(
                 () => { this.updateBillToCompleted(); },

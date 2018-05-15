@@ -3,7 +3,7 @@
 namespace Extensions.WebApi.EmailApi.Models
 {
     [Serializable]
-    public class TaxExemptDto
+    public class TaxExemptEmailDto
     {
         public string CustomerNumber { get; set; }
         public string CustomerSequence { get; set; }
