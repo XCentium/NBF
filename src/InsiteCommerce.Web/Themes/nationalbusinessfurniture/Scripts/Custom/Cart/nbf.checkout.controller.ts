@@ -186,7 +186,7 @@
         }
 
         protected getAddressFieldsCompleted(addressFields: AddressFieldCollectionModel): void {
-            
+
             this.addressFields = addressFields;
 
             this.cartService.expand = "shiptos,validation,cartlines";
@@ -199,7 +199,7 @@
                             //this.getCartCompleted(cart);
                             this.loadStep4();
                         }
-                        
+
                     },
                     () => { this.getCartInitial(this.cartId) });
             } else {
@@ -208,7 +208,7 @@
         }
 
         protected getCartInitial(cartId: string) {
-            
+
             this.cartService.getCart(this.cartId).then(
                 (cart: CartModel) => {
                     this.getCartCompleted(cart);
@@ -226,7 +226,7 @@
         }
 
         protected getCartCompleted(cart: CartModel): void {
-            
+
             this.cartService.expand = "";
             this.cart = cart;
 
@@ -264,7 +264,7 @@
             this.promotionService.getCartPromotions(this.cart.id).then(
                 (promotionCollection: PromotionCollectionModel) => {
                     this.getCartPromotionsCompleted(promotionCollection);
-                });     
+                });
 
             this.updateCartLineAttributes();
         }
@@ -522,12 +522,11 @@
         }
 
         continueToStep2(cartUri: string): void {
-            debugger;
             const valid = $("#addressForm").validate().form();
             if (!valid) {
                 angular.element("html, body").animate({
-                        scrollTop: angular.element(".error:visible").offset().top
-                    },
+                    scrollTop: angular.element(".error:visible").offset().top
+                },
                     300);
 
                 return;
@@ -550,7 +549,7 @@
 
             this.customerService.updateBillTo(this.cart.billTo).then(
                 (billTo: BillToModel) => { this.updateBillToCompleted(billTo); },
-                (error: any) => { this.updateBillToFailed(error); });    
+                (error: any) => { this.updateBillToFailed(error); });
 
             this.updateShipTo(true);
         }
@@ -559,8 +558,8 @@
             const valid = $("#reviewAndPayForm").validate().form();
             if (!valid) {
                 angular.element("html, body").animate({
-                        scrollTop: angular.element(".error:visible").offset().top
-                    },
+                    scrollTop: angular.element(".error:visible").offset().top
+                },
                     300);
 
                 return;
@@ -571,7 +570,7 @@
         }
 
         protected updateBillToCompleted(billTo: BillToModel): void {
-            
+
         }
 
         protected updateBillToFailed(error: any): void {
@@ -627,8 +626,8 @@
                     });
 
                 this.$timeout(() => {
-                        this.coreService.closeModal("#insufficientInventoryAtCheckout");
-                    },
+                    this.coreService.closeModal("#insufficientInventoryAtCheckout");
+                },
                     3000);
             } else {
                 if (this.initialIsSubscribed !== this.account.isSubscribed) {
@@ -679,8 +678,8 @@
                         this.redirectTo(this.cartUri);
                     });
                 this.$timeout(() => {
-                        this.coreService.closeModal("#removedProductsFromCart");
-                    },
+                    this.coreService.closeModal("#removedProductsFromCart");
+                },
                     5000);
                 return;
             }
@@ -719,8 +718,8 @@
             $("#nav3").removeClass("active");
             $("#payment").removeClass("active");
             $("html:not(:animated), body:not(:animated)").animate({
-                    scrollTop: $("#nav1").offset().top
-                },
+                scrollTop: $("#nav1").offset().top
+            },
                 200);
         }
 
@@ -736,8 +735,8 @@
             $("#nav1").removeClass("active");
             $("#nav3").removeClass("active");
             $("html:not(:animated), body:not(:animated)").animate({
-                    scrollTop: $("#nav2").offset().top
-                },
+                scrollTop: $("#nav2").offset().top
+            },
                 200);
         }
 
@@ -933,9 +932,9 @@
             $("#shipping").addClass("active");
             $("#nav2").addClass("active");
             $("html:not(:animated), body:not(:animated)").animate({
-                    scrollTop: $("#nav1").offset().top
-                },
-                200);  
+                scrollTop: $("#nav1").offset().top
+            },
+                200);
 
             this.updateCartLineAttributes();
         }
@@ -1083,7 +1082,7 @@
                 } as TaxExemptParams;
 
                 this.nbfEmailService.sendTaxExemptEmail(params, this.file).then(
-                    () => {},
+                    () => { },
                     () => { this.errorMessage = "An error has occurred."; });
             } else if (!this.isTaxExempt && this.taxExemptChoice) {
                 //tax exempt choice is yes but no file was uploaded
@@ -1196,17 +1195,17 @@
             this.cart.paymentOptions.isPayPal = true;
 
             setTimeout(() => {
-                    if (!this.validateReviewAndPayForm()) {
-                        this.cart.paymentOptions.isPayPal = false;
-                        return;
-                    }
+                if (!this.validateReviewAndPayForm()) {
+                    this.cart.paymentOptions.isPayPal = false;
+                    return;
+                }
 
-                    this.sessionService.getIsAuthenticated().then(
-                        (isAuthenticated: boolean) => {
-                            this.getIsAuthenticatedForSubmitPaypalCompleted(isAuthenticated, returnUri, signInUri);
-                        },
-                        (error: any) => { this.getIsAuthenticatedForSubmitPaypalFailed(error); });
-                },
+                this.sessionService.getIsAuthenticated().then(
+                    (isAuthenticated: boolean) => {
+                        this.getIsAuthenticatedForSubmitPaypalCompleted(isAuthenticated, returnUri, signInUri);
+                    },
+                    (error: any) => { this.getIsAuthenticatedForSubmitPaypalFailed(error); });
+            },
                 0);
         }
 
@@ -1247,8 +1246,8 @@
             const valid = $("#reviewAndPayForm").validate().form();
             if (!valid) {
                 $("html, body").animate({
-                        scrollTop: $("#reviewAndPayForm").offset().top
-                    },
+                    scrollTop: $("#reviewAndPayForm").offset().top
+                },
                     300);
                 return false;
             }
@@ -1303,8 +1302,8 @@
             $("#payment").addClass("active");
             $("#nav3").addClass("active");
             $("html:not(:animated), body:not(:animated)").animate({
-                    scrollTop: $("#nav2").offset().top
-                },
+                scrollTop: $("#nav2").offset().top
+            },
                 200);
 
             this.continueCheckoutInProgress = false;
@@ -1476,6 +1475,7 @@
         }
 
         protected updatebillToTaxExempt() {
+            this.spinnerService.show("mainLayout", true);
             this.cart.billTo.properties["taxExemptFileName"] = this.taxExemptFileName;
 
             this.nbfTaxExemptService.updateBillto(this.cart.billTo.id);
@@ -1486,10 +1486,17 @@
         }
 
         protected updatebillToTaxExemptCompleted(): void {
+            this.cartService.expand = "cartlines,shipping,tax,promotions,carriers,paymentoptions,shiptos,validation";
+            this.cartService.getCart(this.cart.id).then((cart: CartModel) => {
+                this.cart = cart;
+                this.spinnerService.hide();
+            }, () => { this.spinnerService.hide(); });
+
             this.success = true;
         }
 
         protected updatebillToTaxExemptFailed(error: any): void {
+            this.spinnerService.hide();
             this.submitErrorMessage = "An error uploading your file has occurred.";
         }
     }

@@ -30,10 +30,7 @@
         }
 
         protected updateBillToCompleted(response: ng.IHttpPromiseCallbackArg<boolean>) {
-            this.cartService.expand = "cartlines,shipping,tax,carriers,paymentoptions";
-            this.cartService.getCart().then(() => {
-                
-            });
+
         }
 
         protected updateBillToFailed(error: any) {
