@@ -79,44 +79,45 @@
             powerReviews.display.render(powerReviewsConfigs)
         }
 
-        protected getTop3Swatches(swatchesJson): string[] {
+        protected getTop6Swatches(swatchesJson): string[] {
             let retVal = [];
             if (swatchesJson) {
                 let swatches = JSON.parse(swatchesJson) as any[];
 
                 if (swatches.length > 0) {
                     var sorted = [];
-                    
+
                     swatches.forEach(x => {
-                        let item = sorted.find(y => y.ModelNumber == x.ModelNumber);
+                        let item = sorted.find(y => y.ModelNumber === x.ModelNumber);
 
                         if (item == null) {
-                            sorted.push({ModelNumber: x.ModelNumber, Count: 1})
+                            sorted.push({ ModelNumber: x.ModelNumber, Count: 1 });
                         }
-                        else 
-                        {
+                        else {
                             item.Count++;
                         }
                     });
                     sorted.sort((a, b) => a.Count > b.Count ? 1 : -1);
                     sorted = sorted.reverse();
 
-                    retVal = swatches.filter(x => x.ModelNumber == sorted[0].ModelNumber).slice(0, 3).map((x: any) => x.ImageName);  
-                }                
+                    retVal = swatches.filter(x => x.ModelNumber === sorted[0].ModelNumber).slice(0, 6).map((x: any) => x.ImageName);
+                }
             }
 
             return retVal;
         }
 
         protected getSwatchesCount(swatchesJson): number {
-            let retVal = 0;
+            let count = 0;
             if (swatchesJson) {
-                let swatches = JSON.parse(swatchesJson) as any[];
+                const swatches = JSON.parse(swatchesJson) as any[];
 
-                retVal = swatches.length;                    
+                if (swatches.length > 0) {
+                    count = swatches.length;
+                }
             }
 
-            return retVal;
+            return count;
         }
 
         protected isAttributeValue(product: ProductDto, attrName: string, attrValue: string): boolean {

@@ -92,6 +92,12 @@ input[type="text"], input[type="number"], select, input[type="email"], input[typ
         }
     }
 }
+
+input[type="text"][disabled], input[type="text"][readonly] {
+    pointer-events: none;
+}
+
+
 .shortform {
     input[type="number"], input[type="text"], select, input[type="email"], input[type="password"] {
         &.valid {

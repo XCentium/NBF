@@ -74,7 +74,11 @@
     }
 
     .item-list .item-details {
-        width: 80%;
+        width: 73%;
+
+        @media all and (min-width: 1440px) {
+            width: 80%;
+        }
     }
 
     .item-list .item-details,
@@ -92,7 +96,7 @@
             margin: 0 0;
         }
 
-        .pd-price, .selected-uom, .price-sale, .price-saving {
+        .pd-price, .price-saving {
             display: block;
         }
     }

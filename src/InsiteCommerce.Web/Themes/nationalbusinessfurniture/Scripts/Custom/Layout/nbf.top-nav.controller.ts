@@ -336,7 +336,7 @@
                     apiURL: 'api.liveexpert.net',
                     companyID: 31,
                     language: 'EN',
-                    //callTypeID: 4, // //4=text chat 1=video 2=voice null=select option
+                    callTypeID: 4, // //4=text chat 1=video 2=voice null=select option
                     categoryID: 122
                 };
 
@@ -346,7 +346,10 @@
                         && self.product.modelNumber != null
                     ) {
                         var catId = parseInt(self.product.modelNumber);
-                        if (catId) { liveExpertConfig.categoryID = catId; }
+                        if (catId) {
+                            liveExpertConfig.categoryID = catId;
+                            liveExpertConfig.callTypeID = null;
+                        }
 
                     }
                 }
