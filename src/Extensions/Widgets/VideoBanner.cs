@@ -60,15 +60,15 @@ namespace Extensions.Widgets
             }
         }
         [TextContentField(DisplayName = "URL - CTA Template Only", IsRequired = false, SortOrder = 30)]
-        public virtual string Url
+        public virtual string Link
         {
             get
             {
-                return GetValue(nameof(Url), string.Empty, FieldType.Contextual);
+                return GetValue(nameof(Link), string.Empty, FieldType.Contextual);
             }
             set
             {
-                SetValue(nameof(Url), value, FieldType.Contextual);
+                SetValue(nameof(Link), value, FieldType.Contextual);
             }
         }
 
