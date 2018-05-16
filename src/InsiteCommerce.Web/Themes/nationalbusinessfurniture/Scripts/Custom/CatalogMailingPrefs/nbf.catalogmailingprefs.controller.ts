@@ -35,7 +35,7 @@
             
             this.nbfEmailService.sendCatalogPrefsEmail(this.catalogPrefs).then(
                 (catalogMailingPrefs: string) => {
-                    this.$rootScope.$broadcast("initAnalyticsEvent", "CatalogRequest");
+                    this.$rootScope.$broadcast("AnalyticsEvent", "CatalogRequest");
                     this.getCatalogMailingPrefsCompleted(catalogMailingPrefs);
                     this.submitted = true;
 
