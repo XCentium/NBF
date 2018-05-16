@@ -17,6 +17,7 @@
             protected httpWrapperService: insite.core.HttpWrapperService,
             protected queryString: insite.common.IQueryStringService,
             protected $sessionStorage: insite.common.IWindowStorage,
+            protected coreService: insite.core.ICoreService,
             protected ipCookie: any,
             protected $q: ng.IQService) {
         }
@@ -74,7 +75,8 @@
 
         protected getSiteId(): string {
             var siteId = "default_web";
-
+            
+            const referrer = this.coreService.getReferringPath();
             const siteIdQueryString = this.queryString.get("SiteID");
             const ganTrackingId = this.queryString.get("GanTrackingID");
             const affiliateSiteId = this.queryString.get("affiliateSiteID");
@@ -82,20 +84,28 @@
             const origin = this.queryString.get("Origin");
             const ref = this.queryString.get("Ref");
 
-            if (siteIdQueryString) {
-                siteId = siteIdQueryString;
-            } else if (ganTrackingId) {
-                siteId = `gan_${ganTrackingId}`;
-            } else if (affiliateSiteId) {
-                siteId = affiliateSiteId;
-            } else if (affId) {
-                siteId = affId;
-            } else if (origin) {
-                siteId = origin;
-            } else if (ref) {
-                siteId = ref;
+            if (referrer.search("google.com")) {
+                siteId = "12345";
+            } else if (referrer.search("bing.com")) {
+                siteId = "21345";
+            } else if (referrer.search("yahoo.com")) {
+                siteId = "2132332";
+            } else if (referrer.length == 0) {
+                //No Referring Search Engine - Check for Parameter Value
+                if (siteIdQueryString) {
+                    siteId = siteIdQueryString;
+                } else if (ganTrackingId) {
+                    siteId = `gan_${ganTrackingId}`;
+                } else if (affiliateSiteId) {
+                    siteId = affiliateSiteId;
+                } else if (affId) {
+                    siteId = affId;
+                } else if (origin) {
+                    siteId = origin;
+                } else if (ref) {
+                    siteId = ref;
+                }
             }
-
             return siteId;
         }
 
