@@ -79,8 +79,23 @@
                 this.nbfWishListService.addWishListLines(this.favoritesWishlist, addLines).then(() => {
                     this.getFavorites(product);
                 });
-                this.$rootScope.$broadcast("initAnalyticsEvent", "AddProductToWIshList");
+                this.$rootScope.$broadcast("AnalyticsEvent", "AddProductToWishList");
             }
+        }
+
+        addToCart(product: ProductDto): void {
+            super.addToCart(product);
+            this.addingToCart = true;
+
+            let sectionOptions: ConfigSectionOptionDto[] = null;
+            if (this.configurationCompleted && product.configurationDto && product.configurationDto.sections) {
+                sectionOptions = this.configurationSelection;
+            }
+
+            this.cartService.addLineFromProduct(product, sectionOptions, this.productSubscription, true).then(
+                (cartLine: CartLineModel) => { this.addToCartCompleted(cartLine); },
+                (error: any) => { this.addToCartFailed(error); }
+            );
         }
 
         protected getFavorites(product : ProductDto) {
@@ -248,7 +263,7 @@
             this.product = productModel.product;
 
             this.$rootScope.$broadcast("productPageLoaded", this.product);
-            this.$rootScope.$broadcast("initAnalyticsEvent", "ProductPageView", null, null, this.product);
+            this.$rootScope.$broadcast("AnalyticsEvent", "ProductPageView", null, null, { product: this.product, breadcrumbs: this.breadCrumbs });
             
             this.product.qtyOrdered = this.product.minimumOrderQty || 1;
             this.product.documents.forEach((doc) => {
@@ -296,7 +311,22 @@
             setTimeout(() => {
                 this.setPowerReviews();
             }, 1000);            
+
+            var self = this;
+            $(document).on('click', '.pr-qa-display-btn', function () {
+                self.$rootScope.$broadcast("AnalyticsEvent", "ProductQuestionStarted");
+            });
+
+            $(document).on('click', '.pr-snippet-review-count', function () {
+                self.$rootScope.$broadcast("AnalyticsEvent", "ReadReviewsSelected");
+            });
         }   
+
+        private powerReviewsOnSubmit(config, data) {
+            if (config.component === 'WriteAQuestion') {
+                this.$rootScope.$broadcast("AnalyticsEvent", "ProductQuestionAsked");
+            }
+        }
 
         protected setPowerReviews() {
             let powerReviewsConfig = {
@@ -311,20 +341,14 @@
                     ReviewDisplay: 'pr-reviewdisplay',
                     //QuestionSnippet: 'pr-questionsnippet',
                     QuestionDisplay: 'pr-questiondisplay'
-                }
+                },
+                on_submit: this.powerReviewsOnSubmit
             };
 
 
             let powerReviews = this.$window["POWERREVIEWS"];
             powerReviews.display.render(powerReviewsConfig);
 
-            $(document).on('click', '.pr-qa-display-btn', function () {
-                this.$rootScope.$broadcast("initAnalyticsEvent", "ProductQuestionAsked");
-            });
-
-            $(document).on('click', '.pr-snippet-review-count', function () {
-                this.$rootScope.$broadcast("initAnalyticsEvent", "ReadReviewsSelected");
-            });
         }
 
         protected readReviews() {
@@ -336,7 +360,7 @@
         }
 
         show360() {
-            this.$rootScope.$broadcast("initAnalyticsEvent", "Selected360View");
+            this.$rootScope.$broadcast("AnalyticsEvent", "Selected360View");
             this.set360(this.product.erpNumber, 3, 16);
         }
 

@@ -15,37 +15,10 @@
             protected httpWrapperService: core.HttpWrapperService) {
             super($http, $rootScope, $q, addressErrorPopupService, addToCartPopupService, apiErrorPopupService, httpWrapperService);
         }
-        
-        protected addLineCompleted(response: ng.IHttpPromiseCallbackArg<CartLineModel>, showAddToCartPopup?: boolean): void {
-            const cartLine = response.data;
-            this.addToCartPopupService.display({ isQtyAdjusted: cartLine.isQtyAdjusted, showAddToCartPopup: showAddToCartPopup });
-            cartLine.availability = cartLine.availability;
-            this.getCart().then((cart) => {
-                this.$rootScope.$broadcast("initAnalyticsEvent", "ProductAddedToCart");
-            });
-            this.$rootScope.$broadcast("cartChanged");
-            
-        }
-        
-        protected addLineCollectionCompleted(response: ng.IHttpPromiseCallbackArg<CartLineCollectionModel>, showAddToCartPopup?: boolean): void {
-            const cartLineCollection = response.data;
-            const isQtyAdjusted = cartLineCollection.cartLines.some((line) => {
-                return line.isQtyAdjusted;
-            });
-
-            this.addToCartPopupService.display({ isAddAll: true, isQtyAdjusted: isQtyAdjusted, showAddToCartPopup: showAddToCartPopup });
-
-            this.getCart().then((cart) => {
-                this.$rootScope.$broadcast("initAnalyticsEvent", "ProductAddedToCart");
-            });
-            this.$rootScope.$broadcast("cartChanged");
-        }
 
         protected addLineCollectionFailed(error: ng.IHttpPromiseCallbackArg<any>): void {
             this.showCartError(error.data);
         }
-
-        
     }
 
     angular

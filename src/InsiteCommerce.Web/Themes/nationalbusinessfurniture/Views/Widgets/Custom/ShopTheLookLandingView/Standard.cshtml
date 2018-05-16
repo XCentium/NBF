@@ -15,19 +15,19 @@
                     <div class="shopthelook__filters clearfix">
                         <div class="shopthelook__dropdown">
                             <label>[% siteMessage 'STL_Landing_Filter1Label' 'Style' %]</label>
-                            <div id="filters" class="button-group  shopthelook__filter-group">
-                                <button class="button is-checked" data-filter="*">Show All</button>
+                            <div id="filter1" class="button-group  shopthelook__filter-group">
+                                <button class="button show-all is-checked" data-filter="*" ng-click="vm.showAllStyles()">Show All</button>
                                 <div ng-repeat="style in vm.collection.styles">
-                                    <button class="button" data-filter=".{{style.styleName | removeSpaces}}">{{style.styleName}}</button>
+                                    <button class="button" data-filter=".{{style.styleName | removeSpaces}}" ng-click="vm.filterStyle($event, style)">{{style.styleName}}</button>
                                 </div>
                             </div>
                         </div>
                         <div class="shopthelook__dropdown">
                             <label>[% siteMessage 'STL_Landing_Filter2Label' 'Room' %]</label>
-                            <div id="filters" class="button-group shopthelook__filter-group">
-                                <button class="button is-checked" data-filter="*">Show All</button>
-                                <div ng-repeat="cat in vm.collection.categories">
-                                    <button class="button" data-filter=".{{cat.id | removeSpaces}}">{{cat.name}}</button>
+                            <div id="filter2" class="button-group shopthelook__filter-group">
+                                <button class="button show-all is-checked" data-filter="*" ng-click="vm.showAllRooms()">Show All</button>
+                                <div ng-repeat="cat in vm.filteredRooms">
+                                    <button class="button" data-filter=".{{cat.id | removeSpaces}}" ng-click="vm.filterRoom($event, cat)">{{cat.name}}</button>
                                 </div>
                             </div>
                         </div>

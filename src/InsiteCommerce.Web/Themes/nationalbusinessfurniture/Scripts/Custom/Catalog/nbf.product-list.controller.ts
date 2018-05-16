@@ -73,6 +73,8 @@
                 (settingsCollection: core.SettingsCollection) => { this.getSettingsCompleted(settingsCollection); },
                 (error: any) => { this.getSettingsFailed(error); });
 
+            this.$rootScope.$broadcast("AnalyticsPageType", "Product Listing Page");
+
             const removeCompareProductsUpdated = this.$rootScope.$on("compareProductsUpdated", () => {
                 this.onCompareProductsUpdated();
             });
@@ -135,15 +137,17 @@
                     'numSearchResults': productCollection.pagination.totalItemCount
                 });
             }
-
-            var search = new nbf.analytics.AnalyticsPageSearchInfo();
-            search.searchResults = productCollection.pagination.totalItemCount;
-            search.searchTerm = this.query;
-            if (this.noResults) {
-                this.$rootScope.$broadcast("initAnalyticsEvent", "FailedSearch", null, null, search);
-            } else {
-                this.$rootScope.$broadcast("initAnalyticsEvent", "SuccessfulSearch", null, null, search);
+            if (this.query && this.query.length > 0) {
+                var search = new nbf.analytics.AnalyticsPageSearchInfo();
+                search.searchResults = productCollection.pagination.totalItemCount;
+                search.searchTerm = this.query;
+                if (this.noResults) {
+                    this.$rootScope.$broadcast("AnalyticsEvent", "FailedSearch", null, null, search);
+                } else {
+                    this.$rootScope.$broadcast("AnalyticsEvent", "SuccessfulSearch", null, null, search);
+                }
             }
+
 
             if (productCollection.searchTermRedirectUrl) {
                 // use replace to prevent back button from returning to this page
@@ -375,7 +379,7 @@
                 this.nbfWishListService.addWishListLines(this.favoritesWishlist, addLines).then(() => {
                     this.getFavorites();
                 });
-                this.$rootScope.$broadcast("initAnalyticsEvent", "AddProductToWIshList");
+                this.$rootScope.$broadcast("AnalyticsEvent", "AddProductToWishList");
             }
         }
 
