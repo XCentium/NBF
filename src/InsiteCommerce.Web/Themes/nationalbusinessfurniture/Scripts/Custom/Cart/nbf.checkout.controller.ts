@@ -1146,7 +1146,6 @@
             if ((this.cart.cartLines.filter((line: CartLineModel) => line.erpNumber.search('^[^:]*[:][^:]*[:][^:]*$') > 0)).length > 0) {
                 this.$rootScope.$broadcast("AnalyticsEvent", "SwatchRequest");
             }
-            this.$rootScope.$broadcast("AnalyticsEvent", "CheckoutInitiated");
             this.sessionService.getIsAuthenticated().then(
                 (isAuthenticated: boolean) => {
                     this.getIsAuthenticatedForSubmitCompleted(isAuthenticated, signInUri);
@@ -1183,6 +1182,8 @@
         protected submitCompleted(cart: CartModel): void {
             this.cart.id = cart.id;
             this.cartService.getCart();
+
+            this.$rootScope.$broadcast("AnalyticsEvent", "CheckoutComplete", null, null, cart);
 
             if (this.newUser) {
                 this.$window.location.href = `${this.$window.location.href}?cartid=${this.cart.id}`;

@@ -53,16 +53,20 @@ module nbf.analytics {
             }
         }
 
-        private handleAnalyticsEvent(event, analyticsEvent: string, navigationUri, analyticsData, data2) {
+        private handleAnalyticsEvent(event, analyticsEvent: string, navigationUri, analyticsData, data) {
             switch (analyticsEvent) {
                 case AnalyticsEvents.EmailSignUp:
-                    this.Data.profile.profileInfo.email = data2;
+                    this.Data.profile.profileInfo.email = data;
                     break;
                 case AnalyticsEvents.ProductPageView:
-                    this.setProductData(data2.product, data2.breadcrumbs);
+                    this.setProductData(data.product, data.breadcrumbs);
                     break;
                 case AnalyticsEvents.FailedSearch, AnalyticsEvents.SuccessfulSearch:
-                    this.setSearchData(data2);
+                    this.setSearchData(data);
+                    break;
+                case AnalyticsEvents.CheckoutComplete:
+                    this.setTransactionData(data);
+                    break;
             }
             console.log("Firing Analytics Event: " + analyticsEvent);
             this.FireEvent(analyticsEvent as AnalyticsEvent);
@@ -205,6 +209,31 @@ module nbf.analytics {
             this.Data.pageInfo.pageType = "Product Detail Page";
         }
 
+        private setTransactionData(cart: CartModel) {
+            this.Data.transaction.shippingAddress.city = cart.shipTo.city;
+            this.Data.transaction.shippingAddress.country = cart.shipTo.country.abbreviation;
+            this.Data.transaction.shippingAddress.line1 = cart.shipTo.address1;
+            this.Data.transaction.shippingAddress.line2 = cart.shipTo.address2;
+            this.Data.transaction.shippingAddress.postalCode = cart.shipTo.postalCode;
+            this.Data.transaction.shippingAddress.stateProvince = cart.shipTo.state.abbreviation
+            this.Data.transaction.billingAddress.city = cart.billTo.city;
+            this.Data.transaction.billingAddress.country = cart.billTo.country.abbreviation;
+            this.Data.transaction.billingAddress.line1 = cart.billTo.address1;
+            this.Data.transaction.billingAddress.line2 = cart.billTo.address2;
+            this.Data.transaction.billingAddress.postalCode = cart.billTo.postalCode;
+            this.Data.transaction.billingAddress.stateProvince = cart.billTo.state.abbreviation
+            this.Data.transaction.total.transactionTotal = cart.orderGrandTotal;
+            this.Data.transaction.total.promoDiscount = cart.orderSubTotalWithOutProductDiscounts - cart.orderSubTotal;
+            this.Data.transaction.total.tax = cart.totalTax;
+            this.Data.transaction.total.shipping = cart.shippingAndHandling;
+            this.Data.transaction.total.basePrice = cart.orderSubTotal;
+            this.Data.transaction.total.bulkDiscount = 0;
+            this.Data.transaction.total.promoCode = ""
+            cart.cartLines.forEach(line => {
+                this.Data.transaction.products.push(this.convertCartLine(line));
+            });
+        }
+
         private getAttributeValue(product: ProductDto, attrName: string): string {
             let retVal: string = '';
 
@@ -282,12 +311,13 @@ module nbf.analytics {
         ProductQuestionAsked: "ProductQuestionAsked" as AnalyticsEvent,
         ProductQuestionStarted: "ProductQuestionStarted" as AnalyticsEvent,
         ContentShared: "ContentShared" as AnalyticsEvent,
-        ProductListingFiltered: "ProductListingFiltered" as AnalyticsEvent
+        ProductListingFiltered: "ProductListingFiltered" as AnalyticsEvent,
+        CheckoutComplete: "CheckoutComplete" as AnalyticsEvent
     }
 
     export type AnalyticsEvent = "PageLoad" | "ProductPageView" | "SwatchRequest" | "CatalogRequest" | "QuoteRequest" | "MiniCartQuoteRequest" | "InternalSearch" | "SuccessfulSearch" |
         "FailedSearch" | "ContactUsInitiated" | "ContactUsCompleted" | "AccountCreation" | "CheckoutAccountCreation" | "Login" | "CrossSellSelected" | "EmailSignUp" | "LiveChatStarted" |
-        "ProductAddedToCart" | "CheckoutInitiated" | "ProductQuestionStarted" | "ProductQuestionAsked" | "Selected360View" | "AddProductToWishlist" | "SaveOrderFromCartPage" |
+        "ProductAddedToCart" | "CheckoutInitiated" | "CheckoutComplete" | "ProductQuestionStarted" | "ProductQuestionAsked" | "Selected360View" | "AddProductToWishlist" | "SaveOrderFromCartPage" |
         "ReadReviewsSelected" | "MiniCartHover" | "SaveCart" | "CartOpened" | "ProductRemovedFromCart" | "ShippingBillingInfoComplete" | "ShippingMethodSelected" | "BillingMethodSelected" |
         "ContinueShoppingFromCartPage" | "ContentShared" | "ProductListingFiltered";
 

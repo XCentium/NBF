@@ -85,6 +85,7 @@
         billingAddress: AnalyticsAddress = new AnalyticsAddress();
         paymentMethod: string;
         total: AnalyticsTransactionTotal = new AnalyticsTransactionTotal();
+        products: AnalyticsCartItem[] = [];
     }
 
     export class AnalyticsTransactionTotal {
