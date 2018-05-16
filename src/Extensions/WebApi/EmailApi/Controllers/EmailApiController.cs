@@ -12,7 +12,6 @@ using Insite.Common.Logging;
 using Insite.Core.Plugins.StorageProvider;
 using Insite.Core.Plugins.Utilities;
 using Insite.Core.WebApi;
-using Insite.Order.WebApi.V1.ApiModels;
 
 namespace Extensions.WebApi.EmailApi.Controllers
 {
@@ -54,7 +53,7 @@ namespace Extensions.WebApi.EmailApi.Controllers
         [Route("taxexempt", Name = "sendTaxExemptEmail")]
         [ResponseType(typeof(string))]
         [HttpPost]
-        public async Task<IHttpActionResult> SendTaxExemptEmail([FromBody] TaxExemptDto taxExemptDto)
+        public async Task<IHttpActionResult> SendTaxExemptEmail([FromBody] TaxExemptEmailDto taxExemptDto)
         {
             await _emailApiService.SendTaxExemptEmail(taxExemptDto);
             return Ok();

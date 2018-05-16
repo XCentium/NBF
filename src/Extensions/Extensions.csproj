@@ -68,6 +68,10 @@
     <Reference Include="Antlr3.Runtime, Version=3.4.1.9004, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
       <HintPath>..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
+    <Reference Include="Avalara.AvaTax.Adapter, Version=5.7.3.1, Culture=neutral, PublicKeyToken=34e4ef76d6267205, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Avalara.AvaTax.Adapter.dll</HintPath>
+    </Reference>
     <Reference Include="DotLiquid, Version=2.0.24.0, Culture=neutral, PublicKeyToken=82e46016ecf9f07c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\DotLiquid.dll</HintPath>
@@ -104,6 +108,10 @@
     <Reference Include="Insite.ContentLibrary, Version=4.4.3.39891, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.ContentLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.Core, Version=4.4.3.39891, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.Core.dll</HintPath>
     </Reference>
     <Reference Include="Insite.Core.Interfaces, Version=4.4.3.39891, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Insite.Commerce.Public.4.4.3.39891\lib\net452\Insite.Core.Interfaces.dll</HintPath>
@@ -173,6 +181,10 @@
     </Reference>
     <Reference Include="Insite.Search.Elasticsearch, Version=4.4.3.39891, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Insite.Commerce.Public.4.4.3.39891\lib\net452\Insite.Search.Elasticsearch.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.TaxCalculator.Avalara, Version=4.4.3.39891, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.TaxCalculator.Avalara.dll</HintPath>
     </Reference>
     <Reference Include="Insite.Websites, Version=4.4.3.39891, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Insite.Commerce.Public.4.4.3.39891\lib\net452\Insite.Websites.dll</HintPath>
@@ -331,7 +343,6 @@
     <Compile Include="Handlers\AddSessionHandlerNBF.cs" />
     <Compile Include="Handlers\AddCustomer.cs" />
     <Compile Include="Handlers\AddWishListHandler\AddWishList.cs" />
-    <Compile Include="Handlers\GetCartHandler\BeforeCalculateTaxes.cs" />
     <Compile Include="Handlers\GetDashboardPanelCollectionHandlerNBF.cs" />
     <Compile Include="Handlers\GetProductCollectionHandler\AfterProductListRetrived.cs" />
     <Compile Include="Handlers\GetProductCollectionHandler\FindProductsWithSearch.cs" />
@@ -344,6 +355,7 @@
     <Compile Include="Handlers\GetTrackedOrderHandler.cs" />
     <Compile Include="Handlers\SubmitOrderToErpHandler\CreateShippingByVendor.cs" />
     <Compile Include="Handlers\UpdateCartHandler.cs" />
+    <Compile Include="Handlers\GetCartHandler\RecalculateCart.cs" />
     <Compile Include="Mappers\GetTrackedOrderMapper.cs" />
     <Compile Include="Mappers\Interfaces\IGetTrackedOrderMapper.cs" />
     <Compile Include="Models\AffiliateCode\AffiliateCodeModel.cs" />
@@ -369,9 +381,14 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Settings\PhoneNumberSettings.cs" />
     <Compile Include="Settings\OrderTrackerSettings.cs" />
+    <Compile Include="WebApi\TaxExempt\Controllers\TaxExemptController.cs" />
+    <Compile Include="WebApi\TaxExempt\Interfaces\ITaxExemptRepository.cs" />
+    <Compile Include="WebApi\TaxExempt\Interfaces\ITaxExemptService.cs" />
+    <Compile Include="WebApi\EmailApi\Models\TaxExemptEmailDto.cs" />
+    <Compile Include="WebApi\TaxExempt\Repository\TaxExemptRepository.cs" />
+    <Compile Include="WebApi\TaxExempt\Services\TaxExemptService.cs" />
     <Compile Include="Utility\Shipping\ShippingHelper.cs" />
     <Compile Include="WebApi\EmailApi\Models\ContactUsSpanishDto.cs" />
-    <Compile Include="WebApi\EmailApi\Models\TaxExemptDto.cs" />
     <Compile Include="WebApi\EmailApi\Models\CatalogPrefsDto.cs" />
     <Compile Include="WebApi\CreditCardTransaction\Controllers\NBFCCTransactionController.cs" />
     <Compile Include="WebApi\CreditCardTransaction\Interfaces\ICCTransactionRepository.cs" />
@@ -497,6 +514,8 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="DatabaseScripts\2018.05.08.01.CreateShippingChargesRuleTable.sql" />
+    <EmbeddedResource Include="DatabaseScripts\2018.05.15.01.AlterTablesForNotNull.1of2.sql" />
+    <EmbeddedResource Include="DatabaseScripts\2018.05.15.02.AlterTablesForNotNull.2of2.sql" />
     <Content Include="packages.config">
       <SubType>Designer</SubType>
     </Content>
@@ -504,9 +523,7 @@
       <SubType>Designer</SubType>
     </Content>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="DatabaseScripts\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
   <Target Name="EmbedViews" AfterTargets="BeforeBuild">

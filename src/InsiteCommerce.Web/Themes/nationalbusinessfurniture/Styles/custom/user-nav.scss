@@ -180,7 +180,13 @@ div.cart-button a.cart-link:before {
             }
         }
 
-        & > li:hover, & > li:focus-within {
+        & > li:hover {
+            & > .sub-tier-panel {
+                display: block;
+            }
+        }
+
+        & > li:focus-within {
             & > .sub-tier-panel {
                 display: block;
             }
