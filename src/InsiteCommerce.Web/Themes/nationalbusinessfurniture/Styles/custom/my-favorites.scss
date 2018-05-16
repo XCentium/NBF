@@ -1,0 +1,15 @@
+﻿@import "../variables";
+
+
+.ma-my-list-details {
+    .item-pricing-and-actions {
+        .item-block__price {
+            display: inline;
+        }
+
+        .strike {
+            text-decoration: line-through;
+            display:block;
+        }
+    }
+}
