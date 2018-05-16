@@ -72,13 +72,15 @@
                 this.selectedStyles.splice(index, 1);
                 if (this.selectedStyles.length === 0) {
                     this.showAllStyles();
+                } else {
+                    this.filterRooms();
                 }
             } else {
                 angular.element($event.target).addClass("is-checked");
                 this.selectedStyles.push(style);
+                this.filterRooms();
+                this.runIsotope();
             }
-            this.filterRooms();
-            this.runIsotope();
         }
 
         filterRoom($event, room: ShopTheLookCategory) {
@@ -94,8 +96,8 @@
             } else {
                 angular.element($event.target).addClass("is-checked");
                 this.selectedRooms.push(room);
+                this.runIsotope();
             }
-            this.runIsotope();
         }
 
         private filterRooms() {
@@ -114,6 +116,12 @@
                     }
                 });
             });
+
+            this.selectedRooms.forEach((room) => {
+                if (this.filteredRooms.indexOf(room) === -1) {
+                    this.showAllRooms();
+                }
+            });
         }
 
         private runIsotope() {
@@ -127,7 +135,7 @@
 
             var roomFilterString = "";
             this.selectedRooms.forEach((room, i) => {
-                if (i !== 0) {
+                if (i !== 0 || styleFilterString) {
                     styleFilterString += ",";
                 }
                 roomFilterString += `.${room.id} `;

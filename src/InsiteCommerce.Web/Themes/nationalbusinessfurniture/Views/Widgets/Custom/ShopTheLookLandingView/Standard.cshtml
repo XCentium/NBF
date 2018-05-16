@@ -26,7 +26,7 @@
                             <label>[% siteMessage 'STL_Landing_Filter2Label' 'Room' %]</label>
                             <div id="filter2" class="button-group shopthelook__filter-group">
                                 <button class="button show-all is-checked" data-filter="*" ng-click="vm.showAllRooms()">Show All</button>
-                                <div ng-repeat="cat in vm.filteredRooms">
+                                <div ng-repeat="cat in vm.filteredRooms track by cat.id">
                                     <button class="button" data-filter=".{{cat.id | removeSpaces}}" ng-click="vm.filterRoom($event, cat)">{{cat.name}}</button>
                                 </div>
                             </div>
@@ -34,7 +34,7 @@
                     </div>
                     <div class="shopthelook__wrapper">
                         <div class="shopthelook__gird">
-                            <div ng-repeat="look in vm.collection.looks" class="shopthelook__item grid-item {{look.categoryIds.join(' ')}} {{look.styleNames.join(' ')}}">
+                            <div ng-repeat="look in vm.collection.looks" class="shopthelook__item grid-item {{look.styleNames.join(' ')}} {{look.categoryIds.join(' ')}}">
                                 <img ng-src='https://s7d9.scene7.com/is/image/NationalBusinessFurniture/{{look.mainImage}}?hei=200&id=5-zsy2&fmt=jpg&fit=constrain,1&wid=344&hei=344' alt="{{look.title}}" />
                                 <a href="/shop-the-look/STL?name={{look.title}}&lookId={{look.id}}" class="btn btn-secondary">See Room</a>
                             </div>
