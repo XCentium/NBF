@@ -13,6 +13,7 @@
         isAuthenticated: boolean = false;
         imagesLoaded: number;
         notFound: boolean = false;
+        breadCrumbs: BreadCrumbModel[];
 
         static $inject = ["$timeout", "$window", "$scope", "$rootScope", "productService", "sessionService", "nbfShopTheLookService", "queryString", "spinnerService", "nbfWishListService", "$attrs"];
 
@@ -54,6 +55,22 @@
                         this.getFavorites();
                     }
                 });
+
+                this.breadCrumbs = [];
+
+                this.breadCrumbs.push({
+                    url: "/",
+                    text: "Home"
+                } as BreadCrumbModel);
+
+                this.breadCrumbs.push({
+                    url: "/shop-the-look",
+                    text: "Shop The Look"
+                } as BreadCrumbModel);
+
+                this.breadCrumbs.push({
+                    text: this.look.title
+                } as BreadCrumbModel);
 
                 this.imagesLoaded = 0;
                 this.waitForDom();
@@ -104,7 +121,7 @@
                 this.nbfWishListService.addWishListLines(this.favoritesWishlist, addLines).then(() => {
                     this.getFavorites();
                 });
-                this.$rootScope.$broadcast("initAnalyticsEvent", "AddProductToWIshList");
+                this.$rootScope.$broadcast("AnalyticsEvent", "AddProductToWishList");
             }
         }
 
@@ -135,13 +152,13 @@
             let powerReviewsConfigs = this.look.productHotSpots.map(x => {
                 return {
                     api_key: this.$attrs.prApiKey,
-                    locale: 'en_US',
+                    locale: "en_US",
                     merchant_group_id: this.$attrs.prMerchantGroupId,
                     merchant_id: this.$attrs.prMerchantId,
                     page_id: x.product.productCode,
-                    review_wrapper_url: 'Product-Review?',
+                    review_wrapper_url: "Product-Review?",
                     components: {
-                        CategorySnippet: 'pr-' + x.product.productCode
+                        CategorySnippet: "pr-" + x.product.productCode
                     }
                 }
             });

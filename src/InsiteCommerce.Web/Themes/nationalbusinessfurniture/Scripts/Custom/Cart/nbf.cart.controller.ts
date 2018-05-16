@@ -48,7 +48,7 @@
         }
 
         protected getCartCompleted(cart: CartModel): void {
-            this.$rootScope.$broadcast("setAnalyticsCart", cart);
+            this.$rootScope.$broadcast("AnalyticsCart", cart);
             this.cartService.expand = "";
             if (!cart.cartLines.some(o => o.isRestricted)) {
                 this.$localStorage.remove("hasRestrictedProducts");
@@ -96,7 +96,7 @@
         
         saveCart(saveSuccessUri: string, signInUri: string): void {
             
-            this.$rootScope.$broadcast("initAnalyticsEvent", "SaveOrderFromCartPage", null);
+            this.$rootScope.$broadcast("AnalyticsEvent", "SaveOrderFromCartPage", null);
             super.saveCart(saveSuccessUri, signInUri);
         }
 
@@ -115,7 +115,7 @@
 
         requestQuote(quoteUri: string): void {
             
-            this.$rootScope.$broadcast("initAnalyticsEvent", "QuoteRequest", quoteUri, null);
+            this.$rootScope.$broadcast("AnalyticsEvent", "QuoteRequest", quoteUri, null);
         }
 
         checkout(checkoutPage: string) {
@@ -204,7 +204,7 @@
         }
 
         continueShopping($event): void {
-            this.$rootScope.$broadcast("initAnalyticsEvent", "ContinueShoppingFromCartPage");
+            this.$rootScope.$broadcast("AnalyticsEvent", "ContinueShoppingFromCartPage");
         }
     }
 
