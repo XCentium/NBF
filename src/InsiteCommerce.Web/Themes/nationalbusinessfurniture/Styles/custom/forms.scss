@@ -93,7 +93,7 @@ input[type="text"], input[type="number"], select, input[type="email"], input[typ
     }
 }
 
-input[type="text"][disabled], input[type="text"][readonly] {
+input[type="text"][disabled], input[type="text"][readonly]:not(.datepicker) {
     pointer-events: none;
 }
 
