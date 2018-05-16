@@ -108,7 +108,9 @@
             this.collection.categories.forEach((cat) => {
                 lookIds.forEach((id) => {
                     if (cat.lookIds.indexOf(id) > -1) {
-                        this.filteredRooms.push(cat);
+                        if (this.filteredRooms.indexOf(cat) === -1) {
+                            this.filteredRooms.push(cat);
+                        }
                     }
                 });
             });
