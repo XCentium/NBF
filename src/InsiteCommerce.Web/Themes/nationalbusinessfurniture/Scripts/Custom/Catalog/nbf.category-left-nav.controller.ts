@@ -17,7 +17,31 @@
             protected sessionService: account.ISessionService)
         {
             super($timeout, $window, $scope, $rootScope, sessionService);
-        }
+
+            let self = this;
+
+            var handler = function (event) {
+                if ($(event.target).is(".accord-check, .f-wrap, .f-wrap *, .accord-check *") == false) {
+                    // if the target is a descendent of accordion do nothing
+
+                    let checkedFacetCheckboxes = Object.keys(self.filterCheckBoxesModel).reduce(function (filtered, key) {
+                        if (self.filterCheckBoxesModel[key] == true) filtered[key] = self.filterCheckBoxesModel[key];
+                        return filtered;
+                    }, {});
+
+                    if (Object.keys(checkedFacetCheckboxes).length > 0) {                       
+
+                        Object.keys(checkedFacetCheckboxes).forEach(x => {
+                            console.log(x);
+                            self.filterCheckBoxesModel[x] = false;
+                            self.$scope.$apply();
+                        });
+                    }
+                }
+            }
+
+            $(document).on("click", handler);
+        }       
 
         toggleFilter(attributeValueId: string) {
             super.toggleFilter(attributeValueId);
@@ -94,11 +118,7 @@
                     this.filterCheckBoxesModel[key] = false;
                 }
             }
-        }
-
-
-
-
+        }      
     }
 
     angular

@@ -1,0 +1,33 @@
+﻿@import "../variables";
+
+.ma-saved-order-details {
+    .btns, .btn-add-list {
+        @media print {
+            display: none;
+        }
+    }
+
+    .price {
+        .item-block__price {
+            display: inline;
+        }
+    }
+
+    .actions-block a.btn.btn-add-list {
+        color: $nbf-black;
+        text-align: left;
+        text-decoration: underline;
+        font-size: 18px;
+    }
+}
+
+.ma-quote-details {
+
+
+    .price {
+        .item-block__price {
+            display: inline;
+        }
+    }
+
+}

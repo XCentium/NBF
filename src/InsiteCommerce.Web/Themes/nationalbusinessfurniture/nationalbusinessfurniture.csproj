@@ -178,6 +178,7 @@
     <TypeScriptCompile Include="Scripts\Catalog\insite.recently-viewed.controller.ts" />
     <TypeScriptCompile Include="Scripts\Catalog\insite.related-products.controller.ts" />
     <TypeScriptCompile Include="Scripts\Common\insite.base-upload.ts" />
+    <TypeScriptCompile Include="Scripts\Custom\Account\nbf.tax-exempt.service.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Account\nbf.sign-in.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Cart\nbf.cart.service.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Catalog\nbf.product-search.controller.ts" />
@@ -807,6 +808,7 @@
     <Content Include="Views\Directives\Custom\Cart\NbfTermsAndConditionsPopup.cshtml" />
     <Content Include="Views\Widgets\Breadcrumb\NoShareLinks.cshtml" />
     <Content Include="Views\Widgets\Custom\ShopTheLookLandingView\Standard.cshtml" />
+    <Content Include="Styles\custom\saved-orders.scss" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Scripts\Custom\Orders\" />

@@ -76,6 +76,14 @@
             min-height: 180px;
             float: left;
             margin-right: 10px;
+            position:relative;
+
+            .btn-add-to-list {
+                position:absolute;
+                top:5px;
+                right:0;
+                width:auto !important;
+            }
 
             @media all and (max-width: 1025px) {
                 width: 21%;
