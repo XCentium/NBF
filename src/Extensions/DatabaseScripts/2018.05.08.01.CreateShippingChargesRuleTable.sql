@@ -50,7 +50,7 @@ GO
 ALTER TABLE [Extensions].[ShippingChargesRule] ADD  CONSTRAINT [DF_ShippingChargesRule_ModifiedBy]  DEFAULT ('') FOR [ModifiedBy]
 GO
 
-INSERT INTO [Insite.NBF].[Extensions].[ShippingChargesRule] (Type, MinWeight, MaxWeight, DeliveryCharge, PoundCharge, PricePerPound, Markup)
+INSERT INTO [Extensions].[ShippingChargesRule] (Type, MinWeight, MaxWeight, DeliveryCharge, PoundCharge, PricePerPound, Markup)
 VALUES ('F', 1, 300, 49, NULL, NULL, NULL),
 ('F', 301, 700, 79, NULL, NULL, NULL),
 ('F', 701, 900, 199, NULL, NULL, NULL),
