@@ -43,15 +43,16 @@
             });
             // live-expert
             
-            $(".pr-submit").click(function () {
-                self.$rootScope.$broadcast("AnalyticsEvent", "ProductQuestionAsked");
-            });
-
             $(".head-row .cart-button").hover(function () {
                 $(this).unbind('mouseenter mouseleave')
                 
                 self.$rootScope.$broadcast("AnalyticsEvent", "MiniCartHover");
             });
+
+            $(document).on('click', '.share-links a', () => {
+                self.$rootScope.$broadcast("AnalyticsEvent", "ContentShared");
+            });
+
             this.$rootScope.$on("productPageLoaded", (event, product) => {
                 this.product = product;
             });

@@ -168,6 +168,8 @@
 
             $(".masked-phone").mask("999-999-9999", { autoclear: false });
 
+
+
             this.$form = $("#taxExemptFileUpload");
             this.$form.removeData("validator");
             this.$form.removeData("unobtrusiveValidation");
@@ -177,6 +179,13 @@
             document.getElementById("taxExemptFileUpload").onchange = function () {
                 self.setFile(this);
             };
+
+            this.$scope.$watch("vm.cart.paymentMethod", (newVal, oldVal, scope: any) => {
+                if (newVal && !scope.analyticsPaymentMethodSelected) {
+                    this.$rootScope.$broadcast("AnalyticsEvent", "BillingMethodSelected");
+                    scope.analyticsPaymentMethodSelected = true;
+                }
+            });
         }
 
         protected getSettingsCompleted(settingsCollection: insite.core.SettingsCollection): void {
@@ -520,7 +529,6 @@
         }
 
         continueToStep2(cartUri: string): void {
-            debugger;
             const valid = $("#addressForm").validate().form();
             if (!valid) {
                 angular.element("html, body").animate({
@@ -1288,10 +1296,13 @@
             this.continueCheckoutInProgress = false;
             this.hideSignIn = true;
 
+            this.$rootScope.$broadcast("AnalyticsEvent", "ShippingBillingInfoComplete");
             this.reviewAndPayInit();
         }
 
         protected loadStep3() {
+            this.$rootScope.$broadcast("AnalyticsEvent", "ShippingMethodSelected");
+
             this.spinnerService.hide("mainLayout");
 
             $("#nav2expanded").hide();

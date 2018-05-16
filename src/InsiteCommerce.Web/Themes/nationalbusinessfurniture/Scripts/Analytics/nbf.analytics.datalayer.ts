@@ -76,6 +76,7 @@
     export class AnalyticsPageSearchInfo {
         searchTerm: string;
         searchResults: number;
+        filters: any;
     }
 
     export class AnalyticsTransaction {

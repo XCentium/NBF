@@ -136,12 +136,11 @@ module nbf.analytics {
                 product.totalDiscount = p.pricing.regularPrice - p.pricing.actualPrice;
             }
             product.sku = p.erpNumber;
-            product.vendor = p.manufacturerItem;
             product.quantity = p.qtyOrdered;
-            // need to fill these out
-            product.category = '';
-            product.collection = '';
             product.bulkDiscount = 0;
+            product.collection = p.properties['Collection'];
+            product.category = p.properties['Category'];
+            product.vendor = p.properties['Vendor'];
             return product;
         }
 
@@ -276,12 +275,20 @@ module nbf.analytics {
         MiniCartHover: "MiniCartHover" as AnalyticsEvent,
         SaveCart: "SaveCart" as AnalyticsEvent,
         CartOpened: "CartOpened" as AnalyticsEvent,
-        ProductRemovedFromCart: "ProductRemovedFromCart" as AnalyticsEvent
+        ProductRemovedFromCart: "ProductRemovedFromCart" as AnalyticsEvent,
+        ShippingBillingInfoComplete: "ShippingBillingInfoComplete" as AnalyticsEvent,
+        ShippingMethodSelected: "ShippingMethodSelected" as AnalyticsEvent,
+        BillingMethodSelected: "BillingMethodSelected" as AnalyticsEvent,
+        ProductQuestionAsked: "ProductQuestionAsked" as AnalyticsEvent,
+        ProductQuestionStarted: "ProductQuestionStarted" as AnalyticsEvent,
+        ContentShared: "ContentShared" as AnalyticsEvent,
+        ProductListingFiltered: "ProductListingFiltered" as AnalyticsEvent
     }
 
-    export type AnalyticsEvent = "PageLoad" | "ProductPageView" | "SwatchRequest" | "CatalogRequest" | "QuoteRequest" | "MiniCartQuoteRequest" | "InternalSearch" | "SuccessfulSearch" | 
+    export type AnalyticsEvent = "PageLoad" | "ProductPageView" | "SwatchRequest" | "CatalogRequest" | "QuoteRequest" | "MiniCartQuoteRequest" | "InternalSearch" | "SuccessfulSearch" |
         "FailedSearch" | "ContactUsInitiated" | "ContactUsCompleted" | "AccountCreation" | "CheckoutAccountCreation" | "Login" | "CrossSellSelected" | "EmailSignUp" | "LiveChatStarted" |
-        "ProductAddedToCart" | "CheckoutInitiated" | "ProductQuestionAsked" | "Selected360View" | "AddProductToWishlist" | "SaveOrderFromCartPage" | "ContinueShoppingFromCartPage" |
-        "ReadReviewsSelected" | "MiniCartHover" | "SaveCart" | "CartOpened" | "ProductRemovedFromCart";
+        "ProductAddedToCart" | "CheckoutInitiated" | "ProductQuestionStarted" | "ProductQuestionAsked" | "Selected360View" | "AddProductToWishlist" | "SaveOrderFromCartPage" |
+        "ReadReviewsSelected" | "MiniCartHover" | "SaveCart" | "CartOpened" | "ProductRemovedFromCart" | "ShippingBillingInfoComplete" | "ShippingMethodSelected" | "BillingMethodSelected" |
+        "ContinueShoppingFromCartPage" | "ContentShared" | "ProductListingFiltered";
 
 }

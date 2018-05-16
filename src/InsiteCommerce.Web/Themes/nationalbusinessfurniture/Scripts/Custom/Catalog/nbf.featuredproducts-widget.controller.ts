@@ -150,7 +150,7 @@
                 this.nbfWishListService.addWishListLines(this.favoritesWishlist, addLines).then(() => {
                     this.getFavorites();
                 });
-                this.$rootScope.$broadcast("AnalyticsEvent", "AddProductToWIshList");
+                this.$rootScope.$broadcast("AnalyticsEvent", "AddProductToWishList");
             }
         }
 
