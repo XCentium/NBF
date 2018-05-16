@@ -811,6 +811,7 @@
     <Content Include="Styles\custom\saved-orders.scss" />
     <Content Include="Styles\custom\my-favorites.scss" />
     <Content Include="Styles\custom\product-list.scss" />
+    <Content Include="Views\Widgets\MyListDetailView\NBF.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Scripts\Custom\Orders\" />

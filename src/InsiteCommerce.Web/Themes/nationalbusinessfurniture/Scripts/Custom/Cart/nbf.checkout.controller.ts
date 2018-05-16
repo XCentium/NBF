@@ -173,6 +173,8 @@
 
             $(".masked-phone").mask("999-999-9999", { autoclear: false });
 
+
+
             this.$form = $("#taxExemptFileUpload");
             this.$form.removeData("validator");
             this.$form.removeData("unobtrusiveValidation");
@@ -182,6 +184,13 @@
             document.getElementById("taxExemptFileUpload").onchange = function () {
                 self.setFile(this);
             };
+
+            this.$scope.$watch("vm.cart.paymentMethod", (newVal, oldVal, scope: any) => {
+                if (newVal && !scope.analyticsPaymentMethodSelected) {
+                    this.$rootScope.$broadcast("AnalyticsEvent", "BillingMethodSelected");
+                    scope.analyticsPaymentMethodSelected = true;
+                }
+            });
         }
 
         protected getSettingsCompleted(settingsCollection: insite.core.SettingsCollection): void {
@@ -241,7 +250,7 @@
             this.cartService.expand = "";
             this.cart = cart;
 
-            this.$rootScope.$broadcast("initAnalyticsEvent", "CheckoutInitiated");
+            this.$rootScope.$broadcast("AnalyticsEvent", "CheckoutInitiated");
             const hasRestrictions = cart.cartLines.some(o => o.isRestricted);
             // if cart does not have cartLines or any cartLine is restricted, go to Cart page
             if (!this.cart.cartLines || this.cart.cartLines.length === 0 || hasRestrictions) {
@@ -611,7 +620,9 @@
 
             this.updateSession(this.cart, customerWasUpdated);
 
-            this.$scope.$apply();
+            if (!this.$scope.$$phase) {
+                this.$scope.$apply();
+            }
         }
 
         protected addOrUpdateShipToFailed(error: any): void {
@@ -1122,7 +1133,7 @@
                                 this.cart.billTo,
                                 this.cart.shipTo).then(
                                 () => {
-                                    self.$rootScope.$broadcast("initAnalyticsEvent", "CheckoutAccountCreation");
+                                    self.$rootScope.$broadcast("AnalyticsEvent", "CheckoutAccountCreation");
                                     this.newUser = true;
                                     this.submitOrder(signInUri);
                                 });
@@ -1135,9 +1146,9 @@
 
         protected submitOrder(signInUri: string) {
             if ((this.cart.cartLines.filter((line: CartLineModel) => line.erpNumber.search('^[^:]*[:][^:]*[:][^:]*$') > 0)).length > 0) {
-                this.$rootScope.$broadcast("initAnalyticsEvent", "SwatchRequest");
+                this.$rootScope.$broadcast("AnalyticsEvent", "SwatchRequest");
             }
-            this.$rootScope.$broadcast("initAnalyticsEvent", "CheckoutInitiated");
+            this.$rootScope.$broadcast("AnalyticsEvent", "CheckoutInitiated");
             this.sessionService.getIsAuthenticated().then(
                 (isAuthenticated: boolean) => {
                     this.getIsAuthenticatedForSubmitCompleted(isAuthenticated, signInUri);
@@ -1300,10 +1311,13 @@
             this.continueCheckoutInProgress = false;
             this.hideSignIn = true;
 
+            this.$rootScope.$broadcast("AnalyticsEvent", "ShippingBillingInfoComplete");
             this.reviewAndPayInit();
         }
 
         protected loadStep3() {
+            this.$rootScope.$broadcast("AnalyticsEvent", "ShippingMethodSelected");
+
             this.spinnerService.hide("mainLayout");
             this.hideSignIn = true;
             $("#nav1expanded").hide();

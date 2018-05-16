@@ -27,7 +27,7 @@
             if (!this.$form.valid()) {
                 return false;
             }
-            this.$scope.$broadcast("initAnalyticsEvent", "EmailSignUp", null, this.email);
+            this.$scope.$broadcast("AnalyticsEvent", "EmailSignUp", null, this.email);
             this.listrakService.CreateContact(this.email, "footer").success(() => {
                 this.submitted = true;
                 return true;

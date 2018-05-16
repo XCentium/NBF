@@ -6,6 +6,7 @@
         product: AnalyticsProduct = new AnalyticsProduct();
         transaction: AnalyticsTransaction = new AnalyticsTransaction();
         profile: AnalyticsProfile = new AnalyticsProfile();
+        events: AnalyticsDataEvent[] = [];
     }
 
 
@@ -29,7 +30,6 @@
     export class AnalyticsCartItem {
         productName: string;
         sku: string;
-        description: string;
         productImage: string;
         vendor: string;
         collection: string;
@@ -39,6 +39,7 @@
         bulkDiscount: number;
         totalDiscount: number;
         finalPrice: number;
+        quantity: number;
     }
 
     export class AnalyticsProduct {
@@ -75,6 +76,7 @@
     export class AnalyticsPageSearchInfo {
         searchTerm: string;
         searchResults: number;
+        filters: any;
     }
 
     export class AnalyticsTransaction {
@@ -112,5 +114,10 @@
     export class AnalyticsProfileInfo {
         profileId: string;
         email: string;
+    }
+
+    export class AnalyticsDataEvent {
+        event: string;
+        data: any;
     }
 }

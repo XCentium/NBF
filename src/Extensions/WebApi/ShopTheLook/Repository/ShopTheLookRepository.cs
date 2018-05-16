@@ -51,6 +51,7 @@ namespace Extensions.WebApi.ShopTheLook.Repository
                 {
                     var param = new GetProductParameter()
                     {
+                        GetAttributeValues = true,
                         ProductId = prod.ProductId
                     };
                     var product = _productService.GetProduct(param);
