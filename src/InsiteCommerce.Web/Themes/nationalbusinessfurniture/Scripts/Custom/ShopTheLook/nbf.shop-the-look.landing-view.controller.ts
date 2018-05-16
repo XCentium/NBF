@@ -116,13 +116,19 @@
 
         private runIsotope() {
             var styleFilterString = "";
-            this.selectedStyles.forEach((style) => {
-                styleFilterString += `.${style.styleName.replace(/\s/g, "")}`;
+            this.selectedStyles.forEach((style, i) => {
+                if (i !== 0) {
+                    styleFilterString += ",";
+                }
+                styleFilterString += `.${style.styleName.replace(/\s/g, "")} `;
             });
 
             var roomFilterString = "";
-            this.selectedRooms.forEach((room) => {
-                roomFilterString += `.${room.id}`;
+            this.selectedRooms.forEach((room, i) => {
+                if (i !== 0) {
+                    styleFilterString += ",";
+                }
+                roomFilterString += `.${room.id} `;
             });
 
             const filters = styleFilterString + roomFilterString;
