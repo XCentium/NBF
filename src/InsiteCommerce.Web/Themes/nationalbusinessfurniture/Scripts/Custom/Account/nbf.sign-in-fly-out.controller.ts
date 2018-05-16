@@ -364,7 +364,7 @@
             if (session.isRestrictedProductExistInCart) {
                 this.$localStorage.set("hasRestrictedProducts", true.toString());
             }
-            this.$rootScope.$broadcast("initAnalyticsEvent", "Login", null, null);
+            this.$rootScope.$broadcast("AnalyticsEvent", "Login", null, null);
             if (this.invitedToList) {
                 const inviteParam = "invite=";
                 const lowerCaseReturnUrl = this.returnUrl.toLowerCase();

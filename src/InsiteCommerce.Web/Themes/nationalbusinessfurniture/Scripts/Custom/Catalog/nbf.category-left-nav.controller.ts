@@ -43,6 +43,11 @@
             $(document).on("click", handler);
         }       
 
+        toggleFilter(attributeValueId: string) {
+            super.toggleFilter(attributeValueId);
+            this.$rootScope.$broadcast("AnalyticsEvent", "ProductListingFiltered");
+        }
+
         protected isViewAllCategoryFacetsCheckboxSelected(facets: CategoryFacetDto[]): boolean {
             let retVal = false;
 
@@ -120,4 +125,3 @@
         .module("insite")
         .controller("CategoryLeftNavController", NbfCategoryLeftNavController);
 }
-

@@ -13,7 +13,7 @@
             super($element, $scope);
             var self = this;
             setTimeout(function () {
-                self.$rootScope.$broadcast("initAnalyticsEvent", "ContactUsInitiated");
+                self.$rootScope.$broadcast("AnalyticsEvent", "ContactUsInitiated");
             }, 1500);
             
         }
@@ -36,7 +36,7 @@
                 this.submitted = true;
                 this.$scope.$apply();
             });
-            this.$rootScope.$broadcast("initAnalyticsEvent", "ContactUsCompleted");
+            this.$rootScope.$broadcast("AnalyticsEvent", "ContactUsCompleted");
             $event.preventDefault();
             return false;
         }
