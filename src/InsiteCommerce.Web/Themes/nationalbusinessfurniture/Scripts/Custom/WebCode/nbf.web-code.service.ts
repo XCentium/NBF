@@ -64,7 +64,7 @@
 
         protected generateId(): string {
             let text = "";
-            const possible = "ABCDEFGHIJKMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz123456789";
+            const possible = "ACEGHJKMNPQRTUWXYZaceghijkmnpqrtuwxyz23456789";
 
             for (let i = 0; i < 6; i++)
                 text += possible.charAt(Math.floor(Math.random() * possible.length));
