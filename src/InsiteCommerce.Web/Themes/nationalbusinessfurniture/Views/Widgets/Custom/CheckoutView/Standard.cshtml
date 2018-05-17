@@ -338,13 +338,15 @@
                                                                                ng-model="vm.cart.paymentOptions.creditCard.address1">
                                                                         <span class="field-validation-valid" data-valmsg-for="address1" data-valmsg-replace="true"></span>
                                                                     </div>
-                                                                    <div class="city">
-                                                                        <label for="city">[% translate 'City' %]</label>
-                                                                        <input id="city" name="city" type="text" maxlength="30"
-                                                                               data-rule-required="true"
-                                                                               data-msg-required="[% translate 'City is required.' %]"
-                                                                               ng-model="vm.cart.paymentOptions.creditCard.city">
-                                                                        <span class="field-validation-valid" data-valmsg-for="city" data-valmsg-replace="true"></span>
+                                                                    <div class="country">
+                                                                        <label for="country">[% translate 'Country' %]</label>
+                                                                        <select id="country" name="country"
+                                                                                data-rule-required="true" data-msg-required="[% translate 'Country is required.' %]"
+                                                                                ng-model="vm.creditCardBillingCountry"
+                                                                                ng-options="CountryModel.name for CountryModel in vm.countries">
+                                                                            <option value="">[% translate 'Select Country' %]</option>
+                                                                        </select>
+                                                                        <span class="field-validation-valid" data-valmsg-for="country" data-valmsg-replace="true"></span>
                                                                     </div>
                                                                     <div class="state" ng-if="vm.creditCardBillingCountry.states.length > 0">
                                                                         <label for="state">[% translate 'State' %]</label>
@@ -356,6 +358,14 @@
                                                                         </select>
                                                                         <span class="field-validation-valid" data-valmsg-for="state" data-valmsg-replace="true"></span>
                                                                     </div>
+                                                                    <div class="city">
+                                                                        <label for="city">[% translate 'City' %]</label>
+                                                                        <input id="city" name="city" type="text" maxlength="30"
+                                                                               data-rule-required="true"
+                                                                               data-msg-required="[% translate 'City is required.' %]"
+                                                                               ng-model="vm.cart.paymentOptions.creditCard.city">
+                                                                        <span class="field-validation-valid" data-valmsg-for="city" data-valmsg-replace="true"></span>
+                                                                    </div>
                                                                     <div class="postalCode">
                                                                         <label for="postalCode">[% translate 'Postal Code' %]</label>
                                                                         <input id="postalCode" name="postalCode" type="text" maxlength="30"
@@ -363,16 +373,6 @@
                                                                                data-msg-required="[% translate 'Postal Code is required.' %]"
                                                                                ng-model="vm.cart.paymentOptions.creditCard.postalCode">
                                                                         <span class="field-validation-valid" data-valmsg-for="postalCode" data-valmsg-replace="true"></span>
-                                                                    </div>
-                                                                    <div class="country">
-                                                                        <label for="country">[% translate 'Country' %]</label>
-                                                                        <select id="country" name="country"
-                                                                                data-rule-required="true" data-msg-required="[% translate 'Country is required.' %]"
-                                                                                ng-model="vm.creditCardBillingCountry"
-                                                                                ng-options="CountryModel.name for CountryModel in vm.countries">
-                                                                            <option value="">[% translate 'Select Country' %]</option>
-                                                                        </select>
-                                                                        <span class="field-validation-valid" data-valmsg-for="country" data-valmsg-replace="true"></span>
                                                                     </div>
                                                                 </div>
                                                             </div>

@@ -620,9 +620,7 @@
 
             this.updateSession(this.cart, customerWasUpdated);
 
-            if (!this.$scope.$$phase) {
-                this.$scope.$apply();
-            }
+            this.$scope.$apply();
         }
 
         protected addOrUpdateShipToFailed(error: any): void {

@@ -6,12 +6,6 @@
     text-transform: uppercase;
 }
 
- .product-list [role="mobile-filters"] {
-     @media print {
-         display:none;
-     }
- }
-
 .n-filter {
     position: relative;
 
