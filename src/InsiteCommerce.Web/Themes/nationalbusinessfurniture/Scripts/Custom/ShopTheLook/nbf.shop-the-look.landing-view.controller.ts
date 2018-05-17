@@ -72,13 +72,15 @@
                 this.selectedStyles.splice(index, 1);
                 if (this.selectedStyles.length === 0) {
                     this.showAllStyles();
+                } else {
+                    this.filterRooms();
                 }
             } else {
                 angular.element($event.target).addClass("is-checked");
                 this.selectedStyles.push(style);
+                this.filterRooms();
+                this.runIsotope();
             }
-            this.filterRooms();
-            this.runIsotope();
         }
 
         filterRoom($event, room: ShopTheLookCategory) {
@@ -94,8 +96,8 @@
             } else {
                 angular.element($event.target).addClass("is-checked");
                 this.selectedRooms.push(room);
+                this.runIsotope();
             }
-            this.runIsotope();
         }
 
         private filterRooms() {
@@ -108,9 +110,17 @@
             this.collection.categories.forEach((cat) => {
                 lookIds.forEach((id) => {
                     if (cat.lookIds.indexOf(id) > -1) {
-                        this.filteredRooms.push(cat);
+                        if (this.filteredRooms.indexOf(cat) === -1) {
+                            this.filteredRooms.push(cat);
+                        }
                     }
                 });
+            });
+
+            this.selectedRooms.forEach((room) => {
+                if (this.filteredRooms.indexOf(room) === -1) {
+                    this.showAllRooms();
+                }
             });
         }
 
@@ -118,20 +128,29 @@
             var styleFilterString = "";
             this.selectedStyles.forEach((style, i) => {
                 if (i !== 0) {
-                    styleFilterString += ",";
+                    styleFilterString += ", ";
                 }
-                styleFilterString += `.${style.styleName.replace(/\s/g, "")} `;
+                if (this.selectedRooms.length > 0) {
+                    this.selectedRooms.forEach((room) => {
+                        styleFilterString += `.${style.styleName.replace(/\s/g, "")}.${room.id}`;
+                    });
+                } else {
+                    styleFilterString += `.${style.styleName.replace(/\s/g, "")}`;
+                }
             });
 
             var roomFilterString = "";
-            this.selectedRooms.forEach((room, i) => {
-                if (i !== 0) {
-                    styleFilterString += ",";
-                }
-                roomFilterString += `.${room.id} `;
-            });
+            if (this.selectedStyles.length === 0) {
+                this.selectedRooms.forEach((room, i) => {
+                    if (i !== 0 || styleFilterString) {
+                        roomFilterString += ", ";
+                    }
+                    roomFilterString += `.${room.id}`;
+                });
+            }
 
             const filters = styleFilterString + roomFilterString;
+            console.dir(filters);
             this.$grid.isotope({ filter: filters });
         }
 
