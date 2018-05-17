@@ -65,7 +65,7 @@ module nbf.analytics {
                     this.setSearchData(data);
                     break;
                 case AnalyticsEvents.CheckoutComplete:
-                    this.setTransactionData(data);
+                    this.setTransactionData(data.cart, data.cartLines);
                     break;
             }
             console.log("Firing Analytics Event: " + analyticsEvent);
@@ -209,7 +209,7 @@ module nbf.analytics {
             this.Data.pageInfo.pageType = "Product Detail Page";
         }
 
-        private setTransactionData(cart: CartModel) {
+        private setTransactionData(cart: CartModel, cartLines: CartLineModel[]) {
             this.Data.transaction.shippingAddress.city = cart.shipTo.city;
             this.Data.transaction.shippingAddress.country = cart.shipTo.country.abbreviation;
             this.Data.transaction.shippingAddress.line1 = cart.shipTo.address1;
@@ -229,7 +229,7 @@ module nbf.analytics {
             this.Data.transaction.total.basePrice = cart.orderSubTotal;
             this.Data.transaction.total.bulkDiscount = 0;
             this.Data.transaction.total.promoCode = ""
-            cart.cartLines.forEach(line => {
+            cartLines.forEach(line => {
                 this.Data.transaction.products.push(this.convertCartLine(line));
             });
         }
