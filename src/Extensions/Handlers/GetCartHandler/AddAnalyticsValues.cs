@@ -1,17 +1,11 @@
-﻿using Insite.Cart.Services.Parameters;
+﻿using System.Linq;
+using Insite.Cart.Services.Parameters;
 using Insite.Cart.Services.Results;
+using Insite.Core.Interfaces.Data;
 using Insite.Core.Interfaces.Dependency;
 using Insite.Core.Services.Handlers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using Insite.Core.Interfaces.Data;
-using Insite.Data.Entities;
-using Insite.Data.Repositories.Interfaces;
-using Newtonsoft.Json;
 
-namespace Extensions.Handlers.GetCartLineHandler
+namespace Extensions.Handlers.GetCartHandler
 {
     [DependencyName(nameof(AddAnalyticsValues))]
     public class AddAnalyticsValues : HandlerBase<GetCartParameter, GetCartResult>
