@@ -128,20 +128,29 @@
             var styleFilterString = "";
             this.selectedStyles.forEach((style, i) => {
                 if (i !== 0) {
-                    styleFilterString += ",";
+                    styleFilterString += ", ";
                 }
-                styleFilterString += `.${style.styleName.replace(/\s/g, "")} `;
+                if (this.selectedRooms.length > 0) {
+                    this.selectedRooms.forEach((room) => {
+                        styleFilterString += `.${style.styleName.replace(/\s/g, "")}.${room.id}`;
+                    });
+                } else {
+                    styleFilterString += `.${style.styleName.replace(/\s/g, "")}`;
+                }
             });
 
             var roomFilterString = "";
-            this.selectedRooms.forEach((room, i) => {
-                if (i !== 0 || styleFilterString) {
-                    styleFilterString += ",";
-                }
-                roomFilterString += `.${room.id} `;
-            });
+            if (this.selectedStyles.length === 0) {
+                this.selectedRooms.forEach((room, i) => {
+                    if (i !== 0 || styleFilterString) {
+                        roomFilterString += ", ";
+                    }
+                    roomFilterString += `.${room.id}`;
+                });
+            }
 
             const filters = styleFilterString + roomFilterString;
+            console.dir(filters);
             this.$grid.isotope({ filter: filters });
         }
 
