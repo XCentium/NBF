@@ -26,7 +26,7 @@
                             <label>[% siteMessage 'STL_Landing_Filter2Label' 'Room' %]</label>
                             <div id="filter2" class="button-group shopthelook__filter-group">
                                 <button class="button show-all is-checked" data-filter="*" ng-click="vm.showAllRooms()">Show All</button>
-                                <div ng-repeat="cat in vm.filteredRooms track by cat.id">
+                                <div ng-repeat="cat in vm.filteredRooms">
                                     <button class="button" data-filter=".{{cat.id | removeSpaces}}" ng-click="vm.filterRoom($event, cat)">{{cat.name}}</button>
                                 </div>
                             </div>
