@@ -17,7 +17,7 @@
         }
 
         init(): void {
-            this.$rootScope.$broadcast("initAnalyticsEvent", "ContactUsInitiated");
+            this.$rootScope.$broadcast("AnalyticsEvent", "ContactUsInitiated");
         }
 
         sendEmail($event): boolean
@@ -44,7 +44,7 @@
             //if (this.contactUsFormForm) {
             //    this.contactUsFormForm.$setPristine();
             //} 
-            this.$rootScope.$broadcast("initAnalyticsEvent", "ContactUsCompleted");
+            this.$rootScope.$broadcast("AnalyticsEvent", "ContactUsCompleted");
         }
 
         protected getContactUsSpanishFailed(error?: any): void {
