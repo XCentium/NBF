@@ -36,6 +36,17 @@
     <Reference Include="Insite.Common">
       <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.Common.dll</HintPath>
     </Reference>
+    <Reference Include="Insite.Core.Interfaces, Version=4.4.1.39151, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.1.39151\lib\net452\Insite.Core.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.Data, Version=4.4.1.39151, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.1.39151\lib\net452\Insite.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.Data.Entities">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.1.39151\lib\net452\Insite.Data.Entities.dll</HintPath>
+    </Reference>
     <Reference Include="Insite.Integration">
       <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.Integration.dll</HintPath>
     </Reference>
@@ -53,6 +64,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IntegrationProcessorCleanUp.cs" />
     <Compile Include="IntegrationProcessorERPSubmit.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
