@@ -2,7 +2,7 @@
      pr-api-key="[% siteMessage 'PowerReviews_ApiKey' '56b8fc6a-79a7-421e-adc5-36cbdaec7daf ' %]"
      pr-merchant-group-id="[% siteMessage 'PowerReviews_MerchantGroupId' '47982' %]"
      pr-merchant-id="[% siteMessage 'PowerReviews_MerchantId' '33771' %]" ng-cloak>
-
+    <isc-catalog-breadcrumb breadcrumbs="vm.breadCrumbs" search-query="query"></isc-catalog-breadcrumb>
     <div class="shopthelookdetail [[Model.CssClass]]">
         <div ng-show="vm.notFound" class="medium-12 large-12 columns widget-1column narrow-container">
             <div class="row">
@@ -21,7 +21,7 @@
             <div class="row">
                 <div class="small-12 medium-12 large-7 columns">
                     <div class="shopthelookdetail__image-col">
-                        <img ng-src="https://s7d9.scene7.com/is/image/NationalBusinessFurniture/{{vm.look.mainImage}}?hei=200&id=5-zsy2&fmt=jpg&fit=constrain,1&wid=344&hei=344" alt="{{vm.look.description}}" />
+                        <img ng-src="https://s7d9.scene7.com/is/image/NationalBusinessFurniture/{{vm.look.mainImage}}?wid=640" alt="{{vm.look.description}}" />
                         <div class="hotspot has-tip link{{$index+1}}" style="{{hotSpot.hotSpotPosition}}" div id="{{hotSpot.product.id}}-{{$index+1}}" ng-click="vm.hotspotClicked(hotSpot.product.id, $index)" ng-repeat="hotSpot in vm.look.productHotSpots | validateHotSpots">
                             <div class="tooltip">
                                 <div class="tooltip__img">
@@ -89,7 +89,7 @@
                         <h2>[% siteMessage 'ShopTheLook_Detail_ExtraProducts1Title' 'Featured Accessories' %]</h2>
                     </div>
                 </div>
-                <div class="medium-12 large-12 columns widget-1column">
+                <div class="medium-12 large-12 columns widget-1column featured-product">
                     <div class="featured-product-wrap four-col__item-container">
                         <div class="item-block__product four-col__item" ng-repeat="product in vm.look.productHotSpots | featuredAccessories">
                             <div class="favorite-btn" ng-if="vm.isAuthenticated">
@@ -147,7 +147,7 @@
                         <h2>[% siteMessage 'ShopTheLook_Detail_ExtraProducts2Title' 'Featured Products' %]</h2>
                     </div>
                 </div>
-                <div class="medium-12 large-12 columns widget-1column">
+                <div class="medium-12 large-12 columns widget-1column featured-product">
                     <div class="featured-product-wrap four-col__item-container">
                         <div class="item-block__product four-col__item" ng-repeat="product in vm.look.productHotSpots | featuredProducts">
                             <div class="favorite-btn" ng-if="vm.isAuthenticated">
