@@ -138,9 +138,9 @@ module nbf.analytics {
             product.sku = p.erpNumber;
             product.quantity = p.qtyOrdered;
             product.bulkDiscount = 0;
-            product.collection = p.properties['Collection'];
-            product.category = p.properties['Category'];
-            product.vendor = p.properties['Vendor'];
+            product.collection = p.properties['collection'];
+            product.category = p.properties['category'];
+            product.vendor = p.properties['vendor'];
             return product;
         }
 

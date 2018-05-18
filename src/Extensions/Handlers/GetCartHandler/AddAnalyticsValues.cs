@@ -1,17 +1,11 @@
-﻿using Insite.Cart.Services.Parameters;
+﻿using System.Linq;
+using Insite.Cart.Services.Parameters;
 using Insite.Cart.Services.Results;
+using Insite.Core.Interfaces.Data;
 using Insite.Core.Interfaces.Dependency;
 using Insite.Core.Services.Handlers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using Insite.Core.Interfaces.Data;
-using Insite.Data.Entities;
-using Insite.Data.Repositories.Interfaces;
-using Newtonsoft.Json;
 
-namespace Extensions.Handlers.GetCartLineHandler
+namespace Extensions.Handlers.GetCartHandler
 {
     [DependencyName(nameof(AddAnalyticsValues))]
     public class AddAnalyticsValues : HandlerBase<GetCartParameter, GetCartResult>
@@ -20,28 +14,24 @@ namespace Extensions.Handlers.GetCartLineHandler
         
         public override GetCartResult Execute(IUnitOfWork unitOfWork, GetCartParameter parameter, GetCartResult result)
         {
-            //var promotions = result.Cart.CustomerOrderPromotions;
             foreach(var line in result.CartLineResults)
             {
                 var product = line.CartLine.Product;
-                line.Properties.Add("Category", product.StyleParent.Categories.LastOrDefault()?.ShortDescription);
-                line.Properties.Add("Collection", product.StyleParent.AttributeValues.FirstOrDefault(a => a.AttributeType.Name == "Collection" && a.IsActive)?.Value);
-                line.Properties.Add("Vendor", product.Vendor.Name);
-
-                //var promotionAmount =
-                //    promotions
-                //    .Where(p => p.OrderLineId == line.CartLine.Id)
-                //    .Select(p => (p.PromotionResult.IsPercent ?? false && p.Promotion.IsLive ? p.PromotionResult.Amount * line.CartLine.TotalNetPrice / 100 : p.PromotionResult.Amount) ?? 0)
-                //    .Sum();
-                //line.Properties.Add("PromoDiscount", promotionAmount.ToString());
+                if (product == null) continue;
+                string category, collection;
+                if(product.StyleParent == null)
+                {
+                    category = product.Categories?.LastOrDefault()?.ShortDescription;
+                    collection = product.AttributeValues?.FirstOrDefault(a => a.AttributeType.Name == "Collection")?.Value;
+                }else
+                {
+                    category = product.StyleParent?.Categories?.LastOrDefault()?.ShortDescription;
+                    collection = product.StyleParent?.AttributeValues?.FirstOrDefault(a => a.AttributeType.Name == "Collection")?.Value;
+                }
+                line.Properties.Add("category", category);
+                line.Properties.Add("collection", collection);
+                line.Properties.Add("vendor", product.Vendor?.Name);
             }
-            //var cartPromotionAmount =
-            //    result.Cart.CustomerOrderPromotions
-            //    .Select(p => {
-            //        return (p.PromotionResult.IsPercent ?? false && p.Promotion.IsLive ? p.PromotionResult.Amount * result.OrderSubTotal / 100 : p.PromotionResult.Amount) ?? 0;
-            //    })
-            //    .Sum();
-            //result.Properties.Add("PromoDiscount", cartPromotionAmount.ToString());
             return NextHandler.Execute(unitOfWork, parameter, result); 
         }
     }

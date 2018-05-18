@@ -72,19 +72,6 @@
                            is-read-only="isReadOnly">
         </isc-address-field>
     </div>
-    <div class="address-country" ng-if="addressFields.country.isVisible && countries.length > 1">
-        {{::addressFields.country.displayName}}
-        <span class="redTxt" ng-show="address.validation.country.isRequired">*</span>
-        <select id="{{prefix}}country" name="{{prefix}}country"
-                ng-disabled="address.validation.country.isDisabled || isReadOnly"
-                ng-model="address.country"
-                ng-options="country.name for country in countries"
-                ng-change="setStateRequiredRule()"
-                data-rule-required="{{address.validation.country.isRequired}}"
-                data-msg-required="{{::'[% siteMessage 'Field_Required' EscapeSingleQuotes %]'.replace('{0}', addressFields.country.displayName)}}">
-            <option value="">[% translate 'Select Country' %]</option>
-        </select>
-    </div>
     <div class="address-city" ng-if="addressFields.city.isVisible">
         <isc-address-field field-label="{{addressFields.city.displayName}}"
                            field-name="{{prefix}}city"
@@ -121,13 +108,26 @@
             </div>
         </div>
     </div>
+    <div class="address-country" ng-if="addressFields.country.isVisible && countries.length > 1">
+        {{::addressFields.country.displayName}}
+        <span class="redTxt" ng-show="address.validation.country.isRequired">*</span>
+        <select id="{{prefix}}country" name="{{prefix}}country"
+                ng-disabled="address.validation.country.isDisabled || isReadOnly"
+                ng-model="address.country"
+                ng-options="country.name for country in countries"
+                ng-change="setStateRequiredRule()"
+                data-rule-required="{{address.validation.country.isRequired}}"
+                data-msg-required="{{::'[% siteMessage 'Field_Required' EscapeSingleQuotes %]'.replace('{0}', addressFields.country.displayName)}}">
+            <option value="">[% translate 'Select Country' %]</option>
+        </select>
+    </div>
     <div class="address-phone" ng-if="addressFields.phone.isVisible">
         <isc-address-field field-label="{{addressFields.phone.displayName}}"
-                            field-name="{{prefix}}phone"
-                            field-value="address.phone"
-                            validation="address.validation.phone"
-                            is-read-only="isReadOnly"
-                            is-phone="true">
+                           field-name="{{prefix}}phone"
+                           field-value="address.phone"
+                           validation="address.validation.phone"
+                           is-read-only="isReadOnly"
+                           is-phone="true">
         </isc-address-field>
     </div>
     <div class="address-fax" ng-if="addressFields.fax.isVisible">
