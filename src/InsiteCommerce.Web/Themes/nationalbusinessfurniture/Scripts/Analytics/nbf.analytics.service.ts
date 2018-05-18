@@ -8,14 +8,19 @@ module nbf.analytics {
 
     export class AnalyticsService {
 
-        static $inject = ["$window", "$rootScope", "sessionService"];
+        static $inject = ["$window", "$rootScope", "sessionService", "queryString", "ipCookie"];
 
         private _handlers: IAnalyticsEventHandler[] = [];
         private _isInitialCartLoad = true;
 
-        constructor(protected $window: ng.IWindowService, protected $rootScope: ng.IRootScopeService, protected sessionService: insite.account.ISessionService) {
+        constructor(
+            protected $window: ng.IWindowService,
+            protected $rootScope: ng.IRootScopeService,
+            protected sessionService: insite.account.ISessionService,
+            protected queryString: insite.common.IQueryStringService,
+            protected ipCookie: any)
+        {
             this.AddHandler(new AdobeAnalytics());
-
             var self = this;
 
             $rootScope.$on("AnalyticsEvent", (event, analyticsEvent, navigationUri, analyticsData, data2) => self.handleAnalyticsEvent(event, analyticsEvent, navigationUri, analyticsData, data2));
@@ -67,6 +72,12 @@ module nbf.analytics {
                 case AnalyticsEvents.CheckoutComplete:
                     this.setTransactionData(data.cart, data.cartLines);
                     break;
+                case AnalyticsEvents.ProductRemovedFromCart, AnalyticsEvents.ProductAddedToCart:
+                    this.Data.events.push({
+                        event: analyticsEvent,
+                        data: this.convertCartLine(data)
+                    });
+                    break;
             }
             console.log("Firing Analytics Event: " + analyticsEvent);
             this.FireEvent(analyticsEvent as AnalyticsEvent);
@@ -86,32 +97,6 @@ module nbf.analytics {
                         data: this.convertCartLine(cart.cartLines[0])
                     });
                     this.FireEvent(AnalyticsEvents.CartOpened);
-                }
-
-                //Checking if a product was removed
-                if (this.Data.cart.items.length > cart.cartLines.length) {
-                    this.Data.cart.items.forEach(item => {
-                        if (!cart.cartLines.find((cl: CartLineModel) => item.sku === cl.erpNumber)) {
-                            this.Data.events.push({
-                                event: AnalyticsEvents.ProductRemovedFromCart,
-                                data: item
-                            });
-                        }
-                    });
-                    this.FireEvent(AnalyticsEvents.ProductRemovedFromCart);
-                }
-
-                //Checking if a product was added
-                if (this.Data.cart.items.length < cart.cartLines.length) {
-                    cart.cartLines.forEach(cl => {
-                        if (!this.Data.cart.items.find((item: AnalyticsCartItem) => item.sku === cl.erpNumber)) {
-                            this.Data.events.push({
-                                event: AnalyticsEvents.ProductAddedToCart,
-                                data: this.convertCartLine(cl)
-                            });
-                        }
-                    });
-                    this.FireEvent(AnalyticsEvents.ProductAddedToCart);
                 }
             }
 
@@ -152,6 +137,7 @@ module nbf.analytics {
             this.Data.events = [];
             this.Data.pageInfo.destinationUrl = newUrl;
             this.Data.pageInfo.referringUrl = oldUrl;
+            this.Data.pageInfo.affiliateCode = this.getSiteId();
             this.sessionService.getSession()
                 .then(session => {
                     if (session) {
@@ -262,6 +248,63 @@ module nbf.analytics {
         private handleNavigationStart() {
             this.Data.pageInfo.pageType = ""
             this.Data.product = new AnalyticsProduct();
+        }
+
+        private getSiteId(): string {
+            var cookie = this.ipCookie("CampaignID");
+            if (cookie) {
+                return cookie;
+            }
+
+            var siteId = "default_web";
+
+            const siteIdQueryString = this.queryString.get("SiteID");
+            const ganTrackingId = this.queryString.get("GanTrackingID");
+            const affiliateSiteId = this.queryString.get("affiliateSiteID");
+            const affId = this.queryString.get("affid");
+            const origin = this.queryString.get("Origin");
+            const ref = this.queryString.get("Ref");
+
+            if (siteIdQueryString) {
+                siteId = siteIdQueryString;
+            } else if (ganTrackingId) {
+                siteId = `gan_${ganTrackingId}`;
+            } else if (affiliateSiteId) {
+                siteId = affiliateSiteId;
+            } else if (affId) {
+                siteId = affId;
+            } else if (origin) {
+                siteId = origin;
+            } else if (ref) {
+                siteId = ref;
+            } else {
+                var searchEngineList = this.getSearchEngineDomains();
+                var referrer = document.referrer;
+                for (var se in searchEngineList) {
+                    if (referrer.indexOf(se) > -1) {
+                        siteId = searchEngineList[se];
+                        break;
+                    }
+                }
+            }
+
+            var expire = new Date();
+            expire.setDate(expire.getDate() + 90);
+            this.ipCookie("CampaignID", siteId, { path: "/", expires: expire });
+
+            return siteId;
+        }
+
+        private getSearchEngineDomains() {
+            //This value should eventually come from the application dictionary (or something) and not be hardcored. 
+            var searchEngines = "google.:glo_nbf,msn.:mso_nbf,bing.:mso_nbf,yahoo.:yho_nbf,aol.:aol_nbf,facebook.:fb_NBF_Social,instagram.:ig_NBF_Social,pinterest.:pin_NBF_Social,linkedin.:lin_NBF_Social,youtube.:yt_NBF_Social,ask.,about.,baidu.,yandex.,search.,duckduckgo.,localhost:loco_nbf";
+            var domainList = {};
+            searchEngines.split(",").forEach(se => {
+                var tokens = se.split(":", 2).filter(t => t && t.trim() != "");
+                var trackingCode = tokens.length > 1 ? tokens[1] : "Organic";
+                domainList[tokens[0]] = trackingCode;
+            });
+            return domainList;
         }
 
     }

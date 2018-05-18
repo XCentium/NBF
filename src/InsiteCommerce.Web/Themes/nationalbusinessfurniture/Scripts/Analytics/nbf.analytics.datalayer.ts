@@ -70,6 +70,7 @@
         breadCrumbs: string[];
         isErrorPage: boolean;
         transId: string;
+        affiliateCode: string;
         internalSearch: AnalyticsPageSearchInfo;
     }
 

@@ -11,7 +11,7 @@ using Insite.Data.Entities;
 using Insite.Data.Repositories.Interfaces;
 using Newtonsoft.Json;
 
-namespace Extensions.Handlers.GetCartLineHandler
+namespace Extensions.Handlers.GetCartHandler
 {
     [DependencyName(nameof(AddAnalyticsValues))]
     public class AddAnalyticsValues : HandlerBase<GetCartParameter, GetCartResult>
