@@ -3377,6 +3377,15 @@ ul.attribute-list span.attrib-name {
     margin: 0 0.25em 0 0;
 }
 
+.item-block .price span.strike {
+    text-decoration: line-through;
+}
+
+.item-wrap .price span.strike {
+    text-decoration:line-through;
+}
+
+
 .price-saving {
     font-style: italic;
     margin-top: .25rem !important;
