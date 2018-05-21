@@ -30,6 +30,8 @@
                 this.onCartLoaded(cart);
             });
 
+            this.$scope.$on("cartChanged", () => this.getCart());
+
             // use a short timeout to wait for anything else on the page to call to load the cart
             this.$timeout(() => {
                 if (!this.cartService.cartLoadCalled) {
