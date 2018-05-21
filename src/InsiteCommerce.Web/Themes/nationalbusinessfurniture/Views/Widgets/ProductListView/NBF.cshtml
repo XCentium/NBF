@@ -434,7 +434,7 @@
                 </ul>
             </div>
             <div class="f-cat" role="mobile-filters">
-                <section class="accordion">
+                <section class="accordion"  ng-if="vm.products.products && vm.products.products.length > 0">
                     <div>
                         <input type="checkbox" id="accord-10000" class="accord-check" checked />
                         <label id="tst_productList_tableView_filterButton" for="accord-10000" class="accord-head  mobile-title">[% translate 'Filters' %]</label>
