@@ -287,6 +287,8 @@
                 });
 
             this.updateCartLineAttributes();
+
+            this.updateCartLineSwatchProductUrl();
         }
 
         protected updateCartLineAttributes() {
@@ -308,6 +310,36 @@
                     //this.$scope.$apply();
                 },
                 (error: any) => { });
+        }
+
+        protected updateCartLineSwatchProductUrl() {
+            let baseProductErpNumbers = this.cart.cartLines
+                .filter(x => x.erpNumber.indexOf(":") >= 0)
+                .map(x => x.erpNumber.split(":")[0]);
+
+            if (baseProductErpNumbers.length > 0) {
+                const expand = ["attributes"];
+                const parameter: insite.catalog.IProductCollectionParameters = { erpNumbers: baseProductErpNumbers };
+                this.productService.getProducts(parameter, expand).then(
+                    (productCollection: ProductCollectionModel) => {
+                        this.cart.cartLines.forEach(cartLine => {
+
+                            if (cartLine.erpNumber.indexOf(":") >= 0) {
+
+                                let erpNumber = cartLine.erpNumber.split(":")[0];
+                                let baseProduct = productCollection.products.find(x => x.erpNumber === erpNumber);
+
+                                if (baseProduct) {
+                                    cartLine.productUri = baseProduct.productDetailUrl;
+                                    cartLine.uri = baseProduct.productDetailUrl;
+                                }
+                            }
+                        });
+
+                        //this.$scope.$apply();
+                    },
+                    (error: any) => { });
+            }
         }
 
         protected getCartFailed(error: any): void {

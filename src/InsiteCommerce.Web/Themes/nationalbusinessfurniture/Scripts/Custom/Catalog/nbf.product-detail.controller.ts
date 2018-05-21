@@ -83,7 +83,8 @@
             }
         }
 
-        addToCart(product: ProductDto): void {
+
+        addToCart(product: ProductDto): void {            
             this.addingToCart = true;
 
             let sectionOptions: ConfigSectionOptionDto[] = null;
@@ -96,6 +97,12 @@
                 (error: any) => { this.addToCartFailed(error); }
             );
         }
+
+        protected addToCartCompleted(cartLine: CartLineModel): void {           
+            super.addToCartCompleted(cartLine);
+
+            this.$anchorScroll();
+        }        
 
         protected getFavorites(product : ProductDto) {
             this.nbfWishListService.getWishLists("CreatedOn", "wishlistlines").then((wishList) => {
