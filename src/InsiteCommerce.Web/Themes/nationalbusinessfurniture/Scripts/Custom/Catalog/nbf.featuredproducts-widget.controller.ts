@@ -12,7 +12,7 @@
         erpNumbers: string[];
         products: ProductDto[]; 
         favoritesWishlist: WishListModel;
-        isAuthenticated: boolean = false;
+        isAuthenticatedAndNotGuest = false;
         imagesLoaded: number;
 
         static $inject = ["$timeout", "$window", "$scope", "$rootScope", "$attrs", "productService", "sessionService", "nbfWishListService"];
@@ -46,9 +46,12 @@
                     this.imagesLoaded = 0;
                     this.waitForDom();
 
-                    this.sessionService.getIsAuthenticated().then(x => {
-                        this.isAuthenticated = x;
-                        if (x) {
+                    this.sessionService.getSession().then((session: SessionModel) => {
+                        if (session.isAuthenticated && !session.isGuest) {
+                            this.isAuthenticatedAndNotGuest = true;
+                        }
+
+                        if (this.isAuthenticatedAndNotGuest) {
                             this.getFavorites();
                         }
                     });
