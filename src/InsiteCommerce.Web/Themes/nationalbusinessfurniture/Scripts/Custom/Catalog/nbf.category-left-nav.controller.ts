@@ -52,15 +52,14 @@
         }       
 
         toggleFilter(attributeValueId: string) {
-            (<any>this.$location).search("attr", null);
+            (<any>this.$location).search("attr", "none");
             super.toggleFilter(attributeValueId);
             this.$rootScope.$broadcast("AnalyticsEvent", "ProductListingFiltered");
         }
 
         clearFilters(): void {
-            (<any>this.$location).search("attr", null);
+            (<any>this.$location).search("attr", "none");
             super.clearFilters();           
-            (<any>this.$location).search({});
         }
 
         protected isViewAllCategoryFacetsCheckboxSelected(facets: CategoryFacetDto[]): boolean {
