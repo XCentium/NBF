@@ -83,8 +83,8 @@
             }
         }
 
+
         addToCart(product: ProductDto): void {            
-            super.addToCart(product);
             this.addingToCart = true;
 
             let sectionOptions: ConfigSectionOptionDto[] = null;
