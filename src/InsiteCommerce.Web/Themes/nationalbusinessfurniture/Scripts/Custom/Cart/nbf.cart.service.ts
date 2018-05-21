@@ -19,6 +19,25 @@
         protected addLineCollectionFailed(error: ng.IHttpPromiseCallbackArg<any>): void {
             this.showCartError(error.data);
         }
+
+        removeLine(cartLine: CartLineModel): ng.IPromise<CartLineModel> {
+            return this.httpWrapperService.executeHttpRequest(
+                this,
+                this.$http.delete(cartLine.uri),
+                (response) => this.nbfRemoveLineCompleted(response, cartLine),
+                this.removeLineFailed
+            );
+        }
+
+        protected nbfRemoveLineCompleted(response: ng.IHttpPromiseCallbackArg<CartLineModel>, cartLine: CartLineModel): void {
+            super.removeLineCompleted(response);
+            this.$rootScope.$broadcast("AnalyticsEvent", "ProductRemovedFromCart", null, null, cartLine);
+        }
+
+        protected addLineCompleted(response: ng.IHttpPromiseCallbackArg<CartLineModel>, showAddToCartPopup?: boolean): void {
+            super.addLineCompleted(response, showAddToCartPopup);
+            this.$rootScope.$broadcast("AnalyticsEvent", "ProductAddedToCart", null, null, response.data);
+        }
     }
 
     angular

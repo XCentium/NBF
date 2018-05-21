@@ -102,7 +102,7 @@
                                                 <div ng-if="vm.settings.enableProductComparisons" class="product-compare-add">
                                                     <a href="javascript:void(0);" data-id="{{product.id}}" class="compare-link" ng-class="{ 'compare-active': product.isBeingCompared }" ng-click="vm.compareProduct(product);">[% translate 'Compare' %]</a>
                                                 </div>
-                                                <div class="favorite-btn" ng-if="vm.isAuthenticated">
+                                                <div class="favorite-btn" ng-if="vm.isAuthenticatedAndNotGuest">
                                                     <a id="tst_productDetail_addToWishList" ng-class="{'in-favorites': product.properties['isFavorite'] == 'true' } "
                                                        ng-click="vm.toggleFavorite(product)" role="button"
                                                        class="btn secondary btn-add-to-list" href="javascript:;"></a>
@@ -434,7 +434,7 @@
                 </ul>
             </div>
             <div class="f-cat" role="mobile-filters">
-                <section class="accordion">
+                <section class="accordion"  ng-if="vm.products.products && vm.products.products.length > 0">
                     <div>
                         <input type="checkbox" id="accord-10000" class="accord-check" checked />
                         <label id="tst_productList_tableView_filterButton" for="accord-10000" class="accord-head  mobile-title">[% translate 'Filters' %]</label>
