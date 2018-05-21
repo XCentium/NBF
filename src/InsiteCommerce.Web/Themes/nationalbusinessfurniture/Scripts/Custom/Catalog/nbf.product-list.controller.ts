@@ -10,7 +10,7 @@
         categoryAttr: string;
         filteredResults = false;
         favoritesWishlist: WishListModel;
-        isAuthenticated = false;
+        isAuthenticatedAndNotGuest = false;
 
         static $inject = [
             "$scope",
@@ -212,9 +212,12 @@
             this.imagesLoaded = 0;
             this.waitForDom();
 
-            this.sessionService.getIsAuthenticated().then(result => {
-                this.isAuthenticated = result;
-                if (this.isAuthenticated) {
+            this.sessionService.getSession().then((session: SessionModel) => {
+                if (session.isAuthenticated && !session.isGuest) {
+                    this.isAuthenticatedAndNotGuest = true;
+                }
+                
+                if (this.isAuthenticatedAndNotGuest) {
                     this.getFavorites();
                 }
             });

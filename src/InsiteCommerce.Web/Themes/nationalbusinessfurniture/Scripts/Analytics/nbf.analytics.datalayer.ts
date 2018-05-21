@@ -70,6 +70,7 @@
         breadCrumbs: string[];
         isErrorPage: boolean;
         transId: string;
+        affiliateCode: string;
         internalSearch: AnalyticsPageSearchInfo;
     }
 
@@ -85,6 +86,7 @@
         billingAddress: AnalyticsAddress = new AnalyticsAddress();
         paymentMethod: string;
         total: AnalyticsTransactionTotal = new AnalyticsTransactionTotal();
+        products: AnalyticsCartItem[] = [];
     }
 
     export class AnalyticsTransactionTotal {

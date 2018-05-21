@@ -22,7 +22,7 @@
                         <li id="tst_crossSellProduct_{{::crossSellProduct.id}}" class="medium-3 large-3 columns isc-productContainer tst_crossSellProduct_productContainer" ng-repeat="crossSellProduct in ::vm.crossSellProducts track by crossSellProduct.id">
                             <div class="item-wrap">
                                 <div class="carousel-item-equalize">
-                                    <div class="favorite-btn" ng-if="vm.isAuthenticated">
+                                    <div class="favorite-btn" ng-if="vm.isAuthenticatedAndNotGuest">
                                         <a id="tst_productDetail_addToWishList" ng-class="{'in-favorites': crossSellProduct.properties['isFavorite'] == 'true' } "
                                            ng-click="vm.toggleFavorite(crossSellProduct)" role="button"
                                            class="btn secondary btn-add-to-list" href="javascript:;"></a>

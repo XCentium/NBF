@@ -287,6 +287,8 @@
                 });
 
             this.updateCartLineAttributes();
+
+            this.updateCartLineSwatchProductUrl();
         }
 
         protected updateCartLineAttributes() {
@@ -308,6 +310,36 @@
                     //this.$scope.$apply();
                 },
                 (error: any) => { });
+        }
+
+        protected updateCartLineSwatchProductUrl() {
+            let baseProductErpNumbers = this.cart.cartLines
+                .filter(x => x.erpNumber.indexOf(":") >= 0)
+                .map(x => x.erpNumber.split(":")[0]);
+
+            if (baseProductErpNumbers.length > 0) {
+                const expand = ["attributes"];
+                const parameter: insite.catalog.IProductCollectionParameters = { erpNumbers: baseProductErpNumbers };
+                this.productService.getProducts(parameter, expand).then(
+                    (productCollection: ProductCollectionModel) => {
+                        this.cart.cartLines.forEach(cartLine => {
+
+                            if (cartLine.erpNumber.indexOf(":") >= 0) {
+
+                                let erpNumber = cartLine.erpNumber.split(":")[0];
+                                let baseProduct = productCollection.products.find(x => x.erpNumber === erpNumber);
+
+                                if (baseProduct) {
+                                    cartLine.productUri = baseProduct.productDetailUrl;
+                                    cartLine.uri = baseProduct.productDetailUrl;
+                                }
+                            }
+                        });
+
+                        //this.$scope.$apply();
+                    },
+                    (error: any) => { });
+            }
         }
 
         protected getCartFailed(error: any): void {
@@ -1148,7 +1180,6 @@
             if ((this.cart.cartLines.filter((line: CartLineModel) => line.erpNumber.search('^[^:]*[:][^:]*[:][^:]*$') > 0)).length > 0) {
                 this.$rootScope.$broadcast("AnalyticsEvent", "SwatchRequest");
             }
-            this.$rootScope.$broadcast("AnalyticsEvent", "CheckoutInitiated");
             this.sessionService.getIsAuthenticated().then(
                 (isAuthenticated: boolean) => {
                     this.getIsAuthenticatedForSubmitCompleted(isAuthenticated, signInUri);
@@ -1170,8 +1201,9 @@
             this.cart.requestedDeliveryDate = this.formatWithTimezone(this.cart.requestedDeliveryDate);
 
             this.spinnerService.show("mainLayout", true);
+            var oldCartLines = this.cart.cartLines;
             this.cartService.updateCart(this.cart, true).then(
-                (cart: CartModel) => { this.submitCompleted(cart); },
+                (cart: CartModel) => { this.submitCompleted(cart, oldCartLines); },
                 (error: any) => { this.submitFailed(error); });
         }
 
@@ -1182,9 +1214,11 @@
         protected getIsAuthenticatedForSubmitFailed(error: any): void {
         }
 
-        protected submitCompleted(cart: CartModel): void {
+        protected submitCompleted(cart: CartModel, oldCartLines: CartLineModel[]): void {
             this.cart.id = cart.id;
             this.cartService.getCart();
+
+            this.$rootScope.$broadcast("AnalyticsEvent", "CheckoutComplete", null, null, { cart: cart, cartLines: oldCartLines });
 
             if (this.newUser) {
                 this.$window.location.href = `${this.$window.location.href}?cartid=${this.cart.id}`;
