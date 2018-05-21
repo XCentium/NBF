@@ -138,6 +138,7 @@ module nbf.analytics {
             this.Data.pageInfo.destinationUrl = newUrl;
             this.Data.pageInfo.referringUrl = oldUrl;
             this.Data.pageInfo.affiliateCode = this.getSiteId();
+            this.Data.pageInfo.pageName = window.location.pathname;
             this.sessionService.getSession()
                 .then(session => {
                     if (session) {
@@ -214,7 +215,9 @@ module nbf.analytics {
             this.Data.transaction.total.shipping = cart.shippingAndHandling;
             this.Data.transaction.total.basePrice = cart.orderSubTotal;
             this.Data.transaction.total.bulkDiscount = 0;
-            this.Data.transaction.total.promoCode = ""
+            this.Data.transaction.total.promoCode = "";
+            this.Data.transaction.paymentMethod = cart.paymentMethod ? cart.paymentMethod.name : "Open Credit";
+            this.Data.transaction.shippingMethod = cart.shipVia.description;
             cartLines.forEach(line => {
                 this.Data.transaction.products.push(this.convertCartLine(line));
             });

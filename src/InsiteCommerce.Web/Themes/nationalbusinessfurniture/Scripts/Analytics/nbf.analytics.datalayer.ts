@@ -85,6 +85,7 @@
         shippingAddress: AnalyticsAddress = new AnalyticsAddress();
         billingAddress: AnalyticsAddress = new AnalyticsAddress();
         paymentMethod: string;
+        shippingMethod: string;
         total: AnalyticsTransactionTotal = new AnalyticsTransactionTotal();
         products: AnalyticsCartItem[] = [];
     }
