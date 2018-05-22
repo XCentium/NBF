@@ -93,14 +93,29 @@
 
             $(document).ready(() => {
                 var windowsize = $(window).width();
-                if (windowsize < 767) {
-                    setTimeout(
-                        () => {
-                            $("#accord-10000").prop("checked", false);
-                        },
-                        2000);
-                    $("#accord-10000").removeAttr("checked");
+                console.log('checking');
+                if ($(".f-cat").length) {
+                    console.log('there');
+                    if (windowsize < 767) {
+                        setTimeout(
+                            () => {
+                                $("#accord-10000").prop("checked", false);
+                            },
+                            2000);
+                        $("#accord-10000").removeAttr("checked");
+                    }
+                } else {
+                    console.log('not there');
+                    if (windowsize < 767) {
+                        setTimeout(
+                            () => {
+                                $("#accord-10000").prop("checked", false);
+                            },
+                            5000);
+                        $("#accord-10000").removeAttr("checked");
+                    }
                 }
+               
             });
             this.$scope.$watch(() => this.category, (newCategory) => {
                 if (!newCategory) {

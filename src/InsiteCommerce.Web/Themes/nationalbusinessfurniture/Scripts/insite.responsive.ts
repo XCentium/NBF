@@ -34,7 +34,7 @@
         }
     };
 
-    enquire.register("screen and (max-width:767px)", {
+    enquire.register("screen and (max-width:991px)", {
         match() {
             moveNavToNarrow();
         },
