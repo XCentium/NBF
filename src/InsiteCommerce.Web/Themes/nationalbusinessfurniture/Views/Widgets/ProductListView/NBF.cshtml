@@ -378,7 +378,7 @@
 <isc-product-comparison-hopper></isc-product-comparison-hopper>
 
 <script type="text/ng-template" id="productList_productComparisonHopper">
-    <div class="compare-hopper" ng-show="vm.canShowCompareHopper()">
+    <div class="compare-hopper hide-for-print" ng-show="vm.canShowCompareHopper()">
         <div class="compare-container">
             <div class="compare-item" ng-repeat="product in vm.productsToCompare">
                 <a href="javascript:void(0);" class="compare-remove" ng-click="vm.clickRemove(product)">[% translate 'Remove' %]</a><img ng-src="https://s7d9.scene7.com/is/image/NationalBusinessFurniture/{{product.smallImagePath}}?hei=250&id=Iu1rN2&fmt=jpg&fit=constrain,1&wid=100&hei=100" alt="product.altText" />
