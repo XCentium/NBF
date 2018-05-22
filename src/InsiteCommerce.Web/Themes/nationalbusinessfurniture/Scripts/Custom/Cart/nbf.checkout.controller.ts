@@ -279,6 +279,10 @@
                 this.initialShipToId = this.cart.shipTo.id;
             }
 
+            if ((!this.cart.billTo || this.cart.shipTo) && this.cart.totalTax === 0) {
+                this.cart.totalTaxDisplay = "TBD";
+            }
+
             this.websiteService.getCountries("states").then(
                 (countryCollection: CountryCollectionModel) => { this.getCountriesCompleted(countryCollection); });
 
