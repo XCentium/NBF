@@ -64,7 +64,7 @@
 
         //Tax Exempt variables
         isTaxExempt = false;
-        taxExemptChoice = true;
+        taxExemptChoice = false;
         taxExemptFileName: string;
         file: any;
         errorMessage: string;
@@ -118,7 +118,7 @@
             protected nbfGuestActivationService: guest.INbfGuestActivationService,
             protected nbfPaymentService: cart.INbfPaymentService,
             protected termsAndConditionsPopupService: insite.cart.ITermsAndConditionsPopupService,
-            protected nbfEmailService: nbf.email.INbfEmailService,
+            protected nbfEmailService: email.INbfEmailService,
             protected productService: insite.catalog.IProductService,
             protected $element: ng.IRootElementService,
             protected $rootScope: ng.IRootScopeService,
@@ -268,6 +268,7 @@
             if (this.cart.billTo) {
                 if (this.cart.billTo.properties["taxExemptFileName"]) {
                     this.isTaxExempt = true;
+                    this.taxExemptChoice = true;
                     this.taxExemptFileName = this.cart.billTo.properties["taxExemptFileName"];
                 }
                 this.originalBillTo = cart.billTo;
@@ -309,7 +310,7 @@
 
                     //this.$scope.$apply();
                 },
-                (error: any) => { });
+                () => { });
         }
 
         protected updateCartLineSwatchProductUrl() {
@@ -338,7 +339,7 @@
 
                         //this.$scope.$apply();
                     },
-                    (error: any) => { });
+                    () => { });
             }
         }
 
@@ -1411,7 +1412,7 @@
             model["paymentProfileId"] = this.cart.paymentMethod.name;
             var self = this;
             this.nbfPaymentService.addPayment(model).then((result) => {
-                if (result.toLowerCase() == "true") {
+                if (result.toLowerCase() === "true") {
                     this.remainingTotal = self.cart.orderGrandTotal;
                     var propName = "";
                     if (!self.cart.properties["cc1"]) {
