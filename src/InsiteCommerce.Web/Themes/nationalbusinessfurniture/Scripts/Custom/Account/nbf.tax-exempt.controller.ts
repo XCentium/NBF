@@ -12,11 +12,12 @@
     export class TaxExemptController {
         cart: CartModel;
         isTaxExempt = false;
-        taxExemptChoice = true;
+        taxExemptChoice = false;
         taxExemptFileName: string;
         file: any;
         errorMessage: string;
-        success: boolean = false;
+        success = false;
+        saved = false;
         $form: JQuery;
 
         static $inject = [
@@ -68,6 +69,7 @@
             if (this.cart.billTo) {
                 if (this.cart.billTo.properties["taxExemptFileName"]) {
                     this.isTaxExempt = true;
+                    this.taxExemptChoice = true;
                     this.taxExemptFileName = this.cart.billTo.properties["taxExemptFileName"];
                 }
             }
@@ -91,9 +93,11 @@
         }
 
         openUpload() {
-            setTimeout(() => {
-                $("#taxExemptFileUpload").click();
-            }, 100);
+            if (!this.isTaxExempt && !this.saved) {
+                setTimeout(() => {
+                    $("#taxExemptFileUpload").click();
+                }, 100);
+            }
         }
 
         saveFile(emailTo: string, orderNum?: string) {
@@ -124,6 +128,7 @@
 
         protected updateBillToCompleted(): void {
             this.success = true;
+            this.saved = true;
         }
 
         protected updateBillToFailed(error: any): void {
