@@ -8,50 +8,60 @@
     export class NbfWebCodeService implements INbfWebCodeService {
         serviceUri = "/api/nbf/webcode";
         siteId: string;
+        referrer: string;
         userId: string;
+        currentWebCode: string;
 
-        static $inject = ["$http", "httpWrapperService", "queryString", "$sessionStorage", "coreService", "ipCookie", "$q"];
+        static $inject = ["$http", "httpWrapperService", "queryString", "$sessionStorage", "ipCookie", "$q"];
 
         constructor(
             protected $http: ng.IHttpService,
             protected httpWrapperService: insite.core.HttpWrapperService,
             protected queryString: insite.common.IQueryStringService,
             protected $sessionStorage: insite.common.IWindowStorage,
-            protected coreService: insite.core.ICoreService,
             protected ipCookie: any,
             protected $q: ng.IQService) {
         }
 
         getWebCode(): ng.IPromise<string> {
             this.userId = this.generateId();
-            const currentWebCode = this.checkWebCode();
-            const referrer = this.coreService.getReferringPath();
-            if (currentWebCode) {
+            this.currentWebCode = this.checkWebCode();
+            var referrer = document.referrer; 
+            if (this.currentWebCode) {
+
+            } else {
+
+               
+                if (referrer) {
+
+                    if (referrer.includes("ochdevsite")) {
+                        this.currentWebCode = this.userId + "-11717";
+                    } else if (referrer.includes("bing.com")) {
+                        this.currentWebCode = this.userId + "-11739";
+                    } else if (referrer.includes("yahoo.com")) {
+                        this.currentWebCode = this.userId + "-11741";
+                    } else if (referrer.includes("aol.com")) {
+                        this.currentWebCode = this.userId + "-11737";
+                    }
+                    
+                } else {
+
+                    this.siteId = this.getSiteId();
+
+                    return this.httpWrapperService.executeHttpRequest(
+                        this,
+                        this.$http({ url: this.serviceUri, method: "GET", params: this.getWebCodeParams(this.siteId) }),
+                        this.getWebCodeCompleted,
+                        this.getWebCodeFailed
+                    );
+
+                }
                 const deferred = this.$q.defer();
-                deferred.resolve(currentWebCode);
+                deferred.resolve(this.currentWebCode);
                 const webCodePromise = (deferred.promise as ng.IPromise<string>);
                 return webCodePromise;
             }
 
-
-            if (referrer.search("google.com")) {
-                this.saveWebCodeCookie(this.userId + "-11717");
-            } else if (referrer.search("bing.com")) {
-                this.saveWebCodeCookie(this.userId + "-11739");
-            } else if (referrer.search("yahoo.com")) {
-                this.saveWebCodeCookie(this.userId + "-11741");
-            } else if (referrer.search("aol.com")) {
-                this.saveWebCodeCookie(this.userId + "-11737");
-            } else if (referrer.length == 0) {
-                this.siteId = this.getSiteId();
-
-                return this.httpWrapperService.executeHttpRequest(
-                    this,
-                    this.$http({ url: this.serviceUri, method: "GET", params: this.getWebCodeParams(this.siteId) }),
-                    this.getWebCodeCompleted,
-                    this.getWebCodeFailed
-                );
-            }
         }
 
         protected getWebCodeCompleted(webCode: any): void {
@@ -75,8 +85,13 @@
             var webCodeSplit = webCode.split("-");
             this.$sessionStorage.setObject("UserAffiliateCodeID", webCodeSplit[1]);
             this.$sessionStorage.setObject("UserOmnitureTransID", webCodeSplit[1]);
-            this.ipCookie("referring_cookie", webCodeSplit[1], { path: "/", expires: expire });
-            this.ipCookie("web_code_cookie", webCode, { path: "/", expires: expire });
+            //this.ipCookie("referring_cookie", webCodeSplit[1], { path: "/", expires: expire });
+            //this.ipCookie("web_code_cookie", webCode, { path: "/", expires: expire });
+            const deferred = this.$q.defer();
+            deferred.resolve(webCode.toString);
+            const webCodePromise = (deferred.promise as ng.IPromise<string>);
+            return webCodePromise;
+
         }
 
         protected generateId(): string {
