@@ -117,6 +117,8 @@
     export class AnalyticsProfileInfo {
         profileId: string;
         email: string;
+        state: string;
+        zip: string;
     }
 
     export class AnalyticsDataEvent {

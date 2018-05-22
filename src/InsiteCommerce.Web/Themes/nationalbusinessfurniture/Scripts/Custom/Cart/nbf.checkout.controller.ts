@@ -589,7 +589,7 @@
         }
 
         protected updateBillToCompleted(billTo: BillToModel): void {
-
+            this.$rootScope.$broadcast("AnalyticsEvent", "ShippingBillingInfoComplete", null, null, {state: billTo.state.abbreviation, zip: billTo.postalCode});
         }
 
         protected updateBillToFailed(error: any): void {
@@ -1312,8 +1312,6 @@
         protected loadStep2() {
             this.continueCheckoutInProgress = false;
             this.hideSignIn = true;
-
-            this.$rootScope.$broadcast("AnalyticsEvent", "ShippingBillingInfoComplete");
             this.reviewAndPayInit();
         }
 

@@ -78,6 +78,10 @@ module nbf.analytics {
                         data: this.convertCartLine(data)
                     });
                     break;
+                case AnalyticsEvents.ShippingBillingInfoComplete:
+                    this.Data.profile.profileInfo.state = data.state;
+                    this.Data.profile.profileInfo.zip = data.zip;
+                    break;
             }
             console.log("Firing Analytics Event: " + analyticsEvent);
             this.FireEvent(analyticsEvent as AnalyticsEvent);
