@@ -93,9 +93,7 @@
 
             $(document).ready(() => {
                 var windowsize = $(window).width();
-                console.log('checking');
                 if ($(".f-cat").length) {
-                    console.log('there');
                     if (windowsize < 767) {
                         setTimeout(
                             () => {
@@ -105,7 +103,6 @@
                         $("#accord-10000").removeAttr("checked");
                     }
                 } else {
-                    console.log('not there');
                     if (windowsize < 767) {
                         setTimeout(
                             () => {
