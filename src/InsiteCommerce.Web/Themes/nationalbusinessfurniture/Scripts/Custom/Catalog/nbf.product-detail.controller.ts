@@ -10,7 +10,7 @@
         videoUrl = "";       
         swatches: any[] = [];
         favoritesWishlist: WishListModel;
-        isAuthenticated: boolean = false;
+        isAuthenticatedAndNotGuest = false;
         resourceAndAssemblyDocs: any[];
         selectedSwatchProductIds: System.Guid[]=[];
 
@@ -51,17 +51,21 @@
             protected $attrs: IProductDetailControllerAttributes,
             protected $rootScope: ng.IRootScopeService
         ) {
-            super($scope, coreService, cartService, productService, addToWishlistPopupService, productSubscriptionPopupService, settingsService, $stateParams, sessionService)
-            this.sessionService.getIsAuthenticated().then((isAuth) => {
-                this.isAuthenticated = isAuth;
-            });
+            super($scope,
+                coreService,
+                cartService,
+                productService,
+                addToWishlistPopupService,
+                productSubscriptionPopupService,
+                settingsService,
+                $stateParams,
+                sessionService);
         }
 
         protected getSettingsCompleted(settingsCollection: core.SettingsCollection): void {
             this.settings = settingsCollection.productSettings;
             const context = this.sessionService.getContext();
             this.languageId = context.languageId;
-            this.sessionService.getIsAuthenticated().then;
             this.resolvePage();
         }
 
@@ -79,9 +83,30 @@
                 this.nbfWishListService.addWishListLines(this.favoritesWishlist, addLines).then(() => {
                     this.getFavorites(product);
                 });
-                this.$rootScope.$broadcast("initAnalyticsEvent", "AddProductToWIshList");
+                this.$rootScope.$broadcast("AnalyticsEvent", "AddProductToWishList");
             }
         }
+
+
+        addToCart(product: ProductDto): void {            
+            this.addingToCart = true;
+
+            let sectionOptions: ConfigSectionOptionDto[] = null;
+            if (this.configurationCompleted && product.configurationDto && product.configurationDto.sections) {
+                sectionOptions = this.configurationSelection;
+            }
+
+            this.cartService.addLineFromProduct(product, sectionOptions, this.productSubscription, true).then(
+                (cartLine: CartLineModel) => { this.addToCartCompleted(cartLine); },
+                (error: any) => { this.addToCartFailed(error); }
+            );
+        }
+
+        protected addToCartCompleted(cartLine: CartLineModel): void {           
+            super.addToCartCompleted(cartLine);
+
+            this.$anchorScroll();
+        }        
 
         protected getFavorites(product : ProductDto) {
             this.nbfWishListService.getWishLists("CreatedOn", "wishlistlines").then((wishList) => {
@@ -104,7 +129,7 @@
         }
 
         protected isAttributeValue(attrName: string, attrValue: string): boolean {            
-            let retVal: boolean = false;
+            let retVal = false;
 
             if (this.product && this.product.attributeTypes) {
                 var attrType = this.product.attributeTypes.find(x => x.name == attrName && x.isActive == true);
@@ -248,7 +273,7 @@
             this.product = productModel.product;
 
             this.$rootScope.$broadcast("productPageLoaded", this.product);
-            this.$rootScope.$broadcast("initAnalyticsEvent", "ProductPageView", null, null, this.product);
+            this.$rootScope.$broadcast("AnalyticsEvent", "ProductPageView", null, null, { product: this.product, breadcrumbs: this.breadCrumbs });
             
             this.product.qtyOrdered = this.product.minimumOrderQty || 1;
             this.product.documents.forEach((doc) => {
@@ -284,9 +309,12 @@
             }
 
             this.setTabs();
-            this.sessionService.getIsAuthenticated().then(x => {
-                this.isAuthenticated = x;
-                if (this.isAuthenticated) {
+            this.sessionService.getSession().then((session: SessionModel) => {
+                if (session.isAuthenticated && !session.isGuest) {
+                    this.isAuthenticatedAndNotGuest = true;
+                }
+                
+                if (this.isAuthenticatedAndNotGuest) {
                     this.getFavorites(this.parentProduct);
                 }
             });
@@ -296,7 +324,22 @@
             setTimeout(() => {
                 this.setPowerReviews();
             }, 1000);            
+
+            var self = this;
+            $(document).on('click', '.pr-qa-display-btn', function () {
+                self.$rootScope.$broadcast("AnalyticsEvent", "ProductQuestionStarted");
+            });
+
+            $(document).on('click', '.pr-snippet-review-count', function () {
+                self.$rootScope.$broadcast("AnalyticsEvent", "ReadReviewsSelected");
+            });
         }   
+
+        private powerReviewsOnSubmit(config, data) {
+            if (config.component === 'WriteAQuestion') {
+                this.$rootScope.$broadcast("AnalyticsEvent", "ProductQuestionAsked");
+            }
+        }
 
         protected setPowerReviews() {
             let powerReviewsConfig = {
@@ -311,20 +354,14 @@
                     ReviewDisplay: 'pr-reviewdisplay',
                     //QuestionSnippet: 'pr-questionsnippet',
                     QuestionDisplay: 'pr-questiondisplay'
-                }
+                },
+                on_submit: this.powerReviewsOnSubmit
             };
 
 
             let powerReviews = this.$window["POWERREVIEWS"];
             powerReviews.display.render(powerReviewsConfig);
 
-            $(document).on('click', '.pr-qa-display-btn', function () {
-                this.$rootScope.$broadcast("initAnalyticsEvent", "ProductQuestionAsked");
-            });
-
-            $(document).on('click', '.pr-snippet-review-count', function () {
-                this.$rootScope.$broadcast("initAnalyticsEvent", "ReadReviewsSelected");
-            });
         }
 
         protected readReviews() {
@@ -336,7 +373,7 @@
         }
 
         show360() {
-            this.$rootScope.$broadcast("initAnalyticsEvent", "Selected360View");
+            this.$rootScope.$broadcast("AnalyticsEvent", "Selected360View");
             this.set360(this.product.erpNumber, 3, 16);
         }
 

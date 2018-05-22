@@ -30,6 +30,8 @@
                 this.onCartLoaded(cart);
             });
 
+            this.$scope.$on("cartChanged", () => this.getCart());
+
             // use a short timeout to wait for anything else on the page to call to load the cart
             this.$timeout(() => {
                 if (!this.cartService.cartLoadCalled) {
@@ -45,11 +47,11 @@
 
         protected onCartLoaded(cart: CartModel): void {
             this.cart = cart;
-            this.$rootScope.$broadcast("setAnalyticsCart", cart);
+            this.$rootScope.$broadcast("AnalyticsCart", cart);
         }
 
         protected getCart(): void {
-            this.cartService.expand = "cartlines";
+            this.cartService.expand = "cartlines,shipping,tax,carriers,paymentoptions";
             this.cartService.getCart().then(
                 (cart: CartModel) => { this.getCartCompleted(cart); },
                 (error: any) => { this.getCartFailed(error); });

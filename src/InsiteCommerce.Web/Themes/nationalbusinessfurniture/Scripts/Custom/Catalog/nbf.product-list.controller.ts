@@ -10,7 +10,7 @@
         categoryAttr: string;
         filteredResults = false;
         favoritesWishlist: WishListModel;
-        isAuthenticated = false;
+        isAuthenticatedAndNotGuest = false;
 
         static $inject = [
             "$scope",
@@ -73,6 +73,8 @@
                 (settingsCollection: core.SettingsCollection) => { this.getSettingsCompleted(settingsCollection); },
                 (error: any) => { this.getSettingsFailed(error); });
 
+            this.$rootScope.$broadcast("AnalyticsPageType", "Product Listing Page");
+
             const removeCompareProductsUpdated = this.$rootScope.$on("compareProductsUpdated", () => {
                 this.onCompareProductsUpdated();
             });
@@ -91,14 +93,26 @@
 
             $(document).ready(() => {
                 var windowsize = $(window).width();
-                if (windowsize < 767) {
-                    setTimeout(
-                        () => {
-                            $("#accord-10000").prop("checked", false);
-                        },
-                        2000);
-                    $("#accord-10000").removeAttr("checked");
+                if ($(".f-cat").length) {
+                    if (windowsize < 767) {
+                        setTimeout(
+                            () => {
+                                $("#accord-10000").prop("checked", false);
+                            },
+                            2000);
+                        $("#accord-10000").removeAttr("checked");
+                    }
+                } else {
+                    if (windowsize < 767) {
+                        setTimeout(
+                            () => {
+                                $("#accord-10000").prop("checked", false);
+                            },
+                            5000);
+                        $("#accord-10000").removeAttr("checked");
+                    }
                 }
+               
             });
             this.$scope.$watch(() => this.category, (newCategory) => {
                 if (!newCategory) {
@@ -135,15 +149,17 @@
                     'numSearchResults': productCollection.pagination.totalItemCount
                 });
             }
-
-            var search = new nbf.analytics.AnalyticsPageSearchInfo();
-            search.searchResults = productCollection.pagination.totalItemCount;
-            search.searchTerm = this.query;
-            if (this.noResults) {
-                this.$rootScope.$broadcast("initAnalyticsEvent", "FailedSearch", null, null, search);
-            } else {
-                this.$rootScope.$broadcast("initAnalyticsEvent", "SuccessfulSearch", null, null, search);
+            if (this.query && this.query.length > 0) {
+                var search = new nbf.analytics.AnalyticsPageSearchInfo();
+                search.searchResults = productCollection.pagination.totalItemCount;
+                search.searchTerm = this.query;
+                if (this.noResults) {
+                    this.$rootScope.$broadcast("AnalyticsEvent", "FailedSearch", null, null, search);
+                } else {
+                    this.$rootScope.$broadcast("AnalyticsEvent", "SuccessfulSearch", null, null, search);
+                }
             }
+
 
             if (productCollection.searchTermRedirectUrl) {
                 // use replace to prevent back button from returning to this page
@@ -208,9 +224,12 @@
             this.imagesLoaded = 0;
             this.waitForDom();
 
-            this.sessionService.getIsAuthenticated().then(result => {
-                this.isAuthenticated = result;
-                if (this.isAuthenticated) {
+            this.sessionService.getSession().then((session: SessionModel) => {
+                if (session.isAuthenticated && !session.isGuest) {
+                    this.isAuthenticatedAndNotGuest = true;
+                }
+                
+                if (this.isAuthenticatedAndNotGuest) {
                     this.getFavorites();
                 }
             });
@@ -375,7 +394,7 @@
                 this.nbfWishListService.addWishListLines(this.favoritesWishlist, addLines).then(() => {
                     this.getFavorites();
                 });
-                this.$rootScope.$broadcast("initAnalyticsEvent", "AddProductToWIshList");
+                this.$rootScope.$broadcast("AnalyticsEvent", "AddProductToWishList");
             }
         }
 
