@@ -1,8 +1,8 @@
 ﻿<div class="exempt">
     <form id="tax_exempt_form" ng-cloak>
         <span class="exempt__label">[% siteMessage 'TaxExempt_Label' 'Tax Exempt?' %]</span>
-        <input id="taxyes" class="customradio" type="radio" name="tax" ng-model="vm.taxExemptChoice" ng-disabled="vm.isTaxExempt || vm.taxExemptFileName" ng-value="true" /><label for="taxyes">Yes</label>
-        <input id="taxno" class="customradio" type="radio" name="tax" ng-model="vm.taxExemptChoice" ng-disabled="vm.isTaxExempt || vm.taxExemptFileName" ng-value="false" /><label for="taxno">No</label>
+        <input id="taxyes" class="customradio" type="radio" name="tax" ng-model="vm.taxExemptChoice" ng-value="true" /><label for="taxyes">Yes</label>
+        <input id="taxno" class="customradio" type="radio" name="tax" ng-model="vm.taxExemptChoice" ng-click="vm.setNoTaxExempt($event)" ng-value="false" /><label for="taxno">No</label>
         <div class="upload-btn" ng-show="!vm.isTaxExempt && vm.taxExemptChoice && !vm.taxExemptFileName" ng-click="vm.openUpload()" ng-cloak>
             <span ng-if="!vm.taxExemptFileName">[% siteMessage 'TaxExempt_UploadText' 'UPLOAD YOUR TAX EXEMPT CERTIFICATE' %]</span>
             <input type="file" accept=".jpg,.pdf,.png,.gif,.doc,.docx," id="taxExemptFileUpload" name="attachment"
@@ -16,4 +16,25 @@
         <p ng-if="vm.errorMessage" ng-bind="vm.errorMessage"></p>
         <p ng-if="vm.success">[% siteMessage 'TaxExempt_UploadSuccessText' 'Your File Has Been Successfully Uploaded' %]</p>
     </form>
+    <div>
+        <div id="popup-delete-tax-exempt-confirmation" class="reveal-modal small popup-remove-tax-exempt" data-reveal data-reveal-init>
+            <div class="modal-wrap">
+                <h2>[% siteMessage 'TaxExempt_RemoveExempt_Title' 'Remove Tax Exempt Status' %]</h2>
+                <div class="pop-content">
+                    <div>
+                        <div class="row">
+                            <div>
+                                <p>[% siteMessage 'TaxExempt_RemoveExempt_Text' 'Are you sure you would like to set your Tax Exempt status to no?  Doing so will delete any record of previous Tax Exempt uploads.' %]</p>
+                            </div>
+                        </div>
+                        <div class="row btns">
+                            <button ng-click="vm.closeModal('#popup-delete-tax-exempt-confirmation')" class="btn tertiary btn-cancel" type="button">[% translate 'Cancel' %]</button>
+                            <button id="tst_removeTaxExemptPopup_removeBtn" ng-click="vm.removeTaxExempt()" class="btn primary" type="button">[% siteMessage 'TaxExempt_RemoveExempt_Button' 'Continue' %]</button>
+                        </div>
+                    </div>
+                    <a class="close-reveal-modal">&#215;</a>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
