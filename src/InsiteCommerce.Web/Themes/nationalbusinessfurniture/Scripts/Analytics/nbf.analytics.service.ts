@@ -82,6 +82,12 @@ module nbf.analytics {
                     this.Data.profile.profileInfo.state = data.state;
                     this.Data.profile.profileInfo.zip = data.zip;
                     break;
+                case AnalyticsEvents.ContentShared:
+                    this.Data.events.push({
+                        event: analyticsEvent,
+                        data: data
+                    });
+                    break;
             }
             console.log("Firing Analytics Event: " + analyticsEvent);
             this.FireEvent(analyticsEvent as AnalyticsEvent);
@@ -222,6 +228,7 @@ module nbf.analytics {
             this.Data.transaction.total.promoCode = "";
             this.Data.transaction.paymentMethod = cart.paymentMethod ? cart.paymentMethod.name : "Open Credit";
             this.Data.transaction.shippingMethod = cart.shipVia.description;
+            this.Data.transaction.transactionId = cart.orderNumber;
             cartLines.forEach(line => {
                 this.Data.transaction.products.push(this.convertCartLine(line));
             });
