@@ -156,7 +156,6 @@
             }
 
             const filters = styleFilterString + roomFilterString;
-            console.dir(filters);
             this.$grid.isotope({ filter: filters });
         }
 

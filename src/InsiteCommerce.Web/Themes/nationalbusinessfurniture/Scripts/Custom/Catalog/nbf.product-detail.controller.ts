@@ -265,7 +265,6 @@
         }
 
         initVideo() {
-            console.dir(document.getElementById("videofile"));
             document.getElementById("videofile").setAttribute("src", this.product.properties["videoUrl"]);
         }
 
@@ -365,7 +364,7 @@
         }
 
         protected readReviews() {
-            console.dir("reading reviews");
+            //console.dir("reading reviews");
         }
        
         showVideo() {            
@@ -389,7 +388,6 @@
                 myVideo.setAttribute("src", "https://s7d9.scene7.com/is/content/NationalBusinessFurniture/" + vURL);
             }
             myVideo["play"]();
-            console.dir(this.product);
         }
 
         set360(imageName, lanes, frames) {

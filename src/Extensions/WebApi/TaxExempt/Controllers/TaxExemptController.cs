@@ -23,11 +23,19 @@ namespace Extensions.WebApi.TaxExempt.Controllers
             StorageProvider = storageProvider;
         }
 
-        [Route("updateBillTo", Name = "updateBillTo")]
+        [Route("addTaxExempt", Name = "addTaxExempt"), HttpGet]
         [ResponseType(typeof(string))]
-        public async Task<IHttpActionResult> Get(string billToId)
+        public async Task<IHttpActionResult> AddTaxExempt(string billToId)
         {
-            await _taxExemptService.UpdateBillTo(billToId);
+            await _taxExemptService.AddTaxExempt(billToId);
+            return Ok();
+        }
+
+        [Route("removeTaxExempt", Name = "removeTaxExempt"), HttpGet]
+        [ResponseType(typeof(string))]
+        public async Task<IHttpActionResult> RemoveTaxExempt(string billToId)
+        {
+            await _taxExemptService.RemoveTaxExempt(billToId);
             return Ok();
         }
     }
