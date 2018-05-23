@@ -108,8 +108,8 @@
         }
 
         setNoTaxExempt($event) {
-            this.taxExemptChoice = true;
             if ((this.isTaxExempt && this.saved) || (this.isTaxExempt && this.taxExemptFileName)) {
+                this.taxExemptChoice = true;
                 this.coreService.displayModal("#popup-delete-tax-exempt-confirmation");
             }
         }
