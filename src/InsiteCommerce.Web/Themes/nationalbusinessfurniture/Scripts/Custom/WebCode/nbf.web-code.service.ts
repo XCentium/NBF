@@ -65,7 +65,7 @@
         }
 
         protected getSearchEngineDomains() {
-            var searchEngines = "ochdevsite.:10000,google.:glo_nbf,msn.:mso_nbf,bing.:mso_nbf,yahoo.:yho_nbf,aol.:aol_nbf,facebook.:fb_NBF_Social,instagram.:ig_NBF_Social,pinterest.:pin_NBF_Social,linkedin.:lin_NBF_Social,youtube.:yt_NBF_Social,ask.,about.,baidu.,yandex.,search.,duckduckgo.,localhost:loco_nbf";
+            var searchEngines = "ochdevsite.:10000,google.:11717,msn.:11739,bing.:11739,yahoo.:11741,aol.:aol_nbf,facebook.:fb_NBF_Social,instagram.:ig_NBF_Social,pinterest.:pin_NBF_Social,linkedin.:lin_NBF_Social,youtube.:yt_NBF_Social,ask.,about.,baidu.,yandex.,search.,duckduckgo.,localhost:loco_nbf";
             var domainList = {};
             searchEngines.split(",").forEach(se => {
                 var tokens = se.split(":", 2).filter(t => t && t.trim() != "");
