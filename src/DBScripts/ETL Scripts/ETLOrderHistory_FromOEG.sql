@@ -12,6 +12,8 @@ begin
 	if @IsReady = 0	return;
 
 
+/* new direction, no reason to update since we are wiping the tables every time we run
+
 	-- first do some updates
 
 	update OrderHistory set
@@ -27,6 +29,10 @@ begin
 		or oh.OrderDate != convert(date,isnull(sho.ord_WebOrderDateTime,sho.ord_Date))
 		or oh.[Status] != isnull(sho.ord_Status ,'')
 		or oh.OrderTotal != isnull(sho.ord_Amount,0)
+*/
+
+	delete from OrderHistoryLine;
+	delete from OrderHistory;
 
 	-- now insert
 
@@ -150,7 +156,10 @@ begin
 
 /*
 exec ETLOrderHistory_FromOEG
+exec ETLOrderHistoryLine_FromOEG
+
 select * from OrderHistory
+select * from OrderHistoryLine
 
 */
 

@@ -7,6 +7,7 @@ CREATE VIEW [dbo].[vwPriceMatrix]
 AS
 
 
+
 SELECT 
 	pm.Id,
 	pm.RecordType,
@@ -17,6 +18,7 @@ SELECT
 	pm.ProductKeyPart,
 	convert(nvarchar(10), pm.ActivateOn, 101) ActivateOn,
 	convert(nvarchar(10), pm.DeactivateOn, 101) DeactivateOn,
+	p.ERPNumber ProductERPNumber,
 	pm.CalculationFlags,
 	pm.PriceBasis01,
 	pm.PriceBasis02,
@@ -75,6 +77,7 @@ SELECT
 	pm.AltAmount11
 from
 	PriceMatrix pm
+	left join Product p on pm.ProductKeyPart = p.Id
 
 --where
 --	pm.ProductKeyPart = '62DE46BA-87FD-E711-A98C-A3E0F1200094'
