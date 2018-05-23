@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Extensions.WebApi.Base;
 using Extensions.WebApi.TaxExempt.Interfaces;
@@ -29,13 +30,32 @@ namespace Extensions.WebApi.TaxExempt.Repository
             EntityTranslationService = entityTranslationService;
         }
 
-        public Task UpdateBillTo(string billToId)
+        public Task AddTaxExempt(string billToId)
         {
             var billTo = _unitOfWork.GetRepository<Customer>().GetTable().FirstOrDefault(x => x.Id.ToString().Equals(billToId));
 
             if (billTo != null)
             {
                 billTo.TaxCode1 = "NT";
+                _unitOfWork.Save();
+            }
+
+            return Task.FromResult(0);
+        }
+
+        public Task RemoveTaxExempt(string billToId)
+        {
+            var billTo = _unitOfWork.GetRepository<Customer>().GetTable().FirstOrDefault(x => x.Id.ToString().Equals(billToId));
+
+            if (billTo != null)
+            {
+                var cp = _unitOfWork.GetRepository<CustomProperty>().GetTable().FirstOrDefault(x => x.Name.Equals("taxExemptFileName", StringComparison.CurrentCultureIgnoreCase) && x.ParentId == billTo.Id);
+                if (cp != null)
+                {
+                    _unitOfWork.GetRepository<CustomProperty>().Delete(cp);
+                }
+
+                billTo.TaxCode1 = "";
                 _unitOfWork.Save();
             }
 

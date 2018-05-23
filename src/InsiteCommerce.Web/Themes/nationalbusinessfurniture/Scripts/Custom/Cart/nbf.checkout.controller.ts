@@ -576,6 +576,10 @@
             //    $(`#${prefix}state`).validate();
             //    $(`#${prefix}state`).rules("add", { required: isRequired });
             //}, 100);
+            setTimeout(() => {
+                $(`#${prefix}state`).validate();
+                $(`#${prefix}state`).rules("add", { required: true });
+            }, 100);
         }
 
         continueToStep2(cartUri: string): void {
@@ -1540,7 +1544,7 @@
             this.spinnerService.show("mainLayout", true);
             this.cart.billTo.properties["taxExemptFileName"] = this.taxExemptFileName;
 
-            this.nbfTaxExemptService.updateBillto(this.cart.billTo.id);
+            this.nbfTaxExemptService.addTaxExempt(this.cart.billTo.id);
 
             this.customerService.updateBillTo(this.cart.billTo).then(
                 () => { this.updatebillToTaxExemptCompleted(); },
