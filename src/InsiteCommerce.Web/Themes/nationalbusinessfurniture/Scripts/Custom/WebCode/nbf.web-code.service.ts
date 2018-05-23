@@ -11,6 +11,7 @@
         referrer: string;
         userId: string;
         currentWebCode: string;
+        affId: string;
 
         static $inject = ["$http", "httpWrapperService", "queryString", "$sessionStorage", "ipCookie", "$q"];
 
@@ -33,16 +34,15 @@
 
                
                 if (referrer) {
-
-                    if (referrer.includes("ochdevsite")) {
-                        this.currentWebCode = this.userId + "-11717";
-                    } else if (referrer.includes("bing.com")) {
-                        this.currentWebCode = this.userId + "-11739";
-                    } else if (referrer.includes("yahoo.com")) {
-                        this.currentWebCode = this.userId + "-11741";
-                    } else if (referrer.includes("aol.com")) {
-                        this.currentWebCode = this.userId + "-11737";
+                    var searchEngineList = this.getSearchEngineDomains();
+                    
+                    for (var se in searchEngineList) {
+                        if (referrer.indexOf(se) > -1) {
+                            this.affId = searchEngineList[se];
+                            break;
+                        }
                     }
+                    this.currentWebCode = this.userId + "-" + this.affId;
                     
                 } else {
 
@@ -56,12 +56,23 @@
                     );
 
                 }
-                const deferred = this.$q.defer();
-                deferred.resolve(this.currentWebCode);
-                const webCodePromise = (deferred.promise as ng.IPromise<string>);
-                return webCodePromise;
+                
             }
+            const deferred = this.$q.defer();
+            deferred.resolve(this.currentWebCode);
+            const webCodePromise = (deferred.promise as ng.IPromise<string>);
+            return webCodePromise;
+        }
 
+        protected getSearchEngineDomains() {
+            var searchEngines = "ochdevsite.:10000,google.:glo_nbf,msn.:mso_nbf,bing.:mso_nbf,yahoo.:yho_nbf,aol.:aol_nbf,facebook.:fb_NBF_Social,instagram.:ig_NBF_Social,pinterest.:pin_NBF_Social,linkedin.:lin_NBF_Social,youtube.:yt_NBF_Social,ask.,about.,baidu.,yandex.,search.,duckduckgo.,localhost:loco_nbf";
+            var domainList = {};
+            searchEngines.split(",").forEach(se => {
+                var tokens = se.split(":", 2).filter(t => t && t.trim() != "");
+                var trackingCode = tokens.length > 1 ? tokens[1] : "Organic";
+                domainList[tokens[0]] = trackingCode;
+            });
+            return domainList;
         }
 
         protected getWebCodeCompleted(webCode: any): void {
@@ -85,12 +96,9 @@
             var webCodeSplit = webCode.split("-");
             this.$sessionStorage.setObject("UserAffiliateCodeID", webCodeSplit[1]);
             this.$sessionStorage.setObject("UserOmnitureTransID", webCodeSplit[1]);
-            //this.ipCookie("referring_cookie", webCodeSplit[1], { path: "/", expires: expire });
-            //this.ipCookie("web_code_cookie", webCode, { path: "/", expires: expire });
-            const deferred = this.$q.defer();
-            deferred.resolve(webCode.toString);
-            const webCodePromise = (deferred.promise as ng.IPromise<string>);
-            return webCodePromise;
+            this.ipCookie("referring_cookie", webCodeSplit[1], { path: "/", expires: expire });
+            this.ipCookie("web_code_cookie", webCode, { path: "/", expires: expire });
+            
 
         }
 
