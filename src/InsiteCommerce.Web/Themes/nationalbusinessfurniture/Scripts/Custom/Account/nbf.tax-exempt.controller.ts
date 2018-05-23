@@ -59,7 +59,7 @@
                 (confirmedCart: CartModel) => { this.onCartLoaded(confirmedCart); });
 
             var self = this;
-            document.getElementById('taxExemptFileUpload').onchange = function () {
+            document.getElementById("taxExemptFileUpload").onchange = function () {
                 self.setFile(this);
             };
         }
@@ -71,6 +71,13 @@
                     this.isTaxExempt = true;
                     this.taxExemptChoice = true;
                     this.taxExemptFileName = this.cart.billTo.properties["taxExemptFileName"];
+                } else {
+                    this.isTaxExempt = false;
+                    this.taxExemptChoice = false;
+                    this.success = false;
+                    this.saved = false;
+                    this.taxExemptFileName = "";
+                    $("taxExemptFileUpload").val("");
                 }
             }
         }
@@ -100,6 +107,26 @@
             }
         }
 
+        setNoTaxExempt($event) {
+            this.taxExemptChoice = true;
+            if ((this.isTaxExempt && this.saved) || (this.isTaxExempt && this.taxExemptFileName)) {
+                this.coreService.displayModal("#popup-delete-tax-exempt-confirmation");
+            }
+        }
+
+        closeModal(selector: string): void {
+            this.coreService.closeModal(selector);
+        }
+
+        removeTaxExempt() {
+            this.taxExemptChoice = false;
+            this.coreService.closeModal("#popup-delete-tax-exempt-confirmation");
+
+            this.nbfTaxExemptService.removeTaxExempt(this.cart.billTo.id).then(() => {
+                this.cartService.getCart().then((confirmedCart: CartModel) => { this.onCartLoaded(confirmedCart); });
+            });
+        }
+
         saveFile(emailTo: string, orderNum?: string) {
             var params = {
                 customerNumber: this.cart.billTo.customerNumber,
@@ -119,16 +146,23 @@
         protected updateBillTo() {
             this.cart.billTo.properties["taxExemptFileName"] = this.taxExemptFileName;
 
-            this.nbfTaxExemptService.updateBillto(this.cart.billTo.id);
+            this.nbfTaxExemptService.addTaxExempt(this.cart.billTo.id);
 
             this.customerService.updateBillTo(this.cart.billTo).then(
-                () => { this.updateBillToCompleted(); },
+                () => {
+                    this.success = true;
+                    setTimeout(() => {
+                            this.success = false;
+                        }, 4000);
+                    this.saved = true;
+                    this.isTaxExempt = true;
+                    this.updateBillToCompleted();
+                },
                 (error: any) => { this.updateBillToFailed(error); });
         }
 
         protected updateBillToCompleted(): void {
-            this.success = true;
-            this.saved = true;
+            
         }
 
         protected updateBillToFailed(error: any): void {

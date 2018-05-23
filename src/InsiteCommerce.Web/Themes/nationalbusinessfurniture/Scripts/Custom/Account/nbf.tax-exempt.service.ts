@@ -2,7 +2,8 @@
     "use strict";
 
     export interface INbfTaxExemptService {
-        updateBillto(id: string): ng.IPromise<boolean>;
+        addTaxExempt(id: string): ng.IPromise<boolean>;
+        removeTaxExempt(id: string): ng.IPromise<boolean>;
     }
 
     export class NbfTaxExemptService implements INbfTaxExemptService {
@@ -12,16 +13,27 @@
 
         constructor(
             protected $http: ng.IHttpService,
-            protected httpWrapperService: insite.core.HttpWrapperService,
-            protected customerService: insite.customers.ICustomerService,
+            protected httpWrapperService: core.HttpWrapperService,
+            protected customerService: customers.ICustomerService,
             protected $location: ng.ILocaleService,
-            protected $localStorage: insite.common.IWindowStorage,
-            protected sessionService: insite.account.ISessionService,
-            protected cartService: insite.cart.ICartService) {
+            protected $localStorage: common.IWindowStorage,
+            protected sessionService: account.ISessionService,
+            protected cartService: cart.ICartService) {
         }
 
-        updateBillto(id: string): ng.IPromise<boolean> {
-            var uri = this.serviceUri + "/updateBillTo?billToId=" + id;
+        addTaxExempt(id: string): ng.IPromise<boolean> {
+            const uri = this.serviceUri + "/addTaxExempt?billToId=" + id;
+            
+            return this.httpWrapperService.executeHttpRequest(
+                this,
+                this.$http({ url: uri, method: "GET" }),
+                this.updateBillToCompleted,
+                this.updateBillToFailed);
+        }
+
+        removeTaxExempt(id: string): ng.IPromise<boolean> {
+            const uri = this.serviceUri + "/removeTaxExempt?billToId=" + id;
+
             return this.httpWrapperService.executeHttpRequest(
                 this,
                 this.$http({ url: uri, method: "GET" }),
