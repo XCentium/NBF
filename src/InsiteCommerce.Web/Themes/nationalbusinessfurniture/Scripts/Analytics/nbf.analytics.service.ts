@@ -137,6 +137,7 @@ module nbf.analytics {
             this.Data.events = [];
             this.Data.pageInfo.destinationUrl = newUrl;
             this.Data.pageInfo.referringUrl = oldUrl;
+            this.Data.pageInfo.transId = this.ipCookie("userID_cookie");
             this.Data.pageInfo.affiliateCode = this.getSiteId();
             this.sessionService.getSession()
                 .then(session => {

@@ -23,6 +23,7 @@
 
         getWebCode(): ng.IPromise<string> {
             this.userId = this.generateId();
+            
             const currentWebCode = this.checkWebCode();
             if (currentWebCode) {
                 const deferred = this.$q.defer();
@@ -49,6 +50,7 @@
             this.$sessionStorage.setObject("UserOmnitureTransID", webCodeSplit[1]);
             this.ipCookie("referring_cookie", webCodeSplit[1], { path: "/", expires: expire });
             this.ipCookie("web_code_cookie", webCode.data, { path: "/", expires: expire });
+            this.ipCookie("userID_cookie", webCodeSplit[0], { path: "/", expires: expire });
         }
 
         protected getWebCodeFailed(error: ng.IHttpPromiseCallbackArg<any>): void {

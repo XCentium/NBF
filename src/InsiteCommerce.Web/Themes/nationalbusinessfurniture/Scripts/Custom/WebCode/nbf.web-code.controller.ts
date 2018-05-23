@@ -4,11 +4,12 @@
     export class NbfWebCodeController {
         webCode: string;
 
-        static $inject = ["$scope", "nbfWebCodeService"];
+        static $inject = ["$scope", "nbfWebCodeService", "$rootScope"];
 
         constructor(
             protected $scope: ng.IScope,
-            protected nbfWebCodeService: WebCode.INbfWebCodeService) {
+            protected nbfWebCodeService: WebCode.INbfWebCodeService,
+            protected $rootScope: ng.IRootScopeService) {
             this.init();
         }
 
@@ -25,6 +26,7 @@
         protected getWebCodeCompleted(webCode: string): void {
             if (webCode != null) {
                 this.webCode = webCode;
+                this.$rootScope.$broadcast("AnalyticsEvent", "MiniCartHover");
             } 
         }
 
