@@ -22,6 +22,10 @@
     <span class="unit-net-price" ng-class="{'price-sale' : product.pricing.isOnSale || product.isDiscounted || product.isPromotionItem}" ng-bind-html="vm.getUnitNetPriceDisplay(product)"></span>
 </span>
 {% endcomment %}
-<h3 ng-if="product" class="text-orange item-block__price" ng-bind-html="vm.getUnitNetPriceDisplay(product)"></h3>
+<h3 ng-if="product" class="item-block__price" ng-controller="ProductPriceSavingController as vm1"
+    ng-class="{'text-orange': vm1.showPriceSaving($parent.product)}"
+    ng-bind-html="vm.getUnitNetPriceDisplay($parent.product)"></h3>
+
+
 
 

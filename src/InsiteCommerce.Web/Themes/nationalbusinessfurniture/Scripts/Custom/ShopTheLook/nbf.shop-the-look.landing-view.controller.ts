@@ -74,6 +74,7 @@
                     this.showAllStyles();
                 } else {
                     this.filterRooms();
+                    this.runIsotope();
                 }
             } else {
                 angular.element($event.target).addClass("is-checked");
@@ -92,6 +93,8 @@
                 this.selectedRooms.splice(index, 1);
                 if (this.selectedRooms.length === 0) {
                     this.showAllRooms();
+                } else {
+                    this.runIsotope(); 
                 }
             } else {
                 angular.element($event.target).addClass("is-checked");
@@ -128,18 +131,29 @@
             var styleFilterString = "";
             this.selectedStyles.forEach((style, i) => {
                 if (i !== 0) {
-                    styleFilterString += ",";
+                    styleFilterString += ", ";
                 }
-                styleFilterString += `.${style.styleName.replace(/\s/g, "")} `;
+                if (this.selectedRooms.length > 0) {
+                    this.selectedRooms.forEach((room, i) => {
+                        if (i !== 0) {
+                            styleFilterString += ", ";
+                        }
+                        styleFilterString += `.${style.styleName.replace(/\s/g, "")}.${room.id}`;
+                    });
+                } else {
+                    styleFilterString += `.${style.styleName.replace(/\s/g, "")}`;
+                }
             });
 
             var roomFilterString = "";
-            this.selectedRooms.forEach((room, i) => {
-                if (i !== 0 || styleFilterString) {
-                    styleFilterString += ",";
-                }
-                roomFilterString += `.${room.id} `;
-            });
+            if (this.selectedStyles.length === 0) {
+                this.selectedRooms.forEach((room, i) => {
+                    if (i !== 0 || styleFilterString) {
+                        roomFilterString += ", ";
+                    }
+                    roomFilterString += `.${room.id}`;
+                });
+            }
 
             const filters = styleFilterString + roomFilterString;
             this.$grid.isotope({ filter: filters });

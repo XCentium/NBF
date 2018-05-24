@@ -33,25 +33,6 @@ begin
 	else
 	begin
 
-	declare @DisplayProductPageOnlyCategoryId uniqueidentifier
-
-	-- create a swatches category if it doesn't exists
-	if not exists (select Id from Category where [Name] = 'DisplayProductPageOnly')
-	begin
-		set @DisplayProductPageOnlyCategoryId = newid()
-
-		insert into Category 
-			(Id, WebSiteId, [Name], ShortDescription, 
-			UrlSegment, ContentManagerId, CreatedBy, ModifiedBy)	
-		values 
-			(@DisplayProductPageOnlyCategoryId, @WebSiteId, 'DisplayProductPageOnly', 'DisplayProductPageOnly',
-			'displayproductpageonly',	newid(),'etl','etl')
-	end
-	else
-	begin
-		select top 1 @DisplayProductPageOnlyCategoryId = Id from Category where [Name] = 'DisplayProductPageOnly'
-	end
-
 
 	-- level one categories
 	insert into Category 

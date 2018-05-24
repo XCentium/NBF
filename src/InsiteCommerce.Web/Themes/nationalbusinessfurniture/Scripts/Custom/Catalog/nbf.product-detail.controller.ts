@@ -10,7 +10,7 @@
         videoUrl = "";       
         swatches: any[] = [];
         favoritesWishlist: WishListModel;
-        isAuthenticated: boolean = false;
+        isAuthenticatedAndNotGuest = false;
         resourceAndAssemblyDocs: any[];
         selectedSwatchProductIds: System.Guid[]=[];
 
@@ -51,17 +51,21 @@
             protected $attrs: IProductDetailControllerAttributes,
             protected $rootScope: ng.IRootScopeService
         ) {
-            super($scope, coreService, cartService, productService, addToWishlistPopupService, productSubscriptionPopupService, settingsService, $stateParams, sessionService)
-            this.sessionService.getIsAuthenticated().then((isAuth) => {
-                this.isAuthenticated = isAuth;
-            });
+            super($scope,
+                coreService,
+                cartService,
+                productService,
+                addToWishlistPopupService,
+                productSubscriptionPopupService,
+                settingsService,
+                $stateParams,
+                sessionService);
         }
 
         protected getSettingsCompleted(settingsCollection: core.SettingsCollection): void {
             this.settings = settingsCollection.productSettings;
             const context = this.sessionService.getContext();
             this.languageId = context.languageId;
-            this.sessionService.getIsAuthenticated().then;
             this.resolvePage();
         }
 
@@ -83,8 +87,8 @@
             }
         }
 
-        addToCart(product: ProductDto): void {
-            super.addToCart(product);
+
+        addToCart(product: ProductDto): void {            
             this.addingToCart = true;
 
             let sectionOptions: ConfigSectionOptionDto[] = null;
@@ -97,6 +101,12 @@
                 (error: any) => { this.addToCartFailed(error); }
             );
         }
+
+        protected addToCartCompleted(cartLine: CartLineModel): void {           
+            super.addToCartCompleted(cartLine);
+
+            this.$anchorScroll();
+        }        
 
         protected getFavorites(product : ProductDto) {
             this.nbfWishListService.getWishLists("CreatedOn", "wishlistlines").then((wishList) => {
@@ -119,7 +129,7 @@
         }
 
         protected isAttributeValue(attrName: string, attrValue: string): boolean {            
-            let retVal: boolean = false;
+            let retVal = false;
 
             if (this.product && this.product.attributeTypes) {
                 var attrType = this.product.attributeTypes.find(x => x.name == attrName && x.isActive == true);
@@ -255,7 +265,6 @@
         }
 
         initVideo() {
-            console.dir(document.getElementById("videofile"));
             document.getElementById("videofile").setAttribute("src", this.product.properties["videoUrl"]);
         }
 
@@ -299,9 +308,12 @@
             }
 
             this.setTabs();
-            this.sessionService.getIsAuthenticated().then(x => {
-                this.isAuthenticated = x;
-                if (this.isAuthenticated) {
+            this.sessionService.getSession().then((session: SessionModel) => {
+                if (session.isAuthenticated && !session.isGuest) {
+                    this.isAuthenticatedAndNotGuest = true;
+                }
+                
+                if (this.isAuthenticatedAndNotGuest) {
                     this.getFavorites(this.parentProduct);
                 }
             });
@@ -352,7 +364,7 @@
         }
 
         protected readReviews() {
-            console.dir("reading reviews");
+            //console.dir("reading reviews");
         }
        
         showVideo() {            
@@ -376,7 +388,6 @@
                 myVideo.setAttribute("src", "https://s7d9.scene7.com/is/content/NationalBusinessFurniture/" + vURL);
             }
             myVideo["play"]();
-            console.dir(this.product);
         }
 
         set360(imageName, lanes, frames) {

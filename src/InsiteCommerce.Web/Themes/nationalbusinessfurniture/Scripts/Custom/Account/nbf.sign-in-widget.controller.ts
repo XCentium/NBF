@@ -144,6 +144,37 @@
             this.disableSignIn = false;
             this.spinnerService.hide("mainLayout");
         }
+
+        resetForgotPasswordPopup(): boolean {
+            this.email = "";
+            this.userNameToReset = "";
+            this.resetPasswordSuccess = false;
+
+            this.coreService.displayModal(angular.element("#forgotPasswordPopupWidget"));
+
+            return true;
+        }
+
+        resetPassword(): void {
+            this.resetPasswordError = "";
+
+            const valid = $("#resetPasswordFormWidget").validate().form();
+            if (!valid) {
+                return;
+            }
+
+            this.sessionService.sendResetPasswordEmail(this.userNameToReset).then(
+                (session: SessionModel) => { this.sendResetPasswordEmailCompleted(session); },
+                (error: any) => { this.sendResetPasswordEmailFailed(error); });
+        }
+
+        protected sendResetPasswordEmailCompleted(session: SessionModel): void {
+            this.resetPasswordSuccess = true;
+        }
+
+        protected sendResetPasswordEmailFailed(error: any): void {
+            this.resetPasswordError = error.message;
+        }
     }
 
     angular

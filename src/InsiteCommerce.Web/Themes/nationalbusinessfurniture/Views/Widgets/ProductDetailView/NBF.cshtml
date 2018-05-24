@@ -130,7 +130,7 @@
                                     </a>
                                 </div>
                             </div>
-                            <a id="tst_productDetail_addToWishList" ng-if="vm.isAuthenticated" ng-class="{'in-favorites': vm.parentProduct.properties['isFavorite'] == 'true' } "
+                            <a id="tst_productDetail_addToWishList" ng-if="vm.isAuthenticatedAndNotGuest " ng-class="{'in-favorites': vm.parentProduct.properties['isFavorite'] == 'true' } "
                                ng-click="vm.toggleFavorite(vm.parentProduct)" role="button"
                                class="btn secondary btn-add-to-list" href="javascript:;">{{vm.parentProduct.properties['isFavorite'] == "false" ? "Add To Favorites" : "Remove From Favorites"}}</a>
 
@@ -140,8 +140,8 @@
                         <div class="small-12 column">
                             <section class="accordion">
                                 <div>
-                                    <input type="checkbox" id="accord-10000" class="accord-check" />
-                                    <label id="tst_productList_tableView_filterButton" for="accord-10000" class="accord-head">[% translate 'Product Details' %]</label>
+                                    <input type="checkbox" id="accord-10000" class="accord-check" checked />
+                                    <label id="tst_productList_tableView_filterButton" for="accord-10000" class="accord-head" >[% translate 'Product Details' %]</label>
                                     <article class="accord-content">
                                         <div id="tst_productDetail_htmlContent" class="product-cm" ng-bind-html="vm.product.htmlContent|trusted"></div>
                                         <br />
@@ -160,7 +160,7 @@
                             </section>
                             <section class="accordion" ng-if="(vm.product.specifications | filter: { name: 'Delivery' }).length > 0">
                                 <div>
-                                    <input type="checkbox" id="accord-10001" class="accord-check" />
+                                    <input type="checkbox" id="accord-10001" class="accord-check" checked />
                                     <label id="tst_productList_tableView_filterButton" for="accord-10001" class="accord-head">[% translate 'Delivery Information' %]</label>
                                     <article class="accord-content">
                                         <div id="tst_productDetail_htmlContent" class="product-cm">
@@ -171,7 +171,7 @@
                             </section>
                             <section class="accordion" ng-if="!vm.settings.displayDocumentsInTabs && vm.product.documents.length > 0 && vm.resourceAndAssemblyDocs.length > 0">
                                 <div>
-                                    <input type="checkbox" id="accord-10002" class="accord-check" />
+                                    <input type="checkbox" id="accord-10002" class="accord-check" checked />
                                     <label id="tst_productList_tableView_filterButton" for="accord-10002" class="accord-head">[% translate 'Resource &amp; Assembly' %]</label>
                                     <article class="accord-content">
                                         <div id="tst_productDetail_htmlContent" class="product-cm">
@@ -186,7 +186,7 @@
                             </section>
                             <section class="accordion" ng-show="vm.isAttributeValue('GSA', 'Yes')">
                                 <div>
-                                    <input type="checkbox" id="accord-10003" class="accord-check" />
+                                    <input type="checkbox" id="accord-10003" class="accord-check" checked />
                                     <label id="tst_productList_tableView_filterButton" for="accord-10003" class="accord-head">[% translate 'Contract Information' %]</label>
                                     <article class="accord-content">
                                         <div id="tst_productDetail_htmlContent" class="product-cm">

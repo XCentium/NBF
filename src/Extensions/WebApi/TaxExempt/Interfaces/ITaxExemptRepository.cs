@@ -5,6 +5,7 @@ namespace Extensions.WebApi.TaxExempt.Interfaces
 {
     public interface ITaxExemptRepository : IExtension, IDependency
     {
-        Task UpdateBillTo(string billToId);
+        Task AddTaxExempt(string billToId);
+        Task RemoveTaxExempt(string billToId);
     }
 }
