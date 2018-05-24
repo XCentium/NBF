@@ -29,7 +29,7 @@ begin
 	insert into CategoryAttributeType 
 	(CategoryId, AttributeTypeId, SortOrder, IsActive, CreatedBy, ModifiedBy)
 	select 
-		c.Id, @attributeTypeId, 0, 1, 'etl', 'etl'
+		c.Id, @attributeTypeId, 100, 1, 'etl', 'etl'
 	from
 		Category c
 	where 

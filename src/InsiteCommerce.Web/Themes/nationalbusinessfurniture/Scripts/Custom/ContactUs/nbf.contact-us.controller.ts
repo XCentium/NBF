@@ -3,12 +3,13 @@
 
     export class NbfContactUsController extends ContactUsController {
         
-        static $inject = ["$element", "$scope", "$rootScope"];
+        static $inject = ["$element", "$scope", "$rootScope", "$window"];
 
         constructor(
             protected $element: ng.IRootElementService,
             protected $scope: ng.IScope,
-            protected $rootScope: ng.IRootScopeService
+            protected $rootScope: ng.IRootScopeService,
+            protected $window: ng.IWindowService
         ) {
             super($element, $scope);
             var self = this;
@@ -35,6 +36,9 @@
             (this.$form as any).ajaxPost(() => {
                 this.submitted = true;
                 this.$scope.$apply();
+
+                this.$window.location.href = "/Contact-Us/Confirmation-Page";
+
             });
             this.$rootScope.$broadcast("AnalyticsEvent", "ContactUsCompleted");
             $event.preventDefault();
