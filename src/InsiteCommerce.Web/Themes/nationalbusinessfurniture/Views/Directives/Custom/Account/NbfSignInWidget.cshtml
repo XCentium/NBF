@@ -41,7 +41,7 @@
                                    maxlength="75"
                                    ng-model="vm.password" />
                             <div ng-if="includeForgotPasswordLink">
-                                <a href="#" ng-click="vm.resetForgotPasswordPopup()" class="tiny-link" id="tst_signIn_openForgotPassword" data-reveal-id="forgotPasswordPopup">[% translate 'Forgot Password?' EscapeSingleQuotes %]</a>
+                                <a href="#" ng-click="vm.resetForgotPasswordPopup()" class="tiny-link" id="tst_signIn_openForgotPassword" data-reveal-id="forgotPasswordPopupWidget">[% translate 'Forgot Password?' EscapeSingleQuotes %]</a>
                             </div>
                         </div>
                     </div>
@@ -68,15 +68,15 @@
     </div>
     
     <div ng-if="includeForgotPasswordLink">
-        <div id="forgotPasswordPopup" class="reveal-modal popup-forgot-pw" data-reveal data-reveal-init>
+        <div id="forgotPasswordPopupWidget" class="reveal-modal tiny popup-forgot-pw" data-reveal data-reveal-init>
             <div class="modal-wrap">
                 <h2>[% translate 'Reset Password' %]</h2>
                 <div ng-show="!vm.resetPasswordSuccess">
                     <div class="row message">[% siteMessage "ResetPassword_Instructions" %]</div>
-                    <form id="resetPasswordForm" class="custom">
+                    <form id="resetPasswordFormWidget" class="custom">
                         <div class="row email-addy">
                             <div class="medium-12 large-12">
-                                <input type="text" id="tst_forgotPassword_usernameField"
+                                <input type="text" id="tst_forgotPassword_widget_usernameField"
                                        data-rule-required="true"
                                        data-msg-required="{{'[% siteMessage 'Field_Required' EscapeSingleQuotes %]'.replace('{0}', '[% translate 'Username' EscapeSingleQuotes %]')}}"
                                        data-rule-username="true"
@@ -87,11 +87,11 @@
                             </div>
                         </div>
                         <p class="error">
-                            <span id="tst_forgotPassword_errorMessage" class="field-validation-error" ng-if="vm.resetPasswordError" ng-bind="vm.resetPasswordError"></span>
+                            <span id="tst_forgotPassword_widget_errorMessage" class="field-validation-error" ng-if="vm.resetPasswordError" ng-bind="vm.resetPasswordError"></span>
                         </p>
                         <div class="row btns">
-                            <button id="tst_forgotPassword_submitButton" type="button" class="btn primary btn-reset-password" ng-click="vm.resetPassword()">[% translate 'Send Email' %]</button>
-                            <button id="tst_forgotPassword_cancelButton" type="button" class="btn secondary btn-cancel" onclick="$('.close-reveal-modal').click()">[% translate 'Return to sign in' %]</button>
+                            <button id="tst_forgotPassword_widget_submitButton" type="button" class="btn primary btn-reset-password" ng-click="vm.resetPassword()">[% translate 'Send Email' %]</button>
+                            <button id="tst_forgotPassword_widget_cancelButton" type="button" class="btn secondary btn-cancel" onclick="$('.close-reveal-modal').click()">[% translate 'Return to sign in' %]</button>
                         </div>
                     </form>
                 </div>

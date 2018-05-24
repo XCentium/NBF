@@ -18,15 +18,19 @@ begin
 	select distinct
 		left(co.BTFirstName,15), left(co.BTLastName,15), left(co.BTCompanyName,35), left(co.BTAddress1,30), left(co.BTAddress2,30), 
 		left(co.BTAddress3,5), left(co.BTAddress4,15),
-		left(co.BTCity,50), left(co.BTState,2), left(co.BTPostalCode,10), left(co.BTCountry,50), left(co.BTPhone,3), 
+		left(co.BTCity,50), left(BTState.Abbreviation,2), left(co.BTPostalCode,10), left(BTCountry.Abbreviation,50), left(co.BTPhone,3), 
 		right(co.BTPhone, 7), left(co.BTEmail,100), co.CustomerNumber, ''
 	from 
 		CustomerOrder co
+		join State BTState on BTState.Name = co.BTState
+		join Country BTCountry on BTCountry.Name = co.BTCountry
 	where
 		co.[Status] = 'Submitted'
 		and not exists (
 			select [idStatusCustomer] 
 			from OEGSystemStaging.dbo.StatusCustomer
+			join State BTState on BTState.Name = co.BTState
+			join Country BTCountry on BTCountry.Name = co.BTCountry
 			where	co.CustomerNumber = [cst_WebCustomerNumber]
 					and	[cst_CntFName] = left(co.BTFirstName,15)
 					and [cst_CntLName] = left(co.BTLastName,15)
@@ -36,9 +40,9 @@ begin
 					and [cst_Suite] = left(co.BTAddress3,5)
 					and [cst_POBox] = left(co.BTAddress4,15)
 					and [cst_City] = left(co.BTCity,50)
-					and [cst_State] = left(co.BTState,2)
+					and [cst_State] = left(BTState.Abbreviation,2)
 					and [cst_ZipCode] = left(co.BTPostalCode,10)
-					and [cst_Country] = left(co.BTCountry,50)
+					and [cst_Country] = left(BTCountry.Abbreviation,50)
 					and [cst_PhoneArea] = left(co.BTPhone,3)
 					and [cst_Phone] = right(co.BTPhone, 7)
 					and [cst_EmailAddr] = left(co.BTEmail,100)
@@ -55,15 +59,19 @@ begin
 	select distinct
 		left(co.STFirstName,15), left(co.STLastName,15), left(co.STCompanyName,35), left(co.STAddress1,30), left(co.STAddress2,30), 
 		left(co.STAddress3,5), left(co.STAddress4,15),
-		left(co.STCity,50), left(co.STState,2), left(co.STPostalCode,10), left(co.STCountry,50), left(co.STPhone,3), 
+		left(co.STCity,50), left(STState.Abbreviation,2), left(co.STPostalCode,10), left(STCountry.Abbreviation,50), left(co.STPhone,3), 
 		right(co.STPhone, 7), left(co.STEmail,100), co.CustomerNumber, ''
 	from 
 		CustomerOrder co
+		join State STState on STState.Name = co.STState
+		join Country STCountry on STCountry.Name = co.STCountry
 	where
 		co.[Status] = 'Submitted'
 		and not exists (
 			select [idStatusCustomer] 
 			from OEGSystemStaging.dbo.StatusCustomer
+			join State STState on STState.Name = co.STState
+			join Country STCountry on STCountry.Name = co.STCountry
 			where	co.CustomerNumber = [cst_WebCustomerNumber]
 					and	[cst_CntFName] = left(co.STFirstName,15)
 					and [cst_CntLName] = left(co.STLastName,15)
@@ -73,9 +81,9 @@ begin
 					and [cst_Suite] = left(co.STAddress3,5)
 					and [cst_POBox] = left(co.STAddress4,15)
 					and [cst_City] = left(co.STCity,50)
-					and [cst_State] = left(co.STState,2)
+					and [cst_State] = left(STState.Abbreviation,2)
 					and [cst_ZipCode] = left(co.STPostalCode,10)
-					and [cst_Country] = left(co.STCountry,50)
+					and [cst_Country] = left(STCountry.Abbreviation,50)
 					and [cst_PhoneArea] = left(co.STPhone,3)
 					and [cst_Phone] = right(co.STPhone, 7)
 					and [cst_EmailAddr] = left(co.STEmail,100)
@@ -91,34 +99,40 @@ begin
 
 	;with orderdCCT as
 	(
-		SELECT Id, CustomerOrderId, AuthCode, Amount,  row_number() 
+		SELECT Id, CustomerOrderId, AuthCode, Amount, CreditCardNumber, ExpirationDate, row_number() 
 		over (partition by CustomerOrderId order by Amount desc) as RowNumber
 		FROM CreditCardTransaction
 		where CustomerOrderId is not null and Result = 0
 	),
 	maxCCT as
 	(
-		select CustomerOrderId, Amount, AuthCode from orderdCCT where RowNumber = 1
+		select CustomerOrderId, Amount, AuthCode, CreditCardNumber, ExpirationDate from orderdCCT where RowNumber = 1
 	)
 	insert into OEGSystemStaging.dbo.StatusOrder
 	(
-		[ord_WebNumber], [ord_CustNumber], [ord_Status], [ord_DateTime], [ord_BillToID], [ord_ShipToID], [ord_SourceCode],
-		[ord_Amount], [ord_CCAmount], [ord_PONumber], [ord_Delivery], [ord_SalesTax], [ord_ServiceCharge], [ord_SiteID],
+		[BasketID], [ord_WebNumber], [ord_CustNumber], [ord_Status], [ord_DateTime], [ord_BillToID], [ord_ShipToID], [ord_SourceCode],
+		[ord_Amount], [ord_CCAmount], [ord_PONumber], [ord_Delivery], [ord_SalesTax], [ord_ServiceCharge], [ord_SiteID], [ord_GSADiscountPercent],
 		[ord_PaymentType], 
 		[ord_PaymentToken], 
 		[ord_PPToken], 
-		[ord_PPPayerID]
+		[ord_PPPayerID],
+		[ord_CCNumber],
+		[ord_CCExpire]
 	)
 	select 
-		co.OrderNumber, left(co.CustomerNumber,10), 'P', co.OrderDate, bt.cst_ID, st.cst_ID, '99',
-		co.OrderTotal, isnull(maxCCT.Amount,0) [ord_CCAmount], left(co.CustomerPO,32), co.ShippingCharges, co.TaxAmount, co.OtherCharges, 'NBF',
-		'cc' [ord_PaymentType],
-		isnull(maxCCT.AuthCode,'') [ord_PaymentToken],
+		1, co.OrderNumber, left(co.CustomerNumber,10), 'P', co.OrderDate, bt.cst_ID, st.cst_ID, '99',
+		co.OrderTotal, isnull(maxCCT.Amount,0) [ord_CCAmount], left(co.CustomerPO,32), co.ShippingCharges, co.TaxAmount, co.OtherCharges, '1', 0,
+		case when TermsCode = 'Open_Credit' then 'oc' else 'cc' end [ord_PaymentType],
+		TermsCode [ord_PaymentToken],
 		'' [ord_PPToken],
-		'' [ord_PPPayerID]
+		'' [ord_PPPayerID],
+		left(maxCCT.CreditCardNumber,16) [ord_CCNumber],
+		left(maxCCT.ExpirationDate,4) [ord_CCExpire]
 	from 
 		CustomerOrder co
 		left join maxCCT on maxCCT.CustomerOrderId = co.Id
+		join State BTState on BTState.Name = co.BTState
+		join Country BTCountry on BTCountry.Name = co.BTCountry
 		join OEGSystemStaging.dbo.StatusCustomer bt on bt.cst_WebCustomerNumber = co.CustomerNumber
 					and	bt.[cst_CntFName] = left(co.BTFirstName,15)
 					and bt.[cst_CntLName] = left(co.BTLastName,15)
@@ -128,12 +142,14 @@ begin
 					and bt.[cst_Suite] = left(co.BTAddress3,5)
 					and bt.[cst_POBox] = left(co.BTAddress4,15)
 					and bt.[cst_City] = left(co.BTCity,50)
-					and bt.[cst_State] = left(co.BTState,2)
+					and bt.[cst_State] = left(BTState.Abbreviation,2)
 					and bt.[cst_ZipCode] = left(co.BTPostalCode,10)
-					and bt.[cst_Country] = left(co.BTCountry,50)
+					and bt.[cst_Country] = left(BTCountry.Abbreviation,50)
 					and bt.[cst_PhoneArea] = left(co.BTPhone,3)
 					and bt.[cst_Phone] = right(co.BTPhone, 7)
 					and bt.[cst_EmailAddr] = left(co.BTEmail,100)
+		join State STState on STState.Name = co.STState
+		join Country STCountry on STCountry.Name = co.STCountry
 		join OEGSystemStaging.dbo.StatusCustomer st on st.cst_WebCustomerNumber = co.CustomerNumber
 					and	st.[cst_CntFName] = left(co.STFirstName,15)
 					and st.[cst_CntLName] = left(co.STLastName,15)
@@ -143,14 +159,16 @@ begin
 					and st.[cst_Suite] = left(co.STAddress3,5)
 					and st.[cst_POBox] = left(co.STAddress4,15)
 					and st.[cst_City] = left(co.STCity,50)
-					and st.[cst_State] = left(co.STState,2)
+					and st.[cst_State] = left(STState.Abbreviation,2)
 					and st.[cst_ZipCode] = left(co.STPostalCode,10)
-					and st.[cst_Country] = left(co.STCountry,50)
+					and st.[cst_Country] = left(STCountry.Abbreviation,50)
 					and st.[cst_PhoneArea] = left(co.STPhone,3)
 					and st.[cst_Phone] = right(co.STPhone, 7)
 					and st.[cst_EmailAddr] = left(co.STEmail,100)	
 	where
 		co.[Status] = 'Submitted'
+		and co.TermsCode != 'po'
+		and co.OrderDate > '2018-04-19'
 		and not exists (
 				select idStatusOrder 
 				from  OEGSystemStaging.dbo.StatusOrder
@@ -158,6 +176,16 @@ begin
 				)
 
 
+	-- INSERT into StatusLinkShare
+	insert into OEGSystemStaging.dbo.StatusLinkShare
+		([dtDateEntered], [SiteID], [OrderID])
+	select 
+		ord_DateTime, 'test123', idStatusOrder 
+	from OEGSystemStaging.dbo.StatusOrder tso 
+	where left([ord_WebNumber],1) in ('d','q','s','w')
+	and not exists (select LinkShareID from OEGSystemStaging.dbo.StatusLinkShare where OrderID = tso.idStatusOrder)
+	
+	
 	-- INSERT into StatusOrderPayment
 
 	;with orderdCCT as
@@ -183,7 +211,7 @@ begin
 	select 
 		so.idStatusOrder, 'P' [Status], otherCCT.TransactionDate [TransactionDate],
 		convert(decimal(10,2),isnull(otherCCT.Amount,0)) [Amount],
-		'cc' [PaymentType],
+		case when TermsCode = 'Open_Credit' then 'oc' else 'cc' end [PaymentType],
 		convert(varchar(50),isnull(otherCCT.AuthCode,'')) [PaymentToken],
 		convert(varchar(50), '') [PayPalId],
 		convert(varchar(256),otherCCT.Id) [PaymentDescription]
@@ -236,13 +264,14 @@ begin
 		
 	)
 	select
-		svo.idStatusVendorOrder, co.Id, left(s.Value,3), p.ERPNumber, p.ShortDescription,
-		p.ManufacturerItem, p.Sku, ol.QtyOrdered, ol.UnitNetPrice, 0, 0,
+		svo.idStatusVendorOrder, co.Id, left(s.Value,3), parentP.ERPNumber, p.ShortDescription,
+		p.ManufacturerItem, p.Sku, ol.QtyOrdered, ol.UnitNetPrice, p.ShippingAmountOverride, 0,
 		ol.UnitListPrice, p.Name
 	from 
 		CustomerOrder co
 		join OrderLine ol on ol.CustomerOrderId = co.Id
 		join Product p on p.Id = ol.ProductId
+		join Product parentP on parentP.Id = p.StyleParentId
 		join Specification s on s.ProductId = p.Id
 			and s.[Name] = 'Vendor Code'
 		join OEGSystemStaging.dbo.StatusVendorOrder svo on svo.vo_WebNumber = co.Id
@@ -260,14 +289,16 @@ begin
 ETLOrder_ToOEG
 select * from CustomerOrder
 select * from OEGSystemStaging.dbo.StatusCustomer where [cst_WebCustomerNumber] is not null
-select * from OEGSystemStaging.dbo.StatusOrder where [ord_SiteID] = 'nbf'
+select * from OEGSystemStaging.dbo.StatusOrder where left([ord_WebNumber],1) in ('d','q','s','w')
 select * from OEGSystemStaging.dbo.StatusOrderPayment
+select * from OEGSystemStaging.dbo.StatusLinkShare where [OrderID] in (select idStatusOrder from OEGSystemStaging.dbo.StatusOrder where left([ord_WebNumber],1) in ('d','q','s','w')) 
 select * from OEGSystemStaging.dbo.StatusVendorOrder  where [vo_WebNumber] is not null
 select * from OEGSystemStaging.dbo.StatusVendorOrderDetail where [vd_WebNumber] is not null
 
 delete from OEGSystemStaging.dbo.StatusCustomer where [cst_WebCustomerNumber] is not null
-delete from OEGSystemStaging.dbo.StatusOrder where [ord_SiteID] = 'nbf'
+delete from OEGSystemStaging.dbo.StatusOrder where left([ord_WebNumber],1) in ('d','q','s','w')
 delete from OEGSystemStaging.dbo.StatusOrderPayment 
+delete from OEGSystemStaging.dbo.StatusLinkShare where [OrderID] in (select idStatusOrder from OEGSystemStaging.dbo.StatusOrder where left([ord_WebNumber],1) in ('d','q','s','w')) 
 delete from OEGSystemStaging.dbo.StatusVendorOrder  where [vo_WebNumber] is not null
 delete from OEGSystemStaging.dbo.StatusVendorOrderDetail where [vd_WebNumber] is not null
 

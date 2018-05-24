@@ -15,9 +15,15 @@ namespace Extensions.WebApi.TaxExempt.Services
         }
         
         [Transaction]
-        public async Task UpdateBillTo(string billToId)
+        public async Task AddTaxExempt(string billToId)
         {
-            await _taxExemptRepository.UpdateBillTo(billToId);
+            await _taxExemptRepository.AddTaxExempt(billToId);
+        }
+
+        [Transaction]
+        public async Task RemoveTaxExempt(string billToId)
+        {
+            await _taxExemptRepository.RemoveTaxExempt(billToId);
         }
     }
 }

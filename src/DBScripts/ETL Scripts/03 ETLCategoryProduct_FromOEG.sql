@@ -24,7 +24,7 @@ begin
 	from
 		OEGSystemStaging.dbo.Items si
 		join OEGSystemStaging.dbo.Products sp on sp.ItemId = si.ItemId
-			and sp.BrandId = @brand and sp.IsProductPageDisplay = 0
+			and sp.BrandId = @brand 
 		join OEGSystemStaging.dbo.LookupItemClasses sic on sic.ClassId = si.ClassId
 			and sic.[Name] not in ('Bedroom Furniture', 'Entertainment/AV', 'Parts')
 		join OEGSystemStaging.dbo.ItemsWebCategories siwc on siwc.ItemId = si.ItemId 
@@ -45,7 +45,7 @@ begin
 	from
 		OEGSystemStaging.dbo.Items si
 		join OEGSystemStaging.dbo.Products sp on sp.ItemId = si.ItemId
-			and sp.BrandId = @brand and sp.IsProductPageDisplay = 0
+			and sp.BrandId = @brand 
 		join OEGSystemStaging.dbo.LookupItemClasses sic on sic.ClassId = si.ClassId
 			and sic.[Name] not in ('Bedroom Furniture', 'Entertainment/AV', 'Parts')
 		join OEGSystemStaging.dbo.ItemsWebCategories siwc on siwc.ItemId = si.ItemId 
@@ -56,24 +56,6 @@ begin
 
 	where
 		not exists (select Id from CategoryProduct where CategoryId = c.Id and ProductId = p.Id)
-
-
-	-- next we add all of the products that belong into the DisplayProductPageOnly Category
-
-	declare @DisplayProductPageOnlyCategoryId uniqueidentifier
-	select top 1 @DisplayProductPageOnlyCategoryId = Id from Category where [Name] = 'DisplayProductPageOnly'
-
-
-	insert into CategoryProduct
-	(CategoryId, ProductId, CreatedBy, ModifiedBy)
-	select 
-		@DisplayProductPageOnlyCategoryId, p.Id, 'etl', 'etl'--, p.ShortDescription, sic.[Name], swc.DisplayName
-	from
-		OEGSystemStaging.dbo.Products sp
-		join Product p on p.ERPNumber = sp.Number
-	where
-		not exists (select Id from CategoryProduct where CategoryId = @DisplayProductPageOnlyCategoryId and ProductId = p.Id)
-		and sp.BrandId = @brand and sp.IsProductPageDisplay = 1
 
 
 	-- next we add all of the products that are swatches into the swatch category

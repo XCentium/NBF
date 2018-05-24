@@ -90,7 +90,7 @@ namespace NBF.IntegrationProcessor
 
             foreach (DataRow dr in dtCustomerOrder.Rows)
             {
-                debugString = "OrderNumber：" + dr[Data.OrderNumberColumn];
+                JobLogger.Info("OrderNumber:" + dr[Data.OrderNumberColumn]);
 
                 #region create order record
                 using (SqlConnection conn = new SqlConnection(connStr))
@@ -169,7 +169,7 @@ namespace NBF.IntegrationProcessor
                 var drProducts = dr.GetChildRows(initialDataset.Relations["OrderLine2Product"]);
                 if (drProducts != null && drProducts.Count() > 0)
                 {
-                    debugString = "ProductNumber: " + drProducts[0][Data.ErpNumberColumn];
+                    JobLogger.Debug("ProductNumber:" + drProducts[0][Data.ErpNumberColumn]);
 
                     #region create order line record
                     using (SqlConnection conn = new SqlConnection(connStr))
