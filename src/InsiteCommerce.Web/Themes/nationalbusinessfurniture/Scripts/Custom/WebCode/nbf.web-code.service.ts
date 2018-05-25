@@ -3,10 +3,13 @@
 
     export interface INbfWebCodeService {
         getWebCode(): ng.IPromise<string>;
+        getWebCodeGetUniqueWebCodeID(): ng.IPromise<string>;
+
     }
 
     export class NbfWebCodeService implements INbfWebCodeService {
         serviceUri = "/api/nbf/webcode";
+        webcodeserviceurl =  "api/nbf/getwebcodegetunique";
         siteId: string;
         referrer: string;
         userId: string;
@@ -22,6 +25,15 @@
             protected $sessionStorage: insite.common.IWindowStorage,
             protected ipCookie: any,
             protected $q: ng.IQService) {
+        }
+
+        getWebCodeGetUniqueWebCodeID(): ng.IPromise<string> {
+           return this.httpWrapperService.executeHttpRequest(
+                this,
+                this.$http({ url: this.webcodeserviceurl, method: "GET" }),
+                this.getWebCodeCompleted,
+                this.getWebCodeFailed
+           ); 
         }
 
         getWebCode(): ng.IPromise<string> {

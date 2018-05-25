@@ -7,6 +7,8 @@ using Insite.Core.Interfaces.Data;
 using Insite.Core.Interfaces.Dependency;
 using Insite.Core.Interfaces.Plugins.Security;
 using Insite.Customers.Services;
+using Extensions.Models.WebcodeUniqueID;
+using System;
 
 namespace Extensions.WebApi.WebCode.Repository
 {
@@ -20,10 +22,10 @@ namespace Extensions.WebApi.WebCode.Repository
             _unitOfWork = unitOfWorkFactory.GetUnitOfWork();
         }
 
-        public string GetWebCode(string siteId, string userId)
+        string IWebCodeRepository.GetWebCode(string siteId, string userId)
         {
             var webCodeId = _unitOfWork.GetRepository<AffiliateCodeModel>().GetTable()
-                .FirstOrDefault(x => x.AffiliateCode.ToLower().Contains(siteId.ToLower()))?.AffiliateNumber.ToString();
+              .FirstOrDefault(x => x.AffiliateCode.ToLower().Contains(siteId.ToLower()))?.AffiliateNumber.ToString();
 
             if (string.IsNullOrWhiteSpace(webCodeId))
             {
@@ -37,5 +39,7 @@ namespace Extensions.WebApi.WebCode.Repository
             }
             return webCodeId;
         }
+
+      
     }
 }

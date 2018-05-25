@@ -14,6 +14,7 @@
 
         init(): void {
             this.getWebCode();
+           
         }
 
         getWebCode(): void {
@@ -21,7 +22,7 @@
                 (webCode: string) => { this.getWebCodeCompleted(webCode); },
                 (error: any) => { this.getWebCodeFailed(error); });
         }
-
+        
         protected getWebCodeCompleted(webCode: string): void {
             if (webCode != null) {
                 this.webCode = webCode;

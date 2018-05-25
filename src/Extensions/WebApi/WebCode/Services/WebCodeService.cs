@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Extensions.WebApi.WebCode.Interfaces;
 using Insite.Core.Interfaces.Data;
 using Insite.Core.Services;
@@ -20,5 +21,7 @@ namespace Extensions.WebApi.WebCode.Services
             var result = await Task.FromResult(_webCodeRepository.GetWebCode(siteId, userId));
             return result;
         }
+
+       
     }
 }
