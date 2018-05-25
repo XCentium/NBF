@@ -815,6 +815,7 @@
     <Content Include="Views\Widgets\MyListDetailView\NBF.cshtml" />
     <Content Include="Views\Widgets\PageTitle\NBF-h2.cshtml" />
     <Content Include="Views\Widgets\PageTitle\title-h2.cshtml" />
+    <Content Include="Views\Widgets\SavedOrderDetailView\NBF.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Scripts\Custom\Orders\" />
