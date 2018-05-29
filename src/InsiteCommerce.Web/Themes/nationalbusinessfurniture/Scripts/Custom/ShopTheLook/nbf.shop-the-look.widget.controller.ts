@@ -10,9 +10,9 @@
     export class NbfShopTheLookWidgetController {
         look: ShopTheLook;
         favoritesWishlist: WishListModel;
-        isAuthenticated: boolean = false;
+        isAuthenticatedAndNotGuest = false;
         imagesLoaded: number;
-        notFound: boolean = false;
+        notFound = false;
         breadCrumbs: BreadCrumbModel[];
 
         static $inject = ["$timeout", "$window", "$scope", "$rootScope", "productService", "sessionService", "nbfShopTheLookService", "queryString", "spinnerService", "nbfWishListService", "$attrs"];
@@ -49,9 +49,12 @@
             if (look) {
                 this.look = look;
 
-                this.sessionService.getIsAuthenticated().then(authenticated => {
-                    this.isAuthenticated = authenticated;
-                    if (authenticated) {
+                this.sessionService.getSession().then((session: SessionModel) => {
+                    if (session.isAuthenticated && !session.isGuest) {
+                        this.isAuthenticatedAndNotGuest = true;
+                    }
+
+                    if (this.isAuthenticatedAndNotGuest) {
                         this.getFavorites();
                     }
                 });
@@ -207,7 +210,7 @@
         }
 
         protected isAttributeValue(product: ProductDto, attrName: string, attrValue: string): boolean {
-            let retVal: boolean = false;
+            let retVal = false;
 
             if (product && product.attributeTypes) {
                 var attrType = product.attributeTypes.find(x => x.name === attrName && x.isActive === true);

@@ -68,8 +68,43 @@
                     cartLine.shortDescription = name;
                     //cartLine.properties["details"] = details;
                 }                
-            });
+            }); 
 
+            this.updateCartlinesWithAttributes(cart);
+
+            this.updateSwatchCartlinesWithBaseProductUrl(cart);
+            
+            this.displayCart(cart);
+        }
+
+        updateSwatchCartlinesWithBaseProductUrl(cart: CartModel) {
+            let baseProductErpNumbers = cart.cartLines
+                .filter(x => x.erpNumber.indexOf(":") >= 0)
+                .map(x => x.erpNumber.split(":")[0]);
+
+            if (baseProductErpNumbers.length > 0) {
+                const expand = ["attributes"];
+                const parameter: insite.catalog.IProductCollectionParameters = { erpNumbers: baseProductErpNumbers };
+                this.productService.getProducts(parameter, expand).then(
+                    (productCollection: ProductCollectionModel) => {
+                        cart.cartLines.forEach(cartLine => {
+                            if (cartLine.erpNumber.indexOf(":") > 0) {
+                                let erpNumber = cartLine.erpNumber.split(":")[0];
+                                let baseProduct = productCollection.products.find(x => x.erpNumber === erpNumber);
+
+                                if (baseProduct) {
+                                    cartLine.productUri = baseProduct.productDetailUrl;
+                                }
+                            }
+                        });
+
+                        //this.$scope.$apply();
+                    },
+                    (error: any) => { });
+            }
+        }
+
+        updateCartlinesWithAttributes(cart: CartModel) {
             let baseProductErpNumbers = cart.cartLines.map(x => x.erpNumber.split("_")[0]);
             const expand = ["attributes"];
             const parameter: insite.catalog.IProductCollectionParameters = { erpNumbers: baseProductErpNumbers };
@@ -88,10 +123,6 @@
                     //this.$scope.$apply();
                 },
                 (error: any) => { });
-
-            if(this)
-            
-            this.displayCart(cart);
         }
         
         saveCart(saveSuccessUri: string, signInUri: string): void {
@@ -107,7 +138,9 @@
                 this.cart.totalTaxDisplay = "TBD";
             }
 
-            this.canAddAllToList = this.cart.cartLines.every(l => l.canAddToWishlist);
+            //this.canAddAllToList = this.cart.cartLines.every(l => l.canAddToWishlist);
+            //disable adding to favorites as this should be done using heart icon only
+            this.canAddAllToList = false;
             this.promotionService.getCartPromotions(this.cart.id).then(
                 (promotionCollection: PromotionCollectionModel) => { this.getCartPromotionsCompleted(promotionCollection); },
                 (error: any) => { this.getCartPromotionsFailed(error); });

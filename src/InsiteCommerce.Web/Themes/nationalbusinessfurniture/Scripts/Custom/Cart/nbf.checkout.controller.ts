@@ -61,10 +61,15 @@
         //Split Payment variables
         paymentAmount: number;
         remainingTotal: number;
+        remainingTotalDisplay: string = '';
+        paymentAmountDisplay: string = '';
+        totalPaymentsDisplay: string = '';
+        cc1Display: string = '';
+        cc2Display: string = '';
 
         //Tax Exempt variables
         isTaxExempt = false;
-        taxExemptChoice = true;
+        taxExemptChoice = false;
         taxExemptFileName: string;
         file: any;
         errorMessage: string;
@@ -118,7 +123,7 @@
             protected nbfGuestActivationService: guest.INbfGuestActivationService,
             protected nbfPaymentService: cart.INbfPaymentService,
             protected termsAndConditionsPopupService: insite.cart.ITermsAndConditionsPopupService,
-            protected nbfEmailService: nbf.email.INbfEmailService,
+            protected nbfEmailService: email.INbfEmailService,
             protected productService: insite.catalog.IProductService,
             protected $element: ng.IRootElementService,
             protected $rootScope: ng.IRootScopeService,
@@ -232,17 +237,37 @@
             this.cartService.getCart(this.cartId).then(
                 (cart: CartModel) => {
                     this.getCartCompleted(cart);
-                    this.paymentAmount = cart.orderGrandTotal;
-                    this.remainingTotal = cart.orderGrandTotal;
-                    if (this.cart.properties["cc1"]) {
-                        this.remainingTotal -= Number(this.cart.properties["cc1"]);
-                    }
-                    if (this.cart.properties["cc2"]) {
-                        this.remainingTotal -= Number(this.cart.properties["cc2"]);
-                    }
-                    this.paymentAmount = this.remainingTotal;
+                    this.paymentAmountDisplay = this.convertToCurrency(cart.orderGrandTotal);
+                    this.setPaymentAmounts();
                 },
                 (error: any) => { this.getCartFailed(error); });
+        }
+
+        protected setPaymentAmounts() {
+            var totalPaymentAmount = 0.0;
+            this.remainingTotal = this.cart.orderGrandTotal;
+            if (this.cart.properties["cc1"]) {
+                var cc1Amount = Number(this.cart.properties["cc1"]);
+                this.remainingTotal -= cc1Amount;
+                this.cc1Display = this.convertToCurrency(cc1Amount);
+                this.totalPaymentsDisplay;
+                totalPaymentAmount += cc1Amount;
+            }
+            if (this.cart.properties["cc2"]) {
+                var cc2Amount = Number(this.cart.properties["cc2"]);
+                this.remainingTotal -= cc2Amount;
+                this.cc2Display = this.convertToCurrency(cc2Amount);
+                totalPaymentAmount += cc2Amount;
+            }
+            this.totalPaymentsDisplay = this.convertToCurrency(totalPaymentAmount);
+            this.paymentAmount = this.remainingTotal;
+            this.remainingTotalDisplay = this.convertToCurrency(this.remainingTotal);
+        }
+
+        protected convertToCurrency(amount: number): string {
+            return "$" + amount.toFixed(2).replace(/./g, function (c, i, a) {
+                return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
+            });
         }
 
         protected getCartCompleted(cart: CartModel): void {
@@ -257,17 +282,12 @@
                 this.coreService.redirectToPath(this.cartUrl);
             }
 
-            this.remainingTotal = this.cart.orderGrandTotal;
-            if (this.cart.properties["cc1"]) {
-                this.remainingTotal -= Number(this.cart.properties["cc1"]);
-            }
-            if (this.cart.properties["cc2"]) {
-                this.remainingTotal -= Number(this.cart.properties["cc2"]);
-            }
+            this.setPaymentAmounts();
 
             if (this.cart.billTo) {
                 if (this.cart.billTo.properties["taxExemptFileName"]) {
                     this.isTaxExempt = true;
+                    this.taxExemptChoice = true;
                     this.taxExemptFileName = this.cart.billTo.properties["taxExemptFileName"];
                 }
                 this.originalBillTo = cart.billTo;
@@ -276,6 +296,10 @@
 
             if (this.cart.shipTo && this.cart.shipTo.id) {
                 this.initialShipToId = this.cart.shipTo.id;
+            }
+
+            if ((!this.cart.billTo || this.cart.shipTo) && this.cart.totalTax === 0) {
+                this.cart.totalTaxDisplay = "TBD";
             }
 
             this.websiteService.getCountries("states").then(
@@ -287,6 +311,8 @@
                 });
 
             this.updateCartLineAttributes();
+
+            this.updateCartLineSwatchProductUrl();
         }
 
         protected updateCartLineAttributes() {
@@ -307,7 +333,37 @@
 
                     //this.$scope.$apply();
                 },
-                (error: any) => { });
+                () => { });
+        }
+
+        protected updateCartLineSwatchProductUrl() {
+            let baseProductErpNumbers = this.cart.cartLines
+                .filter(x => x.erpNumber.indexOf(":") >= 0)
+                .map(x => x.erpNumber.split(":")[0]);
+
+            if (baseProductErpNumbers.length > 0) {
+                const expand = ["attributes"];
+                const parameter: insite.catalog.IProductCollectionParameters = { erpNumbers: baseProductErpNumbers };
+                this.productService.getProducts(parameter, expand).then(
+                    (productCollection: ProductCollectionModel) => {
+                        this.cart.cartLines.forEach(cartLine => {
+
+                            if (cartLine.erpNumber.indexOf(":") >= 0) {
+
+                                let erpNumber = cartLine.erpNumber.split(":")[0];
+                                let baseProduct = productCollection.products.find(x => x.erpNumber === erpNumber);
+
+                                if (baseProduct) {
+                                    cartLine.productUri = baseProduct.productDetailUrl;
+                                    cartLine.uri = baseProduct.productDetailUrl;
+                                }
+                            }
+                        });
+
+                        //this.$scope.$apply();
+                    },
+                    () => { });
+            }
         }
 
         protected getCartFailed(error: any): void {
@@ -441,13 +497,13 @@
         }
 
         protected updateBillTo(): void {
-            if (this.billToAndShipToAreSameCustomer() && !this.isGuest) {
+            if (this.billToAndShipToAreSameCustomer()) {
                 this.shipToIsReadOnly = true;
             } else {
                 this.shipToIsReadOnly = false;
             }
 
-            if (this.isGuest) {
+            //if (this.isGuest) {
                 this.cart.billTo.email = this.selectedShipTo.email;
                 if (this.billToSameAsShipToSelected) {
                     this.cart.billTo.firstName = this.selectedShipTo.firstName;
@@ -460,7 +516,7 @@
                     this.cart.billTo.postalCode = this.selectedShipTo.postalCode;
                     this.cart.billTo.phone = this.selectedShipTo.phone;
                 }
-            }
+            //}
         }
 
         protected billToAndShipToAreSameCustomer(): boolean {
@@ -539,6 +595,10 @@
             //    $(`#${prefix}state`).validate();
             //    $(`#${prefix}state`).rules("add", { required: isRequired });
             //}, 100);
+            setTimeout(() => {
+                $(`#${prefix}state`).validate();
+                $(`#${prefix}state`).rules("add", { required: true });
+            }, 100);
         }
 
         continueToStep2(cartUri: string): void {
@@ -566,6 +626,8 @@
             if (this.cart.shipTo && this.cart.shipTo.id !== this.selectedShipTo.id) {
                 this.cart.shipVia = null;
             }
+
+            this.updateBillTo();
 
             this.customerService.updateBillTo(this.cart.billTo).then(
                 (billTo: BillToModel) => { this.updateBillToCompleted(billTo); },
@@ -895,7 +957,7 @@
         }
 
         getCart(isInit?: boolean): void {
-            this.cartService.expand = "cartlines,shipping,tax,carriers,paymentoptions";
+            this.cartService.expand = "cartlines,shipping,tax,carriers,paymentoptions,shiptos";
             if (this.$localStorage.get("hasRestrictedProducts") === true.toString()) {
                 this.cartService.expand += ",restrictions";
             }
@@ -1377,8 +1439,7 @@
             model["paymentProfileId"] = this.cart.paymentMethod.name;
             var self = this;
             this.nbfPaymentService.addPayment(model).then((result) => {
-                if (result.toLowerCase() == "true") {
-                    this.remainingTotal = self.cart.orderGrandTotal;
+                if (result.toLowerCase() === "true") {
                     var propName = "";
                     if (!self.cart.properties["cc1"]) {
                         propName = "cc1";
@@ -1392,17 +1453,10 @@
                         propName = "cc2";
                         self.cart.properties[propName] = self.paymentAmount.toString();
                     }
+                    
 
                     self.cartService.updateCart(self.cart).then((cart) => {
-                        this.cart.properties = cart.properties;
-                        this.remainingTotal = cart.orderGrandTotal;
-                        if (cart.properties["cc1"]) {
-                            this.remainingTotal -= Number(cart.properties["cc1"]);
-                        }
-                        if (cart.properties["cc2"]) {
-                            this.remainingTotal -= Number(cart.properties["cc2"]);
-
-                        }
+                        self.setPaymentAmounts();
                         this.paymentAmount = this.remainingTotal;
 
                         this.cart.paymentOptions.creditCard.cardType = null;
@@ -1501,7 +1555,7 @@
             this.spinnerService.show("mainLayout", true);
             this.cart.billTo.properties["taxExemptFileName"] = this.taxExemptFileName;
 
-            this.nbfTaxExemptService.updateBillto(this.cart.billTo.id);
+            this.nbfTaxExemptService.addTaxExempt(this.cart.billTo.id);
 
             this.customerService.updateBillTo(this.cart.billTo).then(
                 () => { this.updatebillToTaxExemptCompleted(); },

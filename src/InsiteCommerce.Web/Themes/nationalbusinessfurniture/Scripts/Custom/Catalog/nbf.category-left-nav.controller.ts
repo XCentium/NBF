@@ -6,7 +6,7 @@
 
     export class NbfCategoryLeftNavController extends CategoryLeftNavController {
         
-        static $inject = ["$timeout", "$window", "$scope", "$rootScope", "sessionService"];
+        static $inject = ["$timeout", "$window", "$scope", "$rootScope", "sessionService", "$location"];
         filterCheckBoxesModel: { [key: string]: boolean; } = {};
 
         constructor(
@@ -14,14 +14,17 @@
             protected $window: ng.IWindowService,
             protected $scope: ng.IScope,
             protected $rootScope: ng.IRootScopeService,
-            protected sessionService: account.ISessionService)
+            protected sessionService: account.ISessionService,
+            protected $location: ng.ILocaleService)
         {
             super($timeout, $window, $scope, $rootScope, sessionService);
 
             let self = this;
 
+            //close the filter dropdown when clicking anywhere on page
             var handler = function (event) {
-                if ($(event.target).is(".accord-check, .f-wrap, .f-wrap *, .accord-check *") == false) {
+                if ($(event.target).is(".accord-check, .accord-head, .f-wrap, .f-wrap *, .accord-check *") == false) {
+                    
                     // if the target is a descendent of accordion do nothing
 
                     let checkedFacetCheckboxes = Object.keys(self.filterCheckBoxesModel).reduce(function (filtered, key) {
@@ -29,23 +32,34 @@
                         return filtered;
                     }, {});
 
-                    if (Object.keys(checkedFacetCheckboxes).length > 0) {                       
+                    if (Object.keys(checkedFacetCheckboxes).length > 0) {
 
                         Object.keys(checkedFacetCheckboxes).forEach(x => {
-                            console.log(x);
-                            self.filterCheckBoxesModel[x] = false;
-                            self.$scope.$apply();
+                            self.filterCheckBoxesModel[x] = false;  
+                            if (!self.$scope.$$phase) {
+                                self.$scope.$apply();
+                            }
                         });
                     }
                 }
+
+                if (!self.$scope.$$phase) {
+                    self.$scope.$apply();
+                }
             }
 
-            $(document).on("click", handler);
+            $("div").not(":input[type=checkbox], .accord-head, .accord-content, .f-wrap").on("click", handler);
         }       
 
         toggleFilter(attributeValueId: string) {
+            (<any>this.$location).search("attr", "none");
             super.toggleFilter(attributeValueId);
             this.$rootScope.$broadcast("AnalyticsEvent", "ProductListingFiltered");
+        }
+
+        clearFilters(): void {
+            (<any>this.$location).search("attr", "none");
+            super.clearFilters();           
         }
 
         protected isViewAllCategoryFacetsCheckboxSelected(facets: CategoryFacetDto[]): boolean {

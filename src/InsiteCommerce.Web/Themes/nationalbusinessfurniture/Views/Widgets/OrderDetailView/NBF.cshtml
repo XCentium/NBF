@@ -7,7 +7,7 @@
             </div>
             <div class="btns small-12 medium-8 large-8 columns">
                 <a id="tst_orderDetailPage_reorder" href="#" class="btn primary btn-reorder-all hide-for-print" ng-show="vm.order.canAddToCart && vm.canReorderItems" ng-click="vm.reorderAllProducts($event)">[% translate 'Reorder' %]</a>
-                <a id="tst_orderDetailPage_allowRma" ng-href="[% urlForPage 'RequestRmaPage' %]?orderNumber={{ vm.order.webOrderNumber || vm.order.erpOrderNumber }}" ng-if="vm.allowRmaCheck(vm.order.status)" class="btn secondary">[% translate 'Return Request (RMA)' %]</a>
+                <a id="tst_orderDetailPage_allowRma" ng-href="[% urlForPage 'RequestRmaPage' %]?orderNumber={{ vm.order.webOrderNumber || vm.order.erpOrderNumber }}" ng-if="vm.allowRmaCheck(vm.order.status)" class="btn secondary hide-for-print">[% translate 'Return Request (RMA)' %]</a>
                 <a id="tst_orderDetailPage_allowCancellation" href="#" class="btn secondary btn-cancel hide-for-print" ng-show="vm.isAuthenticated && vm.order.canAddToCart && vm.allowCancellationCheck(vm.order.status)" ng-click="vm.cancelOrder($event)">[% translate 'Cancel Order' %]</a>
                 <a id="tst_orderDetailPage_print" href="/Order/GetPdf?orderNumber={{vm.order.webOrderNumber}}&stPostalCode={{vm.order.shipToPostalCode}}" class="btn secondary btn-print" ng-show="vm.order" target="_blank">[% translate 'Print' %]</a>
                 <a id="tst_orderDetailPage_email" ng-click="vm.showShareModal(vm.order.webOrderNumber)" href="javascript:;" class="btn secondary btn-print" ng-show="vm.order">[% translate 'Email' %]</a>
