@@ -149,8 +149,7 @@
                         </select>
                     </div>
                 </div>
-            </div>
-            <div class="row drag-instruction" ng-show="vm.sort === 'custom' && !vm.searchTerm && (vm.listModel.allowEdit || !vm.listModel.isSharedList)">[% translate 'Click' %] <i class="icon-sort-order"></i> [% translate 'and drag items to change their position in the list.' %]</div>
+            </div>           
             <div class="sort-parent-container">
                 <ul class="row item-list cart-items" ui-sortable="vm.sortableOptions" ng-model="vm.listModel.wishListLineCollection">
                     <li class="row item-block checkout-item isc-productContainer" ng-repeat="wishListLine in filteredLines = (vm.listModel.wishListLineCollection | filter:filter | orderBy:vm.sortProperty:vm.reverse) track by wishListLine.id" id="tst_wishList_{{::wishListLine.productId}}_{{wishListLine.unitOfMeasure}}">
