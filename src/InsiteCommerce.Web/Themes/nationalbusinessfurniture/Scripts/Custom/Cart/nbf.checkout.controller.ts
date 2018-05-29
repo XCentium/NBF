@@ -497,13 +497,13 @@
         }
 
         protected updateBillTo(): void {
-            if (this.billToAndShipToAreSameCustomer() && !this.isGuest) {
+            if (this.billToAndShipToAreSameCustomer()) {
                 this.shipToIsReadOnly = true;
             } else {
                 this.shipToIsReadOnly = false;
             }
 
-            if (this.isGuest) {
+            //if (this.isGuest) {
                 this.cart.billTo.email = this.selectedShipTo.email;
                 if (this.billToSameAsShipToSelected) {
                     this.cart.billTo.firstName = this.selectedShipTo.firstName;
@@ -516,7 +516,7 @@
                     this.cart.billTo.postalCode = this.selectedShipTo.postalCode;
                     this.cart.billTo.phone = this.selectedShipTo.phone;
                 }
-            }
+            //}
         }
 
         protected billToAndShipToAreSameCustomer(): boolean {
@@ -626,6 +626,8 @@
             if (this.cart.shipTo && this.cart.shipTo.id !== this.selectedShipTo.id) {
                 this.cart.shipVia = null;
             }
+
+            this.updateBillTo();
 
             this.customerService.updateBillTo(this.cart.billTo).then(
                 (billTo: BillToModel) => { this.updateBillToCompleted(billTo); },
@@ -955,7 +957,7 @@
         }
 
         getCart(isInit?: boolean): void {
-            this.cartService.expand = "cartlines,shipping,tax,carriers,paymentoptions";
+            this.cartService.expand = "cartlines,shipping,tax,carriers,paymentoptions,shiptos";
             if (this.$localStorage.get("hasRestrictedProducts") === true.toString()) {
                 this.cartService.expand += ",restrictions";
             }
