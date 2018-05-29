@@ -999,9 +999,12 @@
             overflow: hidden;
             padding: 0 !important;
             margin-bottom: 10px;
+            min-height:260px;
 
             img {
-                width: 100%;
+                width: auto;
+                max-height:100%;
+                max-width:100%;
             }
         }
 

@@ -382,23 +382,17 @@
                                                         <label>[% translate 'Payments' %]</label>
                                                         <div class="row">
                                                             <div class="small-4 columns payment-amount">
-                                                                <div ng-if="vm.cart.properties['cc1'] != ''">
-                                                                    <span ng-model="vm.cart.properties['cc1']">
-                                                                        {{vm.cart.properties['cc1']}}
-                                                                    </span>
-                                                                </div>
+                                                                <div ng-if="vm.cart.properties['cc1'] != ''"><span ng-bind="vm.cc1Display" /></div>
                                                             </div>
                                                         </div>
                                                         <div class="row">
                                                             <div class="small-4 columns payment-amount">
-                                                                <div ng-if="vm.cart.properties['cc2'] != ''">
-                                                                    <span ng-model="vm.cart.properties['cc2']">
-                                                                        {{vm.cart.properties['cc2']}}
-                                                                    </span>
+                                                                <div ng-if="vm.cart.properties['cc2'] != ''"><span ng-bind="vm.cc2Display"/>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <label>[% translate 'Total balance' %]&nbsp;<label ng-model="vm.cart.orderGrandTotalDisplay"></label></label>
+                                                        <label>[% translate 'Total payments' %]&nbsp;<label ng-bind="vm.totalPaymentsDisplay" /></label>
+                                                        <label>[% translate 'Remaining balance' %]&nbsp;<label ng-bind="vm.remainingTotalDisplay" /></label>
                                                     </div>
                                                 </div>
                                                 <div ng-if="vm.cart.billTo.isGuest">
