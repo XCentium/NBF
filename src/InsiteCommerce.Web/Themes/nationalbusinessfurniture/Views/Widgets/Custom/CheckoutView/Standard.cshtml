@@ -53,7 +53,7 @@
                                         <section class="bill-to" ng-hide="vm.selectedShipTo.label == 'Use Billing Address' && !vm.isGuest">
                                             <h3 class="billing-title">[% translate 'Billing Address' %]</h3>
                                             <div class="samebilling-checkbox">
-                                                <input name="sameAsShipping" type="checkbox" ng-model="vm.billToSameAsShipToSelected" ng-change="vm.checkSelectedShipTo()" />
+                                                <input name="sameAsShipping" id="sameAsShipping" type="checkbox" ng-model="vm.billToSameAsShipToSelected" ng-change="vm.checkSelectedShipTo()" />
                                                 <label for="sameAsShipping">[% translate 'Same as shipping' %]</label>
                                             </div>
                                             <div ng-show="!vm.billToSameAsShipToSelected">
