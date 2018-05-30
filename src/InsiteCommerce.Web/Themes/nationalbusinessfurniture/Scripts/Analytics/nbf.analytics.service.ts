@@ -88,6 +88,12 @@ module nbf.analytics {
                         data: data
                     });
                     break;
+                case AnalyticsEvents.ProductListingFiltered:
+                    this.Data.pageInfo.internalSearch.filters = data;
+                    break;
+                case AnalyticsEvents.ShopTheLook:
+                    this.Data.pageInfo.shopTheLook = data;
+                    break;
             }
             console.log("Firing Analytics Event: " + analyticsEvent);
             this.FireEvent(analyticsEvent as AnalyticsEvent);
@@ -369,13 +375,14 @@ module nbf.analytics {
         ProductQuestionStarted: "ProductQuestionStarted" as AnalyticsEvent,
         ContentShared: "ContentShared" as AnalyticsEvent,
         ProductListingFiltered: "ProductListingFiltered" as AnalyticsEvent,
-        CheckoutComplete: "CheckoutComplete" as AnalyticsEvent
+        CheckoutComplete: "CheckoutComplete" as AnalyticsEvent,
+        ShopTheLook: "ShopTheLook" as AnalyticsEvent
     }
 
     export type AnalyticsEvent = "PageLoad" | "ProductPageView" | "SwatchRequest" | "CatalogRequest" | "QuoteRequest" | "MiniCartQuoteRequest" | "InternalSearch" | "SuccessfulSearch" |
         "FailedSearch" | "ContactUsInitiated" | "ContactUsCompleted" | "AccountCreation" | "CheckoutAccountCreation" | "Login" | "CrossSellSelected" | "EmailSignUp" | "LiveChatStarted" |
         "ProductAddedToCart" | "CheckoutInitiated" | "CheckoutComplete" | "ProductQuestionStarted" | "ProductQuestionAsked" | "Selected360View" | "AddProductToWishlist" | "SaveOrderFromCartPage" |
         "ReadReviewsSelected" | "MiniCartHover" | "SaveCart" | "CartOpened" | "ProductRemovedFromCart" | "ShippingBillingInfoComplete" | "ShippingMethodSelected" | "BillingMethodSelected" |
-        "ContinueShoppingFromCartPage" | "ContentShared" | "ProductListingFiltered";
+        "ContinueShoppingFromCartPage" | "ContentShared" | "ProductListingFiltered", "ShopTheLook";
 
 }

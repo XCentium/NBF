@@ -72,6 +72,7 @@
         transId: string;
         affiliateCode: string;
         internalSearch: AnalyticsPageSearchInfo;
+        shopTheLook: any;
     }
 
     export class AnalyticsPageSearchInfo {

@@ -3,22 +3,41 @@
 
     export class NbfShopTheLookLandingViewController {
         collection: ShopTheLookCollection;
-        selectedStyles: ShopTheLookStyle[];
-        selectedRooms: ShopTheLookCategory[];
+        selectedStyles: ShopTheLookStyle[] = [];
+        selectedRooms: ShopTheLookCategory[] = [];
         filteredRooms: ShopTheLookCategory[];
         $grid: any;
 
         static $inject = [
             "nbfShopTheLookService",
-            "spinnerService"
+            "spinnerService",
+            "$scope"
         ];
 
         constructor(protected nbfShopTheLookService: ShopTheLook.INbfShopTheLookService,
-            protected spinnerService: insite.core.SpinnerService) {
+            protected spinnerService: insite.core.SpinnerService,
+            protected $scope: ng.IScope) {
             this.init();
         }
 
         init(): void {
+            var self = this;
+            this.$scope.$watchCollection(() => this.selectedRooms, (newVal, oldVal, scope) => {
+                if (newVal.length != oldVal.length) {
+                    var stlObject = { rooms: self.selectedRooms.map(r => r.name).join(','), styles: self.selectedStyles.map(s => s.styleName).join(',') };
+                    console.log(stlObject);
+                    scope.$root.$broadcast("AnalyticsEvent", "ShopTheLook", null, null, stlObject);
+                }
+            });
+
+            this.$scope.$watchCollection(() => this.selectedStyles, (newVal, oldVal, scope) => {
+                if (newVal.length != oldVal.length) {
+                    var stlObject = { rooms: self.selectedRooms.map(r => r.name).join(','), styles: self.selectedStyles.map(s => s.styleName).join(',') };
+                    console.log(stlObject);
+                    scope.$root.$broadcast("AnalyticsEvent", "ShopTheLook", null, null, stlObject);
+                }
+            });
+
             $(".shopthelook__dropdown").on("click", function (e) {
                 e.preventDefault();
                 const p = $(this);
@@ -31,8 +50,6 @@
             
             this.nbfShopTheLookService.getLooks().then((result) => {
                 this.collection = result;
-                this.selectedRooms = [];
-                this.selectedStyles = [];
                 this.filteredRooms = this.collection.categories;
                 this.mapFilters();
 
