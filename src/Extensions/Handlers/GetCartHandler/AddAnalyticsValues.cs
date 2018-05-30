@@ -28,9 +28,31 @@ namespace Extensions.Handlers.GetCartHandler
                     category = product.StyleParent?.Categories?.LastOrDefault()?.ShortDescription;
                     collection = product.StyleParent?.AttributeValues?.FirstOrDefault(a => a.AttributeType.Name == "Collection")?.Value;
                 }
-                line.Properties.Add("category", category);
-                line.Properties.Add("collection", collection);
-                line.Properties.Add("vendor", product.Vendor?.Name);
+
+                if (line.Properties.ContainsKey("category") == false)
+                {
+                    line.Properties.Add("category", category);
+                }
+                else
+                {
+                    line.Properties["category"] = category;
+                }
+                if (line.Properties.ContainsKey("collection") == false)
+                {
+                    line.Properties.Add("collection", collection);
+                }
+                else
+                {
+                    line.Properties["collection"] = collection;
+                }
+                if (line.Properties.ContainsKey("vendor") == false)
+                {
+                    line.Properties.Add("vendor", product.Vendor?.Name);
+                }
+                else
+                {
+                    line.Properties["vendor"] = product.Vendor?.Name;
+                }
             }
             return NextHandler.Execute(unitOfWork, parameter, result); 
         }
