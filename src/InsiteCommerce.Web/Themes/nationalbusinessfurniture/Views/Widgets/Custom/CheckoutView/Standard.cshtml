@@ -423,7 +423,7 @@
                                             <div class="small-12 column">
                                                 <div class="btns">
                                                     <a id="tst_submitForApproval_button" href="" class="btn primary btn-submit-for-approval" ng-show="vm.cart.requiresApproval && vm.cart.hasApprover && !vm.submitting" ng-click="vm.submit('[% urlForPage 'OrderApprovalDetailPage' %]')">[% translate 'Submit for approval' %]</a>
-                                                    <a id="tst_placeOrder_button" href="" class="btn primary btn-place-order" ng-hide="vm.cart.requiresApproval || vm.submitting" ng-click="vm.submit('[% urlForPage 'SignInPage' %]','[% siteMessage 'TaxExempt_Upload_EmailTo' 'dylan.barter@xcentium.com' %]')">[% translate 'Place Order' %]</a>
+                                                    <a id="tst_placeOrder_button" href="" class="btn primary btn-place-order" ng-disabled="vm.remainingTotal != vm.paymentAmount" ng-hide="vm.cart.requiresApproval || vm.submitting" ng-click="vm.submit('[% urlForPage 'SignInPage' %]','[% siteMessage 'TaxExempt_Upload_EmailTo' 'dylan.barter@xcentium.com' %]')">[% translate 'Place Order' %]</a>
                                                     <div id="tst_submitErrorMessage" style="color: red;" ng-bind="vm.submitErrorMessage"></div>
                                                     <div id="tst_userFound" style="color: red;" ng-if="vm.userFound">
                                                         [% siteMessage 'Guest_Checkout_UserFoundError' 'Email is already associated with an account, would you like to sign in?' %]

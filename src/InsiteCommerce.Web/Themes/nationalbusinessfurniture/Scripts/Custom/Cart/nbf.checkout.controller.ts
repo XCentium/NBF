@@ -61,6 +61,7 @@
         //Split Payment variables
         paymentAmount: number;
         remainingTotal: number;
+        totalPaymentAmount = 0.0;
         remainingTotalDisplay: string = '';
         paymentAmountDisplay: string = '';
         totalPaymentsDisplay: string = '';
@@ -244,7 +245,7 @@
         }
 
         protected setPaymentAmounts() {
-            var totalPaymentAmount = 0.0;
+            
             this.remainingTotal = this.cart.orderGrandTotal;
             if (this.cart.properties["cc1"]) {
                 var cc1Amount = Number(this.cart.properties["cc1"]);
@@ -1144,6 +1145,7 @@
         }
 
         submit(signInUri: string, emailTo: string): void {
+
             var self = this;
             this.submitting = true;
             this.submitErrorMessage = "";
@@ -1335,6 +1337,10 @@
                     scrollTop: $("#reviewAndPayForm").offset().top
                 },
                     300);
+                return false;
+            }
+
+            if (this.paymentAmount != this.remainingTotal) {
                 return false;
             }
             return true;
