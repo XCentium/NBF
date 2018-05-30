@@ -778,9 +778,7 @@
             this.setStateRequiredRule("st", this.selectedShipTo);
             this.selectFirstCountryForAddress(this.cart.billTo);
             this.setStateRequiredRule("bt", this.cart.billTo);
-
-            console.dir(this.cart.billTo.country);
-
+            
             $("#nav1expanded,#nav2expanded").show();
             $("#nav1min,#nav2min,#nav1 .edit,#nav2 .edit").hide();
 
@@ -945,7 +943,18 @@
                 this.cartService.expand += ",restrictions";
             }
             this.cartService.getCart(this.cartId).then(
-                (cart: CartModel) => { this.getCartCompletedForReviewAndPay(cart, isInit); },
+                (cart: CartModel) => {
+                    this.getCartCompletedForReviewAndPay(cart, isInit); 
+                    $("#nav1expanded").hide();
+                    $("#nav1").removeClass("active");
+                    $("#nav1min, #nav1 .edit").show();
+
+                    $("#shipping").addClass("active");
+                    $("#nav2").addClass("active");
+                    $("html:not(:animated), body:not(:animated)").animate({
+                        scrollTop: $("#nav1").offset().top
+                    }, 200);
+                },
                 (error: any) => { this.getCartFailed(error); });
         }
 
@@ -993,17 +1002,6 @@
             if (!isInit) {
                 this.pageIsReady = true;
             }
-
-            $("#nav1expanded").hide();
-            $("#nav1").removeClass("active");
-            $("#nav1min, #nav1 .edit").show();
-
-            $("#shipping").addClass("active");
-            $("#nav2").addClass("active");
-            $("html:not(:animated), body:not(:animated)").animate({
-                scrollTop: $("#nav1").offset().top
-            },
-                200);
 
             this.updateCartLineAttributes();
         }
@@ -1556,12 +1554,14 @@
             this.customerService.updateBillTo(this.cart.billTo).then(
                 () => { this.updatebillToTaxExemptCompleted(); },
                 (error: any) => { this.updatebillToTaxExemptFailed(error); });
+
+            this.spinnerService.hide();
         }
 
         protected updatebillToTaxExemptCompleted(): void {
             this.cartService.expand = "cartlines,shipping,tax,promotions,carriers,paymentoptions,shiptos,validation";
             this.cartService.getCart(this.cart.id).then((cart: CartModel) => {
-                this.cart = cart;
+                this.getCartCompletedForReviewAndPay(cart, false);
                 this.spinnerService.hide();
             }, () => { this.spinnerService.hide(); });
 
