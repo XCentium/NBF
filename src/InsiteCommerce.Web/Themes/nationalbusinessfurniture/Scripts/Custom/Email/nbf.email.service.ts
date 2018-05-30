@@ -4,7 +4,8 @@
 
     export interface INbfEmailService {
         sendCatalogPrefsEmail(params: any): ng.IPromise<string>;
-        sendTaxExemptEmail(params: TaxExemptParams, file: any): ng.IPromise<string>;
+        postTaxExemptFileUpload(params: TaxExemptParams, file: any): ng.IPromise<string>;
+        sendTaxExemptEmail(params: TaxExemptParams): ng.IPromise<string>;
         sendContactUsSpanishForm(params: any): ng.IPromise<string>;
         uploadRmaFile(file: any);
     }
@@ -45,33 +46,19 @@
             );
         }
 
-        sendTaxExemptEmail(params: TaxExemptParams, file: any): ng.IPromise<string> {
+        postTaxExemptFileUpload(params: TaxExemptParams, file: any): ng.IPromise<string> {
             const fileUri = this.serviceUri + "/taxexemptfile";
-
-            var result = "false";
             //upload File
 
             const formData = new FormData();
             formData.append("file", file);
 
-            const config = {
-                headers: { "Content-Type": undefined }
-            };
-
-            this.$http.post(fileUri, formData, config).success((data: any) => {
-                if (data.errorMessage && data.errorMessage.length > 0) {
-                    alert("error");
-                } else {
-                    params.fileLocation = data;
-                    this.postTaxExemptFileUpload(params).then((uploadData) => {
-                        result = uploadData;
-                    });
-                }
-            });
-
-            const defer = this.$q.defer<string>();
-            defer.resolve(result);
-            return defer.promise;
+            return this.httpWrapperService.executeHttpRequest(
+                this,
+                this.$http({ url: fileUri, method: "POST", data: formData, headers: { "Content-Type": undefined } }),
+                this.sendEmailCompleted,
+                this.sendEmailFailed
+            );
         } 
 
         uploadRmaFile(file: any) {
@@ -95,7 +82,7 @@
             
         }
 
-        protected postTaxExemptFileUpload(params: TaxExemptParams) : ng.IPromise<string> {
+        sendTaxExemptEmail(params: TaxExemptParams) : ng.IPromise<string> {
             const uri = this.serviceUri + "/taxexempt";
 
             return this.httpWrapperService.executeHttpRequest(

@@ -241,7 +241,7 @@
                 var cc1Amount = Number(this.cart.properties["cc1"]);
                 this.remainingTotal -= cc1Amount;
                 this.cc1Display = this.convertToCurrency(cc1Amount);
-                this.totalPaymentsDisplay;
+                //this.totalPaymentsDisplay;
                 totalPaymentAmount += cc1Amount;
             }
             if (this.cart.properties["cc2"]) {
@@ -1132,7 +1132,6 @@
         }
 
         submit(signInUri: string, emailTo: string): void {
-            var self = this;
             this.submitting = true;
             this.submitErrorMessage = "";
 
@@ -1140,6 +1139,8 @@
                 this.submitting = false;
                 return;
             }
+
+            this.spinnerService.show("mainLayout", true);
 
             if (!this.isTaxExempt && this.taxExemptChoice && this.taxExemptFileName) {
                 var params = {
@@ -1150,13 +1151,22 @@
                     fileLocation: ""
                 } as TaxExemptParams;
 
-                this.nbfEmailService.sendTaxExemptEmail(params, this.file).then(
-                    () => { },
-                    () => { this.errorMessage = "An error has occurred."; });
+                this.nbfEmailService.postTaxExemptFileUpload(params, this.file).then(
+                    (data) => {
+                        params.fileLocation = data;
+                        this.nbfEmailService.sendTaxExemptEmail(params).then(() => {
+                                this.handleGuestRegistration(signInUri);
+                            },() => { this.errorMessage = "An error has occurred."; });
+                    },() => { this.errorMessage = "An error has occurred."; });
             } else if (!this.isTaxExempt && this.taxExemptChoice) {
                 //tax exempt choice is yes but no file was uploaded
+            } else {
+                this.handleGuestRegistration(signInUri);
             }
+        }
 
+        protected handleGuestRegistration(signInUri: string) {
+            var self = this;
             var pass = $("#CreateNewAccountInfo_Password").val();
 
             if (pass) {
@@ -1216,7 +1226,6 @@
 
             this.cart.requestedDeliveryDate = this.formatWithTimezone(this.cart.requestedDeliveryDate);
 
-            this.spinnerService.show("mainLayout", true);
             var oldCartLines = this.cart.cartLines;
             this.cartService.updateCart(this.cart, true).then(
                 (cart: CartModel) => { this.submitCompleted(cart, oldCartLines); },
@@ -1248,7 +1257,7 @@
                         this.cart.id;
                     window.history.pushState({ path: newurl }, "", newurl);
                 }
-                this.cartService.getCart();
+                //this.cartService.getCart();
                 this.loadStep4();
                 this.spinnerService.hide();
             }
@@ -1441,12 +1450,10 @@
                         propName = "cc2";
                         self.cart.properties[propName] = self.paymentAmount.toString();
                     }
-                    
 
-                    self.cartService.updateCart(self.cart).then((cart) => {
+                    self.cartService.updateCart(self.cart).then(() => {
                         self.setPaymentAmounts();
                         this.paymentAmount = this.remainingTotal;
-
                         this.cart.paymentOptions.creditCard.cardType = null;
                     });
                 }
@@ -1531,6 +1538,7 @@
                     this.$scope.$apply();
                 });
             }
+            return true;
         }
 
         openUpload() {
