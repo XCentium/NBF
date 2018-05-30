@@ -131,6 +131,7 @@
     <Content Include="Styles\custom\checkout-cart.scss" />
     <Content Include="Styles\custom\font-awesome.scss" />
     <Content Include="Styles\custom\font-icomoon.scss" />
+    <Content Include="Styles\custom\product-list-print.scss" />
     <Content Include="Styles\custom\selectize.scss" />
     <Content Include="Styles\custom\portfolio-isotope.scss" />
     <Content Include="Styles\fonts\fontawesome-webfont.svg" />
@@ -812,7 +813,6 @@
     <Content Include="Views\Widgets\Custom\ShopTheLookLandingView\Standard.cshtml" />
     <Content Include="Styles\custom\saved-orders.scss" />
     <Content Include="Styles\custom\my-favorites.scss" />
-    <Content Include="Styles\custom\product-list-print.scss" />
     <Content Include="Views\Widgets\MyListDetailView\NBF.cshtml" />
     <Content Include="Views\Widgets\PageTitle\NBF-h2.cshtml" />
     <Content Include="Views\Widgets\PageTitle\title-h2.cshtml" />

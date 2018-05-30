@@ -111,11 +111,10 @@
                             <span class="field-validation-error" ng-if="vm.showUnitError"><span ng-bind="vm.parentProduct.unitOfMeasureDisplay"></span>[% siteMessage 'StyledProduct_WrongUnitOfMeasure' %]</span>
                             <div class="pd-buttons">
                                 <div class="small-12 primary-button">
-                                    <button ng-show="(vm.product.availability.messageType != 2 || vm.product.canBackOrder) && vm.product.allowedAddToCart && (vm.product.canAddToCart || vm.configurationCompleted || vm.styleSelectionCompleted && !vm.product.canConfigure)"
-                                            id="tst_productDetail_addToCart" ng-click="vm.addToCart(vm.product)"
+                                    <button id="tst_productDetail_addToCart" ng-click="vm.addToCart(vm.product)"
                                             role="button" class="btn primary btn-add-to-cart" ng-disabled="!vm.product.qtyOrdered || vm.product.qtyOrdered == 0 || vm.showUnitError || vm.addingToCart">
                                         <span class="ico-CartIcon"></span> [% translate 'Add To Cart' %]
-                                    </button>
+                                    </button>                                   
                                 </div>
 
                                 <div ng-if="vm.product.canConfigure && (vm.product.styleTraits.length === 0 || vm.styleSelectionCompleted)" class="small-12 primary-button">
@@ -141,7 +140,7 @@
                             <section class="accordion">
                                 <div>
                                     <input type="checkbox" id="accord-10000" class="accord-check" checked />
-                                    <label id="tst_productList_tableView_filterButton" for="accord-10000" class="accord-head" >[% translate 'Product Details' %]</label>
+                                    <label id="tst_productList_tableView_filterButton" for="accord-10000" class="accord-head">[% translate 'Product Details' %]</label>
                                     <article class="accord-content">
                                         <div id="tst_productDetail_htmlContent" class="product-cm" ng-bind-html="vm.product.htmlContent|trusted"></div>
                                         <br />
@@ -181,7 +180,7 @@
                                                     <a ng-if="document.documentType == 'blog'" id="tst_productDetail_{{document.id}}" ng-href="{{document.filePath}}" target="_new">{{document.name}} <em ng-if="document.documentType">({{document.documentType}})</em></a>
                                                 </li>
                                             </ul>
-                                        </div>                                
+                                        </div>
                                     </article>
                                 </div>
                             </section>
@@ -234,6 +233,26 @@
         </div>
         <div class="swatchform__footer">
             <a href ng-click="vm.addSwatchProductsToCart()" class="btn add-to-cart"><span class="ico-CartIcon"></span> Add To Cart</a>
+        </div>
+        <a class="close-reveal-modal" aria-label="Close">&#215;</a>
+    </div>
+    <!--Unstyle Product error -->
+    <div id="unstyledProductErrorModal" class="unstyledProductErrorModal reveal-modal" data-reveal data-reveal-init aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
+        <div class="unstyledProductErrorModal__scrollarea">
+            <h2 id="unstyledProductErrorModal__title">Please select product styles</h2>
+            <p class="lead">
+                Please select all product styles before adding to cart.
+            </p>
+        </div>
+        <a class="close-reveal-modal" aria-label="Close">&#215;</a>
+    </div>
+    <!--Product cannot be added to cart error -->
+    <div id="productCannotBeAddedToCartErrorModal" class="productCannotBeAddedToCartErrorModal reveal-modal" data-reveal data-reveal-init aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
+        <div class="productCannotBeAddedToCartErrorModal__scrollarea">
+            <h2 id="productCannotBeAddedToCartErrorModal__title">This product cannot be added to cart</h2>
+            <p class="lead">
+                This product cannot be added to cart.
+            </p>
         </div>
         <a class="close-reveal-modal" aria-label="Close">&#215;</a>
     </div>
