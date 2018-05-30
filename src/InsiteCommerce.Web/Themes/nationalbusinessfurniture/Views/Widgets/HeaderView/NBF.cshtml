@@ -330,8 +330,7 @@
         <div class="isc-primary-nav prevent-li-below-window">
             <ul>
                 <li class="mobile-search">
-                    <input class="mobile-search-input" placeholder="Search" type="text" id=""/>
-                    <button class="mobile-search-btn">Go</button>
+                    <nbf-mobile-product-search id="narrowSearch"></nbf-mobile-product-search>
                 </li>
                 [% zone 'Nav' %]
             </ul>
@@ -372,6 +371,33 @@
             </div>
             <div class="search-button">
                 <button class="btn primary fastClick" ng-click="vm.search()">[% translate 'Go' %]</button>
+            </div>
+        </form>
+    </div>
+</script>
+
+<script type="text/ng-template" id="header_mobileProductSearch">
+    <div class="search-container hide-for-print">
+        <form>
+            <div>
+                <input ng-model="vm.criteria" type="text" class="mobile-search-input"
+                       ng-init="vm.autocompleteOptions.placeholder = '[% siteMessage 'Autocomplete_PlaceHolder_Mobile' 'Search' %]';
+                            vm.translations = [
+                                {key: 'category', text: '[% translate 'Categories' %]'},
+                                {key: 'content', text: '[% translate 'Content' %]'},
+                                {key: 'product', text: '[% translate 'Products' %]'},
+                                {key: 'manufacturerItemNumber', text: '[% translate 'MFG #' %]'},
+                                {key: 'partNumber', text: '[% translate 'Part #' %]'},
+                                {key: 'customerPartNumber', text: '[% translate 'My Part #' %]'}]"
+                       kendo-auto-complete
+                       k-options="vm.autocompleteOptions"
+                       isc-enter="vm.onEnter()"
+                       name="criteria"
+                       ng-blur="vm.startAutocomplete()"
+                       onfocus="$(this).data('kendoAutoComplete').search()">
+            </div>
+            <div>
+                <button class="mobile-search-btn" ng-click="vm.search()">[% translate 'Go' %]</button>
             </div>
         </form>
     </div>
