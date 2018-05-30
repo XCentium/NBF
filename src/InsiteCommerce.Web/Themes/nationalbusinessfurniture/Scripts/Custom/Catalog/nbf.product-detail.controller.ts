@@ -88,7 +88,19 @@
         }
 
 
-        addToCart(product: ProductDto): void {            
+        addToCart(product: ProductDto): void {  
+            if ((((product.availability as any).messageType != 2 || product.canBackOrder) && product.allowedAddToCart && (product.canAddToCart || this.configurationCompleted || this.styleSelectionCompleted && !product.canConfigure)) == false) {
+
+                if (this.styleSelectionCompleted == false) {
+                    this.showUnstyledProductErrorModal();
+                }
+                else {
+                    this.showProductCannotBeAddedToCartErrorModal();
+                }
+
+                return; 
+            }
+
             this.addingToCart = true;
 
             let sectionOptions: ConfigSectionOptionDto[] = null;
@@ -226,6 +238,14 @@
 
         protected showSwatchOrderForm(): void {
             this.coreService.displayModal(angular.element("#swatchform"));
+        }
+
+        protected showUnstyledProductErrorModal(): void {
+            this.coreService.displayModal(angular.element("#unstyledProductErrorModal"));
+        } 
+
+        protected showProductCannotBeAddedToCartErrorModal(): void {
+            this.coreService.displayModal(angular.element("#productCannotBeAddedToCartErrorModal"));
         }
 
         protected hideSwatchOrderForm(): void {
