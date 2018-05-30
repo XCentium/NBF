@@ -132,7 +132,7 @@ begin
 			and spsku.EffStartDate < getdate() and spsku.effenddate > getdate() and spsku.IsWebEnabled = 1
 		join OEGSystemStaging.dbo.ItemSKUs sisku on sisku.ItemSKUId = spsku.ItemSKUId
 		join OEGSystemStaging.dbo.LookupItemClasses sic on sic.ClassId = si.ClassId
-			and sic.[Name] not in ('Bedroom Furniture', 'Entertainment/AV', 'Misc.', 'Parts')
+			and sic.[Name] not in ('Bedroom Furniture', 'Entertainment/AV', 'Parts')
 	where 
 		sp.BrandId = @brand
 		and isnull(sp.Number,'') != ''

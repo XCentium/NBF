@@ -49,7 +49,26 @@
             }
 
             $("div").not(":input[type=checkbox], .accord-head, .accord-content, .f-wrap").on("click", handler);
-        }       
+
+            this.checkifmobile();
+        }
+
+        checkifmobile() {
+
+                var windowsize = $(window).width();
+                if ($(".f-cat").length) {
+                    if (windowsize < 767) {
+                        setTimeout(
+                            () => {
+                                $("#accord-10000").prop("checked", false);
+                            },
+                            2000);
+                        $("#accord-10000").removeAttr("checked");
+                    }
+                }
+            
+
+        }
 
         toggleFilter(attributeValueId: string) {
             (<any>this.$location).search("attr", "none");
