@@ -168,13 +168,7 @@
                     e.preventDefault();
                 }
             });
-
-            $("#addressForm").change(() => {
-                if (this.billToSameAsShipToSelected) {
-                    this.updateBillTo();
-                }
-            });
-
+            
             $(".masked-phone").mask("999-999-9999", { autoclear: false });
 
             this.$form = $("#taxExemptFileUpload");
@@ -426,8 +420,6 @@
                 // don't allow editing the billTo from the shipTo side if the billTo is selected as the shipTo
                 this.billToSameAsShipToSelected = true;
             }
-
-            this.updateBillTo();
         }
 
         checkSelectedShipTo(): void {
@@ -457,18 +449,21 @@
                 this.setStateRequiredRule("st", this.selectedShipTo);
             }
 
-            this.updateBillTo();
-
-            this.updateAddressFormValidation();
-        }
-
-        protected updateBillTo(): void {
             if (this.billToAndShipToAreSameCustomer() && !this.isGuest) {
                 this.shipToIsReadOnly = true;
             } else {
                 this.shipToIsReadOnly = false;
             }
 
+            if (this.onlyOneCountryToSelect()) {
+                this.selectFirstCountryForAddress(this.cart.billTo);
+                this.setStateRequiredRule("bt", this.cart.billTo);
+            }
+
+            this.updateAddressFormValidation();
+        }
+
+        protected updateBillTo(): void {
             this.cart.billTo.email = this.selectedShipTo.email;
             if (this.billToSameAsShipToSelected) {
                 this.cart.billTo.firstName = this.selectedShipTo.firstName;
@@ -493,11 +488,6 @@
                 this.cart.billTo.country = bt.country;
                 this.cart.billTo.postalCode = bt.postalCode;
                 this.cart.billTo.phone = bt.phone;
-            }
-
-            if (this.onlyOneCountryToSelect()) {
-                this.selectFirstCountryForAddress(this.cart.billTo);
-                this.setStateRequiredRule("bt", this.cart.billTo);
             }
         }
 
@@ -606,6 +596,8 @@
             }
 
             this.spinnerService.show("mainLayout", true);
+            this.updateBillTo();
+
             this.continueCheckoutInProgress = true;
             this.cartUri = cartUri;
 
