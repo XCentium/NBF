@@ -11,7 +11,7 @@
 <a ng-if="!vm.cart.canCheckOut && !vm.cart.properties['isPunchout'] && !vm.cart.canRequisition" class="btn primary btn-checkout tst_cartPage_checkoutDisabled disabled" href="javascript:void(0)">[% translate 'Checkout' %]</a>
 <div class="btn-col">
     <a ng-if="vm.cart.canSaveOrder" href="javascript: void(0);" class="btn btn-secondary btn-save-order tst_cartPage_saveOrder" ng-click="vm.saveCart('[% urlForPage 'SavedOrderDetailPage' %]', '[% urlForPage 'SignInPage' %]')">[% translate 'Save Order' %]</a>
-    <a ng-if="vm.cart.canRequestQuote" ng-click="vm.requestQuote('[% urlForPage 'RfqRequestQuotePage' %]')" @*href="[% urlForPage 'RfqRequestQuotePage' %]"*@ class="btn btn-secondary btn-request-quote tst_cartPage_submitQuote"
+    <a ng-if="vm.cart.canRequestQuote" href="[% urlForPage 'RfqRequestQuotePage' %]" class="btn btn-secondary btn-request-quote tst_cartPage_submitQuote"
        ng-bind="vm.cart.isSalesperson ? '[% translate 'Create a Quote' %]' : '[% translate 'Request a Quote' %]'" ng-disabled="vm.cart.isAwaitingApproval"></a>
 </div>
 <a ng-if="vm.cart.properties['isPunchout']" ng-href="/punchout/punchoutsubmitporequisition.isch?operation=cancel" isc-full-redirect class="btn primary btn-checkout">[% translate 'Cancel PunchOut' %]</a>

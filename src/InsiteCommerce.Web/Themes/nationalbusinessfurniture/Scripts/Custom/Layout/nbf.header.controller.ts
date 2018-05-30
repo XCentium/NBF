@@ -177,7 +177,7 @@
         }
 
         protected requestQuote(uri: string): void {
-            this.$rootScope.$broadcast("initAnalyticsEvent", "MiniCartQuoteRequest");
+            this.$rootScope.$broadcast("AnalyticsEvent", "MiniCartQuoteRequest");
             window.location.href = uri;
 
         }
