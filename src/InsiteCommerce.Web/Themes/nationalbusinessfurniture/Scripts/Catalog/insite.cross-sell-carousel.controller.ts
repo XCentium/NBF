@@ -11,6 +11,7 @@
         productSettings: ProductSettingsModel;
         failedToGetRealTimePrices = false;
         addingToCart = true;
+        carouselElement: ng.IAugmentedJQuery;
 
         static $inject = ["cartService", "productService", "$timeout", "addToWishlistPopupService", "settingsService", "$scope"];
 
@@ -181,7 +182,7 @@
         }
 
         protected isCarouselDomReadyAndImagesLoaded(): boolean {
-            return $(".cs-carousel").length > 0 && this.imagesLoaded >= this.crossSellProducts.length;
+            return $(".cs-carousel", this.carouselElement).length > 0 && this.imagesLoaded >= this.crossSellProducts.length;
         }
 
         protected isProductLoaded(): boolean {
@@ -189,16 +190,20 @@
         }
 
         protected initializeCarousel(): void {
-            $(".cs-carousel").flexslider({
+            const num = $(".cs-carousel .isc-productContainer", this.carouselElement).length;
+            const itemsNum: number = this.getItemsNumber();
+
+            $(".cs-carousel", this.carouselElement).flexslider({
                 animation: "slide",
                 controlNav: false,
                 animationLoop: true,
                 slideshow: false,
+                touch: num > itemsNum,
                 itemWidth: this.getItemSize(),
                 minItems: this.getItemsNumber(),
                 maxItems: this.getItemsNumber(),
                 move: this.getItemsMove(),
-                customDirectionNav: $(".carousel-control-nav"),
+                customDirectionNav: $(".carousel-control-nav", this.carouselElement),
                 start: (slider: any) => { this.onCarouselStart(slider); }
             });
 
@@ -221,7 +226,7 @@
                 return;
             }
 
-            const container = $(".cs-carousel");
+            const container = $(".cs-carousel", this.carouselElement);
             if (container.innerWidth() > 768) {
                 this.carousel.vars.move = 2;
             } else {
@@ -230,7 +235,7 @@
         }
 
         protected getItemSize(): number {
-            const el = $(".cs-carousel");
+            const el = $(".cs-carousel", this.carouselElement);
             let width = el.innerWidth();
 
             if (width > 768) {
@@ -242,7 +247,7 @@
         }
 
         protected getItemsMove(): number {
-            const container = $(".cs-carousel");
+            const container = $(".cs-carousel", this.carouselElement);
             if (container.innerWidth() > 768) {
                 return 2;
             } else {
@@ -251,7 +256,7 @@
         }
 
         protected getItemsNumber(): number {
-            const el = $(".cs-carousel");
+            const el = $(".cs-carousel", this.carouselElement);
             const width = el.innerWidth();
             let itemsNum: number;
 
@@ -270,8 +275,8 @@
                 return;
             }
 
-            const num = $(".cs-carousel .isc-productContainer").length;
-            const el = $(".cs-carousel");
+            const num = $(".cs-carousel .isc-productContainer", this.carouselElement).length;
+            const el = $(".cs-carousel", this.carouselElement);
             let width = el.innerWidth();
             let itemsNum: number;
 
@@ -290,59 +295,62 @@
             this.carousel.vars.minItems = itemsNum;
             this.carousel.vars.maxItems = itemsNum;
             this.carousel.vars.itemWidth = width;
-            $(".cs-carousel ul li").css("width", `${width}.px`);
+            $(".cs-carousel ul li", this.carouselElement).css("width", `${width}.px`);
             this.equalizeCarouselDimensions();
         }
 
         protected equalizeCarouselDimensions(): void {
-            if ($(".carousel-item-equalize").length > 0) {
+            if ($(".carousel-item-equalize", this.carouselElement).length > 0) {
                 let maxHeight = -1;
                 let maxThumbHeight = -1;
                 let maxNameHeight = -1;
                 let maxProductInfoHeight = -1;
 
-                const navHeight = `min-height:${$("ul.item-list").height()}`;
-                $(".left-nav-2").attr("style", navHeight);
+                const navHeight = `min-height:${$("ul.item-list", this.carouselElement).height()}`;
+                $(".left-nav-2", this.carouselElement).attr("style", navHeight);
 
                 // clear the height overrides
-                $(".carousel-item-equalize").each(function () {
-                    $(this).find(".item-thumb").height("auto");
-                    $(this).find(".item-name").height("auto");
-                    $(this).find(".product-info").height("auto");
-                    $(this).height("auto");
+                $(".carousel-item-equalize", this.carouselElement).each(function () {
+                    const $this = $(this);
+                    $this.find(".item-thumb").height("auto");
+                    $this.find(".item-name").height("auto");
+                    $this.find(".product-info").height("auto");
+                    $this.height("auto");
                 });
 
                 // find the max heights
-                $(".carousel-item-equalize").each(function () {
-                    const thumbHeight = $(this).find(".item-thumb").height();
+                $(".carousel-item-equalize", this.carouselElement).each(function () {
+                    const $this = $(this);
+                    const thumbHeight = $this.find(".item-thumb").height();
                     maxThumbHeight = maxThumbHeight > thumbHeight ? maxThumbHeight : thumbHeight;
-                    const nameHeight = $(this).find(".item-name").height();
+                    const nameHeight = $this.find(".item-name").height();
                     maxNameHeight = maxNameHeight > nameHeight ? maxNameHeight : nameHeight;
-                    const productInfoHeight = $(this).find(".product-info").height();
+                    const productInfoHeight = $this.find(".product-info").height();
                     maxProductInfoHeight = maxProductInfoHeight > productInfoHeight ? maxProductInfoHeight : productInfoHeight;
 
                 });
 
                 // set all to max heights
                 if (maxThumbHeight > 0) {
-                    $(".carousel-item-equalize").each(function () {
-                        $(this).find(".item-thumb").height(maxThumbHeight);
-                        $(this).find(".item-name").height(maxNameHeight);
-                        $(this).find(".product-info").height(maxProductInfoHeight);
-                        const height = $(this).height();
+                    $(".carousel-item-equalize", this.carouselElement).each(function () {
+                        const $this = $(this);
+                        $this.find(".item-thumb").height(maxThumbHeight);
+                        $this.find(".item-name").height(maxNameHeight);
+                        $this.find(".product-info").height(maxProductInfoHeight);
+                        const height = $this.height();
                         maxHeight = maxHeight > height ? maxHeight : height;
-                        $(this).addClass("eq");
+                        $this.addClass("eq");
                     });
-                    $(".carousel-item-equalize").height(maxHeight);
+                    $(".carousel-item-equalize", this.carouselElement).height(maxHeight);
                 }
             }
         }
 
         protected showCarouselArrows(shouldShowArrows: boolean): void {
             if (shouldShowArrows) {
-                $(".carousel-control-nav").show();
+                $(".carousel-control-nav", this.carouselElement).show();
             } else {
-                $(".carousel-control-nav").hide();
+                $(".carousel-control-nav", this.carouselElement).hide();
             }
         }
     }

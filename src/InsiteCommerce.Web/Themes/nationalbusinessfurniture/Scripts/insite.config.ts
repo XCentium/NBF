@@ -26,6 +26,10 @@ module insite {
                 $httpProvider.defaults.withCredentials = true;
             }
 
+            // set ASP.NET IsAjaxRequest to 'true'
+            $httpProvider.defaults.headers.common = $httpProvider.defaults.headers.common || {};
+            $httpProvider.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
+
             $httpProvider.interceptors.push("authenticationInterceptor");
             $httpProvider.interceptors.push("httpErrorsInterceptor");
 
@@ -41,8 +45,8 @@ module insite {
                     templateUrl: () => "/search"
                 })
                 .state("search_microsite", {
-                    url: ":microsite/search?criteria&includeSuggestions",
-                    templateUrl: (stateParams: ISearchMicrositeStateParams) => `${stateParams.microsite}/search`
+                    url: "/:microsite/search?criteria&includeSuggestions",
+                    templateUrl: (stateParams: ISearchMicrositeStateParams) => `/${stateParams.microsite}/search`
                 })
                 .state("content", {
                     url: "*path",
