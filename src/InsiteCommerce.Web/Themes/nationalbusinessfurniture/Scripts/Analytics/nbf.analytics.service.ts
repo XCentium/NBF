@@ -103,18 +103,18 @@ module nbf.analytics {
         }
 
         private handleAnalyticsCart(event, cart: CartModel) {
-            if (this._isInitialCartLoad) {
-                this._isInitialCartLoad = false;
-            } else {
-                //Checking if cart was opened
-                if (this.Data.cart.items.length == 0 && cart.cartLines.length > 0) {
-                    this.Data.events.push({
-                        event: AnalyticsEvents.CartOpened,
-                        data: this.convertCartLine(cart.cartLines[0])
-                    });
-                    this.FireEvent(AnalyticsEvents.CartOpened);
-                }
-            }
+            //if (this._isInitialCartLoad) {
+            //    this._isInitialCartLoad = false;
+            //} else {
+            //    //Checking if cart was opened
+            //    if (this.Data.cart.items.length == 0 && cart.cartLines.length > 0) {
+            //        this.Data.events.push({
+            //            event: AnalyticsEvents.CartOpened,
+            //            data: this.convertCartLine(cart.cartLines[0])
+            //        });
+            //        this.FireEvent(AnalyticsEvents.CartOpened);
+            //    }
+            //}
 
             this.Data.cart.items = [];
             cart.cartLines.forEach((p) => {
