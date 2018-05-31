@@ -20,7 +20,7 @@ using Insite.Data.Repositories.Interfaces;
 
 namespace Extensions.WebApi.EmailApi.Repository
 {
-    public class EmailApiRepository : BaseRepository, IEmailApiRepository, IInterceptable
+    public class EmailApiRepository : BaseRepository, IEmailApiRepository
     {
         private readonly IUnitOfWork _unitOfWork;
         protected readonly IEmailService EmailService;
