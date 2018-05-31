@@ -88,8 +88,8 @@
         }
 
 
-        addToCart(product: ProductDto): void {            
-            this.addingToCart = true;
+        addToCart(product: ProductDto): void {  
+             this.addingToCart = true;
 
             let sectionOptions: ConfigSectionOptionDto[] = null;
             if (this.configurationCompleted && product.configurationDto && product.configurationDto.sections) {
@@ -228,6 +228,14 @@
             this.coreService.displayModal(angular.element("#swatchform"));
         }
 
+        protected showUnstyledProductErrorModal(): void {
+            this.coreService.displayModal(angular.element("#unstyledProductErrorModal"));
+        } 
+
+        protected showProductCannotBeAddedToCartErrorModal(): void {
+            this.coreService.displayModal(angular.element("#productCannotBeAddedToCartErrorModal"));
+        }
+
         protected hideSwatchOrderForm(): void {
             this.coreService.closeModal("#swatchform");
         }
@@ -341,6 +349,7 @@
         }
 
         protected setPowerReviews() {
+            var self = this;
             let powerReviewsConfig = {
                 api_key: this.$attrs.prApiKey,
                 locale: 'en_US',
@@ -354,7 +363,7 @@
                     //QuestionSnippet: 'pr-questionsnippet',
                     QuestionDisplay: 'pr-questiondisplay'
                 },
-                on_submit: this.powerReviewsOnSubmit
+                on_submit: (config, data) => self.powerReviewsOnSubmit(config, data)
             };
 
 

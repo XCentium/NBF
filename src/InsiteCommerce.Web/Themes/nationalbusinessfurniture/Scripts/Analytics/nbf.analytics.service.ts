@@ -78,6 +78,22 @@ module nbf.analytics {
                         data: this.convertCartLine(data)
                     });
                     break;
+                case AnalyticsEvents.ShippingBillingInfoComplete:
+                    this.Data.profile.profileInfo.state = data.state;
+                    this.Data.profile.profileInfo.zip = data.zip;
+                    break;
+                case AnalyticsEvents.ContentShared:
+                    this.Data.events.push({
+                        event: analyticsEvent,
+                        data: data
+                    });
+                    break;
+                case AnalyticsEvents.ProductListingFiltered:
+                    this.Data.pageInfo.internalSearch.filters = data;
+                    break;
+                case AnalyticsEvents.ShopTheLook:
+                    this.Data.pageInfo.shopTheLook = data;
+                    break;
             }
             console.log("Firing Analytics Event: " + analyticsEvent);
             this.FireEvent(analyticsEvent as AnalyticsEvent);
@@ -138,6 +154,7 @@ module nbf.analytics {
             this.Data.pageInfo.destinationUrl = newUrl;
             this.Data.pageInfo.referringUrl = oldUrl;
             this.Data.pageInfo.affiliateCode = this.getSiteId();
+            this.Data.pageInfo.pageName = window.location.pathname;
             this.sessionService.getSession()
                 .then(session => {
                     if (session) {
@@ -214,7 +231,10 @@ module nbf.analytics {
             this.Data.transaction.total.shipping = cart.shippingAndHandling;
             this.Data.transaction.total.basePrice = cart.orderSubTotal;
             this.Data.transaction.total.bulkDiscount = 0;
-            this.Data.transaction.total.promoCode = ""
+            this.Data.transaction.total.promoCode = "";
+            this.Data.transaction.paymentMethod = cart.paymentMethod ? cart.paymentMethod.name : "Open Credit";
+            this.Data.transaction.shippingMethod = cart.shipVia.description;
+            this.Data.transaction.transactionId = cart.orderNumber;
             cartLines.forEach(line => {
                 this.Data.transaction.products.push(this.convertCartLine(line));
             });
@@ -355,13 +375,14 @@ module nbf.analytics {
         ProductQuestionStarted: "ProductQuestionStarted" as AnalyticsEvent,
         ContentShared: "ContentShared" as AnalyticsEvent,
         ProductListingFiltered: "ProductListingFiltered" as AnalyticsEvent,
-        CheckoutComplete: "CheckoutComplete" as AnalyticsEvent
+        CheckoutComplete: "CheckoutComplete" as AnalyticsEvent,
+        ShopTheLook: "ShopTheLook" as AnalyticsEvent
     }
 
     export type AnalyticsEvent = "PageLoad" | "ProductPageView" | "SwatchRequest" | "CatalogRequest" | "QuoteRequest" | "MiniCartQuoteRequest" | "InternalSearch" | "SuccessfulSearch" |
         "FailedSearch" | "ContactUsInitiated" | "ContactUsCompleted" | "AccountCreation" | "CheckoutAccountCreation" | "Login" | "CrossSellSelected" | "EmailSignUp" | "LiveChatStarted" |
         "ProductAddedToCart" | "CheckoutInitiated" | "CheckoutComplete" | "ProductQuestionStarted" | "ProductQuestionAsked" | "Selected360View" | "AddProductToWishlist" | "SaveOrderFromCartPage" |
         "ReadReviewsSelected" | "MiniCartHover" | "SaveCart" | "CartOpened" | "ProductRemovedFromCart" | "ShippingBillingInfoComplete" | "ShippingMethodSelected" | "BillingMethodSelected" |
-        "ContinueShoppingFromCartPage" | "ContentShared" | "ProductListingFiltered";
+        "ContinueShoppingFromCartPage" | "ContentShared" | "ProductListingFiltered" | "ShopTheLook";
 
 }

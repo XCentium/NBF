@@ -56,8 +56,8 @@
                         <div class="item-block__product__swatches">
                             <div class="item-block__product__swatches__label" ng-repeat-start="styleTrait in vm.styleTraitFiltered | orderBy: 'sortOrder'">{{styleTrait.nameDisplay}}:</div>
                             <ul ng-repeat-end>
-                                <li ng-class="{'active': (vm.styleSelection[$parent.$index] && vm.styleSelection[$parent.$index].styleTraitValueId  == style.styleTraitValueId)}" ng-repeat="style in styleTrait.styleValues | orderBy: 'sortOrder' track by style.styleTraitValueId">
-                                    <img ng-click="vm.selectInsiteStyleDropdown(styleTrait.nameDisplay, style.styleTraitValueId, $parent.$index);" ng-src="https://s7d9.scene7.com/is/image/NationalBusinessFurniture/{{vm.getSwatchImageNameFromStyleTraitValueId(style.styleTraitName, style.value)}}?hei=200&id=5-zsy2&fmt=jpg&fit=constrain,1&wid=344&hei=344" alt="{{style.valueDisplay}}" />
+                                <li ng-class="{'active': (vm.styleSelection[$parent.$index] && vm.styleSelection[$parent.$index].styleTraitValueId  == style.styleTraitValueId)}" ng-repeat="style in styleTrait.styleValues | orderBy: 'sortOrder' track by style.styleTraitValueId" class="tip" data-title="{{style.valueDisplay}}">
+                                    <img ng-click="vm.selectInsiteStyleDropdown(styleTrait.nameDisplay, style.styleTraitValueId, $parent.$index);" ng-src="https://s7d9.scene7.com/is/image/NationalBusinessFurniture/{{vm.getSwatchImageNameFromStyleTraitValueId(style.styleTraitName, style.value)}}?hei=200&id=5-zsy2&fmt=jpg&fit=constrain,1&wid=344&hei=344"  />
                                 </li>
                             </ul>
                         </div>
@@ -141,7 +141,7 @@
                             <section class="accordion">
                                 <div>
                                     <input type="checkbox" id="accord-10000" class="accord-check" checked />
-                                    <label id="tst_productList_tableView_filterButton" for="accord-10000" class="accord-head" >[% translate 'Product Details' %]</label>
+                                    <label id="tst_productList_tableView_filterButton" for="accord-10000" class="accord-head">[% translate 'Product Details' %]</label>
                                     <article class="accord-content">
                                         <div id="tst_productDetail_htmlContent" class="product-cm" ng-bind-html="vm.product.htmlContent|trusted"></div>
                                         <br />
@@ -181,7 +181,7 @@
                                                     <a ng-if="document.documentType == 'blog'" id="tst_productDetail_{{document.id}}" ng-href="{{document.filePath}}" target="_new">{{document.name}} <em ng-if="document.documentType">({{document.documentType}})</em></a>
                                                 </li>
                                             </ul>
-                                        </div>                                
+                                        </div>
                                     </article>
                                 </div>
                             </section>
@@ -248,5 +248,4 @@
 <script type="text/ng-template" id="/PartialViews/Catalog-ProductImageCarousel">
     [% partialView 'Catalog-ProductImageCarousel' %]
 </script>
-
 
