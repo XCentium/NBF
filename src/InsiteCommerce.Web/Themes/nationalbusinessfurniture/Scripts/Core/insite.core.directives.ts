@@ -83,5 +83,11 @@
             controller: "SpinnerController",
             controllerAs: "vm",
             bindToController: true
+        }))
+        .directive("iscDateDisplay", () => ({
+            link: (scope, element, attrs: any) => {
+                scope.dateTime = new Date(attrs.dateTime);
+            },
+            template: "{{dateTime | date:'shortDate'}}"
         }));
 }

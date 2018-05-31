@@ -1,9 +1,10 @@
-﻿<div ng-controller="RelatedProductsController as vm" ng-init="vm.relatedProductType='[[Model.SystemListValue]]'" class="widget-related-products [[Model.CssClass]]" ng-cloak>
+﻿<div ng-controller="RelatedProductsController as vm" carousel-element-id="[[Model.RelatedProductsCarouselId]]"
+     ng-init="vm.relatedProductType='[[Model.SystemListValue]]'" class="widget-related-products [[Model.CssClass]]" ng-cloak>
     <div class="row" role="cross-sells" ng-if="vm.showRelatedProductsCarousel()" ng-cloak>
         <h3>[[Model.Title]]</h3>
         <div class="medium-12 large-12 columns">
             <div class="carousel-wrapper">
-                <div id="csCarousel_{{vm.relatedProductType}}" class="rp-carousel">
+                <div class="rp-carousel csCarousel_{{vm.relatedProductType}}">
                     <ul class="items slides">
                         <li class="medium-3 large-3 columns isc-productContainer" ng-repeat="relatedProduct in ::vm.relatedProducts track by relatedProduct.id">
                             <div class="item-wrap">

@@ -16,7 +16,7 @@ module insite.order {
     }
 
     export interface IOrderService {
-        getOrders(filter: ISearchFilter, pagination: PaginationModel): ng.IPromise<OrderCollectionModel>;
+        getOrders(filter: ISearchFilter, pagination: PaginationModel, preventCaching?: boolean): ng.IPromise<OrderCollectionModel>;
         getOrder(orderId: string, expand: string, stEmail?: string, stPostalCode?: string): ng.IPromise<OrderModel>;
         getOrderStatusMappings(): ng.IPromise<OrderStatusMappingCollectionModel>;
         updateOrder(orderId: string, orderModel: OrderModel): ng.IPromise<OrderModel>;
@@ -35,21 +35,25 @@ module insite.order {
             protected httpWrapperService: core.HttpWrapperService) {
         }
 
-        getOrders(filter: ISearchFilter, pagination: PaginationModel): ng.IPromise<OrderCollectionModel> {
+        getOrders(filter: ISearchFilter, pagination: PaginationModel, preventCaching?: boolean): ng.IPromise<OrderCollectionModel> {
             return this.httpWrapperService.executeHttpRequest(
                 this,
-                this.$http({ url: this.serviceUri, method: "GET", params: this.getOrdersParams(filter, pagination) }),
+                this.$http({ url: this.serviceUri, method: "GET", params: this.getOrdersParams(filter, pagination, preventCaching) }),
                 this.getOrdersCompleted,
                 this.getOrdersFailed
             );
         }
 
-        protected getOrdersParams(filter: ISearchFilter, pagination: PaginationModel): any {
+        protected getOrdersParams(filter: ISearchFilter, pagination: PaginationModel, preventCaching?: boolean): any {
             const params: any = filter ? JSON.parse(JSON.stringify(filter)) : {};
 
             if (pagination) {
                 params.page = pagination.page;
                 params.pageSize = pagination.pageSize;
+            }
+
+            if (preventCaching) {
+                params.t = Date.now();
             }
 
             return params;

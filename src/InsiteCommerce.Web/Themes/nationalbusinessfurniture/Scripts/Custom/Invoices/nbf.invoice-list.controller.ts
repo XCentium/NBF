@@ -55,6 +55,7 @@
 
         protected getBillToCompleted(billTo: BillToModel): void {
             this.billTo = billTo;
+            this.billTo.shipTos = this.billTo.shipTos.filter(o => !o.isNew);
         }
 
         protected getBillToFailed(error: any): void {
