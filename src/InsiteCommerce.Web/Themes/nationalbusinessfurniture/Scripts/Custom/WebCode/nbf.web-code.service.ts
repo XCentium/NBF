@@ -76,7 +76,7 @@
                     );
                     
                 }
-                this.saveWebCodeCookie("keith");
+                this.saveWebCodeCookie();
             }
             
            
@@ -120,7 +120,7 @@
             return params;
         }
 
-        protected saveWebCodeCookie(webCode: string): void {
+        protected saveWebCodeCookie(): void {
             var expire = new Date();
             expire.setDate(expire.getDate() + 90);
             var webCodeSplit = webCode.split("-");
