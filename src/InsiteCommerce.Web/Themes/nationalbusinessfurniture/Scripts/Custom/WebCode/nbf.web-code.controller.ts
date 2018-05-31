@@ -14,15 +14,10 @@
         }
 
         init(): void {
-            this.getUserId();
             this.getWebCode();
            
         }
-        getUserId(): void {
-            this.nbfWebCodeService.getUserId().then(
-                (webCode: string) => { this.getWebCodeCompleted(webCode); },
-                (error: any) => { this.getWebCodeFailed(error); });
-        }
+       
         getWebCode(): void {
             this.nbfWebCodeService.getWebCode(this.userId).then(
                 (webCode: string) => { this.getWebCodeCompleted(webCode); },
