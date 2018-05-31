@@ -753,7 +753,8 @@
             const product = productCollection.products[0];
 
             if (this.validateProduct(product)) {
-                product.qtyOrdered = product.minimumOrderQty || 1;
+                const originalQty = (this.itemToAdd ? this.itemToAdd.qtyOrdered : 1) || 1;
+                product.qtyOrdered = originalQty < product.minimumOrderQty ? product.minimumOrderQty : originalQty;
                 this.selectedQty = product.qtyOrdered;
                 this.itemToAdd = product;
                 this.errorMessage = "";
@@ -781,7 +782,7 @@
             this.getList();
             this.isAddingToList = false;
             this.addingSearchTerm = "";
-            this.itemToAdd = null;
+            this.itemToAdd = { qtyOrdered: (this.itemToAdd ? this.itemToAdd.qtyOrdered : 1) } as ProductDto;
             this.setSuccessMessage(angular.element("#messageAddedProduct").val());
         }
 
@@ -812,7 +813,7 @@
         addingSearchTermChanged(): void {
             this.successMessage = "";
             this.errorMessage = "";
-            const originalQty = this.itemToAdd ? this.itemToAdd.qtyOrdered : null;
+            const originalQty = this.itemToAdd ? this.itemToAdd.qtyOrdered : 1;
             this.itemToAdd = { qtyOrdered: originalQty } as ProductDto;
         }
 

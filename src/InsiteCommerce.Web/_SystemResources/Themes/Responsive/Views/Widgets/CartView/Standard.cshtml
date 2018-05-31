@@ -20,7 +20,7 @@
 
 <div ng-controller="CartController as vm" ng-cloak ng-show="vm.cart">
     [[ContinueShoppingButton]]
-    <div>
+    <div class="clearfix">
         <h3 ng-if="vm.cart.cartLines.length > 0" class="results-count">
             <span class="result-num" ng-bind="vm.cart.totalCountDisplay"></span> <span class="result-lbl">[% translate 'Items' %]</span>
         </h3>

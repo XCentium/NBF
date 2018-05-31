@@ -9,7 +9,11 @@
                         <div class="medium-12 large-4 columns search-col-1">
                             <div class="search-ship-to">
                                 <label>[% translate 'Ship To Address' %]</label>
-                                <select ng-model="vm.searchFilter.customerSequence" ng-options="shipTo.customerSequence as shipTo.label for shipTo in vm.billTo.shipTos"></select>
+                                <select ng-model="vm.searchFilter.customerSequence">
+                                    <option value="-1">[% translate 'Show All' %]</option>
+                                    <option ng-repeat="shipTo in vm.billTo.shipTos" value="{{shipTo.customerSequence}}">{{shipTo.label}}</option>
+                                </select>
+
                             </div>
                         </div>
                         <div class="medium-12 large-4 columns search-col-2">

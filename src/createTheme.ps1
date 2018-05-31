@@ -99,7 +99,7 @@ foreach($file in Get-ChildItem $themePath -Recurse) {
             $itemGroup += "<Content Include=`"" + $file.FullName.Substring($themePath.Length + 1) + "`" />`n"
         }
     }
-    elseif ($file.FullName.ToLower().EndsWith(".cshtml") -or $file.FullName.ToLower().EndsWith(".json") -or $file.FullName.ToLower().EndsWith(".scss")) {
+    elseif ($file.FullName.ToLower().EndsWith(".cshtml") -or $file.FullName.ToLower().EndsWith(".liquid") -or $file.FullName.ToLower().EndsWith(".json") -or $file.FullName.ToLower().EndsWith(".scss")) {
         $itemGroup += "<Content Include=`"" + $file.FullName.Substring($themePath.Length + 1) + "`" />`n"
     }
 }
