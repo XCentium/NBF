@@ -1,14 +1,9 @@
 ﻿using Extensions.WebApi.CreditCardTransaction.Interfaces;
 using Extensions.WebApi.CreditCardTransaction.Models;
-using Extensions.WebApi.Messages.Interfaces;
-using Extensions.WebApi.Messages.Models;
 using Insite.Core.Interfaces.Data;
 using Insite.Core.Services;
-using Insite.Core.Services.Handlers;
-using Insite.Order.Services.Results;
-using System.Threading.Tasks;
 
-namespace Extensions.WebApi.Messages.Services
+namespace Extensions.WebApi.CreditCardTransaction.Services
 {
     public class CCTransactionService : ServiceBase, ICCTransactionService
     {
@@ -22,7 +17,7 @@ namespace Extensions.WebApi.Messages.Services
         [Transaction]
         public bool AddCCTransaction(AddCCTransactionParameter parameter)
         {
-            return this._repository.AddCCTransaction(parameter);
+            return _repository.AddCCTransaction(parameter);
         }
     }
 }
