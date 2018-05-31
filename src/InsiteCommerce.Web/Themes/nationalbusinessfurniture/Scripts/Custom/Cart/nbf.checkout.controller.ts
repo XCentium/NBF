@@ -241,7 +241,7 @@
                 var cc1Amount = Number(this.cart.properties["cc1"]);
                 this.remainingTotal -= cc1Amount;
                 this.cc1Display = this.convertToCurrency(cc1Amount);
-                this.totalPaymentsDisplay;
+                //this.totalPaymentsDisplay;
                 totalPaymentAmount += cc1Amount;
             }
             if (this.cart.properties["cc2"]) {
@@ -778,9 +778,7 @@
             this.setStateRequiredRule("st", this.selectedShipTo);
             this.selectFirstCountryForAddress(this.cart.billTo);
             this.setStateRequiredRule("bt", this.cart.billTo);
-
-            console.dir(this.cart.billTo.country);
-
+            
             $("#nav1expanded,#nav2expanded").show();
             $("#nav1min,#nav2min,#nav1 .edit,#nav2 .edit").hide();
 
@@ -945,7 +943,18 @@
                 this.cartService.expand += ",restrictions";
             }
             this.cartService.getCart(this.cartId).then(
-                (cart: CartModel) => { this.getCartCompletedForReviewAndPay(cart, isInit); },
+                (cart: CartModel) => {
+                    this.getCartCompletedForReviewAndPay(cart, isInit); 
+                    $("#nav1expanded").hide();
+                    $("#nav1").removeClass("active");
+                    $("#nav1min, #nav1 .edit").show();
+
+                    $("#shipping").addClass("active");
+                    $("#nav2").addClass("active");
+                    $("html:not(:animated), body:not(:animated)").animate({
+                        scrollTop: $("#nav1").offset().top
+                    }, 200);
+                },
                 (error: any) => { this.getCartFailed(error); });
         }
 
@@ -993,17 +1002,6 @@
             if (!isInit) {
                 this.pageIsReady = true;
             }
-
-            $("#nav1expanded").hide();
-            $("#nav1").removeClass("active");
-            $("#nav1min, #nav1 .edit").show();
-
-            $("#shipping").addClass("active");
-            $("#nav2").addClass("active");
-            $("html:not(:animated), body:not(:animated)").animate({
-                scrollTop: $("#nav1").offset().top
-            },
-                200);
 
             this.updateCartLineAttributes();
         }
@@ -1132,7 +1130,6 @@
         }
 
         submit(signInUri: string, emailTo: string): void {
-            var self = this;
             this.submitting = true;
             this.submitErrorMessage = "";
 
@@ -1140,6 +1137,8 @@
                 this.submitting = false;
                 return;
             }
+
+            this.spinnerService.show("mainLayout", true);
 
             if (!this.isTaxExempt && this.taxExemptChoice && this.taxExemptFileName) {
                 var params = {
@@ -1150,13 +1149,22 @@
                     fileLocation: ""
                 } as TaxExemptParams;
 
-                this.nbfEmailService.sendTaxExemptEmail(params, this.file).then(
-                    () => { },
-                    () => { this.errorMessage = "An error has occurred."; });
+                this.nbfEmailService.postTaxExemptFileUpload(params, this.file).then(
+                    (data) => {
+                        params.fileLocation = data;
+                        this.nbfEmailService.sendTaxExemptEmail(params).then(() => {
+                                this.handleGuestRegistration(signInUri);
+                            },() => { this.errorMessage = "An error has occurred."; });
+                    },() => { this.errorMessage = "An error has occurred."; });
             } else if (!this.isTaxExempt && this.taxExemptChoice) {
                 //tax exempt choice is yes but no file was uploaded
+            } else {
+                this.handleGuestRegistration(signInUri);
             }
+        }
 
+        protected handleGuestRegistration(signInUri: string) {
+            var self = this;
             var pass = $("#CreateNewAccountInfo_Password").val();
 
             if (pass) {
@@ -1216,7 +1224,6 @@
 
             this.cart.requestedDeliveryDate = this.formatWithTimezone(this.cart.requestedDeliveryDate);
 
-            this.spinnerService.show("mainLayout", true);
             var oldCartLines = this.cart.cartLines;
             this.cartService.updateCart(this.cart, true).then(
                 (cart: CartModel) => { this.submitCompleted(cart, oldCartLines); },
@@ -1248,7 +1255,7 @@
                         this.cart.id;
                     window.history.pushState({ path: newurl }, "", newurl);
                 }
-                this.cartService.getCart();
+                //this.cartService.getCart();
                 this.loadStep4();
                 this.spinnerService.hide();
             }
@@ -1439,12 +1446,10 @@
                         propName = "cc2";
                         self.cart.properties[propName] = self.paymentAmount.toString();
                     }
-                    
 
-                    self.cartService.updateCart(self.cart).then((cart) => {
+                    self.cartService.updateCart(self.cart).then(() => {
                         self.setPaymentAmounts();
                         this.paymentAmount = this.remainingTotal;
-
                         this.cart.paymentOptions.creditCard.cardType = null;
                     });
                 }
@@ -1529,6 +1534,7 @@
                     this.$scope.$apply();
                 });
             }
+            return true;
         }
 
         openUpload() {
@@ -1546,12 +1552,14 @@
             this.customerService.updateBillTo(this.cart.billTo).then(
                 () => { this.updatebillToTaxExemptCompleted(); },
                 (error: any) => { this.updatebillToTaxExemptFailed(error); });
+
+            this.spinnerService.hide();
         }
 
         protected updatebillToTaxExemptCompleted(): void {
             this.cartService.expand = "cartlines,shipping,tax,promotions,carriers,paymentoptions,shiptos,validation";
             this.cartService.getCart(this.cart.id).then((cart: CartModel) => {
-                this.cart = cart;
+                this.getCartCompletedForReviewAndPay(cart, false);
                 this.spinnerService.hide();
             }, () => { this.spinnerService.hide(); });
 

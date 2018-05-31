@@ -86,22 +86,23 @@ namespace Extensions.WebApi.EmailApi.Controllers
                 var multipart = await Request.Content.ReadAsMultipartAsync();
                 var tempFileName = string.Empty;
 
-                if (multipart.Contents[0].Headers.Any(x => x.Key == "Content-Disposition"
-                && x.Value.Any(y => y.Contains("filename="))
-                ))
+                if (multipart.Contents[0].Headers.Any(x => x.Key == "Content-Disposition" && x.Value.Any(y => y.Contains("filename="))))
                 {
-
                     var destinationFileName = multipart.Contents[0].Headers
                         .FirstOrDefault(o => o.Key == "Content-Disposition").Value
                         .FirstOrDefault(o => o.Contains("filename="))
-                        .Split(new string[] { "filename=" }, StringSplitOptions.None)[1].Split(';')[0].Trim();
-                    destinationFileName = Uri.UnescapeDataString(destinationFileName);
-                    destinationFileName = System.IO.Path.GetInvalidFileNameChars().Aggregate(destinationFileName, (current, c) => current.Replace(c, ' ')).Trim();
+                        ?.Split(new[] { "filename=" }, StringSplitOptions.None)[1].Split(';')[0].Trim();
+                    if (destinationFileName != null)
+                    {
+                        destinationFileName = Uri.UnescapeDataString(destinationFileName);
+                        destinationFileName = System.IO.Path.GetInvalidFileNameChars()
+                            .Aggregate(destinationFileName, (current, c) => current.Replace(c, ' ')).Trim();
 
-                    var destinationFileStream = await multipart.Contents[0].ReadAsStreamAsync();
+                        var destinationFileStream = await multipart.Contents[0].ReadAsStreamAsync();
 
-                    tempFileName = StorageProvider.Combine(tempUploadDirectory, destinationFileName);
-                    StorageProvider.SaveStream(tempFileName, destinationFileStream);
+                        tempFileName = StorageProvider.Combine(tempUploadDirectory, destinationFileName);
+                        StorageProvider.SaveStream(tempFileName, destinationFileStream);
+                    }
                 }
                 return Request.CreateResponse(HttpStatusCode.OK, tempFileName);
             }
