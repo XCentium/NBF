@@ -20,7 +20,7 @@ using System.Linq;
 
 namespace Extensions.WebApi.CreditCardTransaction.Repository
 {
-    public class CCTransactionRepository : BaseRepository, ICCTransactionRepository, IInterceptable
+    public class CCTransactionRepository : BaseRepository, ICCTransactionRepository
     {
         private const bool IgnoreCase = true;
         private IUnitOfWork UnitOfWork;
