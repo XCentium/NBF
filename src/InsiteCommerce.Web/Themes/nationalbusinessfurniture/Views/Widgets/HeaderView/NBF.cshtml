@@ -201,11 +201,6 @@
                 <div class="header-zone lft">
                     <div class="logo-wrap">
                         <label for="main-nav-check" class="toggle burger" onclick="insite.nav.activatePanel()" title="Menu">&#9776;</label>
-                        [% if Model.Drop.DisplayCart -%]
-                        <div class="cart-button">
-                            <a id="tst_cartLink" class="cart-link" href="[% urlForPage 'CartPage' %]"><span ng-bind="vm.cart.totalCountDisplay"></span></a>
-                        </div>
-                        [% endif -%]
                         [% zone 'Logo' %]
                     </div>
                 </div>

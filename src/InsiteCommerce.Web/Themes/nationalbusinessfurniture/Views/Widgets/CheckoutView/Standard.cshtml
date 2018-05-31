@@ -285,6 +285,7 @@
                                                             <input id="cardNumber" name="cardNumber" maxlength="16" type="text" style="display: block;"
                                                                    data-rule-required="true" data-msg-required="[% translate 'Credit card number is required.' %]"
                                                                    data-rule-creditcard="true" data-msg-creditcard="[% translate 'Credit card number is invalid.' %]"
+                                                                   ng-change="vm.determineCardType()"
                                                                    ng-model="vm.cart.paymentOptions.creditCard.cardNumber">
                                                             <span class="field-validation-valid" data-valmsg-for="cardNumber" data-valmsg-replace="true"></span>
                                                         </div>
