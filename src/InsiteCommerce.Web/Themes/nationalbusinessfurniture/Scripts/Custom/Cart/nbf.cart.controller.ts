@@ -138,15 +138,12 @@
                 this.cart.totalTaxDisplay = "TBD";
             }
 
-            this.canAddAllToList = this.cart.cartLines.every(l => l.canAddToWishlist);
+            //this.canAddAllToList = this.cart.cartLines.every(l => l.canAddToWishlist);
+            //disable adding to favorites as this should be done using heart icon only
+            this.canAddAllToList = false;
             this.promotionService.getCartPromotions(this.cart.id).then(
                 (promotionCollection: PromotionCollectionModel) => { this.getCartPromotionsCompleted(promotionCollection); },
                 (error: any) => { this.getCartPromotionsFailed(error); });
-        }
-
-        requestQuote(quoteUri: string): void {
-            
-            this.$rootScope.$broadcast("AnalyticsEvent", "QuoteRequest", quoteUri, null);
         }
 
         checkout(checkoutPage: string) {

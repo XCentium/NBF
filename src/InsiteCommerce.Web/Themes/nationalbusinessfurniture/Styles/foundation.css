@@ -5308,7 +5308,6 @@ table {
     table tfoot tr th,
     table tfoot tr td {
       padding: 0.5rem 0.625rem 0.625rem;
-      font-size: 0.875rem;
       font-weight: bold;
  }
   table tr th,
@@ -5323,8 +5322,7 @@ table {
   table tbody tr th,
   table tbody tr td,
   table tr td {
-    display: table-cell;
-    line-height: 1.125rem; }
+    display: table-cell; }
 
 .range-slider {
   display: block;

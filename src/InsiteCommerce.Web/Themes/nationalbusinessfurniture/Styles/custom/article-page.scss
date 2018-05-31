@@ -57,36 +57,39 @@
 .quote {
     border-bottom: 1px solid $divider-gray;
     border-top: 1px solid $divider-gray;
-    padding-top:42px;
-    padding-bottom:42px;
-    margin-bottom:30px;
+    padding-top: 42px;
+    padding-bottom: 42px;
+    margin-bottom: 30px;
 
     &__content {
-        max-width:800px;
-        margin:0 auto;
-        position:relative;
+        max-width: 800px;
+        margin: 0 auto;
+        position: relative;
 
         @media all and (max-width: 991px) {
-            width:80%;
+            width: 80%;
         }
 
         &:before {
-            content: "“";
-            font-size: 100px;
+            content: "\f10d";
+            font-size: 35px;
             position: absolute;
             left: -45px;
             top: 18px;
+            font-family: $FontAwesome;
         }
 
         &:after {
-            content:"”";
-            font-size: 100px;
+            content: "\f10e";
+            font-size: 35px;
             position: absolute;
-            right: -45px;
-            bottom:-30px;
+            right: -41px;
+            bottom: 0px;
+            font-family: $FontAwesome;
         }
-        p,h1,h2,h4,h3,h5 {
-            margin-bottom:0;
+
+        p, h1, h2, h4, h3, h5 {
+            margin-bottom: 0;
         }
     }
 }

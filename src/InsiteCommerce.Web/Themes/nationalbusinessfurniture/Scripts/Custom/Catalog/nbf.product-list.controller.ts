@@ -90,30 +90,6 @@
 
             this.initBackButton();
 
-
-            $(document).ready(() => {
-                var windowsize = $(window).width();
-                if ($(".f-cat").length) {
-                    if (windowsize < 767) {
-                        setTimeout(
-                            () => {
-                                $("#accord-10000").prop("checked", false);
-                            },
-                            2000);
-                        $("#accord-10000").removeAttr("checked");
-                    }
-                } else {
-                    if (windowsize < 767) {
-                        setTimeout(
-                            () => {
-                                $("#accord-10000").prop("checked", false);
-                            },
-                            5000);
-                        $("#accord-10000").removeAttr("checked");
-                    }
-                }
-               
-            });
             this.$scope.$watch(() => this.category, (newCategory) => {
                 if (!newCategory) {
                     return;

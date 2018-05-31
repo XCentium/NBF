@@ -68,7 +68,8 @@
                 <span class="item-summary-count"><span ng-bind="vm.listModel.wishListLinesCount">x</span> [% translate 'items' %]</span>
                 <span class="item-list-total" ng-if="vm.listModel.wishListLinesCount > 0">[% translate 'List Total' %]: <span ng-bind="vm.listTotal | currency: vm.currencySymbol">$0,000.00</span></span>
             </div>
-            <div class="medium-6 columns middle-btns">                
+            <div class="medium-6 columns middle-btns">
+                <button ng-if="vm.listModel.allowEdit || !vm.listModel.isSharedList" type="button" class="btn tertiary hide-for-small" ng-click="vm.toggleAddToListSection()">[% translate 'Add Items' %] <i ng-class="{ 'icon-arw-up-3': vm.isAddToListSectionVisible, 'icon-arw-down-3': !vm.isAddToListSectionVisible }"></i></button>
                 <button ng-if="vm.listModel.wishListLinesCount > 0" type="button" class="btn primary" ng-click="vm.addAllToCart(vm.listModel)"
                         ng-disabled="!vm.allQtysIsValid() || !vm.listModel.canAddAllToCart || vm.inProgress">
                     [% translate 'Add List To Cart' %]
@@ -149,7 +150,10 @@
                         </select>
                     </div>
                 </div>
-            </div>           
+            </div>
+            <!--
+    <div class="row drag-instruction" ng-show="vm.sort === 'custom' && !vm.searchTerm && (vm.listModel.allowEdit || !vm.listModel.isSharedList)">[% translate 'Click' %] <i class="icon-sort-order"></i> [% translate 'and drag items to change their position in the list.' %]</div>
+        -->
             <div class="sort-parent-container">
                 <ul class="row item-list cart-items" ui-sortable="vm.sortableOptions" ng-model="vm.listModel.wishListLineCollection">
                     <li class="row item-block checkout-item isc-productContainer" ng-repeat="wishListLine in filteredLines = (vm.listModel.wishListLineCollection | filter:filter | orderBy:vm.sortProperty:vm.reverse) track by wishListLine.id" id="tst_wishList_{{::wishListLine.productId}}_{{wishListLine.unitOfMeasure}}">

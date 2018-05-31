@@ -215,13 +215,15 @@
     }
 
     .product-list .vm-grid .item-block {
-        width: 20.75%;
+        width: 22%;
+        height: 475px;
         float: left;
         display: inline-block;
         vertical-align: top;
         margin: 0 !important;
         border: 0;
         margin-right: 3% !important;
+        overflow:hidden;
     }
 
     .product-list .vm-grid .item-block {
@@ -240,6 +242,9 @@
         overflow: hidden;
         padding: 0 !important;
         margin-bottom: 10px;
+        height:260px;
+        width:260px;
+        overflow:hidden;
     }
 
     .product-list .vm-grid .item-block .item-thumb img {

@@ -49,12 +49,50 @@
             }
 
             $("div").not(":input[type=checkbox], .accord-head, .accord-content, .f-wrap").on("click", handler);
-        }       
+
+            this.checkifmobile();
+            $scope.$watch(() => this.attributeValues, (newVal, oldVal, scope) => self.onAttributeValuesChanged(newVal, oldVal, scope));
+        }
+
+        private onAttributeValuesChanged(newVal, oldVal, scope: ng.IScope) {
+            var hasChanged = newVal.length != oldVal.length; 
+            for (var i = 0; i < newVal.length && !hasChanged; i++) {
+                if (newVal[i].sectionNameDisplay != oldVal[i].sectionNameDisplay || newVal[i].valueDisplay != oldVal[i].valueDisplay) {
+                    hasChanged = true;
+                    break;
+                }
+            }
+            if (hasChanged) {
+                var filters = "";
+                for (var at of newVal) {
+                    filters += `${at.sectionNameDisplay}:${at.valueDisplay},`;
+                }
+                filters = filters.slice(0, -1);
+                this.$rootScope.$broadcast("AnalyticsEvent", "ProductListingFiltered", null, null, filters);
+            }
+            
+        }
+
+        checkifmobile() {
+
+                var windowsize = $(window).width();
+                if ($(".f-cat").length) {
+                    if (windowsize < 767) {
+                        setTimeout(
+                            () => {
+                                $("#accord-10000").prop("checked", false);
+                            },
+                            2000);
+                        $("#accord-10000").removeAttr("checked");
+                    }
+                }
+            
+
+        }
 
         toggleFilter(attributeValueId: string) {
             (<any>this.$location).search("attr", "none");
             super.toggleFilter(attributeValueId);
-            this.$rootScope.$broadcast("AnalyticsEvent", "ProductListingFiltered");
         }
 
         clearFilters(): void {
