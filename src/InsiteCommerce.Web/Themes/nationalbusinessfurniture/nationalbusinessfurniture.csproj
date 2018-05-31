@@ -156,9 +156,9 @@
     <Content Include="Views\Directives\List\ShareListPopup.cshtml" />
     <Content Include="Views\Directives\List\UploadToListPopup.cshtml" />
     <Content Include="Views\Directives\PdfViews\ListDetails.cshtml" />
-    <Content Include="Views\Widgets\Custom\CTALinkWidget\FourWide.cshtml" />
-    <Content Include="Views\Widgets\Custom\CTALinkWidget\Standard.cshtml" />
-    <Content Include="Views\Widgets\Custom\CTALinkZone\Standard.cshtml" />
+    <Content Include="Views\Widgets\CTALinkWidget\FourWide.cshtml" />
+    <Content Include="Views\Widgets\CTALinkWidget\Standard.cshtml" />
+    <Content Include="Views\Widgets\CTALinkZone\Standard.cshtml" />
     <Content Include="Views\Widgets\FrequentlyPurchased\Standard.cshtml" />
     <Content Include="Views\Widgets\MyListDetailView\Standard.cshtml" />
     <Content Include="Views\Widgets\MyListsView\Standard.cshtml" />
@@ -170,11 +170,11 @@
     <TypeScriptCompile Include="Scripts\Analytics\nbf.analytics.datalayer.ts" />
     <Content Include="Views\Widgets\SignInView\NBF.cshtml" />
     <Content Include="Views\Widgets\InvoicesView\NBF.cshtml" />
-    <Content Include="Views\Widgets\Custom\ProductWriteReview\Standard.cshtml" />
+    <Content Include="Views\Widgets\ProductWriteReview\Standard.cshtml" />
     <Content Include="Styles\custom\tax-exempt.scss" />
     <TypeScriptCompile Include="Scripts\Analytics\nbf.analytics.adobe.ts" />
     <Content Include="Views\Widgets\RequestRmaView\Nbf.cshtml" />
-    <Content Include="Views\Widgets\Custom\ContactUsSpanish\Standard.cshtml" />
+    <Content Include="Views\Widgets\ContactUsSpanish\Standard.cshtml" />
     <TypeScriptCompile Include="Scripts\Catalog\insite.frequently-purchased.controller.ts" />
     <TypeScriptCompile Include="Scripts\Catalog\insite.recently-viewed.controller.ts" />
     <TypeScriptCompile Include="Scripts\Catalog\insite.related-products.controller.ts" />
@@ -561,7 +561,7 @@
     <Content Include="Views\Widgets\Carousel\Standard.cshtml" />
     <Content Include="Views\Widgets\CartView\NBF.cshtml" />
     <Content Include="Views\Widgets\CartView\Standard.cshtml" />
-    <Content Include="Views\Widgets\Custom\CategoryWidget\Standard.cshtml" />
+    <Content Include="Views\Widgets\CategoryWidget\Standard.cshtml" />
     <Content Include="Views\Widgets\ChangeAccountPasswordView\Standard.cshtml" />
     <Content Include="Views\Widgets\ChangeCustomerView\Standard.cshtml" />
     <Content Include="Views\Widgets\CheckoutAddressView\Standard.cshtml" />
@@ -569,28 +569,28 @@
     <Content Include="Views\Widgets\CreateAccountView\NBF.cshtml" />
     <Content Include="Views\Widgets\CreateAccountView\Standard.cshtml" />
     <Content Include="Views\Widgets\CurrencySelector\Standard.cshtml" />
-    <Content Include="Views\Widgets\Custom\WebCode\Standard.cshtml" />
-    <Content Include="Views\Widgets\Custom\BetterBusinessBureau\Standard.cshtml" />
-    <Content Include="Views\Widgets\Custom\RequestCatalogLink\Standard.cshtml" />
-    <Content Include="Views\Widgets\Custom\WebCode\Header.cshtml" />
-    <Content Include="Views\Widgets\Custom\CallUs\Standard.cshtml" />
-    <Content Include="Views\Widgets\Custom\CallUs\Header.cshtml" />
-    <Content Include="Views\Widgets\Custom\LiveChat\Standard.cshtml" />
-    <Content Include="Views\Widgets\Custom\EmailSubscriptionWithTitle\Standard.cshtml" />
-    <Content Include="Views\Widgets\Custom\LinkListWithTitle\Footer.cshtml" />
-    <Content Include="Views\Widgets\Custom\SocialMediaLinkListWithTitle\Standard.cshtml" />
-    <Content Include="Views\Widgets\Custom\ProductFlyOut\Standard.cshtml" />
-    <Content Include="Views\Widgets\Custom\NavigationFlyOut\Header.cshtml" />
-    <Content Include="Views\Widgets\Custom\NavigationFlyOut\MyAccount.cshtml" />
-    <Content Include="Views\Widgets\Custom\ShopTheLookWidget\Standard.cshtml" />
-    <Content Include="Views\Widgets\Custom\ProductCTAFourSquares\Standard.cshtml" />
-    <Content Include="Views\Widgets\Custom\ArticlePageComment\Standard.cshtml" />
-    <Content Include="Views\Widgets\Custom\ArticlePageCommentsView\Standard.cshtml" />
-    <Content Include="Views\Widgets\Custom\LinkListWithTitle\NavigationFlyOut.cshtml" />
-    <Content Include="Views\Widgets\Custom\LinkListWithTitle\Standard.cshtml" />
-    <Content Include="Views\Widgets\Custom\ShopTheLookCta\Standard.cshtml" />
-    <Content Include="Views\Widgets\Custom\CategoryListView\Standard.cshtml" />
-    <Content Include="Views\Widgets\Custom\NavigationFlyOut\Standard.cshtml" />
+    <Content Include="Views\Widgets\WebCode\Standard.cshtml" />
+    <Content Include="Views\Widgets\BetterBusinessBureau\Standard.cshtml" />
+    <Content Include="Views\Widgets\RequestCatalogLink\Standard.cshtml" />
+    <Content Include="Views\Widgets\WebCode\Header.cshtml" />
+    <Content Include="Views\Widgets\CallUs\Standard.cshtml" />
+    <Content Include="Views\Widgets\CallUs\Header.cshtml" />
+    <Content Include="Views\Widgets\LiveChat\Standard.cshtml" />
+    <Content Include="Views\Widgets\EmailSubscriptionWithTitle\Standard.cshtml" />
+    <Content Include="Views\Widgets\LinkListWithTitle\Footer.cshtml" />
+    <Content Include="Views\Widgets\SocialMediaLinkListWithTitle\Standard.cshtml" />
+    <Content Include="Views\Widgets\ProductFlyOut\Standard.cshtml" />
+    <Content Include="Views\Widgets\NavigationFlyOut\Header.cshtml" />
+    <Content Include="Views\Widgets\NavigationFlyOut\MyAccount.cshtml" />
+    <Content Include="Views\Widgets\ShopTheLookWidget\Standard.cshtml" />
+    <Content Include="Views\Widgets\ProductCTAFourSquares\Standard.cshtml" />
+    <Content Include="Views\Widgets\ArticlePageComment\Standard.cshtml" />
+    <Content Include="Views\Widgets\ArticlePageCommentsView\Standard.cshtml" />
+    <Content Include="Views\Widgets\LinkListWithTitle\NavigationFlyOut.cshtml" />
+    <Content Include="Views\Widgets\LinkListWithTitle\Standard.cshtml" />
+    <Content Include="Views\Widgets\ShopTheLookCta\Standard.cshtml" />
+    <Content Include="Views\Widgets\CategoryListView\Standard.cshtml" />
+    <Content Include="Views\Widgets\NavigationFlyOut\Standard.cshtml" />
     <Content Include="Views\Widgets\DealerDirectionsView\Standard.cshtml" />
     <Content Include="Views\Widgets\DealerLocatorView\Standard.cshtml" />
     <Content Include="Views\Widgets\DealerView\Standard.cshtml" />
@@ -619,7 +619,7 @@
     <Content Include="Views\Widgets\NavigationList\NBF.cshtml" />
     <Content Include="Views\Widgets\NavigationList\Standard.cshtml" />
     <Content Include="Views\Widgets\NewsListView\Standard.cshtml" />
-    <Content Include="Views\Widgets\NewsPageView\Standard.cshtml" />
+    <Content Include="Views\Widgets\NewsPageView\Insite.cshtml" />
     <Content Include="Views\Widgets\OneColumn\Narrow.cshtml" />
     <Content Include="Views\Widgets\OneColumn\Standard.cshtml" />
     <Content Include="Views\Widgets\OrderApprovalDetailView\Standard.cshtml" />
@@ -666,16 +666,16 @@
     <Content Include="Views\Widgets\Zone\Standard.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Widgets\Custom\CheckoutView\Standard.cshtml" />
+    <Content Include="Views\Widgets\CheckoutView\Standard.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Directives\Custom\Cart\NbfCheckoutCartTotalDisplay.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Widgets\Custom\ArticleListView\Standard.cshtml" />
+    <Content Include="Views\Widgets\ArticleListView\Standard.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Widgets\Custom\ArticlePageView\Standard.cshtml" />
+    <Content Include="Views\Widgets\ArticlePageView\Standard.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Directives\Custom\Cart\NbfCheckoutCartLines.cshtml" />
@@ -684,28 +684,25 @@
     <Content Include="Views\Directives\Custom\Account\NbfAddressEdit.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Widgets\Custom\PageTagLinksView\Standard.cshtml" />
+    <Content Include="Views\Widgets\PageTagLinksView\Standard.cshtml" />
     <Content Include="Styles\custom\checkout.scss" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Widgets\Custom\PageTagSelectView\Standard.cshtml" />
+    <Content Include="Views\Widgets\PageTagSelectView\Standard.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Widgets\Custom\NewsPageView\Standard.cshtml" />
+    <Content Include="Views\Widgets\CommentForm\Standard.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Widgets\Custom\CommentForm\Standard.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\Widgets\Custom\SignInWidget\Standard.cshtml" />
+    <Content Include="Views\Widgets\SignInWidget\Standard.cshtml" />
     <Content Include="Views\Directives\Custom\Account\NbfSignInWidget.cshtml" />
-    <Content Include="Views\Widgets\Custom\SocialMediaView\Standard.cshtml" />
+    <Content Include="Views\Widgets\SocialMediaView\Standard.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Widgets\Custom\OrderTracker\Standard.cshtml" />
+    <Content Include="Views\Widgets\OrderTracker\Standard.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Widgets\Custom\OrderTrackerDetailView\Standard.cshtml" />
+    <Content Include="Views\Widgets\OrderTrackerDetailView\Standard.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -729,7 +726,7 @@
     <Content Include="Styles\custom\header.scss" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Widgets\Custom\FooterView\Standard.cshtml" />
+    <Content Include="Views\Widgets\FooterView\Standard.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Styles\fonts\fontawesome-webfont.eot" />
@@ -760,15 +757,15 @@
     <Content Include="Styles\custom\page-banner.scss" />
     <Content Include="Styles\custom\header-message.scss" />
     <Content Include="Styles\custom\square-grid.scss" />
-    <Content Include="Views\Widgets\Custom\ProductCTA\Standard.cshtml" />
-    <Content Include="Views\Widgets\Custom\Banner\Standard.cshtml" />
+    <Content Include="Views\Widgets\ProductCTA\Standard.cshtml" />
+    <Content Include="Views\Widgets\Banner\Standard.cshtml" />
     <Content Include="Styles\custom\breadcrumbs.scss" />
     <Content Include="Styles\custom\callouts.scss" />
-    <Content Include="Views\Widgets\Custom\LatestBlogPosts\Standard.cshtml" />
+    <Content Include="Views\Widgets\LatestBlogPosts\Standard.cshtml" />
     <Content Include="Styles\custom\latest-blog-posts.scss" />
-    <Content Include="Views\Widgets\Custom\FeaturedProducts\Standard.cshtml" />
+    <Content Include="Views\Widgets\FeaturedProducts\Standard.cshtml" />
     <Content Include="Styles\custom\featured-product-widget.scss" />
-    <Content Include="Views\Widgets\Custom\PopularCategories\Standard.cshtml" />
+    <Content Include="Views\Widgets\PopularCategories\Standard.cshtml" />
     <Content Include="Styles\custom\popular-cat-widget.scss" />
     <Content Include="Styles\custom\category-list.scss" />
     <Content Include="Styles\custom\paginater.scss" />
@@ -782,41 +779,42 @@
     <Content Include="Styles\custom\flex-slider.scss" />
     <Content Include="Views\Widgets\DealerLocatorView\NBF.cshtml" />
     <Content Include="Styles\custom\sales-rep-finder.scss" />
-    <Content Include="Views\Widgets\Custom\LatestBlogPosts\TitleOnly.cshtml" />
+    <Content Include="Views\Widgets\LatestBlogPosts\TitleOnly.cshtml" />
     <Content Include="Views\Widgets\PageTitle\Underline.cshtml" />
-    <Content Include="Views\Widgets\Custom\Banner\H1Titles.cshtml" />
+    <Content Include="Views\Widgets\Banner\H1Titles.cshtml" />
     <Content Include="Styles\custom\tag-link-accordion.scss" />
     <Content Include="Views\Directives\Custom\Core\ProductListPager.cshtml" />
-    <Content Include="Views\Widgets\Custom\CategoryListView\NoMargins.cshtml" />
+    <Content Include="Views\Widgets\CategoryListView\NoMargins.cshtml" />
     <Content Include="Views\Directives\Custom\Core\ItemListPager.cshtml" />
-    <Content Include="Views\Widgets\Custom\LatestBlogPosts\WithMargins.cshtml" />
-    <Content Include="Views\Widgets\Custom\LatestBlogPosts\WithMarginsTitleOnly.cshtml" />
+    <Content Include="Views\Widgets\LatestBlogPosts\WithMargins.cshtml" />
+    <Content Include="Views\Widgets\LatestBlogPosts\WithMarginsTitleOnly.cshtml" />
     <Content Include="Styles\custom\social-links.scss" />
-    <Content Include="Views\Widgets\Custom\VideoBanner\Standard.cshtml" />
-    <Content Include="Views\Widgets\Custom\CatalogMailingPrefs\Standard.cshtml" />
-    <Content Include="Views\Widgets\Custom\Banner\SubPageBanner.cshtml" />
-    <Content Include="Views\Widgets\Custom\Banner\SubPageBannerH1Titles.cshtml" />
-    <Content Include="Views\Widgets\Custom\ProductCarousel\Standard.cshtml" />
+    <Content Include="Views\Widgets\VideoBanner\Standard.cshtml" />
+    <Content Include="Views\Widgets\CatalogMailingPrefs\Standard.cshtml" />
+    <Content Include="Views\Widgets\Banner\SubPageBanner.cshtml" />
+    <Content Include="Views\Widgets\Banner\SubPageBannerH1Titles.cshtml" />
+    <Content Include="Views\Widgets\ProductCarousel\Standard.cshtml" />
     <Content Include="Styles\custom\star-rating.scss" />
-    <Content Include="Views\Widgets\Custom\LatestBlogPosts\TitleAndDateOnly.cshtml" />
-    <Content Include="Views\Widgets\Custom\LatestBlogPosts\WithMarginsTitleAndDateOnly.cshtml" />
-    <Content Include="Views\Widgets\Custom\VideoBanner\VideoBannerCTA.cshtml" />
+    <Content Include="Views\Widgets\LatestBlogPosts\TitleAndDateOnly.cshtml" />
+    <Content Include="Views\Widgets\LatestBlogPosts\WithMarginsTitleAndDateOnly.cshtml" />
+    <Content Include="Views\Widgets\VideoBanner\VideoBannerCTA.cshtml" />
     <Content Include="Views\Directives\Custom\Content\ContentPager.cshtml" />
     <Content Include="Views\Widgets\AccountSettingsView\NBF.cshtml" />
     <Content Include="Styles\custom\product-comparison.scss" />
     <Content Include="Views\Widgets\RfqRequestQuoteView\NBF.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
-    <Content Include="Views\Widgets\Custom\TaxExempt\Standard.cshtml" />
+    <Content Include="Views\Widgets\TaxExempt\Standard.cshtml" />
     <Content Include="Views\Directives\Custom\Account\TaxExempt.cshtml" />
     <Content Include="Views\Directives\Custom\Cart\NbfTermsAndConditionsPopup.cshtml" />
     <Content Include="Views\Widgets\Breadcrumb\NoShareLinks.cshtml" />
-    <Content Include="Views\Widgets\Custom\ShopTheLookLandingView\Standard.cshtml" />
+    <Content Include="Views\Widgets\ShopTheLookLandingView\Standard.cshtml" />
     <Content Include="Styles\custom\saved-orders.scss" />
     <Content Include="Styles\custom\my-favorites.scss" />
     <Content Include="Views\Widgets\MyListDetailView\NBF.cshtml" />
     <Content Include="Views\Widgets\PageTitle\NBF-h2.cshtml" />
     <Content Include="Views\Widgets\PageTitle\title-h2.cshtml" />
     <Content Include="Views\Widgets\SavedOrderDetailView\NBF.cshtml" />
+    <Content Include="Views\Widgets\NewsPageView\Standard.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Scripts\Custom\Orders\" />
