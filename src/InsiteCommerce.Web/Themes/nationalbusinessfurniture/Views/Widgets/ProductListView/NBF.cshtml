@@ -97,7 +97,7 @@
                                             </div>
                                             <div class="item-thumb">
                                                 <a ng-href="{{product.productDetailUrl}}">
-                                                    <img ng-src="https://s7d9.scene7.com/is/image/NationalBusinessFurniture/{{product.mediumImagePath}}?hei=250&id=Iu1rN2&fmt=jpg&fit=constrain,1&wid=250&hei=250" alt="{{product.altText}}" increment-images-loaded />
+                                                    <img ng-src="https://s7d9.scene7.com/is/image/NationalBusinessFurniture/{{product.mediumImagePath}}?hei=250&id=Iu1rN2&fmt=jpg&fit=constrain,1&wid=250&hei=250" alt="{{product.altText}}" title="{{product.altText}}, {{product.erpNumber}}" increment-images-loaded />
                                                 </a>
                                                 <div ng-if="vm.settings.enableProductComparisons" class="product-compare-add">
                                                     <a href="javascript:void(0);" data-id="{{product.id}}" class="compare-link" ng-class="{ 'compare-active': product.isBeingCompared }" ng-click="vm.compareProduct(product);">[% translate 'Compare' %]</a>
@@ -128,7 +128,7 @@
                                                             <a id="tst_productList_{{product.id}}_descriptionLink" ng-href="{{product.productDetailUrl}}">{{product.shortDescription}}</a>
                                                         </div>
                                                         <div class="item-num">
-                                                            <span ng-if="product.manufacturerItem" class="item-num-mfg">[% translate 'MFG #' %]: {{product.manufacturerItem}}</span>
+                                                            <span ng-if="product.manufacturerItem && product.erpNumber.indexOf(':') < 0" class="item-num-mfg">[% translate 'MFG #' %]: {{product.manufacturerItem}}</span>
                                                             <span ng-if="product.customerName" class="item-num-my">[% translate 'My Part #' %]: {{product.customerName}}</span>
                                                         </div>
                                                     </div>
@@ -194,7 +194,7 @@
                                                                                 </div>
                                                                                 <div class="item-num">
                                                                                     <span class="item-num-sku">{{product.erpNumber}}</span>
-                                                                                    <span ng-if="product.manufacturerItem" class="item-num-mfg">[% translate 'MFG #' %]: {{product.manufacturerItem}}</span>
+                                                                                    <span ng-if="product.manufacturerItem && product.erpNumber.indexOf(':') < 0" class="item-num-mfg">[% translate 'MFG #' %]: {{product.manufacturerItem}}</span>
                                                                                     <span ng-if="product.customerName" class="item-num-my">[% translate 'My Part #' %]: {{product.customerName}}</span>
                                                                                 </div>
                                                                                 <div ng-if="vm.settings.enableProductComparisons" class="product-compare-add">
@@ -280,7 +280,7 @@
                                                         </div>
                                                         <div class="item-num">
                                                             <span class="item-num-sku">{{product.erpNumber}}</span>
-                                                            <span ng-if="product.manufacturerItem" class="item-num-mfg">[% translate 'MFG #' %]: {{product.manufacturerItem}}</span>
+                                                            <span ng-if="product.manufacturerItem && product.erpNumber.indexOf(':') < 0" class="item-num-mfg">[% translate 'MFG #' %]: {{product.manufacturerItem}}</span>
                                                             <span ng-if="product.customerName" class="item-num-my">[% translate 'My Part #' %]: {{product.customerName}}</span>
                                                         </div>
                                                         <div ng-if="vm.settings.enableProductComparisons" class="product-compare-add">
