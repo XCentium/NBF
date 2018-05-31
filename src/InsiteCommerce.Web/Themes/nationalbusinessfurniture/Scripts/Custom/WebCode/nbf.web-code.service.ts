@@ -2,14 +2,15 @@
     "use strict";
 
     export interface INbfWebCodeService {
-        getWebCode(): ng.IPromise<string>;
-        getWebCodeGetUniqueWebCodeID(): ng.IPromise<string>;
+        getUserId(): ng.IPromise<string>;
+        getWebCode(userId: string): ng.IPromise<string>;
+        
 
     }
 
     export class NbfWebCodeService implements INbfWebCodeService {
         serviceUri = "/api/nbf/webcode";
-        webcodeserviceurl =  "api/nbf/getwebcodegetunique";
+        webcodeserviceurl =  "/api/nbf/webcode/webcodeuniqueid";
         siteId: string;
         referrer: string;
         userId: string;
@@ -27,55 +28,62 @@
             protected $q: ng.IQService) {
         }
 
-        getWebCodeGetUniqueWebCodeID(): ng.IPromise<string> {
-           return this.httpWrapperService.executeHttpRequest(
-                this,
-                this.$http({ url: this.webcodeserviceurl, method: "GET" }),
-                this.getWebCodeCompleted,
-                this.getWebCodeFailed
-           ); 
+        
+
+
+        getUserId(): ng.IPromise<string> {
+            this.currentWebCode = this.checkWebCode();
+            if (this.currentWebCode) {
+
+            } else {
+                return this.httpWrapperService.executeHttpRequest(
+                    this,
+                    this.$http({ url: this.webcodeserviceurl, method: "GET" }),
+                    this.getWebUserCompleted,
+                    this.getWebCodeFailed
+                );
+            }
         }
 
-        getWebCode(): ng.IPromise<string> {
-            this.userId = this.generateId();
+        getWebCode(userId: string): ng.IPromise<string> {
+  
             this.currentWebCode = this.checkWebCode();
-            var referrer = document.referrer; 
+            var referrer = document.referrer;
             if (this.currentWebCode) {
 
             } else {
 
-               
+
                 if (referrer) {
                     var searchEngineList = this.getSearchEngineDomains();
-                    
+
                     for (var se in searchEngineList) {
                         if (referrer.indexOf(se) > -1) {
                             this.affId = searchEngineList[se];
                             break;
                         }
                     }
-                    this.currentWebCode = this.userId + "-" + this.affId;
-                    
+
                 } else {
 
                     this.siteId = this.getSiteId();
-
+                   
                     return this.httpWrapperService.executeHttpRequest(
                         this,
-                        this.$http({ url: this.serviceUri, method: "GET", params: this.getWebCodeParams(this.siteId) }),
+                        this.$http({ url: this.serviceUri, method: "GET", params: this.getWebCodeParams(this.siteId,this.userId) }),
                         this.getWebCodeCompleted,
                         this.getWebCodeFailed
                     );
-
+                    
                 }
-                
+                this.saveWebCodeCookie("keith");
             }
-            const deferred = this.$q.defer();
-            deferred.resolve(this.currentWebCode);
-            const webCodePromise = (deferred.promise as ng.IPromise<string>);
-            return webCodePromise;
+            
+           
         }
-
+       
+           
+        
         protected getSearchEngineDomains() {
             var searchEngines = "ochdevsite.:10000,google.:11717,msn.:11739,bing.:11739,yahoo.:11741,aol.:aol_nbf,facebook.:fb_NBF_Social,instagram.:ig_NBF_Social,pinterest.:pin_NBF_Social,linkedin.:lin_NBF_Social,youtube.:yt_NBF_Social,ask.,about.,baidu.,yandex.,search.,duckduckgo.,localhost:loco_nbf";
             var domainList = {};
@@ -88,17 +96,27 @@
         }
 
         protected getWebCodeCompleted(webCode: any): void {
-            this.saveWebCodeCookie(webCode.data);
+            this.affId = this.userId + webCode.data;
+            const deferred = this.$q.defer();
+            deferred.resolve(this.currentWebCode);
+                const webCodePromise = (deferred.promise as ng.IPromise<string>);
+              
+            
+        }
+        protected getWebUserCompleted(webCode: any): void {
+           
+            this.userId = webCode.data;
         }
 
+        
         protected getWebCodeFailed(error: ng.IHttpPromiseCallbackArg<any>): void {
 
         }
 
-        protected getWebCodeParams(siteId: string): any {
+        protected getWebCodeParams(siteId: string,userId: string): void {
             const params: any = {};
             params.siteId = siteId;
-            params.userId = this.userId;
+            params.userId = userId;
             return params;
         }
 
@@ -106,24 +124,21 @@
             var expire = new Date();
             expire.setDate(expire.getDate() + 90);
             var webCodeSplit = webCode.split("-");
-            this.$sessionStorage.setObject("UserAffiliateCodeID", webCodeSplit[1]);
-            this.$sessionStorage.setObject("UserOmnitureTransID", webCodeSplit[1]);
-            this.ipCookie("referring_cookie", webCodeSplit[1], { path: "/", expires: expire });
-            this.ipCookie("web_code_cookie", webCode, { path: "/", expires: expire });
+            var webCode = this.userId + this.affId;
+            this.currentWebCode = webCode;
+
+           // this.$sessionStorage.setObject("UserAffiliateCodeID", webCodeSplit[1]);
+           // this.$sessionStorage.setObject("UserOmnitureTransID", webCodeSplit[1]);
+           // this.ipCookie("referring_cookie", webCodeSplit[1], { path: "/", expires: expire });
+           // this.ipCookie("web_code_cookie", webCode, { path: "/", expires: expire });
+
+            this.currentWebCode = this.userId + "-" + this.affId;
+            webCode = this.currentWebCode;
             
+          
 
         }
-
-        protected generateId(): string {
-            let text = "";
-            const possible = "ACEGHJKMNPQRTUWXYZaceghijkmnpqrtuwxyz23456789";
-
-            for (let i = 0; i < 6; i++)
-                text += possible.charAt(Math.floor(Math.random() * possible.length));
-
-            return text.toUpperCase();
-        }
-
+        
         protected getSiteId(): string {
             var siteId = "default_web";
 

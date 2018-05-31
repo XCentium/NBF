@@ -3,6 +3,7 @@
 
     export class NbfWebCodeController {
         webCode: string;
+        userId: string;
 
         static $inject = ["$scope", "nbfWebCodeService"];
 
@@ -13,22 +14,31 @@
         }
 
         init(): void {
+            this.getUserId();
             this.getWebCode();
            
         }
-
-        getWebCode(): void {
-            this.nbfWebCodeService.getWebCode().then(
+        getUserId(): void {
+            this.nbfWebCodeService.getUserId().then(
                 (webCode: string) => { this.getWebCodeCompleted(webCode); },
                 (error: any) => { this.getWebCodeFailed(error); });
         }
-        
-        protected getWebCodeCompleted(webCode: string): void {
+        getWebCode(): void {
+            this.nbfWebCodeService.getWebCode(this.userId).then(
+                (webCode: string) => { this.getWebCodeCompleted(webCode); },
+                (error: any) => { this.getWebCodeFailed(error); });
+        }
+      
+        getWebCodeCompleted(webCode: string): void {
             if (webCode != null) {
                 this.webCode = webCode;
             } 
         }
-
+        getWebUserCompleted(webCode: string): void {
+            if (webCode != null) {
+                this.webCode = webCode;
+            }
+        }
         protected getWebCodeFailed(error?: any): void {
         }
     }

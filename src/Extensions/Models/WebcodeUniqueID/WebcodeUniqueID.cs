@@ -5,11 +5,12 @@ using Insite.Data.Entities;
 
 namespace Extensions.Models.WebcodeUniqueID
 {
-    [Table("WebcodeUnqiueID", Schema = "Extensions")]
+    [Table("WebcodeUniqueID", Schema = "Extensions")]
     public class WebcodeUniqueIDModel : EntityBase
     {
         [Required]
-        [NaturalKeyField]
-        public int AffiliateNumber { get; set; }
+        [Key]
+        public int WebCodeUniqueID { get; }
+       
     }
 }
