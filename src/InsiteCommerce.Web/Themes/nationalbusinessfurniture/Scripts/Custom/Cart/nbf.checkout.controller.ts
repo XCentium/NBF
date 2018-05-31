@@ -252,15 +252,15 @@
                 this.remainingTotal -= cc1Amount;
                 this.cc1Display = this.convertToCurrency(cc1Amount);
                 this.totalPaymentsDisplay;
-                totalPaymentAmount += cc1Amount;
+                this.totalPaymentAmount += cc1Amount;
             }
             if (this.cart.properties["cc2"]) {
                 var cc2Amount = Number(this.cart.properties["cc2"]);
                 this.remainingTotal -= cc2Amount;
                 this.cc2Display = this.convertToCurrency(cc2Amount);
-                totalPaymentAmount += cc2Amount;
+                this.totalPaymentAmount += cc2Amount;
             }
-            this.totalPaymentsDisplay = this.convertToCurrency(totalPaymentAmount);
+            this.totalPaymentsDisplay = this.convertToCurrency(this.totalPaymentAmount);
             this.paymentAmount = this.remainingTotal;
             this.remainingTotalDisplay = this.convertToCurrency(this.remainingTotal);
         }
@@ -1154,6 +1154,14 @@
                 this.submitting = false;
                 return;
             }
+            if (this.paymentAmount != this.remainingTotal) {
+                var $validator = $("#reviewAndPayForm").validate(); //.invalid();
+                var errors = { paymentAmount: "Cannot place order for less than the total." };
+                /* Show errors on the form */
+                $validator.showErrors(errors); 
+                this.submitting = false;
+                return;
+            }
 
             if (!this.isTaxExempt && this.taxExemptChoice && this.taxExemptFileName) {
                 var params = {
@@ -1340,9 +1348,6 @@
                 return false;
             }
 
-            if (this.paymentAmount != this.remainingTotal) {
-                return false;
-            }
             return true;
         }
 
