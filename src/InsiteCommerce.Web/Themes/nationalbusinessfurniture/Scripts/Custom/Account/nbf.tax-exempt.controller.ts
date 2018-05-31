@@ -136,11 +136,13 @@
                 fileLocation: ""
             } as TaxExemptParams;
 
-            this.nbfEmailService.sendTaxExemptEmail(params, this.file).then(
-                () => {
-                    this.updateBillTo();
-                },
-                () => { this.errorMessage = "An error has occurred."; });
+            this.nbfEmailService.postTaxExemptFileUpload(params, this.file).then(
+                (data) => {
+                    params.fileLocation = data;
+                    this.nbfEmailService.sendTaxExemptEmail(params).then(() => {
+                        this.updateBillTo();
+                    }, () => { this.errorMessage = "An error has occurred."; });
+                }, () => { this.errorMessage = "An error has occurred."; });
         }
 
         protected updateBillTo() {
