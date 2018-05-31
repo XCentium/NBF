@@ -298,8 +298,6 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        </div>
-                                                    <div ng-show="(vm.cart.showCreditCard && vm.cart.paymentMethod.isCreditCard && vm.cart.paymentMethod.name !== 'Open_Credit' && vm.remainingTotal > 0) || (vm.cart.paymentMethod.isPaymentProfile == true && vm.remainingTotal > 0)">
                                                         <label for="paymentAmount">[% translate 'Payment Amount' %]</label>
                                                         <div class="row">
                                                             <div class="small-4 columns payment-amount">
@@ -308,14 +306,13 @@
                                                                        data-msg-creditcard="[% translate 'Credit card number is invalid.' %]"
                                                                        ng-model="vm.paymentAmount"
                                                                        ng-change="" ng-disabled="vm.cart.properties['cc1'] && vm.cart.properties['cc1'] != ''">
-                                                                <span class="field-validation-valid" data-valmsg-for="paymentAmount" data-valmsg-replace="true"></span>
                                                             </div>
                                                             <div class="small-4 columns remaining-total">
                                                                 <input id="remainingTotal" type="number" name="remainingTotal" readonly ng-model="vm.remainingTotal" style="display: block;" />
                                                             </div>
                                                             <div class="small-4 columns payment-amount">
                                                                 <button ng-if="vm.remainingTotal > 0" ng-click="vm.addPayment()">Add payment</button>
-
+                                                               
                                                             </div>
                                                         </div>
                                                         <div class="row">
@@ -426,7 +423,7 @@
                                             <div class="small-12 column">
                                                 <div class="btns">
                                                     <a id="tst_submitForApproval_button" href="" class="btn primary btn-submit-for-approval" ng-show="vm.cart.requiresApproval && vm.cart.hasApprover && !vm.submitting" ng-click="vm.submit('[% urlForPage 'OrderApprovalDetailPage' %]')">[% translate 'Submit for approval' %]</a>
-                                                    <a id="tst_placeOrder_button" href="" class="btn primary btn-place-order" ng-disabled="vm.remainingTotal != vm.paymentAmount" ng-hide="vm.cart.requiresApproval || vm.submitting" ng-click="vm.submit('[% urlForPage 'SignInPage' %]','[% siteMessage 'TaxExempt_Upload_EmailTo' 'dylan.barter@xcentium.com' %]')">[% translate 'Place Order' %]</a>
+                                                    <a id="tst_placeOrder_button" href="" class="btn primary btn-place-order" ng-hide="vm.cart.requiresApproval || vm.submitting" ng-click="vm.submit('[% urlForPage 'SignInPage' %]','[% siteMessage 'TaxExempt_Upload_EmailTo' 'dylan.barter@xcentium.com' %]')">[% translate 'Place Order' %]</a>
                                                     <div id="tst_submitErrorMessage" style="color: red;" ng-bind="vm.submitErrorMessage"></div>
                                                     <div id="tst_userFound" style="color: red;" ng-if="vm.userFound">
                                                         [% siteMessage 'Guest_Checkout_UserFoundError' 'Email is already associated with an account, would you like to sign in?' %]

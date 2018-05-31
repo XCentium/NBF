@@ -16,4 +16,31 @@
     <div class="news-list-footer">
         [% zone 'News Footer' %]
     </div>
+    <div class="news-list-comments">
+        [% zone 'Comments' %]
+    </div>
+    [% if Model.Drop.PreviousArticle != string.Empty -%]
+        <a class="prev eq-item" href="@Model.ViewModel.PreviousArticle">
+            <span class="btn-text">Previous Article</span>
+            <span class="event-title">@Model.ViewModel.PreviousArticleTitle</span>
+            <span class="btnCircle">
+                <span class="fa-stack">
+                    <i class="fa fa-circle-thin fa-stack-2x"></i>
+                    <i class="fa fa-angle-left fa-stack-1x"></i>
+                </span>
+            </span>
+        </a>
+    [% endif -%]
+    [% if Model.Drop.PreviousArticle == string.Empty -%]
+        <a class="next eq-item" href="@Model.ViewModel.NextArticle">
+            <span class="btn-text">Next Article</span>
+            <span class="event-title">@Model.ViewModel.NextArticleTitle</span>
+            <span class="btnCircle">
+                <span class="fa-stack">
+                    <i class="fa fa-circle-thin fa-stack-2x"></i>
+                    <i class="fa fa-angle-right fa-stack-1x"></i>
+                </span>
+            </span>
+        </a>
+    [% endif -%]
 </div>
