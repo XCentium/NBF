@@ -74,6 +74,7 @@
                     this.showAllStyles();
                 } else {
                     this.filterRooms();
+                    this.runIsotope();
                 }
             } else {
                 angular.element($event.target).addClass("is-checked");
@@ -92,6 +93,8 @@
                 this.selectedRooms.splice(index, 1);
                 if (this.selectedRooms.length === 0) {
                     this.showAllRooms();
+                } else {
+                    this.runIsotope(); 
                 }
             } else {
                 angular.element($event.target).addClass("is-checked");
@@ -131,7 +134,10 @@
                     styleFilterString += ", ";
                 }
                 if (this.selectedRooms.length > 0) {
-                    this.selectedRooms.forEach((room) => {
+                    this.selectedRooms.forEach((room, i) => {
+                        if (i !== 0) {
+                            styleFilterString += ", ";
+                        }
                         styleFilterString += `.${style.styleName.replace(/\s/g, "")}.${room.id}`;
                     });
                 } else {
@@ -150,7 +156,6 @@
             }
 
             const filters = styleFilterString + roomFilterString;
-            console.dir(filters);
             this.$grid.isotope({ filter: filters });
         }
 

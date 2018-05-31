@@ -17,7 +17,6 @@
         queryCartId: string;
         countries: CountryModel[];
         selectedShipTo: ShipToModel;
-        originalBillTo: BillToModel;
         shipTos: ShipToModel[];
         continueCheckoutInProgress = false;
         shipToIsReadOnly = false;
@@ -61,10 +60,15 @@
         //Split Payment variables
         paymentAmount: number;
         remainingTotal: number;
+        remainingTotalDisplay: string = '';
+        paymentAmountDisplay: string = '';
+        totalPaymentsDisplay: string = '';
+        cc1Display: string = '';
+        cc2Display: string = '';
 
         //Tax Exempt variables
         isTaxExempt = false;
-        taxExemptChoice = true;
+        taxExemptChoice = false;
         taxExemptFileName: string;
         file: any;
         errorMessage: string;
@@ -118,7 +122,7 @@
             protected nbfGuestActivationService: guest.INbfGuestActivationService,
             protected nbfPaymentService: cart.INbfPaymentService,
             protected termsAndConditionsPopupService: insite.cart.ITermsAndConditionsPopupService,
-            protected nbfEmailService: nbf.email.INbfEmailService,
+            protected nbfEmailService: email.INbfEmailService,
             protected productService: insite.catalog.IProductService,
             protected $element: ng.IRootElementService,
             protected $rootScope: ng.IRootScopeService,
@@ -164,16 +168,8 @@
                     e.preventDefault();
                 }
             });
-
-            $("#addressForm").change(() => {
-                if (this.billToSameAsShipToSelected) {
-                    this.updateBillTo();
-                }
-            });
-
+            
             $(".masked-phone").mask("999-999-9999", { autoclear: false });
-
-
 
             this.$form = $("#taxExemptFileUpload");
             this.$form.removeData("validator");
@@ -232,17 +228,37 @@
             this.cartService.getCart(this.cartId).then(
                 (cart: CartModel) => {
                     this.getCartCompleted(cart);
-                    this.paymentAmount = cart.orderGrandTotal;
-                    this.remainingTotal = cart.orderGrandTotal;
-                    if (this.cart.properties["cc1"]) {
-                        this.remainingTotal -= Number(this.cart.properties["cc1"]);
-                    }
-                    if (this.cart.properties["cc2"]) {
-                        this.remainingTotal -= Number(this.cart.properties["cc2"]);
-                    }
-                    this.paymentAmount = this.remainingTotal;
+                    this.paymentAmountDisplay = this.convertToCurrency(cart.orderGrandTotal);
+                    this.setPaymentAmounts();
                 },
                 (error: any) => { this.getCartFailed(error); });
+        }
+
+        protected setPaymentAmounts() {
+            var totalPaymentAmount = 0.0;
+            this.remainingTotal = this.cart.orderGrandTotal;
+            if (this.cart.properties["cc1"]) {
+                var cc1Amount = Number(this.cart.properties["cc1"]);
+                this.remainingTotal -= cc1Amount;
+                this.cc1Display = this.convertToCurrency(cc1Amount);
+                //this.totalPaymentsDisplay;
+                totalPaymentAmount += cc1Amount;
+            }
+            if (this.cart.properties["cc2"]) {
+                var cc2Amount = Number(this.cart.properties["cc2"]);
+                this.remainingTotal -= cc2Amount;
+                this.cc2Display = this.convertToCurrency(cc2Amount);
+                totalPaymentAmount += cc2Amount;
+            }
+            this.totalPaymentsDisplay = this.convertToCurrency(totalPaymentAmount);
+            this.paymentAmount = this.remainingTotal;
+            this.remainingTotalDisplay = this.convertToCurrency(this.remainingTotal);
+        }
+
+        protected convertToCurrency(amount: number): string {
+            return "$" + amount.toFixed(2).replace(/./g, function (c, i, a) {
+                return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
+            });
         }
 
         protected getCartCompleted(cart: CartModel): void {
@@ -257,25 +273,23 @@
                 this.coreService.redirectToPath(this.cartUrl);
             }
 
-            this.remainingTotal = this.cart.orderGrandTotal;
-            if (this.cart.properties["cc1"]) {
-                this.remainingTotal -= Number(this.cart.properties["cc1"]);
-            }
-            if (this.cart.properties["cc2"]) {
-                this.remainingTotal -= Number(this.cart.properties["cc2"]);
-            }
+            this.setPaymentAmounts();
 
             if (this.cart.billTo) {
                 if (this.cart.billTo.properties["taxExemptFileName"]) {
                     this.isTaxExempt = true;
+                    this.taxExemptChoice = true;
                     this.taxExemptFileName = this.cart.billTo.properties["taxExemptFileName"];
                 }
-                this.originalBillTo = cart.billTo;
                 this.isGuest = cart.billTo.isGuest;
             }
 
             if (this.cart.shipTo && this.cart.shipTo.id) {
                 this.initialShipToId = this.cart.shipTo.id;
+            }
+
+            if ((!this.cart.billTo || this.cart.shipTo) && this.cart.totalTax === 0) {
+                this.cart.totalTaxDisplay = "TBD";
             }
 
             this.websiteService.getCountries("states").then(
@@ -287,6 +301,8 @@
                 });
 
             this.updateCartLineAttributes();
+
+            this.updateCartLineSwatchProductUrl();
         }
 
         protected updateCartLineAttributes() {
@@ -307,7 +323,32 @@
 
                     //this.$scope.$apply();
                 },
-                (error: any) => { });
+                () => { });
+        }
+
+        protected updateCartLineSwatchProductUrl() {
+            let baseProductErpNumbers = this.cart.cartLines
+                .filter(x => x.erpNumber.indexOf(":") >= 0)
+                .map(x => x.erpNumber.split(":")[0]);
+
+            if (baseProductErpNumbers.length > 0) {
+                const expand = ["attributes"];
+                const parameter: insite.catalog.IProductCollectionParameters = { erpNumbers: baseProductErpNumbers };
+                this.productService.getProducts(parameter, expand).then(
+                    (productCollection: ProductCollectionModel) => {
+                        this.cart.cartLines.forEach(cartLine => {
+                            if (cartLine.erpNumber.indexOf(":") >= 0) {
+                                let erpNumber = cartLine.erpNumber.split(":")[0];
+                                let baseProduct = productCollection.products.find(x => x.erpNumber === erpNumber);
+
+                                if (baseProduct) {
+                                    cartLine.productUri = baseProduct.productDetailUrl;
+                                    cartLine.uri = baseProduct.productDetailUrl;
+                                }
+                            }
+                        });
+                    }, () => { });
+            }
         }
 
         protected getCartFailed(error: any): void {
@@ -333,21 +374,18 @@
             }
 
             this.replaceObjectWithReference(this.cart.billTo, this.countries, "country");
-            if (this.cart.billTo.country) {
-                this.replaceObjectWithReference(this.cart.billTo, this.cart.billTo.country.states, "state");
-            }
+            this.replaceObjectWithReference(this.cart.billTo, this.cart.billTo.country.states, "state");
         }
 
         protected setUpShipTos(): void {
             this.shipTos = angular.copy(this.cart.billTo.shipTos);
 
             let shipToBillTo: ShipToModel = null;
-            //handle guest ship tos
-            var shipTos = [];
+
             this.shipTos.forEach(shipTo => {
-                //if (!shipTo.country && !shipTo.state) {
-                //    shipTo.country = this.countries[0];
-                //}
+                if (!shipTo.country) {
+                    shipTo.country = this.countries[0];
+                }
                 if (shipTo.country && shipTo.country.states) {
                     this.replaceObjectWithReference(shipTo, this.countries, "country");
                     this.replaceObjectWithReference(shipTo, shipTo.country.states, "state");
@@ -356,18 +394,6 @@
                 if (shipTo.id === this.cart.billTo.id) {
                     shipToBillTo = shipTo;
                 }
-
-                //if (this.cart.billTo.isGuest) {
-                //    if (shipTo.isNew) {
-                //        shipTos.push(shipTo);
-                //        //Only show new ship to option for guest users
-                //        this.shipTos = shipTos;
-                //    }
-                //} else {
-                //    if (shipTo.id === this.cart.billTo.id) {
-                //        shipToBillTo = shipTo;
-                //    }
-                //}
             });
 
             // if this billTo was returned in the shipTos, replace the billTo in the shipTos array
@@ -388,23 +414,12 @@
                 if (this.cart.shipTo && shipTo.id === this.cart.shipTo.id || !this.selectedShipTo && shipTo.isNew) {
                     this.selectedShipTo = shipTo;
                 }
-                //if (this.cart.billTo.isGuest) {
-                //    if (shipTo.isNew) {
-                //        this.selectedShipTo = shipTo;
-                //    }
-                //} else {
-                //    if (this.cart.shipTo && shipTo.id === this.cart.shipTo.id || !this.selectedShipTo && shipTo.isNew) {
-                //        this.selectedShipTo = shipTo;
-                //    }
-                //}
             });
 
             if (this.selectedShipTo && this.selectedShipTo.id === this.cart.billTo.id) {
                 // don't allow editing the billTo from the shipTo side if the billTo is selected as the shipTo
                 this.billToSameAsShipToSelected = true;
             }
-
-            this.updateBillTo();
         }
 
         checkSelectedShipTo(): void {
@@ -420,46 +435,59 @@
                             shipTo.address2 = this.selectedShipTo.address2;
                             shipTo.city = this.selectedShipTo.city;
                             shipTo.state = this.selectedShipTo.state;
+                            shipTo.country = this.selectedShipTo.country;
                             shipTo.postalCode = this.selectedShipTo.postalCode;
                             shipTo.phone = this.selectedShipTo.phone;
                             this.selectedShipTo = shipTo;
                         }
                     });
-                } else {
-                    this.selectedShipTo = this.shipTos[0];
                 }
-            }
-
-            this.updateBillTo();
+            } 
 
             if (this.onlyOneCountryToSelect()) {
                 this.selectFirstCountryForAddress(this.selectedShipTo);
                 this.setStateRequiredRule("st", this.selectedShipTo);
             }
 
-            this.updateAddressFormValidation();
-        }
-
-        protected updateBillTo(): void {
             if (this.billToAndShipToAreSameCustomer() && !this.isGuest) {
                 this.shipToIsReadOnly = true;
             } else {
                 this.shipToIsReadOnly = false;
             }
 
-            if (this.isGuest) {
-                this.cart.billTo.email = this.selectedShipTo.email;
-                if (this.billToSameAsShipToSelected) {
-                    this.cart.billTo.firstName = this.selectedShipTo.firstName;
-                    this.cart.billTo.lastName = this.selectedShipTo.lastName;
-                    this.cart.billTo.companyName = this.selectedShipTo.companyName;
-                    this.cart.billTo.address1 = this.selectedShipTo.address1;
-                    this.cart.billTo.address2 = this.selectedShipTo.address2;
-                    this.cart.billTo.city = this.selectedShipTo.city;
-                    this.cart.billTo.state = this.selectedShipTo.state;
-                    this.cart.billTo.postalCode = this.selectedShipTo.postalCode;
-                    this.cart.billTo.phone = this.selectedShipTo.phone;
-                }
+            if (this.onlyOneCountryToSelect()) {
+                this.selectFirstCountryForAddress(this.cart.billTo);
+                this.setStateRequiredRule("bt", this.cart.billTo);
+            }
+
+            this.updateAddressFormValidation();
+        }
+
+        protected updateBillTo(): void {
+            this.cart.billTo.email = this.selectedShipTo.email;
+            if (this.billToSameAsShipToSelected) {
+                this.cart.billTo.firstName = this.selectedShipTo.firstName;
+                this.cart.billTo.lastName = this.selectedShipTo.lastName;
+                this.cart.billTo.companyName = this.selectedShipTo.companyName;
+                this.cart.billTo.address1 = this.selectedShipTo.address1;
+                this.cart.billTo.address2 = this.selectedShipTo.address2;
+                this.cart.billTo.city = this.selectedShipTo.city;
+                this.cart.billTo.state = this.selectedShipTo.state;
+                this.cart.billTo.country = this.selectedShipTo.country;
+                this.cart.billTo.postalCode = this.selectedShipTo.postalCode;
+                this.cart.billTo.phone = this.selectedShipTo.phone;
+            } else {
+                var bt = this.shipTos[0];
+                this.cart.billTo.firstName = bt.firstName;
+                this.cart.billTo.lastName = bt.lastName;
+                this.cart.billTo.companyName = bt.companyName;
+                this.cart.billTo.address1 = bt.address1;
+                this.cart.billTo.address2 = bt.address2;
+                this.cart.billTo.city = bt.city;
+                this.cart.billTo.state = bt.state;
+                this.cart.billTo.country = bt.country;
+                this.cart.billTo.postalCode = bt.postalCode;
+                this.cart.billTo.phone = bt.phone;
             }
         }
 
@@ -494,6 +522,21 @@
             this.updateValidationRules("stphone", this.selectedShipTo.validation.phone);
             this.updateValidationRules("stfax", this.selectedShipTo.validation.fax);
             this.updateValidationRules("stemail", this.selectedShipTo.validation.email);
+            this.updateValidationRules("btfirstname", this.selectedShipTo.validation.firstName);
+            this.updateValidationRules("btlastname", this.selectedShipTo.validation.lastName);
+            this.updateValidationRules("btattention", this.selectedShipTo.validation.attention);
+            this.updateValidationRules("btcompanyName", this.selectedShipTo.validation.companyName);
+            this.updateValidationRules("btaddress1", this.selectedShipTo.validation.address1);
+            this.updateValidationRules("btaddress2", this.selectedShipTo.validation.address2);
+            this.updateValidationRules("btaddress3", this.selectedShipTo.validation.address3);
+            this.updateValidationRules("btaddress4", this.selectedShipTo.validation.address4);
+            this.updateValidationRules("btcountry", this.selectedShipTo.validation.country);
+            this.updateValidationRules("btstate", this.selectedShipTo.validation.state);
+            this.updateValidationRules("btcity", this.selectedShipTo.validation.city);
+            this.updateValidationRules("btpostalCode", this.selectedShipTo.validation.postalCode);
+            this.updateValidationRules("btphone", this.selectedShipTo.validation.phone);
+            this.updateValidationRules("btfax", this.selectedShipTo.validation.fax);
+            this.updateValidationRules("btemail", this.selectedShipTo.validation.email);
         }
 
         protected resetAddressFormValidation(): void {
@@ -523,22 +566,24 @@
         }
 
         setStateRequiredRule(prefix: string, address: any): void {
-            //if (!address.country) {
-            //    return;
-            //}
+            if (!address.country) {
+                return;
+            }
 
-            //const country = this.countries.filter((elem) => {
-            //   return elem.id === address.country.id;
-            //});
+            const country = this.countries.filter((elem) => {
+               return elem.id === address.country.id;
+            });
 
-            //const isRequired = country != null && country.length > 0 && country[0].states.length > 0;
-            //setTimeout(() => {
-            //    if (!isRequired) {
-            //        address.state = null;
-            //    }
-            //    $(`#${prefix}state`).validate();
-            //    $(`#${prefix}state`).rules("add", { required: isRequired });
-            //}, 100);
+            const isRequired = country != null && country.length > 0 && country[0].states.length > 0;
+            setTimeout(() => {
+                if (!isRequired) {
+                    address.state = null;
+                }
+                if ($(`#${prefix}state`)) {
+                    $(`#${prefix}state`).validate();
+                    $(`#${prefix}state`).rules("add", { required: isRequired });
+                }
+            }, 100);
         }
 
         continueToStep2(cartUri: string): void {
@@ -546,13 +591,13 @@
             if (!valid) {
                 angular.element("html, body").animate({
                     scrollTop: angular.element(".error:visible").offset().top
-                },
-                    300);
-
+                }, 300);
                 return;
             }
 
             this.spinnerService.show("mainLayout", true);
+            this.updateBillTo();
+
             this.continueCheckoutInProgress = true;
             this.cartUri = cartUri;
 
@@ -648,8 +693,7 @@
 
                 this.$timeout(() => {
                     this.coreService.closeModal("#insufficientInventoryAtCheckout");
-                },
-                    3000);
+                }, 3000);
             } else {
                 if (this.initialIsSubscribed !== this.account.isSubscribed) {
                     this.accountService.updateAccount(this.account).then(
@@ -730,6 +774,11 @@
             e.preventDefault();
             this.userFound = false;
 
+            this.selectFirstCountryForAddress(this.selectedShipTo);
+            this.setStateRequiredRule("st", this.selectedShipTo);
+            this.selectFirstCountryForAddress(this.cart.billTo);
+            this.setStateRequiredRule("bt", this.cart.billTo);
+            
             $("#nav1expanded,#nav2expanded").show();
             $("#nav1min,#nav2min,#nav1 .edit,#nav2 .edit").hide();
 
@@ -740,8 +789,7 @@
             $("#payment").removeClass("active");
             $("html:not(:animated), body:not(:animated)").animate({
                 scrollTop: $("#nav1").offset().top
-            },
-                200);
+            }, 200);
         }
 
         editShipping(e) {
@@ -787,11 +835,6 @@
 
             this.settingsService.getSettings().then(
                 (settings: insite.core.SettingsCollection) => { this.getCartSettingsCompleted(settings); });
-
-            this.websiteService.getCountries("states").then(
-                (countryCollection: CountryCollectionModel) => {
-                    this.getCountriesCompletedForReviewAndPay(countryCollection);
-                });
 
             this.updateCartLineAttributes();
         }
@@ -891,21 +934,31 @@
         }
 
         protected getCountriesCompletedForReviewAndPay(countryCollection: CountryCollectionModel) {
-            this.countries = countryCollection.countries;
+
         }
 
         getCart(isInit?: boolean): void {
-            this.cartService.expand = "cartlines,shipping,tax,carriers,paymentoptions";
+            this.cartService.expand = "cartlines,shipping,tax,carriers,paymentoptions,shiptos,validation";
             if (this.$localStorage.get("hasRestrictedProducts") === true.toString()) {
                 this.cartService.expand += ",restrictions";
             }
             this.cartService.getCart(this.cartId).then(
-                (cart: CartModel) => { this.getCartCompletedForReviewAndPay(cart, isInit); },
+                (cart: CartModel) => {
+                    this.getCartCompletedForReviewAndPay(cart, isInit); 
+                    $("#nav1expanded").hide();
+                    $("#nav1").removeClass("active");
+                    $("#nav1min, #nav1 .edit").show();
+
+                    $("#shipping").addClass("active");
+                    $("#nav2").addClass("active");
+                    $("html:not(:animated), body:not(:animated)").animate({
+                        scrollTop: $("#nav1").offset().top
+                    }, 200);
+                },
                 (error: any) => { this.getCartFailed(error); });
         }
 
         protected getCartCompletedForReviewAndPay(cart: CartModel, isInit: boolean): void {
-
             this.cartService.expand = "";
             let paymentMethod: Insite.Cart.Services.Dtos.PaymentMethodDto;
             let transientCard: Insite.Core.Plugins.PaymentGateway.Dtos.CreditCardDto;
@@ -941,21 +994,14 @@
             this.setUpShipVia(isInit);
             this.setUpPaymentMethod(isInit, paymentMethod || this.cart.paymentMethod);
             this.setUpPayPal(isInit);
+            
+            this.setUpBillTo();
+            this.setUpShipTos();
+            this.setSelectedShipTo();
 
             if (!isInit) {
                 this.pageIsReady = true;
             }
-
-            $("#nav1expanded").hide();
-            $("#nav1").removeClass("active");
-            $("#nav1min, #nav1 .edit").show();
-
-            $("#shipping").addClass("active");
-            $("#nav2").addClass("active");
-            $("html:not(:animated), body:not(:animated)").animate({
-                scrollTop: $("#nav1").offset().top
-            },
-                200);
 
             this.updateCartLineAttributes();
         }
@@ -1084,7 +1130,6 @@
         }
 
         submit(signInUri: string, emailTo: string): void {
-            var self = this;
             this.submitting = true;
             this.submitErrorMessage = "";
 
@@ -1092,6 +1137,8 @@
                 this.submitting = false;
                 return;
             }
+
+            this.spinnerService.show("mainLayout", true);
 
             if (!this.isTaxExempt && this.taxExemptChoice && this.taxExemptFileName) {
                 var params = {
@@ -1102,13 +1149,22 @@
                     fileLocation: ""
                 } as TaxExemptParams;
 
-                this.nbfEmailService.sendTaxExemptEmail(params, this.file).then(
-                    () => { },
-                    () => { this.errorMessage = "An error has occurred."; });
+                this.nbfEmailService.postTaxExemptFileUpload(params, this.file).then(
+                    (data) => {
+                        params.fileLocation = data;
+                        this.nbfEmailService.sendTaxExemptEmail(params).then(() => {
+                                this.handleGuestRegistration(signInUri);
+                            },() => { this.errorMessage = "An error has occurred."; });
+                    },() => { this.errorMessage = "An error has occurred."; });
             } else if (!this.isTaxExempt && this.taxExemptChoice) {
                 //tax exempt choice is yes but no file was uploaded
+            } else {
+                this.handleGuestRegistration(signInUri);
             }
+        }
 
+        protected handleGuestRegistration(signInUri: string) {
+            var self = this;
             var pass = $("#CreateNewAccountInfo_Password").val();
 
             if (pass) {
@@ -1148,7 +1204,6 @@
             if ((this.cart.cartLines.filter((line: CartLineModel) => line.erpNumber.search('^[^:]*[:][^:]*[:][^:]*$') > 0)).length > 0) {
                 this.$rootScope.$broadcast("AnalyticsEvent", "SwatchRequest");
             }
-            this.$rootScope.$broadcast("AnalyticsEvent", "CheckoutInitiated");
             this.sessionService.getIsAuthenticated().then(
                 (isAuthenticated: boolean) => {
                     this.getIsAuthenticatedForSubmitCompleted(isAuthenticated, signInUri);
@@ -1169,9 +1224,9 @@
 
             this.cart.requestedDeliveryDate = this.formatWithTimezone(this.cart.requestedDeliveryDate);
 
-            this.spinnerService.show("mainLayout", true);
+            var oldCartLines = this.cart.cartLines;
             this.cartService.updateCart(this.cart, true).then(
-                (cart: CartModel) => { this.submitCompleted(cart); },
+                (cart: CartModel) => { this.submitCompleted(cart, oldCartLines); },
                 (error: any) => { this.submitFailed(error); });
         }
 
@@ -1182,9 +1237,11 @@
         protected getIsAuthenticatedForSubmitFailed(error: any): void {
         }
 
-        protected submitCompleted(cart: CartModel): void {
+        protected submitCompleted(cart: CartModel, oldCartLines: CartLineModel[]): void {
             this.cart.id = cart.id;
             this.cartService.getCart();
+
+            this.$rootScope.$broadcast("AnalyticsEvent", "CheckoutComplete", null, null, { cart: cart, cartLines: oldCartLines });
 
             if (this.newUser) {
                 this.$window.location.href = `${this.$window.location.href}?cartid=${this.cart.id}`;
@@ -1198,7 +1255,7 @@
                         this.cart.id;
                     window.history.pushState({ path: newurl }, "", newurl);
                 }
-                this.cartService.getCart();
+                //this.cartService.getCart();
                 this.loadStep4();
                 this.spinnerService.hide();
             }
@@ -1377,8 +1434,7 @@
             model["paymentProfileId"] = this.cart.paymentMethod.name;
             var self = this;
             this.nbfPaymentService.addPayment(model).then((result) => {
-                if (result.toLowerCase() == "true") {
-                    this.remainingTotal = self.cart.orderGrandTotal;
+                if (result.toLowerCase() === "true") {
                     var propName = "";
                     if (!self.cart.properties["cc1"]) {
                         propName = "cc1";
@@ -1393,18 +1449,9 @@
                         self.cart.properties[propName] = self.paymentAmount.toString();
                     }
 
-                    self.cartService.updateCart(self.cart).then((cart) => {
-                        this.cart.properties = cart.properties;
-                        this.remainingTotal = cart.orderGrandTotal;
-                        if (cart.properties["cc1"]) {
-                            this.remainingTotal -= Number(cart.properties["cc1"]);
-                        }
-                        if (cart.properties["cc2"]) {
-                            this.remainingTotal -= Number(cart.properties["cc2"]);
-
-                        }
+                    self.cartService.updateCart(self.cart).then(() => {
+                        self.setPaymentAmounts();
                         this.paymentAmount = this.remainingTotal;
-
                         this.cart.paymentOptions.creditCard.cardType = null;
                     });
                 }
@@ -1489,6 +1536,7 @@
                     this.$scope.$apply();
                 });
             }
+            return true;
         }
 
         openUpload() {
@@ -1501,17 +1549,19 @@
             this.spinnerService.show("mainLayout", true);
             this.cart.billTo.properties["taxExemptFileName"] = this.taxExemptFileName;
 
-            this.nbfTaxExemptService.updateBillto(this.cart.billTo.id);
+            this.nbfTaxExemptService.addTaxExempt(this.cart.billTo.id);
 
             this.customerService.updateBillTo(this.cart.billTo).then(
                 () => { this.updatebillToTaxExemptCompleted(); },
                 (error: any) => { this.updatebillToTaxExemptFailed(error); });
+
+            this.spinnerService.hide();
         }
 
         protected updatebillToTaxExemptCompleted(): void {
             this.cartService.expand = "cartlines,shipping,tax,promotions,carriers,paymentoptions,shiptos,validation";
             this.cartService.getCart(this.cart.id).then((cart: CartModel) => {
-                this.cart = cart;
+                this.getCartCompletedForReviewAndPay(cart, false);
                 this.spinnerService.hide();
             }, () => { this.spinnerService.hide(); });
 

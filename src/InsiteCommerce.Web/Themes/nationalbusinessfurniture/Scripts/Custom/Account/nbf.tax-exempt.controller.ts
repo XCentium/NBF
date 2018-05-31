@@ -12,11 +12,12 @@
     export class TaxExemptController {
         cart: CartModel;
         isTaxExempt = false;
-        taxExemptChoice = true;
+        taxExemptChoice = false;
         taxExemptFileName: string;
         file: any;
         errorMessage: string;
-        success: boolean = false;
+        success = false;
+        saved = false;
         $form: JQuery;
 
         static $inject = [
@@ -58,7 +59,7 @@
                 (confirmedCart: CartModel) => { this.onCartLoaded(confirmedCart); });
 
             var self = this;
-            document.getElementById('taxExemptFileUpload').onchange = function () {
+            document.getElementById("taxExemptFileUpload").onchange = function () {
                 self.setFile(this);
             };
         }
@@ -68,7 +69,15 @@
             if (this.cart.billTo) {
                 if (this.cart.billTo.properties["taxExemptFileName"]) {
                     this.isTaxExempt = true;
+                    this.taxExemptChoice = true;
                     this.taxExemptFileName = this.cart.billTo.properties["taxExemptFileName"];
+                } else {
+                    this.isTaxExempt = false;
+                    this.taxExemptChoice = false;
+                    this.success = false;
+                    this.saved = false;
+                    this.taxExemptFileName = "";
+                    $("taxExemptFileUpload").val("");
                 }
             }
         }
@@ -91,9 +100,31 @@
         }
 
         openUpload() {
-            setTimeout(() => {
-                $("#taxExemptFileUpload").click();
-            }, 100);
+            if (!this.isTaxExempt && !this.saved) {
+                setTimeout(() => {
+                    $("#taxExemptFileUpload").click();
+                }, 100);
+            }
+        }
+
+        setNoTaxExempt($event) {
+            if ((this.isTaxExempt && this.saved) || (this.isTaxExempt && this.taxExemptFileName)) {
+                this.taxExemptChoice = true;
+                this.coreService.displayModal("#popup-delete-tax-exempt-confirmation");
+            }
+        }
+
+        closeModal(selector: string): void {
+            this.coreService.closeModal(selector);
+        }
+
+        removeTaxExempt() {
+            this.taxExemptChoice = false;
+            this.coreService.closeModal("#popup-delete-tax-exempt-confirmation");
+
+            this.nbfTaxExemptService.removeTaxExempt(this.cart.billTo.id).then(() => {
+                this.cartService.getCart().then((confirmedCart: CartModel) => { this.onCartLoaded(confirmedCart); });
+            });
         }
 
         saveFile(emailTo: string, orderNum?: string) {
@@ -105,25 +136,35 @@
                 fileLocation: ""
             } as TaxExemptParams;
 
-            this.nbfEmailService.sendTaxExemptEmail(params, this.file).then(
-                () => {
-                    this.updateBillTo();
-                },
-                () => { this.errorMessage = "An error has occurred."; });
+            this.nbfEmailService.postTaxExemptFileUpload(params, this.file).then(
+                (data) => {
+                    params.fileLocation = data;
+                    this.nbfEmailService.sendTaxExemptEmail(params).then(() => {
+                        this.updateBillTo();
+                    }, () => { this.errorMessage = "An error has occurred."; });
+                }, () => { this.errorMessage = "An error has occurred."; });
         }
 
         protected updateBillTo() {
             this.cart.billTo.properties["taxExemptFileName"] = this.taxExemptFileName;
 
-            this.nbfTaxExemptService.updateBillto(this.cart.billTo.id);
+            this.nbfTaxExemptService.addTaxExempt(this.cart.billTo.id);
 
             this.customerService.updateBillTo(this.cart.billTo).then(
-                () => { this.updateBillToCompleted(); },
+                () => {
+                    this.success = true;
+                    setTimeout(() => {
+                            this.success = false;
+                        }, 4000);
+                    this.saved = true;
+                    this.isTaxExempt = true;
+                    this.updateBillToCompleted();
+                },
                 (error: any) => { this.updateBillToFailed(error); });
         }
 
         protected updateBillToCompleted(): void {
-            this.success = true;
+            
         }
 
         protected updateBillToFailed(error: any): void {

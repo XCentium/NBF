@@ -5,7 +5,7 @@
     .detail-image {
         #s7flyout_inline_div.s7flyoutviewer {
             @media all and (max-width: 767px) {
-                height:400px !important;
+                height: 400px !important;
             }
         }
 
@@ -221,6 +221,10 @@
                 max-width: 900px;
                 margin: 0 auto;
             }
+        }
+
+        .doclinks li{
+            display:block !important;
         }
     }
 

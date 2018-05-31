@@ -10,7 +10,7 @@
         categoryAttr: string;
         filteredResults = false;
         favoritesWishlist: WishListModel;
-        isAuthenticated = false;
+        isAuthenticatedAndNotGuest = false;
 
         static $inject = [
             "$scope",
@@ -90,18 +90,6 @@
 
             this.initBackButton();
 
-
-            $(document).ready(() => {
-                var windowsize = $(window).width();
-                if (windowsize < 767) {
-                    setTimeout(
-                        () => {
-                            $("#accord-10000").prop("checked", false);
-                        },
-                        2000);
-                    $("#accord-10000").removeAttr("checked");
-                }
-            });
             this.$scope.$watch(() => this.category, (newCategory) => {
                 if (!newCategory) {
                     return;
@@ -212,9 +200,12 @@
             this.imagesLoaded = 0;
             this.waitForDom();
 
-            this.sessionService.getIsAuthenticated().then(result => {
-                this.isAuthenticated = result;
-                if (this.isAuthenticated) {
+            this.sessionService.getSession().then((session: SessionModel) => {
+                if (session.isAuthenticated && !session.isGuest) {
+                    this.isAuthenticatedAndNotGuest = true;
+                }
+                
+                if (this.isAuthenticatedAndNotGuest) {
                     this.getFavorites();
                 }
             });

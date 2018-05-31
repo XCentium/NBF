@@ -131,6 +131,7 @@
     <Content Include="Styles\custom\checkout-cart.scss" />
     <Content Include="Styles\custom\font-awesome.scss" />
     <Content Include="Styles\custom\font-icomoon.scss" />
+    <Content Include="Styles\custom\product-list-print.scss" />
     <Content Include="Styles\custom\selectize.scss" />
     <Content Include="Styles\custom\portfolio-isotope.scss" />
     <Content Include="Styles\fonts\fontawesome-webfont.svg" />
@@ -180,7 +181,9 @@
     <TypeScriptCompile Include="Scripts\Common\insite.base-upload.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Account\nbf.tax-exempt.service.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Account\nbf.sign-in.controller.ts" />
+    <TypeScriptCompile Include="Scripts\Custom\Cart\nbf.cart-lines.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Cart\nbf.cart.service.ts" />
+    <TypeScriptCompile Include="Scripts\Custom\Catalog\nbf.product-search.directive.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Catalog\nbf.product-search.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\ContactUs\nbf.contact-us.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\ShopTheLook\nbf.shop-the-look-cta.controller.ts" />
@@ -810,8 +813,10 @@
     <Content Include="Views\Widgets\Custom\ShopTheLookLandingView\Standard.cshtml" />
     <Content Include="Styles\custom\saved-orders.scss" />
     <Content Include="Styles\custom\my-favorites.scss" />
-    <Content Include="Styles\custom\product-list.scss" />
     <Content Include="Views\Widgets\MyListDetailView\NBF.cshtml" />
+    <Content Include="Views\Widgets\PageTitle\NBF-h2.cshtml" />
+    <Content Include="Views\Widgets\PageTitle\title-h2.cshtml" />
+    <Content Include="Views\Widgets\SavedOrderDetailView\NBF.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Scripts\Custom\Orders\" />
