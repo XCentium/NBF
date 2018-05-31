@@ -186,6 +186,7 @@
     <TypeScriptCompile Include="Scripts\Custom\Catalog\nbf.product-search.directive.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Catalog\nbf.product-search.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\ContactUs\nbf.contact-us.controller.ts" />
+    <TypeScriptCompile Include="Scripts\Custom\SavedOrders\nbf.saved-order-detail.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\ShopTheLook\nbf.shop-the-look-cta.controller.ts" />
     <TypeScriptCompile Include="Scripts\nbf.custom.models.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Account\nbf.account-settings.controller.ts" />
