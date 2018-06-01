@@ -63,7 +63,7 @@
                                 </div>
                                 <div class="item-num">
                                     <span class="item-num-sku" ng-if="orderLine.productERPNumber" ng-bind="orderLine.productERPNumber"></span>
-                                    <span class="item-num-mfg" ng-if="orderLine.manufacturerItem">[% translate 'MFG #' %]:{{ orderLine.manufacturerItem }}</span>
+                                    <span class="item-num-mfg" ng-if="orderLine.manufacturerItem && orderLine.productERPNumber.indexOf(':') < 0">[% translate 'MFG #' %]:{{ orderLine.manufacturerItem }}</span>
                                     <span class="item-num-my" ng-if="orderLine.customerProductNumber">[% translate 'My Part #' %]: {{ orderLine.customerProductNumber }}</span>
                                 </div>
                                 <div class="price">

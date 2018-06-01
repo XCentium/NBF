@@ -1,9 +1,11 @@
-﻿<div class="widget-recently-viewed [[Model.CssClass]]" ng-controller="RecentlyViewedController as vm" ng-init="vm.isProductDetailPage=[[Model.Drop.IsProductDetailPage]];vm.simplified=[[Model.Drop.Simplified]]" ng-cloak>
+﻿[[Model.Drop.DisabledMessage]]
+<div class="widget-recently-viewed [[Model.CssClass]]" ng-controller="RecentlyViewedController as vm" carousel-element-id="[[Model.Drop.RecentlyViewedCarouselId]]"
+     ng-init="vm.isProductDetailPage=[[Model.Drop.IsProductDetailPage]];vm.simplified=[[Model.Drop.Simplified]]" ng-cloak>
     <h3 ng-if="vm.showRecentlyViewedCarousel()">[[Model.Title]]</h3>
     <div class="row" role="cross-sells" ng-if="vm.showRecentlyViewedCarousel()" ng-cloak>
         <div class="medium-12 large-12 columns">
             <div class="carousel-wrapper">
-                <div id="csCarousel_recentlyViewed" class="rp-carousel">
+                <div class="rp-carousel csCarousel_recentlyViewed">
                     <ul class="items slides">
                         <li class="medium-3 large-3 columns isc-productContainer" ng-repeat="product in ::vm.products track by product.id">
                             <div class="item-wrap">

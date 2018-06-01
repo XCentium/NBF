@@ -14,7 +14,7 @@ using Insite.Data.Entities;
 
 namespace Extensions.WebApi.TaxExempt.Repository
 {
-    public class TaxExemptRepository : BaseRepository, ITaxExemptRepository, IInterceptable
+    public class TaxExemptRepository : BaseRepository, ITaxExemptRepository
     {
         private readonly IUnitOfWork _unitOfWork;
         protected readonly IEmailService EmailService;

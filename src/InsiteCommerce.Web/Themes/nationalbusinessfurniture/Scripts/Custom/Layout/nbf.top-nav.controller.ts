@@ -49,13 +49,44 @@
                 self.$rootScope.$broadcast("AnalyticsEvent", "MiniCartHover");
             });
 
-            $(document).on('click', '.share-links a', () => {
-                self.$rootScope.$broadcast("AnalyticsEvent", "ContentShared");
+            $(document).on('click', '.share-links a', (event) => {
+                let target = $(event.target);
+                if (target.hasClass("fa-envelope")) {
+                    self.$rootScope.$broadcast("AnalyticsEvent", "ContentShared", null, null, "Email");
+                } else if (target.hasClass("fa-twitter")) {
+                    self.$rootScope.$broadcast("AnalyticsEvent", "ContentShared", null, null, "Twitter");
+                } else if (target.hasClass("fa-facebook")) {
+                    self.$rootScope.$broadcast("AnalyticsEvent", "ContentShared", null, null, "Facebook");
+                } else if (target.find(".fa-pinterest-p").length > 0) {
+                    self.$rootScope.$broadcast("AnalyticsEvent", "ContentShared", null, null, "Pinterest");
+                } else if (target.find(".ico-printer-with-paper").length > 0) {
+                    self.$rootScope.$broadcast("AnalyticsEvent", "ContentShared", null, null, "Printed");
+                }
             });
 
             this.$rootScope.$on("productPageLoaded", (event, product) => {
                 this.product = product;
             });
+
+            this.$scope.$watch(() => this.getBreadCrumbsString(), (newVal, oldVal, scope) => {
+                if (newVal.length > 0) {
+                    scope.$root.$broadcast("AnalyticsEvent", "BreadCrumbs", null, null, newVal);
+                }
+            });
+        }
+
+        private getBreadCrumbsString(): string {
+            var bcElements = angular.element(".breadcrumbs");
+            if (bcElements.length > 0) {
+                var bcString = "";
+                var breadcrumbs = bcElements.first().find("li");
+                breadcrumbs.children("a").each((index, elem) => {
+                    bcString += elem.textContent.trim() + ",";
+                });
+                bcString += breadcrumbs.last().text().trim();
+                return bcString;
+            }
+            return "";
         }
 
         protected getAttributeValue(product: ProductDto, attrName: string): string {

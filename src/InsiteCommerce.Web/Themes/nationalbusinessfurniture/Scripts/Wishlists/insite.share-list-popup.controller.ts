@@ -181,7 +181,7 @@
             this.list.sendEmail = this.sendNotificationToUsers;
             this.list.message = this.notificationMessage;
 
-            this.updateList(this.sendNotificationToUsers ? nextStep : null);
+            this.updateList(nextStep);
         }
 
         updateList(nextStep: string): void {

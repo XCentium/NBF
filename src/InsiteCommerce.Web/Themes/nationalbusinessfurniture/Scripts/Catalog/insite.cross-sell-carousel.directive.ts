@@ -18,6 +18,11 @@ module insite.catalog {
             templateUrl: "/PartialViews/Catalog-CrossSellCarousel",
             controller: "CrossSellCarouselController",
             controllerAs: "vm",
-            bindToController: true
+            bindToController: true,
+            link: (scope: ng.IScope, element: ng.IAugmentedJQuery, attrs: ng.IAttributes, controller: CrossSellCarouselController) => {
+                if (controller) {
+                    controller.carouselElement = element;
+                }
+            }
         }));
 }
