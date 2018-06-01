@@ -62,21 +62,19 @@
                 }
 
                 var self = this;
+                const deferred = this.$q.defer();
                 this.$http.get(this.webcodeserviceurl)
                     .then(function (answer) {
-
                         return self.httpWrapperService.executeHttpRequest(
                             self,
                             self.$http({ url: self.serviceUri, method: "GET", params: self.getWebCodeParams(self.siteId, answer.data) }),
                             self.getWebCodeCompleted,
                             self.getWebCodeFailed
                         ).then(function (webCode) {
-                            const deferred = this.$q.defer();
                             deferred.resolve(webCode);
-                            const webCodePromise = (deferred.promise as ng.IPromise<string>);
-                            return this.webCodePromise;
-                        })
+                        });
                     });
+                return (deferred.promise as ng.IPromise<string>);
             }
         }
 
