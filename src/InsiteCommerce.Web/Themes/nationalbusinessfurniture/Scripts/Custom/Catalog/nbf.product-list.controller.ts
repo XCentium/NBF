@@ -272,6 +272,7 @@
             }
 
             this.category = catalogPage.category;
+            this.$rootScope.$broadcast("AnalyticsEvent", "BreadCrumbs", null, null, catalogPage.breadCrumbs.map(b => b.text).join(","));
             this.breadCrumbs = catalogPage.breadCrumbs;
 
             this.getProductData({

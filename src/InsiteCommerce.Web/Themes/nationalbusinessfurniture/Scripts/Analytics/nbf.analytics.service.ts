@@ -8,7 +8,7 @@ module nbf.analytics {
 
     export class AnalyticsService {
 
-        static $inject = ["$window", "$rootScope", "sessionService", "queryString", "ipCookie"];
+        static $inject = ["$window", "$rootScope", "sessionService", "queryString", "ipCookie", "pageAnalyticsService"];
 
         private _handlers: IAnalyticsEventHandler[] = [];
         private _isInitialCartLoad = true;
@@ -18,7 +18,8 @@ module nbf.analytics {
             protected $rootScope: ng.IRootScopeService,
             protected sessionService: insite.account.ISessionService,
             protected queryString: insite.common.IQueryStringService,
-            protected ipCookie: any)
+            protected ipCookie: any,
+            protected pageAnalyticsService: IPageAnalyticsService)
         {
             this.AddHandler(new AdobeAnalytics());
             var self = this;
@@ -94,6 +95,8 @@ module nbf.analytics {
                 case AnalyticsEvents.ShopTheLook:
                     this.Data.pageInfo.shopTheLook = data;
                     break;
+                case AnalyticsEvents.BreadCrumbs:
+                    this.Data.pageInfo.breadCrumbs = data;
             }
             console.log("Firing Analytics Event: " + analyticsEvent);
             this.FireEvent(analyticsEvent as AnalyticsEvent);
@@ -103,19 +106,6 @@ module nbf.analytics {
         }
 
         private handleAnalyticsCart(event, cart: CartModel) {
-            //if (this._isInitialCartLoad) {
-            //    this._isInitialCartLoad = false;
-            //} else {
-            //    //Checking if cart was opened
-            //    if (this.Data.cart.items.length == 0 && cart.cartLines.length > 0) {
-            //        this.Data.events.push({
-            //            event: AnalyticsEvents.CartOpened,
-            //            data: this.convertCartLine(cart.cartLines[0])
-            //        });
-            //        this.FireEvent(AnalyticsEvents.CartOpened);
-            //    }
-            //}
-
             this.Data.cart.items = [];
             cart.cartLines.forEach((p) => {
                 this.Data.cart.items.push(this.convertCartLine(p));
@@ -124,7 +114,7 @@ module nbf.analytics {
             this.Data.cart.price.estimatedTotal = cart.cartLines.length > 0 ? cart.orderGrandTotal : 0;
             this.Data.cart.price.basePrice = cart.orderSubTotalWithOutProductDiscounts;
             this.Data.cart.price.tax = cart.totalTax;
-            this.Data.cart.price.totalDiscount = parseFloat(((cart.orderSubTotalWithOutProductDiscounts + cart.shippingAndHandling) - this.Data.cart.price.estimatedTotal).toFixed(2));
+            this.Data.cart.price.totalDiscount = parseFloat(((cart.orderSubTotalWithOutProductDiscounts + cart.shippingAndHandling + cart.totalTax) - this.Data.cart.price.estimatedTotal).toFixed(2));
             this.Data.cart.price.estimatedShipping = cart.shippingAndHandling;
             this.Data.cart.price.bulkDiscount = cart.orderSubTotalWithOutProductDiscounts - cart.orderSubTotal;
             this.Data.cart.price.promoDiscount = cart.orderSubTotalWithOutProductDiscounts - cart.orderSubTotal;
@@ -150,28 +140,61 @@ module nbf.analytics {
         }
 
         private handlePageLoad(event, newUrl, oldUrl) {
-            this.Data.events = [];
-            this.Data.pageInfo.destinationUrl = newUrl;
-            this.Data.pageInfo.referringUrl = oldUrl;
-            this.Data.pageInfo.affiliateCode = this.getSiteId();
-            this.Data.pageInfo.pageName = window.location.pathname;
-            this.sessionService.getSession()
-                .then(session => {
-                    if (session) {
-                        this.Data.profile.isAuthenticated = session.isAuthenticated && !session.isGuest;
-                        if (this.Data.profile.isAuthenticated == true) {
-                            this.Data.profile.profileInfo.email = session.email;
-                            this.Data.profile.profileInfo.profileId = session.userName;
-                        }
-                    }
-                })
-                .catch(error => {
-                    console.log("Failed to get sesion: " + error);
-                })
-                .finally(() => {
-                    this.FireEvent(AnalyticsEvents.PageLoad);
-                });
+            this.pageAnalyticsService.getPageAnalytics().then(pageAnalytics => {
+                var currentPath = this.removeLeadingAndTrailingSlashes(window.location.pathname);
+                var pageType = "", pageName = "", section = "", subsection = "";
 
+                for (var page of pageAnalytics) {
+                    if (this.removeLeadingAndTrailingSlashes(page.url) == currentPath) {
+                        pageType = page.pageType;
+                        pageName = page.pageName;
+                        section = page.section;
+                        subsection = page.subSection;
+                        break;
+                    }
+                }
+
+                this.Data.events = [];
+                this.Data.pageInfo.destinationUrl = newUrl;
+                this.Data.pageInfo.referringUrl = oldUrl;
+                this.Data.pageInfo.affiliateCode = this.getSiteId();
+                this.Data.pageInfo.pageName = pageName;
+                this.Data.pageInfo.pageType = pageType;
+                this.Data.pageInfo.siteSection = section;
+                this.Data.pageInfo.siteSubsection = subsection;
+
+                this.sessionService.getSession()
+                    .then(session => {
+                        if (session) {
+                            this.Data.profile.isAuthenticated = session.isAuthenticated && !session.isGuest;
+                            if (this.Data.profile.isAuthenticated == true) {
+                                this.Data.profile.profileInfo.email = session.email;
+                                this.Data.profile.profileInfo.profileId = session.userName;
+                            }
+                        }
+                    })
+                    .catch(error => {
+                        console.log("Failed to get sesion: " + error);
+                    })
+                    .finally(() => {
+                        this.FireEvent(AnalyticsEvents.PageLoad);
+                    });
+            });
+
+        }
+
+        private removeLeadingAndTrailingSlashes(val: string): string {
+            if (val && val.length > 0) {
+                var retVal = val.trim();
+                if (retVal.charAt(0) == '/') {
+                    retVal = retVal.slice(1);
+                }
+                if (retVal.charAt(retVal.length - 1) == '/') {
+                    retVal = retVal.slice(0, -1);
+                }
+                return retVal;
+            }
+            return "";
         }
 
         private setProductData(product: ProductDto, breadcrumbs: BreadCrumbModel[]) {
@@ -379,13 +402,14 @@ module nbf.analytics {
         ShopTheLook: "ShopTheLook" as AnalyticsEvent,
         VideoStarted: "VideoStarted" as AnalyticsEvent,
         CartView: "CartView" as AnalyticsEvent,
-        PromoApplied: "PromoApplied" as AnalyticsEvent
+        PromoApplied: "PromoApplied" as AnalyticsEvent,
+        BreadCrumbs: "BreadCrumbs" as AnalyticsEvent
     }
 
     export type AnalyticsEvent = "PageLoad" | "ProductPageView" | "SwatchRequest" | "CatalogRequest" | "QuoteRequest" | "MiniCartQuoteRequest" | "InternalSearch" | "SuccessfulSearch" |
         "FailedSearch" | "ContactUsInitiated" | "ContactUsCompleted" | "AccountCreation" | "CheckoutAccountCreation" | "Login" | "CrossSellSelected" | "EmailSignUp" | "LiveChatStarted" |
         "ProductAddedToCart" | "CheckoutInitiated" | "CheckoutComplete" | "ProductQuestionStarted" | "ProductQuestionAsked" | "Selected360View" | "AddProductToWishlist" | "SaveOrderFromCartPage" |
         "ReadReviewsSelected" | "MiniCartHover" | "SaveCart" | "CartOpened" | "ProductRemovedFromCart" | "ShippingBillingInfoComplete" | "ShippingMethodSelected" | "BillingMethodSelected" |
-        "ContinueShoppingFromCartPage" | "ContentShared" | "ProductListingFiltered" | "ShopTheLook" | "VideoStarted" | "CartView" | "PromoApplied";
+        "ContinueShoppingFromCartPage" | "ContentShared" | "ProductListingFiltered" | "ShopTheLook" | "VideoStarted" | "CartView" | "PromoApplied" | "BreadCrumbs";
 
 }

@@ -175,6 +175,7 @@
     <TypeScriptCompile Include="Scripts\Analytics\nbf.analytics.adobe.ts" />
     <Content Include="Views\Widgets\RequestRmaView\Nbf.cshtml" />
     <Content Include="Views\Widgets\ContactUsSpanish\Standard.cshtml" />
+    <TypeScriptCompile Include="Scripts\Analytics\nbf.page-analytics.service.ts" />
     <TypeScriptCompile Include="Scripts\Catalog\insite.frequently-purchased.controller.ts" />
     <TypeScriptCompile Include="Scripts\Catalog\insite.recently-viewed.controller.ts" />
     <TypeScriptCompile Include="Scripts\Catalog\insite.related-products.controller.ts" />

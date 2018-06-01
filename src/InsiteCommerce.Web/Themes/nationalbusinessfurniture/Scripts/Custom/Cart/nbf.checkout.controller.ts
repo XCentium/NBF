@@ -603,6 +603,8 @@
             this.continueCheckoutInProgress = true;
             this.cartUri = cartUri;
 
+            this.$rootScope.$broadcast("AnalyticsEvent", "ShippingBillingInfoComplete", null, null, { state: this.cart.billTo.state.abbreviation, zip: this.cart.billTo.postalCode });
+
             // if no changes, redirect to next step
             if (this.$scope.addressForm.$pristine) {
                 this.loadStep2();
