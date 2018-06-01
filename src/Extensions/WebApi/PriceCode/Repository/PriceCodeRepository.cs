@@ -13,7 +13,7 @@ using Insite.Data.Entities;
 
 namespace Extensions.WebApi.PriceCode.Repository
 {
-    public class PriceCodeRepository : BaseRepository, IPriceCodeRepository, IInterceptable
+    public class PriceCodeRepository : BaseRepository, IPriceCodeRepository
     {
         private readonly IUnitOfWork _unitOfWork;
 

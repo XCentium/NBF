@@ -134,15 +134,19 @@
         // validate that entry in all numeric text boxes is a number - put the class numerictextbox on all quantity inputs
         $(document).on("keydown", ".numerictextbox", event => {
             let inputIsNumeric = false;
+            
+            // ignore the shift keydown event, the actual key pressed with shift issues another event when it is pressed
+            if (event.keyCode === 16) {
+                return;
+            } 
 
-            if (event.keyCode !== undefined) {
-                // Allow backspace, delete, enter, tab, arrows
-                if (event.keyCode === 46 || event.keyCode === 8 || event.keyCode === 13 || event.keyCode === 9 || event.keyCode === 37 || event.keyCode === 39) {
+            // this works for qwerty and azerty keyboard layouts (azerty you have to hit the Shift key to press a number)
+            if (event.key !== undefined) {
+                const allowedNonNumericKeys = ["Delete", "Backspace", "Enter", "Tab", "ArrowRight", "ArrowLeft"];
+                const allowedNumericKeys = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0", ",", "."];
+                if (allowedNonNumericKeys.indexOf(event.key) >= 0) {
                     // let it happen, don't do anything
-                } else if (((event.keyCode >= 48 && event.keyCode <= 57) ||
-                            (event.keyCode >= 96 && event.keyCode <= 105) ||
-                             event.keyCode === 188 || event.keyCode === 190) &&
-                            !event.shiftKey) {
+                } else if (allowedNumericKeys.indexOf(event.key) >= 0) {
                     inputIsNumeric = true;
                 } else {
                     event.preventDefault();

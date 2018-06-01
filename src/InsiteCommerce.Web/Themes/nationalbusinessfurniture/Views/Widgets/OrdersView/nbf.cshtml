@@ -21,6 +21,11 @@
                                             <option ng-repeat="(key,value) in vm.orderStatusMappings" ng-selected="vm.searchFilter.statusDisplay === key" value="{{::key}}" ng-bind="key"></option>
                                         </select>
                                     </div>
+                                    <div class="search-product">
+                                        <label>[% translate 'Product #' %]</label>
+                                        <input type="text" id="orders-page-search" class="search-product-autocomplete" ng-init="vm.autocompleteOptions.placeholder = '[% translate 'Enter keyword or item #' %]'"
+                                               kendo-auto-complete k-options="vm.autocompleteOptions" ng-model="vm.searchFilter.productErpNumber" />
+                                    </div>
                                 </div>
                                 <div class="medium-12 large-3 columns">
                                     <div class="search-po" ng-if="vm.settings.showPoNumber">

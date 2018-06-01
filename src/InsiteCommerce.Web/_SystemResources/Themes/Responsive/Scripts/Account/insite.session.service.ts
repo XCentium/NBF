@@ -208,6 +208,17 @@ module insite.account {
         }
 
         setContext(context: CurrentContextModel): void {
+            if (!this.accountSettings) {
+                this.settingsService.getSettings().then(
+                    (settingsCollection: core.SettingsCollection) => {
+                        this.getSettingsCompleted(settingsCollection);
+                        this.setContext(context);
+                    },
+                    (error: any) => { this.getSettingsFailed(error); }
+                );
+                return;
+            }
+
             const isRememberedUser = !!this.ipCookie("SetRememberedUserId");
             if (context.billToId) {
                 this.ipCookie("CurrentBillToId", context.billToId, { path: "/", expires: isRememberedUser ? this.accountSettings.daysToRetainUser : null });

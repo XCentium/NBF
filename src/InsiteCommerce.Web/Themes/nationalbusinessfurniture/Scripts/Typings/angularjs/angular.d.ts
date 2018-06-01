@@ -1240,6 +1240,7 @@ declare module ng {
         withCredentials?: boolean;
         headers?: {
             common?: any;
+            get?: any;
             post?: any;
             put?: any;
             patch?: any;

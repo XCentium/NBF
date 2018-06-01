@@ -359,6 +359,7 @@ declare module Insite.Cart.WebApi.V1.ApiModels {
 		type: string;
 		typeDisplay: string;
 		orderNumber: string;
+		erpOrderNumber: string;
 		orderDate: Date;
 		billTo: Insite.Customers.WebApi.V1.ApiModels.BillToModel;
 		shipTo: Insite.Customers.WebApi.V1.ApiModels.ShipToModel;
@@ -425,6 +426,7 @@ declare module Insite.Cart.WebApi.V1.ApiModels {
 		cartNotPriced: boolean;
 		messages: string[];
 		creditCardBillingAddress: Insite.Cart.WebApi.V1.ApiModels.CreditCardBillingAddressDto;
+		alsoPurchasedProducts: Insite.Catalog.Services.Dtos.ProductDto[];
 	}
 	interface CartLineModel extends Insite.Core.WebApi.BaseModel {
 		productUri: string;
@@ -742,6 +744,7 @@ declare module Insite.Catalog.Services.Dtos {
 		replacementProductId: System.Guid;
 		warehouses: Insite.Catalog.Services.Dtos.WarehouseDto[];
 		relatedProducts: Insite.Catalog.Services.Dtos.RelatedProductDto[];
+		alsoPurchasedProducts: Insite.Catalog.Services.Dtos.ProductDto[];
 	}
 	interface LegacyConfigurationDto {
 		sections: Insite.Catalog.Services.Dtos.ConfigSectionDto[];

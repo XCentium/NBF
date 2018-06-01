@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace Extensions.WebApi.Listrak.Repository
 {
-    public class ListrakRepository : BaseRepository, IListrakRepository, IInterceptable
+    public class ListrakRepository : BaseRepository, IListrakRepository
     {
         private const bool IgnoreCase = true;
         private IUnitOfWork UnitOfWork;
