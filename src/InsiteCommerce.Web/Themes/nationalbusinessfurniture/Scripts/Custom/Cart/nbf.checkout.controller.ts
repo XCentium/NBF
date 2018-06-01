@@ -77,6 +77,7 @@
         taxExemptChoice = false;
         taxExemptFileName: string;
         file: any;
+        fileData: any = {};
         errorMessage: string;
         success: boolean = false;
         $form: JQuery;
@@ -1187,16 +1188,22 @@
                     customerSequence: this.cart.billTo.customerSequence,
                     emailTo: emailTo,
                     orderNumber: this.cart.orderNumber,
-                    fileLocation: ""
+                    fileData: this.fileData.b64,
+                    fileName: this.taxExemptFileName
                 } as TaxExemptParams;
 
-                this.nbfEmailService.postTaxExemptFileUpload(params, this.file).then(
-                    (data) => {
-                        params.fileLocation = data;
-                        this.nbfEmailService.sendTaxExemptEmail(params).then(() => {
-                                this.handleGuestRegistration(signInUri);
-                            },() => { this.errorMessage = "An error has occurred."; });
-                    },() => { this.errorMessage = "An error has occurred."; });
+                this.nbfEmailService.sendTaxExemptEmail(params).then(() => {
+                    this.handleGuestRegistration(signInUri);
+                }, () => { this.errorMessage = "An error has occurred."; });
+
+                //this.nbfEmailService.postTaxExemptFileUpload(params, this.file).then(
+                //    (data) => {
+                //        //todo
+                //        //params.fileLocation = data;
+                //        this.nbfEmailService.sendTaxExemptEmail(params).then(() => {
+                //                this.handleGuestRegistration(signInUri);
+                //            },() => { this.errorMessage = "An error has occurred."; });
+                //    },() => { this.errorMessage = "An error has occurred."; });
             } else if (!this.isTaxExempt && this.taxExemptChoice) {
                 //tax exempt choice is yes but no file was uploaded
             } else {
@@ -1663,9 +1670,17 @@
                 this.file = arg.files[0];
                 this.taxExemptFileName = this.file.name;
 
-                if (this.taxExemptFileName) {
-                    this.updatebillToTaxExempt();
-                }
+                let r = new FileReader();
+                let self = this;
+
+                r.addEventListener("load", function () {
+                    self.fileData.b64 = r.result.split(',')[1]
+                    self.$scope.$apply();
+                    //console.log(self.fileData.b64.replace(/^data:image\/(png|jpg);base64,/, "")); //replace regex if you want to rip off the base 64 "header"
+                }, false);
+
+
+                r.readAsDataURL(this.file); //once defined all callbacks, begin reading the file               
 
                 setTimeout(() => {
                     this.$scope.$apply();
