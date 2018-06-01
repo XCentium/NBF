@@ -2556,16 +2556,7 @@
     }
     // Prevents top filter and pagination from breaking.
     @media all and (max-width: 1060px) {
-        .uibar.tertiary.ptop {
-            padding-right: 0.5em;
-            padding-left: 0.5em;
-
-            .pagination a.next-prev:link,
-            .pagination a.next-prev:visited {
-                width: 1em;
-            }
-        }
-
+        
         .paginator-34 .results-list,
         .paginator-34 .sort-list {
             margin-right: 0.3em;

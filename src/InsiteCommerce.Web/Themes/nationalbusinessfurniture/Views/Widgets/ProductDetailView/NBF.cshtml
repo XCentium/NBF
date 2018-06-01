@@ -178,7 +178,7 @@
                                         <div id="tst_productDetail_htmlContent" class="product-cm">
                                             <ul class="doclinks">
                                                 <li ng-if="vm.languageId === document.languageId || document.languageId === null" ng-repeat="document in vm.product.documents" class="doc-{{$index}}">
-                                                    <a ng-if="document.documentType == null || document.documentType != 'blog'" id="tst_productDetail_{{document.id}}" ng-href="http://s7d9.scene7.com/is/content/NationalBusinessFurniture/PDFs/Products/{{document.filePath}}" target="_new">{{document.name}} <em ng-if="document.documentType">({{document.documentType}})</em></a>
+                                                    <a class="pdf-icon" ng-if="document.documentType == null || document.documentType != 'blog'" id="tst_productDetail_{{document.id}}" ng-href="http://s7d9.scene7.com/is/content/NationalBusinessFurniture/PDFs/Products/{{document.filePath}}" target="_new">{{document.name}} <em ng-if="document.documentType">({{document.documentType}})</em></a>
                                                     <a ng-if="document.documentType == 'blog'" id="tst_productDetail_{{document.id}}" ng-href="{{document.filePath}}" target="_new">{{document.name}} <em ng-if="document.documentType">({{document.documentType}})</em></a>
                                                 </li>
                                             </ul>
