@@ -61,9 +61,21 @@
                 <tr>
                     <td class="order-conf-label"><h4>Order Number</h4></td>
                     [% if Model.CheckingStatusUrl != null -%]
-                    <td class="order-conf-number"><a href="[[Model.CheckingStatusUrl]]">[[Model.OrderNumber]]</a></td>
+                    <td class="order-conf-number"><a href="[[Model.CheckingStatusUrl]]">
+                        [% if Model.ErpOrderNumber != null and Model.ErpOrderNumber != "" -%]
+                        [[Model.ErpOrderNumber]]
+                        [% else -%]
+                        [[Model.OrderNumber]]
+                        [% endif -%]
+                    </a></td>
                     [% else -%]
-                    <td class="order-conf-number">[[Model.OrderNumber]]</td>
+                    <td class="order-conf-number">
+                        [% if Model.ErpOrderNumber != null and Model.ErpOrderNumber != "" -%]
+                        [[Model.ErpOrderNumber]]
+                        [% else -%]
+                        [[Model.OrderNumber]]
+                        [% endif -%]
+                    </td>
                     [% endif -%]
                 </tr>
                 <tr>

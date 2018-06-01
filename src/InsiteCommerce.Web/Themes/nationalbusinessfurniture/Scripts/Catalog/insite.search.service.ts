@@ -84,7 +84,7 @@ module insite.catalog {
                 suggestion.erpNumber = suggestion.erpNumber || "";
 
                 const erpNumber = suggestion.erpNumber.replace(new RegExp(pattern, "gi"), "<strong>$1<\/strong>");
-                const shortDescription = suggestion.value.replace(new RegExp(pattern, "gi"), "<strong>$1<\/strong>");
+                const shortDescription = suggestion.shortDescription.replace(new RegExp(pattern, "gi"), "<strong>$1<\/strong>");
                 return `<div class='image'><img src='${suggestion.image}' /></div><div><span id="${id}${suggestion.id}" class='shortDescription'>${shortDescription}</span><span class='name'>${erpNumber}</span></div>`;
             };
         }
@@ -139,6 +139,7 @@ module insite.catalog {
             return autocompleteModel.products.map(p => ({
                 id: p.id,
                 erpNumber: p.erpNumber,
+                shortDescription: p.title,
                 image: p.image,
                 value: p.title
             } as any));

@@ -238,3 +238,18 @@
         }
     }
 }
+
+.product-list [role="mobile-filters"] {
+    padding:0;
+
+    @media (max-width: 767px) {
+        margin:15px 0;
+    }
+}
+
+
+.product-list .item-block .item-name-grid {
+    @media (max-width: 767px) {
+        display: none;
+    }
+}

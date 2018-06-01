@@ -235,6 +235,16 @@
         float: right;
     }
 
+    .product-list .vm-grid .item-block .item-thumb .product-compare-add {
+        display:none;
+    }
+
+    .product-list .vm-grid .item-block .item-thumb a {
+        height: 258px;
+        width: 258px;
+        display: block;
+    }
+
     .product-list .vm-grid .item-block .item-thumb {
         width: 100%;
         max-width: none;
@@ -242,9 +252,19 @@
         overflow: hidden;
         padding: 0 !important;
         margin-bottom: 10px;
-        height:260px;
-        width:260px;
-        overflow:hidden;
+        height: 260px;
+        width: 260px;
+        overflow: hidden;
+        position: relative;
+
+        img {
+            position: absolute;
+            top: 0;
+            right: 0;
+            left: 0;
+            bottom: 0;
+            display: block;
+        }
     }
 
     .product-list .vm-grid .item-block .item-thumb img {

@@ -19,7 +19,6 @@
 
         request = (config: ng.IRequestConfig): ng.IRequestConfig => {
             this.xhrCreations++;
-            this.setCachingHeaders(config);
             return config;
         }
 
@@ -56,12 +55,6 @@
         protected updateLoadingStatus(): void {
             if (this.xhrResolutions >= this.xhrCreations) {
                 this.spinnerService.hideAll();
-            }
-        }
-
-        protected setCachingHeaders(config: ng.IRequestConfig): void {
-            if (config.url.indexOf("/api") === -1 && config.url.indexOf("/PartialView") === -1) {
-                config.headers["X-Requested-With"] = "XMLHttpRequest"; // this sets asp.net ISAjaxRequest true
             }
         }
 

@@ -4,14 +4,8 @@ using Insite.Core.Interfaces.Dependency;
 using Insite.Customers.Services;
 using Insite.Core.Interfaces.Plugins.Security;
 using Extensions.WebApi.Base;
-using Extensions.WebApi.Messages.Models;
 using System;
 using Insite.Core.Context;
-using Insite.Data.Entities;
-using Extensions.WebApi.Messages.Interfaces;
-using Extensions.Handlers.Interfaces;
-using Extensions.Handlers.Helpers;
-using System.Threading.Tasks;
 using Extensions.WebApi.CreditCardTransaction.Interfaces;
 using Insite.Payments.Services;
 using Extensions.WebApi.CreditCardTransaction.Models;
@@ -19,7 +13,6 @@ using Insite.Payments.Services.Parameters;
 using Insite.Payments.Services.Results;
 using Insite.Core.Plugins.PaymentGateway.Dtos;
 using Insite.Core.Services;
-using Insite.Core.SystemSetting.Groups.OrderManagement;
 using Insite.Cart.Services;
 using Insite.Cart.Services.Results;
 using Insite.Cart.Services.Parameters;
@@ -27,7 +20,7 @@ using System.Linq;
 
 namespace Extensions.WebApi.CreditCardTransaction.Repository
 {
-    public class CCTransactionRepository : BaseRepository, ICCTransactionRepository, IInterceptable
+    public class CCTransactionRepository : BaseRepository, ICCTransactionRepository
     {
         private const bool IgnoreCase = true;
         private IUnitOfWork UnitOfWork;

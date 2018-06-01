@@ -220,7 +220,8 @@ module insite.catalog {
                 attributeValueIds: this.attributeValueIds,
                 priceFilters: this.priceFilterMinimums,
                 searchWithin: this.searchWithinTerms.join(" "),
-                includeSuggestions: this.includeSuggestions
+                includeSuggestions: this.includeSuggestions,
+                applyPersonalization: true
             });
         }
 
@@ -316,8 +317,11 @@ module insite.catalog {
                 priceFilters: this.priceFilterMinimums,
                 searchWithin: this.searchWithinTerms.join(" "),
                 includeSuggestions: this.includeSuggestions,
-                getAllAttributeFacets: true
+                getAllAttributeFacets: true,
+                applyPersonalization: true
             });
+
+            this.$rootScope.$broadcast("categoryLoaded", this.category.id);
         }
 
         protected getCatalogPageFailed(error: any): void {
@@ -517,7 +521,8 @@ module insite.catalog {
                 attributeValueIds: this.attributeValueIds,
                 priceFilters: this.priceFilterMinimums,
                 includeSuggestions: this.includeSuggestions,
-                getAllAttributeFacets: this.filterType === "attribute"
+                getAllAttributeFacets: this.filterType === "attribute",
+                applyPersonalization: true
             };
 
             this.getProductData(params, this.pageChanged ? ["pricing", "attributes"] : null);

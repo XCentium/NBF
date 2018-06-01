@@ -189,7 +189,10 @@ module insite.catalog {
             if (this.autocompleteType === AutocompleteTypes.searchHistory) {
                 this.search(dataItem.q, dataItem.includeSuggestions);
             } else {
-                this.coreService.redirectToPath(dataItem.url);
+                setTimeout(() => {
+                    this.coreService.redirectToPath(dataItem.url);
+                    this.$scope.$apply();
+                }, 0);
             }
         }
 

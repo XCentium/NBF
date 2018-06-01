@@ -19,22 +19,25 @@ module insite.order {
             ordertotaloperator: "",
             ordertotal: "",
             status: [],
-            statusDisplay: ""
+            statusDisplay: "",
+            productErpNumber: ""
         };
         appliedSearchFilter = new OrderSearchFilter();
         shipTos: ShipToModel[];
         validationMessage: string;
         orderStatusMappings: KeyValuePair<string, string[]>;
         settings: Insite.Order.WebApi.V1.ApiModels.OrderSettingsModel;
+        autocompleteOptions: AutoCompleteOptions;
 
-        static $inject = ["orderService", "customerService", "coreService", "paginationService", "settingsService"];
+        static $inject = ["orderService", "customerService", "coreService", "paginationService", "settingsService", "searchService"];
 
         constructor(
             protected orderService: order.IOrderService,
             protected customerService: customers.ICustomerService,
             protected coreService: core.ICoreService,
             protected paginationService: core.IPaginationService,
-            protected settingsService: core.ISettingsService) {
+            protected settingsService: core.ISettingsService,
+            protected searchService: catalog.ISearchService) {
             this.init();
         }
 
@@ -50,6 +53,8 @@ module insite.order {
             this.orderService.getOrderStatusMappings().then(
                 (orderStatusMappingCollection: OrderStatusMappingCollectionModel) => { this.getOrderStatusMappingCompleted(orderStatusMappingCollection); },
                 (error: any) => { this.getOrderStatusMappingFailed(error); });
+
+            this.initializeAutocomplete();
         }
 
         protected getSettingsCompleted(settingsCollection: core.SettingsCollection): void {
@@ -83,6 +88,22 @@ module insite.order {
         protected getOrderStatusMappingFailed(error: any): void {
         }
 
+        protected initializeAutocomplete(): void {
+            this.autocompleteOptions = this.searchService.getProductAutocompleteOptions(() => this.searchFilter.productErpNumber);
+
+            this.autocompleteOptions.template = this.searchService.getProductAutocompleteTemplate(() => this.searchFilter.productErpNumber, "tst_ordersPage_autocomplete");
+
+            this.autocompleteOptions.select = this.onAutocompleteOptionsSelect();
+        }
+
+        protected onAutocompleteOptionsSelect(): (event: kendo.ui.AutoCompleteSelectEvent) => void {
+            return (event: kendo.ui.AutoCompleteSelectEvent) => {
+                const dataItem = event.sender.dataItem(event.item.index());
+                this.searchFilter.productErpNumber = dataItem.erpNumber;
+                dataItem.value = dataItem.erpNumber;
+            };
+        }
+
         protected initFromDate(lookBackDays: number): void {
             this.pagination = this.paginationService.getDefaultPagination(this.paginationStorageKey);
 
@@ -109,6 +130,7 @@ module insite.order {
             this.searchFilter.ordertotal = "";
             this.searchFilter.status = [];
             this.searchFilter.statusDisplay = "";
+            this.searchFilter.productErpNumber = "";
 
             this.prepareSearchFilter();
             this.getOrders();
@@ -138,7 +160,7 @@ module insite.order {
             this.coreService.replaceState({ filter: this.appliedSearchFilter, pagination: this.pagination });
 
             delete this.appliedSearchFilter.statusDisplay;
-            this.orderService.getOrders(this.appliedSearchFilter, this.pagination).then(
+            this.orderService.getOrders(this.appliedSearchFilter, this.pagination, true).then(
                 (orderCollection: OrderCollectionModel) => { this.getOrdersCompleted(orderCollection); },
                 (error: any) => { this.getOrdersFailed(error); });
         }

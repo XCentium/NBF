@@ -19,7 +19,7 @@ using Extensions.Enums.Listrak.Fields;
 
 namespace Extensions.WebApi.Messages.Repository
 {
-    public class MessageRepository : BaseRepository, IMessageRepository, IInterceptable
+    public class MessageRepository : BaseRepository, IMessageRepository
     {
         private const bool IgnoreCase = true;
         private IUnitOfWork UnitOfWork;
