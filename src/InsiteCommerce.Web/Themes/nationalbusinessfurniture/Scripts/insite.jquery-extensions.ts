@@ -1,6 +1,7 @@
 ﻿interface JQueryStatic {
     ajaxPostJson(url, json, callback): void;
     loading: any;
+    frameSpinner: any;
 }
 
 jQuery.fn.removePrefixedClasses = function (prefix) {
@@ -127,10 +128,10 @@ jQuery.loading = (function () {
         if (!isLoading) {
             isLoading = true;
 
-            const html = "<div class='spinner'><div class='bounce1'></div><div class='bounce2'></div><div class='bounce3'></div></div>";
+            const html = "<div id='spinner' class='spinner'><div class='bounce1'></div><div class='bounce2'></div><div class='bounce3'></div></div>";
 
             $("body").append(html);
-            $loading = $(".spinner");
+            $loading = $("#spinner");
 
             $window = $(window);
 
@@ -139,19 +140,94 @@ jQuery.loading = (function () {
         }
     };
 
-    that.hide = function (hideOverlay) {
+    that.hide = function (shouldHideOverlay) {
         that.hideOverlay(true);
-        hideOverlay = typeof hideOverlay !== "undefined" ? hideOverlay : true;
+        shouldHideOverlay = typeof shouldHideOverlay !== "undefined" ? shouldHideOverlay : true;
         if (isLoading) {
             setTimeout(function () {
                 isLoading = false;
-                if (hideOverlay) {
-                    that.hideOverlay();
+                if (shouldHideOverlay) {
+                    that.hideOverlay(false);
                 }
 
                 $loading.fadeOut(function () {
                     $loading.remove();
                     $loading = null;
+                });
+            }, 300);
+        }
+    };
+
+    return that;
+})();
+
+
+jQuery.frameSpinner = (function () {
+    let frameIsLoading = false;
+    let $frameLoading;
+    let $frameOverlay;
+
+    const that: any = {};
+
+    var findOverlay = function() {
+        $frameOverlay = $("#frameOverlay");
+        if ($frameOverlay.length === 0) {
+            $(".siteFrame").append("<div id='frameOverlay'></div>");
+            $frameOverlay = $("#frameOverlay");
+        }
+    };
+
+    var showOverlay = function (onTop) {
+        findOverlay();
+        $frameOverlay.fadeIn("fast");
+
+        if (onTop) {
+            $frameOverlay.css("z-index", "10000");
+        }
+
+        $frameOverlay.unbind("click").click(function (event) {
+            event.stopPropagation();
+        });
+    };
+
+    var hideOverlay = function (moveToBackground) {
+        findOverlay();
+        if (moveToBackground && $frameOverlay) {
+            $frameOverlay.css("z-index", "");
+        }
+        if (!moveToBackground && $frameOverlay) {
+            $frameOverlay.css("z-index", "");
+            $frameOverlay.fadeOut(function() {});
+        }
+    };
+
+    that.show = function (onTop) {
+        if (!frameIsLoading) {
+            frameIsLoading = true;
+
+            const html = "<div id='frameSpinner' class='spinner frameSpinner'><div class='bounce1'></div><div class='bounce2'></div><div class='bounce3'></div></div>";
+
+            $(".siteFrame").append(html);
+            $frameLoading = $("#frameSpinner");
+
+            showOverlay(onTop);
+            $frameLoading.fadeIn("fast");
+        }
+    };
+
+    that.hide = function (shouldHideOverlay) {
+        hideOverlay(true);
+        shouldHideOverlay = typeof shouldHideOverlay !== "undefined" ? shouldHideOverlay : true;
+        if (frameIsLoading) {
+            setTimeout(function () {
+                frameIsLoading = false;
+                if (shouldHideOverlay) {
+                    hideOverlay(false);
+                }
+
+                $frameLoading.fadeOut(function () {
+                    $frameLoading.remove();
+                    $frameLoading = null;
                 });
             }, 300);
         }

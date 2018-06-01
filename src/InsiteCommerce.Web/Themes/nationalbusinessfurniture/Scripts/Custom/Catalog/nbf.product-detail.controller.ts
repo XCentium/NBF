@@ -351,6 +351,7 @@
         }
 
         protected setPowerReviews() {
+            var self = this;
             let powerReviewsConfig = {
                 api_key: this.$attrs.prApiKey,
                 locale: 'en_US',
@@ -364,7 +365,7 @@
                     //QuestionSnippet: 'pr-questionsnippet',
                     QuestionDisplay: 'pr-questiondisplay'
                 },
-                on_submit: this.powerReviewsOnSubmit
+                on_submit: (config, data) => self.powerReviewsOnSubmit(config, data)
             };
 
 

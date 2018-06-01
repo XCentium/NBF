@@ -72,6 +72,7 @@
         transId: string;
         affiliateCode: string;
         internalSearch: AnalyticsPageSearchInfo;
+        shopTheLook: any;
     }
 
     export class AnalyticsPageSearchInfo {
@@ -85,6 +86,7 @@
         shippingAddress: AnalyticsAddress = new AnalyticsAddress();
         billingAddress: AnalyticsAddress = new AnalyticsAddress();
         paymentMethod: string;
+        shippingMethod: string;
         total: AnalyticsTransactionTotal = new AnalyticsTransactionTotal();
         products: AnalyticsCartItem[] = [];
     }
@@ -116,6 +118,8 @@
     export class AnalyticsProfileInfo {
         profileId: string;
         email: string;
+        state: string;
+        zip: string;
     }
 
     export class AnalyticsDataEvent {

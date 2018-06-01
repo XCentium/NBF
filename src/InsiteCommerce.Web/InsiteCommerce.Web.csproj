@@ -104,6 +104,10 @@
       <HintPath>..\packages\AutoMapper.4.1.1\lib\net45\AutoMapper.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Avalara.AvaTax.Adapter, Version=5.7.3.1, Culture=neutral, PublicKeyToken=34e4ef76d6267205, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.4.40740\lib\net452\Avalara.AvaTax.Adapter.dll</HintPath>
+    </Reference>
     <Reference Include="AWSSDK.Core, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
       <HintPath>..\packages\AWSSDK.Core.3.3.17\lib\net45\AWSSDK.Core.dll</HintPath>
     </Reference>
@@ -137,12 +141,20 @@
     <Reference Include="CKSource.FileSystem, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\CKSource.FileSystem.1.1.0\lib\net45\CKSource.FileSystem.dll</HintPath>
     </Reference>
+    <Reference Include="CyberSource.Base, Version=1.0.0.0, Culture=neutral, PublicKeyToken=7091342136fdb0df, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.4.40740\lib\net452\CyberSource.Base.dll</HintPath>
+    </Reference>
+    <Reference Include="CyberSource.Clients, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.4.40740\lib\net452\CyberSource.Clients.dll</HintPath>
+    </Reference>
     <Reference Include="DiffieHellman, Version=0.0.0.0, Culture=neutral">
       <HintPath>..\packages\DiffieHellman.1.0.0\lib\net40\DiffieHellman.dll</HintPath>
     </Reference>
     <Reference Include="DotLiquid, Version=2.0.24.0, Culture=neutral, PublicKeyToken=82e46016ecf9f07c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\DotLiquid.dll</HintPath>
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.4.40740\lib\net452\DotLiquid.dll</HintPath>
     </Reference>
     <Reference Include="Elasticsearch.Net, Version=5.0.0.0, Culture=neutral, PublicKeyToken=96c599bbe3e70f5d, processorArchitecture=MSIL">
       <HintPath>..\packages\Elasticsearch.Net.5.4.0\lib\net45\Elasticsearch.Net.dll</HintPath>
@@ -169,6 +181,10 @@
       <HintPath>..\packages\Flurl.1.0.10\lib\portable-net40+sl50+win+wpa81+wp80+MonoAndroid10+MonoTouch10\Flurl.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="GemBox.Spreadsheet, Version=33.3.30.1062, Culture=neutral, PublicKeyToken=b1b72c69714d4847, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.4.40740\lib\net452\GemBox.Spreadsheet.dll</HintPath>
+    </Reference>
     <Reference Include="HtmlRenderer, Version=1.5.0.6, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\HtmlRenderer.Core.1.5.0.6\lib\net45\HtmlRenderer.dll</HintPath>
     </Reference>
@@ -191,6 +207,10 @@
     <Reference Include="ImageProcessor, Version=2.3.3.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ImageProcessor.2.3.3.0\lib\net45\ImageProcessor.dll</HintPath>
     </Reference>
+    <Reference Include="Ionic.Zip, Version=1.9.1.8, Culture=neutral, PublicKeyToken=edbe51ad942a3f5c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.4.40740\lib\net452\Ionic.Zip.dll</HintPath>
+    </Reference>
     <Reference Include="Kentor.OwinCookieSaver, Version=1.1.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Kentor.OwinCookieSaver.1.1.1\lib\net452\Kentor.OwinCookieSaver.dll</HintPath>
     </Reference>
@@ -204,8 +224,8 @@
       <HintPath>..\packages\log4net.2.0.5\lib\net45-full\log4net.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="log4stash, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\log4stash.2.0.5\lib\net45\log4stash.dll</HintPath>
+    <Reference Include="log4net.ElasticSearch, Version=2.3.6.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\log4net.ElasticSearch.2.3.6\lib\net45\log4net.ElasticSearch.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -346,6 +366,10 @@
       <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Microsoft.Web.Services3, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.4.40740\lib\net452\Microsoft.Web.Services3.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.WindowsAzure.Configuration, Version=1.8.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.WindowsAzure.ConfigurationManager.1.8.0.0\lib\net35-full\Microsoft.WindowsAzure.Configuration.dll</HintPath>
     </Reference>
@@ -367,6 +391,10 @@
       <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Payflow_dotNET, Version=4.3.1.0, Culture=neutral, PublicKeyToken=14aa1e8d77f2a97c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.4.40740\lib\net452\Payflow_dotNET.dll</HintPath>
+    </Reference>
     <Reference Include="PayPalCoreSDK, Version=1.7.0.0, Culture=neutral, PublicKeyToken=5b4afc1ccaef40fb, processorArchitecture=MSIL">
       <HintPath>..\packages\PayPalCoreSDK.1.7.0\lib\net451\PayPalCoreSDK.dll</HintPath>
     </Reference>
@@ -381,6 +409,10 @@
     </Reference>
     <Reference Include="RazorGenerator.Mvc, Version=2.0.0.0, Culture=neutral, PublicKeyToken=7b26dc2a43f6a0d4, processorArchitecture=MSIL">
       <HintPath>..\packages\RazorGenerator.Mvc.2.4.9\lib\net40\RazorGenerator.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="RemoteActiveDirectory, Version=1.0.0.53, Culture=neutral, PublicKeyToken=d9ff2a1d43ad9af4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.4.40740\lib\net452\RemoteActiveDirectory.dll</HintPath>
     </Reference>
     <Reference Include="Renci.SshNet, Version=2016.1.0.0, Culture=neutral, PublicKeyToken=1cee9f8bde3db106, processorArchitecture=MSIL">
       <HintPath>..\packages\SSH.NET.2016.1.0\lib\net40\Renci.SshNet.dll</HintPath>
@@ -518,209 +550,221 @@
     <Reference Include="Z.EntityFramework.Plus.EF6, Version=1.6.10.0, Culture=neutral, PublicKeyToken=59b66d028979105b, processorArchitecture=MSIL">
       <HintPath>..\packages\Z.EntityFramework.Plus.EF6.1.6.10\lib\net45\Z.EntityFramework.Plus.EF6.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.ContentLibrary, Version=4.4.3.39891">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.ContentLibrary.dll</HintPath>
+    <Reference Include="Insite.ContentLibrary, Version=4.4.4.40740">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.4.40740\lib\net452\Insite.ContentLibrary.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.Common, Version=4.4.3.39891">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.Common.dll</HintPath>
+    <Reference Include="Insite.Common, Version=4.4.4.40740">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.4.40740\lib\net452\Insite.Common.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.Core.Interfaces, Version=4.4.3.39891">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.Core.Interfaces.dll</HintPath>
+    <Reference Include="Insite.Core.Interfaces, Version=4.4.4.40740">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.4.40740\lib\net452\Insite.Core.Interfaces.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.Core, Version=4.4.3.39891">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.Core.dll</HintPath>
+    <Reference Include="Insite.Core, Version=4.4.4.40740">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.4.40740\lib\net452\Insite.Core.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.Git, Version=4.4.3.39891">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.Git.dll</HintPath>
+    <Reference Include="Insite.Git, Version=4.4.4.40740">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.4.40740\lib\net452\Insite.Git.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.Data.Entities, Version=4.4.3.39891">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.Data.Entities.dll</HintPath>
+    <Reference Include="Insite.Integration.SXe10, Version=4.4.4.40740">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.4.40740\lib\net452\Insite.Integration.SXe10.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.IocContainer.Unity, Version=4.4.3.39891">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.IocContainer.Unity.dll</HintPath>
+    <Reference Include="Insite.Data.Entities, Version=4.4.4.40740">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.4.40740\lib\net452\Insite.Data.Entities.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.Data.Providers.EntityFramework, Version=4.4.3.39891">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.Data.Providers.EntityFramework.dll</HintPath>
+    <Reference Include="Insite.IocContainer.Unity, Version=4.4.4.40740">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.4.40740\lib\net452\Insite.IocContainer.Unity.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.Data.Repositories, Version=4.4.3.39891">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.Data.Repositories.dll</HintPath>
+    <Reference Include="Insite.Data.Providers.EntityFramework, Version=4.4.4.40740">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.4.40740\lib\net452\Insite.Data.Providers.EntityFramework.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.Data, Version=4.4.3.39891">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.Data.dll</HintPath>
+    <Reference Include="Insite.Data.Repositories, Version=4.4.4.40740">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.4.40740\lib\net452\Insite.Data.Repositories.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.WebFramework, Version=4.4.3.39891">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.WebFramework.dll</HintPath>
+    <Reference Include="Insite.Data, Version=4.4.4.40740">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.4.40740\lib\net452\Insite.Data.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.Payments, Version=4.4.3.39891">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.Payments.dll</HintPath>
+    <Reference Include="Insite.WebFramework, Version=4.4.4.40740">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.4.40740\lib\net452\Insite.WebFramework.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.RealTimeInventory, Version=4.4.3.39891">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.RealTimeInventory.dll</HintPath>
+    <Reference Include="Insite.Payments, Version=4.4.4.40740">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.4.40740\lib\net452\Insite.Payments.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.SystemResources, Version=4.4.3.39891">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.SystemResources.dll</HintPath>
+    <Reference Include="Insite.RealTimeInventory, Version=4.4.4.40740">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.4.40740\lib\net452\Insite.RealTimeInventory.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.Account, Version=4.4.3.39891">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.Account.dll</HintPath>
+    <Reference Include="Insite.SystemResources, Version=4.4.4.40740">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.4.40740\lib\net452\Insite.SystemResources.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.Admin, Version=4.4.3.39891">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.Admin.dll</HintPath>
+    <Reference Include="Insite.Account, Version=4.4.4.40740">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.4.40740\lib\net452\Insite.Account.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.Budget, Version=4.4.3.39891">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.Budget.dll</HintPath>
+    <Reference Include="Insite.Admin, Version=4.4.4.40740">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.4.40740\lib\net452\Insite.Admin.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.Cart, Version=4.4.3.39891">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.Cart.dll</HintPath>
+    <Reference Include="Insite.Budget, Version=4.4.4.40740">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.4.40740\lib\net452\Insite.Budget.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.Catalog, Version=4.4.3.39891">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.Catalog.dll</HintPath>
+    <Reference Include="Insite.Cart, Version=4.4.4.40740">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.4.40740\lib\net452\Insite.Cart.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.Configurator, Version=4.4.3.39891">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.Configurator.dll</HintPath>
+    <Reference Include="Insite.Catalog, Version=4.4.4.40740">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.4.40740\lib\net452\Insite.Catalog.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.ContentAdmin, Version=4.4.3.39891">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.ContentAdmin.dll</HintPath>
+    <Reference Include="Insite.Configurator, Version=4.4.4.40740">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.4.40740\lib\net452\Insite.Configurator.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.Customers, Version=4.4.3.39891">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.Customers.dll</HintPath>
+    <Reference Include="Insite.ContentAdmin, Version=4.4.4.40740">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.4.40740\lib\net452\Insite.ContentAdmin.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.Dashboard, Version=4.4.3.39891">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.Dashboard.dll</HintPath>
+    <Reference Include="Insite.Customers, Version=4.4.4.40740">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.4.40740\lib\net452\Insite.Customers.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.Dealers, Version=4.4.3.39891">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.Dealers.dll</HintPath>
+    <Reference Include="Insite.Dashboard, Version=4.4.4.40740">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.4.40740\lib\net452\Insite.Dashboard.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.Email, Version=4.4.3.39891">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.Email.dll</HintPath>
+    <Reference Include="Insite.Dealers, Version=4.4.4.40740">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.4.40740\lib\net452\Insite.Dealers.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.IdentityServer, Version=4.4.3.39891">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.IdentityServer.dll</HintPath>
+    <Reference Include="Insite.Email, Version=4.4.4.40740">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.4.40740\lib\net452\Insite.Email.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.Integration.WebService, Version=4.4.3.39891">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.Integration.WebService.dll</HintPath>
+    <Reference Include="Insite.IdentityServer, Version=4.4.4.40740">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.4.40740\lib\net452\Insite.IdentityServer.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.Integration, Version=4.4.3.39891">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.Integration.dll</HintPath>
+    <Reference Include="Insite.Integration.WebService, Version=4.4.4.40740">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.4.40740\lib\net452\Insite.Integration.WebService.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.WIS.Broker, Version=4.4.3.39891">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.WIS.Broker.dll</HintPath>
+    <Reference Include="Insite.Integration, Version=4.4.4.40740">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.4.40740\lib\net452\Insite.Integration.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.Invoice, Version=4.4.3.39891">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.Invoice.dll</HintPath>
+    <Reference Include="Insite.WIS.Broker, Version=4.4.4.40740">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.4.40740\lib\net452\Insite.WIS.Broker.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.JobQuote, Version=4.4.3.39891">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.JobQuote.dll</HintPath>
+    <Reference Include="Insite.Invoice, Version=4.4.4.40740">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.4.40740\lib\net452\Insite.Invoice.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.Message, Version=4.4.3.39891">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.Message.dll</HintPath>
+    <Reference Include="Insite.JobQuote, Version=4.4.4.40740">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.4.40740\lib\net452\Insite.JobQuote.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.OrderApproval, Version=4.4.3.39891">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.OrderApproval.dll</HintPath>
+    <Reference Include="Insite.Message, Version=4.4.4.40740">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.4.40740\lib\net452\Insite.Message.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.Order, Version=4.4.3.39891">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.Order.dll</HintPath>
+    <Reference Include="Insite.OrderApproval, Version=4.4.4.40740">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.4.40740\lib\net452\Insite.OrderApproval.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.Promotions, Version=4.4.3.39891">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.Promotions.dll</HintPath>
+    <Reference Include="Insite.Order, Version=4.4.4.40740">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.4.40740\lib\net452\Insite.Order.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.Punchout, Version=4.4.3.39891">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.Punchout.dll</HintPath>
+    <Reference Include="Insite.Promotions, Version=4.4.4.40740">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.4.40740\lib\net452\Insite.Promotions.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.QuickOrder, Version=4.4.3.39891">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.QuickOrder.dll</HintPath>
+    <Reference Include="Insite.Punchout, Version=4.4.4.40740">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.4.40740\lib\net452\Insite.Punchout.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.RealTimePricing, Version=4.4.3.39891">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.RealTimePricing.dll</HintPath>
+    <Reference Include="Insite.QuickOrder, Version=4.4.4.40740">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.4.40740\lib\net452\Insite.QuickOrder.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.Requisition, Version=4.4.3.39891">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.Requisition.dll</HintPath>
+    <Reference Include="Insite.RealTimePricing, Version=4.4.4.40740">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.4.40740\lib\net452\Insite.RealTimePricing.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.Rfq, Version=4.4.3.39891">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.Rfq.dll</HintPath>
+    <Reference Include="Insite.Requisition, Version=4.4.4.40740">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.4.40740\lib\net452\Insite.Requisition.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.Swagger, Version=4.4.3.39891">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.Swagger.dll</HintPath>
+    <Reference Include="Insite.Rfq, Version=4.4.4.40740">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.4.40740\lib\net452\Insite.Rfq.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.UserFiles, Version=4.4.3.39891">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.UserFiles.dll</HintPath>
+    <Reference Include="Insite.Swagger, Version=4.4.4.40740">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.4.40740\lib\net452\Insite.Swagger.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.Websites, Version=4.4.3.39891">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.Websites.dll</HintPath>
+    <Reference Include="Insite.UserFiles, Version=4.4.4.40740">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.4.40740\lib\net452\Insite.UserFiles.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.WishLists, Version=4.4.3.39891">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.WishLists.dll</HintPath>
+    <Reference Include="Insite.Websites, Version=4.4.4.40740">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.4.40740\lib\net452\Insite.Websites.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.CurrencyConversion.WebserviceX, Version=4.4.3.39891">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.CurrencyConversion.WebserviceX.dll</HintPath>
+    <Reference Include="Insite.WishLists, Version=4.4.4.40740">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.4.40740\lib\net452\Insite.WishLists.dll</HintPath>
     </Reference>
-    <Reference Include="Elmah.Mvc, Version=4.4.3.39891">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Elmah.Mvc.dll</HintPath>
+    <Reference Include="Insite.CurrencyConversion.WebserviceX, Version=4.4.4.40740">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.4.40740\lib\net452\Insite.CurrencyConversion.WebserviceX.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.GeocoderProvider.FreeGeoip, Version=4.4.3.39891">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.GeocoderProvider.FreeGeoip.dll</HintPath>
+    <Reference Include="Elmah.Mvc, Version=4.4.4.40740">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.4.40740\lib\net452\Elmah.Mvc.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.GeocoderProvider.Google, Version=4.4.3.39891">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.GeocoderProvider.Google.dll</HintPath>
+    <Reference Include="Insite.GeocoderProvider.FreeGeoip, Version=4.4.4.40740">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.4.40740\lib\net452\Insite.GeocoderProvider.FreeGeoip.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.Plugins, Version=4.4.3.39891">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.Plugins.dll</HintPath>
+    <Reference Include="Insite.GeocoderProvider.Google, Version=4.4.4.40740">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.4.40740\lib\net452\Insite.GeocoderProvider.Google.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.PaymentGateway.AuthorizeDotNet, Version=4.4.3.39891">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.PaymentGateway.AuthorizeDotNet.dll</HintPath>
+    <Reference Include="Insite.HelpLinks, Version=4.4.4.40740">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.4.40740\lib\net452\Insite.HelpLinks.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.PaymentGateway.Cenpos, Version=4.4.3.39891">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.PaymentGateway.Cenpos.dll</HintPath>
+    <Reference Include="Insite.Plugins, Version=4.4.4.40740">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.4.40740\lib\net452\Insite.Plugins.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.PaymentGateway.CyberSource, Version=4.4.3.39891">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.PaymentGateway.CyberSource.dll</HintPath>
+    <Reference Include="Insite.IntegrationConnector.SXe10, Version=4.4.4.40740">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.4.40740\lib\net452\Insite.IntegrationConnector.SXe10.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.PaymentGateway.VantivExpress, Version=4.4.3.39891">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.PaymentGateway.VantivExpress.dll</HintPath>
+    <Reference Include="Insite.PaymentGateway.AuthorizeDotNet, Version=4.4.4.40740">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.4.40740\lib\net452\Insite.PaymentGateway.AuthorizeDotNet.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.PaymentGateway.Orbital, Version=4.4.3.39891">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.PaymentGateway.Orbital.dll</HintPath>
+    <Reference Include="Insite.PaymentGateway.Cenpos, Version=4.4.4.40740">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.4.40740\lib\net452\Insite.PaymentGateway.Cenpos.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.PaymentGateway.PayflowPro, Version=4.4.3.39891">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.PaymentGateway.PayflowPro.dll</HintPath>
+    <Reference Include="Insite.PaymentGateway.CyberSource, Version=4.4.4.40740">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.4.40740\lib\net452\Insite.PaymentGateway.CyberSource.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.PaymentGateway.PaypalExpress, Version=4.4.3.39891">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.PaymentGateway.PaypalExpress.dll</HintPath>
+    <Reference Include="Insite.PaymentGateway.HostedPci, Version=4.4.4.40740">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.4.40740\lib\net452\Insite.PaymentGateway.HostedPci.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.PaymentGateway.Vantiv, Version=4.4.3.39891">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.PaymentGateway.Vantiv.dll</HintPath>
+    <Reference Include="Insite.PaymentGateway.VantivExpress, Version=4.4.4.40740">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.4.40740\lib\net452\Insite.PaymentGateway.VantivExpress.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.Search.Elasticsearch, Version=4.4.3.39891">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.Search.Elasticsearch.dll</HintPath>
+    <Reference Include="Insite.PaymentGateway.Orbital, Version=4.4.4.40740">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.4.40740\lib\net452\Insite.PaymentGateway.Orbital.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.RatingService.FedEx, Version=4.4.3.39891">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.RatingService.FedEx.dll</HintPath>
+    <Reference Include="Insite.PaymentGateway.PayflowPro, Version=4.4.4.40740">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.4.40740\lib\net452\Insite.PaymentGateway.PayflowPro.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.RatingService.Ups, Version=4.4.3.39891">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.RatingService.Ups.dll</HintPath>
+    <Reference Include="Insite.PaymentGateway.PaypalExpress, Version=4.4.4.40740">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.4.40740\lib\net452\Insite.PaymentGateway.PaypalExpress.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.StorageProviders.Amazon, Version=4.4.3.39891">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.StorageProviders.Amazon.dll</HintPath>
+    <Reference Include="Insite.PaymentGateway.Vantiv, Version=4.4.4.40740">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.4.40740\lib\net452\Insite.PaymentGateway.Vantiv.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.StorageProviders.Azure, Version=4.4.3.39891">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.StorageProviders.Azure.dll</HintPath>
+    <Reference Include="Insite.Search.Elasticsearch, Version=4.4.4.40740">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.4.40740\lib\net452\Insite.Search.Elasticsearch.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.TaxCalculator.Avalara, Version=4.4.3.39891">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.TaxCalculator.Avalara.dll</HintPath>
+    <Reference Include="Insite.RatingService.FedEx, Version=4.4.4.40740">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.4.40740\lib\net452\Insite.RatingService.FedEx.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.TaxCalculator.CyberSource, Version=4.4.3.39891">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.TaxCalculator.CyberSource.dll</HintPath>
+    <Reference Include="Insite.RatingService.Ups, Version=4.4.4.40740">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.4.40740\lib\net452\Insite.RatingService.Ups.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.TaxCalculator.Sx, Version=4.4.3.39891">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.TaxCalculator.Sx.dll</HintPath>
+    <Reference Include="Insite.StorageProviders.Amazon, Version=4.4.4.40740">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.4.40740\lib\net452\Insite.StorageProviders.Amazon.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.Public.Core, Version=4.4.3.39891">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.Public.Core.dll</HintPath>
+    <Reference Include="Insite.StorageProviders.Azure, Version=4.4.4.40740">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.4.40740\lib\net452\Insite.StorageProviders.Azure.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.Public.Integration, Version=4.4.3.39891">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.Public.Integration.dll</HintPath>
+    <Reference Include="Insite.TaxCalculator.Avalara, Version=4.4.4.40740">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.4.40740\lib\net452\Insite.TaxCalculator.Avalara.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.Public.WebFramework, Version=4.4.3.39891">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.3.39891\lib\net452\Insite.Public.WebFramework.dll</HintPath>
+    <Reference Include="Insite.TaxCalculator.CyberSource, Version=4.4.4.40740">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.4.40740\lib\net452\Insite.TaxCalculator.CyberSource.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.TaxCalculator.Sx, Version=4.4.4.40740">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.4.40740\lib\net452\Insite.TaxCalculator.Sx.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.Public.Core, Version=4.4.4.40740">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.4.40740\lib\net452\Insite.Public.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.Public.Integration, Version=4.4.4.40740">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.4.40740\lib\net452\Insite.Public.Integration.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.Public.WebFramework, Version=4.4.4.40740">
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.4.40740\lib\net452\Insite.Public.WebFramework.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -867,155 +911,8 @@
     <None Include="_SystemResources\readme.txt" />
     <None Include="_SystemResources\**\*.css" />
     <None Include="_SystemResources\**\*.scss" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Directives\Account\AddressDisplay.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Directives\Account\AddressEdit.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Directives\Account\AddressField.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Directives\Account\SelectDefaultCustomer.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Directives\Cart\AddressErrorPopup.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Directives\Cart\AddToCartPopup.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Directives\Cart\CartLines.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Directives\Cart\CartTotalDisplay.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Directives\Catalog\AvailabilityMessage.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Directives\Catalog\BreadCrumb.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Directives\Catalog\CrossSellCarousel.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Directives\Catalog\ProductImageCarousel.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Directives\Catalog\ProductImages.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Directives\Catalog\ProductName.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Directives\Catalog\ProductPrice.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Directives\Catalog\ProductPriceSaving.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Directives\Catalog\ProductSalePriceLabel.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Directives\Catalog\ProductSubscriptionPopup.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Directives\Catalog\ProductThumb.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Directives\Catalog\QuantityBreakPricing.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Directives\Catalog\SortedAttributeValueList.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Directives\Catalog\UnitOfMeasureDisplay.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Directives\Catalog\UnitOfMeasureSelectList.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Directives\Common\ShareEntityField.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Directives\Common\ShareEntityModal.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Directives\Content\ContentPager.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Directives\Core\ApiErrorPopup.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Directives\Core\Pager.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Directives\Core\Spinner.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Directives\History\RecentOrders.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Directives\List\CopyToListPopup.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Directives\List\CreateListPopup.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Directives\List\DeleteListPopup.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Directives\List\LeaveListPopup.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Directives\List\ManageSharingPopup.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Directives\List\ShareDetailsPopup.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Directives\List\SharedList.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Directives\List\ShareListPopup.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Directives\List\UploadToListPopup.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Directives\Messages\MessageList.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Directives\PdfViews\InvoiceDetails.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Directives\PdfViews\ListDetails.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Directives\PdfViews\OrderDetails.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Directives\Rfq\ProposedDetailsGrid.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Directives\Rfq\QuoteDetailHeader.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Directives\Rfq\QuoteLineCalculator.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Directives\Rfq\QuotePastExpirationDatePopup.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Directives\Rfq\RecentQuotes.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Directives\Rfq\RequestedDetailsGrid.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Directives\Rfq\RfqMessageList.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Directives\Rfq\RfqMessages.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Directives\WishList\AddToWishlistPopup.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Widgets\AccountSettingsView\Standard.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Widgets\Breadcrumb\Standard.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Widgets\BudgetView\Standard.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Widgets\Carousel\Standard.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Widgets\CartView\Standard.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Widgets\ChangeAccountPasswordView\Standard.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Widgets\ChangeCustomerView\Standard.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Widgets\CheckoutAddressView\Standard.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Widgets\ContactUsForm\Standard.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Widgets\CreateAccountView\Standard.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Widgets\CurrencySelector\Standard.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Widgets\DealerDirectionsView\Standard.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Widgets\DealerLocatorView\Standard.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Widgets\DealerView\Standard.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Widgets\EmailSubscription\Standard.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Widgets\FourColumn\Standard.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Widgets\FrequentlyPurchased\Standard.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Widgets\HeaderView\B2C.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Widgets\HeaderView\Standard.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Widgets\Image\Standard.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Widgets\InvoiceDetailView\Standard.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Widgets\InvoiceHistory\Standard.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Widgets\InvoicesView\Standard.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Widgets\ItemLink\Standard.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Widgets\ItemList\Standard.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Widgets\JobQuoteDetailsView\Standard.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Widgets\LanguageSelector\Standard.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Widgets\LinkList\Standard.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Widgets\MyAccountAddressView\Standard.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Widgets\MyAccountView\Standard.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Widgets\MyJobQuotesView\Standard.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Widgets\MyListDetailView\Standard.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Widgets\MyListsView\Standard.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Widgets\NavigationList\Standard.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Widgets\NewsListView\Standard.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Widgets\NewsPageView\Standard.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Widgets\OneColumn\Standard.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Widgets\OrderApprovalDetailView\Standard.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Widgets\OrderApprovalListView\Standard.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Widgets\OrderConfirmationView\Standard.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Widgets\OrderDetailView\Standard.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Widgets\OrderHistory\Standard.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Widgets\OrderStatusLookupView\Standard.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Widgets\OrdersView\Standard.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Widgets\OrderUploadView\Standard.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Widgets\PageTitle\Standard.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Widgets\ProductComparisonView\Standard.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Widgets\ProductDetailView\Standard.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Widgets\ProductListView\B2C.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Widgets\ProductListView\Standard.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Widgets\QuickOrderView\Standard.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Widgets\QuickOrder\Standard.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Widgets\RecentlyPurchased\Standard.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Widgets\RecentlyViewed\Standard.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Widgets\RelatedProducts\Standard.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Widgets\RequestRmaView\Standard.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Widgets\RequisitionView\Standard.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Widgets\ResetPasswordView\Standard.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Widgets\ReviewAndPayView\Standard.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Widgets\RfqConfirmationView\Standard.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Widgets\RfqMyQuotesView\Standard.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Widgets\RfqQuoteDetailsView\Standard.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Widgets\RfqRequestQuoteView\Standard.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Widgets\RichContent\Standard.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Widgets\SavedOrderDetailView\Standard.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Widgets\SavedOrderListView\Standard.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Widgets\SignInView\Standard.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Widgets\StaticListView\Standard.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Widgets\ThreeColumn\Standard.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Widgets\TwoColumn\Standard.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Widgets\UserListView\Standard.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Widgets\UserSetupShipToView\Standard.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Widgets\UserSetupView\Standard.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Widgets\WebCrossSells\Standard.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Widgets\Wishlists\Standard.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Widgets\WishListView\Standard.cshtml" />
-    <None Include="_SystemResources\Themes\Responsive\Views\Widgets\Zone\Standard.cshtml" />
-    <None Include="_SystemResources\Views\DefaultEmails\Admin_AccountActivation.cshtml" />
-    <None Include="_SystemResources\Views\DefaultEmails\Admin_ResetPassword.cshtml" />
-    <None Include="_SystemResources\Views\DefaultEmails\ContactUsTemplate.cshtml" />
-    <None Include="_SystemResources\Views\DefaultEmails\ForgotPassword.cshtml" />
-    <None Include="_SystemResources\Views\DefaultEmails\InviteToList.cshtml" />
-    <None Include="_SystemResources\Views\DefaultEmails\OrderConfirmation.cshtml" />
-    <None Include="_SystemResources\Views\DefaultEmails\PunchOut_FailedOrderRequest.cshtml" />
-    <None Include="_SystemResources\Views\DefaultEmails\RequestRMA.cshtml" />
-    <None Include="_SystemResources\Views\DefaultEmails\RfqQuote.cshtml" />
-    <None Include="_SystemResources\Views\DefaultEmails\SendAListCopy.cshtml" />
-    <None Include="_SystemResources\Views\DefaultEmails\ShareInvoice.cshtml" />
-    <None Include="_SystemResources\Views\DefaultEmails\ShareListWithBillTo.cshtml" />
-    <None Include="_SystemResources\Views\DefaultEmails\ShareOrder.cshtml" />
-    <None Include="_SystemResources\Views\DefaultEmails\ShipmentConfirmation.cshtml" />
-    <None Include="_SystemResources\Views\DefaultEmails\StatusReport.cshtml" />
-    <None Include="_SystemResources\Views\DefaultEmails\TellAFriend.cshtml" />
-    <None Include="_SystemResources\Views\DefaultEmails\Website_AccountActivation.cshtml" />
-    <None Include="_SystemResources\Views\DefaultEmails\Website_ResetPassword.cshtml" />
-    <None Include="_SystemResources\Views\DefaultEmails\Website_UserNameChanged.cshtml" />
-    <Content Include="_SystemResources\Themes\Responsive\Views\Widgets\MyListDetailView\NBF.cshtml" />
+    <None Include="_SystemResources\**\*.cshtml" />
+    <None Include="_SystemResources\**\*.liquid" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="config\connectionStrings.config">

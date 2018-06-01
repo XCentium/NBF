@@ -147,11 +147,6 @@
                 (error: any) => { this.getCartPromotionsFailed(error); });
         }
 
-        requestQuote(quoteUri: string): void {
-            
-            this.$rootScope.$broadcast("AnalyticsEvent", "QuoteRequest", quoteUri, null);
-        }
-
         checkout(checkoutPage: string) {
             this.checkoutPage = checkoutPage;
 

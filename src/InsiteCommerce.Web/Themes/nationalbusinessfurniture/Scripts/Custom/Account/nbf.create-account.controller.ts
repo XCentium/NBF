@@ -36,7 +36,8 @@
             "$localStorage",
             "$location",
             "nbfGuestActivationService",
-            "listrakService"
+            "listrakService",
+            "$rootScope"
         ];
 
         constructor(
@@ -53,7 +54,8 @@
             protected $localStorage: common.IWindowStorage,
             protected $location: ng.ILocaleService,
             protected nbfGuestActivationService: nbf.guest.INbfGuestActivationService,
-            protected listrakService: nbf.listrak.IListrakService) {
+            protected listrakService: nbf.listrak.IListrakService,
+            protected $rootScope: ng.IRootScopeService) {
             this.init();
         }
 
@@ -181,6 +183,7 @@
         }
 
         protected createAccountCompleted(account: AccountModel): void {
+            this.$rootScope.$broadcast("AnalyticsEvent", "AccountCreation");
             const currentContext = this.sessionService.getContext();
             currentContext.billToId = account.billToId;
             currentContext.shipToId = account.shipToId;

@@ -10,7 +10,7 @@ using Insite.Customers.Services;
 
 namespace Extensions.WebApi.WebCode.Repository
 {
-    public class WebCodeRepository : BaseRepository, IWebCodeRepository, IInterceptable
+    public class WebCodeRepository : BaseRepository, IWebCodeRepository
     {
         private readonly IUnitOfWork _unitOfWork;
 

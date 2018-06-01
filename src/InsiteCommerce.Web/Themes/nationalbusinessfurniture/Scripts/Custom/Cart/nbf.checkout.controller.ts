@@ -45,6 +45,11 @@
         cartSettings: CartSettingsModel;
         pageIsReady = false;
         showQuoteRequiredProducts: boolean;
+        submitSuccessUri: string;
+        isCloudPaymentGateway: boolean;
+        isInvalidCardNumber: boolean;
+        isInvalidSecurityCode: boolean;
+        isInvalidCardNumberOrSecurityCode: boolean;
         paypalIndication: string;
 
         //Confirmation Variables
@@ -60,6 +65,7 @@
         //Split Payment variables
         paymentAmount: number;
         remainingTotal: number;
+        totalPaymentAmount = 0.0;
         remainingTotalDisplay: string = '';
         paymentAmountDisplay: string = '';
         totalPaymentsDisplay: string = '';
@@ -193,6 +199,9 @@
             this.customerSettings = settingsCollection.customerSettings;
         }
 
+        protected getSettingsFailed(error: any): void {
+        }
+
         protected getAddressFieldsCompleted(addressFields: AddressFieldCollectionModel): void {
 
             this.addressFields = addressFields;
@@ -235,22 +244,23 @@
         }
 
         protected setPaymentAmounts() {
-            var totalPaymentAmount = 0.0;
+            
             this.remainingTotal = this.cart.orderGrandTotal;
             if (this.cart.properties["cc1"]) {
                 var cc1Amount = Number(this.cart.properties["cc1"]);
                 this.remainingTotal -= cc1Amount;
                 this.cc1Display = this.convertToCurrency(cc1Amount);
-                //this.totalPaymentsDisplay;
-                totalPaymentAmount += cc1Amount;
+
+                this.totalPaymentsDisplay;
+                this.totalPaymentAmount += cc1Amount;
             }
             if (this.cart.properties["cc2"]) {
                 var cc2Amount = Number(this.cart.properties["cc2"]);
                 this.remainingTotal -= cc2Amount;
                 this.cc2Display = this.convertToCurrency(cc2Amount);
-                totalPaymentAmount += cc2Amount;
+                this.totalPaymentAmount += cc2Amount;
             }
-            this.totalPaymentsDisplay = this.convertToCurrency(totalPaymentAmount);
+            this.totalPaymentsDisplay = this.convertToCurrency(this.totalPaymentAmount);
             this.paymentAmount = this.remainingTotal;
             this.remainingTotalDisplay = this.convertToCurrency(this.remainingTotal);
         }
@@ -634,7 +644,7 @@
         }
 
         protected updateBillToCompleted(billTo: BillToModel): void {
-
+            this.$rootScope.$broadcast("AnalyticsEvent", "ShippingBillingInfoComplete", null, null, {state: billTo.state.abbreviation, zip: billTo.postalCode});
         }
 
         protected updateBillToFailed(error: any): void {
@@ -830,12 +840,29 @@
                 (country: CountryModel) => { this.onCreditCardBillingCountryChanged(country); });
             this.$scope.$watch("vm.creditCardBillingState",
                 (state: StateModel) => { this.onCreditCardBillingStateChanged(state); });
+            this.$scope.$watch("vm.cart.paymentOptions.creditCard.expirationYear", (year: number) => {
+                this.onExpirationYearChanged(year);
+            });
+            this.$scope.$watch("vm.cart.paymentOptions.creditCard.useBillingAddress", (useBillingAddress: boolean) => {
+                this.onUseBillingAddressChanged(useBillingAddress);
+            });
+            this.$scope.$watch("vm.creditCardBillingCountry", (country: CountryModel) => {
+                this.onCreditCardBillingCountryChanged(country);
+            });
+            this.$scope.$watch("vm.creditCardBillingState", (state: StateModel) => {
+                this.onCreditCardBillingStateChanged(state);
+            });
+
 
             this.onUseBillingAddressChanged(true);
 
             this.settingsService.getSettings().then(
-                (settings: insite.core.SettingsCollection) => { this.getCartSettingsCompleted(settings); });
-
+                (settings: insite.core.SettingsCollection) => {
+                    this.getSettingsCompleted(settings);
+                },
+                (error: any) => {
+                    this.getSettingsFailed(error);
+                });
             this.updateCartLineAttributes();
         }
 
@@ -847,8 +874,8 @@
             if (year) {
                 const now = new Date();
                 const minMonth = now.getFullYear() === year ? now.getMonth() : 0;
-                $("#expirationMonth").rules("add", { min: minMonth });
-                $("#expirationMonth").valid();
+                jQuery("#expirationMonth").rules("add", { min: minMonth });
+                jQuery("#expirationMonth").valid();
             }
         }
 
@@ -994,6 +1021,10 @@
             this.setUpShipVia(isInit);
             this.setUpPaymentMethod(isInit, paymentMethod || this.cart.paymentMethod);
             this.setUpPayPal(isInit);
+
+            setTimeout(() => {
+                this.setUpCloudPaymentGateway();
+            }, 0, false);
             
             this.setUpBillTo();
             this.setUpShipTos();
@@ -1104,7 +1135,7 @@
 
         updateCarrier(): void {
             if (this.cart.carrier && this.cart.carrier.shipVias) {
-                if (this.cart.carrier.shipVias.length === 1 && this.cart.carrier.shipVias[0] !== this.cart.shipVia) {
+                if (this.cart.carrier.shipVias.length === 1 && this.cart.carrier.shipVias[0].id !== this.cart.shipVia.id) {
                     this.cart.shipVia = this.cart.carrier.shipVias[0];
                     this.updateShipVia();
                 } else if (this.cart.carrier.shipVias.length > 1 &&
@@ -1130,10 +1161,20 @@
         }
 
         submit(signInUri: string, emailTo: string): void {
+            var self = this;
+
             this.submitting = true;
             this.submitErrorMessage = "";
 
             if (!this.validateReviewAndPayForm()) {
+                this.submitting = false;
+                return;
+            }
+            if (this.paymentAmount != this.remainingTotal) {
+                var $validator = $("#reviewAndPayForm").validate(); //.invalid();
+                var errors = { paymentAmount: "Cannot place order for less than the total." };
+                /* Show errors on the form */
+                $validator.showErrors(errors); 
                 this.submitting = false;
                 return;
             }
@@ -1225,6 +1266,18 @@
             this.cart.requestedDeliveryDate = this.formatWithTimezone(this.cart.requestedDeliveryDate);
 
             var oldCartLines = this.cart.cartLines;
+            this.tokenizeCardInfoIfNeeded(oldCartLines);
+        }
+
+        protected tokenizeCardInfoIfNeeded(oldCartLines: CartLineModel[]) {
+            if (this.isCloudPaymentGateway && this.cart.showCreditCard && this.cart.paymentMethod.isCreditCard) {
+                (<any>window).sendHPCIMsg();
+            } else {
+                this.submitCart(oldCartLines);
+            }
+        }
+
+        protected submitCart(oldCartLines: CartLineModel[]): void {
             this.cartService.updateCart(this.cart, true).then(
                 (cart: CartModel) => { this.submitCompleted(cart, oldCartLines); },
                 (error: any) => { this.submitFailed(error); });
@@ -1324,14 +1377,34 @@
         }
 
         protected validateReviewAndPayForm(): boolean {
+            if (!this.validatedCloudPaymentGateway()) {
+                return false;
+            } 
+
             const valid = $("#reviewAndPayForm").validate().form();
             if (!valid) {
-                $("html, body").animate({
-                    scrollTop: $("#reviewAndPayForm").offset().top
-                },
-                    300);
+                jQuery("html, body").animate({
+                        scrollTop: jQuery("#reviewAndPayForm").offset().top
+                }, 300);
                 return false;
             }
+
+            return true;
+        }
+
+        protected validatedCloudPaymentGateway(): boolean {
+            if (!this.isCloudPaymentGateway) {
+                return true;
+            }
+
+            if (!this.cart.showCreditCard || !this.cart.paymentMethod.isCreditCard) {
+                return true;
+            }
+
+            if (this.isInvalidCardNumber || this.isInvalidSecurityCode || this.isInvalidCardNumberOrSecurityCode) {
+                return false;
+            }
+
             return true;
         }
 
@@ -1364,11 +1437,73 @@
             this.getCart();
         }
 
+
+        setUpCloudPaymentGateway(): void {
+            this.isCloudPaymentGateway = (<any>window).isCloudPaymentGateway;
+            if (!this.isCloudPaymentGateway) {
+                return;
+            }
+
+            (<any>window).hpciNoConflict = "N";
+            (<any>window).hpciStatusReset();
+            (<any>window).receiveHPCIMsg();
+
+            (<any>window).hpciSiteSuccessHandlerV4 = (hpciMappedCCValue: string, hpciMappedCVVValue: string, hpciCCBINValue: string, hpciGtyTokenValue: string, hpciCCLast4Value: string, hpciGtyTokenAuthRespValue: string, hpciTokenRespEncrypt: string) => {
+                this.$scope.$apply(() => {
+                    if (!hpciMappedCCValue || !hpciMappedCVVValue) {
+                        if (!hpciMappedCCValue) {
+                            this.isInvalidCardNumber = true;
+                        } else {
+                            this.isInvalidSecurityCode = true;
+                        }
+
+                        (<any>window).hpciStatusReset();
+                        this.submitFailed({ message: "" });
+                        return;
+                    }
+
+                    this.cart.paymentOptions.creditCard.cardNumber = hpciMappedCCValue;
+                    this.cart.paymentOptions.creditCard.securityCode = hpciMappedCVVValue;
+
+                    var oldCartLines = this.cart.cartLines;
+                    this.submitCart(oldCartLines);
+                });
+            };
+
+            (<any>window).hpciSiteErrorHandler = (errorCode: string, errorMessage: string) => {
+                this.$scope.$apply(() => {
+                    this.isInvalidCardNumberOrSecurityCode = true;
+                    (<any>window).hpciStatusReset();
+                    this.submitFailed({ message: "" });
+                });
+            };
+
+            (<any>window).hpciCCPreliminarySuccessHandlerV2 = (hpciCCTypeValue: string, hpciCCBINValue: string, hpciCCValidValue: string, hpciCCLengthValue: number, hpciCCEnteredLengthValue: number) => {
+                this.$scope.$apply(() => {
+                    this.isInvalidCardNumberOrSecurityCode = false;
+                    if (hpciCCValidValue === "Y") {
+                        this.isInvalidCardNumber = false;
+                    } else {
+                        this.isInvalidCardNumber = true;
+                    }
+                });
+            };
+
+            (<any>window).hpciCVVPreliminarySuccessHandlerV2 = (hpciCVVLengthValue: number, hpciCVVValidValue: string) => {
+                this.$scope.$apply(() => {
+                    this.isInvalidCardNumberOrSecurityCode = false;
+                    if (hpciCVVValidValue === "Y") {
+                        this.isInvalidSecurityCode = false;
+                    } else {
+                        this.isInvalidSecurityCode = true;
+                    }
+                });
+            };
+        }
+
         protected loadStep2() {
             this.continueCheckoutInProgress = false;
             this.hideSignIn = true;
-
-            this.$rootScope.$broadcast("AnalyticsEvent", "ShippingBillingInfoComplete");
             this.reviewAndPayInit();
         }
 

@@ -14,5 +14,6 @@
         ordertotal: string;
         status: string[];
         statusDisplay: string;
+        productErpNumber: string;
     }
 }

@@ -95,7 +95,7 @@ module insite.catalog {
 
         protected getProductData(productId: string): void {
             const expand = ["documents", "specifications", "styledproducts", "htmlcontent", "attributes", "crosssells", "pricing", "relatedproducts"];
-            this.productService.getProduct(null, productId, expand, true).then(
+            this.productService.getProduct(null, productId, expand, true, true).then(
                 (productModel: ProductModel) => { this.getProductCompleted(productModel); },
                 (error: any) => { this.getProductFailed(error); });
         }

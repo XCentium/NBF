@@ -158,7 +158,7 @@
                                     </article>
                                 </div>
                             </section>
-                            <section class="accordion" ng-if="(vm.product.specifications | filter: { name: 'Delivery' }).length > 0">
+                            <section class="accordion" ng-show="(vm.product.specifications | filter: { name: 'Delivery' }).length > 0">
                                 <div>
                                     <input type="checkbox" id="accord-10001" class="accord-check" checked />
                                     <label id="tst_productList_tableView_filterButton" for="accord-10001" class="accord-head">[% translate 'Delivery Information' %]</label>
@@ -166,6 +166,7 @@
                                         <div id="tst_productDetail_htmlContent" class="product-cm">
                                             <div ng-repeat="specification in vm.product.specifications | filter: { name: 'Delivery' } | orderBy: 'sortOrder'" ng-bind-html="specification.htmlContent|trusted"></div>
                                         </div>
+                                        [% zone 'Content Below' %]
                                     </article>
                                 </div>
                             </section>
@@ -177,7 +178,7 @@
                                         <div id="tst_productDetail_htmlContent" class="product-cm">
                                             <ul class="doclinks">
                                                 <li ng-if="vm.languageId === document.languageId || document.languageId === null" ng-repeat="document in vm.product.documents" class="doc-{{$index}}">
-                                                    <a ng-if="document.documentType == null || document.documentType != 'blog'" id="tst_productDetail_{{document.id}}" ng-href="http://s7d9.scene7.com/is/content/NationalBusinessFurniture/PDFs/Products/{{document.filePath}}" target="_new">{{document.name}} <em ng-if="document.documentType">({{document.documentType}})</em></a>
+                                                    <a class="pdf-icon" ng-if="document.documentType == null || document.documentType != 'blog'" id="tst_productDetail_{{document.id}}" ng-href="http://s7d9.scene7.com/is/content/NationalBusinessFurniture/PDFs/Products/{{document.filePath}}" target="_new">{{document.name}} <em ng-if="document.documentType">({{document.documentType}})</em></a>
                                                     <a ng-if="document.documentType == 'blog'" id="tst_productDetail_{{document.id}}" ng-href="{{document.filePath}}" target="_new">{{document.name}} <em ng-if="document.documentType">({{document.documentType}})</em></a>
                                                 </li>
                                             </ul>
