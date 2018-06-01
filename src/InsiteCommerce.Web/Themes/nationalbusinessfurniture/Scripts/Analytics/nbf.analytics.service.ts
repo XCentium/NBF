@@ -82,7 +82,7 @@ module nbf.analytics {
                     this.Data.profile.profileInfo.state = data.state;
                     this.Data.profile.profileInfo.zip = data.zip;
                     break;
-                case AnalyticsEvents.ContentShared:
+                case AnalyticsEvents.ContentShared, AnalyticsEvents.VideoStarted, AnalyticsEvents.PromoApplied:
                     this.Data.events.push({
                         event: analyticsEvent,
                         data: data
@@ -376,13 +376,16 @@ module nbf.analytics {
         ContentShared: "ContentShared" as AnalyticsEvent,
         ProductListingFiltered: "ProductListingFiltered" as AnalyticsEvent,
         CheckoutComplete: "CheckoutComplete" as AnalyticsEvent,
-        ShopTheLook: "ShopTheLook" as AnalyticsEvent
+        ShopTheLook: "ShopTheLook" as AnalyticsEvent,
+        VideoStarted: "VideoStarted" as AnalyticsEvent,
+        CartView: "CartView" as AnalyticsEvent,
+        PromoApplied: "PromoApplied" as AnalyticsEvent
     }
 
     export type AnalyticsEvent = "PageLoad" | "ProductPageView" | "SwatchRequest" | "CatalogRequest" | "QuoteRequest" | "MiniCartQuoteRequest" | "InternalSearch" | "SuccessfulSearch" |
         "FailedSearch" | "ContactUsInitiated" | "ContactUsCompleted" | "AccountCreation" | "CheckoutAccountCreation" | "Login" | "CrossSellSelected" | "EmailSignUp" | "LiveChatStarted" |
         "ProductAddedToCart" | "CheckoutInitiated" | "CheckoutComplete" | "ProductQuestionStarted" | "ProductQuestionAsked" | "Selected360View" | "AddProductToWishlist" | "SaveOrderFromCartPage" |
         "ReadReviewsSelected" | "MiniCartHover" | "SaveCart" | "CartOpened" | "ProductRemovedFromCart" | "ShippingBillingInfoComplete" | "ShippingMethodSelected" | "BillingMethodSelected" |
-        "ContinueShoppingFromCartPage" | "ContentShared" | "ProductListingFiltered" | "ShopTheLook";
+        "ContinueShoppingFromCartPage" | "ContentShared" | "ProductListingFiltered" | "ShopTheLook" | "VideoStarted" | "CartView" | "PromoApplied";
 
 }

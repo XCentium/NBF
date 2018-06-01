@@ -378,6 +378,7 @@
        
         showVideo() {            
             this.setVideo2(this.product.properties["videoFile"]);
+            this.$rootScope.$broadcast("AnalyticsEvent", "VideoStarted", null, null, this.product.properties["videoFile"]);
         }
 
         show360() {

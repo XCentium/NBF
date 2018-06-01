@@ -32,6 +32,11 @@
             
         }
 
+        init(): void {
+            super.init();
+            this.$scope.$root.$broadcast("AnalyticsEvent", "CartView");
+        }
+
         protected getCart(): void {
             this.cartService.expand = "cartlines,shipping,tax,carriers,paymentoptions";
             if (this.settings.showTaxAndShipping) {
@@ -202,6 +207,7 @@
         protected applyPromotionCompleted(promotion: PromotionModel): void {
             if (promotion.promotionApplied) {
                 this.promotionAppliedMessage = promotion.message;
+                this.$rootScope.$broadcast("AnalyticsEvent", "PromoApplied", null, null, promotion.promotionCode);
             } else {
                 this.promotionErrorMessage = promotion.message;
             }
