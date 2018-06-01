@@ -23,7 +23,7 @@
         };
         isAuthenticated: boolean;
 
-        static $inject = ["orderService", "settingsService", "queryString", "coreService", "sessionService", "cartService", "addToWishlistPopupService"];
+        static $inject = ["orderService", "settingsService", "queryString", "coreService", "sessionService", "cartService", "addToWishlistPopupService", "productService"];
 
         constructor(
             protected orderService: order.IOrderService,
@@ -32,7 +32,8 @@
             protected coreService: core.ICoreService,
             protected sessionService: account.ISessionService,
             protected cartService: cart.ICartService,
-            protected addToWishlistPopupService: wishlist.AddToWishlistPopupService) {
+            protected addToWishlistPopupService: wishlist.AddToWishlistPopupService,
+            protected productService: insite.catalog.IProductService) {
             this.init();
         }
 
@@ -146,6 +147,35 @@
             this.order = order;
             this.btFormat = this.formatCityCommaStateZip(this.order.billToCity, this.order.billToState, this.order.billToPostalCode);
             this.stFormat = this.formatCityCommaStateZip(this.order.shipToCity, this.order.shipToState, this.order.shipToPostalCode);
+
+            this.updateSwatchOrderLinesWithBaseProductUrl(order);
+        }
+
+        updateSwatchOrderLinesWithBaseProductUrl(order: OrderModel) {
+            let baseProductErpNumbers = order.orderLines
+                .filter(x => x.productErpNumber.indexOf(":") >= 0)
+                .map(x => x.productErpNumber.split(":")[0]);
+
+            if (baseProductErpNumbers.length > 0) {
+                const expand = ["attributes"];
+                const parameter: insite.catalog.IProductCollectionParameters = { erpNumbers: baseProductErpNumbers };
+                this.productService.getProducts(parameter, expand).then(
+                    (productCollection: ProductCollectionModel) => {
+                        order.orderLines.forEach(orderLine => {
+                            if (orderLine.productErpNumber.indexOf(":") > 0) {
+                                let erpNumber = orderLine.productErpNumber.split(":")[0];
+                                let baseProduct = productCollection.products.find(x => x.erpNumber === erpNumber);
+
+                                if (baseProduct) {
+                                    orderLine.productUri = baseProduct.productDetailUrl;
+                                }
+                            }
+                        });
+
+                        //this.$scope.$apply();
+                    },
+                    (error: any) => { });
+            }
         }
 
         protected getOrderFailed(error: any): void {
