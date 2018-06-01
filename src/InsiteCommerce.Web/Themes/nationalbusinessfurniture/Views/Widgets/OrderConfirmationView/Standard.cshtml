@@ -24,7 +24,7 @@
 
     <div class="oc-num-date row">
         <div class="large-6 columns">
-            <h2>[% translate 'Order Number' %]: <span id="tst_orderConfirmation_orderNumber" ng-bind="vm.cart.orderNumber"></span></h2>
+            <h2>[% translate 'Order Number' %]: <span id="tst_orderConfirmation_orderNumber">{{vm.cart.erpOrderNumber || vm.cart.orderNumber}}</span></h2>
             <h2 ng-if="vm.order.statusDisplay">[% translate 'Status' %]: <span id="tst_orderConfirmation_orderStatus" ng-bind="vm.order.statusDisplay"></span></h2>
             <h2>[% translate 'Order Date' %]: <span ng-bind="vm.cart.orderDate | date:'shortDate'"></span></h2>
             <h2 ng-if="vm.cart.poNumber.length > 0">[% translate 'PO #' %]: <span ng-bind="vm.cart.poNumber"></span></h2>

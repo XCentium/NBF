@@ -1,7 +1,7 @@
 ﻿<div class="checkout" ng-controller="NbfCheckoutController as vm" ng-cloak cart-url="[% urlForPage 'CartPage' %]">
     <div class="small-12 column narrow-container">
         <div class="row">
-            <div class="large-8 columns">                
+            <div class="large-8 columns">
                 <div id="thankYou" class="hide">
                     <h2 class="page-title">Order Confirmation</h2>
                     <p>
@@ -97,6 +97,22 @@
                         </div>
                     </dd>
                     <input type="hidden" id="tst_reviewAndPayPage_pageIsReady" value="{{vm.pageIsReady}}" />
+
+                    [% if Model.Drop.IsCloudPaymentGateway -%]
+                    <script>
+                        var isCloudPaymentGateway = true;
+
+                        // These global javascript variables are required for the hosted pci iframe and javascript to work
+                        var hpciCCFrameHost = "[[Model.Drop.HostedPciFrameHost]]";
+                        var hpciCCFrameName = "ccframe";
+                        var hpciCCFrameFullUrl = "[[Model.Drop.HostedPciFrameFullUrl]]";
+                    </script>
+                    [% else -%]
+                    <script>
+                        var isCloudPaymentGateway = false;
+                    </script>
+                    [% endif -%]
+
                     <form id="reviewAndPayForm">
                         <dd class="accordion-navigation">
                             <a href="#shipping" id="nav2" class="nav-header">
@@ -250,15 +266,44 @@
                                                                    ng-model="vm.cart.paymentOptions.creditCard.cardHolderName">
                                                             <span class="field-validation-valid" data-valmsg-for="cardHolderName" data-valmsg-replace="true"></span>
                                                         </div>
+                                                        [% if Model.Drop.IsCloudPaymentGateway -%]
+                                                        <iframe width="ccframe"
+                                                                name="ccframe"
+                                                                src="[[Model.Drop.HostedPciFrameFullUrl]]"
+                                                                style="width: 316.8px; height: 161.6px; margin: 0px; padding: 0px; border: 0px; display: block;"
+                                                                scrolling="NO">
+                                                            If you can see this, your browser doesn't support IFRAMES.
+                                                        </iframe>
+                                                        <div>
+                                                            <label ng-if="vm.isInvalidCardNumber" class="error">[% translate 'Credit card number is invalid.' %]</label>
+                                                            <label ng-if="vm.isInvalidSecurityCode" class="error">[% translate 'Security code is invalid.' %]</label>
+                                                            <label ng-if="vm.isInvalidCardNumberOrSecurityCode" class="error">[% translate 'Credit card number or security code is invalid.' %]</label>
+                                                        </div>
+                                                        [% else -%]
                                                         <div class="card-num">
                                                             <label for="cardNumber">[% translate 'Card Number' %]</label>
-                                                            <input id="cardNumber" name="cardNumber" maxlength="16" type="text" style="display: block;" value="4111111111111111"
+                                                            <input id="cardNumber" name="cardNumber" maxlength="16" type="text" style="display: block;"
                                                                    data-rule-required="true" data-msg-required="[% translate 'Credit card number is required.' %]"
                                                                    data-rule-creditcard="true" data-msg-creditcard="[% translate 'Credit card number is invalid.' %]"
-                                                                   ng-model="vm.cart.paymentOptions.creditCard.cardNumber"
-                                                                   ng-change="vm.determineCardType()">
+                                                                   ng-change="vm.determineCardType()"
+                                                                   ng-model="vm.cart.paymentOptions.creditCard.cardNumber">
                                                             <span class="field-validation-valid" data-valmsg-for="cardNumber" data-valmsg-replace="true"></span>
                                                         </div>
+                                                        <div class="security-code">
+                                                            <label>[% translate 'Security Code' %]&nbsp;<a href="javascript:void(0);" data-reveal-id="whatsThisPopup">[% translate "What's This?" %]</a></label>
+                                                            <input id="securityCode" name="securityCode" type="text" minlength="3" maxlength="4"
+                                                                   data-rule-required="true" data-msg-required="[% translate 'Security code is required.' %]"
+                                                                   data-rule-digits="true" data-msg-digits="[% translate 'Security code is invalid.' %]"
+                                                                   ng-model="vm.cart.paymentOptions.creditCard.securityCode">
+                                                            <span class="field-validation-valid" data-valmsg-for="securityCode" data-valmsg-replace="true"></span>
+                                                            <div id="whatsThisPopup" class="checkout-review-pay reveal-modal" data-reveal>
+                                                                <div class="modal-wrap">
+                                                                    <img src="/Images/Default/security_code_sample.jpg" alt="Security Code Sample" />
+                                                                    <a class="close-reveal-modal">&#215;</a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        [% endif -%]
                                                         <div class="card-type">
                                                             <label for="cardType">[% translate 'Card Type' %]</label>
                                                             <div style="min-height: 28px;">{{vm.cart.paymentOptions.creditCard.cardType}}</div>
@@ -284,20 +329,6 @@
                                                             </div>
                                                             <label for="expirationMonth" class="error"></label>
                                                         </div>
-                                                        <div class="security-code">
-                                                            <label>[% translate 'Security Code' %]&nbsp;<a href="javascript:void(0);" data-reveal-id="whatsThisPopup">[% translate "What's This?" %]</a></label>
-                                                            <input id="securityCode" name="securityCode" type="text" minlength="3" maxlength="4"
-                                                                   data-rule-required="true" data-msg-required="[% translate 'Security code is required.' %]"
-                                                                   data-rule-digits="true" data-msg-digits="[% translate 'Security code is invalid.' %]"
-                                                                   ng-model="vm.cart.paymentOptions.creditCard.securityCode">
-                                                            <span class="field-validation-valid" data-valmsg-for="securityCode" data-valmsg-replace="true"></span>
-                                                            <div id="whatsThisPopup" class="checkout-review-pay reveal-modal" data-reveal>
-                                                                <div class="modal-wrap">
-                                                                    <img src="/Images/Default/security_code_sample.jpg" alt="Security Code Sample" />
-                                                                    <a class="close-reveal-modal">&#215;</a>
-                                                                </div>
-                                                            </div>
-                                                        </div>
                                                         <label for="paymentAmount">[% translate 'Payment Amount' %]</label>
                                                         <div class="row">
                                                             <div class="small-4 columns payment-amount">
@@ -312,7 +343,7 @@
                                                             </div>
                                                             <div class="small-4 columns payment-amount">
                                                                 <button ng-if="vm.remainingTotal > 0" ng-click="vm.addPayment()">Add payment</button>
-                                                               
+
                                                             </div>
                                                         </div>
                                                         <div class="row">
@@ -387,7 +418,8 @@
                                                         </div>
                                                         <div class="row">
                                                             <div class="small-4 columns payment-amount">
-                                                                <div ng-if="vm.cart.properties['cc2'] != ''"><span ng-bind="vm.cc2Display"/>
+                                                                <div ng-if="vm.cart.properties['cc2'] != ''">
+                                                                    <span ng-bind="vm.cc2Display" />
                                                                 </div>
                                                             </div>
                                                         </div>

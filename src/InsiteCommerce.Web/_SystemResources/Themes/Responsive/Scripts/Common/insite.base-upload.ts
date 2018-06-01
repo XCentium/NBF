@@ -30,16 +30,29 @@
 
         static $inject = ["$scope", "productService", "coreService"];
 
-        constructor(
-            protected $scope: ng.IScope,
-            protected productService: catalog.IProductService,
-            protected coreService: core.ICoreService) {
+        constructor(protected $scope: ng.IScope,
+                    protected productService: catalog.IProductService,
+                    protected coreService: core.ICoreService) {
             this.init();
         }
 
         init(): void {
-            this.XLSX = XLSX;
-            this.Papa = Papa;
+            if (typeof(XLSX) === "undefined") {
+                $.getScript("/SystemResources/Scripts/Libraries/xlsx/0.8.0/xlsx.full.min.js", () => {
+                    this.XLSX = XLSX;
+                });
+            }
+            else {
+                this.XLSX = XLSX;
+            }
+            if (typeof(Papa) === "undefined") {
+                $.getScript("/SystemResources/Scripts/Libraries/papaparse/4.1/papaparse.min.js", () => {
+                    this.Papa = Papa;
+                })
+            }
+            else {
+                this.Papa = Papa;
+            }
 
             angular.element("#hiddenFileUpload").data("_scope", this.$scope);
         }
@@ -76,7 +89,7 @@
                 const arr = this.fixData(data);
                 try {
                     if (fileExtension === "xls" || fileExtension === "xlsx") {
-                        const wb = this.XLSX.read(btoa(arr), { type: "base64" });
+                        const wb = this.XLSX.read(btoa(arr), {type: "base64"});
                         if (wb) {
                             this.processWb(wb);
                         }
@@ -101,7 +114,7 @@
         protected processWb(wb): void {
             this.itemsToSearch = [];
             wb.SheetNames.forEach((sheetName) => {
-                const opts = { header: 1 };
+                const opts = {header: 1};
                 let roa = this.XLSX.utils.sheet_to_row_object_array(wb.Sheets[sheetName], opts);
                 if (roa.length > 0) {
                     if (this.firstRowHeading) {
@@ -111,7 +124,7 @@
                     if (this.limitExceeded(roa.length)) {
                         return;
                     }
-                    this.itemsToSearch = roa.map(r => ({ Name: r[0], Qty: r[1], UM: r[2] }));
+                    this.itemsToSearch = roa.map(r => ({Name: r[0], Qty: r[1], UM: r[2]}));
                 }
             });
             this.batchGetProducts();
@@ -163,8 +176,12 @@
 
             const extendedNames = this.itemsToSearch.map(item => item.Name);
             this.productService.batchGet(extendedNames).then(
-                (products: ProductDto[]) => { this.batchGetCompleted(products); },
-                (error: any) => { this.batchGetFailed(error); });
+                (products: ProductDto[]) => {
+                    this.batchGetCompleted(products);
+                },
+                (error: any) => {
+                    this.batchGetFailed(error);
+                });
         }
 
         protected batchGetCompleted(products: ProductDto[]): void {

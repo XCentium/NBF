@@ -158,7 +158,7 @@
                                     </article>
                                 </div>
                             </section>
-                            <section class="accordion" ng-if="(vm.product.specifications | filter: { name: 'Delivery' }).length > 0">
+                            <section class="accordion" ng-show="(vm.product.specifications | filter: { name: 'Delivery' }).length > 0">
                                 <div>
                                     <input type="checkbox" id="accord-10001" class="accord-check" checked />
                                     <label id="tst_productList_tableView_filterButton" for="accord-10001" class="accord-head">[% translate 'Delivery Information' %]</label>
@@ -166,6 +166,7 @@
                                         <div id="tst_productDetail_htmlContent" class="product-cm">
                                             <div ng-repeat="specification in vm.product.specifications | filter: { name: 'Delivery' } | orderBy: 'sortOrder'" ng-bind-html="specification.htmlContent|trusted"></div>
                                         </div>
+                                        [% zone 'Content Below' %]
                                     </article>
                                 </div>
                             </section>

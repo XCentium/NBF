@@ -41,7 +41,7 @@
         }
 
         protected getListCollectionCompleted(listCollection: WishListCollectionModel): void {
-            this.listCollection = listCollection.wishListCollection;
+            this.listCollection = listCollection.wishListCollection.filter(o => o.id !== this.mylistDetailModel.id);
         }
 
         protected getListCollectionFailed(error: any): void {
@@ -87,6 +87,7 @@
                     this.addList(this.newListName);
                 } else {
                     this.showListNameErrorMessage = true;
+                    this.copyInProgress = false;
                 }
             }
         }

@@ -1,6 +1,3 @@
-using Insite.WIS.Broker.Interfaces;
-using System;
-using System.Linq;
 using Insite.WIS.Broker;
 using Insite.WIS.Broker.WebIntegrationService;
 using System.Data;
@@ -17,12 +14,13 @@ namespace NBF.IntegrationProcessor
         public override DataSet Execute(SiteConnection siteConnection, IntegrationJob integrationJob, JobDefinitionStep jobStep)
         {
             var initialDataset = XmlDatasetManager.ConvertXmlToDataset(integrationJob.InitialData);
-            var dataTable = this.BuildPriceMatrixDataTable(jobStep.Sequence);
+            var dataTable = BuildPriceMatrixDataTable(jobStep.Sequence);
+            dataTable.TableName = "1priceMatrix";
 
             var connStr = jobStep.JobDefinition.IntegrationConnection.ConnectionString;
             string debugString = string.Empty;
 
-            this.JobLogger = (IIntegrationJobLogger)new IntegrationJobLogger(siteConnection, integrationJob);
+            JobLogger = new IntegrationJobLogger(siteConnection, integrationJob);
 
             using (SqlConnection conn = new SqlConnection(connStr))
             {
@@ -38,7 +36,7 @@ namespace NBF.IntegrationProcessor
                         dataRow[Data.WarehouseColumn] = drPriceMatrixSource[Data.WarehouseColumn];
                         dataRow[Data.UnitOfMeasureColumn] = drPriceMatrixSource[Data.UnitOfMeasureColumn];
                         dataRow[Data.CustomerKeyPartColumn] = drPriceMatrixSource[Data.CustomerKeyPartColumn];
-                        dataRow[Data.ProductKeyPartColumn] = this.GetProductId(drPriceMatrixSource["ProductERPNumber"].ToString(), initialDataset);
+                        dataRow[Data.ProductKeyPartColumn] = GetProductId(drPriceMatrixSource["ProductERPNumber"].ToString(), initialDataset);
 
 
                         dataRow[Data.ActivateOnColumn] = drPriceMatrixSource[Data.ActivateOnColumn];
@@ -107,18 +105,11 @@ namespace NBF.IntegrationProcessor
 
                         dataTable.Rows.Add(dataRow);
                     }
-
-
                 }
             }
-
-
             debugString = "done";
-
             JobLogger.Info("Finished Processing Price Matrix dataset.", true);
-
-
-
+            
             var dataSet = new DataSet();
             dataSet.Tables.Add(dataTable);
 

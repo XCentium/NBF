@@ -14,7 +14,7 @@ using Insite.Customers.Services;
 
 namespace Extensions.WebApi.ShopTheLook.Repository
 {
-    public class ShopTheLookRepository : BaseRepository, IShopTheLookRepository, IInterceptable
+    public class ShopTheLookRepository : BaseRepository, IShopTheLookRepository
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IProductService _productService;
