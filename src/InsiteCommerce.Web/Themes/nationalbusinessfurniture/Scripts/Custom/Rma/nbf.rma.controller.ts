@@ -16,7 +16,7 @@
         rmaPictureFileName: string;
         $form: JQuery;
 
-        static $inject = ["$scope", "orderService", "coreService", "queryString", "$element", "nbfEmailService"];
+        static $inject = ["$scope", "orderService", "coreService", "queryString", "$element", "nbfEmailService", "productService"];
 
         constructor(
             protected $scope: ng.IScope,
@@ -24,7 +24,8 @@
             protected coreService: core.ICoreService,
             protected queryString: common.IQueryStringService,
             protected $element: ng.IRootElementService,
-            protected nbfEmailService: nbf.email.INbfEmailService          
+            protected nbfEmailService: nbf.email.INbfEmailService,
+            protected productService: insite.catalog.IProductService
             ) {
             this.init();
         }
@@ -58,7 +59,7 @@
             this.orderService.getOrder(this.getOrderNumber(), "orderlines").then(
                 (order: OrderModel) => { this.getOrderCompleted(order); },
                 (error: any) => { this.getOrderFailed(error); });
-        }
+        }        
 
         protected getOrderNumber(): string {
             let orderNumber = this.queryString.get("orderNumber");
@@ -76,9 +77,38 @@
         protected getOrderCompleted(order: OrderModel): void {
             this.order = order;
             this.cityCommaStateZipDisplay = this.formatCityCommaStateZip(order.billToCity, order.billToState, order.billToPostalCode);
+
+            this.updateSwatchOrderLinesWithBaseProductUrl(order);
         }
 
         protected getOrderFailed(error: any): void {
+        }
+
+        updateSwatchOrderLinesWithBaseProductUrl(order: OrderModel) {
+            let baseProductErpNumbers = order.orderLines
+                .filter(x => x.productErpNumber.indexOf(":") >= 0)
+                .map(x => x.productErpNumber.split(":")[0]);
+
+            if (baseProductErpNumbers.length > 0) {
+                const expand = ["attributes"];
+                const parameter: insite.catalog.IProductCollectionParameters = { erpNumbers: baseProductErpNumbers };
+                this.productService.getProducts(parameter, expand).then(
+                    (productCollection: ProductCollectionModel) => {
+                        order.orderLines.forEach(orderLine => {
+                            if (orderLine.productErpNumber.indexOf(":") > 0) {
+                                let erpNumber = orderLine.productErpNumber.split(":")[0];
+                                let baseProduct = productCollection.products.find(x => x.erpNumber === erpNumber);
+
+                                if (baseProduct) {
+                                    orderLine.productUri = baseProduct.productDetailUrl;
+                                }
+                            }
+                        });
+
+                        //this.$scope.$apply();
+                    },
+                    (error: any) => { });
+            }
         }
 
         protected formatCityCommaStateZip(city: string, state: string, zip: string): string {

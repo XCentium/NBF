@@ -94,6 +94,7 @@
 
                                 if (baseProduct) {
                                     cartLine.productUri = baseProduct.productDetailUrl;
+                                    this.cartService.updateLine(cartLine, false);
                                 }
                             }
                         });

@@ -9,6 +9,7 @@ namespace Extensions.WebApi.EmailApi.Models
         public string CustomerSequence { get; set; }
         public string OrderNumber { get; set; }
         public string EmailTo { get; set; }
-        public string FileLocation { get; set; }
+        public string FileName { get; set; }
+        public string FileData { get; set; }
     }
 }
