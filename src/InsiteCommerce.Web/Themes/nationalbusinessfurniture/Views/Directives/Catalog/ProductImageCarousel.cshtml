@@ -3,8 +3,9 @@
         <div id="{{vm.prefix}}-img-carousel" class="img-carousel">
             <ul class="items slides">
                 <li id="tst_productDetailPage_{{vm.prefix}}Thumbnail_{{image.sortOrder}}" class="medium-2 large-2 columns isc-imageContainer" ng-class="{'active': image.mediumImagePath === vm.selectedImage.mediumImagePath}"
-                    ng-repeat="image in vm.productImages" ng-click="vm.selectImage(image)">
-                    <div class="img-wrap"><img class="tst_productDetailPage_thumbnail" ng-src="https://s7d9.scene7.com/is/image/NationalBusinessFurniture/{{image.smallImagePath ? image.smallImagePath : image.mediumImagePath}}?hei=200&id=5-zsy2&fmt=jpg&fit=constrain,1&wid=344&hei=344" alt="{{image.altText}}" increment-images-loaded /></div>
+                    ng-repeat="image in vm.productImages" ng-click="vm.selectImage(image)"
+                    >
+                    <div class="img-wrap" title="{{image.altText}}"><img class="tst_productDetailPage_thumbnail" ng-src="https://s7d9.scene7.com/is/image/NationalBusinessFurniture/{{image.smallImagePath ? image.smallImagePath : image.mediumImagePath}}?hei=200&id=5-zsy2&fmt=jpg&fit=constrain,1&wid=344&hei=344" alt="{{image.altText}}" increment-images-loaded /></div>
                 </li>
             </ul>
         </div>

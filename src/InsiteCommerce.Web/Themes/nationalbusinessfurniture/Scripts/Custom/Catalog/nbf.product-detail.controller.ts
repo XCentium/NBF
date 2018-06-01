@@ -60,7 +60,7 @@
                 settingsService,
                 $stateParams,
                 sessionService);
-        }
+        }       
 
         protected getSettingsCompleted(settingsCollection: core.SettingsCollection): void {
             this.settings = settingsCollection.productSettings;
@@ -257,10 +257,12 @@
                 this.cartService.addLineCollectionFromProducts(productDtos, true, false).then(
                     (cartLine: CartLineCollectionModel) => {
                         this.selectedSwatchProductIds = [];
+                        this.addingToCart = false;
                         this.spinnerService.hide();
                         this.hideSwatchOrderForm();
                     },
                     (error: any) => {
+                        this.addingToCart = false;
                         this.spinnerService.hide();
                         this.addToCartFailed(error);
                     }
@@ -378,6 +380,7 @@
        
         showVideo() {            
             this.setVideo2(this.product.properties["videoFile"]);
+            this.$rootScope.$broadcast("AnalyticsEvent", "VideoStarted", null, null, this.product.properties["videoFile"]);
         }
 
         show360() {
