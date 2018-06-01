@@ -7,11 +7,15 @@ body [role="main"] div.paginator-34 {
     float: left;
     text-align: center;
     padding: 0;
-    height:50px;
-    border:0;
+    height: 50px;
+    border: 0;
     border-top: 1px solid #E0E0E0;
     border-bottom: 1px solid #E0E0E0;
     background: #fff;
+
+    @media all and (max-width: 635px){
+        height:auto;
+    }
 }
 .paginator-34 .items-count {
     font-size: 24px;
@@ -20,8 +24,17 @@ body [role="main"] div.paginator-34 {
     font-weight: 700;
 }
 .paginator-34 .result-count {
-    float:left;
-    margin-left:20px;
+    float: left;
+    margin-left: 20px;
+
+    @media all and (max-width: 635px) {
+        margin-left: 0px;
+        display: block;
+        float: none;
+        text-align: left;
+        border-bottom: 1px solid #E0E0E0;
+        padding-left: 30px;
+    }
 }
 
 
@@ -294,6 +307,12 @@ h3.results-count {
     }
 }
 
+@media all and (max-width: 635px) {
+    .paginator-34 .sort-list {
+        margin-bottom: 0;
+    }
+}
+
 .sort-list select, .results-list select {
     /*max-width: 175px;*/
     min-width: 53px;
@@ -339,6 +358,12 @@ h3.results-count {
     display: inline-block;
     position: relative;
     z-index: 2;
+
+    @media all and (max-width: 635px) {
+        display: block;
+        float: none;
+        border-bottom: 1px solid #E0E0E0;
+    }
 }
 
 body [role="main"] div.pbtm {
