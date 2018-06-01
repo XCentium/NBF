@@ -529,7 +529,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="DatabaseScripts\2018.06.01.03.AddAnalyticsPageSystemList.sql" />
+    <EmbeddedResource Include="DatabaseScripts\2018.06.01.02.AddAnalyticsPageSystemList.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
