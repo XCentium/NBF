@@ -202,6 +202,10 @@
                     <div class="logo-wrap">
                         <label for="main-nav-check" class="toggle burger" onclick="insite.nav.activatePanel()" title="Menu">&#9776;</label>
                         [% zone 'Logo' %]
+                        <div class="mobile-cart-btn">
+                            <a id="tst_cartLink" class="cart-link" href="[% urlForPage 'CartPage' %]">
+                            <span class="ico-CartIcon"></span>&nbsp;&nbsp;<span class="count" ng-show="vm.cart.totalCountDisplay > 0" ng-bind="vm.cart.totalCountDisplay"></span><span class="" ng-show="vm.cart.totalCountDisplay < 1"></span></a>
+                        </div>
                     </div>
                 </div>
                 <isc-product-search id="wideSearch" class="header-zone"></isc-product-search>
@@ -228,7 +232,7 @@
             <div class="isc-nav-wrap">
                 [% if Model.Drop.DisplayCart -%]
                 <ul class="user-nav">
-                    <li ng-cloak ng-show="::(vm.session && (!vm.session.isAuthenticated || vm.session.billTo.isGuest) && !vm.session.rememberMe)">
+                    <li class="sign-in-list" ng-cloak ng-show="::(vm.session && (!vm.session.isAuthenticated || vm.session.billTo.isGuest) && !vm.session.rememberMe)">
                         <a ng-click="vm.flyOutFocusOff()" href="[% urlForPage 'SignInPage' %]" isc-redirect-to-sign-in return-to-url="true" class="btn sign-in fastClick tst_header_signInButton"><span class="ico-LoginIcon"></span> <span>[% translate 'Login' %]</span></a>
                         <div class="sub-tier-panel single show-heading level-2">
                             <nbf-sign-in-fly-out include-forgot-password-link="true" allow-create-account="true"></nbf-sign-in-fly-out>
@@ -333,6 +337,58 @@
                     <nbf-mobile-product-search id="narrowSearch"></nbf-mobile-product-search>
                 </li>
                 [% zone 'Nav' %]
+                <li class="mobile-login-btn" role="sign-in" ng-cloak ng-show="::(vm.session && !vm.session.isAuthenticated && !vm.session.rememberMe)">
+                    <span class="nav-item-container">
+                        <a href="[% urlForPage 'SignInPage' %]" isc-redirect-to-sign-in return-to-url="true" class="sign-in fastClick tst_header_signInButton"><span class="ico-LoginIcon"></span><span>[% translate 'Login' %]</span></a>
+                    </span>
+                </li>
+                <li class="my-account-menu" ng-cloak ng-show="::(vm.session.isAuthenticated && !vm.session.billTo.isGuest) || vm.session.rememberMe">
+                    <span class="nav-item-container">
+                        <a href="/My-Account" class="sign-in fastClick tst_header_signInButton"><span class="ico-LoginIcon"></span><span>My Account</span></a>
+                        <label for="nav-cat100" class="toggle-sub" onclick="insite.nav.goToSubnav(this)">►</label>
+                    </span>
+                    <input type="checkbox" name="nav" id="nav-cat100" class="subnav-check">
+                    <div class="subnav sub-tier-panel single">
+                        <ul id="sub-cat2" class="level-2">
+                            <li class="currently-hovered">
+                                <a id="tst_navMenu_1" href="/My-Account/My-Account-Settings" onclick="insite.nav.hideMenu();">My Account Settings</a>
+                            </li>
+                            <li>
+                                <a id="tst_navMenu_2" href="/My-Account/My-Addresses" onclick="insite.nav.hideMenu();">My Addresses</a>
+                            </li>
+                            <li>
+                                <a id="tst_navMenu_3" href="/MyAccount/UserAdministration" onclick="insite.nav.hideMenu();">User Administration</a>
+                            </li>
+                            <li>
+                                <a id="tst_navMenu_4" href="/My-Account/My-Saved-Orders" onclick="insite.nav.hideMenu();">My Saved Orders</a>
+                            </li>
+                            <li>
+                                <a id="tst_navMenu_5" href="/My-Account/My-Invoices" onclick="insite.nav.hideMenu();">My Invoices</a>
+                            </li>
+                            <li>
+                                <a id="tst_navMenu_6" href="/My-Account/My-Orders" onclick="insite.nav.hideMenu();">My Orders</a>
+                            </li>
+                            <li>
+                                <a id="tst_navMenu_7" href="/My-Account/My-Order-Approvals" onclick="insite.nav.hideMenu();">My Order Approvals</a>
+                            </li>
+                            <li>
+                                <a id="tst_navMenu_8" href="/My-Account/My-Quotes" onclick="insite.nav.hideMenu();">My Quotes</a>
+                            </li>
+                            <li>
+                                <a id="tst_navMenu_9" href="/MyAccount/MyLists" onclick="insite.nav.hideMenu();">My Favorites</a>
+                            </li>
+                            <li>
+                                <a id="tst_navMenu_10" href="/MyAccount/Payment-Options" onclick="insite.nav.hideMenu();">My Payment Options</a>
+                            </li>
+                            <li>
+                                <a id="tst_navMenu_11" href="/QuickOrder" onclick="insite.nav.hideMenu();">Quick Order</a>
+                            </li>
+                            <li><a href="" ng-click="vm.signOut('')"><span>Log Out</span></a></li>
+                        </ul>
+                    </div>
+
+
+                </li>
             </ul>
             <div class="isc-primary-nav-top">
                 <!-- To Do 3.7.1 - change navigation back function to use below label element -->

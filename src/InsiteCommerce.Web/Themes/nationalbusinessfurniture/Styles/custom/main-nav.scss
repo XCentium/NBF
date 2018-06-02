@@ -154,11 +154,40 @@
 .isc-primary-nav {
     top: -3em;
 
-    .mobile-search {
+    .mobile-search, .mobile-login-btn, .my-account-menu {
         display: none;
     }
 
     @media (max-width: 991px) {
+
+
+        .my-account-menu {
+            display: block;
+
+
+            a {
+                .ico-LoginIcon {
+                    line-height: normal;
+                    color: $nbf-orange;
+                    margin-right: 8px;
+                    vertical-align: text-bottom;
+                }
+            }
+        }
+
+        .mobile-login-btn {
+            display: block;
+
+            a {
+                .ico-LoginIcon {
+                    line-height: normal;
+                    color: $nbf-orange;
+                    margin-right: 8px;
+                    vertical-align: text-bottom;
+                }
+            }
+        }
+
 
         .mobile-search {
             display: block;
@@ -171,7 +200,7 @@
                 border: none;
                 box-shadow: none;
                 color: #28313B;
-                font-size:1em;
+                font-size: 1em;
             }
 
             .mobile-search-btn {
