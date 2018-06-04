@@ -67,6 +67,26 @@
             this.$rootScope.$on("productPageLoaded", (event, product) => {
                 this.product = product;
             });
+
+            this.$scope.$watch(() => this.getBreadCrumbsString(), (newVal, oldVal, scope) => {
+                if (newVal.length > 0) {
+                    scope.$root.$broadcast("AnalyticsEvent", "BreadCrumbs", null, null, newVal);
+                }
+            });
+        }
+
+        private getBreadCrumbsString(): string {
+            var bcElements = angular.element(".breadcrumbs");
+            if (bcElements.length > 0) {
+                var bcString = "";
+                var breadcrumbs = bcElements.first().find("li");
+                breadcrumbs.children("a").each((index, elem) => {
+                    bcString += elem.textContent.trim() + ",";
+                });
+                bcString += breadcrumbs.last().text().trim();
+                return bcString;
+            }
+            return "";
         }
 
         protected getAttributeValue(product: ProductDto, attrName: string): string {

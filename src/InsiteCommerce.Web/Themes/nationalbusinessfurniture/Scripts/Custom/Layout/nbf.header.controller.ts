@@ -150,6 +150,7 @@
         }
 
         protected saveCartCompleted(saveSuccessUri: string, cart: CartModel): void {
+            this.$rootScope.$broadcast("AnalyticsEvent", "SaveCart");
             this.cartService.getCart();
             if (cart.id !== "current") {
                 this.coreService.redirectToPath(`${saveSuccessUri}?cartid=${cart.id}`);
