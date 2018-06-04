@@ -1232,7 +1232,7 @@ h2.resp-tab-active {
 
 /* Autocomplete */
 
-#qo-search-view-list, #qo-search-widget-list, .search-autocomplete-list, #selectBillTo-list, #selectShipTo-list {
+#qo-search-view-list, #qo-search-widget-list, #orders-page-search-list, .search-autocomplete-list, #selectBillTo-list, #selectShipTo-list {
     &.k-list-container {
         border: 1px solid #BBB;
         background: #FFF;
@@ -4892,6 +4892,9 @@ a.t-dropdown {
     opacity: .3;
 }
 
+.widget-webcrosssells h3 {
+    margin-left: 1em;
+}
 
 @media only screen and (max-width: 40.063em) {
     .widget-webcrosssells .quote-required .f-dropdown.open:before {

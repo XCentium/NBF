@@ -6,7 +6,8 @@
         customerSequence: string;
         orderNumber?: string;
         emailTo: string;
-        fileLocation: string;
+        fileName: string;
+        fileData: string;
     }
 
     export class TaxExemptController {
@@ -15,6 +16,7 @@
         taxExemptChoice = false;
         taxExemptFileName: string;
         file: any;
+        fileData: any = {};
         errorMessage: string;
         success = false;
         saved = false;
@@ -93,6 +95,18 @@
                 this.file = arg.files[0];
                 this.taxExemptFileName = this.file.name;
 
+                let r = new FileReader();
+                let self = this;
+
+                r.addEventListener("load", function () {
+                    self.fileData.b64 = r.result.split(',')[1]
+                    self.$scope.$apply();
+                    //console.log(self.fileData.b64.replace(/^data:image\/(png|jpg);base64,/, "")); //replace regex if you want to rip off the base 64 "header"
+                }, false);
+
+
+                r.readAsDataURL(this.file); //once defined all callbacks, begin reading the file               
+
                 setTimeout(() => {
                     this.$scope.$apply();
                 });
@@ -128,21 +142,27 @@
         }
 
         saveFile(emailTo: string, orderNum?: string) {
+            debugger;
             var params = {
                 customerNumber: this.cart.billTo.customerNumber,
                 customerSequence: this.cart.billTo.customerSequence,
                 emailTo: emailTo,
                 orderNumber: orderNum,
-                fileLocation: ""
+                fileName: this.taxExemptFileName,
+                fileData: this.fileData.b64
             } as TaxExemptParams;
 
-            this.nbfEmailService.postTaxExemptFileUpload(params, this.file).then(
-                (data) => {
-                    params.fileLocation = data;
-                    this.nbfEmailService.sendTaxExemptEmail(params).then(() => {
-                        this.updateBillTo();
-                    }, () => { this.errorMessage = "An error has occurred."; });
-                }, () => { this.errorMessage = "An error has occurred."; });
+            this.nbfEmailService.sendTaxExemptEmail(params).then(() => {
+                this.updateBillTo();
+            }, () => { this.errorMessage = "An error has occurred."; });
+
+            //this.nbfEmailService.postTaxExemptFileUpload(params, this.file).then(
+            //    (data) => {
+            //        params.fileLocation = data;
+            //        this.nbfEmailService.sendTaxExemptEmail(params).then(() => {
+            //            this.updateBillTo();
+            //        }, () => { this.errorMessage = "An error has occurred."; });
+            //    }, () => { this.errorMessage = "An error has occurred."; });
         }
 
         protected updateBillTo() {

@@ -365,7 +365,10 @@
                             <h3>
                                 [[line.ProductERPNumber]]
                                 [% if line.ManufacturerItem != null and line.ManufacturerItem != "" -%]
-                                    [% translate "MFG #:" %] [[line.ManufacturerItem]]
+                                    [% if line.ProductERPNumber contains ':' -%]
+                                    [% else -%]
+                                        [% translate "MFG #:" %] [[line.ManufacturerItem]]
+                                    [% endif -%]
                                 [% endif -%]
                             </h3>
                         </div>

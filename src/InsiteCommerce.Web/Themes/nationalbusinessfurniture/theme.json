@@ -64,6 +64,7 @@
     "Scripts/insite.core.ts",
     "Scripts/insite.responsive.ts",
     "Scripts/Common/insite.base-popup.service.ts",
+    "Scripts/Rfq/insite.rfq.controller.ts",
     "Scripts/*",
     "https://ui.powerreviews.com/stable/4.0/ui.js",
     "https://assets.liveexpert.net/widget/javascript/leaWidget.js"

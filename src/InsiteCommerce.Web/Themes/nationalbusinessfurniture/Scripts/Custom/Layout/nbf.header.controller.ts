@@ -150,6 +150,7 @@
         }
 
         protected saveCartCompleted(saveSuccessUri: string, cart: CartModel): void {
+            this.$rootScope.$broadcast("AnalyticsEvent", "SaveCart");
             this.cartService.getCart();
             if (cart.id !== "current") {
                 this.coreService.redirectToPath(`${saveSuccessUri}?cartid=${cart.id}`);
@@ -177,9 +178,29 @@
         }
 
         protected requestQuote(uri: string): void {
-            this.$rootScope.$broadcast("initAnalyticsEvent", "MiniCartQuoteRequest");
+            this.$rootScope.$broadcast("AnalyticsEvent", "MiniCartQuoteRequest");
             window.location.href = uri;
 
+        }
+
+        updateLine(cartLine: CartLineModel, refresh: boolean, oldQtyOrdered: number = 1): void {
+            if (cartLine.qtyOrdered || cartLine.qtyOrdered === 0) {
+                if (parseFloat(cartLine.qtyOrdered.toString()) === 0) {
+                    this.removeLine(cartLine);
+                } else {
+                    this.cartService.updateLine(cartLine, refresh).then(
+                        (cartLineModel: CartLineModel) => { this.updateLineCompleted(cartLineModel); },
+                        (error: any) => { this.updateLineFailed(error); });
+                }
+            } else {
+                cartLine.qtyOrdered = oldQtyOrdered;
+            }
+        }
+
+        protected updateLineCompleted(cartLine: CartLineModel): void {
+        }
+
+        protected updateLineFailed(error: any): void {
         }
 
     }

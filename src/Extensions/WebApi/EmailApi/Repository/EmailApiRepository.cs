@@ -20,7 +20,7 @@ using Insite.Data.Repositories.Interfaces;
 
 namespace Extensions.WebApi.EmailApi.Repository
 {
-    public class EmailApiRepository : BaseRepository, IEmailApiRepository, IInterceptable
+    public class EmailApiRepository : BaseRepository, IEmailApiRepository
     {
         private readonly IUnitOfWork _unitOfWork;
         protected readonly IEmailService EmailService;
@@ -72,10 +72,12 @@ namespace Extensions.WebApi.EmailApi.Repository
             emailModel.CustomerNumber = taxExemptDto.CustomerNumber;
             emailModel.CustomerSequence = taxExemptDto.CustomerSequence;
             emailModel.OrderNumber = taxExemptDto.OrderNumber;
-            var filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "UserFiles/", taxExemptDto.FileLocation);
+            //var filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "UserFiles/", taxExemptDto.FileLocation);
+            var fileBytes = Convert.FromBase64String(taxExemptDto.FileData);
+
             var attachments = new List<Attachment>()
-            {       
-                new Attachment(filePath)
+            {
+                new Attachment(new MemoryStream(fileBytes), taxExemptDto.FileName)
             };
 
             var emailList = _unitOfWork.GetTypedRepository<IEmailListRepository>().GetOrCreateByName("TaxExempt", "Tax Exempt File Submission", "Tax Exempt File Submission");
@@ -88,21 +90,21 @@ namespace Extensions.WebApi.EmailApi.Repository
                 SiteContext.Current.WebsiteDto.Id,
                 attachments);
             
-            if (File.Exists(filePath))
-            {
-                try
-                {
-                    Thread.Sleep(10000);
-                    attachments.ForEach(x => x.Dispose());
-                    File.Delete(filePath);
-                }
-                catch
-                {
-                    Thread.Sleep(10000);
-                    attachments.ForEach(x => x.Dispose());
-                    File.Delete(filePath);
-                }
-            }
+            //if (File.Exists(filePath))
+            //{
+            //    try
+            //    {
+            //        Thread.Sleep(10000);
+            //        attachments.ForEach(x => x.Dispose());
+            //        File.Delete(filePath);
+            //    }
+            //    catch
+            //    {
+            //        Thread.Sleep(10000);
+            //        attachments.ForEach(x => x.Dispose());
+            //        File.Delete(filePath);
+            //    }
+            //}
 
             return Task.FromResult(0);
         }

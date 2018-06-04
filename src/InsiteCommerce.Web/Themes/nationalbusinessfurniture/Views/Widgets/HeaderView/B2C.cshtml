@@ -32,7 +32,7 @@
                         <span class="cust-name" ng-bind="::(vm.session.firstName || vm.session.userName)"></span>
                     </a>
                     <ul>
-                        [% accountNavigationMenuTag 'B2C' %]
+                        [% navigationMenu viewName: 'B2C' pageName: 'My Account' surroundWith: '' %]
                         <li>
                             [[SignOutLink]]
                         </li>
@@ -253,6 +253,11 @@
         <div class="isc-nav-bar isc-nav-bar-b2c">
             <div class="isc-nav-wrap">
                 <label for="main-nav-check" class="toggle burger" onclick="insite.nav.activatePanel()" title="Menu">&#9776;</label>
+                [% if Model.Drop.DisplayCart -%]
+                <div class="cart-button">
+                    <a id="tst_cartLink" class="cart-link" href="[% urlForPage 'CartPage' %]"><span ng-bind="vm.cart.totalCountDisplay"></span></a>
+                </div>
+                [% endif -%]
             </div>
         </div>
     </div>

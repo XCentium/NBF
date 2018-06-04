@@ -34,6 +34,18 @@ module insite.catalog {
         includeSuggestions?: string;
         searchWithin?: string;
         getAllAttributeFacets?: boolean;
+        topSellersMaxResults?: number;
+        topSellersCategoryIds?: System.Guid[];
+        applyPersonalization?: boolean;
+    }
+
+    // parameters accepted by get getProduct
+    export interface IProductParameters {
+        categoryId?: string;
+        productId: string;
+        addToRecentlyViewed?: boolean;
+        alsoPurchasedMaxResults?: number;
+        expand?: string;
     }
 
     export interface IProductPriceParameter {
@@ -63,16 +75,17 @@ module insite.catalog {
         /*
          * Fetch a group of products
          * @param parameters An IProductCollectionParameters specifying the products
-         * @param expand Specifies which optional data to bring back. valid values are ["documents", "specifications", "styledproducts", "htmlcontent", "attributes", "crosssells", "pricing", "facets"]
+         * @param expand Specifies which optional data to bring back. some valid values are ["documents", "specifications", "styledproducts", "htmlcontent", "attributes", "crosssells", "pricing", "facets"]
          */
-        getProducts(parameters: IProductCollectionParameters, expand?: string[]): ng.IPromise<ProductCollectionModel>;
+        getProducts(parameters: IProductCollectionParameters, expand?: string[], filter?: string[]): ng.IPromise<ProductCollectionModel>;
         /*
          * Fetch one product by id
          * @param categoryId Id of the category the product is in
          * @param productId Id of the product
-         * @param expand Specifies which optional data to bring back. valid values are ["documents", "specifications", "styledproducts", "htmlcontent", "attributes", "crosssells", "pricing"]
+         * @param expand Specifies which optional data to bring back. some valid values are ["documents", "specifications", "styledproducts", "htmlcontent", "attributes", "crosssells", "pricing"]
          */
-        getProduct(categoryId: string, productId: string, expand?: string[], addToRecentlyViewed?: boolean): ng.IPromise<ProductModel>;
+        getProduct(categoryId: string, productId: string, expand?: string[], addToRecentlyViewed?: boolean, applyPersonalization?: boolean): ng.IPromise<ProductModel>;
+        getProductByParameters(parameters: IProductParameters): ng.IPromise<ProductModel>;
         getProductSettings(): ng.IPromise<ProductSettingsModel>;
         getCrossSells(productId: string): ng.IPromise<CrossSellCollectionModel>;
         batchGet(extendedNames: string[]): ng.IPromise<ProductDto[]>;
@@ -383,12 +396,12 @@ module insite.catalog {
         protected getCategoryFailed(error: ng.IHttpPromiseCallbackArg<any>): void {
         }
 
-        getProducts(parameters: IProductCollectionParameters, expand?: string[]): ng.IPromise<ProductCollectionModel> {
+        getProducts(parameters: IProductCollectionParameters, expand?: string[], filter?: string[]): ng.IPromise<ProductCollectionModel> {
             const deferred = this.$q.defer();
 
             this.httpWrapperService.executeHttpRequest(
                 this,
-                this.$http({ method: "GET", url: this.productServiceUri, params: this.getProductsParams(parameters, expand), timeout: deferred.promise }),
+                this.$http({ method: "GET", url: this.productServiceUri, params: this.getProductsParams(parameters, expand, filter), timeout: deferred.promise }),
                 (response: ng.IHttpPromiseCallbackArg<ProductCollectionModel>) => { this.getProductsCompleted(response, deferred); },
                 (error: ng.IHttpPromiseCallbackArg<any>) => { this.getProductsFailed(error, deferred); });
 
@@ -399,11 +412,15 @@ module insite.catalog {
             return deferred.promise;
         }
 
-        protected getProductsParams(parameters: IProductCollectionParameters, expand?: string[]): any {
+        protected getProductsParams(parameters: IProductCollectionParameters, expand?: string[], filter?: string[]): any {
             const params = parameters as any;
 
             if (expand) {
                 params.expand = expand.join();
+            }
+
+            if (filter) {
+                params.filter = filter.join();
             }
 
             return params;
@@ -417,15 +434,15 @@ module insite.catalog {
             deferred.reject(error);
         }
 
-        getProduct(categoryId: string, productId: string, expand?: string[], addToRecentlyViewed?: boolean): ng.IPromise<ProductModel> {
+        getProduct(categoryId: string, productId: string, expand?: string[], addToRecentlyViewed?: boolean, applyPersonalization?: boolean): ng.IPromise<ProductModel> {
             return this.httpWrapperService.executeHttpRequest(
                 this,
-                this.$http({ method: "GET", url: `${this.productServiceUri}${productId}`, params: this.getProductParams(categoryId, expand, addToRecentlyViewed) }),
+                this.$http({ method: "GET", url: `${this.productServiceUri}${productId}`, params: this.getProductParams(categoryId, expand, addToRecentlyViewed, applyPersonalization) }),
                 this.getProductCompleted,
                 this.getProductFailed);
         }
 
-        protected getProductParams(categoryId: string, expand?: string[], addToRecentlyViewed?: boolean): any {
+        protected getProductParams(categoryId: string, expand?: string[], addToRecentlyViewed?: boolean, applyPersonalization?: boolean): any {
             const params = {} as any;
 
             if (expand) {
@@ -437,8 +454,19 @@ module insite.catalog {
             if (addToRecentlyViewed) {
                 params.addToRecentlyViewed = true;
             }
+            if (applyPersonalization) {
+                params.applyPersonalization = applyPersonalization;
+            }
 
             return params;
+        }
+
+        getProductByParameters(parameters: IProductParameters): ng.IPromise<ProductModel> {
+            return this.httpWrapperService.executeHttpRequest(
+                this,
+                this.$http({ method: "GET", url: `${this.productServiceUri}${parameters.productId}`, params: parameters }),
+                this.getProductCompleted,
+                this.getProductFailed);
         }
 
         protected getProductCompleted(response: ng.IHttpPromiseCallbackArg<ProductModel>): void {

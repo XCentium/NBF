@@ -199,7 +199,8 @@
             <div class="row">
                 <div class="row">
                     <div>
-                        <p class="popup-instruction">[% translate 'A notification email has been sent.' %]</p>
+                        <p ng-if="!vm.sendNotificationToUsers" class="popup-instruction">[% translate 'Your list has been shared with all users on the billing account.' %]</p>
+                        <p ng-if="vm.sendNotificationToUsers" class="popup-instruction">[% translate 'A notification email has been sent.' %]</p>
                     </div>
                 </div>
                 <div class="row btns">

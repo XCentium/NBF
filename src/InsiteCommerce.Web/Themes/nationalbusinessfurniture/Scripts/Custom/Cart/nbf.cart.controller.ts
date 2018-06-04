@@ -32,6 +32,11 @@
             
         }
 
+        init(): void {
+            super.init();
+            this.$scope.$root.$broadcast("AnalyticsEvent", "CartView");
+        }
+
         protected getCart(): void {
             this.cartService.expand = "cartlines,shipping,tax,carriers,paymentoptions";
             if (this.settings.showTaxAndShipping) {
@@ -94,6 +99,7 @@
 
                                 if (baseProduct) {
                                     cartLine.productUri = baseProduct.productDetailUrl;
+                                    this.cartService.updateLine(cartLine, false);
                                 }
                             }
                         });
@@ -144,11 +150,6 @@
             this.promotionService.getCartPromotions(this.cart.id).then(
                 (promotionCollection: PromotionCollectionModel) => { this.getCartPromotionsCompleted(promotionCollection); },
                 (error: any) => { this.getCartPromotionsFailed(error); });
-        }
-
-        requestQuote(quoteUri: string): void {
-            
-            this.$rootScope.$broadcast("AnalyticsEvent", "QuoteRequest", quoteUri, null);
         }
 
         checkout(checkoutPage: string) {
@@ -207,6 +208,7 @@
         protected applyPromotionCompleted(promotion: PromotionModel): void {
             if (promotion.promotionApplied) {
                 this.promotionAppliedMessage = promotion.message;
+                this.$rootScope.$broadcast("AnalyticsEvent", "PromoApplied", null, null, promotion.promotionCode);
             } else {
                 this.promotionErrorMessage = promotion.message;
             }

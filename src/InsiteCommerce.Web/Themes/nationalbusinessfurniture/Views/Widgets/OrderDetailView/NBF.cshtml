@@ -205,7 +205,7 @@
                                 <div class="item-num">
                                     <span>Item #: </span>
                                     <span class="item-num-sku" ng-bind="line.productErpNumber"></span>
-                                    <span class="item-num-mfg" ng-if="line.manufacturerItem">[% translate 'MFG #' %]:{{ line.manufacturerItem }}</span>
+                                    <span class="item-num-mfg" ng-if="line.manufacturerItem && line.productErpNumber.indexOf(':') < 0">[% translate 'MFG #' %]:{{ line.manufacturerItem }}</span>
                                     <span class="item-num-my" ng-if="line.customerProductNumber">[% translate 'My Part #' %]:{{ line.customerProductNumber }}</span>
                                 </div>
                                 <div class="row promo-applied" ng-repeat="promotion in vm.order.orderPromotions | filter: {orderHistoryLineId : line.id}">

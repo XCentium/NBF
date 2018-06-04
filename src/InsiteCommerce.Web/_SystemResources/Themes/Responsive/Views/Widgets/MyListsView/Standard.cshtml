@@ -53,7 +53,7 @@
                     </div>
                     <div>
                         <a ng-show="vm.listSettings.allowEditingOfWishLists && !wishList.isSharedList" href="javascript:void(0);" data-reveal-id="popup-delete-list" ng-click="vm.setWishList(wishList)">[% translate 'Delete List' %]</a>
-                        <a id="tst_wishListView_leaveLink_{{wishList.id}}" ng-show="vm.listSettings.allowEditingOfWishLists && wishList.isSharedList" href="javascript:void(0);" data-reveal-id="popup-leave-list" ng-click="vm.setWishList(wishList)">[% translate 'Leave List' %]</a>
+                        <a id="tst_wishListView_leaveLink_{{wishList.id}}" ng-show="vm.listSettings.allowEditingOfWishLists && wishList.isSharedList && !vm.isSharedByCustomer(wishList)" href="javascript:void(0);" data-reveal-id="popup-leave-list" ng-click="vm.setWishList(wishList)">[% translate 'Leave List' %]</a>
                     </div>
                 </div>
             </li>

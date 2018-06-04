@@ -23,6 +23,11 @@
         cartSettings: CartSettingsModel;
         pageIsReady = false;
         showQuoteRequiredProducts: boolean;
+        submitSuccessUri: string;
+        isCloudPaymentGateway: boolean;
+        isInvalidCardNumber: boolean;
+        isInvalidSecurityCode: boolean;
+        isInvalidCardNumberOrSecurityCode: boolean;
 
         static $inject = [
             "$scope",
@@ -65,20 +70,36 @@
 
             $("#reviewAndPayForm").validate();
 
-            this.$scope.$watch("vm.cart.paymentOptions.creditCard.expirationYear", (year: number) => { this.onExpirationYearChanged(year); });
-            this.$scope.$watch("vm.cart.paymentOptions.creditCard.useBillingAddress", (useBillingAddress: boolean) => { this.onUseBillingAddressChanged(useBillingAddress); });
-            this.$scope.$watch("vm.creditCardBillingCountry", (country: CountryModel) => { this.onCreditCardBillingCountryChanged(country); });
-            this.$scope.$watch("vm.creditCardBillingState", (state: StateModel) => { this.onCreditCardBillingStateChanged(state); });
+            this.$scope.$watch("vm.cart.paymentOptions.creditCard.expirationYear", (year: number) => {
+                this.onExpirationYearChanged(year);
+            });
+            this.$scope.$watch("vm.cart.paymentOptions.creditCard.useBillingAddress", (useBillingAddress: boolean) => {
+                this.onUseBillingAddressChanged(useBillingAddress);
+            });
+            this.$scope.$watch("vm.creditCardBillingCountry", (country: CountryModel) => {
+                this.onCreditCardBillingCountryChanged(country);
+            });
+            this.$scope.$watch("vm.creditCardBillingState", (state: StateModel) => {
+                this.onCreditCardBillingStateChanged(state);
+            });
 
             this.onUseBillingAddressChanged(true);
 
             this.settingsService.getSettings().then(
-                (settings: core.SettingsCollection) => { this.getSettingsCompleted(settings); },
-                (error: any) => { this.getSettingsFailed(error); });
+                (settings: core.SettingsCollection) => {
+                    this.getSettingsCompleted(settings);
+                },
+                (error: any) => {
+                    this.getSettingsFailed(error);
+                });
 
             this.websiteService.getCountries("states").then(
-                (countryCollection: CountryCollectionModel) => { this.getCountriesCompleted(countryCollection); },
-                (error: any) => { this.getCountriesFailed(error); });
+                (countryCollection: CountryCollectionModel) => {
+                    this.getCountriesCompleted(countryCollection);
+                },
+                (error: any) => {
+                    this.getCountriesFailed(error);
+                });
         }
 
         protected onCartChanged(event: ng.IAngularEvent): void {
@@ -89,8 +110,8 @@
             if (year) {
                 const now = new Date();
                 const minMonth = now.getFullYear() === year ? now.getMonth() : 0;
-                $("#expirationMonth").rules("add", { min: minMonth });
-                $("#expirationMonth").valid();
+                jQuery("#expirationMonth").rules("add", {min: minMonth});
+                jQuery("#expirationMonth").valid();
             }
         }
 
@@ -146,8 +167,12 @@
                 this.cartService.expand += ",restrictions";
             }
             this.cartService.getCart(this.cartId).then(
-                (cart: CartModel) => { this.getCartCompleted(cart, isInit); },
-                (error: any) => { this.getCartFailed(error); } );
+                (cart: CartModel) => {
+                    this.getCartCompleted(cart, isInit);
+                },
+                (error: any) => {
+                    this.getCartFailed(error);
+                });
         }
 
         protected getCartCompleted(cart: CartModel, isInit: boolean): void {
@@ -183,9 +208,17 @@
             this.setUpPaymentMethod(isInit, paymentMethod || this.cart.paymentMethod);
             this.setUpPayPal(isInit);
 
+            setTimeout(() => {
+                this.setUpCloudPaymentGateway();
+            }, 0, false);
+ 
             this.promotionService.getCartPromotions(this.cart.id).then(
-                (promotionCollection: PromotionCollectionModel) => { this.getCartPromotionsCompleted(promotionCollection); },
-                (error: any) => { this.getCartPromotionsFailed(error); });
+                (promotionCollection: PromotionCollectionModel) => {
+                    this.getCartPromotionsCompleted(promotionCollection);
+                },
+                (error: any) => {
+                    this.getCartPromotionsFailed(error);
+                });
 
             if (!isInit) {
                 this.pageIsReady = true;
@@ -225,7 +258,7 @@
                 if (carrier.id === this.cart.carrier.id) {
                     this.cart.carrier = carrier;
                     if (isInit) {
-                         this.updateCarrier();
+                        this.updateCarrier();
                     }
                 }
             });
@@ -279,7 +312,7 @@
 
         updateCarrier(): void {
             if (this.cart.carrier && this.cart.carrier.shipVias) {
-                if (this.cart.carrier.shipVias.length === 1 && this.cart.carrier.shipVias[0] !== this.cart.shipVia) {
+                if (this.cart.carrier.shipVias.length === 1 && this.cart.carrier.shipVias[0].id !== this.cart.shipVia.id) {
                     this.cart.shipVia = this.cart.carrier.shipVias[0];
                     this.updateShipVia();
                 } else if (this.cart.carrier.shipVias.length > 1 &&
@@ -297,8 +330,12 @@
 
         updateShipVia(): void {
             this.cartService.updateCart(this.cart).then(
-                (cart: CartModel) => { this.updateShipViaCompleted(cart); },
-                (error: any) => { this.updateShipViaFailed(error); });
+                (cart: CartModel) => {
+                    this.updateShipViaCompleted(cart);
+                },
+                (error: any) => {
+                    this.updateShipViaFailed(error);
+                });
         }
 
         protected updateShipViaCompleted(cart: CartModel): void {
@@ -311,13 +348,12 @@
         submit(submitSuccessUri: string, signInUri: string): void {
             this.submitting = true;
             this.submitErrorMessage = "";
-
             if (!this.validateReviewAndPayForm()) {
                 this.submitting = false;
                 return;
             }
 
-            this.sessionService.getIsAuthenticated().then(
+           this.sessionService.getIsAuthenticated().then(
                 (isAuthenticated: boolean) => { this.getIsAuthenticatedForSubmitCompleted(isAuthenticated, submitSuccessUri, signInUri); },
                 (error: any) => { this.getIsAuthenticatedForSubmitFailed(error); });
         }
@@ -337,9 +373,27 @@
             this.cart.requestedDeliveryDate = this.formatWithTimezone(this.cart.requestedDeliveryDate);
 
             this.spinnerService.show("mainLayout", true);
-            this.cartService.updateCart(this.cart, true).then(
-                (cart: CartModel) => { this.submitCompleted(cart, submitSuccessUri); },
-                (error: any) => { this.submitFailed(error); });
+            
+            this.tokenizeCardInfoIfNeeded(submitSuccessUri);
+        }
+        
+        protected tokenizeCardInfoIfNeeded(submitSuccessUri: string) {
+            this.submitSuccessUri = submitSuccessUri;
+            if (this.isCloudPaymentGateway && this.cart.showCreditCard && this.cart.paymentMethod.isCreditCard) {
+                (<any>window).sendHPCIMsg();
+            } else {
+                this.submitCart();
+            }
+        }
+
+        protected submitCart(): void {
+             this.cartService.updateCart(this.cart, true).then(
+                (cart: CartModel) => {
+                    this.submitCompleted(cart, this.submitSuccessUri);
+                },
+                (error: any) => {
+                    this.submitFailed(error);
+                });
         }
 
         private formatWithTimezone(date: string): string {
@@ -374,8 +428,12 @@
                 }
 
                 this.sessionService.getIsAuthenticated().then(
-                    (isAuthenticated: boolean) => { this.getIsAuthenticatedForSubmitPaypalCompleted(isAuthenticated, returnUri, signInUri); },
-                    (error: any) => { this.getIsAuthenticatedForSubmitPaypalFailed(error); });
+                    (isAuthenticated: boolean) => {
+                        this.getIsAuthenticatedForSubmitPaypalCompleted(isAuthenticated, returnUri, signInUri);
+                    },
+                    (error: any) => {
+                        this.getIsAuthenticatedForSubmitPaypalFailed(error);
+                    });
             }, 0);
         }
 
@@ -391,8 +449,12 @@
             this.cart.paymentMethod = null;
             this.cart.status = "PaypalSetup";
             this.cartService.updateCart(this.cart, true).then(
-                (cart: CartModel) => { this.submitPaypalCompleted(cart); },
-                (error: any) => { this.submitPaypalFailed(error); });
+                (cart: CartModel) => {
+                    this.submitPaypalCompleted(cart);
+                },
+                (error: any) => {
+                    this.submitPaypalFailed(error);
+                });
         }
 
         protected getIsAuthenticatedForSubmitPaypalFailed(error: any): void {
@@ -411,14 +473,34 @@
         }
 
         protected validateReviewAndPayForm(): boolean {
-            const valid = $("#reviewAndPayForm").validate().form();
+            if (!this.validatedCloudPaymentGateway()) {
+                return false;
+            } 
+            
+            const valid = jQuery("#reviewAndPayForm").validate().form();
             if (!valid) {
-                $("html, body").animate({
-                    scrollTop: $("#reviewAndPayForm").offset().top
+                jQuery("html, body").animate({
+                    scrollTop: jQuery("#reviewAndPayForm").offset().top
                 }, 300);
                 return false;
             }
 
+            return true;
+        }
+        
+        protected validatedCloudPaymentGateway(): boolean {
+            if (!this.isCloudPaymentGateway) {
+                return true;
+            } 
+            
+            if (!this.cart.showCreditCard || !this.cart.paymentMethod.isCreditCard) {
+                return true;
+            } 
+            
+            if (this.isInvalidCardNumber || this.isInvalidSecurityCode || this.isInvalidCardNumberOrSecurityCode) {
+                return false;
+            }
+           
             return true;
         }
 
@@ -427,8 +509,12 @@
             this.promotionErrorMessage = "";
 
             this.promotionService.applyCartPromotion(this.cartId, this.promotionCode).then(
-                (promotion: PromotionModel) => { this.applyPromotionCompleted(promotion); },
-                (error: any) => { this.applyPromotionFailed(error); });
+                (promotion: PromotionModel) => {
+                    this.applyPromotionCompleted(promotion);
+                },
+                (error: any) => {
+                    this.applyPromotionFailed(error);
+                });
         }
 
         protected applyPromotionCompleted(promotion: PromotionModel): void {
@@ -444,6 +530,67 @@
         protected applyPromotionFailed(error: any): void {
             this.promotionErrorMessage = error.message;
             this.getCart();
+        }
+
+        setUpCloudPaymentGateway(): void {
+            this.isCloudPaymentGateway = (<any>window).isCloudPaymentGateway;
+            if (!this.isCloudPaymentGateway) {
+                return;
+            }
+
+            (<any>window).hpciNoConflict = "N";
+            (<any>window).hpciStatusReset();
+            (<any>window).receiveHPCIMsg();
+
+            (<any>window).hpciSiteSuccessHandlerV4 = (hpciMappedCCValue: string, hpciMappedCVVValue: string, hpciCCBINValue: string, hpciGtyTokenValue: string, hpciCCLast4Value: string, hpciGtyTokenAuthRespValue: string, hpciTokenRespEncrypt: string) => {
+                this.$scope.$apply(() => {
+                    if (!hpciMappedCCValue || !hpciMappedCVVValue) {
+                        if (!hpciMappedCCValue) {
+                            this.isInvalidCardNumber = true;
+                        } else {
+                            this.isInvalidSecurityCode = true;
+                        }
+                        
+                        (<any>window).hpciStatusReset();
+                        this.submitFailed({ message: ""});
+                        return;
+                    }
+                    
+                    this.cart.paymentOptions.creditCard.cardNumber = hpciMappedCCValue;
+                    this.cart.paymentOptions.creditCard.securityCode = hpciMappedCVVValue;
+                    this.submitCart();
+                });
+            };
+
+            (<any>window).hpciSiteErrorHandler = (errorCode: string, errorMessage: string) => {
+                this.$scope.$apply(() => {
+                    this.isInvalidCardNumberOrSecurityCode = true;
+                    (<any>window).hpciStatusReset();
+                    this.submitFailed({ message: ""});
+                });
+            };
+
+            (<any>window).hpciCCPreliminarySuccessHandlerV2 = (hpciCCTypeValue: string, hpciCCBINValue: string, hpciCCValidValue: string, hpciCCLengthValue: number, hpciCCEnteredLengthValue: number) => {
+                this.$scope.$apply(() => {
+                    this.isInvalidCardNumberOrSecurityCode = false;
+                    if (hpciCCValidValue === "Y") {
+                        this.isInvalidCardNumber = false;
+                    } else {
+                        this.isInvalidCardNumber = true;
+                    }
+                });
+            };
+
+            (<any>window).hpciCVVPreliminarySuccessHandlerV2 = (hpciCVVLengthValue: number, hpciCVVValidValue: string) => {
+                this.$scope.$apply(() => {
+                    this.isInvalidCardNumberOrSecurityCode = false;
+                    if (hpciCVVValidValue === "Y") {
+                        this.isInvalidSecurityCode = false;
+                    } else {
+                        this.isInvalidSecurityCode = true;
+                    }
+                });
+            };
         }
     }
 

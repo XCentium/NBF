@@ -97,7 +97,7 @@
                                             </div>
                                             <div class="item-thumb">
                                                 <a ng-href="{{product.productDetailUrl}}">
-                                                    <img ng-src="https://s7d9.scene7.com/is/image/NationalBusinessFurniture/{{product.mediumImagePath}}?hei=250&id=Iu1rN2&fmt=jpg&fit=constrain,1&wid=250&hei=250" alt="{{product.altText}}" increment-images-loaded />
+                                                    <img ng-src="https://s7d9.scene7.com/is/image/NationalBusinessFurniture/{{product.mediumImagePath}}?hei=250&id=Iu1rN2&fmt=jpg&fit=constrain,1&wid=250&hei=250" alt="{{product.altText}}" title="{{product.altText}}, {{product.erpNumber}}" increment-images-loaded />
                                                 </a>
                                                 <div ng-if="vm.settings.enableProductComparisons" class="product-compare-add">
                                                     <a href="javascript:void(0);" data-id="{{product.id}}" class="compare-link" ng-class="{ 'compare-active': product.isBeingCompared }" ng-click="vm.compareProduct(product);">[% translate 'Compare' %]</a>
@@ -128,7 +128,7 @@
                                                             <a id="tst_productList_{{product.id}}_descriptionLink" ng-href="{{product.productDetailUrl}}">{{product.shortDescription}}</a>
                                                         </div>
                                                         <div class="item-num">
-                                                            <span ng-if="product.manufacturerItem" class="item-num-mfg">[% translate 'MFG #' %]: {{product.manufacturerItem}}</span>
+                                                            <span ng-if="product.manufacturerItem && product.erpNumber.indexOf(':') < 0" class="item-num-mfg">[% translate 'MFG #' %]: {{product.manufacturerItem}}</span>
                                                             <span ng-if="product.customerName" class="item-num-my">[% translate 'My Part #' %]: {{product.customerName}}</span>
                                                         </div>
                                                     </div>
@@ -194,7 +194,7 @@
                                                                                 </div>
                                                                                 <div class="item-num">
                                                                                     <span class="item-num-sku">{{product.erpNumber}}</span>
-                                                                                    <span ng-if="product.manufacturerItem" class="item-num-mfg">[% translate 'MFG #' %]: {{product.manufacturerItem}}</span>
+                                                                                    <span ng-if="product.manufacturerItem && product.erpNumber.indexOf(':') < 0" class="item-num-mfg">[% translate 'MFG #' %]: {{product.manufacturerItem}}</span>
                                                                                     <span ng-if="product.customerName" class="item-num-my">[% translate 'My Part #' %]: {{product.customerName}}</span>
                                                                                 </div>
                                                                                 <div ng-if="vm.settings.enableProductComparisons" class="product-compare-add">
@@ -280,7 +280,7 @@
                                                         </div>
                                                         <div class="item-num">
                                                             <span class="item-num-sku">{{product.erpNumber}}</span>
-                                                            <span ng-if="product.manufacturerItem" class="item-num-mfg">[% translate 'MFG #' %]: {{product.manufacturerItem}}</span>
+                                                            <span ng-if="product.manufacturerItem && product.erpNumber.indexOf(':') < 0" class="item-num-mfg">[% translate 'MFG #' %]: {{product.manufacturerItem}}</span>
                                                             <span ng-if="product.customerName" class="item-num-my">[% translate 'My Part #' %]: {{product.customerName}}</span>
                                                         </div>
                                                         <div ng-if="vm.settings.enableProductComparisons" class="product-compare-add">
@@ -434,7 +434,7 @@
                 </ul>
             </div>
             <div class="f-cat" role="mobile-filters">
-                <section class="accordion"  ng-if="vm.products.products && vm.products.products.length > 0">
+                <section class="accordion" ng-if="vm.products.products && vm.products.products.length > 0">
                     <div>
                         <input type="checkbox" id="accord-10000" class="accord-check" checked />
                         <label id="tst_productList_tableView_filterButton" for="accord-10000" class="accord-head  mobile-title">[% translate 'Filters' %]</label>
@@ -465,7 +465,7 @@
                                     <div class="f-cat" ng-if="vm.products.categoryFacets.length > 0 && !vm.category">
                                         <section class="accordion">
                                             <div>
-                                                <input type="checkbox" id="accord-1" class="accord-check" ng-change="vm.toggleFacet('{{$index}}')" ng-model="vm.filterCheckBoxesModel[$index]" />
+                                                <input type="checkbox" id="accord-1" class="accord-check" />
                                                 <label for="accord-1" class="accord-head"  >[% translate 'Categories' %]</label>
                                                 <article class="accord-content">
                                                     <div class="f-wrap">
@@ -490,7 +490,7 @@
                                         <section class="accordion">
                                             <div>
                                                 <input type="checkbox" id="accord-2" class="accord-check" ng-change="vm.toggleFacet('{{$index + 100}}')" ng-model="vm.filterCheckBoxesModel[$index+100]" />
-                                                <label for="accord-2" class="accord-head"  >[% translate 'Price' %]</label>
+                                                <label for="accord-2" class="accord-head">[% translate 'Price' %]</label>
                                                 <article class="accord-content">
                                                     <div class="f-wrap">
                                                         <ul>
@@ -514,7 +514,7 @@
                                         <section class="accordion">
                                             <div>
                                                 <input type="checkbox" id="accord-{{$index + 200}}" class="accord-check" ng-change="vm.toggleFacet('{{$index + 200}}')" ng-model="vm.filterCheckBoxesModel[$index+200]" />
-                                                <label for="accord-{{$index+200}}" class="accord-head"  >{{section.nameDisplay}}</label>
+                                                <label for="accord-{{$index+200}}" class="accord-head">{{section.nameDisplay}}</label>
                                                 <article class="accord-content">
                                                     <div class="f-wrap">
                                                         <ul>
@@ -535,15 +535,15 @@
                                         </section>
                                     </div>
 
-                                    <div ng-if="vm.products.attributeTypeFacets.length > 4">                                       
-                                        <div class="exrta-filter-wrap collapsed"  style="clear:both;">
+                                    <div ng-if="vm.products.attributeTypeFacets.length > 4">
+                                        <div class="exrta-filter-wrap collapsed" style="clear:both;">
                                             <div class="exrta-filter-toggler"><a href="#" ng-click="vm.toggleexrtafilter()" class="toggle-filters">[% translate 'More Filters' %]</a></div>
                                             <div class="exrta-filters">
                                                 <div ng-repeat="section in vm.products.attributeTypeFacets | orderBy : ['sort','nameDisplay'] | limitTo: (4 - vm.products.attributeTypeFacets.length)" class="f-cat" ng-if="vm.products.attributeTypeFacets.length > 0">
                                                     <section class="accordion">
                                                         <div>
-                                                            <input type="checkbox" id="accord-{{$index + 300}}" class="accord-check" ng-change="vm.toggleFacet('{{$index + 300}}')"  ng-model="vm.filterCheckBoxesModel[$index + 300]"  />
-                                                            <label for="accord-{{$index + 300}}" class="accord-head"  >{{section.nameDisplay}}</label>
+                                                            <input type="checkbox" id="accord-{{$index + 300}}" class="accord-check" ng-change="vm.toggleFacet('{{$index + 300}}')" ng-model="vm.filterCheckBoxesModel[$index + 300]" />
+                                                            <label for="accord-{{$index + 300}}" class="accord-head">{{section.nameDisplay}}</label>
                                                             <article class="accord-content">
                                                                 <div class="f-wrap">
                                                                     <ul>
@@ -565,9 +565,9 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>                                   
+                                    </div>
 
-                                    [[filterStatusControls]]
+
 
                                     <!-- hidden div to force load of checked image -->
                                     <div class="f-cat" style="display:none;">
@@ -582,6 +582,7 @@
                         </article>
                     </div>
                 </section>
+                [[filterStatusControls]]
             </div>
 
             <!-- narrow version filters -->

@@ -156,6 +156,10 @@
             this.inProgress = false;
         }
 
+        protected isSharedByCustomer(list: WishListModel): boolean {
+            return list.shareOption === ShareOptionEnum[ShareOptionEnum.AllCustomerUsers];
+        }
+
         redirectToMyListDetails(): void {
             // skip redirect for cms widget
             if (!this.myListDetailUrl) {

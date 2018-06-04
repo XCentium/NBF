@@ -34,9 +34,24 @@
             this.$rootScope.$broadcast("AnalyticsEvent", "ProductRemovedFromCart", null, null, cartLine);
         }
 
-        protected addLineCompleted(response: ng.IHttpPromiseCallbackArg<CartLineModel>, showAddToCartPopup?: boolean): void {
-            super.addLineCompleted(response, showAddToCartPopup);
-            this.$rootScope.$broadcast("AnalyticsEvent", "ProductAddedToCart", null, null, response.data);
+        //protected addLineCompleted(response: ng.IHttpPromiseCallbackArg<CartLineModel>, showAddToCartPopup?: boolean): void {
+        //    super.addLineCompleted(response, showAddToCartPopup);
+        //    this.$rootScope.$broadcast("AnalyticsEvent", "ProductAddedToCart", null, null, response.data);
+        //}
+
+        addLine(cartLine: CartLineModel, toCurrentCart = false, showAddToCartPopup?: boolean): ng.IPromise<CartLineModel> {
+            var existingCart = false;
+            if (this.currentCart && this.currentCart.cartLines && this.currentCart.cartLines.length > 0) {
+                existingCart = true;
+            }
+            var promise = super.addLine(cartLine, toCurrentCart, showAddToCartPopup);
+            promise.then((cartLine) => {
+                this.$rootScope.$broadcast("AnalyticsEvent", "ProductAddedToCart", null, null, cartLine);
+                if (!existingCart) {
+                    this.$rootScope.$broadcast("AnalyticsEvent", "CartOpened");
+                }
+            });
+            return promise;
         }
     }
 

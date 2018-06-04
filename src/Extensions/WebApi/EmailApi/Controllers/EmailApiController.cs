@@ -58,12 +58,7 @@ namespace Extensions.WebApi.EmailApi.Controllers
             await _emailApiService.SendTaxExemptEmail(taxExemptDto);
             return Ok();
         }
-
-        [Route("taxexemptfile", Name = "uploadTaxExemptEmailFile")]
-        public async Task<HttpResponseMessage> UploadTaxExemptFile()
-        {
-            return await ProcessUploadedFile(false);
-        }
+        
 
         [Route("rmafile", Name = "uploadRmaFile")]
         public async Task<HttpResponseMessage> UploadRmaFile()

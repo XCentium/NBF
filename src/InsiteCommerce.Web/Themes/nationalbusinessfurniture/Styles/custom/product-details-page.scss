@@ -223,8 +223,26 @@
             }
         }
 
-        .doclinks li{
-            display:block !important;
+        .doclinks li {
+            display: block !important;
+
+            .pdf-icon {
+                &:before {
+                    content: '\f1c1';
+                    font-family: $FontAwesome;
+                    margin-right: 15px;
+                    color: red;
+                }
+            }
+
+            .word-icon {
+                &:before {
+                    content: '\f1c2';
+                    font-family: $FontAwesome;
+                    margin-right: 15px;
+                    color: blue;
+                }
+            }
         }
     }
 

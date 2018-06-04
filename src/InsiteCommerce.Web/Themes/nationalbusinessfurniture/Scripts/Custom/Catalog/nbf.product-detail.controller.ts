@@ -60,7 +60,7 @@
                 settingsService,
                 $stateParams,
                 sessionService);
-        }
+        }       
 
         protected getSettingsCompleted(settingsCollection: core.SettingsCollection): void {
             this.settings = settingsCollection.productSettings;
@@ -89,19 +89,7 @@
 
 
         addToCart(product: ProductDto): void {  
-            if ((((product.availability as any).messageType != 2 || product.canBackOrder) && product.allowedAddToCart && (product.canAddToCart || this.configurationCompleted || this.styleSelectionCompleted && !product.canConfigure)) == false) {
-
-                if (this.styleSelectionCompleted == false) {
-                    this.showUnstyledProductErrorModal();
-                }
-                else {
-                    this.showProductCannotBeAddedToCartErrorModal();
-                }
-
-                return; 
-            }
-
-            this.addingToCart = true;
+             this.addingToCart = true;
 
             let sectionOptions: ConfigSectionOptionDto[] = null;
             if (this.configurationCompleted && product.configurationDto && product.configurationDto.sections) {
@@ -269,10 +257,12 @@
                 this.cartService.addLineCollectionFromProducts(productDtos, true, false).then(
                     (cartLine: CartLineCollectionModel) => {
                         this.selectedSwatchProductIds = [];
+                        this.addingToCart = false;
                         this.spinnerService.hide();
                         this.hideSwatchOrderForm();
                     },
                     (error: any) => {
+                        this.addingToCart = false;
                         this.spinnerService.hide();
                         this.addToCartFailed(error);
                     }
@@ -361,6 +351,7 @@
         }
 
         protected setPowerReviews() {
+            var self = this;
             let powerReviewsConfig = {
                 api_key: this.$attrs.prApiKey,
                 locale: 'en_US',
@@ -374,7 +365,7 @@
                     //QuestionSnippet: 'pr-questionsnippet',
                     QuestionDisplay: 'pr-questiondisplay'
                 },
-                on_submit: this.powerReviewsOnSubmit
+                on_submit: (config, data) => self.powerReviewsOnSubmit(config, data)
             };
 
 
@@ -389,6 +380,7 @@
        
         showVideo() {            
             this.setVideo2(this.product.properties["videoFile"]);
+            this.$rootScope.$broadcast("AnalyticsEvent", "VideoStarted", null, null, this.product.properties["videoFile"]);
         }
 
         show360() {
