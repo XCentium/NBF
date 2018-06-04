@@ -4,7 +4,7 @@
     export interface INbfWebCodeService {
 
         getWebCode(userId: string): ng.IPromise<string>;
-        getStoredAffiliateCode(): string;
+        getCampaignID(): string;
         getStoredTransID(): string;
     }
 
@@ -17,23 +17,14 @@
         currentWebCode: string;
         affId: string;
 
-        static $inject = ["$http", "httpWrapperService", "queryString", "$sessionStorage", "ipCookie", "$q"];
+        static $inject = ["$http", "httpWrapperService", "queryString", "ipCookie", "$q"];
 
         constructor(
             protected $http: ng.IHttpService,
             protected httpWrapperService: insite.core.HttpWrapperService,
             protected queryString: insite.common.IQueryStringService,
-            protected $sessionStorage: insite.common.IWindowStorage,
             protected ipCookie: any,
             protected $q: ng.IQService) {
-        }
-
-        getStoredAffiliateCode(): string {
-            return "";
-        }
-
-        getStoredTransID(): string {
-            return "";
         }
 
         getWebCode(userId: string): ng.IPromise<string> {
@@ -58,7 +49,7 @@
                         }
                     }
                 } else {
-                    this.siteId = this.getSiteId();
+                    this.siteId = this.getCampaignID();
                 }
 
                 var self = this;
@@ -93,12 +84,12 @@
             var expire = new Date();
             expire.setDate(expire.getDate() + 90);
             var webCodeSplit = webCode.data.split("-");
-            this.$sessionStorage.setObject("UserAffiliateCodeID", webCodeSplit[1]);
-            this.$sessionStorage.setObject("UserOmnitureTransID", webCodeSplit[1]);
-            this.ipCookie("referring_cookie", webCodeSplit[1], { path: "/", expires: expire });
+            this.ipCookie("UserAffiliateCodeID", webCodeSplit[1], { path: "/", expires: expire });
+            this.ipCookie("UserOmnitureTransID", webCodeSplit[0], { path: "/" });
             this.ipCookie("web_code_cookie", webCode.data, { path: "/", expires: expire });
             return webCode.data;
         }
+
         protected getWebUserCompleted(webCode: any): void {
             this.userId = webCode.data;
         }
@@ -113,7 +104,12 @@
             params.userId = userId;
             return params;
         }
-        protected getSiteId(): string {
+
+        getCampaignID(): string {
+            if (this.ipCookie("CampaignID")) {
+                return this.ipCookie("CampaignID");
+            }
+
             var siteId = "default_web";
 
             const siteIdQueryString = this.queryString.get("SiteID");
@@ -137,17 +133,27 @@
                 siteId = ref;
             }
 
+            var expire = new Date();
+            expire.setDate(expire.getDate() + 90);
+            this.ipCookie("CampaignID", siteId, { path: "/", expires: expire });
+
             return siteId;
+        }
+   
+        getStoredTransID(): string {
+            if (this.ipCookie("UserOmnitureTransID")) {
+                return this.ipCookie("UserOmnitureTransID");
+            }
+            return "";
         }
 
         protected checkWebCode(): string {
-            if (this.ipCookie("referring_cookie") && this.ipCookie("web_code_cookie")) {
-                this.$sessionStorage.setObject("UserAffiliateCodeID", this.ipCookie("referring_cookie"));
+            if (this.ipCookie("web_code_cookie")) {
+
                 var totalCodeSplit = this.ipCookie("web_code_cookie").split("-");
                 if (totalCodeSplit.length >= 2) {
                     [this.siteId, this.userId] = totalCodeSplit;
                 }
-                this.$sessionStorage.setObject("UserOmnitureTransID", this.siteId);
                 return this.ipCookie("web_code_cookie");
             }
             return null;

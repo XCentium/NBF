@@ -99,7 +99,8 @@
             "productService",
             "$element",
             "$rootScope",
-            "nbfTaxExemptService"
+            "nbfTaxExemptService",
+            "ipCookie"
         ];
 
         constructor(
@@ -126,7 +127,8 @@
             protected productService: insite.catalog.IProductService,
             protected $element: ng.IRootElementService,
             protected $rootScope: ng.IRootScopeService,
-            protected nbfTaxExemptService: insite.account.INbfTaxExemptService
+            protected nbfTaxExemptService: insite.account.INbfTaxExemptService,
+            protected ipCookie: any
         ) {
             this.init();
         }
@@ -1204,6 +1206,7 @@
             if ((this.cart.cartLines.filter((line: CartLineModel) => line.erpNumber.search('^[^:]*[:][^:]*[:][^:]*$') > 0)).length > 0) {
                 this.$rootScope.$broadcast("AnalyticsEvent", "SwatchRequest");
             }
+
             this.sessionService.getIsAuthenticated().then(
                 (isAuthenticated: boolean) => {
                     this.getIsAuthenticatedForSubmitCompleted(isAuthenticated, signInUri);
@@ -1223,6 +1226,14 @@
             }
 
             this.cart.requestedDeliveryDate = this.formatWithTimezone(this.cart.requestedDeliveryDate);
+
+            if (this.ipCookie("CampaignID")) {
+                this.cart.properties["CampaignID"] = this.ipCookie("CampaignID");
+            }
+
+            if (this.ipCookie("UserOmnitureTransID")){
+                this.cart.properties["UserOmnitureTransID"] = this.ipCookie("UserOmnitureTransID");
+            }
 
             var oldCartLines = this.cart.cartLines;
             this.cartService.updateCart(this.cart, true).then(

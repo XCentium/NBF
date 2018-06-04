@@ -354,6 +354,7 @@
     <Compile Include="Handlers\Interfaces\INBFGetOrderHelper.cs" />
     <Compile Include="Handlers\Interfaces\INBFListrakHelper.cs" />
     <Compile Include="Handlers\GetTrackedOrderHandler.cs" />
+    <Compile Include="Handlers\SubmitOrderToErpHandler\AddAffiliateData.cs" />
     <Compile Include="Handlers\SubmitOrderToErpHandler\CreateShippingByVendor.cs" />
     <Compile Include="Handlers\UpdateCartHandler.cs" />
     <Compile Include="Handlers\GetCartHandler\RecalculateCart.cs" />
