@@ -21,3 +21,17 @@ CONSTRAINT [PK_WebcodeUniqueID] PRIMARY KEY CLUSTERED
 GO
 
 INSERT INTO [Extensions].[WebcodeUniqueID] (WebcodeUniqueID) VALUES (12850896)
+
+/****** Create Referral Link for Testing  *******/
+DELETE FROM [Extensions].[AffiliateCode] 
+      WHERE [Extensions].[AffiliateCode].AffiliateCode = 'ochdev'
+GO
+
+INSERT INTO [Extensions].[AffiliateCode]
+           (
+           [AffiliateNumber]
+           ,[AffiliateCode]
+           )
+     VALUES
+           ('14439200','ochdev')
+GO
