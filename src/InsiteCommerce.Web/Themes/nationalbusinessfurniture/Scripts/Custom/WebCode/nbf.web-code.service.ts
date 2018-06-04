@@ -4,8 +4,8 @@
     export interface INbfWebCodeService {
 
         getWebCode(userId: string): ng.IPromise<string>;
-
-
+        getStoredAffiliateCode(): string;
+        getStoredTransID(): string;
     }
 
     export class NbfWebCodeService implements INbfWebCodeService {
@@ -30,10 +30,13 @@
             protected $q: ng.IQService) {
         }
 
+        getStoredAffiliateCode(): string {
+            return "";
+        }
 
-
-
-
+        getStoredTransID(): string {
+            return "";
+        }
 
         getWebCode(userId: string): ng.IPromise<string> {
 

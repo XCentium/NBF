@@ -9,8 +9,7 @@ namespace Extensions.Models.WebcodeUniqueID
     public class WebcodeUniqueIDModel : EntityBase
     {
         [Required]
-        [Key]
-        public int WebCodeUniqueID { get; }
+        public int WebCodeUniqueID { get; set; }
        
     }
 }

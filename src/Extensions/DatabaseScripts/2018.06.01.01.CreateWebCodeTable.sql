@@ -7,7 +7,7 @@ GO
 
 CREATE TABLE [Extensions].[WebcodeUniqueID](
     [Id] [uniqueidentifier] NOT NULL CONSTRAINT [DF_WebcodeUniqueID_Id]  DEFAULT (newsequentialid()),
-    [WebcodeUniqueID] [bigint] IDENTITY(1,1) NOT NULL,
+    [WebcodeUniqueID] [int] NOT NULL,
     [CreatedOn] [datetimeoffset](7) NULL CONSTRAINT [DF_WebcodeUniqueID_CreatedOn]  DEFAULT (getutcdate()),
     [CreatedBy] [nvarchar](100) NOT NULL CONSTRAINT [DF_WebcodeUniqueID_CreatedBy]  DEFAULT (''),
     [ModifiedOn] [datetimeoffset](7) NULL CONSTRAINT [DF_WebcodeUniqueID_ModifiedOn]  DEFAULT (getutcdate()),
@@ -19,3 +19,5 @@ CONSTRAINT [PK_WebcodeUniqueID] PRIMARY KEY CLUSTERED
 ) ON [PRIMARY]
 
 GO
+
+INSERT INTO [Extensions].[WebcodeUniqueID] (WebcodeUniqueID) VALUES (12850896)

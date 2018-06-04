@@ -25,7 +25,27 @@ namespace Extensions.WebApi.WebCode.Services
         public async Task<string> GetWebCodeUserID()
         {
             var result = await Task.FromResult(_webCodeRepository.GetWebCodeUserID());
-            return result;
+            return ConvertToWebCodeUserId(result);
+        }
+
+        private string ConvertToWebCodeUserId(int id)
+        {
+            var chars = "ACEGHJKMNPQRTUWXYZ23456789";
+            var numBase = chars.Length;
+            var rem = id;
+
+            var idLength = (int) Math.Ceiling(Math.Log(id, numBase));
+            var newId = "";
+
+            for(var i=idLength-1; i>= 0; i--)
+            {
+                var y = Math.Pow(numBase, i);
+                var x = (int)Math.Floor(rem / y);
+                newId += chars[x-1];
+                rem -= (int)(x * y);
+            }
+
+            return newId;
         }
     }
 }

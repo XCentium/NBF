@@ -42,33 +42,16 @@ namespace Extensions.WebApi.WebCode.Repository
             return webCodeId;
         }
         
-        string IWebCodeRepository.GetWebCodeUserID()
+        int IWebCodeRepository.GetWebCodeUserID()
         {
-            
             IRepository<WebcodeUniqueIDModel> repository = _unitOfWork.GetRepository<WebcodeUniqueIDModel>();
-            
-            WebcodeUniqueIDModel userid = repository.Create();
-           
-            WebcodeUniqueIDModel inserted = userid;
-            repository.Insert(inserted);
+
+            var record = repository.GetTable().FirstOrDefault();
+            record.WebCodeUniqueID++;
+            var retVal = record.WebCodeUniqueID;
             _unitOfWork.Save();
-            string usercodeIncremented = inserted.WebCodeUniqueID.ToString();
-            int lengthOfVoucher = 7 - usercodeIncremented.Length;
 
-
-            
-            char[] keys = "ACEGHJKMNPQRTUWXYZ23456789".ToCharArray();
-            var voucher =   GenerateWebCode(keys, lengthOfVoucher) + usercodeIncremented;
-
-            return voucher;
+            return retVal;
         }
-        private static string GenerateWebCode(char[] keys, int lengthOfVoucher)
-        {
-            return Enumerable
-                .Range(1, lengthOfVoucher) 
-                .Select(k => keys[random.Next(0, keys.Length - 1)])  
-                .Aggregate("", (e, c) => e + c); 
-        }
-
     }
 }
