@@ -14,7 +14,7 @@ using Insite.Customers.Services;
 
 namespace Extensions.WebApi.AnalyticsPages.Repository
 {
-    public class AnalyticsPagesRepository : BaseRepository, IAnalyticsPageRepository, IInterceptable
+    public class AnalyticsPagesRepository : BaseRepository, IAnalyticsPageRepository
     {
         private readonly IUnitOfWork _unitOfWork;
 
