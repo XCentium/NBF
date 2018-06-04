@@ -2,9 +2,7 @@
     "use strict";
 
     export interface INbfWebCodeService {
-
         getWebCode(userId: string): ng.IPromise<string>;
-
 
     }
 
@@ -17,8 +15,6 @@
         currentWebCode: string;
         affId: string;
 
-
-
         static $inject = ["$http", "httpWrapperService", "queryString", "$sessionStorage", "ipCookie", "$q"];
 
         constructor(
@@ -29,11 +25,6 @@
             protected ipCookie: any,
             protected $q: ng.IQService) {
         }
-
-
-
-
-
 
         getWebCode(userId: string): ng.IPromise<string> {
 
@@ -46,7 +37,6 @@
                 return webCodePromise;
 
             } else {
-
 
                 if (referrer) {
                     var searchEngineList = this.getSearchEngineDomains();
@@ -98,53 +88,21 @@
             this.ipCookie("referring_cookie", webCodeSplit[1], { path: "/", expires: expire });
             this.ipCookie("web_code_cookie", webCode.data, { path: "/", expires: expire });
             return webCode.data;
-
         }
         protected getWebUserCompleted(webCode: any): void {
-
             this.userId = webCode.data;
         }
-
-
         protected getWebCodeFailed(error: ng.IHttpPromiseCallbackArg<any>): void {
 
         }
-
         protected getWebCodeParams(siteId: string, userId: any): any {
-
-
             const params: any = {};
             params.siteId = siteId;
             params.userId = userId;
             return params;
-
-
-
         }
-
-
-        protected saveWebCodeCookie(): void {
-            var expire = new Date();
-            expire.setDate(expire.getDate() + 90);
-            var webCodeSplit = webCode.split("-");
-            var webCode = this.userId + this.affId;
-            this.currentWebCode = webCode;
-
-            // this.$sessionStorage.setObject("UserAffiliateCodeID", webCodeSplit[1]);
-            // this.$sessionStorage.setObject("UserOmnitureTransID", webCodeSplit[1]);
-            // this.ipCookie("referring_cookie", webCodeSplit[1], { path: "/", expires: expire });
-            // this.ipCookie("web_code_cookie", webCode, { path: "/", expires: expire });
-
-            this.currentWebCode = this.userId + "-" + this.affId;
-            webCode = this.currentWebCode;
-
-
-
-        }
-
         protected getSiteId(): string {
             var siteId = "default_web";
-
 
             const siteIdQueryString = this.queryString.get("SiteID");
             const ganTrackingId = this.queryString.get("GanTrackingID");
