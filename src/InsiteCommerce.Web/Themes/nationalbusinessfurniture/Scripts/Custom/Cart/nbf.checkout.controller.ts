@@ -267,9 +267,7 @@
         }
 
         protected convertToCurrency(amount: number): string {
-            return "$" + amount.toFixed(2).replace(/./g, function (c, i, a) {
-                return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
-            });
+            return "$" + amount.toFixed(2).replace(/./g, (c, i, a) => i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c);
         }
 
         protected getCartCompleted(cart: CartModel): void {
@@ -1197,15 +1195,6 @@
                 this.nbfEmailService.sendTaxExemptEmail(params).then(() => {
                     this.handleGuestRegistration(signInUri);
                 }, () => { this.errorMessage = "An error has occurred."; });
-
-                //this.nbfEmailService.postTaxExemptFileUpload(params, this.file).then(
-                //    (data) => {
-                //        //todo
-                //        //params.fileLocation = data;
-                //        this.nbfEmailService.sendTaxExemptEmail(params).then(() => {
-                //                this.handleGuestRegistration(signInUri);
-                //            },() => { this.errorMessage = "An error has occurred."; });
-                //    },() => { this.errorMessage = "An error has occurred."; });
             } else if (!this.isTaxExempt && this.taxExemptChoice) {
                 //tax exempt choice is yes but no file was uploaded
             } else {
@@ -1406,10 +1395,10 @@
                 return true;
             }
 
-            if (!this.cart.showCreditCard || !this.cart.paymentMethod.isCreditCard) {
+            if (!this.cart.showCreditCard || !this.cart.paymentMethod.isCreditCard || this.cart.paymentMethod.name == 'Open_Credit') {
                 return true;
             }
-
+            
             if (this.isInvalidCardNumber || this.isInvalidSecurityCode || this.isInvalidCardNumberOrSecurityCode) {
                 return false;
             }
@@ -1673,16 +1662,16 @@
                 this.taxExemptFileName = this.file.name;
 
                 let r = new FileReader();
-                let self = this;
 
-                r.addEventListener("load", function () {
-                    self.fileData.b64 = r.result.split(',')[1]
-                    self.$scope.$apply();
-                    //console.log(self.fileData.b64.replace(/^data:image\/(png|jpg);base64,/, "")); //replace regex if you want to rip off the base 64 "header"
+                r.addEventListener("load", () => {
+                    this.fileData.b64 = r.result.split(',')[1];
+                    this.$scope.$apply();
                 }, false);
 
 
-                r.readAsDataURL(this.file); //once defined all callbacks, begin reading the file               
+                r.readAsDataURL(this.file); //once defined all callbacks, begin reading the file   
+
+                this.updatebillToTaxExempt();
 
                 setTimeout(() => {
                     this.$scope.$apply();

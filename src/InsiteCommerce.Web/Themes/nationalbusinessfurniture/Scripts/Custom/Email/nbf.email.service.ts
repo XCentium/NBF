@@ -4,7 +4,6 @@
 
     export interface INbfEmailService {
         sendCatalogPrefsEmail(params: any): ng.IPromise<string>;
-        postTaxExemptFileUpload(params: TaxExemptParams, file: any): ng.IPromise<string>;
         sendTaxExemptEmail(params: TaxExemptParams): ng.IPromise<string>;
         sendContactUsSpanishForm(params: any): ng.IPromise<string>;
         uploadRmaFile(file: any);
@@ -45,22 +44,7 @@
                 this.sendEmailFailed
             );
         }
-
-        postTaxExemptFileUpload(params: TaxExemptParams, file: any): ng.IPromise<string> {
-            const fileUri = this.serviceUri + "/taxexemptfile";
-            //upload File
-
-            const formData = new FormData();
-            formData.append("file", file);
-
-            return this.httpWrapperService.executeHttpRequest(
-                this,
-                this.$http({ url: fileUri, method: "POST", data: formData, headers: { "Content-Type": undefined } }),
-                this.sendEmailCompleted,
-                this.sendEmailFailed
-            );
-        } 
-
+        
         uploadRmaFile(file: any) {
             const fileUri = this.serviceUri + "/rmafile";
 

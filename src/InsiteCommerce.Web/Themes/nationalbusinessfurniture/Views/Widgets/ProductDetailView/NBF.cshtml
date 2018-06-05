@@ -57,7 +57,7 @@
                             <div class="item-block__product__swatches__label" ng-repeat-start="styleTrait in vm.styleTraitFiltered | orderBy: 'sortOrder'">{{styleTrait.nameDisplay}}:</div>
                             <ul ng-repeat-end>
                                 <li ng-class="{'active': (vm.styleSelection[$parent.$index] && vm.styleSelection[$parent.$index].styleTraitValueId  == style.styleTraitValueId)}" ng-repeat="style in styleTrait.styleValues | orderBy: 'sortOrder' track by style.styleTraitValueId" class="tip" data-title="{{style.valueDisplay}}">
-                                    <img ng-click="vm.selectInsiteStyleDropdown(styleTrait.nameDisplay, style.styleTraitValueId, $parent.$index);" ng-src="https://s7d9.scene7.com/is/image/NationalBusinessFurniture/{{vm.getSwatchImageNameFromStyleTraitValueId(style.styleTraitName, style.value)}}?hei=200&id=5-zsy2&fmt=jpg&fit=constrain,1&wid=344&hei=344"  />
+                                    <img ng-click="vm.selectInsiteStyleDropdown(styleTrait.nameDisplay, style.styleTraitValueId, $parent.$index);" ng-src="https://s7d9.scene7.com/is/image/NationalBusinessFurniture/{{vm.getSwatchImageNameFromStyleTraitValueId(style.styleTraitName, style.value)}}?hei=200&id=5-zsy2&fmt=jpg&fit=constrain,1&wid=344&hei=344" />
                                 </li>
                             </ul>
                         </div>
@@ -111,8 +111,7 @@
                             <span class="field-validation-error" ng-if="vm.showUnitError"><span ng-bind="vm.parentProduct.unitOfMeasureDisplay"></span>[% siteMessage 'StyledProduct_WrongUnitOfMeasure' %]</span>
                             <div class="pd-buttons">
                                 <div class="small-12 primary-button">
-                                    <button ng-show="(vm.product.availability.messageType != 2 || vm.product.canBackOrder) && vm.product.allowedAddToCart && (vm.product.canAddToCart || vm.configurationCompleted || vm.styleSelectionCompleted && !vm.product.canConfigure)"
-                                            id="tst_productDetail_addToCart" ng-click="vm.addToCart(vm.product)"
+                                    <button id="tst_productDetail_addToCart" ng-click="vm.addToCart(vm.product)"
                                             role="button" class="btn primary btn-add-to-cart" ng-disabled="!vm.product.qtyOrdered || vm.product.qtyOrdered == 0 || vm.showUnitError || vm.addingToCart">
                                         <span class="ico-CartIcon"></span> [% translate 'Add To Cart' %]
                                     </button>
@@ -179,7 +178,7 @@
                                             <ul class="doclinks">
                                                 <li ng-if="vm.languageId === document.languageId || document.languageId === null" ng-repeat="document in vm.product.documents" class="doc-{{$index}}">
                                                     <a class="pdf-icon" ng-if="document.documentType == null || document.documentType != 'blog'" id="tst_productDetail_{{document.id}}" ng-href="http://s7d9.scene7.com/is/content/NationalBusinessFurniture/PDFs/Products/{{document.filePath}}" target="_new">{{document.name}} <em ng-if="document.documentType">({{document.documentType}})</em></a>
-                                                    <a ng-if="document.documentType == 'blog'" id="tst_productDetail_{{document.id}}" ng-href="{{document.filePath}}" target="_new">{{document.name}} <em ng-if="document.documentType">({{document.documentType}})</em></a>
+                                                    <a class="blog-icon" ng-if="document.documentType == 'blog'" id="tst_productDetail_{{document.id}}" ng-href="{{document.filePath}}" target="_new">{{document.name}} <em ng-if="document.documentType">({{document.documentType}})</em></a>
                                                 </li>
                                             </ul>
                                         </div>
@@ -235,6 +234,26 @@
         </div>
         <div class="swatchform__footer">
             <a href ng-click="vm.addSwatchProductsToCart()" class="btn add-to-cart"><span class="ico-CartIcon"></span> Add To Cart</a>
+        </div>
+        <a class="close-reveal-modal" aria-label="Close">&#215;</a>
+    </div>
+    <!--Unstyle Product error -->
+    <div id="unstyledProductErrorModal" class="unstyledProductErrorModal reveal-modal" data-reveal data-reveal-init aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
+        <div class="unstyledProductErrorModal__scrollarea">
+            <h2 id="unstyledProductErrorModal__title">[% siteMessage 'ProductDetail_UnstyledProductPopupTitle' %]</h2>
+            <p class="lead">
+                [% siteMessage 'ProductDetail_UnstyledProductPopupMessage' %]
+            </p>
+        </div>
+        <a class="close-reveal-modal" aria-label="Close">&#215;</a>
+    </div>
+    <!--Product cannot be added to cart error -->
+    <div id="productCannotBeAddedToCartErrorModal" class="productCannotBeAddedToCartErrorModal reveal-modal" data-reveal data-reveal-init aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
+        <div class="productCannotBeAddedToCartErrorModal__scrollarea">
+            <h2 id="productCannotBeAddedToCartErrorModal__title">[% siteMessage 'ProductDetail_ProductCannotBeAddedToCartPopupTitle' %]</h2>
+            <p class="lead">
+                [% siteMessage 'ProductDetail_ProductCannotBeAddedToCartPopupMessage' %]
+            </p>
         </div>
         <a class="close-reveal-modal" aria-label="Close">&#215;</a>
     </div>
