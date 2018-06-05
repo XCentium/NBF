@@ -96,12 +96,10 @@
                 this.taxExemptFileName = this.file.name;
 
                 let r = new FileReader();
-                let self = this;
 
-                r.addEventListener("load", function () {
-                    self.fileData.b64 = r.result.split(',')[1]
-                    self.$scope.$apply();
-                    //console.log(self.fileData.b64.replace(/^data:image\/(png|jpg);base64,/, "")); //replace regex if you want to rip off the base 64 "header"
+                r.addEventListener("load", () => {
+                    this.fileData.b64 = r.result.split(",")[1];
+                    this.$scope.$apply();
                 }, false);
 
 
@@ -132,17 +130,36 @@
             this.coreService.closeModal(selector);
         }
 
+        protected addTaxExempt() {
+            this.cart.billTo.properties["taxExemptFileName"] = this.taxExemptFileName;
+
+            this.nbfTaxExemptService.addTaxExempt(this.cart.billTo.id).then(() => 
+            {
+                this.customerService.updateBillTo(this.cart.billTo).then(
+                    () => {
+                        this.success = true;
+                        setTimeout(() => {
+                            this.success = false;
+                        }, 4000);
+                        this.saved = true;
+                        this.isTaxExempt = true; },
+                    (error: any) => { this.updateBillToFailed(error); });
+            });
+        }
+
         removeTaxExempt() {
             this.taxExemptChoice = false;
             this.coreService.closeModal("#popup-delete-tax-exempt-confirmation");
 
             this.nbfTaxExemptService.removeTaxExempt(this.cart.billTo.id).then(() => {
-                this.cartService.getCart().then((confirmedCart: CartModel) => { this.onCartLoaded(confirmedCart); });
+                delete this.cart.billTo.properties["taxExemptFileName"];
+                this.customerService.updateBillTo(this.cart.billTo).then(
+                    () => { this.cartService.getCart().then((confirmedCart: CartModel) => { this.onCartLoaded(confirmedCart); }); },
+                    (error: any) => { this.updateBillToFailed(error); });
             });
         }
 
         saveFile(emailTo: string, orderNum?: string) {
-            debugger;
             var params = {
                 customerNumber: this.cart.billTo.customerNumber,
                 customerSequence: this.cart.billTo.customerSequence,
@@ -153,46 +170,15 @@
             } as TaxExemptParams;
 
             this.nbfEmailService.sendTaxExemptEmail(params).then(() => {
-                this.updateBillTo();
+                this.addTaxExempt();
             }, () => { this.errorMessage = "An error has occurred."; });
-
-            //this.nbfEmailService.postTaxExemptFileUpload(params, this.file).then(
-            //    (data) => {
-            //        params.fileLocation = data;
-            //        this.nbfEmailService.sendTaxExemptEmail(params).then(() => {
-            //            this.updateBillTo();
-            //        }, () => { this.errorMessage = "An error has occurred."; });
-            //    }, () => { this.errorMessage = "An error has occurred."; });
-        }
-
-        protected updateBillTo() {
-            this.cart.billTo.properties["taxExemptFileName"] = this.taxExemptFileName;
-
-            this.nbfTaxExemptService.addTaxExempt(this.cart.billTo.id);
-
-            this.customerService.updateBillTo(this.cart.billTo).then(
-                () => {
-                    this.success = true;
-                    setTimeout(() => {
-                            this.success = false;
-                        }, 4000);
-                    this.saved = true;
-                    this.isTaxExempt = true;
-                    this.updateBillToCompleted();
-                },
-                (error: any) => { this.updateBillToFailed(error); });
-        }
-
-        protected updateBillToCompleted(): void {
-            
         }
 
         protected updateBillToFailed(error: any): void {
             this.errorMessage = "An error has occurred.";
         }
     }
-
-
+    
     angular
         .module("insite")
         .controller("TaxExemptController", TaxExemptController);
