@@ -349,6 +349,7 @@
     <Compile Include="Handlers\Interfaces\INBFGetOrderHelper.cs" />
     <Compile Include="Handlers\Interfaces\INBFListrakHelper.cs" />
     <Compile Include="Handlers\GetTrackedOrderHandler.cs" />
+    <Compile Include="Handlers\SubmitOrderToErpHandler\AddAffiliateData.cs" />
     <Compile Include="Handlers\SubmitOrderToErpHandler\CreateShippingByVendor.cs" />
     <Compile Include="Handlers\UpdateCartHandler.cs" />
     <Compile Include="Handlers\GetCartHandler\RecalculateCart.cs" />
@@ -370,6 +371,8 @@
     <Compile Include="Models\ShopTheLook\StlRoomLooksProductMapping.cs" />
     <Compile Include="Models\ShopTheLook\StlRoomLooksCategoryMapping.cs" />
     <Compile Include="Models\ShopTheLook\StlRoomLookMapping.cs" />
+    <Compile Include="Models\WebcodeUniqueID\WebcodeUniqueID.cs" />
+    <Compile Include="Models\WebcodeUniqueID\WebcodeUniqueIDModelMapping.cs" />
     <Compile Include="Plugins\Cart\CalculateVendorBreakPricing.cs" />
     <Compile Include="Plugins\Cart\CalculateShipping.cs" />
     <Compile Include="Plugins\Cart\Models\AdditionalChargesRule.cs" />
@@ -529,6 +532,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="DatabaseScripts\2018.06.01.01.CreateWebCodeTable.sql" />
     <EmbeddedResource Include="DatabaseScripts\2018.06.01.02.AddAnalyticsPageSystemList.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
