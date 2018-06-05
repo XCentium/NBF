@@ -329,6 +329,8 @@
                                                             </div>
                                                             <label for="expirationMonth" class="error"></label>
                                                         </div>
+                                                    </div>
+                                                    <div ng-show="vm.cart.showCreditCard && (vm.cart.paymentMethod.isCreditCard || vm.cart.paymentMethod.isPaymentProfile) && vm.cart.paymentMethod.name !== 'Open_Credit' && vm.remainingTotal > 0">
                                                         <label for="paymentAmount">[% translate 'Payment Amount' %]</label>
                                                         <div class="row">
                                                             <div class="small-4 columns payment-amount">

@@ -1395,10 +1395,10 @@
                 return true;
             }
 
-            if (!this.cart.showCreditCard || !this.cart.paymentMethod.isCreditCard) {
+            if (!this.cart.showCreditCard || !this.cart.paymentMethod.isCreditCard || this.cart.paymentMethod.name == 'Open_Credit') {
                 return true;
             }
-
+            
             if (this.isInvalidCardNumber || this.isInvalidSecurityCode || this.isInvalidCardNumberOrSecurityCode) {
                 return false;
             }
