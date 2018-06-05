@@ -88,8 +88,20 @@
         }
 
 
-        addToCart(product: ProductDto): void {  
-             this.addingToCart = true;
+        addToCart(product: ProductDto): void { 
+            if ((((product.availability as any).messageType != 2 || product.canBackOrder) && product.allowedAddToCart && (product.canAddToCart || this.configurationCompleted || this.styleSelectionCompleted && !product.canConfigure)) == false) {
+
+                if (this.styleSelectionCompleted == false) {
+                    this.showUnstyledProductErrorModal();
+                }
+                else {
+                    this.showProductCannotBeAddedToCartErrorModal();
+                }
+
+                return;
+            }
+
+            this.addingToCart = true;
 
             let sectionOptions: ConfigSectionOptionDto[] = null;
             if (this.configurationCompleted && product.configurationDto && product.configurationDto.sections) {
