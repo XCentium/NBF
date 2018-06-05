@@ -86,11 +86,40 @@
                 @media all and (max-width: 991px) {
                     width: 62%;
                     max-width: 260px;
-                    float: right;
+                    float: left;
                 }
 
                 @media print {
                     float: none;
+                }
+            }
+
+            .mobile-cart-btn {
+                float: right;
+                padding: 16px 0px 0 0;
+                position:relative;
+
+                a {
+                    text-decoration: none;
+
+                    .count {
+                        background: $nbf-orange;
+                        display: block;
+                        position: absolute;
+                        height: 20px;
+                        width: 20px;
+                        color: #fff;
+                        border-radius: 50px;
+                        text-align: center;
+                        line-height: 20px;
+                        font-size: 12px;
+                        top:7px;
+                        left:15px;
+                    }
+                }
+
+                @media all and (min-width: 992px) {
+                    display: none;
                 }
             }
         }
