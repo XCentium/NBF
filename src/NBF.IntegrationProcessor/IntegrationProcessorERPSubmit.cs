@@ -151,6 +151,9 @@ namespace NBF.IntegrationProcessor
                         cmd.Parameters.Add(new SqlParameter("@" + "OrderTotal", SqlDbType.Decimal)).Value = dr["OrderTotal"];
                         cmd.Parameters.Add(new SqlParameter("@" + "LastPricingOn", SqlDbType.DateTimeOffset)).Value = dr["LastPricingOn"];
 
+                        cmd.Parameters.Add(new SqlParameter("@" + "CustomerReference1", SqlDbType.NVarChar)).Value = dr["CustomerReference1"];
+                        cmd.Parameters.Add(new SqlParameter("@" + "CustomerReference2", SqlDbType.NVarChar)).Value = dr["CustomerReference2"];
+
 
                         cmd.ExecuteNonQuery();
                     }
