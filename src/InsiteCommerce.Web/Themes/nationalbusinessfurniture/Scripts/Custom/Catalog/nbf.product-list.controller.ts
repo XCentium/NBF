@@ -225,7 +225,7 @@
                     page_id: x.productCode,
                     review_wrapper_url: 'Product-Review?',
                     components: {
-                        CategorySnippet: 'pr-' + x.productCode
+                        CategorySnippet: 'pr-' + x.erpNumber
                     }
                 }
             });
