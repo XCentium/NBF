@@ -32,5 +32,14 @@ namespace Extensions.WebApi.WebCode.Controllers
 
             return Ok(a);
         }
+        [Route("WebCodeUniqueID", Name = "getwebcodeuniqueid")]
+        [ResponseType(typeof(string))]
+        public async Task<IHttpActionResult> Get()
+        {
+            
+            var a = await _webCodeService.GetWebCodeUserID();
+
+            return Ok(a);
+        }
     }
 }

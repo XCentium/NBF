@@ -206,6 +206,17 @@
             }            
         }   
 
+        styleChange(): void {
+            $("#s7flyout_inline_div").empty();
+            $('#s7flyout_inline_div').show();
+            $('#Wrapper360').hide();
+            var myVideo = $('#videofile');
+            if (myVideo) {
+                myVideo.trigger('pause');
+            }
+            $('#videofile').hide();
+            super.styleChange();
+        }
         protected toggleSwatchProductSelection(styleTraitName: string, styleTraitValueId: string): void {
             let swatch = this.swatches.find(x => x.ModelNumber == styleTraitName
                 && x.Name == styleTraitValueId);

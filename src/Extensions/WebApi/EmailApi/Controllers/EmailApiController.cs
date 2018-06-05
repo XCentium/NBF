@@ -118,6 +118,5 @@ namespace Extensions.WebApi.EmailApi.Controllers
                 return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, exception);
             }
         }
-
     }
 }

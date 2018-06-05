@@ -106,6 +106,7 @@
         }
 
         protected createGuestAccountCompleted(account: AccountModel): void {
+            this.$localStorage.set("guestId", account.password);
             this.accessToken.generate(account.userName, account.password).then(
                 (accessTokenDto: common.IAccessTokenDto) => { this.generateAccessTokenForGuestAccountCreationCompleted(accessTokenDto); },
                 (error: any) => { this.generateAccessTokenForGuestAccountCreationFailed(error); });

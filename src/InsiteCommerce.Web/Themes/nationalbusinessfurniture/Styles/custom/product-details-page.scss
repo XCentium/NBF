@@ -235,12 +235,21 @@
                 }
             }
 
+            .blog-icon {
+                &:before {
+                    content: '\f0c1';
+                    font-family: $FontAwesome;
+                    margin-right: 15px;
+                    color: $nbf-orange;
+                }
+            }
+
             .word-icon {
                 &:before {
                     content: '\f1c2';
                     font-family: $FontAwesome;
                     margin-right: 15px;
-                    color: blue;
+                    color: $nbf-navy;
                 }
             }
         }

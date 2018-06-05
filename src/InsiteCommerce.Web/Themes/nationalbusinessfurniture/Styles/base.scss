@@ -7578,7 +7578,8 @@ header label.toggle.burger {
 header label.toggle.burger {
     text-indent: -9999px;
     position: relative;
-    margin-left: 0.9375rem;
+    width: 40px;
+    margin-left: 10px;
 }
 
 header label.toggle.burger:after {
@@ -7602,7 +7603,7 @@ header label.toggle.burger:after {
     background-image: none;
     background-position: 0 0;
     background-repeat: repeat;
-    font-size: 3.4rem;
+    font-size: 1.4rem;
     text-indent: 0 !important;
     color:$nbf-navy;
 }
