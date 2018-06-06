@@ -33,7 +33,8 @@
             "nbfEmailService",
             "$element",
             "cartService",
-            "nbfTaxExemptService"
+            "nbfTaxExemptService",
+            "spinnerService"
         ];
 
         constructor(
@@ -47,7 +48,8 @@
             protected nbfEmailService: nbf.email.INbfEmailService,
             protected $element: ng.IRootElementService,
             protected cartService: cart.ICartService,
-            protected nbfTaxExemptService: INbfTaxExemptService) {
+            protected nbfTaxExemptService: INbfTaxExemptService,
+            protected spinnerService: core.ISpinnerService) {
             this.init();
         }
 
@@ -82,6 +84,7 @@
                     $("taxExemptFileUpload").val("");
                 }
             }
+            this.spinnerService.hide("mainLayout");
         }
 
         setFile(arg): boolean {
@@ -142,24 +145,36 @@
                             this.success = false;
                         }, 4000);
                         this.saved = true;
-                        this.isTaxExempt = true; },
+                        this.isTaxExempt = true;
+                        this.spinnerService.hide("mainLayout");
+                    },
                     (error: any) => { this.updateBillToFailed(error); });
+            },() => {
+                this.spinnerService.hide("mainLayout");
             });
         }
 
         removeTaxExempt() {
+            this.spinnerService.show("mainLayout", true);
             this.taxExemptChoice = false;
             this.coreService.closeModal("#popup-delete-tax-exempt-confirmation");
 
             this.nbfTaxExemptService.removeTaxExempt(this.cart.billTo.id).then(() => {
                 delete this.cart.billTo.properties["taxExemptFileName"];
                 this.customerService.updateBillTo(this.cart.billTo).then(
-                    () => { this.cartService.getCart().then((confirmedCart: CartModel) => { this.onCartLoaded(confirmedCart); }); },
-                    (error: any) => { this.updateBillToFailed(error); });
+                    () => { this.cartService.getCart().then((confirmedCart: CartModel) => {
+                        this.onCartLoaded(confirmedCart);
+                    }); },
+                    (error: any) => {
+                        this.updateBillToFailed(error);
+                    });
+            }, () => {
+                this.spinnerService.hide("mainLayout");
             });
         }
 
         saveFile(emailTo: string, orderNum?: string) {
+            this.spinnerService.show("mainLayout", true);
             var params = {
                 customerNumber: this.cart.billTo.customerNumber,
                 customerSequence: this.cart.billTo.customerSequence,
@@ -171,11 +186,14 @@
 
             this.nbfEmailService.sendTaxExemptEmail(params).then(() => {
                 this.addTaxExempt();
-            }, () => { this.errorMessage = "An error has occurred."; });
+            }, () => {
+                this.errorMessage = "An error has occurred.";
+                this.spinnerService.hide("mainLayout"); });
         }
 
         protected updateBillToFailed(error: any): void {
             this.errorMessage = "An error has occurred.";
+            this.spinnerService.hide("mainLayout");
         }
     }
     
