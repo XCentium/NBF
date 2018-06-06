@@ -26,7 +26,6 @@
         }
 
         init(): void {
-            debugger;
             this.settingsService.getSettings().then(
                 (settingsCollection: core.SettingsCollection) => { this.getSettingsCompleted(settingsCollection); },
                 (error: any) => { this.getSettingsFailed(error); });
