@@ -5,6 +5,9 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
+DROP TABLE [Extensions].[WebcodeUniqueID]
+GO
+
 CREATE TABLE [Extensions].[WebcodeUniqueID](
     [Id] [uniqueidentifier] NOT NULL CONSTRAINT [DF_WebcodeUniqueID_Id]  DEFAULT (newsequentialid()),
     [WebcodeUniqueID] [int] NOT NULL,
