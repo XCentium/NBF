@@ -33,7 +33,8 @@
             "nbfEmailService",
             "$element",
             "cartService",
-            "nbfTaxExemptService"
+            "nbfTaxExemptService",
+            "spinnerService"
         ];
 
         constructor(
@@ -47,7 +48,8 @@
             protected nbfEmailService: nbf.email.INbfEmailService,
             protected $element: ng.IRootElementService,
             protected cartService: cart.ICartService,
-            protected nbfTaxExemptService: INbfTaxExemptService) {
+            protected nbfTaxExemptService: INbfTaxExemptService,
+            protected spinnerService: core.ISpinnerService) {
             this.init();
         }
 
@@ -82,6 +84,7 @@
                     $("taxExemptFileUpload").val("");
                 }
             }
+            this.spinnerService.hide("mainLayout");
         }
 
         setFile(arg): boolean {
@@ -148,14 +151,19 @@
         }
 
         removeTaxExempt() {
+            this.spinnerService.show("mainLayout", true);
             this.taxExemptChoice = false;
             this.coreService.closeModal("#popup-delete-tax-exempt-confirmation");
 
             this.nbfTaxExemptService.removeTaxExempt(this.cart.billTo.id).then(() => {
                 delete this.cart.billTo.properties["taxExemptFileName"];
                 this.customerService.updateBillTo(this.cart.billTo).then(
-                    () => { this.cartService.getCart().then((confirmedCart: CartModel) => { this.onCartLoaded(confirmedCart); }); },
-                    (error: any) => { this.updateBillToFailed(error); });
+                    () => { this.cartService.getCart().then((confirmedCart: CartModel) => {
+                        this.onCartLoaded(confirmedCart);
+                    }); },
+                    (error: any) => {
+                        this.updateBillToFailed(error);
+                    });
             });
         }
 
@@ -176,6 +184,7 @@
 
         protected updateBillToFailed(error: any): void {
             this.errorMessage = "An error has occurred.";
+            this.spinnerService.hide("mainLayout");
         }
     }
     
