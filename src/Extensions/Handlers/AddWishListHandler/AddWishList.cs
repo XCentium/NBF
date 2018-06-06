@@ -33,7 +33,7 @@ namespace Extensions.Handlers.AddWishListHandler
             }
 
             var wishlistRepository = unitOfWork.GetRepository<WishList>();
-            var wishListTable = wishlistRepository.GetTable().Where(o => o.ShareOption != WishList.ShareOptionType.Static);
+            var wishListTable = wishlistRepository.GetTable().Where(o => o.ShareOption != "Static");
 
             var wishList = allowMultipleWishlists ? wishListTable.FirstOrDefault(o => o.UserProfile.Id == result.UserProfileDto.Id && o.Name == parameter.Name)
                 : wishListTable.OrderByDescending(o => o.ModifiedOn).FirstOrDefault(o => o.UserProfile.Id == result.UserProfileDto.Id);

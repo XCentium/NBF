@@ -107,7 +107,9 @@
             "$element",
             "$rootScope",
             "nbfTaxExemptService",
-            "ipCookie"
+            "ipCookie",
+            "$location",
+            "accessToken"
         ];
 
         constructor(
@@ -135,7 +137,9 @@
             protected $element: ng.IRootElementService,
             protected $rootScope: ng.IRootScopeService,
             protected nbfTaxExemptService: insite.account.INbfTaxExemptService,
-            protected ipCookie: any
+            protected ipCookie: any,
+            protected $location: ng.ILocaleService,
+            protected accessToken: insite.common.IAccessTokenService
         ) {
             this.init();
         }
@@ -177,7 +181,7 @@
                     e.preventDefault();
                 }
             });
-            
+
             $(".masked-phone").mask("999-999-9999", { autoclear: false });
 
             this.$form = $("#taxExemptFileUpload");
@@ -227,8 +231,8 @@
                         this.getCartCompleted(cart);
                         this.reviewAndPayInit();
                         setTimeout(() => {
-                                this.loadStep3();
-                            },
+                            this.loadStep3();
+                        },
                             200);
                     }, () => { this.getCartInitial(this.cartId) });
             } else {
@@ -247,7 +251,7 @@
         }
 
         protected setPaymentAmounts() {
-            
+
             this.remainingTotal = this.cart.orderGrandTotal;
             if (this.cart.properties["cc1"]) {
                 var cc1Amount = Number(this.cart.properties["cc1"]);
@@ -453,7 +457,7 @@
                         }
                     });
                 }
-            } 
+            }
 
             if (this.onlyOneCountryToSelect()) {
                 this.selectFirstCountryForAddress(this.selectedShipTo);
@@ -582,7 +586,7 @@
             }
 
             const country = this.countries.filter((elem) => {
-               return elem.id === address.country.id;
+                return elem.id === address.country.id;
             });
 
             const isRequired = country != null && country.length > 0 && country[0].states.length > 0;
@@ -641,7 +645,7 @@
         }
 
         protected updateBillToCompleted(billTo: BillToModel): void {
-            this.$rootScope.$broadcast("AnalyticsEvent", "ShippingBillingInfoComplete", null, null, {state: billTo.state.abbreviation, zip: billTo.postalCode});
+            this.$rootScope.$broadcast("AnalyticsEvent", "ShippingBillingInfoComplete", null, null, { state: billTo.state.abbreviation, zip: billTo.postalCode });
         }
 
         protected updateBillToFailed(error: any): void {
@@ -785,7 +789,7 @@
             this.setStateRequiredRule("st", this.selectedShipTo);
             this.selectFirstCountryForAddress(this.cart.billTo);
             this.setStateRequiredRule("bt", this.cart.billTo);
-            
+
             $("#nav1expanded,#nav2expanded").show();
             $("#nav1min,#nav2min,#nav1 .edit,#nav2 .edit").hide();
 
@@ -968,7 +972,7 @@
             }
             this.cartService.getCart(this.cartId).then(
                 (cart: CartModel) => {
-                    this.getCartCompletedForReviewAndPay(cart, isInit); 
+                    this.getCartCompletedForReviewAndPay(cart, isInit);
                     $("#nav1expanded").hide();
                     $("#nav1").removeClass("active");
                     $("#nav1min, #nav1 .edit").show();
@@ -1022,7 +1026,7 @@
             setTimeout(() => {
                 this.setUpCloudPaymentGateway();
             }, 0, false);
-            
+
             this.setUpBillTo();
             this.setUpShipTos();
             this.setSelectedShipTo();
@@ -1171,7 +1175,7 @@
                 var $validator = $("#reviewAndPayForm").validate(); //.invalid();
                 var errors = { paymentAmount: "Cannot place order for less than the total." };
                 /* Show errors on the form */
-                $validator.showErrors(errors); 
+                $validator.showErrors(errors);
                 this.submitting = false;
                 return;
             }
@@ -1222,11 +1226,10 @@
                             this.nbfGuestActivationService.createAccountFromGuest(this.account.id,
                                 newAccount,
                                 this.cart.billTo,
-                                this.cart.shipTo).then(
-                                () => {
+                                this.cart.shipTo).then((response) => {
                                     self.$rootScope.$broadcast("AnalyticsEvent", "CheckoutAccountCreation");
                                     this.newUser = true;
-                                    this.submitOrder(signInUri);
+                                    this.setUpNewUserAndSubmit(signInUri, response, pass);
                                 });
                         }
                     });
@@ -1264,7 +1267,7 @@
                 this.cart.properties["CampaignID"] = this.ipCookie("CampaignID");
             }
 
-            if (this.ipCookie("UserOmnitureTransID")){
+            if (this.ipCookie("UserOmnitureTransID")) {
                 this.cart.properties["UserOmnitureTransID"] = this.ipCookie("UserOmnitureTransID");
             }
 
@@ -1382,12 +1385,12 @@
         protected validateReviewAndPayForm(): boolean {
             if (!this.validatedCloudPaymentGateway()) {
                 return false;
-            } 
+            }
 
             const valid = $("#reviewAndPayForm").validate().form();
             if (!valid) {
                 jQuery("html, body").animate({
-                        scrollTop: jQuery("#reviewAndPayForm").offset().top
+                    scrollTop: jQuery("#reviewAndPayForm").offset().top
                 }, 300);
                 return false;
             }
@@ -1403,7 +1406,7 @@
             if (!this.cart.showCreditCard || !this.cart.paymentMethod.isCreditCard || this.cart.paymentMethod.name == 'Open_Credit') {
                 return true;
             }
-            
+
             if (this.isInvalidCardNumber || this.isInvalidSecurityCode || this.isInvalidCardNumberOrSecurityCode) {
                 return false;
             }
@@ -1717,6 +1720,57 @@
         protected updatebillToTaxExemptFailed(error: any): void {
             this.spinnerService.hide();
             this.submitErrorMessage = "An error uploading your file has occurred.";
+        }
+
+        protected setUpNewUserAndSubmit(signInUri: string, response: AccountModel, newPass: string) {
+            if (response != null) {
+                this.cart.billTo.isGuest = false;
+                this.customerService.updateBillTo(this.cart.billTo).then(
+                    (billTo: BillToModel) => {
+                        if (this.cart.shipTo.id !== billTo.id) {
+                            const shipTo = this.cart.shipTo;
+                            if ((shipTo as any).shipTos) {
+                                /* In the situation the user selects the billTo as the shipTo we need to remove the shipTos collection
+                                   from the object to prevent a circular reference when serializing the object. See the unshift command below. */
+                                angular.copy(this.cart.shipTo, shipTo);
+                                delete (shipTo as any).shipTos;
+                            }
+
+                            this.customerService.addOrUpdateShipTo(shipTo).then(
+                                (result: ShipToModel) => {
+                                    this.$localStorage.set("createdShipToId", result.id);
+                                    (<any>this.$location).search("isNewShipTo", null);
+                                },
+                                (error: any) => { this.addOrUpdateShipToFailed(error); });
+                        }
+
+                        var tempPass = this.$localStorage.get("guestId");
+                        var userName = response.userName;
+                        if (tempPass && userName) {
+                            const session: SessionModel = {
+                                password: tempPass,
+                                newPassword: newPass,
+                                userName: response.userName,
+                                userLabel: response.userName,
+                                email: response.email,
+                                activateAccount: true
+                            } as any;
+
+                            this.sessionService.changePassword(session).then(
+                                () => {
+                                    var currentToken = this.accessToken.get();
+                                    this.sessionService.signIn(currentToken, response.userName, newPass).then(
+                                        (session: SessionModel) => {
+                                            this.sessionService.setContextFromSession(session);
+                                            if (session.isRestrictedProductExistInCart) {
+                                                this.$localStorage.set("hasRestrictedProducts", true.toString());
+                                            }
+                                            this.submitOrder(signInUri);
+                                        });
+                                });
+                        }
+                    });
+            }
         }
     }
 
