@@ -465,8 +465,15 @@
 
                             this.customerService.addOrUpdateShipTo(shipTo).then(
                                 (result: ShipToModel) => {
-                                    this.$localStorage.set("createdShipToId", result.id);
-                                    (<any>this.$location).search("isNewShipTo", null);
+                                    if (this.shipTo.isNew) {
+                                        const isNewShipTo = this.queryString.get("isNewShipTo");
+                                        if (isNewShipTo === "true") {
+                                            this.$localStorage.set("createdShipToId", result.id);
+                                            (<any>this.$location).search("isNewShipTo", null);
+                                        } else {
+                                            this.getBillTo(result);
+                                        }
+                                    }
                                 },
                                 (error: any) => { this.addOrUpdateShipToFailed(error); });
                         }
@@ -482,6 +489,8 @@
                             this.sessionService.changePassword(session).then(() => {
                                 this.$localStorage.set("changePasswordDate", (new Date()).toLocaleString());
                                 this.createAccountCompleted(response);
+                            }, (error) => {
+                                this.createError = error.message;
                             });
                         }
                     });
