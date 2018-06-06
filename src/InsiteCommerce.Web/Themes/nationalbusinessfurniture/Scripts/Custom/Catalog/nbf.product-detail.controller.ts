@@ -88,8 +88,20 @@
         }
 
 
-        addToCart(product: ProductDto): void {  
-             this.addingToCart = true;
+        addToCart(product: ProductDto): void { 
+            if ((((product.availability as any).messageType != 2 || product.canBackOrder) && product.allowedAddToCart && (product.canAddToCart || this.configurationCompleted || this.styleSelectionCompleted && !product.canConfigure)) == false) {
+
+                if (this.styleSelectionCompleted == false) {
+                    this.showUnstyledProductErrorModal();
+                }
+                else {
+                    this.showProductCannotBeAddedToCartErrorModal();
+                }
+
+                return;
+            }
+
+            this.addingToCart = true;
 
             let sectionOptions: ConfigSectionOptionDto[] = null;
             if (this.configurationCompleted && product.configurationDto && product.configurationDto.sections) {
@@ -194,6 +206,17 @@
             }            
         }   
 
+        styleChange(): void {
+            $("#s7flyout_inline_div").empty();
+            $('#s7flyout_inline_div').show();
+            $('#Wrapper360').hide();
+            var myVideo = $('#videofile');
+            if (myVideo) {
+                myVideo.trigger('pause');
+            }
+            $('#videofile').hide();
+            super.styleChange();
+        }
         protected toggleSwatchProductSelection(styleTraitName: string, styleTraitValueId: string): void {
             let swatch = this.swatches.find(x => x.ModelNumber == styleTraitName
                 && x.Name == styleTraitValueId);

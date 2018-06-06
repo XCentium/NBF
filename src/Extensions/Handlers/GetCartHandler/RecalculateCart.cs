@@ -34,15 +34,15 @@ namespace Extensions.Handlers.GetCartHandler
                 return NextHandler.Execute(unitOfWork, parameter, result);
             if (result.Cart.Status != "Cart" && result.Cart.Status != "AwaitingApproval")
                 return NextHandler.Execute(unitOfWork, parameter, result);
-            var lastPricingOn = result.Cart.LastPricingOn;
-            var billToTaxCodeTaxFree = SiteContext.Current.BillTo != null && SiteContext.Current.BillTo.TaxCode1.Equals("NT", StringComparison.CurrentCultureIgnoreCase);
+            //var lastPricingOn = result.Cart.LastPricingOn;
+            //var billToTaxCodeTaxFree = SiteContext.Current.BillTo != null && SiteContext.Current.BillTo.TaxCode1.Equals("NT", StringComparison.CurrentCultureIgnoreCase);
 
-            if (lastPricingOn.HasValue && !billToTaxCodeTaxFree)
-            {
-                lastPricingOn = result.Cart.LastPricingOn;
-                if (lastPricingOn != null && lastPricingOn.Value.DateTime.AddMinutes(cartSettings.MinutesBeforeRecalculation) > DateTimeProvider.Current.Now)
-                    return NextHandler.Execute(unitOfWork, parameter, result);
-            }
+            //if (lastPricingOn.HasValue && !billToTaxCodeTaxFree)
+            //{
+            //    lastPricingOn = result.Cart.LastPricingOn;
+            //    if (lastPricingOn != null && lastPricingOn.Value.DateTime.AddMinutes(cartSettings.MinutesBeforeRecalculation) > DateTimeProvider.Current.Now)
+            //        return NextHandler.Execute(unitOfWork, parameter, result);
+            //}
             result.Cart.ShippingCalculationNeededAsOf = DateTimeProvider.Current.Now;
             result.Cart.RecalculateTax = true;
             if (result.Cart.Type != "Quote" && result.Cart.Type != "Job")

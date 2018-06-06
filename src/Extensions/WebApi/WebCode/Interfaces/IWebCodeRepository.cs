@@ -5,5 +5,6 @@ namespace Extensions.WebApi.WebCode.Interfaces
     public interface IWebCodeRepository : IExtension, IDependency
     {
         string GetWebCode(string siteId, string userId);
+        int GetWebCodeUserID();
     }
 }
