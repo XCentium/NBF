@@ -22,6 +22,8 @@
         addressFields: AddressFieldCollectionModel;
         shipToSameAsBillTo = true;
 
+        loaded = false;
+
         static $inject = [
             "accountService",
             "sessionService",
@@ -186,7 +188,7 @@
             this.listrakService.CreateContact(account.email, "account");
             this.sessionService.setContext(currentContext);
             this.sessionService.getSession().then(() => {
-                this.coreService.redirectToPath(this.returnUrl);
+                this.coreService.redirectToPathAndRefreshPage(this.returnUrl);
             });
         }
 
@@ -204,9 +206,11 @@
             this.addressFields.billToAddressFields.phone.isVisible = false;
             this.addressFields.shipToAddressFields.phone.isVisible = false;
             this.getBillTo(this.session.shipTo);
+            this.loaded = true;
         }
 
         protected getAddressFieldsFailed(error: any): void {
+            this.createError = "Address Fields could not be loaded.";
         }
         
 
