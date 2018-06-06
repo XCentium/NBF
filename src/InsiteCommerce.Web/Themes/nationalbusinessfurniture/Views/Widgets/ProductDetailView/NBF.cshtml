@@ -50,11 +50,13 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="item-block__product__samples-link" ng-if="vm.product.styleTraits.length > 0">
+                        <div class="item-block__product__samples-link" ng-if="vm.product.styleTraits.length > 0 && vm.isSingleBlankSwatch == false">
                             <strong>Available Colors/Finishes</strong> <a class="hide-for-print" href="javascript:void(0);" ng-click="vm.showSwatchOrderForm()">Order Free Samples</a>
-                        </div>
-                        <div class="item-block__product__swatches">
-                            <div class="item-block__product__swatches__label" ng-repeat-start="styleTrait in vm.styleTraitFiltered | orderBy: 'sortOrder'">{{styleTrait.nameDisplay}}:</div>
+                        </div>                        
+                        <div class="item-block__product__swatches" ng-show="vm.isSingleBlankSwatch == false">
+                            <div class="item-block__product__swatches__label" ng-repeat-start="styleTrait in vm.styleTraitFiltered | orderBy: 'sortOrder'">
+                                {{styleTrait.nameDisplay}}:
+                            </div>
                             <ul ng-repeat-end>
                                 <li ng-class="{'active': (vm.styleSelection[$parent.$index] && vm.styleSelection[$parent.$index].styleTraitValueId  == style.styleTraitValueId)}" ng-repeat="style in styleTrait.styleValues | orderBy: 'sortOrder' track by style.styleTraitValueId" class="tip" data-title="{{style.valueDisplay}}">
                                     <img ng-click="vm.selectInsiteStyleDropdown(styleTrait.nameDisplay, style.styleTraitValueId, $parent.$index);" ng-src="https://s7d9.scene7.com/is/image/NationalBusinessFurniture/{{vm.getSwatchImageNameFromStyleTraitValueId(style.styleTraitName, style.value)}}?hei=200&id=5-zsy2&fmt=jpg&fit=constrain,1&wid=344&hei=344" />
@@ -75,7 +77,7 @@
                         </div>
                     </div>
                     <div class="detail-options small-12 column medium-6 hide-for-print">
-                        <div class="panel" ng-show="vm.product.isConfigured && vm.product.configurationDto && !vm.product.configurationDto.isKit || vm.product.styleTraits.length > 0">
+                        <div class="panel" ng-show="(vm.product.isConfigured && vm.product.configurationDto && !vm.product.configurationDto.isKit || vm.product.styleTraits.length > 0) && vm.isSingleBlankSwatch == false">
                             <div class="row collapse detail-options-wrap">
                                 <!-- Configuration part -->
                                 <div ng-show="vm.product.isConfigured && vm.product.configurationDto != null && !vm.product.configurationDto.isKit">
