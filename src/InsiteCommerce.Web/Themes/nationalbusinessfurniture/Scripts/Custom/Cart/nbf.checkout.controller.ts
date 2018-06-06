@@ -614,12 +614,6 @@
 
             this.$rootScope.$broadcast("AnalyticsEvent", "ShippingBillingInfoComplete", null, null, { state: this.cart.billTo.state.abbreviation, zip: this.cart.billTo.postalCode });
 
-            // if no changes, redirect to next step
-            if (this.$scope.addressForm.$pristine) {
-                this.loadStep2();
-                return;
-            }
-
             // if the ship to has been changed, set the shipvia to null so it isn't set to a ship via that is no longer valid
             if (this.cart.shipTo && this.cart.shipTo.id !== this.selectedShipTo.id) {
                 this.cart.shipVia = null;
