@@ -25,7 +25,7 @@
             "settingsService",
             "$stateParams",
             "sessionService",
-            "nbfWishListService",
+            "wishListService",
             "spinnerService",
             "$window",
             "$anchorScroll",
@@ -44,7 +44,7 @@
             protected settingsService: core.ISettingsService,
             protected $stateParams: IContentPageStateParams,
             protected sessionService: account.ISessionService,
-            protected nbfWishListService: wishlist.INbfWishListService,
+            protected wishListService: wishlist.IWishListService,
             protected spinnerService: core.ISpinnerService,
             protected $window: ng.IWindowService,
             protected $anchorScroll: ng.IAnchorScrollService,
@@ -75,13 +75,13 @@
 
             if (favoriteLine.length > 0) {
                 //Remove lines
-                this.nbfWishListService.deleteLineCollection(this.favoritesWishlist, favoriteLine).then((result) => {
+                this.wishListService.deleteLineCollection(this.favoritesWishlist, favoriteLine).then((result) => {
                     this.getFavorites(product);
                 });     
             } else {
                 //Add Lines
                 var addLines = [product];
-                this.nbfWishListService.addWishListLines(this.favoritesWishlist, addLines).then(() => {
+                this.wishListService.addWishListLines(this.favoritesWishlist, addLines).then(() => {
                     this.getFavorites(product);
                 });
                 this.$rootScope.$broadcast("AnalyticsEvent", "AddProductToWishList");
@@ -122,7 +122,7 @@
         }        
 
         protected getFavorites(product : ProductDto) {
-            this.nbfWishListService.getWishLists("CreatedOn", "wishlistlines").then((wishList) => {
+            this.wishListService.getWishLists("CreatedOn", "wishlistlines").then((wishList) => {
                 this.favoritesWishlist = wishList.wishListCollection[0];
                 product.properties["isFavorite"] = "false";
                 if (this.favoritesWishlist) {
