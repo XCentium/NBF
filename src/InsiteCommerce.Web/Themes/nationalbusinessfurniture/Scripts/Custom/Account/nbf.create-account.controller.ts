@@ -119,7 +119,6 @@
         protected generateAccessTokenForGuestAccountCreationCompleted(accessTokenDto: common.IAccessTokenDto): void {
             this.accessToken.set(accessTokenDto.accessToken);
             this.spinnerService.hide("mainLayout");
-            //this.getSession();
             this.getAddressFields();
         }
 
@@ -158,12 +157,8 @@
                                 const newAccount = {
                                     email: this.email,
                                     userName: this.email,
-                                    password: this.password,
                                     firstName: this.userFirstName,
-                                    lastName: this.userLastName,
-                                    isSubscribed: this.isSubscribed,
-                                    billToId: this.billTo.id as System.Guid,
-                                    shipToId: this.shipTo.id as System.Guid
+                                    lastName: this.userLastName
                                 } as AccountModel;
 
                                 //AccountModel has no value for phone, assign to user's billto address
@@ -172,9 +167,8 @@
                                 this.billTo.email = this.email;
                                 this.shipTo.email = this.email;
 
-                                this.nbfGuestActivationService
-                                    .createAccountFromGuest(account.id, newAccount, this.billTo, this.shipTo).then(
-                                    (accountResult: AccountModel) => { this.createAccountCompleted(accountResult); },
+                                this.nbfGuestActivationService.createAccountFromGuest(account.id, newAccount, this.billTo, this.shipTo).then(
+                                    (accountResult: AccountModel) => { this.setUpNewUserAndSubmit(accountResult, this.password); },
                                         (error: any) => { this.createAccountFailed(error); }
                                     );
                             },
@@ -185,14 +179,10 @@
 
         protected createAccountCompleted(account: AccountModel): void {
             this.$rootScope.$broadcast("AnalyticsEvent", "AccountCreation");
-            const currentContext = this.sessionService.getContext();
-            currentContext.billToId = account.billToId;
-            currentContext.shipToId = account.shipToId;
+
             this.listrakService.CreateContact(account.email, "account");
-            this.sessionService.setContext(currentContext);
-            this.sessionService.getSession().then(() => {
-                this.coreService.redirectToPathAndRefreshPage(this.returnUrl);
-            });
+
+            this.coreService.redirectToPath(this.returnUrl);
         }
 
         protected createAccountFailed(error: any): void {
@@ -458,6 +448,47 @@
                 }
             });
         }
+
+        protected setUpNewUserAndSubmit(response: AccountModel, newPass: string) {
+            if (response != null) {
+                this.billTo.isGuest = false;
+                this.customerService.updateBillTo(this.billTo).then(
+                    (billTo: BillToModel) => {
+                        if (this.shipTo.id !== billTo.id) {
+                            const shipTo = this.shipTo;
+                            if ((shipTo as any).shipTos) {
+                                /* In the situation the user selects the billTo as the shipTo we need to remove the shipTos collection
+                                   from the object to prevent a circular reference when serializing the object. See the unshift command below. */
+                                angular.copy(this.shipTo, shipTo);
+                                delete (shipTo as any).shipTos;
+                            }
+
+                            this.customerService.addOrUpdateShipTo(shipTo).then(
+                                (result: ShipToModel) => {
+                                    this.$localStorage.set("createdShipToId", result.id);
+                                    (<any>this.$location).search("isNewShipTo", null);
+                                },
+                                (error: any) => { this.addOrUpdateShipToFailed(error); });
+                        }
+
+                        var tempPass = this.$localStorage.get("guestId");
+                        var userName = response.userName;
+                        if (tempPass && userName) {
+                            const session: SessionModel = {
+                                password: tempPass,
+                                newPassword: newPass
+                            } as any;
+
+                            this.sessionService.changePassword(session).then(() => {
+                                this.$localStorage.set("changePasswordDate", (new Date()).toLocaleString());
+                                this.createAccountCompleted(response);
+                            });
+                        }
+                    });
+            }
+        }
+
+
     }
 
     angular
