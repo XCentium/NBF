@@ -4,6 +4,7 @@ using System.Web.Http;
 using System.Web.Http.Description;
 using Extensions.WebApi.GuestActivation.Models;
 using Insite.Account.WebApi.V1.ApiModels;
+using Insite.Core.Context;
 using Insite.Core.Interfaces.Data;
 using Insite.Core.Plugins.Utilities;
 using Insite.Core.WebApi;
@@ -34,6 +35,12 @@ namespace Extensions.WebApi.GuestActivation.Controllers
 
             if (account != null)
             {
+                var unusedCustomer = account.Customers.FirstOrDefault(x => x != SiteContext.Current.BillTo);
+                if (unusedCustomer != null)
+                {
+                    unitOfWork.GetRepository<Customer>().Delete(unusedCustomer);
+                }
+
                 account.IsGuest = false;
                 account.FirstName = model.Account.FirstName;
                 account.LastName = model.Account.LastName;

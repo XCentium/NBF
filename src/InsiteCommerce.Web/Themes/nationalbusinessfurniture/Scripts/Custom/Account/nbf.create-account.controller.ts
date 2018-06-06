@@ -179,10 +179,15 @@
 
         protected createAccountCompleted(account: AccountModel): void {
             this.$rootScope.$broadcast("AnalyticsEvent", "AccountCreation");
+            const currentContext = this.sessionService.getContext();
+            currentContext.billToId = account.billToId;
+            currentContext.shipToId = account.shipToId;
 
             this.listrakService.CreateContact(account.email, "account");
-
-            this.coreService.redirectToPath(this.returnUrl);
+            this.sessionService.setContext(currentContext);
+            this.sessionService.getSession().then(() => {
+                this.coreService.redirectToPath(this.returnUrl);
+            });
         }
 
         protected createAccountFailed(error: any): void {
