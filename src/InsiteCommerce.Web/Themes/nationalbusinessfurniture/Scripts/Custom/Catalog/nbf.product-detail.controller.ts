@@ -12,7 +12,8 @@
         favoritesWishlist: WishListModel;
         isAuthenticatedAndNotGuest = false;
         resourceAndAssemblyDocs: any[];
-        selectedSwatchProductIds: System.Guid[]=[];
+        selectedSwatchProductIds: System.Guid[] = [];
+        isSingleBlankSwatch: boolean = false;
 
         static $inject = [
             "$scope",
@@ -365,7 +366,27 @@
             $(document).on('click', '.pr-snippet-review-count', function () {
                 self.$rootScope.$broadcast("AnalyticsEvent", "ReadReviewsSelected");
             });
+
+            this.handleSingleBlankSwatch();
         }   
+
+        private handleSingleBlankSwatch(): void {
+            if (this.product.styleTraits.length == 1) {
+                let styleTrait = this.product.styleTraits[0];
+                let styleValues = styleTrait.styleValues;
+
+                if (styleValues != null && styleValues.length == 1) {
+                    let style = styleValues[0];
+                    let swatchImageName = this.getSwatchImageNameFromStyleTraitValueId(style.styleTraitName, style.value);
+
+                    if (swatchImageName == null || swatchImageName.trim().length == 0) {
+                        //Since there is a single blank swatch, select it by default
+                        this.selectInsiteStyleDropdown(styleTrait.nameDisplay, style.styleTraitValueId as string, 0)
+                        this.isSingleBlankSwatch = true;
+                    }
+                }
+            }
+        }
 
         private powerReviewsOnSubmit(config, data) {
             if (config.component === 'WriteAQuestion') {
