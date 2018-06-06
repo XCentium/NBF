@@ -331,7 +331,7 @@
     <div id="wideNav">
         <input type="checkbox" name="nav" id="main-nav-check" />
         <!-- Remove the class 'prevent-li-below-window' to stop insite.nav.js from modifying position of sub ULs -->
-        <div class="isc-primary-nav prevent-li-below-window">
+        <div class="isc-primary-nav prevent-li-below-window" ng-controller="NbfHeaderController as vm">
             <ul>
                 <li class="mobile-search">
                     <nbf-mobile-product-search id="narrowSearch"></nbf-mobile-product-search>
