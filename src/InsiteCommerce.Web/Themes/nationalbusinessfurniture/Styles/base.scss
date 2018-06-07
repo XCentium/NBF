@@ -702,6 +702,7 @@ th .sort-descending:after {
             .sticky-first {
                 position: absolute;
                 z-index: 3;
+                left: 10px;
             }
 
             tr th:first-child:before,
@@ -709,9 +710,9 @@ th .sort-descending:after {
                 content: ' ';
                 background-color: white;
                 position: absolute;
-                height: 51px;
+                height: 65px;
                 display: block;
-                margin: -15px -11px;
+                margin: -19px -14px;
                 border: 1px solid #e0e0e0;
                 z-index: 2;
             }
@@ -719,7 +720,7 @@ th .sort-descending:after {
             tr th:first-child:before {
                 background-color: #f9f9f9;
                 border-bottom: 0px solid transparent;
-                height: 49px;
+                height: 64px;
             }
 
             tr.odd td:first-child:before,
