@@ -1,5 +1,5 @@
 ﻿<div class="ma-settings" ng-controller="NbfCreateAccountController as vm" ng-cloak>
-    <div class="row">
+    <div class="row" ng-if="vm.loaded">
         <div class="medium-6 large-6 columns ca-form">
             <form id="createAccountForm">
                 <div class="required-msg">
@@ -67,7 +67,7 @@
                                data-msg-required="{{ '[% siteMessage 'Field_Required' EscapeSingleQuotes %]'.replace('{0}', '[% translate 'Password' EscapeSingleQuotes %]') }}"
                                data-rule-minlength="{{ vm.settings.passwordMinimumLength}}"
                                data-msg-minlength="{{ '[% siteMessage 'ChangePasswordInfo_Password_Too_Short' EscapeSingleQuotes %]'.replace('{0}', vm.settings.passwordMinimumLength) }}"
-                               data-rule-pattern="^(?=.*[a-z])(?=.*[A-Z])[a-zA-Z\d]{8,}$"
+                               data-rule-pattern="^(?=.*[a-z])(?=.*[A-Z])[a-zA-Z\d-+_!#$%^&*.,?@]{8,}$"
                                data-msg-pattern="[% siteMessage 'ChangePasswordInfo_Password_Not_Meet_Requirements' EscapeSingleQuotes %]"
                                ng-model="vm.password">
                         <span class="field-validation-valid" data-valmsg-for="CreateNewAccountInfo.Password" data-valmsg-replace="true"></span>

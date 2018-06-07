@@ -145,8 +145,12 @@
                             this.success = false;
                         }, 4000);
                         this.saved = true;
-                        this.isTaxExempt = true; },
+                        this.isTaxExempt = true;
+                        this.spinnerService.hide("mainLayout");
+                    },
                     (error: any) => { this.updateBillToFailed(error); });
+            },() => {
+                this.spinnerService.hide("mainLayout");
             });
         }
 
@@ -164,10 +168,13 @@
                     (error: any) => {
                         this.updateBillToFailed(error);
                     });
+            }, () => {
+                this.spinnerService.hide("mainLayout");
             });
         }
 
         saveFile(emailTo: string, orderNum?: string) {
+            this.spinnerService.show("mainLayout", true);
             var params = {
                 customerNumber: this.cart.billTo.customerNumber,
                 customerSequence: this.cart.billTo.customerSequence,
@@ -179,7 +186,9 @@
 
             this.nbfEmailService.sendTaxExemptEmail(params).then(() => {
                 this.addTaxExempt();
-            }, () => { this.errorMessage = "An error has occurred."; });
+            }, () => {
+                this.errorMessage = "An error has occurred.";
+                this.spinnerService.hide("mainLayout"); });
         }
 
         protected updateBillToFailed(error: any): void {
