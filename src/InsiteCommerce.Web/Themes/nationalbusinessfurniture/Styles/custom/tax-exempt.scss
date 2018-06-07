@@ -1,10 +1,14 @@
 ﻿@import "../variables";
 
 .exempt {
-    margin-bottom:10px;
+    margin-bottom: 10px;
 
     .exempt__label {
-        margin-right: 60px;
+        margin-right: 20px;
+
+        @media all and (min-width: 768px) {
+            margin-right: 60px;
+        }
     }
 
     .doc-tag {
@@ -36,6 +40,6 @@
     }
 
     .btn-save {
-        display:block;
+        display: block;
     }
 }
