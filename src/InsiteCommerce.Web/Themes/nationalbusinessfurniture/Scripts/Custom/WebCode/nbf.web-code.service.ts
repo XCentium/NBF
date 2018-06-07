@@ -29,15 +29,10 @@
 
         getWebCode(userId: string): ng.IPromise<string> {
 
-            this.currentWebCode = this.checkWebCode();
-            var referrer = document.referrer;
-            if (this.currentWebCode) {
-                const deferred = this.$q.defer();
-                deferred.resolve(this.currentWebCode);
-                const webCodePromise = (deferred.promise as ng.IPromise<string>);
-                return webCodePromise;
+            this.userId = this.ipCookie("UserOmnitureTransID");
 
-            } else {
+            var referrer = document.referrer;
+          
 
                 if (referrer) {
                     var searchEngineList = this.getSearchEngineDomains();
@@ -54,19 +49,35 @@
 
                 var self = this;
                 const deferred = this.$q.defer();
-                this.$http.get(this.webcodeserviceurl)
-                    .then(function (answer) {
-                        return self.httpWrapperService.executeHttpRequest(
-                            self,
-                            self.$http({ url: self.serviceUri, method: "GET", params: self.getWebCodeParams(self.siteId, answer.data) }),
-                            self.getWebCodeCompleted,
-                            self.getWebCodeFailed
-                        ).then(function (webCode) {
-                            deferred.resolve(webCode);
+                
+                if (self.userId) {
+                    self.httpWrapperService.executeHttpRequest(
+                                self,
+                                self.$http({ url: self.serviceUri, method: "GET", params: self.getWebCodeParams(self.siteId, self.userId) }),
+                                self.getWebCodeCompleted,
+                                self.getWebCodeFailed
+                            ).then(function (webCode) {
+                                deferred.resolve(webCode);
+                           
                         });
-                    });
+                } else {
+                    this.$http.get(this.webcodeserviceurl)
+                        .then(function (answer) {
+                            return self.httpWrapperService.executeHttpRequest(
+                                self,
+                                self.$http({ url: self.serviceUri, method: "GET", params: self.getWebCodeParams(self.siteId, answer.data) }),
+                                self.getWebCodeCompleted,
+                                self.getWebCodeFailed
+                            ).then(function (webCode) {
+                                deferred.resolve(webCode);
+                            });
+                        });
+                }
+
+
+                
                 return (deferred.promise as ng.IPromise<string>);
-            }
+            
         }
 
         protected getSearchEngineDomains() {
@@ -106,9 +117,7 @@
         }
 
         getCampaignID(): string {
-            if (this.ipCookie("CampaignID")) {
-                return this.ipCookie("CampaignID");
-            }
+          
 
             var siteId = "default_web";
 
@@ -133,9 +142,7 @@
                 siteId = ref;
             }
 
-            var expire = new Date();
-            expire.setDate(expire.getDate() + 90);
-            this.ipCookie("CampaignID", siteId, { path: "/", expires: expire });
+          
 
             return siteId;
         }
