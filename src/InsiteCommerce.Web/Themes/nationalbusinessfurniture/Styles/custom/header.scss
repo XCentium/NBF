@@ -5,6 +5,10 @@
 
     .head-row {
 
+        .logo-row {
+            padding-bottom: 15px;
+        }
+
         .search-container {
             padding-top: 3em;
             padding-left: 32px;
@@ -24,7 +28,7 @@
 
                 .isc-searchAutoComplete {
                     border: none;
-                    font-size: 17px;
+                    font-size: 14px;
                     padding-right: 0;
                     padding-left: 0;
 
@@ -97,7 +101,7 @@
             .mobile-cart-btn {
                 float: right;
                 padding: 16px 0px 0 0;
-                position:relative;
+                position: relative;
 
                 a {
                     text-decoration: none;
@@ -113,8 +117,8 @@
                         text-align: center;
                         line-height: 20px;
                         font-size: 12px;
-                        top:7px;
-                        left:15px;
+                        top: 7px;
+                        left: 15px;
                     }
                 }
 
@@ -134,6 +138,10 @@
             .col1 {
                 padding-top: 24px;
                 padding-bottom: 24px;
+            }
+
+            .end {
+                margin-top: 15px;
             }
 
             .web-code {
@@ -198,7 +206,7 @@
                     background-image: url('/userfiles/systemimages/sprocket.png');
                     background-position: center;
                     background-repeat: no-repeat;
-                    padding: 40px 0;
+                    padding: 25px 0;
                     text-decoration: none;
 
                     @media only screen and (max-width: 1025px) {
