@@ -113,7 +113,6 @@
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Scripts\Custom\nbf.analytics.body.js" />
     <Content Include="Scripts\Custom\spriteSpin\spriteSpin.js" />
     <Content Include="Scripts\foundation.equalizer.js" />
     <Content Include="Scripts\foundation.tooltip.js" />
