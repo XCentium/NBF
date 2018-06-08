@@ -77,7 +77,7 @@
 
         private getBreadCrumbsString(): string {
             var bcElements = angular.element(".breadcrumbs");
-            if (bcElements.length > 0) {
+            if (bcElements.length > 0 && bcElements.find("isc-no-element").length == 0) {
                 var bcString = "";
                 var breadcrumbs = bcElements.first().find("li");
                 breadcrumbs.children("a").each((index, elem) => {
