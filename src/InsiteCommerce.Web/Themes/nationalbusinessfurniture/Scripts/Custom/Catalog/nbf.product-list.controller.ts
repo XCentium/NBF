@@ -30,7 +30,7 @@
             "queryString",
             "$location",
             "sessionService",
-            "nbfWishListService",
+            "wishListService",
             "$attrs"
         ];
 
@@ -52,7 +52,7 @@
             protected queryString: common.IQueryStringService,
             protected $location: ng.ILocationService,
             protected sessionService: account.ISessionService,
-            protected nbfWishListService: wishlist.INbfWishListService,
+            protected wishListService: wishlist.IWishListService,
             protected $attrs: IProductListControllerAttributes) {
 
             super($scope, coreService, cartService, productService, compareProductsService, $rootScope, $window, $localStorage, paginationService, searchService, spinnerService, addToWishlistPopupService, settingsService, $stateParams, queryString, $location);
@@ -362,13 +362,13 @@
 
             if (favoriteLine.length > 0) {
                 //Remove lines
-                this.nbfWishListService.deleteLineCollection(this.favoritesWishlist, favoriteLine).then(() => {
+                this.wishListService.deleteLineCollection(this.favoritesWishlist, favoriteLine).then(() => {
                     this.getFavorites();
                 });
             } else {
                 //Add Lines
                 var addLines = [product];
-                this.nbfWishListService.addWishListLines(this.favoritesWishlist, addLines).then(() => {
+                this.wishListService.addWishListLines(this.favoritesWishlist, addLines).then(() => {
                     this.getFavorites();
                 });
                 this.$rootScope.$broadcast("AnalyticsEvent", "AddProductToWishList");
@@ -376,7 +376,7 @@
         }
 
         protected getFavorites() {
-            this.nbfWishListService.getWishLists("CreatedOn", "wishlistlines").then((wishList) => {
+            this.wishListService.getWishLists("CreatedOn", "wishlistlines").then((wishList) => {
                 this.favoritesWishlist = wishList.wishListCollection[0];
 
                 this.products.products.forEach(product => {

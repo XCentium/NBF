@@ -1,8 +1,8 @@
 ﻿[% if Model.Drop.RootPageExists -%]
 <div class="row">
     <div class="widget-navlist blog-nav [[Model.CssClass]]">
-        <h4>[[Model.Drop.RootPageTitle]]</h4>
-        <ul>
+        <h4 class="title">[[Model.Drop.RootPageTitle]]</h4>
+        <ul class="list-items">
             [% for childPage in Model.Drop.ChildPages -%]
             <li>
                 <a href="[[childPage.Url]]" class="[[childPage.CssClass]] cms-navlist-navitem">[[childPage.Title]]</a>
@@ -25,3 +25,9 @@
     <p>There was no page found for the content name '[[Model.RootPageName]]', edit this item to resolve the issue</p>
     [% endif -%]
 [% endif -%]
+
+<script>
+    $(".title").click(function () {
+        $(".blog-nav").toggleClass('expanded');
+    });
+</script>

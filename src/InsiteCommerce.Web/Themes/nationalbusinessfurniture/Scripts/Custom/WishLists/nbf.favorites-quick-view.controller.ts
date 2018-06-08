@@ -84,6 +84,7 @@
             this.init();
         }
 
+        //Customizations
         init(): void {
             this.getWishLists();
 
@@ -95,20 +96,15 @@
                 (session: SessionModel) => { this.getSessionCompleted(session); },
                 (error: any) => { this.getSessionFailed(error); }
             );
-            
+
+            this.updateBreadcrumbs();
+            this.initCheckStorageWatcher();
+            this.initListUpdate();
+            this.initSort();
+            this.initFilter();
             this.$scope.$on("UploadingItemsToListCompleted", () => this.getList());
+            this.initializeAutocomplete();
             this.calculateListHeight();
-        }
-
-        protected updateWishListInviteCompleted(wishList: WishListModel): void {
-            this.$location.search({
-                id: wishList.id,
-                invite: null
-            });
-        }
-
-        protected updateWishListInviteFailed(error: any): void {
-            this.inviteIsNotAvailable = true;
         }
 
         getWishLists(): void {
@@ -136,6 +132,19 @@
             }
         }
 
+        //Insite Code
+
+        protected updateWishListInviteCompleted(wishList: WishListModel): void {
+            this.$location.search({
+                id: wishList.id,
+                invite: null
+            });
+        }
+
+        protected updateWishListInviteFailed(error: any): void {
+            this.inviteIsNotAvailable = true;
+        }
+
         protected calculateListHeight(): void {
             const interval = this.$interval(() => {
                 const list = angular.element("ul.item-list[ui-sortable]:visible");
@@ -146,6 +155,94 @@
                     this.$interval.cancel(interval);
                 }
             }, 300);
+        }
+
+        updateBreadcrumbs(): void {
+            this.$scope.$watch(() => this.listModel && this.listModel.name,
+                (newValue) => {
+                    if (newValue) {
+                        angular.element(".breadcrumbs > .current").text(newValue);
+                    }
+                },
+                true);
+        }
+
+        initCheckStorageWatcher(): void {
+            this.$scope.$watch(() => this.checkStorage, () => this.calculateCheckedItems(), true);
+        }
+
+        initListUpdate(): void {
+            this.$scope.$on("list-was-saved",
+                (event: ng.IAngularEvent, list: WishListModel) => {
+                    this.listModel.name = list.name;
+                    this.listModel.description = list.description;
+                });
+        }
+
+        protected initSort(): void {
+            this.sortableOptions = {
+                axis: "y",
+                handle: ".handle",
+                tolerance: "pointer",
+                containment: ".sort-parent-container",
+                "ui-floating": false,
+                stop: this.updateSortOrder.bind(this)
+            };
+
+            this.$scope.$watch(() => this.sort,
+                () => {
+                    this.updateSort();
+                },
+                true);
+
+            this.sort = this.$localStorage.get(`listDetailsSort-${this.listId}`) || "custom";
+        }
+
+        protected updateSort(): void {
+            if (this.sort === "custom") {
+                this.sortProperty = "sortOrder";
+                this.reverse = false;
+            } else if (this.sort === "dateAdded") {
+                this.sortProperty = "createdOn";
+                this.reverse = true;
+            } else if (this.sort === "productAsc") {
+                this.sortProperty = "shortDescription";
+                this.reverse = false;
+            } else if (this.sort === "productDesc") {
+                this.sortProperty = "shortDescription";
+                this.reverse = true;
+            }
+
+            this.$localStorage.set(`listDetailsSort-${this.listId}`, this.sort);
+        }
+
+        protected initFilter(): void {
+            (this.$scope as any).filter = (wishListLine: WishListLineModel): boolean => {
+                var searchTermInLowerCase = this.searchTerm.toLowerCase();
+                return wishListLine.shortDescription.toLowerCase().indexOf(searchTermInLowerCase) > -1 ||
+                    wishListLine.erpNumber.toLowerCase().indexOf(searchTermInLowerCase) > -1 ||
+                    wishListLine.manufacturerItem.toLowerCase().indexOf(searchTermInLowerCase) > -1;
+            }
+        }
+
+        protected updateSortOrder(): void {
+            this.listModel.wishListLineCollection.forEach((line, index) => {
+                line.sortOrder = index;
+            });
+
+            this.orderIsSaving = true;
+            this.wishListService.updateWishList(this.listModel).then(
+                (wishList: WishListModel) => { this.orderIsSaving = false; },
+                (error: any) => { this.orderIsSaving = false; });
+        }
+
+        openSharePopup(): void {
+            this.shareListPopupService.display({
+                step: "",
+                list: this.listModel,
+                session: this.session,
+                customBackStep: null
+            });
         }
 
         calculateCheckedItems(): void {
@@ -292,8 +389,8 @@
                 if (product.pricing) {
                     const unitNetPrice = this.productPriceService.getUnitNetPrice(product).price;
                     const extendedNetPrice = Math.round(unitNetPrice *
-                            product.qtyOrdered *
-                            100) /
+                        product.qtyOrdered *
+                        100) /
                         100;
 
                     this.listTotal += extendedNetPrice;
@@ -361,7 +458,7 @@
             result.realTimePricingResults.forEach((productPrice: ProductPriceDto) => {
                 const wishlistLine = this.listModel.wishListLineCollection.find(
                     (p: WishListLineModel) => p.productId === productPrice.productId &&
-                    p.unitOfMeasure === productPrice.unitOfMeasure);
+                        p.unitOfMeasure === productPrice.unitOfMeasure);
                 wishlistLine.pricing = productPrice;
             });
 
@@ -378,6 +475,10 @@
                     (p.pricing as any).failedToGetRealTimePrices = true;
                 }
             });
+
+            if (this.productSettings.inventoryIncludedWithPricing) {
+                this.failedToGetRealTimeInventory = true;
+            }
         }
 
         protected getRealTimeInventory(): void {
@@ -575,10 +676,63 @@
             this.uploadToListPopupService.display(wishList);
         }
 
+        onEnterKeyPressedInAutocomplete(): void {
+            const autocomplete = $("#qo-search-widget").data("kendoAutoComplete") as any;
+            if (autocomplete && autocomplete._last === kendo.keys.ENTER && autocomplete.listView.selectedDataItems().length === 0) {
+                this.searchProduct(this.addingSearchTerm);
+            }
+        }
+
+        protected searchProduct(erpNumber: string): void {
+            if (!erpNumber || erpNumber.length === 0) {
+                return;
+            }
+
+            this.findProduct(erpNumber).then(
+                (productCollection: ProductCollectionModel) => { this.addProductCompleted(productCollection); },
+                (error: any) => { this.addProductFailed(error); });
+        }
+
+        protected findProduct(erpNumber: string): ng.IPromise<ProductCollectionModel> {
+            const parameters: catalog.IProductCollectionParameters = { extendedNames: [erpNumber] };
+
+            return this.productService.getProducts(parameters);
+        }
+
+        protected addProductCompleted(productCollection: ProductCollectionModel): void {
+            this.validateAndSetProduct(productCollection);
+        }
+
+        protected addProductFailed(error: any): void {
+            this.setErrorMessage(angular.element("#messageNotFound").val());
+        }
+
+        protected initializeAutocomplete(): void {
+            this.autocompleteOptions = this.searchService.getProductAutocompleteOptions(() => this.addingSearchTerm);
+
+            this.autocompleteOptions.template =
+                this.searchService.getProductAutocompleteTemplate(() => this.addingSearchTerm,
+                    "tst_ListWidget_autocomplete");
+            this.autocompleteOptions.select = this.onAutocompleteOptionsSelect();
+        }
+
+        protected onAutocompleteOptionsSelect(): (event: kendo.ui.AutoCompleteSelectEvent) => void {
+            return (event: kendo.ui.AutoCompleteSelectEvent) => {
+                const dataItem = event.sender.dataItem(event.item.index());
+                this.searchProduct(dataItem.erpNumber);
+            };
+        }
+
+        protected toggleAddToListSection() {
+            this.isAddToListSectionVisible = !this.isAddToListSectionVisible;
+        }
+
         addProductToList(productToAdd: ProductDto): void {
             if (!productToAdd || !productToAdd.id) {
                 if (this.addingSearchTerm) {
-                    this.setErrorMessage(angular.element("#messageNotFound").val());
+                    this.findProduct(this.addingSearchTerm).then(
+                        (productCollection: ProductCollectionModel) => { this.findProductCompleted(productCollection); },
+                        (error: any) => { this.findProductFailed(error); });
                 } else {
                     this.setErrorMessage(angular.element("#messageEnterProductName").val());
                 }
@@ -586,6 +740,20 @@
                 return;
             }
 
+            this.addToList(productToAdd);
+        }
+
+        protected findProductCompleted(productCollection: ProductCollectionModel): void {
+            if (this.validateAndSetProduct(productCollection)) {
+                this.addToList(this.itemToAdd);
+            }
+        }
+
+        protected findProductFailed(error: any): void {
+            this.setErrorMessage(angular.element("#messageNotFound").val());
+        }
+
+        protected addToList(productToAdd: ProductDto): void {
             const listLineContainsCurrentProduct = this.listModel.wishListLineCollection.filter((item) => {
                 return item.productId === productToAdd.id && item.unitOfMeasure === productToAdd.selectedUnitOfMeasure;
             });
@@ -601,11 +769,40 @@
                 (error) => { this.addProductToListFailed(error) });
         }
 
+        protected validateAndSetProduct(productCollection: ProductCollectionModel): boolean {
+            const product = productCollection.products[0];
+
+            if (this.validateProduct(product)) {
+                const originalQty = (this.itemToAdd ? this.itemToAdd.qtyOrdered : 1) || 1;
+                product.qtyOrdered = originalQty < product.minimumOrderQty ? product.minimumOrderQty : originalQty;
+                this.selectedQty = product.qtyOrdered;
+                this.itemToAdd = product;
+                this.errorMessage = "";
+                this.successMessage = "";
+                return true;
+            }
+
+            return false;
+        }
+
+        protected validateProduct(product: ProductDto): boolean {
+            if (product.canConfigure || (product.isConfigured && !product.isFixedConfiguration)) {
+                this.setErrorMessage(angular.element("#messageConfigurableProduct").val());
+                return false;
+            }
+            if (product.isStyleProductParent) {
+                this.setErrorMessage(angular.element("#messageStyledProduct").val());
+                return false;
+            }
+
+            return true;
+        }
+
         addProductToListCompleted(wishListLineModel: WishListLineModel) {
             this.getList();
             this.isAddingToList = false;
             this.addingSearchTerm = "";
-            this.itemToAdd = null;
+            this.itemToAdd = { qtyOrdered: (this.itemToAdd ? this.itemToAdd.qtyOrdered : 1) } as ProductDto;
             this.setSuccessMessage(angular.element("#messageAddedProduct").val());
         }
 
@@ -632,7 +829,14 @@
             const qtyPerBaseUnitOfMeasure = uom.qtyPerBaseUnitOfMeasure !== 1 ? "/" + uom.qtyPerBaseUnitOfMeasure : "";
             return `${name}${qtyPerBaseUnitOfMeasure}`;
         }
-        
+
+        addingSearchTermChanged(): void {
+            this.successMessage = "";
+            this.errorMessage = "";
+            const originalQty = this.itemToAdd ? this.itemToAdd.qtyOrdered : 1;
+            this.itemToAdd = { qtyOrdered: originalQty } as ProductDto;
+        }
+
         checkPrint(event: ng.IAngularEvent): void {
             if (this.orderIsSaving) {
                 event.preventDefault();

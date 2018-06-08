@@ -5,9 +5,9 @@
         [% else -%]
         <a id="tst_productMenu_[[Model.Title]]" onclick="$(this).next().click();return false;">[[Model.Title]]</a>
         [% endif %]
-        <label for="nav-cat" class="toggle-sub" onclick="insite.nav.goToSubnav(this)">►</label>
+        <label for="nav-cat[[Model.Id]]" class="toggle-sub" onclick="insite.nav.goToSubnav(this)">►</label>
     </span>
-    <input type="checkbox" name="nav" id="nav-cat" class="subnav-check">
+    <input type="checkbox" name="nav" id="nav-cat[[Model.Id]]" class="subnav-check">
     <div id="sub-cat" class="subnav sub-tier-panel single">
         <ul class="level-2">
             <li class="sub-heading">[[Model.Title]]</li>

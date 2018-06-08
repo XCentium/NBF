@@ -59,10 +59,11 @@ namespace Extensions.WebApi.CreditCardTransaction.Repository
                 parameter2.CartId = new Guid(parameter.CartId);
             }
             GetCartResult cart = cartService.GetCart(parameter2);
-            if (!parameter.PaymentProfileId.IsBlank()) {
-                string paymentProfileId = parameter.PaymentProfileId;
-                parameter1.PaymentProfileId = paymentProfileId;
-            }
+            //parameter1.PaymentProfileId = "CC";
+            //if (!parameter.PaymentProfileId.IsBlank()) {
+            //    string paymentProfileId = parameter.PaymentProfileId;
+            //    parameter1.PaymentProfileId = paymentProfileId;
+            //}
             Decimal num = parameter.PaymentAmount;
             parameter1.Amount = num;
             AddPaymentTransactionResult transactionResult = paymentService1.AddPaymentTransaction(parameter1);

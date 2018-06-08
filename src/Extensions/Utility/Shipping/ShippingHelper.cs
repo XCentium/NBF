@@ -68,7 +68,6 @@ namespace Extensions.Utility.Shipping
                     productByVendor.VendorTotalShippingCharges += additonalCharges;
                     productByVendor.AdditonalCharges = additonalCharges ?? 0;
                 }
-
             }
 
             return productsByVendor.Select(pbv => 
@@ -78,7 +77,8 @@ namespace Extensions.Utility.Shipping
                         ShipCode = cart.ShipVia?.ShipCode?.Substring(0, 1).ToUpper(),
                         OrderLines = pbv.OrderLines,
                         AdditonalCharges = pbv.AdditonalCharges,
-                        BaseShippingCost = pbv.BaseShippingCharges
+                        BaseShippingCost = pbv.BaseShippingCharges,
+                        IsTruck = pbv.IsTruck
                     }
                 ).ToList();
         }
@@ -213,6 +213,7 @@ namespace Extensions.Utility.Shipping
         public decimal AdditonalCharges { get; set; }
         public Guid VendorId { get; set; }
         public string ShipCode { get; set; }
+        public bool IsTruck { get; set; }
         public List<OrderLine> OrderLines { get; set; }
     }
 
