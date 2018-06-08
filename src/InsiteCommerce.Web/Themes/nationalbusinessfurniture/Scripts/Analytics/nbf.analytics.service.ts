@@ -409,13 +409,14 @@ module nbf.analytics {
         VideoStarted: "VideoStarted" as AnalyticsEvent,
         CartView: "CartView" as AnalyticsEvent,
         PromoApplied: "PromoApplied" as AnalyticsEvent,
-        BreadCrumbs: "BreadCrumbs" as AnalyticsEvent
+        BreadCrumbs: "BreadCrumbs" as AnalyticsEvent,
+        BlogComment: "BlogComment" as AnalyticsEvent
     }
 
     export type AnalyticsEvent = "PageLoad" | "ProductPageView" | "SwatchRequest" | "CatalogRequest" | "QuoteRequest" | "MiniCartQuoteRequest" | "InternalSearch" | "SuccessfulSearch" |
         "FailedSearch" | "ContactUsInitiated" | "ContactUsCompleted" | "AccountCreation" | "CheckoutAccountCreation" | "Login" | "CrossSellSelected" | "EmailSignUp" | "LiveChatStarted" |
         "ProductAddedToCart" | "CheckoutInitiated" | "CheckoutComplete" | "ProductQuestionStarted" | "ProductQuestionAsked" | "Selected360View" | "AddProductToWishlist" | "SaveOrderFromCartPage" |
         "ReadReviewsSelected" | "MiniCartHover" | "SaveCart" | "CartOpened" | "ProductRemovedFromCart" | "ShippingBillingInfoComplete" | "ShippingMethodSelected" | "BillingMethodSelected" |
-        "ContinueShoppingFromCartPage" | "ContentShared" | "ProductListingFiltered" | "ShopTheLook" | "VideoStarted" | "CartView" | "PromoApplied" | "BreadCrumbs";
+        "ContinueShoppingFromCartPage" | "ContentShared" | "ProductListingFiltered" | "ShopTheLook" | "VideoStarted" | "CartView" | "PromoApplied" | "BreadCrumbs" | "BlogComment";
 
 }
