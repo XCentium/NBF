@@ -67,13 +67,16 @@ module nbf.analytics {
                 case AnalyticsEvents.ProductPageView:
                     this.setProductData(data.product, data.breadcrumbs);
                     break;
-                case AnalyticsEvents.FailedSearch, AnalyticsEvents.SuccessfulSearch:
+                case AnalyticsEvents.FailedSearch:
+                case AnalyticsEvents.SuccessfulSearch:
                     this.setSearchData(data);
                     break;
                 case AnalyticsEvents.CheckoutComplete:
                     this.setTransactionData(data.cart, data.cartLines);
                     break;
-                case AnalyticsEvents.ProductRemovedFromCart, AnalyticsEvents.ProductAddedToCart:
+                case AnalyticsEvents.ProductRemovedFromCart:
+                case AnalyticsEvents.ProductAddedToCart:
+                case AnalyticsEvents.CartOpened:
                     this.Data.events.push({
                         event: analyticsEvent,
                         data: this.convertCartLine(data)
@@ -83,7 +86,9 @@ module nbf.analytics {
                     this.Data.profile.profileInfo.state = data.state;
                     this.Data.profile.profileInfo.zip = data.zip;
                     break;
-                case AnalyticsEvents.ContentShared, AnalyticsEvents.VideoStarted, AnalyticsEvents.PromoApplied:
+                case AnalyticsEvents.ContentShared:
+                case AnalyticsEvents.VideoStarted:
+                case AnalyticsEvents.PromoApplied:
                     this.Data.events.push({
                         event: analyticsEvent,
                         data: data
