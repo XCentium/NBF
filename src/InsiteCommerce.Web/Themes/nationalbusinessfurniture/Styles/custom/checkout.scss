@@ -72,7 +72,10 @@
             padding: 0 !important;
 
             .shipping-info {
-                width: 50%;
+
+                @media all and (min-width: 768px) {
+                    width: 50%;
+                }
             }
         }
 
@@ -86,7 +89,9 @@
             padding: 0 !important;
 
             .billing-info {
-                width: 50%;
+                @media all and (min-width: 768px) {
+                    width: 50%;
+                }
             }
 
             .billing-title {
@@ -106,10 +111,13 @@
         #nav1min {
             .ship-to, .ship-info {
                 float: left;
-                width: 50%;
                 padding-top: 0 !important;
                 padding-left: 1em;
                 padding-right: 1em;
+
+                @media all and (min-width: 768px) {
+                    width: 50%;
+                }
 
                 .shipping-info {
                     width: 100%;
@@ -208,7 +216,7 @@
     }
 
     .terms-link {
-        text-decoration:underline;
+        text-decoration: underline;
     }
 }
 
