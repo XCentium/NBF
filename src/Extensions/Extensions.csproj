@@ -374,6 +374,7 @@
     <Compile Include="Models\ShopTheLook\StlRoomLookMapping.cs" />
     <Compile Include="Models\WebcodeUniqueID\WebcodeUniqueID.cs" />
     <Compile Include="Models\WebcodeUniqueID\WebcodeUniqueIDModelMapping.cs" />
+    <Compile Include="Plugins\Cart\CalculateShippingOptions.cs" />
     <Compile Include="Plugins\Cart\CalculateVendorBreakPricing.cs" />
     <Compile Include="Plugins\Cart\CalculateShipping.cs" />
     <Compile Include="Plugins\Cart\Models\AdditionalChargesRule.cs" />
