@@ -22,7 +22,9 @@
             <li>
                 [% endif -%]
                 <a id="tst_navMenu_[[forloop.index]]" href="[[childPage.Url]]" onclick="insite.nav.hideMenu();">[[childPage.Title]]</a>
-                <label for="nav-cat[[forloop.index]]" class="toggle-sub" onclick="insite.nav.goToSubnav(this)">►</label>
+                <!--
+    <label for="nav-cat[[forloop.index]]" class="toggle-sub" onclick="insite.nav.goToSubnav(this)">►</label>
+        -->
             </li>
             [% endfor -%]
         </ul>

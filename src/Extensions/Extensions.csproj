@@ -334,6 +334,7 @@
     <Compile Include="Enums\Listrak\EventIdEnum.cs" />
     <Compile Include="Enums\Listrak\TransactionalMessageEnum.cs" />
     <Compile Include="Filters\OrderTrackerFilter.cs" />
+    <Compile Include="Handlers\AddCartLineHandler\AddCartLineAnalytics.cs" />
     <Compile Include="Handlers\AddRmaHandler\SendEmail.cs" />
     <Compile Include="Handlers\AddSessionHandlerNBF.cs" />
     <Compile Include="Handlers\AddCustomer.cs" />

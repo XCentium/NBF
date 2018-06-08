@@ -46,10 +46,10 @@
             }
             var promise = super.addLine(cartLine, toCurrentCart, showAddToCartPopup);
             promise.then((cartLine) => {
-                this.$rootScope.$broadcast("AnalyticsEvent", "ProductAddedToCart", null, null, cartLine);
                 if (!existingCart) {
-                    this.$rootScope.$broadcast("AnalyticsEvent", "CartOpened");
+                    this.$rootScope.$broadcast("AnalyticsEvent", "CartOpened", null, null, cartLine);
                 }
+                this.$rootScope.$broadcast("AnalyticsEvent", "ProductAddedToCart", null, null, cartLine);
             });
             return promise;
         }
