@@ -17,23 +17,32 @@
         currentWebCode: string;
         affId: string;
 
-        static $inject = ["$http", "httpWrapperService", "queryString", "ipCookie", "$q"];
+        static $inject = ["$http", "httpWrapperService", "$sessionStorage", "queryString", "ipCookie", "$q"];
 
         constructor(
             protected $http: ng.IHttpService,
             protected httpWrapperService: insite.core.HttpWrapperService,
+            protected $sessionStorage: insite.common.IWindowStorage,
             protected queryString: insite.common.IQueryStringService,
             protected ipCookie: any,
             protected $q: ng.IQService) {
         }
 
         getWebCode(userId: string): ng.IPromise<string> {
+            
+            if (this.getSessionWebCodeID()) {
+                const deferred = this.$q.defer();
+                var UserWebCode = this.$sessionStorage.get("UserWebCode")
 
-            this.userId = this.ipCookie("UserOmnitureTransID");
+                deferred.resolve(UserWebCode.replace(/(^")|("$)/g,''));
+                const webCodePromise = (deferred.promise as ng.IPromise<string>);
+                return webCodePromise;
+            } else {
+                
+                this.userId = this.ipCookie("UserOmnitureTransID");
 
-            var referrer = document.referrer;
-          
-
+                var referrer = document.referrer;
+                
                 if (referrer) {
                     var searchEngineList = this.getSearchEngineDomains();
 
@@ -49,17 +58,17 @@
 
                 var self = this;
                 const deferred = this.$q.defer();
-                
-                if (self.userId) {
+
+                if (this.userId) {
                     self.httpWrapperService.executeHttpRequest(
-                                self,
-                                self.$http({ url: self.serviceUri, method: "GET", params: self.getWebCodeParams(self.siteId, self.userId) }),
-                                self.getWebCodeCompleted,
-                                self.getWebCodeFailed
-                            ).then(function (webCode) {
-                                deferred.resolve(webCode);
-                           
-                        });
+                        self,
+                        self.$http({ url: self.serviceUri, method: "GET", params: self.getWebCodeParams(self.siteId, self.userId) }),
+                        self.getWebCodeCompleted,
+                        self.getWebCodeFailed
+                    ).then(function (webCode) {
+                        deferred.resolve(webCode);
+
+                    });
                 } else {
                     this.$http.get(this.webcodeserviceurl)
                         .then(function (answer) {
@@ -73,11 +82,10 @@
                             });
                         });
                 }
-
-
                 
                 return (deferred.promise as ng.IPromise<string>);
-            
+
+            }
         }
 
         protected getSearchEngineDomains() {
@@ -91,13 +99,14 @@
             return domainList;
         }
 
-        protected getWebCodeCompleted(webCode: any): any {
+        protected getWebCodeCompleted(webCode: any): string {
             var expire = new Date();
             expire.setDate(expire.getDate() + 90);
             var webCodeSplit = webCode.data.split("-");
             this.ipCookie("UserAffiliateCodeID", webCodeSplit[1], { path: "/", expires: expire });
-            this.ipCookie("UserOmnitureTransID", webCodeSplit[0], { path: "/" });
+            this.ipCookie("UserOmnitureTransID", webCodeSplit[0], { path: "/",expires: expire });
             this.ipCookie("web_code_cookie", webCode.data, { path: "/", expires: expire });
+            this.$sessionStorage.setObject("UserWebCode", webCode.data);
             return webCode.data;
         }
 
@@ -141,29 +150,22 @@
             } else if (ref) {
                 siteId = ref;
             }
-
-          
-
+            
             return siteId;
         }
    
-        getStoredTransID(): string {
-            if (this.ipCookie("UserOmnitureTransID")) {
-                return this.ipCookie("UserOmnitureTransID");
+        getSessionWebCodeID(): string {
+            if (this.$sessionStorage.get("UserWebCode")) {
+                return this.$sessionStorage.get("UserWebCode");
             }
             return "";
         }
 
-        protected checkWebCode(): string {
-            if (this.ipCookie("web_code_cookie")) {
-
-                var totalCodeSplit = this.ipCookie("web_code_cookie").split("-");
-                if (totalCodeSplit.length >= 2) {
-                    [this.siteId, this.userId] = totalCodeSplit;
-                }
-                return this.ipCookie("web_code_cookie");
+       getStoredTransID(): string {
+            if (this.ipCookie("UserOmnitureTransID")) {
+                return this.ipCookie("UserOmnitureTransID");
             }
-            return null;
+            return "";
         }
     }
 
