@@ -4,6 +4,11 @@
 #header {
 
     .head-row {
+        .welcome-message {
+            @media all and (max-width: 991px) {
+                padding-left: 50px;
+            }
+        }
 
         .logo-row {
             padding-bottom: 15px;
@@ -64,6 +69,8 @@
     }
 
     .logo-wrap {
+        float: left;
+        max-width: 68%;
 
         @media all and (max-width: 991px) {
             .nbf-logo {
@@ -88,9 +95,7 @@
 
             .widget-image {
                 @media all and (max-width: 991px) {
-                    width: 62%;
                     max-width: 260px;
-                    float: left;
                 }
 
                 @media print {
