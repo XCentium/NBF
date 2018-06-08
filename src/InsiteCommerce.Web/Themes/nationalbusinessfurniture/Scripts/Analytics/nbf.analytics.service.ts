@@ -135,7 +135,7 @@ module nbf.analytics {
                 product.promoDiscount = p.pricing.regularPrice - p.pricing.actualPrice;
                 product.totalDiscount = p.pricing.regularPrice - p.pricing.actualPrice;
             }
-            product.sku = p.erpNumber;
+            product.sku = p.erpNumber.split("_")[0];
             product.quantity = p.qtyOrdered;
             product.bulkDiscount = 0;
             product.collection = p.properties['collection'];
@@ -238,6 +238,7 @@ module nbf.analytics {
                 });
             }
             this.Data.pageInfo.pageType = "Product Detail Page";
+            this.Data.pageInfo.breadCrumbs = breadcrumbs.map(b => b.text);
         }
 
         private setTransactionData(cart: CartModel, cartLines: CartLineModel[]) {
