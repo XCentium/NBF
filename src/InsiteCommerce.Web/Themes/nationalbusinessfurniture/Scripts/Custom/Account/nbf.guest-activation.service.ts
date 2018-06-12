@@ -10,17 +10,16 @@
         serviceUri = "/api/nbf/guestActivation";
         billTo: BillToModel;
         shipTo: ShipToModel;
+
+        userName: string;
+        tempPass: string;
         newPass: string;
 
-        static $inject = ["$http", "httpWrapperService", "customerService", "$location", "$localStorage", "sessionService"];
+        static $inject = ["$http", "httpWrapperService"];
 
         constructor(
             protected $http: ng.IHttpService,
-            protected httpWrapperService: insite.core.HttpWrapperService,
-            protected customerService: insite.customers.ICustomerService,
-            protected $location: ng.ILocaleService,
-            protected $localStorage: insite.common.IWindowStorage,
-            protected sessionService: insite.account.ISessionService) {
+            protected httpWrapperService: insite.core.HttpWrapperService) {
         }
 
         createAccountFromGuest(guestId: string, account: AccountModel, billTo: BillToModel, shipTo: ShipToModel): ng.IPromise<AccountModel> {
@@ -58,69 +57,13 @@
         }
 
         protected createAccountCompleted(response: ng.IHttpPromiseCallbackArg<AccountModel>): void {
-            if (response != null) {
-                this.billTo.isGuest = false;
-                this.customerService.updateBillTo(this.billTo).then(
-                    (billTo: BillToModel) => { this.updateBillToCompleted(billTo); },
-                    (error: any) => { this.updateBillToFailed(error); });
 
-                const session: SessionModel = {
-                    password: this.$localStorage.get("guestId"),
-                    newPassword: this.newPass,
-                    userName: response.data.userName,
-                    userLabel: response.data.userName,
-                    email: response.data.email,
-                    activateAccount: true
-                } as any;
-
-                this.sessionService.changePassword(session).then(
-                    (updatedSession: SessionModel) => { this.changePasswordCompleted(updatedSession); },
-                    (error: any) => { this.changePasswordFailed(error); });
-            }
-        }
-
-        protected changePasswordCompleted(session: SessionModel): void {
-            this.$localStorage.set("changePasswordDate", (new Date()).toLocaleString());
-        }
-
-        protected changePasswordFailed(error: any): void {
-            //Something went wrong
         }
 
         protected createAccountFailed(error: ng.IHttpPromiseCallbackArg<any>): void {
             //Something went wrong
         }
 
-        protected updateBillToCompleted(billTo: BillToModel): void {
-            if (this.shipTo.id !== this.billTo.id) {
-                const shipTo = this.shipTo;
-                if ((shipTo as any).shipTos) {
-                    /* In the situation the user selects the billTo as the shipTo we need to remove the shipTos collection
-                       from the object to prevent a circular reference when serializing the object. See the unshift command below. */
-                    angular.copy(this.shipTo, shipTo);
-                    delete (shipTo as any).shipTos;
-                }
-
-                this.customerService.addOrUpdateShipTo(shipTo).then(
-                    (result: ShipToModel) => { this.addOrUpdateShipToCompleted(result); },
-                    (error: any) => { this.addOrUpdateShipToFailed(error); });
-            } else {
-                (angular.element("#saveSuccess") as any).foundation("reveal", "open");
-            }
-        }
-
-        protected updateBillToFailed(error: any): void {
-            //Something went wrong
-        }
-
-        protected addOrUpdateShipToCompleted(result: any): void {
-            this.$localStorage.set("createdShipToId", result.id);
-            (<any>this.$location).search("isNewShipTo", null);
-        }
-
-        protected addOrUpdateShipToFailed(error: any): void {
-            //Something went wrong
-        }
     }
 
     angular

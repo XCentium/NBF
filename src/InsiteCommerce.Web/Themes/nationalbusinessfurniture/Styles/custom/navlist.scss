@@ -31,9 +31,17 @@
         border: none;
         border-bottom: 1px solid $divider-gray;
         padding: 28px 25px;
+        position: relative;
+
+        @media all and (max-width: 991px) {
+            padding: 28px 0;
+            margin: 8px 15px;
+        }
 
         & > ul {
             margin-bottom: 0;
+
+
 
             li {
                 display: inline-block;
@@ -52,17 +60,63 @@
                 a {
                     display: block;
                     text-decoration: none;
-                    position:relative;
+                    position: relative;
                 }
             }
 
             ul {
                 display: none;
             }
+
+            @media all and (max-width: 991px) {
+                display: none;
+                position: absolute;
+                background: white;
+                z-index: 1;
+                top: 68px;
+                width: 100%;
+
+                li {
+                    display: block;
+                    padding: 10px;
+                }
+            }
         }
 
         h4 {
             display: none;
+
+            @media all and (max-width: 991px) {
+                display: block;
+                border: 1px solid #b2b2b2;
+                padding: 4px 10px;
+                border-radius: 4px;
+                margin-bottom: 0;
+
+                &:after {
+                    content: '\f078';
+                    font-family: $FontAwesome;
+                    margin-left: 20px;
+                    float: right;
+                }
+            }
+        }
+
+        &.expanded {
+            h4 {
+                &:after {
+                    content: '\f077';
+                }
+            }
+
+
+            & > ul {
+                margin-bottom: 0;
+
+                @media all and (max-width: 991px) {
+                    display: block;
+                }
+            }
         }
     }
 }

@@ -113,7 +113,6 @@
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Scripts\Custom\nbf.analytics.body.js" />
     <Content Include="Scripts\Custom\spriteSpin\spriteSpin.js" />
     <Content Include="Scripts\foundation.equalizer.js" />
     <Content Include="Scripts\foundation.tooltip.js" />
@@ -209,6 +208,7 @@
     <TypeScriptCompile Include="Scripts\Custom\Rfq\nbf.rfq.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\SavedOrders\nbf.saved-order-detail.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\ShopTheLook\nbf.shop-the-look-cta.controller.ts" />
+    <TypeScriptCompile Include="Scripts\Custom\ShopTheLook\nbf.shop-the-look.widget.controller.ts" />
     <TypeScriptCompile Include="Scripts\nbf.custom.models.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Account\nbf.account-settings.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Account\nbf.create-account.controller.ts" />
@@ -259,7 +259,6 @@
     <TypeScriptCompile Include="Scripts\Custom\OrderTracker\nbf.order-tracker.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\Rma\nbf.rma.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\ShopTheLook\nbf.shop-the-look.service.ts" />
-    <TypeScriptCompile Include="Scripts\Custom\ShopTheLook\nbf.shop-the-look.widget.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\ShopTheLook\nbf.shop-the-look.landing-view.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\SocialMediaSharing\nbf.tell-a-friend.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\SocialMediaSharing\nbf.social-media.controller.ts" />
@@ -268,7 +267,6 @@
     <TypeScriptCompile Include="Scripts\Custom\PriceCode\nbf.price-code.service.ts" />
     <TypeScriptCompile Include="Scripts\Custom\WebCode\nbf.web-code.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\WebCode\nbf.web-code.service.ts" />
-    <TypeScriptCompile Include="Scripts\Custom\WishLists\nbf.wishlist.service.ts" />
     <TypeScriptCompile Include="Scripts\Custom\WishLists\nbf.favorites-quick-view.controller.ts" />
     <TypeScriptCompile Include="Scripts\Custom\WishLists\nbf.wishlists.directives.ts" />
     <TypeScriptCompile Include="Scripts\insite.config.ts" />

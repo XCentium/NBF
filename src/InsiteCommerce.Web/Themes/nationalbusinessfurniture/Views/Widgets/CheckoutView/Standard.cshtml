@@ -437,8 +437,10 @@
                                                     </p>
                                                     <label>[% siteMessage 'Guest_Checkout_Password_Label' 'Create your password' %]</label>
                                                     <input type="password" id="CreateNewAccountInfo_Password" name="CreateNewAccountInfo.Password"
-                                                           data-rule-minlength="{{settings.passwordMinimumLength}}"
+                                                           data-rule-minlength="{{ vm.settings.passwordMinimumLength}}"
                                                            data-msg-minlength="{{ '[% siteMessage 'ChangePasswordInfo_Password_Too_Short' EscapeSingleQuotes %]'.replace('{0}', vm.settings.passwordMinimumLength) }}"
+                                                           data-rule-pattern="^(?=.*[a-z])(?=.*[A-Z])[a-zA-Z\d-+_!#$%^&*.,?@]{8,}$"
+                                                           data-msg-pattern="[% siteMessage 'ChangePasswordInfo_Password_Not_Meet_Requirements' EscapeSingleQuotes %]"
                                                            ng-model="vm.password">
                                                     <span class="field-validation-valid" data-valmsg-for="CreateNewAccountInfo.Password" data-valmsg-replace="true"></span>
                                                     <div style="display: none;">

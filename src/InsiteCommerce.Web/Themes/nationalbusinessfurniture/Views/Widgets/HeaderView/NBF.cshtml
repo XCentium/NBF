@@ -20,7 +20,7 @@
                 <span>
                     [% zone 'Top' %]
                 </span>
-                <a class="close-msg isc-closemsg" ng-click="vm.closeTopMessage()">X</a>
+                <a class="close-msg isc-closemsg" ng-click="vm.closeTopMessage()"></a>
             </div>
         </div>
     </div>
@@ -199,13 +199,15 @@
         <div class="row logo-row small-12 columns">
             <div class="clearfix">
                 <div class="header-zone lft">
+                    <label for="main-nav-check" class="toggle burger" onclick="insite.nav.activatePanel()" title="Menu">&#9776;</label>
                     <div class="logo-wrap">
-                        <label for="main-nav-check" class="toggle burger" onclick="insite.nav.activatePanel()" title="Menu">&#9776;</label>
                         [% zone 'Logo' %]
-                        <div class="mobile-cart-btn">
-                            <a id="tst_cartLink" class="cart-link" href="[% urlForPage 'CartPage' %]">
-                            <span class="ico-CartIcon"></span>&nbsp;&nbsp;<span class="count" ng-show="vm.cart.totalCountDisplay > 0" ng-bind="vm.cart.totalCountDisplay"></span><span class="" ng-show="vm.cart.totalCountDisplay < 1"></span></a>
-                        </div>
+
+                    </div>
+                    <div class="mobile-cart-btn">
+                        <a id="tst_cartLink" class="cart-link" href="[% urlForPage 'CartPage' %]">
+                            <span class="ico-CartIcon"></span>&nbsp;&nbsp;<span class="count" ng-show="vm.cart.totalCountDisplay > 0" ng-bind="vm.cart.totalCountDisplay"></span><span class="" ng-show="vm.cart.totalCountDisplay < 1"></span>
+                        </a>
                     </div>
                 </div>
                 <isc-product-search id="wideSearch" class="header-zone"></isc-product-search>
@@ -226,6 +228,9 @@
                         </div>
                     </div>
                 </div>
+            </div>
+            <div class="welcome-message">
+                [% zone 'welcomemessage' %]
             </div>
         </div>
         <div class="isc-nav-bar">
@@ -331,7 +336,7 @@
     <div id="wideNav">
         <input type="checkbox" name="nav" id="main-nav-check" />
         <!-- Remove the class 'prevent-li-below-window' to stop insite.nav.js from modifying position of sub ULs -->
-        <div class="isc-primary-nav prevent-li-below-window">
+        <div class="isc-primary-nav prevent-li-below-window" ng-controller="NbfHeaderController as vm">
             <ul>
                 <li class="mobile-search">
                     <nbf-mobile-product-search id="narrowSearch"></nbf-mobile-product-search>
