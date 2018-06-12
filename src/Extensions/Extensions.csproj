@@ -380,8 +380,9 @@
     <Compile Include="Plugins\Cart\CalculateShipping.cs" />
     <Compile Include="Plugins\Cart\Models\AdditionalChargesRule.cs" />
     <Compile Include="Plugins\Cart\Models\ProductsByVendor.cs" />
+    <Compile Include="Plugins\Integration\JobPreprocessorGenericSubmit.cs" />
     <Compile Include="Plugins\Integration\JobPreprocessorNBFLookupInformation.cs" />
-    <Compile Include="Plugins\Integration\JobPreprocessorVendorOrderLines.cs" />
+    <Compile Include="Plugins\Integration\JobPreprocessorNbfOrderSubmit.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Settings\PhoneNumberSettings.cs" />
     <Compile Include="Settings\OrderTrackerSettings.cs" />
