@@ -37,11 +37,7 @@
                     this.onCartLoaded(newCart);
                 });
             }
-
-            this.wishListService.getWishLists().then(
-                (wishListCollection: WishListCollectionModel) => { this.getWishListCollectionCompleted(wishListCollection); },
-                (error: any) => { this.getWishListCollectionFailed(error); });
-
+            
             this.dashboardService.getDashboardPanels().then(
                 (dashboardPanelCollection: DashboardPanelCollectionModel) => { this.getDashboardPanelsCompleted(dashboardPanelCollection); },
                 (error: any) => { this.getDashboardPanelsFailed(error); });

@@ -11,9 +11,14 @@
 
         static $inject = ["paginationService", "$window"];
 
-        constructor(
+        constructor(            
             protected paginationService: core.IPaginationService,
             protected $window: ng.IWindowService) {
+        }
+
+        // called by pager when a different view is selected
+        selectView = (viewName: string) => {
+            this.customContext.view = viewName;
         }
 
         showPager(): boolean {

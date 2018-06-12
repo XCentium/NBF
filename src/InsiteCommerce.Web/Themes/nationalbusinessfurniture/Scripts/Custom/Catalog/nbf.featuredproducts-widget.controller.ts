@@ -15,7 +15,7 @@
         isAuthenticatedAndNotGuest = false;
         imagesLoaded: number;
 
-        static $inject = ["$timeout", "$window", "$scope", "$rootScope", "$attrs", "productService", "sessionService", "nbfWishListService"];
+        static $inject = ["$timeout", "$window", "$scope", "$rootScope", "$attrs", "productService", "sessionService", "wishListService"];
 
         constructor(
             protected $timeout: ng.ITimeoutService,
@@ -25,7 +25,7 @@
             protected $attrs: IFeaturedProductsWidgetControllerAttributes,
             protected productService: IProductService,
             protected sessionService: account.ISessionService,
-            protected nbfWishListService: wishlist.INbfWishListService) {
+            protected wishListService: wishlist.IWishListService) {
             this.init();
         }
 
@@ -145,13 +145,13 @@
 
             if (favoriteLine.length > 0) {
                 //Remove lines
-                this.nbfWishListService.deleteLineCollection(this.favoritesWishlist, favoriteLine).then((result) => {
+                this.wishListService.deleteLineCollection(this.favoritesWishlist, favoriteLine).then((result) => {
                     this.getFavorites();
                 });
             } else {
                 //Add Lines
                 var addLines = [product];
-                this.nbfWishListService.addWishListLines(this.favoritesWishlist, addLines).then(() => {
+                this.wishListService.addWishListLines(this.favoritesWishlist, addLines).then(() => {
                     this.getFavorites();
                 });
                 this.$rootScope.$broadcast("AnalyticsEvent", "AddProductToWishList");
@@ -159,7 +159,7 @@
         }
 
         protected getFavorites() {
-            this.nbfWishListService.getWishLists("CreatedOn", "wishlistlines").then((wishList) => {
+            this.wishListService.getWishLists("CreatedOn", "wishlistlines").then((wishList) => {
                 this.favoritesWishlist = wishList.wishListCollection[0];
 
                 this.products.forEach(product => {

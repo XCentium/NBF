@@ -20,7 +20,7 @@
         favoritesWishlist: WishListModel;
         isAuthenticatedAndNotGuest = false;
 
-        static $inject = ["cartService", "productService", "$timeout", "addToWishlistPopupService", "settingsService", "$scope", "$window", "$attrs", "sessionService", "nbfWishListService", "$rootScope" ];
+        static $inject = ["cartService", "productService", "$timeout", "addToWishlistPopupService", "settingsService", "$scope", "$window", "$attrs", "sessionService", "wishListService", "$rootScope" ];
 
         constructor(
             protected cartService: cart.ICartService,
@@ -32,7 +32,7 @@
             protected $window: ng.IWindowService,
             protected $attrs: IFeaturedProductsWidgetControllerAttributes,
             protected sessionService: account.ISessionService,
-            protected nbfWishListService: wishlist.INbfWishListService,
+            protected wishListService: wishlist.IWishListService,
             protected $rootScope: ng.IRootScopeService
         ) {
             super(cartService, productService, $timeout, addToWishlistPopupService, settingsService, $scope);
@@ -177,13 +177,13 @@
 
             if (favoriteLine.length > 0) {
                 //Remove lines
-                this.nbfWishListService.deleteLineCollection(this.favoritesWishlist, favoriteLine).then(() => {
+                this.wishListService.deleteLineCollection(this.favoritesWishlist, favoriteLine).then(() => {
                     this.getFavorites();
                 });
             } else {
                 //Add Lines
                 var addLines = [product];
-                this.nbfWishListService.addWishListLines(this.favoritesWishlist, addLines).then(() => {
+                this.wishListService.addWishListLines(this.favoritesWishlist, addLines).then(() => {
                     this.getFavorites();
                 });
                 this.$rootScope.$broadcast("AnalyticsEvent", "AddProductToWishList");
@@ -191,7 +191,7 @@
         }
 
         protected getFavorites() {
-            this.nbfWishListService.getWishLists("CreatedOn", "wishlistlines").then((wishList) => {
+            this.wishListService.getWishLists("CreatedOn", "wishlistlines").then((wishList) => {
                 this.favoritesWishlist = wishList.wishListCollection[0];
 
                 this.products.forEach(product => {

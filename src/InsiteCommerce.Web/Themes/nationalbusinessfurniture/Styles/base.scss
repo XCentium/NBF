@@ -702,6 +702,7 @@ th .sort-descending:after {
             .sticky-first {
                 position: absolute;
                 z-index: 3;
+                left: 10px;
             }
 
             tr th:first-child:before,
@@ -709,9 +710,9 @@ th .sort-descending:after {
                 content: ' ';
                 background-color: white;
                 position: absolute;
-                height: 51px;
+                height: 65px;
                 display: block;
-                margin: -15px -11px;
+                margin: -19px -14px;
                 border: 1px solid #e0e0e0;
                 z-index: 2;
             }
@@ -719,13 +720,19 @@ th .sort-descending:after {
             tr th:first-child:before {
                 background-color: #f9f9f9;
                 border-bottom: 0px solid transparent;
-                height: 49px;
+                height: 64px;
             }
 
             tr.odd td:first-child:before,
             tr.alt td:first-child:before,
             tr:nth-of-type(odd) td:first-child:before {
                 background-color: #f9f9f9;
+            }
+
+            &.my-quotes {
+                .sticky-first {
+                    left: 25px;
+                }
             }
         }
         // Overflow-table sizes of first column
@@ -754,8 +761,8 @@ th .sort-descending:after {
             tr td:first-child:before,
             tr td:first-child,
             tr td:first-child {
-                min-width: 120px;
-                width: 120px;
+                min-width: 140px;
+                width: 140px;
             }
 
             &.requisition {
@@ -774,6 +781,17 @@ th .sort-descending:after {
 
                 tr td:first-child:before {
                     height: inherit;
+                }
+            }
+
+            .my-quotes {
+
+                tr th:first-child:before,
+                tr td:first-child:before,
+                tr td:first-child,
+                tr td:first-child {
+                    min-width: 112px;
+                    width: 140px;
                 }
             }
         }

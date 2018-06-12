@@ -27,7 +27,7 @@
             protected nbfShopTheLookService: INbfShopTheLookService,
             protected queryString: insite.common.IQueryStringService,
             protected spinnerService: insite.core.SpinnerService,
-            protected nbfWishListService: insite.wishlist.INbfWishListService,
+            protected nbfWishListService: insite.wishlist.IWishListService,
             protected $attrs: INbfShopTheLookWidgetControllerAttributes) {
             this.init();
         }
