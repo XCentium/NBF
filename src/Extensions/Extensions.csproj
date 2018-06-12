@@ -339,6 +339,7 @@
     <Compile Include="Handlers\AddSessionHandlerNBF.cs" />
     <Compile Include="Handlers\AddCustomer.cs" />
     <Compile Include="Handlers\AddWishListHandler\AddWishList.cs" />
+    <Compile Include="Handlers\GetIndexableProducts\CustomGetIndexableProducts.cs" />
     <Compile Include="Handlers\GetCartHandler\AddAnalyticsValues.cs" />
     <Compile Include="Handlers\GetCartHandler\AddPaymentMethods.cs" />
     <Compile Include="Handlers\GetDashboardPanelCollectionHandlerNBF.cs" />
@@ -518,7 +519,7 @@
     <Compile Include="Widgets\PageTagSelectViewPageDrop.cs" />
     <Compile Include="Widgets\PageTagSelectViewPreparer.cs" />
     <Compile Include="Widgets\SignInWidget.cs" />
-    <Compile Include="Widgets\ProductCarousel.cs" />
+    <Compile Include="Widgets\NbfProductCarousel.cs" />
     <Compile Include="Widgets\WebCode.cs" />
   </ItemGroup>
   <ItemGroup>

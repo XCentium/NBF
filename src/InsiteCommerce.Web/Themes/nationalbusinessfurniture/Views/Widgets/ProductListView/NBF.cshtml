@@ -116,7 +116,7 @@
                                                         </div>
                                                         <div class="item-block__product__swatch">
                                                             <ul>
-                                                                <li ng-repeat="swatchImg in vm.getTop6Swatches(product.properties['swatches'])">
+                                                                <li ng-repeat="swatchImg in vm.getTop6Swatches(product.properties['swatches']) track by $index">
                                                                     <div class="item-block__product__swatch__img-wrap">
                                                                         <img class="item-block__product__swatch" ng-src="https://s7d9.scene7.com/is/image/NationalBusinessFurniture/{{swatchImg}}?hei=200&id=5-zsy2&fmt=jpg&fit=constrain,1&wid=344&hei=344" />
                                                                     </div>
