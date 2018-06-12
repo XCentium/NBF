@@ -429,7 +429,12 @@
 
         show360() {
             this.$rootScope.$broadcast("AnalyticsEvent", "Selected360View");
-            this.set360(this.product.erpNumber, 3, 16);
+
+            if (this.product.unspsc.length > 0) {
+                var lanes = parseInt(this.product.unspsc.substring(0, 2));
+                var frames = parseInt(this.product.unspsc.substring(2));
+                this.set360(this.product.erpNumber, lanes, frames);
+            }
         }
 
         setVideo2(vURL) {

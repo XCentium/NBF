@@ -40,8 +40,11 @@ namespace Extensions.Handlers.GetProductCollectionHandler
 
         public override GetProductCollectionResult Execute(IUnitOfWork unitOfWork, GetProductCollectionParameter parameter, GetProductCollectionResult result)
         {
-
-
+            //if (parameter.AttributeValueIds == null)
+            //{
+            //    parameter.AttributeValueIds = new List<string>();
+            //}
+            //parameter.AttributeValueIds.Add("A590CC91-F42B-4D25-BEB3-A8B8015A5369");
             return this.NextHandler.Execute(unitOfWork, parameter, result);
         }
     }
