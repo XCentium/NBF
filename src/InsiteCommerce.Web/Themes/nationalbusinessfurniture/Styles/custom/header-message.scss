@@ -41,6 +41,13 @@
     height: 42px;
     line-height: 50px;
     right: 15px;
+
+    &:before {
+        content: "\e606";
+        font-size: 1.5rem;
+        color: #fff;
+        font-family: $good-oatmeal;
+    }
 }
 
 .head-msg .close-msg:hover, .head-msg .close-msg:focus {
