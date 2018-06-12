@@ -389,7 +389,7 @@ module nbf.analytics {
         ProductAddedToCart: "ProductAddedToCart" as AnalyticsEvent,
         CheckoutInitiated: "CheckoutInitiated" as AnalyticsEvent,
         Selected360View: "Selected360View" as AnalyticsEvent,
-        AddProductToWishlist: "AddProductToWishlist" as AnalyticsEvent,
+        AddProductToWishList: "AddProductToWishList" as AnalyticsEvent,
         SaveOrderFromCartPage: "SaveOrderFromCartPage" as AnalyticsEvent,
         ContinueShoppingFromCartPage: "ContinueShoppingFromCartPage" as AnalyticsEvent,
         ReadReviewsSelected: "ReadReviewsSelected" as AnalyticsEvent,
@@ -415,7 +415,7 @@ module nbf.analytics {
 
     export type AnalyticsEvent = "PageLoad" | "ProductPageView" | "SwatchRequest" | "CatalogRequest" | "QuoteRequest" | "MiniCartQuoteRequest" | "InternalSearch" | "SuccessfulSearch" |
         "FailedSearch" | "ContactUsInitiated" | "ContactUsCompleted" | "AccountCreation" | "CheckoutAccountCreation" | "Login" | "CrossSellSelected" | "EmailSignUp" | "LiveChatStarted" |
-        "ProductAddedToCart" | "CheckoutInitiated" | "CheckoutComplete" | "ProductQuestionStarted" | "ProductQuestionAsked" | "Selected360View" | "AddProductToWishlist" | "SaveOrderFromCartPage" |
+        "ProductAddedToCart" | "CheckoutInitiated" | "CheckoutComplete" | "ProductQuestionStarted" | "ProductQuestionAsked" | "Selected360View" | "AddProductToWishList" | "SaveOrderFromCartPage" |
         "ReadReviewsSelected" | "MiniCartHover" | "SaveCart" | "CartOpened" | "ProductRemovedFromCart" | "ShippingBillingInfoComplete" | "ShippingMethodSelected" | "BillingMethodSelected" |
         "ContinueShoppingFromCartPage" | "ContentShared" | "ProductListingFiltered" | "ShopTheLook" | "VideoStarted" | "CartView" | "PromoApplied" | "BreadCrumbs" | "BlogComment";
 

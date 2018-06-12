@@ -129,7 +129,7 @@
                 var search = new nbf.analytics.AnalyticsPageSearchInfo();
                 search.searchResults = productCollection.pagination.totalItemCount;
                 search.searchTerm = this.query;
-                if (this.noResults) {
+                if (productCollection.products.length === 0) {
                     this.$rootScope.$broadcast("AnalyticsEvent", "FailedSearch", null, null, search);
                 } else {
                     this.$rootScope.$broadcast("AnalyticsEvent", "SuccessfulSearch", null, null, search);

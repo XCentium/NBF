@@ -647,7 +647,7 @@
         }
 
         protected updateBillToCompleted(billTo: BillToModel): void {
-            this.$rootScope.$broadcast("AnalyticsEvent", "ShippingBillingInfoComplete", null, null, { state: billTo.state.abbreviation, zip: billTo.postalCode });
+            
         }
 
         protected updateBillToFailed(error: any): void {
