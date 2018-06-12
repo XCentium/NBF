@@ -843,19 +843,6 @@
                 (country: CountryModel) => { this.onCreditCardBillingCountryChanged(country); });
             this.$scope.$watch("vm.creditCardBillingState",
                 (state: StateModel) => { this.onCreditCardBillingStateChanged(state); });
-            this.$scope.$watch("vm.cart.paymentOptions.creditCard.expirationYear", (year: number) => {
-                this.onExpirationYearChanged(year);
-            });
-            this.$scope.$watch("vm.cart.paymentOptions.creditCard.useBillingAddress", (useBillingAddress: boolean) => {
-                this.onUseBillingAddressChanged(useBillingAddress);
-            });
-            this.$scope.$watch("vm.creditCardBillingCountry", (country: CountryModel) => {
-                this.onCreditCardBillingCountryChanged(country);
-            });
-            this.$scope.$watch("vm.creditCardBillingState", (state: StateModel) => {
-                this.onCreditCardBillingStateChanged(state);
-            });
-
 
             this.onUseBillingAddressChanged(true);
 
@@ -886,6 +873,7 @@
             if (!useBillingAddress) {
                 if (typeof (this.countries) !== "undefined" && this.countries.length === 1) {
                     this.creditCardBillingCountry = this.countries[0];
+                    this.onCreditCardBillingCountryChanged(this.creditCardBillingCountry);
                 }
             }
         }
