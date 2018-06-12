@@ -1,53 +1,168 @@
 ﻿[% if Model.Drop.RootPageExists -%]
-<li class="[[Model.CssClass]]">
+<li class="">
     <span class="nav-item-container">
-        [% if Model.HasUrl -%]
-        <a id="tst_productMenu_[[Model.Drop.Id]]" href="[[Model.LandingPageUrl]]">[[Model.Drop.RootPageTitle]]</a>
-        [% else -%]
-        <a id="tst_productMenu_[[Model.Drop.Id]]" onclick="$(this).next().click();return false;">[[Model.Drop.RootPageTitle]]</a>
-        [% endif %]
+        <a id="tst_productMenu_00000000-0000-0000-0000-000000000000" href="/Product-Navigation">Products</a>
+
         <label for="nav-cat" class="toggle-sub" onclick="insite.nav.goToSubnav(this)">►</label>
     </span>
     <input type="checkbox" name="nav" id="nav-cat" class="subnav-check">
     <div id="sub-cat" class="subnav sub-tier-panel">
         <ul class="level-1">
-            <li class="sub-heading">[[Model.Drop.RootPageTitle]]</li>
-            [% for childPage in Model.Drop.ChildPages -%]
-            [% if forloop.index == 1 -%]
+            <li class="sub-heading">Products</li>
             <li class="currently-hovered">
-                [% else -%]
-            <li>
-                [% endif -%]
                 <span class="nav-item-container">
-                    <a id="tst_productMenu_[[childPage.Id]]" href="[[childPage.Url]]" onclick="insite.nav.hideMenu();">[[childPage.Title]]</a>
-                    <label for="nav-cat[[childPage.CatNum]]" class="toggle-sub" onclick="insite.nav.goToSubnav(this)">►</label>
+                    <a id="tst_productMenu_21fccf70-8599-4465-83ee-a8a9001c1f4e" href="/accessories" onclick="insite.nav.hideMenu();">Accessories</a>
+                    <label for="nav-cat0" class="toggle-sub" onclick="insite.nav.goToSubnav(this)">►</label>
                 </span>
-                <input type="checkbox" name="nav" id="nav-cat[[childPage.CatNum]]" class="subnav-check">
+                <input type="checkbox" name="nav" id="nav-cat0" class="subnav-check">
 
                 <div class="sub-tier-panel subnav level-2">
-                    [% if childPage.NbfChildPages %]
+
                     <div class="sub-links-wrap">
                         <ul id="sub-cat2" class="sub-tier-cols">
-                            <li class="sub-heading">[[childPage.Title]]</li>
-                            [% for grandChildPage in childPage.NbfChildPages -%]
-                            <li><a href="[[grandChildPage.Url]]" onclick="insite.nav.hideMenu();">[[grandChildPage.Title]]</a></li>
-                            [% endfor %]
+                            <li class="sub-heading">Accessories</li>
+                            <li><a href="/accessories/accessories-boards" onclick="insite.nav.hideMenu();">Boards</a></li>
+                            <li><a href="/accessories/accessories-chairs" onclick="insite.nav.hideMenu();">Chairs</a></li>
+                            <li><a href="/accessories/accessories-desks" onclick="insite.nav.hideMenu();">Desks</a></li>
+                            <li><a href="/accessories/accessories-misc" onclick="insite.nav.hideMenu();">Misc.</a></li>
+                            <li><a href="/accessories/accessories-partitions" onclick="insite.nav.hideMenu();">Partitions</a></li>
+                            <li><a href="/accessories/accessories-storage" onclick="insite.nav.hideMenu();">Storage</a></li>
+                            <li><a href="/accessories/accessories-tables" onclick="insite.nav.hideMenu();">Tables</a></li>
+                            <li><a href="/accessories?attr=onsale" onclick="insite.nav.hideMenu();">On sale</a></li>
+                            <li><a href="/accessories?attr=shipstoday" onclick="insite.nav.hideMenu();">Ships Today</a></li>
+                            <li><a href="/accessories?attr=toprated" onclick="insite.nav.hideMenu();">Top Rated</a></li>
+                            <li><a href="/accessories?attr=newproducts" onclick="insite.nav.hideMenu();">New Products</a></li>
+                            <li><a href="/accessories?attr=bestselling" onclick="insite.nav.hideMenu();">Best Selling</a></li>
+                            <li><a href="/accessories?attr=clearance" onclick="insite.nav.hideMenu();">Clearance</a></li>
+                            <li><a href="/accessories?attr=gsa" onclick="insite.nav.hideMenu();">GSA</a></li>
+                            <li class="sub-heading">Accessories2</li>
                         </ul>
+
                     </div>
-                    [% endif %]
+
                     <div class="res-nav" style="min-width: 200px;">
                         <div class="res-nav-wrap">
-                            [[childPage.NavigationContent]]
+                            
+
+                    </div>
+                </div>
+            </div>
+        </li>
+            <li class="">
+                <span class="nav-item-container">
+                    <a id="tst_productMenu_21fccf70-8599-4465-83ee-a8a9001c1f4e" href="/accessories" onclick="insite.nav.hideMenu();">Other PRoductgs</a>
+                    <label for="nav-cat0" class="toggle-sub" onclick="insite.nav.goToSubnav(this)">►</label>
+                </span>
+                <input type="checkbox" name="nav" id="nav-cat0" class="subnav-check">
+
+                <div class="sub-tier-panel subnav level-2">
+
+                    <div class="sub-links-wrap">
+                        <ul id="sub-cat2" class="sub-tier-cols">
+                            <li class="sub-heading">Accessories</li>
+                            <li><a href="/accessories/accessories-boards" onclick="insite.nav.hideMenu();">Boards</a></li>
+                            <li><a href="/accessories/accessories-chairs" onclick="insite.nav.hideMenu();">Chairs</a></li>
+                            <li><a href="/accessories/accessories-desks" onclick="insite.nav.hideMenu();">Desks</a></li>
+                            <li><a href="/accessories/accessories-misc" onclick="insite.nav.hideMenu();">Misc.</a></li>
+           
+                        </ul>
+
+                    </div>
+
+                    <div class="res-nav" style="min-width: 200px;">
+                        <div class="res-nav-wrap">
+
+
                         </div>
                     </div>
                 </div>
             </li>
-            [% endfor -%]
-        </ul>
+            </div>
+    </li>
+
+<li class="">
+    <span class="nav-item-container">
+        <a id="tst_productMenu_00000000-0000-0000-0000-000000000000" href="/Product-Navigation">By Area</a>
+
+        <label for="nav-cat" class="toggle-sub" onclick="insite.nav.goToSubnav(this)">►</label>
+    </span>
+    <input type="checkbox" name="nav" id="nav-cat" class="subnav-check">
+    <div id="sub-cat" class="subnav sub-tier-panel">
+        <ul class="level-1">
+            <li class="sub-heading">Products</li>
+            <li class="currently-hovered">
+                <span class="nav-item-container">
+                    <a id="tst_productMenu_21fccf70-8599-4465-83ee-a8a9001c1f4e" href="/accessories" onclick="insite.nav.hideMenu();">Dining Room</a>
+                    <label for="nav-cat0" class="toggle-sub" onclick="insite.nav.goToSubnav(this)">►</label>
+                </span>
+                <input type="checkbox" name="nav" id="nav-cat0" class="subnav-check">
+
+                <div class="sub-tier-panel subnav level-2">
+
+                    <div class="sub-links-wrap">
+                        <ul id="sub-cat2" class="sub-tier-cols">
+                            <li class="sub-heading">Accessories</li>
+                            <li><a href="/accessories/accessories-boards" onclick="insite.nav.hideMenu();">Boards</a></li>
+                            <li><a href="/accessories/accessories-chairs" onclick="insite.nav.hideMenu();">Chairs</a></li>
+                            <li><a href="/accessories/accessories-desks" onclick="insite.nav.hideMenu();">Desks</a></li>
+                            <li><a href="/accessories/accessories-misc" onclick="insite.nav.hideMenu();">Misc.</a></li>
+                            <li><a href="/accessories/accessories-partitions" onclick="insite.nav.hideMenu();">Partitions</a></li>
+                            <li><a href="/accessories/accessories-storage" onclick="insite.nav.hideMenu();">Storage</a></li>
+                            <li><a href="/accessories/accessories-tables" onclick="insite.nav.hideMenu();">Tables</a></li>
+                            <li><a href="/accessories?attr=onsale" onclick="insite.nav.hideMenu();">On sale</a></li>
+                            <li><a href="/accessories?attr=shipstoday" onclick="insite.nav.hideMenu();">Ships Today</a></li>
+                            <li><a href="/accessories?attr=toprated" onclick="insite.nav.hideMenu();">Top Rated</a></li>
+                            <li><a href="/accessories?attr=newproducts" onclick="insite.nav.hideMenu();">New Products</a></li>
+                            <li><a href="/accessories?attr=bestselling" onclick="insite.nav.hideMenu();">Best Selling</a></li>
+                            <li><a href="/accessories?attr=clearance" onclick="insite.nav.hideMenu();">Clearance</a></li>
+                            <li><a href="/accessories?attr=gsa" onclick="insite.nav.hideMenu();">GSA</a></li>
+                            <li class="sub-heading">Accessories2</li>
+                        </ul>
+
+                    </div>
+
+                    <div class="res-nav" style="min-width: 200px;">
+                        <div class="res-nav-wrap">
+
+
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li class="">
+                <span class="nav-item-container">
+                    <a id="tst_productMenu_21fccf70-8599-4465-83ee-a8a9001c1f4e" href="/accessories" onclick="insite.nav.hideMenu();">Other PRoductgs</a>
+                    <label for="nav-cat0" class="toggle-sub" onclick="insite.nav.goToSubnav(this)">►</label>
+                </span>
+                <input type="checkbox" name="nav" id="nav-cat0" class="subnav-check">
+
+                <div class="sub-tier-panel subnav level-2">
+
+                    <div class="sub-links-wrap">
+                        <ul id="sub-cat2" class="sub-tier-cols">
+                            <li class="sub-heading">Accessories</li>
+                            <li><a href="/accessories/accessories-boards" onclick="insite.nav.hideMenu();">Boards</a></li>
+                            <li><a href="/accessories/accessories-chairs" onclick="insite.nav.hideMenu();">Chairs</a></li>
+                            <li><a href="/accessories/accessories-desks" onclick="insite.nav.hideMenu();">Desks</a></li>
+                            <li><a href="/accessories/accessories-misc" onclick="insite.nav.hideMenu();">Misc.</a></li>
+
+                        </ul>
+
+                    </div>
+
+                    <div class="res-nav" style="min-width: 200px;">
+                        <div class="res-nav-wrap">
+
+
+                        </div>
+                    </div>
+                </div>
+            </li>
     </div>
 </li>
-[% else -%]
-    [% if IsViewingMode == false -%]
-<p>There was no page found for the content name '[[Model.RootPageName]]', edit this item to resolve the issue</p>
-    [% endif -%]
-[% endif -%]
+
+        [% else -%]
+        [% if IsViewingMode == false -%]
+        <p>There was no page found for the content name '[[Model.RootPageName]]', edit this item to resolve the issue</p>
+        [% endif -%]
+        [% endif -%]

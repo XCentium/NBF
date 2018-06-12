@@ -45,12 +45,12 @@ namespace Extensions.Widgets
             ReadOnlyCollection<NavLinkDto> categoryMenuLinks = CatalogLinkProvider.GetCategoryMenuLinks(new int?());
 
             ProductFlyOutDrop navigationListDrop1 = model;
-            navigationListDrop1.RootPageTitle = "Products";
+            //navigationListDrop1.RootPageTitle = "Products";
             ProductFlyOutDrop navigationListDrop2 = model;
             navigationListDrop2.RootPageExists = true;
-            ProductFlyOutDrop navigationListDrop3 = model;
-            navigationListDrop3.Id = model.Id;
-            ProductFlyOutDrop navigationListDrop4 = model;
+            //ProductFlyOutDrop navigationListDrop3 = model;
+            //navigationListDrop3.Id = model.Id;
+            //ProductFlyOutDrop navigationListDrop4 = model;
             IList<NbfChildPageDrop> childPageDropList = new List<NbfChildPageDrop>();
 
             var allProducts = contentItem.CategoryFilter.Equals("All Categories", StringComparison.CurrentCultureIgnoreCase);
@@ -86,7 +86,7 @@ namespace Extensions.Widgets
                     }
                 }
             }
-            navigationListDrop4.ChildPages = childPageDropList;
+          
 
             if (!contentItem.LandingPageName.IsNullOrWhiteSpace())
             {
