@@ -183,7 +183,7 @@
     <Content Include="Views\Pages\Legacy-UploadLibraries.liquid" />
     <Content Include="Views\Pages\NewsTemplate.liquid" />
     <Content Include="Views\Pages\Standard.liquid" />
-    <Content Include="Views\Widgets\ProductCarousel\Insite.cshtml" />
+    <Content Include="Views\Widgets\ProductCarousel\Standard.cshtml" />
     <TypeScriptCompile Include="Scripts\Analytics\nbf.analytics.service.ts" />
     <TypeScriptCompile Include="Scripts\Analytics\nbf.analytics.datalayer.ts" />
     <Content Include="Views\Widgets\SignInView\NBF.cshtml" />
@@ -813,7 +813,7 @@
     <Content Include="Views\Widgets\CatalogMailingPrefs\Standard.cshtml" />
     <Content Include="Views\Widgets\Banner\SubPageBanner.cshtml" />
     <Content Include="Views\Widgets\Banner\SubPageBannerH1Titles.cshtml" />
-    <Content Include="Views\Widgets\ProductCarousel\Standard.cshtml" />
+    <Content Include="Views\Widgets\NbfProductCarousel\Standard.cshtml" />
     <Content Include="Styles\custom\star-rating.scss" />
     <Content Include="Views\Widgets\LatestBlogPosts\TitleAndDateOnly.cshtml" />
     <Content Include="Views\Widgets\LatestBlogPosts\WithMarginsTitleAndDateOnly.cshtml" />

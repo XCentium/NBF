@@ -34,24 +34,24 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Insite.Common">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.4.40740\lib\net452\Insite.Common.dll</HintPath>
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.4.40894\lib\net452\Insite.Common.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.Core.Interfaces, Version=4.4.4.40740, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Insite.Core.Interfaces, Version=4.4.4.40894, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.4.40740\lib\net452\Insite.Core.Interfaces.dll</HintPath>
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.4.40894\lib\net452\Insite.Core.Interfaces.dll</HintPath>
     </Reference>
-    <Reference Include="Insite.Data, Version=4.4.4.40740, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Insite.Data, Version=4.4.4.40894, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.4.40740\lib\net452\Insite.Data.dll</HintPath>
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.4.40894\lib\net452\Insite.Data.dll</HintPath>
     </Reference>
     <Reference Include="Insite.Data.Entities">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.4.40740\lib\net452\Insite.Data.Entities.dll</HintPath>
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.4.40894\lib\net452\Insite.Data.Entities.dll</HintPath>
     </Reference>
     <Reference Include="Insite.Integration">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.4.40740\lib\net452\Insite.Integration.dll</HintPath>
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.4.40894\lib\net452\Insite.Integration.dll</HintPath>
     </Reference>
     <Reference Include="Insite.WIS.Broker">
-      <HintPath>..\packages\Insite.Commerce.Private.4.4.4.40740\lib\net452\Insite.WIS.Broker.dll</HintPath>
+      <HintPath>..\packages\Insite.Commerce.Private.4.4.4.40894\lib\net452\Insite.WIS.Broker.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
