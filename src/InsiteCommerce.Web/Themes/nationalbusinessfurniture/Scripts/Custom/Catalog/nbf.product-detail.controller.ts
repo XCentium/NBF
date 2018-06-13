@@ -208,8 +208,10 @@
         }   
 
         styleChange(): void {
-            $("#s7flyout_inline_div").empty();
-            $('#s7flyout_inline_div').show();
+            if (this.product.isConfigured) {
+                $("#s7flyout_inline_div").empty();
+                $('#s7flyout_inline_div').show();
+            }
             $('#Wrapper360').hide();
             var myVideo = $('#videofile');
             if (myVideo) {
