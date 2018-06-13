@@ -38,7 +38,7 @@ namespace Extensions.Handlers.GetProductCollectionHandler
 
                     var swatchProducts = unitOfWork.GetRepository<Product>()
                                    .GetTable()
-                                   .Where(x => x.ErpNumber.StartsWith(swatchErpNumber))
+                                   .Where(x => x.ProductCode.Equals(swatchErpNumber))
                                    .Select(x => new {x.ModelNumber,
                                        x.Id,
                                        x.ErpNumber,
@@ -62,17 +62,13 @@ namespace Extensions.Handlers.GetProductCollectionHandler
                             ParentTable = "Product"
                         };
 
-                        if (product.CustomProperties.Any(x => x.Name == "swatches") == false)
+                        if (product.CustomProperties.Any(x => x.Name.EqualsIgnoreCase("swatches")) == false)
                         {
                             product.CustomProperties.Add(customProperty);
                         }
                         else
                         {
-                            var existingCustomProperty = product.CustomProperties
-                                .Where(x => x.Name == "swatches")
-                                .Single();
-
-                            existingCustomProperty.Value = swatchProductsJson;
+                            product.CustomProperties.FirstOrDefault(x => x.Name.EqualsIgnoreCase("swatches")).Value = swatchProductsJson;
                         }
                     }
                 }
