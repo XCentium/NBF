@@ -3,7 +3,7 @@
     <div class="row product-list category-list"
          ng-class="{
              'vm-list': vm.isCategoryPage() || vm.view == 'list' || vm.view == 'List' || vm.view == undefined,
-             'vm-grid': !vm.isCategoryPage() && vm.view == 'grid',
+             'vm-grid': vm.view == 'grid',
              'vm-table': !vm.isCategoryPage() && vm.view == 'table'
          }"
          ng-controller="ProductListController as vm" ng-show="vm.ready" ng-cloak
