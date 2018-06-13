@@ -496,7 +496,6 @@
                             } as any;
 
                             this.sessionService.changePassword(session).then(() => {
-                                this.$localStorage.set("changePasswordDate", (new Date()).toLocaleString());
                                 this.createAccountCompleted(response);
                             }, (error) => {
                                 this.createError = error.message;
