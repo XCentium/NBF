@@ -35,7 +35,7 @@ namespace Extensions.Handlers.SubmitOrderToErpHandler
                 var productsByVendor = ShippingHelper.GroupProductsByVendor(result.GetCartResult.Cart);
                
                 var totalTax = result.GetCartResult.Cart.TaxAmount;
-                var pretaxTotal = result.GetCartResult.OrderSubTotal + result.GetCartResult.ShippingAndHandling;
+                var pretaxTotal = result.GetCartResult.OrderSubTotal + result.GetCartResult.Cart.ShippingCharges + result.GetCartResult.Cart.OtherCharges;
 
                 foreach(var vendor in shipByVendor)
                 {
