@@ -165,6 +165,18 @@
                 return;
             }
 
+            if (this.query.length > 0 && productCollection.products.length > 1) {
+                var self = this;
+                var filteredProduct = productCollection.products.filter(function (product) {
+                    return product.erpNumber == self.query;
+                });
+                if (filteredProduct.length == 1) {
+                    this.searchService.addSearchHistory(this.query, this.searchHistoryLimit, this.includeSuggestions.toLowerCase() === "true");
+                    this.coreService.redirectToPath(`${filteredProduct[0].productDetailUrl}?criteria=${encodeURIComponent(params.query)}`);
+                    return;
+                }
+            }
+
             if (!this.pageChanged) {
                 this.loadProductFilter(productCollection, expand);
             }
