@@ -47,6 +47,8 @@
         submitComment(): void {
             this.spinnerService.show("mainLayout", true);
             var params = {};
+
+            this.$scope.$root.$broadcast("AnalyticsEvent", "BlogComment");
         
             params["subject"] = this.subject;
             if (!params["subject"] || params["subject"].length == 0) {

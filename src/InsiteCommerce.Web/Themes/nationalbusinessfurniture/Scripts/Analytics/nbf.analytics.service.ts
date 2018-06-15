@@ -30,6 +30,10 @@ module nbf.analytics {
             $rootScope.$on("$locationChangeSuccess", (event, newUrl, oldUrl) => setTimeout(() => self.handlePageLoad(event, newUrl, oldUrl), 100));
             $rootScope.$on("$locationChangeStart", () => self.handleNavigationStart());
 
+            $(".live-chat-link").on('click', (event) => {
+                self.FireEvent(AnalyticsEvents.TopLiveChatSelected);
+            });
+
         }
 
         get Data(): AnalyticsDataLayer {
@@ -389,7 +393,7 @@ module nbf.analytics {
         ProductAddedToCart: "ProductAddedToCart" as AnalyticsEvent,
         CheckoutInitiated: "CheckoutInitiated" as AnalyticsEvent,
         Selected360View: "Selected360View" as AnalyticsEvent,
-        AddProductToWishlist: "AddProductToWishlist" as AnalyticsEvent,
+        AddProductToWishList: "AddProductToWishList" as AnalyticsEvent,
         SaveOrderFromCartPage: "SaveOrderFromCartPage" as AnalyticsEvent,
         ContinueShoppingFromCartPage: "ContinueShoppingFromCartPage" as AnalyticsEvent,
         ReadReviewsSelected: "ReadReviewsSelected" as AnalyticsEvent,
@@ -409,13 +413,15 @@ module nbf.analytics {
         VideoStarted: "VideoStarted" as AnalyticsEvent,
         CartView: "CartView" as AnalyticsEvent,
         PromoApplied: "PromoApplied" as AnalyticsEvent,
-        BreadCrumbs: "BreadCrumbs" as AnalyticsEvent
+        BreadCrumbs: "BreadCrumbs" as AnalyticsEvent,
+        BlogComment: "BlogComment" as AnalyticsEvent,
+        TopLiveChatSelected: "TopLiveChatSelected" as AnalyticsEvent
     }
 
     export type AnalyticsEvent = "PageLoad" | "ProductPageView" | "SwatchRequest" | "CatalogRequest" | "QuoteRequest" | "MiniCartQuoteRequest" | "InternalSearch" | "SuccessfulSearch" |
         "FailedSearch" | "ContactUsInitiated" | "ContactUsCompleted" | "AccountCreation" | "CheckoutAccountCreation" | "Login" | "CrossSellSelected" | "EmailSignUp" | "LiveChatStarted" |
-        "ProductAddedToCart" | "CheckoutInitiated" | "CheckoutComplete" | "ProductQuestionStarted" | "ProductQuestionAsked" | "Selected360View" | "AddProductToWishlist" | "SaveOrderFromCartPage" |
+        "ProductAddedToCart" | "CheckoutInitiated" | "CheckoutComplete" | "ProductQuestionStarted" | "ProductQuestionAsked" | "Selected360View" | "AddProductToWishList" | "SaveOrderFromCartPage" |
         "ReadReviewsSelected" | "MiniCartHover" | "SaveCart" | "CartOpened" | "ProductRemovedFromCart" | "ShippingBillingInfoComplete" | "ShippingMethodSelected" | "BillingMethodSelected" |
-        "ContinueShoppingFromCartPage" | "ContentShared" | "ProductListingFiltered" | "ShopTheLook" | "VideoStarted" | "CartView" | "PromoApplied" | "BreadCrumbs";
+        "ContinueShoppingFromCartPage" | "ContentShared" | "ProductListingFiltered" | "ShopTheLook" | "VideoStarted" | "CartView" | "PromoApplied" | "BreadCrumbs" | "BlogComment" | "TopLiveChatSelected";
 
 }
