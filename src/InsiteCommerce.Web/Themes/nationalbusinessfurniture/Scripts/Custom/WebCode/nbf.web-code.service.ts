@@ -35,18 +35,20 @@
                 if (!siteId) {
                     siteId = self.getRefferer();
                 }
-                if (!siteId && !affCode) {
-                    siteId = "default_web";
+                if (siteId) {
+                    this.StoredCampaignID = siteId
+                } else {
+                    siteId = self.StoredCampaignID;
                 }
+                if (!siteId) {
+                    siteId = self.DefaultCampaign;
+                }
+
                 userIDPromise.then(userId => {
-                    if (siteId) {
-                        self.$http.get(self.serviceUri, {
-                            params: self.getWebCodeParams(siteId, userId)
-                        }).then(response => resolve(response.data))
-                            .catch(reject);
-                    } else {
-                        resolve(userId + "-" + affCode);
-                    }
+                    self.$http.get(self.serviceUri, {
+                        params: self.getWebCodeParams(siteId, userId)
+                    }).then(response => resolve(response.data))
+                        .catch(reject);
                 });
             }); 
             promise.then(webcode => self.getWebCodeCompleted(webcode)).catch(error => self.getWebCodeFailed(error));
@@ -144,7 +146,9 @@
         }
 
         private set StoredTransID(transId: string) {
-            this.ipCookie("UserOmnitureTransID", transId, { path: "/" });
+            var expire = new Date();
+            expire.setTime(expire.getTime() + 90 * 24 * 60 * 60 * 1000);
+            this.ipCookie("UserOmnitureTransID", transId, { path: "/", expires: expire });
         }
 
         private get StoredAffiliateCode(): string {
@@ -153,8 +157,25 @@
 
         private set StoredAffiliateCode(affCode: string) {
             var expire = new Date();
-            expire.setDate(expire.getDate() + 90);
+            expire.setTime(expire.getTime() + 90 * 24 * 60 * 60 * 1000);
             this.ipCookie("UserAffiliateCodeID", affCode, { path: "/", expires: expire });
+        }
+
+        private get StoredCampaignID(): string {
+            return this.ipCookie("CampaignID");
+        }
+
+        private set StoredCampaignID(campaignId: string) {
+            if (!campaignId || campaignId == "default_web") {
+                return;
+            }
+            var expire = new Date();
+            expire.setTime(expire.getTime() + 90 * 24 * 60 * 60 * 1000);
+            this.ipCookie("CampaignID", campaignId, { path: "/", expires: expire });
+        }
+
+        private get DefaultCampaign(): string {
+            return "default_web";
         }
     }
 
