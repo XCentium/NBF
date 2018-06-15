@@ -41,15 +41,15 @@
                 userIDPromise.then(userId => {
                     if (siteId) {
                         self.$http.get(self.serviceUri, {
-                            params: self.getWebCodeParams(userId, siteId)
+                            params: self.getWebCodeParams(siteId, userId)
                         }).then(response => resolve(response.data))
                             .catch(reject);
                     } else {
                         resolve(userId + "-" + affCode);
                     }
                 });
-            });
-            promise.then(this.getWebCodeCompleted).catch(this.getWebCodeFailed);
+            }); 
+            promise.then(webcode => self.getWebCodeCompleted(webcode)).catch(error => self.getWebCodeFailed(error));
             return promise;
         }
 
