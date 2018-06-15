@@ -27,6 +27,7 @@
         getWebCodeCompleted(webCode: string): void {
             if (webCode != null) {
                 this.webCode = webCode;
+                this.$scope.$root.$broadcast("WebCodeComplete", webCode);
             } 
         }
         getWebUserCompleted(webCode: string): void {

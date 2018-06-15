@@ -166,7 +166,6 @@ module nbf.analytics {
                 this.Data.events = [];
                 this.Data.pageInfo.destinationUrl = newUrl;
                 this.Data.pageInfo.referringUrl = oldUrl;
-                this.Data.pageInfo.affiliateCode = this.getSiteId();
                 this.Data.pageInfo.pageName = pageName;
                 this.Data.pageInfo.pageType = pageType;
                 this.Data.pageInfo.siteSection = section;
@@ -301,51 +300,6 @@ module nbf.analytics {
         private handleNavigationStart() {
             this.Data.pageInfo.pageType = ""
             this.Data.product = new AnalyticsProduct();
-        }
-
-        private getSiteId(): string {
-            var cookie = this.ipCookie("CampaignID");
-            if (cookie) {
-                return cookie;
-            }
-
-            var siteId = "default_web";
-
-            const siteIdQueryString = this.queryString.get("SiteID");
-            const ganTrackingId = this.queryString.get("GanTrackingID");
-            const affiliateSiteId = this.queryString.get("affiliateSiteID");
-            const affId = this.queryString.get("affid");
-            const origin = this.queryString.get("Origin");
-            const ref = this.queryString.get("Ref");
-
-            if (siteIdQueryString) {
-                siteId = siteIdQueryString;
-            } else if (ganTrackingId) {
-                siteId = `gan_${ganTrackingId}`;
-            } else if (affiliateSiteId) {
-                siteId = affiliateSiteId;
-            } else if (affId) {
-                siteId = affId;
-            } else if (origin) {
-                siteId = origin;
-            } else if (ref) {
-                siteId = ref;
-            } else {
-                var searchEngineList = this.getSearchEngineDomains();
-                var referrer = document.referrer;
-                for (var se in searchEngineList) {
-                    if (referrer.indexOf(se) > -1) {
-                        siteId = searchEngineList[se];
-                        break;
-                    }
-                }
-            }
-
-            var expire = new Date();
-            expire.setDate(expire.getDate() + 90);
-            this.ipCookie("CampaignID", siteId, { path: "/", expires: expire });
-
-            return siteId;
         }
 
         private getSearchEngineDomains() {
