@@ -24,6 +24,7 @@
     };
 
     that.goToSubnav = (navArrow) => {
+        event.preventDefault();
         $(".isc-primary-nav ul li .hide-item").removeClass("hide-item t2");
         const $activeNav = $(".isc-primary-nav ul.active-nav");
         $activeNav.scrollTop(0);
@@ -32,6 +33,7 @@
 
         const self = $(navArrow);
         self.closest("li").find("div.subnav:first").addClass("active-nav");
+        self.closest("li").find("input.subnav-check:first").prop("checked", true);
 
         $(".isc-primary-nav-back").removeClass("isc-hidden");
     };

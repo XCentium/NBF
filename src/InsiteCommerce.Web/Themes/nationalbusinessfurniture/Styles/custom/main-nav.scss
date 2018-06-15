@@ -953,3 +953,14 @@
         top: .6rem;
     }
 }
+
+.isc-primary-nav .toggle-sub {
+    @media all and (max-width: 991px) {
+        visibility: hidden;
+    }
+}
+.isc-primary-nav .nav-item-container .toggle-sub {
+    @media all and (max-width: 991px) {
+        visibility: visible;
+    }
+}
