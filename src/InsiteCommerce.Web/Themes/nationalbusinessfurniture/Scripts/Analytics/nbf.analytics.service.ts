@@ -30,6 +30,10 @@ module nbf.analytics {
             $rootScope.$on("$locationChangeSuccess", (event, newUrl, oldUrl) => setTimeout(() => self.handlePageLoad(event, newUrl, oldUrl), 100));
             $rootScope.$on("$locationChangeStart", () => self.handleNavigationStart());
 
+            $(".live-chat-link").on('click', (event) => {
+                self.FireEvent(AnalyticsEvents.TopLiveChatSelected);
+            });
+
         }
 
         get Data(): AnalyticsDataLayer {
@@ -162,7 +166,6 @@ module nbf.analytics {
                 this.Data.events = [];
                 this.Data.pageInfo.destinationUrl = newUrl;
                 this.Data.pageInfo.referringUrl = oldUrl;
-                this.Data.pageInfo.affiliateCode = this.getSiteId();
                 this.Data.pageInfo.pageName = pageName;
                 this.Data.pageInfo.pageType = pageType;
                 this.Data.pageInfo.siteSection = section;
@@ -299,51 +302,6 @@ module nbf.analytics {
             this.Data.product = new AnalyticsProduct();
         }
 
-        private getSiteId(): string {
-            var cookie = this.ipCookie("CampaignID");
-            if (cookie) {
-                return cookie;
-            }
-
-            var siteId = "default_web";
-
-            const siteIdQueryString = this.queryString.get("SiteID");
-            const ganTrackingId = this.queryString.get("GanTrackingID");
-            const affiliateSiteId = this.queryString.get("affiliateSiteID");
-            const affId = this.queryString.get("affid");
-            const origin = this.queryString.get("Origin");
-            const ref = this.queryString.get("Ref");
-
-            if (siteIdQueryString) {
-                siteId = siteIdQueryString;
-            } else if (ganTrackingId) {
-                siteId = `gan_${ganTrackingId}`;
-            } else if (affiliateSiteId) {
-                siteId = affiliateSiteId;
-            } else if (affId) {
-                siteId = affId;
-            } else if (origin) {
-                siteId = origin;
-            } else if (ref) {
-                siteId = ref;
-            } else {
-                var searchEngineList = this.getSearchEngineDomains();
-                var referrer = document.referrer;
-                for (var se in searchEngineList) {
-                    if (referrer.indexOf(se) > -1) {
-                        siteId = searchEngineList[se];
-                        break;
-                    }
-                }
-            }
-
-            var expire = new Date();
-            expire.setDate(expire.getDate() + 90);
-            this.ipCookie("CampaignID", siteId, { path: "/", expires: expire });
-
-            return siteId;
-        }
-
         private getSearchEngineDomains() {
             //This value should eventually come from the application dictionary (or something) and not be hardcored. 
             var searchEngines = "google.:glo_nbf,msn.:mso_nbf,bing.:mso_nbf,yahoo.:yho_nbf,aol.:aol_nbf,facebook.:fb_NBF_Social,instagram.:ig_NBF_Social,pinterest.:pin_NBF_Social,linkedin.:lin_NBF_Social,youtube.:yt_NBF_Social,ask.,about.,baidu.,yandex.,search.,duckduckgo.,localhost:loco_nbf";
@@ -389,7 +347,7 @@ module nbf.analytics {
         ProductAddedToCart: "ProductAddedToCart" as AnalyticsEvent,
         CheckoutInitiated: "CheckoutInitiated" as AnalyticsEvent,
         Selected360View: "Selected360View" as AnalyticsEvent,
-        AddProductToWishlist: "AddProductToWishlist" as AnalyticsEvent,
+        AddProductToWishList: "AddProductToWishList" as AnalyticsEvent,
         SaveOrderFromCartPage: "SaveOrderFromCartPage" as AnalyticsEvent,
         ContinueShoppingFromCartPage: "ContinueShoppingFromCartPage" as AnalyticsEvent,
         ReadReviewsSelected: "ReadReviewsSelected" as AnalyticsEvent,
@@ -409,13 +367,15 @@ module nbf.analytics {
         VideoStarted: "VideoStarted" as AnalyticsEvent,
         CartView: "CartView" as AnalyticsEvent,
         PromoApplied: "PromoApplied" as AnalyticsEvent,
-        BreadCrumbs: "BreadCrumbs" as AnalyticsEvent
+        BreadCrumbs: "BreadCrumbs" as AnalyticsEvent,
+        BlogComment: "BlogComment" as AnalyticsEvent,
+        TopLiveChatSelected: "TopLiveChatSelected" as AnalyticsEvent
     }
 
     export type AnalyticsEvent = "PageLoad" | "ProductPageView" | "SwatchRequest" | "CatalogRequest" | "QuoteRequest" | "MiniCartQuoteRequest" | "InternalSearch" | "SuccessfulSearch" |
         "FailedSearch" | "ContactUsInitiated" | "ContactUsCompleted" | "AccountCreation" | "CheckoutAccountCreation" | "Login" | "CrossSellSelected" | "EmailSignUp" | "LiveChatStarted" |
-        "ProductAddedToCart" | "CheckoutInitiated" | "CheckoutComplete" | "ProductQuestionStarted" | "ProductQuestionAsked" | "Selected360View" | "AddProductToWishlist" | "SaveOrderFromCartPage" |
+        "ProductAddedToCart" | "CheckoutInitiated" | "CheckoutComplete" | "ProductQuestionStarted" | "ProductQuestionAsked" | "Selected360View" | "AddProductToWishList" | "SaveOrderFromCartPage" |
         "ReadReviewsSelected" | "MiniCartHover" | "SaveCart" | "CartOpened" | "ProductRemovedFromCart" | "ShippingBillingInfoComplete" | "ShippingMethodSelected" | "BillingMethodSelected" |
-        "ContinueShoppingFromCartPage" | "ContentShared" | "ProductListingFiltered" | "ShopTheLook" | "VideoStarted" | "CartView" | "PromoApplied" | "BreadCrumbs";
+        "ContinueShoppingFromCartPage" | "ContentShared" | "ProductListingFiltered" | "ShopTheLook" | "VideoStarted" | "CartView" | "PromoApplied" | "BreadCrumbs" | "BlogComment" | "TopLiveChatSelected";
 
 }

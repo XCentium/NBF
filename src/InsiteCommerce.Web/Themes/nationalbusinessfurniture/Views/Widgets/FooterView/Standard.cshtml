@@ -19,6 +19,11 @@
     </div>
     <div class="medium-4 large-4 columns">
         [% zone 'Contact Area' %]
+
+        <span ng-if="vm.WebCode" class="web-code">
+            Web Code: 
+            <strong class="code">{{vm.WebCode}}</strong>
+        </span>
     </div>
 </div>
 

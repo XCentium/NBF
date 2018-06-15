@@ -116,9 +116,7 @@
 
         openUpload() {
             if (!this.isTaxExempt && !this.saved) {
-                setTimeout(() => {
-                    $("#taxExemptFileUpload").click();
-                }, 100);
+                $("#taxExemptFileUpload").click();
             }
         }
 
