@@ -1679,9 +1679,7 @@
         }
 
         openUpload() {
-            setTimeout(() => {
-                $("#taxExemptFileUpload").click();
-            }, 100);
+            $("#taxExemptFileUpload").click();
         }
 
         protected updatebillToTaxExempt() {
