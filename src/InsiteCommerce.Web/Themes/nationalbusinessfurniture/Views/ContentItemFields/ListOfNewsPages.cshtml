@@ -2,10 +2,9 @@
 @using Insite.WebFramework.Mvc.Extensions
 @using Insite.WebFramework.Content
 @using Insite.ContentLibrary.Pages
-@using Insite.ContentLibrary.ContentFields
-@using Insite.WebFramework.ContentAdmin.Models.ContentItems
+@using Insite.Core.Exceptions
 
-@model EditContentFieldModel<Extensions.Widgets.ContentFields.ListOfNewsPagesContentFieldAttribute>
+@model Insite.WebFramework.ContentAdmin.Models.ContentItems.EditContentFieldModel<Extensions.Widgets.ContentFields.ListOfNewsPagesContentFieldAttribute>
 
 @helper RenderNode(AbstractPage abstractPage)
     {
@@ -35,7 +34,14 @@
         var pageName = "";
         if (variantKey != 0)
         {
-            pageName = (Content.GetPageByVariantKey(variantKey).Page ?? new ContentPage()).Title;
+            try
+            {
+                pageName = (Content.GetPageByVariantKey(variantKey).Page ?? new ContentPage()).Title;
+            }
+            catch (ContentVariantNotFoundException)
+            {
+                // in case page was removed
+            }
         }
 
         <li data-pagerow="">
