@@ -348,15 +348,16 @@
 
                                                             </div>
                                                         </div>
-                                                        <div class="row">
-                                                            <div class="small-12 columns save-payment">
-                                                                <div ng-show="vm.cart.paymentOptions.canStorePaymentProfile && !vm.cart.billTo.isGuest">
-                                                                    <input id="savePaymentInfo" class="customcheckbox" type="checkbox" ng-model="vm.cart.paymentOptions.storePaymentProfile" />
-                                                                    <label for="savePaymentInfo">[% translate 'Save Payment Info' %]</label>
+                                                        <!--
+                                                            <div class="row">
+                                                                <div class="small-12 columns save-payment">
+                                                                    <div ng-show="vm.cart.paymentOptions.canStorePaymentProfile && !vm.cart.billTo.isGuest">
+                                                                        <input id="savePaymentInfo" class="customcheckbox" type="checkbox" ng-model="vm.cart.paymentOptions.storePaymentProfile" />
+                                                                        <label for="savePaymentInfo">[% translate 'Save Payment Info' %]</label>
+                                                                    </div>
                                                                 </div>
                                                             </div>
-                                                        </div>
-
+                                                        -->
                                                         <div ng-show="vm.cart.showCreditCard && vm.cart.paymentMethod.isCreditCard && vm.cart.paymentMethod.name !== 'Open_Credit'">
                                                             <div class="use-billing-address">
                                                                 <h4>[% translate 'Credit Card Address' %]</h4>

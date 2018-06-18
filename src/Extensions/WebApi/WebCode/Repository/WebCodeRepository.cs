@@ -27,19 +27,15 @@ namespace Extensions.WebApi.WebCode.Repository
         string IWebCodeRepository.GetWebCode(string siteId, string userId)
         {
             var webCodeId = _unitOfWork.GetRepository<AffiliateCodeModel>().GetTable()
-              .FirstOrDefault(x => x.AffiliateCode.ToLower().Contains(siteId.ToLower()))?.AffiliateNumber.ToString();
+              .FirstOrDefault(x => x.AffiliateCode.ToLower() == siteId.ToLower())?.AffiliateNumber.ToString();
 
             if (string.IsNullOrWhiteSpace(webCodeId))
             {
                 webCodeId = _unitOfWork.GetRepository<AffiliateCodeModel>().GetTable()
-                    .FirstOrDefault(x => x.AffiliateCode.ToLower().Contains("default"))?.AffiliateNumber.ToString();
+                    .FirstOrDefault(x => x.AffiliateCode.ToLower() == "default_web")?.AffiliateNumber.ToString();
             }
 
-            if (!string.IsNullOrWhiteSpace(webCodeId))
-            {
-                return userId + '-' + webCodeId;
-            }
-            return webCodeId;
+            return userId + '-' + webCodeId;
         }
         
         int IWebCodeRepository.GetWebCodeUserID()
