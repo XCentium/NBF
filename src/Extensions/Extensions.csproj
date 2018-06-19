@@ -392,6 +392,10 @@
     <Compile Include="WebApi\AnalyticsPage\Models\AnalyticsPageDto.cs" />
     <Compile Include="WebApi\AnalyticsPage\Repository\AnalyticsPagesRepository.cs" />
     <Compile Include="WebApi\AnalyticsPage\Services\AnalyticsPageService.cs" />
+    <Compile Include="WebApi\GuestActivation\Interfaces\IGuestActivationService.cs" />
+    <Compile Include="WebApi\GuestActivation\Repository\GuestActivationRepository.cs" />
+    <Compile Include="WebApi\GuestActivation\Interfaces\IGuestActivationRepository.cs" />
+    <Compile Include="WebApi\GuestActivation\Services\GuestActivationService.cs" />
     <Compile Include="WebApi\TaxExempt\Controllers\TaxExemptController.cs" />
     <Compile Include="WebApi\TaxExempt\Interfaces\ITaxExemptRepository.cs" />
     <Compile Include="WebApi\TaxExempt\Interfaces\ITaxExemptService.cs" />
