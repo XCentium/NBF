@@ -11,20 +11,17 @@ using Insite.Core.Interfaces.Plugins.Security;
 using Insite.Customers.Services;
 using Insite.Data.Entities;
 using Insite.WishLists.Services;
-using Insite.WishLists.Services.Parameters;
 
 namespace Extensions.WebApi.GuestActivation.Repository
 {
     public class GuestActivationRepository : BaseRepository, IGuestActivationRepository
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IWishListService _wishListService;
 
-        public GuestActivationRepository(IUnitOfWorkFactory unitOfWorkFactory, ICustomerService customerService, IProductService productService, IAuthenticationService authenticationService, IWishListService wishListService)
+        public GuestActivationRepository(IUnitOfWorkFactory unitOfWorkFactory, ICustomerService customerService, IProductService productService, IAuthenticationService authenticationService)
             : base(unitOfWorkFactory, customerService, productService, authenticationService)
         {
             _unitOfWork = unitOfWorkFactory.GetUnitOfWork();
-            _wishListService = wishListService;
         }
 
         public AccountModel ActivateGuest(GuestActivationParameter model)
@@ -34,10 +31,6 @@ namespace Extensions.WebApi.GuestActivation.Repository
 
             if (account != null)
             {
-                //Add wishlist for user
-                var param = new AddWishListParameter();
-                _wishListService.AddWishList(param);
-
                 //Delete customer Insite creates that becomes unused
                 var unusedCustomer = account.Customers.FirstOrDefault(x => x != SiteContext.Current.BillTo);
                 if (unusedCustomer != null)
