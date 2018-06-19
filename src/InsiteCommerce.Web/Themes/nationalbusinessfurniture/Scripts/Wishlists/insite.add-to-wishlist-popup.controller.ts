@@ -1,6 +1,6 @@
 ﻿module insite.wishlist {
     "use strict";
-
+    
     export class AddToWishlistPopupController {
         errorMessage: string;
         newWishListName: string;
@@ -60,8 +60,9 @@
             if (this.isAuthenticated || this.isRememberedUser) {
                 this.clearMessages();
                 this.newWishListName = "";
+                const pagination = { pageSize: 999 } as PaginationModel;
                 if (this.allowMultipleWishLists) {
-                    this.wishListService.getWishLists().then(
+                    this.wishListService.getWishLists(null, null, null, pagination).then(
                         (wishListCollection: WishListCollectionModel) => { this.getWishListCollectionCompleted(wishListCollection); },
                         (error: any) => { this.getWishListCollectionFailed(error); });
                 } else {
