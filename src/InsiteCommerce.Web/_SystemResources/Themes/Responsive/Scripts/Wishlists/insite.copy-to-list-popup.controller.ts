@@ -32,9 +32,10 @@
             const popup = angular.element("#popup-copy-list");
 
             popup.on("open", () => {
+                const pagination = { pageSize: 999 } as PaginationModel;
                 this.clearMessages();
                 this.newListName = "";
-                this.wishListService.getWishLists().then(
+                this.wishListService.getWishLists(null, null, null, pagination).then(
                     (listCollection: WishListCollectionModel) => { this.getListCollectionCompleted(listCollection); },
                     (error: any) => { this.getListCollectionFailed(error); });
             });

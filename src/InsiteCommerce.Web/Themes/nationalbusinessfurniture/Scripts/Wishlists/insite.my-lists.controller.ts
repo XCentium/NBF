@@ -9,11 +9,13 @@
         hasAnyWishListsLine: boolean;
         session: SessionModel;
         inProgress = false;
+        pagination: PaginationModel;
+        paginationStorageKey = "DefaultPagination-WishList";
 
         sort: string = "ModifiedOn DESC";
         popupWishListModel: WishListModel;
 
-        static $inject = ["$scope", "coreService", "wishListService", "cartService", "settingsService", "spinnerService", "$timeout", "sessionService"];
+        static $inject = ["$scope", "coreService", "wishListService", "cartService", "settingsService", "spinnerService", "$timeout", "sessionService", "paginationService"];
 
         constructor(
             protected $scope: ng.IScope,
@@ -23,13 +25,15 @@
             protected settingsService: core.ISettingsService,
             protected spinnerService: core.ISpinnerService,
             protected $timeout: ng.ITimeoutService,
-            protected sessionService: account.ISessionService) {
+            protected sessionService: account.ISessionService,
+            protected paginationService: core.IPaginationService) {
             this.init();
         }
 
         init(): void {
             this.restoreHistory();
             this.getWishLists();
+            this.pagination = this.paginationService.getDefaultPagination(this.paginationStorageKey);
 
             this.settingsService.getSettings().then(
                 (settingsCollection: core.SettingsCollection) => { this.getSettingsCompleted(settingsCollection); },
@@ -67,6 +71,7 @@
 
         mapData(data: any): void {
             this.wishListCount = data.wishListCollection.length;
+            this.pagination = data.pagination;
             this.hasAnyWishListsLine = data.wishListCollection.some(e => e.hasAnyLines);
             if (this.wishListCount > 0) {
                 this.wishListCollection = data.wishListCollection;
@@ -80,14 +85,21 @@
 
         protected restoreHistory(): void {
             const state = this.coreService.getHistoryState();
-            if (state && state.sort) {
-                this.sort = state.sort;
+            if (state) {
+                if (state.pagination) {
+                    this.pagination = state.pagination;
+                }
+
+                if (state.sort) {
+                    this.sort = state.sort;
+                }
             }
         }
 
         getWishLists(): void {
             this.spinnerService.show();
-            this.wishListService.getWishLists(this.sort, "wishlistlines", "mostRecent").then(
+            this.updateHistory();
+            this.wishListService.getWishLists(this.sort, "top3products", null, this.pagination).then(
                 (wishListCollection: WishListCollectionModel) => { this.getWishListsCompleted(wishListCollection); },
                 (error: any) => { this.getWishListsFailed(error); });
         }
@@ -143,7 +155,7 @@
 
         addAllToCart(wishList: WishListModel): void {
             this.inProgress = true;
-            this.cartService.addLineCollection(wishList.wishListLineCollection, true).then(
+            this.cartService.addWishListToCart(wishList.id, true).then(
                 (cartLineCollection: CartLineCollectionModel) => { this.addLineCollectionCompleted(cartLineCollection); },
                 (error: any) => { this.addLineCollectionFailed(error); });
         }
@@ -170,6 +182,10 @@
                 this.spinnerService.show();
                 this.coreService.redirectToPath(this.myListDetailUrl + "?id=" + this.wishListCollection[0].id);
             }
+        }
+
+        protected updateHistory(): void {
+            this.coreService.pushState({ sort: this.sort, pagination: this.pagination });
         }
     }
 

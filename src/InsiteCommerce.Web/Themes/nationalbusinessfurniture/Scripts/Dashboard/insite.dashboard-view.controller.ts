@@ -44,7 +44,8 @@
                 });
             }
 
-            this.wishListService.getWishLists().then(
+            const pagination = { pageSize: 25 } as PaginationModel;
+            this.wishListService.getWishLists(null, null, null, pagination).then(
                 (wishListCollection: WishListCollectionModel) => { this.getWishListCollectionCompleted(wishListCollection); },
                 (error: any) => { this.getWishListCollectionFailed(error); });
 
