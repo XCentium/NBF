@@ -22,6 +22,7 @@ module insite.cart {
         addLineFromProduct(product: ProductDto, configuration?: ConfigSectionOptionDto[], productSubscription?: ProductSubscriptionDto, toCurrentCart?: boolean, showAddToCartPopup?: boolean): ng.IPromise<CartLineModel>;
         addLineCollection(cartLines: any, toCurrentCart?: boolean, showAddToCartPopup?: boolean): ng.IPromise<CartLineCollectionModel>;
         addLineCollectionFromProducts(products: ProductDto[], toCurrentCart?: boolean, showAddToCartPopup?: boolean): ng.IPromise<CartLineCollectionModel>;
+        addWishListToCart(wishListId: string, showAddToCartPopup?: boolean): ng.IPromise<CartLineCollectionModel>;
         updateLine(cartLine: CartLineModel, refresh: boolean): ng.IPromise<CartLineModel>;
         removeLine(cartLine: CartLineModel): ng.IPromise<CartLineModel>;
         getLoadedCurrentCart(): CartModel;
@@ -275,6 +276,30 @@ module insite.cart {
             return this.addLineCollection(cartLineCollection, toCurrentCart, showAddToCartPopup);
         }
 
+        addWishListToCart(wishListId: string, showAddToCartPopup?: boolean): ng.IPromise<CartLineCollectionModel> {
+            return this.httpWrapperService.executeHttpRequest(
+                this,
+                this.$http({ method: "POST", url: `${this.cartLinesUri}/wishlist/${wishListId}`, bypassErrorInterceptor: true }),
+                (response: ng.IHttpPromiseCallbackArg<CartLineCollectionModel>) => { this.addWishListToCartCompleted(response, showAddToCartPopup); },
+                this.addWishListToCartFailed);
+        }
+
+        protected addWishListToCartCompleted(response: ng.IHttpPromiseCallbackArg<CartLineCollectionModel>, showAddToCartPopup?: boolean): void {
+            const cartLineCollection = response.data;
+            const isQtyAdjusted = cartLineCollection.cartLines.some((line) => {
+                return line.isQtyAdjusted;
+            });
+
+            this.addToCartPopupService.display({ isAddAll: true, isQtyAdjusted: isQtyAdjusted, showAddToCartPopup: showAddToCartPopup });
+
+            this.getCart();
+            this.$rootScope.$broadcast("cartChanged");
+        }
+
+        protected addWishListToCartFailed(error: ng.IHttpPromiseCallbackArg<any>): void {
+            this.showCartError(error.data);
+        }
+        
         updateLine(cartLine: CartLineModel, refresh: boolean): ng.IPromise<CartLineModel> {
             return this.httpWrapperService.executeHttpRequest(
                 this,

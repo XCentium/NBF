@@ -485,7 +485,7 @@
 
         addAllToCart(wishList: WishListModel): void {
             this.inProgress = true;
-            this.cartService.addLineCollection(wishList.wishListLineCollection, true).then(
+            this.cartService.addWishListToCart(wishList.id, true).then(
                 (cartLineCollection: CartLineCollectionModel) => {
                     this.addLineCollectionCompleted(cartLineCollection);
                 },

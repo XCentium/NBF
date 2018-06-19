@@ -15,6 +15,7 @@
     </div>
     <div ng-if="vm.wishListCount > 0">
         <div class="cm">[% zone 'TopContent' %]</div>
+        <isc-pager pagination="vm.pagination" storage-key="vm.paginationStorageKey" update-data="vm.getWishLists()"></isc-pager>
         <ul class="item-list">
             <li ng-repeat="wishList in vm.wishListCollection" class="row item-block">
                 <div class="medium-6 columns item-details">
@@ -38,10 +39,6 @@
                                 <img ng-src="{{line.smallImagePath}}" alt="{{line.altText}}" />
                             </a>
                         </div>
-                        <div class="item-count">
-                            <span ng-bind="wishList.wishListLinesCount"></span>
-                            <span>[% translate 'items' %]</span>
-                        </div>
                     </div>
                 </div>
                 <div class="medium-3 columns item-shared">
@@ -58,6 +55,7 @@
                 </div>
             </li>
         </ul>
+        <isc-pager pagination="vm.pagination" storage-key="vm.paginationStorageKey" bottom="true" update-data="vm.getWishLists()"></isc-pager>
     </div>
     <div class="search-no-results" ng-if="vm.wishListCount === 0">
         <h3>[% siteMessage 'Lists_NoListsFound' %]</h3>
