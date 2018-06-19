@@ -73,7 +73,7 @@ namespace Extensions.Utility.Shipping
             return productsByVendor.Select(pbv => 
                     new ShippingByVendor() {
                         TotalShippingCost = pbv.VendorTotalShippingCharges ?? 0,
-                        VendorId = pbv.VendorId.Value,
+                        VendorCode = pbv.VendorCode,
                         ShipCode = cart.ShipVia?.ShipCode?.Substring(0, 1).ToUpper(),
                         OrderLines = pbv.OrderLines,
                         AdditonalCharges = pbv.AdditonalCharges,
@@ -188,15 +188,15 @@ namespace Extensions.Utility.Shipping
             {
                 if (line.Product.Vendor != null)
                 {
-                    if (productsByVendor.FirstOrDefault(x => x.VendorId == line.Product.Vendor.Id) != null)
+                    if (productsByVendor.FirstOrDefault(x => x.VendorCode == line.Product.Specifications.FirstOrDefault(s => s.Name == "Vendor Code")?.Value) != null)
                     {
-                        productsByVendor.FirstOrDefault(x => x.VendorId == line.Product.Vendor.Id).OrderLines.Add(line);
+                        productsByVendor.FirstOrDefault(x => x.VendorCode == line.Product.Specifications.FirstOrDefault(s => s.Name == "Vendor Code")?.Value).OrderLines.Add(line);
                     }
                     else
-                    {
+                    {                        
                         var productByVendor = new ProductsByVendor();
                         productByVendor.OrderLines = new List<OrderLine>();
-                        productByVendor.VendorId = line.Product.VendorId;
+                        productByVendor.VendorCode = line.Product.Specifications.FirstOrDefault(s => s.Name == "Vendor Code")?.Value;
                         productByVendor.OrderLines.Add(line);
                         productsByVendor.Add(productByVendor);
                     }
@@ -211,7 +211,7 @@ namespace Extensions.Utility.Shipping
         public decimal TotalShippingCost { get; set; }
         public decimal BaseShippingCost { get; set; }
         public decimal AdditonalCharges { get; set; }
-        public Guid VendorId { get; set; }
+        public string VendorCode { get; set; }
         public string ShipCode { get; set; }
         public bool IsTruck { get; set; }
         public List<OrderLine> OrderLines { get; set; }
@@ -219,11 +219,11 @@ namespace Extensions.Utility.Shipping
 
     public class ProductsByVendor
     {
-        public Guid? VendorId { get; set; }
         public List<OrderLine> OrderLines { get; set; }
         public bool IsTruck { get; set; }
         public decimal? VendorTotalShippingCharges { get; set; }
         public decimal AdditonalCharges { get; set; }
         public decimal BaseShippingCharges { get; set; }
+        public string VendorCode { get; set; }
     }
 }

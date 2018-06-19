@@ -15,7 +15,7 @@ namespace Extensions.Models.ShippingByVendor
         public string OrderNumber { get; set; }
         
         [Required]
-        public Guid VendorId { get; set; }
+        public string VendorCode { get; set; }
 
         [Required]
         public decimal BaseShippingCost { get; set; }
