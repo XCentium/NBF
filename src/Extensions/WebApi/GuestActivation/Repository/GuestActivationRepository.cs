@@ -11,17 +11,20 @@ using Insite.Core.Interfaces.Plugins.Security;
 using Insite.Customers.Services;
 using Insite.Data.Entities;
 using Insite.WishLists.Services;
+using Insite.WishLists.Services.Parameters;
 
 namespace Extensions.WebApi.GuestActivation.Repository
 {
     public class GuestActivationRepository : BaseRepository, IGuestActivationRepository
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IWishListService _wishListService;
 
-        public GuestActivationRepository(IUnitOfWorkFactory unitOfWorkFactory, ICustomerService customerService, IProductService productService, IAuthenticationService authenticationService)
+        public GuestActivationRepository(IUnitOfWorkFactory unitOfWorkFactory, ICustomerService customerService, IProductService productService, IAuthenticationService authenticationService, IWishListService wishListService)
             : base(unitOfWorkFactory, customerService, productService, authenticationService)
         {
             _unitOfWork = unitOfWorkFactory.GetUnitOfWork();
+            _wishListService = wishListService;
         }
 
         public AccountModel ActivateGuest(GuestActivationParameter model)
@@ -31,6 +34,14 @@ namespace Extensions.WebApi.GuestActivation.Repository
 
             if (account != null)
             {
+                //Add wishlist for user if not exists
+                var favoritesList = _unitOfWork.GetRepository<WishList>().GetTable().FirstOrDefault(x => x.Name.Equals("Favorites", StringComparison.CurrentCultureIgnoreCase));
+                if (favoritesList == null)
+                {
+                    var param = new AddWishListParameter {Name = "Favorites"};
+                    _wishListService.AddWishList(param);
+                }
+
                 //Delete customer Insite creates that becomes unused
                 var unusedCustomer = account.Customers.FirstOrDefault(x => x != SiteContext.Current.BillTo);
                 if (unusedCustomer != null)
