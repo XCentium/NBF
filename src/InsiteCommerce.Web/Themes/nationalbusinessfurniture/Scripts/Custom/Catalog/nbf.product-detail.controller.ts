@@ -124,7 +124,7 @@
 
         protected getFavorites(product : ProductDto) {
             this.wishListService.getWishLists("CreatedOn", "wishlistlines").then((wishList) => {
-                this.favoritesWishlist = wishList.wishListCollection[0];
+                this.favoritesWishlist = wishList.wishListCollection.filter(x => x.name === "Favorites")[0];
                 product.properties["isFavorite"] = "false";
                 if (this.favoritesWishlist) {
                     if (this.favoritesWishlist.wishListLineCollection) {
