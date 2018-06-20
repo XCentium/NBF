@@ -17,7 +17,8 @@ namespace NBF.IntegrationProcessor
         protected IIntegrationJobLogger JobLogger;
         public DataSet Execute(SiteConnection siteConnection, IntegrationJob integrationJob, JobDefinitionStep jobStep)
         {
-            var connStr = jobStep.JobDefinition.IntegrationConnection.ConnectionString;
+            //var connStr = jobStep.JobDefinition.IntegrationConnection.ConnectionString;
+            var connStr = "Data Source=localhost;Initial Catalog=InsiteETL;User Id=sa;Password=Master123;MultipleActiveResultSets=true";
             string debugString = string.Empty;
 
             this.JobLogger = (IIntegrationJobLogger)new IntegrationJobLogger(siteConnection, integrationJob);
@@ -175,7 +176,7 @@ namespace NBF.IntegrationProcessor
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Add(new SqlParameter("@Id", SqlDbType.UniqueIdentifier)).Value = new Guid(dr["Id"].ToString());
                         cmd.Parameters.Add(new SqlParameter("@OrderNumber", SqlDbType.NVarChar)).Value = dr["OrderNumber"].ToString();
-                        cmd.Parameters.Add(new SqlParameter("@VendorId", SqlDbType.UniqueIdentifier)).Value = new Guid(dr["VendorId"].ToString());
+                        cmd.Parameters.Add(new SqlParameter("@VendorCode", SqlDbType.NVarChar)).Value = dr["VendorCode"].ToString();
                         cmd.Parameters.Add(new SqlParameter("@BaseShippingCost", SqlDbType.Decimal)).Value = dr["BaseShippingCost"];
                         cmd.Parameters.Add(new SqlParameter("@AdditionalShippingCost", SqlDbType.Decimal)).Value = dr["AdditionalShippingCost"];
                         cmd.Parameters.Add(new SqlParameter("@Tax", SqlDbType.Decimal)).Value = dr["Tax"];

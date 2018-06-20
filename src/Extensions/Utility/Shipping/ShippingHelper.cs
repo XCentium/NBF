@@ -190,13 +190,13 @@ namespace Extensions.Utility.Shipping
                 {
                     if (productsByVendor.FirstOrDefault(x => x.VendorCode == line.Product.Specifications.FirstOrDefault(s => s.Name == "Vendor Code")?.Value) != null)
                     {
-                        productsByVendor.FirstOrDefault(x => x.VendorCode == line.Product.Specifications.FirstOrDefault(s => s.Name == "Vendor Code")?.Value).OrderLines.Add(line);
+                        productsByVendor.FirstOrDefault(x => x.VendorCode == line.Product.Specifications.FirstOrDefault(s => s.Name == "Vendor Code")?.Value)?.OrderLines?.Add(line);
                     }
                     else
                     {                        
                         var productByVendor = new ProductsByVendor();
                         productByVendor.OrderLines = new List<OrderLine>();
-                        productByVendor.VendorCode = line.Product.Specifications.FirstOrDefault(s => s.Name == "Vendor Code")?.Value;
+                        productByVendor.VendorCode = line.Product.Specifications.FirstOrDefault(s => s.Name == "Vendor Code")?.Value?.Substring(0,3);
                         productByVendor.OrderLines.Add(line);
                         productsByVendor.Add(productByVendor);
                     }
