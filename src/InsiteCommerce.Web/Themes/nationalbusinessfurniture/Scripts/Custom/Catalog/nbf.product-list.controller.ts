@@ -389,7 +389,7 @@
 
         protected getFavorites() {
             this.wishListService.getWishLists("CreatedOn", "wishlistlines").then((wishList) => {
-                this.favoritesWishlist = wishList.wishListCollection[0];
+                this.favoritesWishlist = wishList.wishListCollection.filter(x => x.name === "Favorites")[0];
 
                 this.products.products.forEach(product => {
                     product.properties["isFavorite"] = "false";
