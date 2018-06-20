@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Insite.ContentLibrary.Pages;
 using Insite.ContentLibrary.Widgets;
 using Insite.Core.Context;
+using Insite.Core.Exceptions;
 using Insite.Core.Interfaces.Localization;
 using Insite.Core.SystemSetting.Groups.SystemSettings;
 using Insite.WebFramework;
@@ -15,15 +16,13 @@ namespace Extensions.Widgets
     public class LinkListWithTitlePreparer : GenericPreparer<LinkListWithTitle>
     {
         protected readonly IContentHelper ContentHelper;
-        protected readonly SecuritySettings SecuritySettings;
         protected int CatId;
         protected int GrandCatId = 1000;
 
         public LinkListWithTitlePreparer(SecuritySettings securitySettings, ITranslationLocalizer translationLocalizer, IContentHelper contentHelper)
-            : base(translationLocalizer)
+            : base(translationLocalizer, securitySettings)
         {
             ContentHelper = contentHelper;
-            SecuritySettings = securitySettings;
         }
 
         public override void Prepare(LinkListWithTitle contentItem)
@@ -47,24 +46,25 @@ namespace Extensions.Widgets
             List<PageLinkDrop> pageLinkDropList = new List<PageLinkDrop>();
             foreach (int page in linkList.Pages)
             {
-                GetPageResult<AbstractPage> pageByVariantKey = null;
+                GetPageResult<AbstractPage> getPageResult = null;
 
                 try
                 {
-                    pageByVariantKey = PageContext.Current.ContentHelper.GetPageByVariantKey(page);
+                    getPageResult = PageContext.Current.ContentHelper.GetPageByVariantKey(page);
                 }
-                catch
+                catch (ContentVariantNotFoundException)
                 {
                     // in case page was removed
                 }
 
-                if (pageByVariantKey?.Page != null && !pageByVariantKey.Page.IsRetracted && pageByVariantKey.DisplayLink && (!pageByVariantKey.Page.Class.EqualsIgnoreCase("QuickOrderPage") || IsQuickOrderAllowed()))
+                if (getPageResult?.Page != null && !getPageResult.Page.IsRetracted && getPageResult.DisplayLink && (!getPageResult.Page.Class.EqualsIgnoreCase("QuickOrderPage") || IsQuickOrderAllowed()))
                     pageLinkDropList.Add(new PageLinkDrop()
                     {
-                        Url = PageContext.Current.GenerateUrl(pageByVariantKey.Page),
-                        PageTitle = pageByVariantKey.Page.Title
+                        Url = PageContext.Current.GenerateUrl(getPageResult.Page),
+                        PageTitle = getPageResult.Page.Title
                     });
             }
+
             model.PageLinks = pageLinkDropList;
         }
 

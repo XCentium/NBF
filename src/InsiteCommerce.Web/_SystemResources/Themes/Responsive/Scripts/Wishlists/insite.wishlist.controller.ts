@@ -61,7 +61,8 @@
         }
 
         getWishLists(): void {
-            this.wishListService.getWishLists().then(
+            const pagination = { pageSize: 999 } as PaginationModel;
+            this.wishListService.getWishLists(null, null, null, pagination).then(
                 (wishListCollection: WishListCollectionModel) => { this.getWishListsCompleted(wishListCollection); },
                 (error: any) => { this.getWishListsFailed(error); });
         }

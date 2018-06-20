@@ -9,6 +9,24 @@
             }
         }
 
+        #Wrapper360 {
+            height: 560px;
+
+            @media all and (max-width: 767px) {
+                height: 400px !important;
+
+                .spritespin-stage {
+                    background-position: center !important;
+                    background-size: 100% !important;
+                }
+            }
+        }
+
+        #spritespin {
+            @media all and (max-width: 450px) {
+                width: 100% !important;
+            }
+        }
 
         .s7flyoutzoomview {
             overflow: hidden;

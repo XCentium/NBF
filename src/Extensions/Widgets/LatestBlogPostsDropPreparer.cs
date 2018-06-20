@@ -43,10 +43,18 @@ namespace Extensions.Widgets
             int counter = 0;
             foreach (int page in articleList.BlogPosts)
             {
-                counter++;
-                GetPageResult<AbstractPage> pageByVariantKey = ContentHelper.GetPageByVariantKey(page);
-                if (pageByVariantKey.Page != null && !pageByVariantKey.Page.IsRetracted && pageByVariantKey.Page.PublishOn.HasValue && pageByVariantKey.Page.PublishOn <= DateTimeOffset.Now
-                    && pageByVariantKey.DisplayLink)
+                GetPageResult<AbstractPage> pageByVariantKey = null;
+                try
+                {
+                    pageByVariantKey = PageContext.Current.ContentHelper.GetPageByVariantKey(page);
+                    counter++;
+                }
+                catch 
+                {
+                    //do nothing 
+                }
+                
+                if (pageByVariantKey?.Page != null && !pageByVariantKey.Page.IsRetracted && pageByVariantKey.DisplayLink && pageByVariantKey.Page.PublishOn.HasValue && pageByVariantKey.Page.PublishOn <= DateTimeOffset.Now)
                 {
                     var blogPage = pageByVariantKey.Page as NewsPage;
                     var articlePageView = ContentHelper.GetWidgets(blogPage.ContentKey, "Content")

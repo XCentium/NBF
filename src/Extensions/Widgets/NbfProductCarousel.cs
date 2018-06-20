@@ -5,7 +5,7 @@ using Insite.Data.Entities;
 namespace Extensions.Widgets
 {
     [DisplayName("NBF - Product Carousel")]
-    public class ProductCarousel : FeaturedProducts
+    public class NbfProductCarousel : FeaturedProducts
     {
         [TextContentField(IsRequired = false, SortOrder = 10)]
         public override string Title

@@ -129,7 +129,7 @@
                 var search = new nbf.analytics.AnalyticsPageSearchInfo();
                 search.searchResults = productCollection.pagination.totalItemCount;
                 search.searchTerm = this.query;
-                if (this.noResults) {
+                if (productCollection.products.length === 0) {
                     this.$rootScope.$broadcast("AnalyticsEvent", "FailedSearch", null, null, search);
                 } else {
                     this.$rootScope.$broadcast("AnalyticsEvent", "SuccessfulSearch", null, null, search);
@@ -163,6 +163,18 @@
                 this.searchService.addSearchHistory(this.query, this.searchHistoryLimit, this.includeSuggestions.toLowerCase() === "true");
                 this.coreService.redirectToPath(`${productCollection.products[0].productDetailUrl}?criteria=${encodeURIComponent(params.query)}`);
                 return;
+            }
+
+            if (this.query.length > 0 && productCollection.products.length > 1) {
+                var self = this;
+                var filteredProduct = productCollection.products.filter(function (product) {
+                    return product.erpNumber == self.query;
+                });
+                if (filteredProduct.length == 1) {
+                    this.searchService.addSearchHistory(this.query, this.searchHistoryLimit, this.includeSuggestions.toLowerCase() === "true");
+                    this.coreService.redirectToPath(`${filteredProduct[0].productDetailUrl}?criteria=${encodeURIComponent(params.query)}`);
+                    return;
+                }
             }
 
             if (!this.pageChanged) {

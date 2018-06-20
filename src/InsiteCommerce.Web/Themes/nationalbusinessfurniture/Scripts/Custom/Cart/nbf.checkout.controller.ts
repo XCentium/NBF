@@ -281,7 +281,9 @@
             this.cartService.expand = "";
             this.cart = cart;
 
-            this.$rootScope.$broadcast("AnalyticsEvent", "CheckoutInitiated");
+            if (cart && cart.cartLines && cart.cartLines.length > 0 && cart.status == "Cart") {
+                this.$rootScope.$broadcast("AnalyticsEvent", "CheckoutInitiated");
+            }
             const hasRestrictions = cart.cartLines.some(o => o.isRestricted);
             // if cart does not have cartLines or any cartLine is restricted, go to Cart page
             if (!this.cart.cartLines || this.cart.cartLines.length === 0 || hasRestrictions) {
@@ -645,7 +647,7 @@
         }
 
         protected updateBillToCompleted(billTo: BillToModel): void {
-            this.$rootScope.$broadcast("AnalyticsEvent", "ShippingBillingInfoComplete", null, null, { state: billTo.state.abbreviation, zip: billTo.postalCode });
+            
         }
 
         protected updateBillToFailed(error: any): void {
@@ -841,19 +843,6 @@
                 (country: CountryModel) => { this.onCreditCardBillingCountryChanged(country); });
             this.$scope.$watch("vm.creditCardBillingState",
                 (state: StateModel) => { this.onCreditCardBillingStateChanged(state); });
-            this.$scope.$watch("vm.cart.paymentOptions.creditCard.expirationYear", (year: number) => {
-                this.onExpirationYearChanged(year);
-            });
-            this.$scope.$watch("vm.cart.paymentOptions.creditCard.useBillingAddress", (useBillingAddress: boolean) => {
-                this.onUseBillingAddressChanged(useBillingAddress);
-            });
-            this.$scope.$watch("vm.creditCardBillingCountry", (country: CountryModel) => {
-                this.onCreditCardBillingCountryChanged(country);
-            });
-            this.$scope.$watch("vm.creditCardBillingState", (state: StateModel) => {
-                this.onCreditCardBillingStateChanged(state);
-            });
-
 
             this.onUseBillingAddressChanged(true);
 
@@ -884,6 +873,7 @@
             if (!useBillingAddress) {
                 if (typeof (this.countries) !== "undefined" && this.countries.length === 1) {
                     this.creditCardBillingCountry = this.countries[0];
+                    this.onCreditCardBillingCountryChanged(this.creditCardBillingCountry);
                 }
             }
         }
@@ -1689,9 +1679,7 @@
         }
 
         openUpload() {
-            setTimeout(() => {
-                $("#taxExemptFileUpload").click();
-            }, 100);
+            $("#taxExemptFileUpload").click();
         }
 
         protected updatebillToTaxExempt() {

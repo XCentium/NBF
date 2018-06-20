@@ -15,7 +15,7 @@ This uses NavigationMenuItemDrop as the model
                 [% for secondLevelItem in topLevelItem.Children %]
                     <li class="second-level-category">
                         <a href="[[secondLevelItem.Url]]" ng-click="vm.hideB2CNav($event)">[[secondLevelItem.Title]]</a>
-                        [% if secondLevelItem.ChildLinks.size > 0 %]
+                        [% if secondLevelItem.Children.size > 0 %]
                             <ul class="third-level-subnav">
                                 [% for thirdLevelItem in secondLevelItem.Children %]
                                     <li class="third-level-category">

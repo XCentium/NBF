@@ -787,7 +787,7 @@
 
     .isc-primary-nav ul {
         height: 100%;
-        overflow: hidden;
+        overflow-x: hidden;
         margin-top: 0;
         border: 0;
     }
@@ -951,5 +951,16 @@
         font-size: 1.2rem;
         left: .5rem;
         top: .6rem;
+    }
+}
+
+.isc-primary-nav .toggle-sub {
+    @media all and (max-width: 991px) {
+        visibility: hidden;
+    }
+}
+.isc-primary-nav .nav-item-container .toggle-sub {
+    @media all and (max-width: 991px) {
+        visibility: visible;
     }
 }

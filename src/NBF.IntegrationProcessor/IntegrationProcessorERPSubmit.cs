@@ -13,6 +13,7 @@ namespace NBF.IntegrationProcessor
 {
     public class IntegrationProcessorERPSubmit : IIntegrationProcessor
     {
+        private const string ShippingByVendorTable = "ShippingByVendorModel";
         protected IIntegrationJobLogger JobLogger;
         public DataSet Execute(SiteConnection siteConnection, IntegrationJob integrationJob, JobDefinitionStep jobStep)
         {
@@ -35,6 +36,8 @@ namespace NBF.IntegrationProcessor
                 || initialDataset.Tables[Data.ProductTable].Rows.Count == 0
                 || !initialDataset.Tables.Contains(Data.ShipToTable)
                 || initialDataset.Tables[Data.ShipToTable].Rows.Count == 0
+                || !initialDataset.Tables.Contains(ShippingByVendorTable)
+                || initialDataset.Tables[ShippingByVendorTable].Rows.Count == 0
             )
             {
                 throw new ArgumentException(Messages.InvalidInitialDataSetExceptionMessage);
@@ -47,7 +50,7 @@ namespace NBF.IntegrationProcessor
             var dtProduct = initialDataset.Tables[Data.ProductTable];
             var dtShipTo = initialDataset.Tables[Data.ShipToTable];
             var dtCreditCardTransaction = initialDataset.Tables[Data.CreditCardTransactionTable];
-
+            var dtShippingByVendor = initialDataset.Tables[ShippingByVendorTable];
 
 
             foreach (DataRow dr in dtCustomer.Rows)
@@ -161,6 +164,34 @@ namespace NBF.IntegrationProcessor
                 #endregion
             }
 
+            foreach (DataRow dr in dtShippingByVendor.Rows)
+            {
+                #region create shippingbyvendor record
+                using (SqlConnection conn = new SqlConnection(connStr))
+                {
+                    conn.Open();
+                    using (SqlCommand cmd = new SqlCommand("ETLSync_ShippingByVendor", conn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add(new SqlParameter("@Id", SqlDbType.UniqueIdentifier)).Value = new Guid(dr["Id"].ToString());
+                        cmd.Parameters.Add(new SqlParameter("@OrderNumber", SqlDbType.NVarChar)).Value = dr["OrderNumber"].ToString();
+                        cmd.Parameters.Add(new SqlParameter("@VendorId", SqlDbType.UniqueIdentifier)).Value = new Guid(dr["VendorId"].ToString());
+                        cmd.Parameters.Add(new SqlParameter("@BaseShippingCost", SqlDbType.Decimal)).Value = dr["BaseShippingCost"];
+                        cmd.Parameters.Add(new SqlParameter("@AdditionalShippingCost", SqlDbType.Decimal)).Value = dr["AdditionalShippingCost"];
+                        cmd.Parameters.Add(new SqlParameter("@Tax", SqlDbType.Decimal)).Value = dr["Tax"];
+                        cmd.Parameters.Add(new SqlParameter("@ShipCode", SqlDbType.VarChar)).Value = dr["ShipCode"];
+                        cmd.Parameters.Add(new SqlParameter("@CreatedOn", SqlDbType.DateTimeOffset)).Value = dr["CreatedOn"];
+                        cmd.Parameters.Add(new SqlParameter("@CreatedBy", SqlDbType.NVarChar)).Value = dr["CreatedBy"];
+                        cmd.Parameters.Add(new SqlParameter("@ModifiedOn", SqlDbType.DateTimeOffset)).Value = dr["ModifiedOn"];
+                        cmd.Parameters.Add(new SqlParameter("@ModifiedBy", SqlDbType.NVarChar)).Value = dr["ModifiedBy"];
+
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+
+                        #endregion
+            }
+
 
             // set up some relationships so we can do foreach on the datatables
             initialDataset.Relations.Add("OrderLine2Product", dtOrderLine.Columns[Data.ProductIdColumn], dtProduct.Columns["Id"]);
@@ -216,12 +247,9 @@ namespace NBF.IntegrationProcessor
                         }
                     }
                     #endregion
-
-
                 }
 
             }
-
 
             if (initialDataset.Tables.Contains(Data.CreditCardTransactionTable))
             {

@@ -24,7 +24,7 @@
                                     <div class="thumb-wrap">
                                         <div class="item-thumb">
                                             <a ng-href="{{product.productDetailUrl}}">
-                                                <img ng-src="{{product.mediumImagePath}}" alt="{{product.altText}}" increment-images-loaded/>
+                                                <img ng-src="{{product.mediumImagePath}}" alt="{{product.altText}}" increment-images-loaded />
                                             </a>
                                         </div>
                                     </div>
@@ -68,7 +68,7 @@
                                     <div class="actions-block">
                                         [% if Model.DisplayAddToCart %]
                                         <div class="item-qty" ng-if="product.canAddToCart">
-                                            <input type="text" ng-model="product.qtyOrdered" ng-init="product.qtyOrdered = product.minimumOrderQty || 1" class="qty numerictextbox tst_productCarousel[[Model.RelatedProductsRelationship]]_qtyOrdered"/>
+                                            <input type="text" ng-model="product.qtyOrdered" ng-init="product.qtyOrdered = product.minimumOrderQty || 1" class="qty numerictextbox tst_productCarousel[[Model.RelatedProductsRelationship]]_qtyOrdered" />
                                         </div>
                                         <div class="action">
                                             <button class="btn primary btn-add-cart tst_productCarousel[[Model.RelatedProductsRelationship]]_addToCart" ng-click="vm.addToCart(product)" ng-if="product.canAddToCart" ng-disabled="!product.qtyOrdered || product.qtyOrdered == 0 || vm.addingToCart">[% translate 'Add to Cart' %]</button>

@@ -35,22 +35,33 @@ namespace Extensions.Handlers.SubmitOrderToErpHandler
                 var productsByVendor = ShippingHelper.GroupProductsByVendor(result.GetCartResult.Cart);
                
                 var totalTax = result.GetCartResult.Cart.TaxAmount;
-                var pretaxTotal = result.GetCartResult.OrderSubTotal + result.GetCartResult.ShippingAndHandling;
+                var pretaxTotal = result.GetCartResult.OrderSubTotal + result.GetCartResult.Cart.ShippingCharges + result.GetCartResult.Cart.OtherCharges;
+
+                var sbvModels = new List<ShippingByVendorModel>();
 
                 foreach(var vendor in shipByVendor)
                 {
                     var vendorTotal = vendor.TotalShippingCost + vendor.OrderLines.Sum(l => OrderLineUtilities.GetTotalNetPrice(l));
                     var vendorTax = (vendorTotal / pretaxTotal) * totalTax;
-                    repo.Insert(new ShippingByVendorModel()
+                    sbvModels.Add(new ShippingByVendorModel()
                     {
                         OrderNumber = result.GetCartResult.Cart.OrderNumber,
                         BaseShippingCost = vendor.BaseShippingCost,
                         AdditionalShippingCost = vendor.AdditonalCharges,
                         VendorId = vendor.VendorId,
                         ShipCode = vendor.ShipCode,
-                        Tax = vendorTax                  
+                        Tax = decimal.Round(vendorTax, 2)
                     });
                 }
+
+                var sbvTaxTotal = sbvModels.Sum(s => s.Tax);
+                if (sbvTaxTotal != result.GetCartResult.Cart.TaxAmount)
+                {
+                    var lastLine = sbvModels.Last();
+                    lastLine.Tax += result.GetCartResult.Cart.TaxAmount - sbvTaxTotal;
+                }
+
+                sbvModels.ForEach(repo.Insert);                
             }
 
             return NextHandler.Execute(unitOfWork, parameter, result);

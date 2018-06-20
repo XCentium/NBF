@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
+using Extensions.WebApi.GuestActivation.Interfaces;
 using Extensions.WebApi.GuestActivation.Models;
 using Insite.Account.WebApi.V1.ApiModels;
-using Insite.Core.Context;
 using Insite.Core.Interfaces.Data;
 using Insite.Core.Plugins.Utilities;
 using Insite.Core.WebApi;
@@ -16,44 +17,23 @@ namespace Extensions.WebApi.GuestActivation.Controllers
     public class GuestActivationController : BaseApiController
     {
         private readonly IUnitOfWorkFactory _unitOfWorkFactory;
+        private readonly IGuestActivationService _guestActivationService;
 
-        public GuestActivationController(ICookieManager cookieManager, IUnitOfWorkFactory unitOfWorkFactory)
+        public GuestActivationController(ICookieManager cookieManager, IUnitOfWorkFactory unitOfWorkFactory, IGuestActivationService guestActivationService)
           : base(cookieManager)
         {
             _unitOfWorkFactory = unitOfWorkFactory;
+            _guestActivationService = guestActivationService;
         }
 
         [HttpPost]
         [Route("", Name = "UpdateGuestAccount")]
         [ResponseType(typeof(AccountModel))]
-        public AccountModel Post([FromBody] GuestActivationParameter model)
+        public async Task<IHttpActionResult> Post([FromBody] GuestActivationParameter model)
         {
-            var unitOfWork = _unitOfWorkFactory.GetUnitOfWork();
-            
-            var account = unitOfWork.GetRepository<UserProfile>().GetTable().FirstOrDefault(x =>
-                x.Id.ToString().Equals(model.GuestId, StringComparison.CurrentCultureIgnoreCase));
+            var a = await _guestActivationService.ActivateGuest(model);
 
-            if (account != null)
-            {
-                var unusedCustomer = account.Customers.FirstOrDefault(x => x != SiteContext.Current.BillTo);
-                if (unusedCustomer != null)
-                {
-                    unitOfWork.GetRepository<Customer>().Delete(unusedCustomer);
-                }
-
-                account.IsGuest = false;
-                account.FirstName = model.Account.FirstName;
-                account.LastName = model.Account.LastName;
-                account.Email = model.Account.Email;
-                account.UserName = model.Account.UserName;
-                unitOfWork.Save();
-            }
-            else
-            {
-                throw new Exception("Account cannot be found");
-            }
-
-            return model.Account;
+            return Ok(a);
         }
 
         [Route("", Name = "CheckUserName")]

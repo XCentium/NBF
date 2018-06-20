@@ -8,7 +8,7 @@ module insite.wishlist {
     "use strict";
 
     export interface IWishListService {
-        getWishLists(sort?: string, expand?: string, wishListLinesSort?: string): ng.IPromise<WishListCollectionModel>;
+        getWishLists(sort?: string, expand?: string, wishListLinesSort?: string, pagination?: PaginationModel): ng.IPromise<WishListCollectionModel>;
         getWishList(wishList: WishListModel, expand?: string): ng.IPromise<WishListModel>;
         getListById(listId: System.Guid, expand?: string): ng.IPromise<WishListModel>;
         addWishList(wishListName: string, description?: string): ng.IPromise<WishListModel>;
@@ -43,11 +43,13 @@ module insite.wishlist {
             protected coreService: core.ICoreService) {
         }
 
-        getWishLists(sort?: string, expand?: string, wishListLinesSort?: string): ng.IPromise<WishListCollectionModel> {
+        getWishLists(sort?: string, expand?: string, wishListLinesSort?: string, pagination?: PaginationModel): ng.IPromise<WishListCollectionModel> {
             const params = {
                 sort: sort,
                 expand: expand,
-                wishListLinesSort: wishListLinesSort
+                wishListLinesSort: wishListLinesSort,
+                page: pagination ? pagination.page : null,
+                pageSize: pagination ? pagination.pageSize : null
             };
 
             return this.httpWrapperService.executeHttpRequest(
