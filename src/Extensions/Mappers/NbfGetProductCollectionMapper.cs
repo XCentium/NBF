@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Net.Http;
 using Insite.Catalog.Services.Results;
 using Insite.Catalog.WebApi.V1.ApiModels;
@@ -58,7 +57,6 @@ namespace Extensions.Mappers
                     }
                 }
             }
-
 
             return result;
         }
