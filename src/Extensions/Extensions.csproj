@@ -356,6 +356,7 @@
     <Compile Include="Handlers\GetCartHandler\RecalculateCart.cs" />
     <Compile Include="Mappers\GetTrackedOrderMapper.cs" />
     <Compile Include="Mappers\Interfaces\IGetTrackedOrderMapper.cs" />
+    <Compile Include="Mappers\NbfGetProductMapper.cs" />
     <Compile Include="Mappers\NbfGetProductCollectionMapper.cs" />
     <Compile Include="Models\AffiliateCode\AffiliateCodeModel.cs" />
     <Compile Include="Models\AffiliateCode\AffiliateCodeModelMapping.cs" />
