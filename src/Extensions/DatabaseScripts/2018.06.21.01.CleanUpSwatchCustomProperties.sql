@@ -1,4 +1,3 @@
-DELETE
-FROM [Insite.NBF].[dbo].[CustomProperty]
+DELETE FROM [dbo].[CustomProperty]
   where name = 'swatches'
 GO
