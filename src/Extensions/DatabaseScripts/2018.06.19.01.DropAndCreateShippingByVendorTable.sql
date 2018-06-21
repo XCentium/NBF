@@ -1,6 +1,3 @@
-USE [Insite.NBF]
-GO
-
 /****** Object:  Table [Extensions].[ShippingByVendor]    Script Date: 6/19/2018 2:41:57 PM ******/
 DROP TABLE [Extensions].[ShippingByVendor]
 GO
