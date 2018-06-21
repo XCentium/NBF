@@ -17,8 +17,8 @@ namespace NBF.IntegrationProcessor
         protected IIntegrationJobLogger JobLogger;
         public DataSet Execute(SiteConnection siteConnection, IntegrationJob integrationJob, JobDefinitionStep jobStep)
         {
-            //var connStr = jobStep.JobDefinition.IntegrationConnection.ConnectionString;
-            var connStr = "Data Source=localhost;Initial Catalog=InsiteETL;User Id=sa;Password=Master123;MultipleActiveResultSets=true";
+            var connStr = jobStep.JobDefinition.IntegrationConnection.ConnectionString;
+            
             string debugString = string.Empty;
 
             this.JobLogger = (IIntegrationJobLogger)new IntegrationJobLogger(siteConnection, integrationJob);
