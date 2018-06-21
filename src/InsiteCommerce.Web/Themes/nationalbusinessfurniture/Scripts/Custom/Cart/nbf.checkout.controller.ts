@@ -50,6 +50,7 @@
         isInvalidCardNumber: boolean;
         isInvalidSecurityCode: boolean;
         isInvalidCardNumberOrSecurityCode: boolean;
+        hcpiDeferred: ng.IDeferred<any>;
         paypalIndication: string;
 
         //Confirmation Variables
@@ -109,7 +110,8 @@
             "nbfTaxExemptService",
             "ipCookie",
             "$location",
-            "accessToken"
+            "accessToken",
+            "$q"
         ];
 
         constructor(
@@ -139,7 +141,8 @@
             protected nbfTaxExemptService: insite.account.INbfTaxExemptService,
             protected ipCookie: any,
             protected $location: ng.ILocaleService,
-            protected accessToken: insite.common.IAccessTokenService
+            protected accessToken: insite.common.IAccessTokenService,
+            protected $q: ng.IQService
         ) {
             this.init();
         }
@@ -1267,6 +1270,10 @@
 
         protected tokenizeCardInfoIfNeeded(oldCartLines: CartLineModel[]) {
             if (this.isCloudPaymentGateway && this.cart.showCreditCard && this.cart.paymentMethod.isCreditCard) {
+                this.hcpiDeferred = this.$q.defer();
+                this.hcpiDeferred.promise.then(() => {
+                    this.submitCart(oldCartLines);
+                });
                 (<any>window).sendHPCIMsg();
             } else {
                 this.submitCart(oldCartLines);
@@ -1454,15 +1461,14 @@
                         }
 
                         (<any>window).hpciStatusReset();
-                        this.submitFailed({ message: "" });
+                        this.hcpiDeferred.reject();
                         return;
                     }
 
                     this.cart.paymentOptions.creditCard.cardNumber = hpciMappedCCValue;
                     this.cart.paymentOptions.creditCard.securityCode = hpciMappedCVVValue;
-
-                    var oldCartLines = this.cart.cartLines;
-                    this.submitCart(oldCartLines);
+                    (<any>window).hpciStatusReset();
+                    this.hcpiDeferred.resolve();
                 });
             };
 
@@ -1470,7 +1476,7 @@
                 this.$scope.$apply(() => {
                     this.isInvalidCardNumberOrSecurityCode = true;
                     (<any>window).hpciStatusReset();
-                    this.submitFailed({ message: "" });
+                    this.hcpiDeferred.reject();
                 });
             };
 
@@ -1482,6 +1488,17 @@
                     } else {
                         this.isInvalidCardNumber = true;
                     }
+
+                    if (hpciCCTypeValue === "visa")
+                        this.cart.paymentOptions.creditCard.cardType = this.cart.paymentOptions.cardTypes[0]["value"];
+                    else if (hpciCCTypeValue === "mastercard")
+                        this.cart.paymentOptions.creditCard.cardType = this.cart.paymentOptions.cardTypes[1]["value"];
+                    else if (hpciCCTypeValue === "amex")
+                        this.cart.paymentOptions.creditCard.cardType = this.cart.paymentOptions.cardTypes[2]["value"];
+                    else if (hpciCCTypeValue === "discover")
+                        this.cart.paymentOptions.creditCard.cardType = this.cart.paymentOptions.cardTypes[3]["value"];
+                    else
+                        this.cart.paymentOptions.creditCard.cardType = null;
                 });
             };
 
