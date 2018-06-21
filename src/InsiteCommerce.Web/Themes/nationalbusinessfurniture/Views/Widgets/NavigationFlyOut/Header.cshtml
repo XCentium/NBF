@@ -1,13 +1,6 @@
 ﻿[% if Model.Drop.RootPageExists -%]
 <li class="[[Model.CssClass]]">
-    <span class="nav-item-container">
-        [% if Model.LinkRootPage -%]
-        <a id="tst_productMenu_[[Model.Drop.RootPageTitle]]" href="[[Model.RootPageUrl]]">[[Model.Drop.RootPageTitle]]</a>
-        [% else -%]
-        <a id="tst_productMenu_[[Model.Drop.RootPageTitle]]" onclick="$(this).next().click();return false;">[[Model.Drop.RootPageTitle]]</a>
-        [% endif %]
-        <label for="nav-cat_[[Model.Id]]" class="toggle-sub" onclick="insite.nav.goToSubnav(this)">►</label>
-    </span>
+    
     <input type="checkbox" name="nav" id="nav-cat_[[Model.Id]]" class="subnav-check">
     <div id="sub-cat" class="subnav sub-tier-panel single">
         [% if Model.TextExists -%]

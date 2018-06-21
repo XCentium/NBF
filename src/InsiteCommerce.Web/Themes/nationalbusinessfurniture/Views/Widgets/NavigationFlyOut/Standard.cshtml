@@ -1,31 +1,268 @@
 ﻿[% if Model.Drop.RootPageExists -%]
-<li class="[[Model.CssClass]]">
+<li class="">
     <span class="nav-item-container">
-        [% if Model.LinkRootPage -%]
-        <a id="tst_productMenu_[[Model.Drop.RootPageTitle]]" href="[[Model.RootPageUrl]]">[[Model.Drop.RootPageTitle]]</a>
-        [% else -%]
-        <a id="tst_productMenu_[[Model.Drop.RootPageTitle]]" onclick="$(this).next().click();return false;">[[Model.Drop.RootPageTitle]]</a>
-        [% endif %]
-        <label for="nav-cat" class="toggle-sub" onclick="insite.nav.goToSubnav(this)">►</label>
+        <a id="tst_productMenu_00000000-0000-0000-0000-000000000000" href="/Product-Navigation">Products</a>
+
+        <label for="nav-cat" class="toggle-sub" onclick="insite.nav.goToSubnav(this)">?</label>
     </span>
     <input type="checkbox" name="nav" id="nav-cat" class="subnav-check">
-    <div id="sub-cat" class="subnav sub-tier-panel single">
-        [% if Model.TextExists -%]
-        <h4>[[Model.Text]]</h4>
-        [% endif -%]
-        <ul class="level-2">
-            <li class="sub-heading">[[Model.Drop.RootPageTitle]]</li>
-            [% for childPage in Model.Drop.ChildPages -%]
-            [% if forloop.index == 1 -%]
+    <div id="sub-cat" class="subnav sub-tier-panel">
+        <ul class="level-1">
+            <li class="sub-heading">Products</li>
             <li class="currently-hovered">
-            [% else -%]
-            <li>
-                [% endif -%]
-                <a id="tst_navMenu_[[forloop.index]]" href="[[childPage.Url]]" onclick="insite.nav.hideMenu();">[[childPage.Title]]</a>
-                <label for="nav-cat[[forloop.index]]" class="toggle-sub" onclick="insite.nav.goToSubnav(this)">►</label>
+                <span class="nav-item-container">
+                    <a href="/office-desks" onclick="insite.nav.hideMenu();">Desks</a>
+                    <label for="nav-cat0" class="toggle-sub" onclick="insite.nav.goToSubnav(this)">?</label>
+                </span>
+                <input type="checkbox" name="nav" id="nav-cat0" class="subnav-check">
+
+                <div class="sub-tier-panel subnav level-2">
+
+                    <div class="sub-links-wrap">
+                        <ul id="sub-cat2" class="sub-tier-cols">
+
+
+                            <li><a href="/accessories/accessories-boards" onclick="insite.nav.hideMenu();">Adjustable Height</a></li>
+                            <li><a href="/accessories/accessories-chairs" onclick="insite.nav.hideMenu();">Bow Front</a></li>
+                            <li><a href="/accessories/accessories-desks" onclick="insite.nav.hideMenu();">Compact and Small</a></li>
+                            <li><a href="/accessories/accessories-misc" onclick="insite.nav.hideMenu();">Computer</a></li>
+                            <li><a href="/accessories/accessories-partitions" onclick="insite.nav.hideMenu();">Executive</a></li>
+                            <li><a href="/accessories/accessories-storage" onclick="insite.nav.hideMenu();">Laminate</a></li>
+                            <li><a href="/accessories/accessories-tables" onclick="insite.nav.hideMenu();">L-Shaped</a></li>
+                            <li><a href="/accessories?attr=onsale" onclick="insite.nav.hideMenu();">Standing Height</a></li>
+                            <li><a href="/accessories?attr=shipstoday" onclick="insite.nav.hideMenu();">Suites and Sets</a></li>
+                            <li><a href="/accessories?attr=toprated" onclick="insite.nav.hideMenu();">Veneer</a></li>
+                            <li><a href="/accessories?attr=newproducts" onclick="insite.nav.hideMenu();">New Products</a></li>
+                            <li><a href="/accessories?attr=bestselling" onclick="insite.nav.hideMenu();">Best Selling</a></li>
+                            <li><a href="/accessories?attr=clearance" onclick="insite.nav.hideMenu();">Clearance</a></li>
+                            <li><a href="/accessories?attr=gsa" onclick="insite.nav.hideMenu();">GSA</a></li>
+
+                        </ul>
+
+                    </div>
+
+                </div>
             </li>
-            [% endfor -%]
-        </ul>
+            <li class="">
+                <span class="nav-item-container">
+                    <a href="/office-chairs" onclick="insite.nav.hideMenu();">Chairs</a>
+                    <label for="nav-cat0" class="toggle-sub" onclick="insite.nav.goToSubnav(this)">?</label>
+                </span>
+                <input type="checkbox" name="nav" id="nav-cat0" class="subnav-check">
+
+                <div class="sub-tier-panel subnav level-2">
+
+                    <div class="sub-links-wrap">
+                        <ul id="sub-cat2" class="sub-tier-cols">
+                            <li class="sub-heading">Accessories</li>
+                            <li><a href="/accessories/accessories-boards" onclick="insite.nav.hideMenu();">Big and Tall</a></li>
+                            <li><a href="/accessories/accessories-chairs" onclick="insite.nav.hideMenu();">Computer</a></li>
+                            <li><a href="/accessories/accessories-desks" onclick="insite.nav.hideMenu();">Ergonomic</a></li>
+                            <li><a href="/accessories/accessories-misc" onclick="insite.nav.hideMenu();">Leather</a></li>
+                            <li><a href="/accessories/accessories-misc" onclick="insite.nav.hideMenu();">Mesh</a></li>
+                            <li><a href="/accessories/accessories-misc" onclick="insite.nav.hideMenu();">Reception and Guest </a></li>
+                            <li><a href="/accessories/accessories-misc" onclick="insite.nav.hideMenu();">Stacking</a></li>
+
+                        </ul>
+
+                    </div>
+
+                </div>
+            </li>
+
+            <li class="">
+                <span class="nav-item-container">
+                    <a id="tst_productMenu_21fccf70-8599-4465-83ee-a8a9001c1f4e" href="/accessories" onclick="insite.nav.hideMenu();">Tables</a>
+                    <label for="nav-cat0" class="toggle-sub" onclick="insite.nav.goToSubnav(this)">?</label>
+                </span>
+                <input type="checkbox" name="nav" id="nav-cat0" class="subnav-check">
+
+                <div class="sub-tier-panel subnav level-2">
+
+                    <div class="sub-links-wrap">
+                        <ul id="sub-cat2" class="sub-tier-cols">
+                            <li class="sub-heading">Accessories</li>
+                            <li><a href="/accessories/accessories-boards" onclick="insite.nav.hideMenu();">Boards</a></li>
+                            <li><a href="/accessories/accessories-chairs" onclick="insite.nav.hideMenu();">Chairs</a></li>
+                            <li><a href="/accessories/accessories-desks" onclick="insite.nav.hideMenu();">Desks</a></li>
+                            <li><a href="/accessories/accessories-misc" onclick="insite.nav.hideMenu();">Misc.</a></li>
+
+                        </ul>
+
+                    </div>
+
+                </div>
+            </li>
+
+            <li class="">
+                <span class="nav-item-container">
+                    <a id="tst_productMenu_21fccf70-8599-4465-83ee-a8a9001c1f4e" href="/accessories" onclick="insite.nav.hideMenu();">Filing</a>
+                    <label for="nav-cat0" class="toggle-sub" onclick="insite.nav.goToSubnav(this)">?</label>
+                </span>
+                <input type="checkbox" name="nav" id="nav-cat0" class="subnav-check">
+
+                <div class="sub-tier-panel subnav level-2">
+
+                    <div class="sub-links-wrap">
+                        <ul id="sub-cat2" class="sub-tier-cols">
+                            <li class="sub-heading">Accessories</li>
+                            <li><a href="/accessories/accessories-boards" onclick="insite.nav.hideMenu();">Boards</a></li>
+                            <li><a href="/accessories/accessories-chairs" onclick="insite.nav.hideMenu();">Chairs</a></li>
+                            <li><a href="/accessories/accessories-desks" onclick="insite.nav.hideMenu();">Desks</a></li>
+                            <li><a href="/accessories/accessories-misc" onclick="insite.nav.hideMenu();">Misc.</a></li>
+
+                        </ul>
+
+                    </div>
+
+                </div>
+            </li>
+
+            <li class="">
+                <span class="nav-item-container">
+                    <a id="tst_productMenu_21fccf70-8599-4465-83ee-a8a9001c1f4e" href="/accessories" onclick="insite.nav.hideMenu();">Storage</a>
+                    <label for="nav-cat0" class="toggle-sub" onclick="insite.nav.goToSubnav(this)">?</label>
+                </span>
+                <input type="checkbox" name="nav" id="nav-cat0" class="subnav-check">
+
+                <div class="sub-tier-panel subnav level-2">
+
+                    <div class="sub-links-wrap">
+                        <ul id="sub-cat2" class="sub-tier-cols">
+                            <li class="sub-heading">Accessories</li>
+                            <li><a href="/accessories/accessories-boards" onclick="insite.nav.hideMenu();">Boards</a></li>
+                            <li><a href="/accessories/accessories-chairs" onclick="insite.nav.hideMenu();">Chairs</a></li>
+                            <li><a href="/accessories/accessories-desks" onclick="insite.nav.hideMenu();">Desks</a></li>
+                            <li><a href="/accessories/accessories-misc" onclick="insite.nav.hideMenu();">Misc.</a></li>
+
+                        </ul>
+
+                    </div>
+
+                </div>
+            </li>
+
+            <li class="">
+                <span class="nav-item-container">
+                    <a id="tst_productMenu_21fccf70-8599-4465-83ee-a8a9001c1f4e" href="/accessories" onclick="insite.nav.hideMenu();">Cubicles</a>
+                    <label for="nav-cat0" class="toggle-sub" onclick="insite.nav.goToSubnav(this)">?</label>
+                </span>
+                <input type="checkbox" name="nav" id="nav-cat0" class="subnav-check">
+
+                <div class="sub-tier-panel subnav level-2">
+
+                    <div class="sub-links-wrap">
+                        <ul id="sub-cat2" class="sub-tier-cols">
+                            <li class="sub-heading">Accessories</li>
+                            <li><a href="/accessories/accessories-boards" onclick="insite.nav.hideMenu();">Boards</a></li>
+                            <li><a href="/accessories/accessories-chairs" onclick="insite.nav.hideMenu();">Chairs</a></li>
+                            <li><a href="/accessories/accessories-desks" onclick="insite.nav.hideMenu();">Desks</a></li>
+                            <li><a href="/accessories/accessories-misc" onclick="insite.nav.hideMenu();">Misc.</a></li>
+
+                        </ul>
+
+                    </div>
+
+                </div>
+            </li>
+
+
+            <li class="">
+                <span class="nav-item-container">
+                    <a id="tst_productMenu_21fccf70-8599-4465-83ee-a8a9001c1f4e" href="/accessories" onclick="insite.nav.hideMenu();">Accessories</a>
+                    <label for="nav-cat0" class="toggle-sub" onclick="insite.nav.goToSubnav(this)">?</label>
+                </span>
+                <input type="checkbox" name="nav" id="nav-cat0" class="subnav-check">
+
+                <div class="sub-tier-panel subnav level-2">
+
+                    <div class="sub-links-wrap">
+                        <ul id="sub-cat2" class="sub-tier-cols">
+                            <li class="sub-heading">Accessories</li>
+                            <li><a href="/accessories/accessories-boards" onclick="insite.nav.hideMenu();">Boards</a></li>
+                            <li><a href="/accessories/accessories-chairs" onclick="insite.nav.hideMenu();">Chairs</a></li>
+                            <li><a href="/accessories/accessories-desks" onclick="insite.nav.hideMenu();">Desks</a></li>
+                            <li><a href="/accessories/accessories-misc" onclick="insite.nav.hideMenu();">Misc.</a></li>
+
+                        </ul>
+
+                    </div>
+
+                </div>
+            </li>
+
+            <li class="">
+                <span class="nav-item-container">
+                    <a id="tst_productMenu_21fccf70-8599-4465-83ee-a8a9001c1f4e" href="/accessories" onclick="insite.nav.hideMenu();">Decor</a>
+                    <label for="nav-cat0" class="toggle-sub" onclick="insite.nav.goToSubnav(this)">?</label>
+                </span>
+                <input type="checkbox" name="nav" id="nav-cat0" class="subnav-check">
+
+                <div class="sub-tier-panel subnav level-2">
+
+                    <div class="sub-links-wrap">
+                        <ul id="sub-cat2" class="sub-tier-cols">
+                            <li class="sub-heading">Accessories</li>
+                            <li><a href="/accessories/accessories-boards" onclick="insite.nav.hideMenu();">Boards</a></li>
+                            <li><a href="/accessories/accessories-chairs" onclick="insite.nav.hideMenu();">Chairs</a></li>
+                            <li><a href="/accessories/accessories-desks" onclick="insite.nav.hideMenu();">Desks</a></li>
+                            <li><a href="/accessories/accessories-misc" onclick="insite.nav.hideMenu();">Misc.</a></li>
+
+                        </ul>
+
+                    </div>
+
+                </div>
+            </li>
+
+            <li class="">
+                <span class="nav-item-container">
+                    <a id="tst_productMenu_21fccf70-8599-4465-83ee-a8a9001c1f4e" href="/accessories" onclick="insite.nav.hideMenu();">AV Equipment</a>
+                    <label for="nav-cat0" class="toggle-sub" onclick="insite.nav.goToSubnav(this)">?</label>
+                </span>
+                <input type="checkbox" name="nav" id="nav-cat0" class="subnav-check">
+
+                <div class="sub-tier-panel subnav level-2">
+
+                    <div class="sub-links-wrap">
+                        <ul id="sub-cat2" class="sub-tier-cols">
+                            <li class="sub-heading">Accessories</li>
+                            <li><a href="/accessories/accessories-boards" onclick="insite.nav.hideMenu();">Boards</a></li>
+                            <li><a href="/accessories/accessories-chairs" onclick="insite.nav.hideMenu();">Chairs</a></li>
+                            <li><a href="/accessories/accessories-desks" onclick="insite.nav.hideMenu();">Desks</a></li>
+                            <li><a href="/accessories/accessories-misc" onclick="insite.nav.hideMenu();">Misc.</a></li>
+
+                        </ul>
+
+                    </div>
+
+                </div>
+            </li>
+
+            <li class="">
+                <span class="nav-item-container">
+                    <a id="tst_productMenu_21fccf70-8599-4465-83ee-a8a9001c1f4e" href="/accessories" onclick="insite.nav.hideMenu();">Boards</a>
+                    <label for="nav-cat0" class="toggle-sub" onclick="insite.nav.goToSubnav(this)">?</label>
+                </span>
+                <input type="checkbox" name="nav" id="nav-cat0" class="subnav-check">
+
+                <div class="sub-tier-panel subnav level-2">
+
+                    <div class="sub-links-wrap">
+                        <ul id="sub-cat2" class="sub-tier-cols">
+                            <li class="sub-heading">Accessories</li>
+                            <li><a href="/accessories/accessories-boards" onclick="insite.nav.hideMenu();">Boards</a></li>
+                            <li><a href="/accessories/accessories-chairs" onclick="insite.nav.hideMenu();">Chairs</a></li>
+                            <li><a href="/accessories/accessories-desks" onclick="insite.nav.hideMenu();">Desks</a></li>
+                            <li><a href="/accessories/accessories-misc" onclick="insite.nav.hideMenu();">Misc.</a></li>
+
+                        </ul>
+
+                    </div>
+
+                </div>
+            </li>
+
     </div>
 </li>
 [% else -%]
