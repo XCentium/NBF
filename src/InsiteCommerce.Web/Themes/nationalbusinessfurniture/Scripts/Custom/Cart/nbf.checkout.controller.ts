@@ -63,14 +63,14 @@
         hideSignIn = false;
 
         //Split Payment variables
-        paymentAmount: number;
-        remainingTotal: number;
-        totalPaymentAmount = 0.0;
-        remainingTotalDisplay: string = '';
-        paymentAmountDisplay: string = '';
-        totalPaymentsDisplay: string = '';
-        cc1Display: string = '';
-        cc2Display: string = '';
+        //paymentAmount: number;
+        //remainingTotal: number;
+        //totalPaymentAmount = 0.0;
+        //remainingTotalDisplay: string = '';
+        //paymentAmountDisplay: string = '';
+        //totalPaymentsDisplay: string = '';
+        //cc1Display: string = '';
+        //cc2Display: string = '';
 
         //Tax Exempt variables
         isTaxExempt = false;
@@ -244,33 +244,33 @@
             this.cartService.getCart(this.cartId).then(
                 (cart: CartModel) => {
                     this.getCartCompleted(cart);
-                    this.paymentAmountDisplay = this.convertToCurrency(cart.orderGrandTotal);
-                    this.setPaymentAmounts();
+                    //this.paymentAmountDisplay = this.convertToCurrency(cart.orderGrandTotal);
+                    //this.setPaymentAmounts();
                 },
                 (error: any) => { this.getCartFailed(error); });
         }
 
-        protected setPaymentAmounts() {
+        //protected setPaymentAmounts() {
 
-            this.remainingTotal = this.cart.orderGrandTotal;
-            if (this.cart.properties["cc1"]) {
-                var cc1Amount = Number(this.cart.properties["cc1"]);
-                this.remainingTotal -= cc1Amount;
-                this.cc1Display = this.convertToCurrency(cc1Amount);
+        //    this.remainingTotal = this.cart.orderGrandTotal;
+        //    if (this.cart.properties["cc1"]) {
+        //        var cc1Amount = Number(this.cart.properties["cc1"]);
+        //        this.remainingTotal -= cc1Amount;
+        //        this.cc1Display = this.convertToCurrency(cc1Amount);
 
-                this.totalPaymentsDisplay;
-                this.totalPaymentAmount += cc1Amount;
-            }
-            if (this.cart.properties["cc2"]) {
-                var cc2Amount = Number(this.cart.properties["cc2"]);
-                this.remainingTotal -= cc2Amount;
-                this.cc2Display = this.convertToCurrency(cc2Amount);
-                this.totalPaymentAmount += cc2Amount;
-            }
-            this.totalPaymentsDisplay = this.convertToCurrency(this.totalPaymentAmount);
-            this.paymentAmount = this.remainingTotal;
-            this.remainingTotalDisplay = this.convertToCurrency(this.remainingTotal);
-        }
+        //        this.totalPaymentsDisplay;
+        //        this.totalPaymentAmount += cc1Amount;
+        //    }
+        //    if (this.cart.properties["cc2"]) {
+        //        var cc2Amount = Number(this.cart.properties["cc2"]);
+        //        this.remainingTotal -= cc2Amount;
+        //        this.cc2Display = this.convertToCurrency(cc2Amount);
+        //        this.totalPaymentAmount += cc2Amount;
+        //    }
+        //    this.totalPaymentsDisplay = this.convertToCurrency(this.totalPaymentAmount);
+        //    this.paymentAmount = this.remainingTotal;
+        //    this.remainingTotalDisplay = this.convertToCurrency(this.remainingTotal);
+        //}
 
         protected convertToCurrency(amount: number): string {
             return "$" + amount.toFixed(2).replace(/./g, (c, i, a) => i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c);
@@ -290,7 +290,7 @@
                 this.coreService.redirectToPath(this.cartUrl);
             }
 
-            this.setPaymentAmounts();
+            //this.setPaymentAmounts();
 
             if (this.cart.billTo) {
                 if (this.cart.billTo.properties["taxExemptFileName"]) {
@@ -1161,14 +1161,14 @@
                 this.submitting = false;
                 return;
             }
-            if (this.paymentAmount != this.remainingTotal) {
-                var $validator = $("#reviewAndPayForm").validate(); //.invalid();
-                var errors = { paymentAmount: "Cannot place order for less than the total." };
-                /* Show errors on the form */
-                $validator.showErrors(errors);
-                this.submitting = false;
-                return;
-            }
+            //if (this.paymentAmount != this.remainingTotal) {
+            //    var $validator = $("#reviewAndPayForm").validate(); //.invalid();
+            //    var errors = { paymentAmount: "Cannot place order for less than the total." };
+            //    /* Show errors on the form */
+            //    $validator.showErrors(errors);
+            //    this.submitting = false;
+            //    return;
+            //}
 
             this.spinnerService.show("mainLayout", true);
 
@@ -1556,38 +1556,38 @@
                 (cart: CartModel) => { this.getCartCompletedOrderConfirmed(cart); });
         }
 
-        addPayment() {
-            var model = {};
-            model["orderNumber"] = this.cart.orderNumber;
-            model["creditCard"] = this.cart.paymentOptions.creditCard;
-            model["cartId"] = this.cart.id;
-            model["paymentAmount"] = this.paymentAmount;
-            model["paymentProfileId"] = this.cart.paymentMethod.name;
-            var self = this;
-            this.nbfPaymentService.addPayment(model).then((result) => {
-                if (result.toLowerCase() === "true") {
-                    var propName = "";
-                    if (!self.cart.properties["cc1"]) {
-                        propName = "cc1";
-                        self.cart.properties[propName] = self.paymentAmount.toString();
-                        self.cart.paymentOptions.creditCard.cardHolderName = "";
-                        self.cart.paymentOptions.creditCard.cardNumber = "";
-                        self.cart.paymentOptions.creditCard.securityCode = "";
-                        self.cart.paymentOptions.creditCard.expirationYear = (new Date()).getFullYear();
-                        self.cart.paymentOptions.creditCard.expirationMonth = (new Date()).getMonth() + 1;
-                    } else if (!self.cart.properties["cc2"]) {
-                        propName = "cc2";
-                        self.cart.properties[propName] = self.paymentAmount.toString();
-                    }
+        //addPayment() {
+        //    var model = {};
+        //    model["orderNumber"] = this.cart.orderNumber;
+        //    model["creditCard"] = this.cart.paymentOptions.creditCard;
+        //    model["cartId"] = this.cart.id;
+        //    model["paymentAmount"] = this.paymentAmount;
+        //    model["paymentProfileId"] = this.cart.paymentMethod.name;
+        //    var self = this;
+        //    this.nbfPaymentService.addPayment(model).then((result) => {
+        //        if (result.toLowerCase() === "true") {
+        //            var propName = "";
+        //            if (!self.cart.properties["cc1"]) {
+        //                propName = "cc1";
+        //                self.cart.properties[propName] = self.paymentAmount.toString();
+        //                self.cart.paymentOptions.creditCard.cardHolderName = "";
+        //                self.cart.paymentOptions.creditCard.cardNumber = "";
+        //                self.cart.paymentOptions.creditCard.securityCode = "";
+        //                self.cart.paymentOptions.creditCard.expirationYear = (new Date()).getFullYear();
+        //                self.cart.paymentOptions.creditCard.expirationMonth = (new Date()).getMonth() + 1;
+        //            } else if (!self.cart.properties["cc2"]) {
+        //                propName = "cc2";
+        //                self.cart.properties[propName] = self.paymentAmount.toString();
+        //            }
 
-                    self.cartService.updateCart(self.cart).then(() => {
-                        self.setPaymentAmounts();
-                        this.paymentAmount = this.remainingTotal;
-                        this.cart.paymentOptions.creditCard.cardType = null;
-                    });
-                }
-            });
-        }
+        //            self.cartService.updateCart(self.cart).then(() => {
+        //                self.setPaymentAmounts();
+        //                this.paymentAmount = this.remainingTotal;
+        //                this.cart.paymentOptions.creditCard.cardType = null;
+        //            });
+        //        }
+        //    });
+        //}
 
         protected getConfirmedCartCompleted(confirmedCart: CartModel): void {
             this.cart = confirmedCart;
