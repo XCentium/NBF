@@ -1,42 +1,19 @@
-﻿using Insite.Catalog.Services.Dtos;
-using Insite.Catalog.Services.Parameters;
-using Insite.Catalog.Services.Pipelines;
-using Insite.Catalog.Services.Pipelines.Parameters;
-using Insite.Catalog.Services.Pipelines.Results;
+﻿using Insite.Catalog.Services.Parameters;
 using Insite.Catalog.Services.Results;
-using Insite.Core.Context;
 using Insite.Core.Interfaces.Data;
 using Insite.Core.Interfaces.Dependency;
-using Insite.Core.Interfaces.Localization;
-using Insite.Core.Plugins.Search;
-using Insite.Core.Plugins.Search.Dtos;
-using Insite.Core.Services;
 using Insite.Core.Services.Handlers;
 using Insite.Data.Entities;
-using Insite.Data.Extensions;
-using Insite.Data.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using System.Linq.Expressions;
 
 namespace Extensions.Handlers.GetProductCollectionHandler
 {
     [DependencyName("NBFFindProductsWithSearch")]
     public sealed class FindProductsWithSearch : HandlerBase<GetProductCollectionParameter, GetProductCollectionResult>
     {
-        public FindProductsWithSearch(Lazy<ICatalogPipeline> catalogPipeline, Lazy<ITranslationLocalizer> translationLocalizer)
-        {
-        }
-
-        public override int Order
-        {
-            get
-            {
-                return 099;
-            }
-        }
+        public override int Order => 099;
 
         public override GetProductCollectionResult Execute(IUnitOfWork unitOfWork, GetProductCollectionParameter parameter, GetProductCollectionResult result)
         {
@@ -45,7 +22,7 @@ namespace Extensions.Handlers.GetProductCollectionHandler
             {
                 var attributeFilter = parameter.Names.FirstOrDefault();
                 parameter.Names = null;
-                var attributetypes = unitOfWork.GetRepository<AttributeType>().GetTable().Where(x => x.IsActive == true);
+                var attributetypes = unitOfWork.GetRepository<AttributeType>().GetTable().Where(x => x.IsActive);
                 Guid filterguid = Guid.Empty;
                 AttributeType attribute = null;
                 switch (attributeFilter)
@@ -71,15 +48,13 @@ namespace Extensions.Handlers.GetProductCollectionHandler
                     case "gsa":
                         attribute = attributetypes.FirstOrDefault(x => x.Name.Equals("GSA", StringComparison.CurrentCultureIgnoreCase));
                         break;
-                    default:
-                        break;
                 }
                 if (attribute != null)
                 {
                     var attributevalues = unitOfWork.GetRepository<AttributeValue>().GetTable().Where(x => x.AttributeTypeId == attribute.Id);
                     if (attributevalues != null)
                     {
-                        var av = attributevalues.Where(x => x.Value == "Yes").FirstOrDefault();
+                        var av = attributevalues.FirstOrDefault(x => x.Value == "Yes");
                         if (av != null)
                         {
                             filterguid = av.Id;
@@ -96,6 +71,7 @@ namespace Extensions.Handlers.GetProductCollectionHandler
 
                 }
             }
+
             //var hideAttribute = unitOfWork.GetRepository<AttributeType>().GetTable().Where(x => x.Name == "HideInSearch").FirstOrDefault();
             //if (hideAttribute != null)
             //{
@@ -109,7 +85,8 @@ namespace Extensions.Handlers.GetProductCollectionHandler
             //        parameter.AttributeValueIds.Add(attributevalue.Id.ToString());
             //    }
             //}
-            return this.NextHandler.Execute(unitOfWork, parameter, result);
+
+            return NextHandler.Execute(unitOfWork, parameter, result);
         }
     }
 }
