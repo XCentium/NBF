@@ -32,7 +32,7 @@
                ng-blur="vm.flyOutFocusOff()"/>
 
 
-        <a href="#" ng-click="vm.resetForgotPasswordPopup()" class="login-from__forgotpassword" id="tst_signIn_flyOut_openForgotPassword" data-reveal-id="forgotPasswordPopup">[% translate 'Forgot Password?' EscapeSingleQuotes %]</a>
+        <a href="#" ng-click="vm.resetForgotPasswordPopup()" class="login-from__forgotpassword" id="tst_signIn_flyOut_openForgotPassword" data-reveal-id="forgotPasswordPopupFlyOut">[% translate 'Forgot Password?' EscapeSingleQuotes %]</a>
 
         <p class="error">
             <span class="field-validation-error" ng-if="vm.signInForm.$submitted && vm.signInForm.userName.$error.required">[% siteMessage 'SignInInfo_UserName_Required' %]</span>
@@ -49,7 +49,7 @@
     </div>
 
     <div ng-if="includeForgotPasswordLink">
-        <div id="forgotPasswordPopup" class="reveal-modal tiny popup-forgot-pw" data-reveal data-reveal-init>
+        <div id="forgotPasswordPopupFlyOut" class="reveal-modal tiny something popup-forgot-pw" data-reveal data-reveal-init>
             <div class="modal-wrap">
                 <h2>[% translate 'Reset Password' %]</h2>
                 <div ng-show="!vm.resetPasswordSuccess">
@@ -86,3 +86,4 @@
             </div>
         </div>
     </div>
+</div>

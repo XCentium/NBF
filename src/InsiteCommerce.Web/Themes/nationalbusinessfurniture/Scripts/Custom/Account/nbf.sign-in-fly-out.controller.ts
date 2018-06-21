@@ -299,7 +299,7 @@
             this.userNameToReset = "";
             this.resetPasswordSuccess = false;
 
-            this.coreService.displayModal(angular.element("#forgotPasswordPopup"));
+            this.coreService.displayModal(angular.element("#forgotPasswordPopupFlyOut"));
 
             return true;
         }

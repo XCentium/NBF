@@ -48,7 +48,7 @@ namespace Extensions.Handlers.SubmitOrderToErpHandler
                         OrderNumber = result.GetCartResult.Cart.OrderNumber,
                         BaseShippingCost = vendor.BaseShippingCost,
                         AdditionalShippingCost = vendor.AdditonalCharges,
-                        VendorId = vendor.VendorId,
+                        VendorCode = vendor.VendorCode,
                         ShipCode = vendor.ShipCode,
                         Tax = decimal.Round(vendorTax, 2)
                     });
