@@ -7,7 +7,6 @@ using Extensions.WebApi.OrderTracking.Models;
 using Insite.Catalog.Services.Dtos;
 using Insite.Common.Helpers;
 using Insite.Core.Extensions;
-using Insite.Core.Interfaces.Dependency;
 using Insite.Core.Interfaces.Localization;
 using Insite.Core.Plugins.Utilities;
 using Insite.Core.WebApi.Interfaces;
@@ -18,7 +17,7 @@ using Insite.Order.WebApi.V1.ApiModels;
 
 namespace Extensions.Mappers
 {
-    public class GetTrackedOrderMapper : IGetTrackedOrderMapper, IWebApiMapper<string, GetTrackingOrderParameter, GetOrderResult, OrderModel>, IDependency
+    public class GetTrackedOrderMapper : IGetTrackedOrderMapper
     {
         protected readonly ICurrencyFormatProvider CurrencyFormatProvider;
         protected readonly IObjectToObjectMapper ObjectToObjectMapper;
@@ -27,10 +26,10 @@ namespace Extensions.Mappers
 
         public GetTrackedOrderMapper(ICurrencyFormatProvider currencyFormatProvider, IUrlHelper urlHelper, IObjectToObjectMapper objectToObjectMapper, ITranslationLocalizer translationLocalizer)
         {
-            this.CurrencyFormatProvider = currencyFormatProvider;
-            this.UrlHelper = urlHelper;
-      this.ObjectToObjectMapper = objectToObjectMapper;
-            this.TranslationLocalizer = translationLocalizer;
+            CurrencyFormatProvider = currencyFormatProvider;
+            UrlHelper = urlHelper;
+            ObjectToObjectMapper = objectToObjectMapper;
+            TranslationLocalizer = translationLocalizer;
         }
 
         public virtual GetTrackingOrderParameter MapParameter(string orderId, HttpRequestMessage request)
@@ -50,23 +49,23 @@ namespace Extensions.Mappers
         {
             if (serviceResult == null)
                 throw new ArgumentNullException("serviceResult");
-            OrderModel orderModel1 = this.ObjectToObjectMapper.Map<OrderHistory, OrderModel>(serviceResult.OrderHistory);
+            OrderModel orderModel1 = ObjectToObjectMapper.Map<OrderHistory, OrderModel>(serviceResult.OrderHistory);
             orderModel1.CanAddToCart = serviceResult.CanAddToCart;
             orderModel1.CanAddAllToCart = serviceResult.CanAddAllToCart;
             orderModel1.Properties = serviceResult.Properties;
-            Insite.Data.Entities.Currency currency = serviceResult.Currency;
-            orderModel1.CurrencySymbol = currency != null ? currency.CurrencySymbol : (string)null;
-            orderModel1.OrderDiscountAmountDisplay = this.CurrencyFormatProvider.GetString(orderModel1.OrderDiscountAmount, currency);
-            orderModel1.ProductDiscountAmountDisplay = this.CurrencyFormatProvider.GetString(orderModel1.ProductDiscountAmount, currency);
-            orderModel1.OrderGrandTotalDisplay = this.CurrencyFormatProvider.GetString(orderModel1.OrderTotal, currency);
+            Currency currency = serviceResult.Currency;
+            orderModel1.CurrencySymbol = currency?.CurrencySymbol;
+            orderModel1.OrderDiscountAmountDisplay = CurrencyFormatProvider.GetString(orderModel1.OrderDiscountAmount, currency);
+            orderModel1.ProductDiscountAmountDisplay = CurrencyFormatProvider.GetString(orderModel1.ProductDiscountAmount, currency);
+            orderModel1.OrderGrandTotalDisplay = CurrencyFormatProvider.GetString(orderModel1.OrderTotal, currency);
             orderModel1.OrderSubTotal = orderModel1.ProductTotal - orderModel1.ProductDiscountAmount;
-            orderModel1.OrderSubTotalDisplay = this.CurrencyFormatProvider.GetString(orderModel1.OrderSubTotal, currency);
-            orderModel1.OtherChargesDisplay = this.CurrencyFormatProvider.GetString(orderModel1.OtherCharges, currency);
-            orderModel1.ProductTotalDisplay = this.CurrencyFormatProvider.GetString(orderModel1.ProductTotal, currency);
-            orderModel1.ShippingChargesDisplay = this.CurrencyFormatProvider.GetString(orderModel1.ShippingCharges, currency);
-            orderModel1.HandlingChargesDisplay = this.CurrencyFormatProvider.GetString(orderModel1.HandlingCharges, currency);
-            orderModel1.ShippingAndHandlingDisplay = this.CurrencyFormatProvider.GetString(orderModel1.ShippingCharges + orderModel1.HandlingCharges, currency);
-            orderModel1.TotalTaxDisplay = this.CurrencyFormatProvider.GetString(orderModel1.TaxAmount, currency);
+            orderModel1.OrderSubTotalDisplay = CurrencyFormatProvider.GetString(orderModel1.OrderSubTotal, currency);
+            orderModel1.OtherChargesDisplay = CurrencyFormatProvider.GetString(orderModel1.OtherCharges, currency);
+            orderModel1.ProductTotalDisplay = CurrencyFormatProvider.GetString(orderModel1.ProductTotal, currency);
+            orderModel1.ShippingChargesDisplay = CurrencyFormatProvider.GetString(orderModel1.ShippingCharges, currency);
+            orderModel1.HandlingChargesDisplay = CurrencyFormatProvider.GetString(orderModel1.HandlingCharges, currency);
+            orderModel1.ShippingAndHandlingDisplay = CurrencyFormatProvider.GetString(orderModel1.ShippingCharges + orderModel1.HandlingCharges, currency);
+            orderModel1.TotalTaxDisplay = CurrencyFormatProvider.GetString(orderModel1.TaxAmount, currency);
             orderModel1.ShowTaxAndShipping = serviceResult.ShowTaxAndShipping;
             OrderModel orderModel2 = orderModel1;
             DateTimeOffset? requestedDeliveryDate = serviceResult.OrderHistory.RequestedDeliveryDate;
@@ -75,40 +74,40 @@ namespace Extensions.Mappers
             var local = @requestedDeliveryDate;
             // ISSUE: explicit reference operation
             // ISSUE: explicit reference operation
-            DateTime? nullable = local.HasValue ? new DateTime?(local.GetValueOrDefault().Date) : new DateTime?();
+            DateTime? nullable = local.HasValue ? local.GetValueOrDefault().Date : new DateTime?();
             orderModel2.RequestedDeliveryDateDisplay = nullable;
-            orderModel1.StatusDisplay = serviceResult.OrderStatusMapping == null ? this.TranslationLocalizer.TranslateLabel(orderModel1.Status) : this.ObjectToObjectMapper.Map<OrderStatusMapping, OrderStatusMappingModel>(serviceResult.OrderStatusMapping).DisplayName;
+            orderModel1.StatusDisplay = serviceResult.OrderStatusMapping == null ? TranslationLocalizer.TranslateLabel(orderModel1.Status) : ObjectToObjectMapper.Map<OrderStatusMapping, OrderStatusMappingModel>(serviceResult.OrderStatusMapping).DisplayName;
             string str1 = orderModel1.WebOrderNumber.IsBlank() ? orderModel1.ErpOrderNumber : orderModel1.WebOrderNumber;
-            orderModel1.Uri = request == null ? string.Empty : this.UrlHelper.Link("OrderV1", (object)new { orderId = str1 }, request);
-            foreach (GetOrderLineResult getOrderLineResult in (IEnumerable<GetOrderLineResult>)serviceResult.GetOrderLineResults)
+            orderModel1.Uri = request == null ? string.Empty : UrlHelper.Link("OrderV1", new { orderId = str1 }, request);
+            foreach (GetOrderLineResult getOrderLineResult in serviceResult.GetOrderLineResults)
             {
                 OrderLineModel orderLineModel = new OrderLineModel();
                 if (getOrderLineResult.ProductDto != null)
                 {
-                    this.ObjectToObjectMapper.Map<ProductDto, OrderLineModel>(getOrderLineResult.ProductDto, orderLineModel);
+                    ObjectToObjectMapper.Map(getOrderLineResult.ProductDto, orderLineModel);
                     orderLineModel.ProductUri = getOrderLineResult.ProductDto.ProductDetailUrl;
                     orderLineModel.IsActiveProduct = getOrderLineResult.ProductDto.IsActive;
                 }
-                this.ObjectToObjectMapper.Map<OrderHistoryLine, OrderLineModel>(getOrderLineResult.OrderHistoryLine, orderLineModel);
-                orderLineModel.UnitOfMeasureDisplay = (string)null;
-                orderLineModel.UnitOfMeasureDescription = (string)null;
+                ObjectToObjectMapper.Map(getOrderLineResult.OrderHistoryLine, orderLineModel);
+                orderLineModel.UnitOfMeasureDisplay = null;
+                orderLineModel.UnitOfMeasureDescription = null;
                 ProductDto productDto = getOrderLineResult.ProductDto;
                 ProductUnitOfMeasureDto unitOfMeasureDto1;
                 if (productDto == null)
                 {
-                    unitOfMeasureDto1 = (ProductUnitOfMeasureDto)null;
+                    unitOfMeasureDto1 = null;
                 }
                 else
                 {
                     List<ProductUnitOfMeasureDto> productUnitOfMeasures = productDto.ProductUnitOfMeasures;
                     if (productUnitOfMeasures == null)
                     {
-                        unitOfMeasureDto1 = (ProductUnitOfMeasureDto)null;
+                        unitOfMeasureDto1 = null;
                     }
                     else
                     {
-                        Func<ProductUnitOfMeasureDto, bool> predicate = (Func<ProductUnitOfMeasureDto, bool>)(x => x.UnitOfMeasure == orderLineModel.UnitOfMeasure);
-                        unitOfMeasureDto1 = productUnitOfMeasures.FirstOrDefault<ProductUnitOfMeasureDto>(predicate);
+                        Func<ProductUnitOfMeasureDto, bool> predicate = x => x.UnitOfMeasure == orderLineModel.UnitOfMeasure;
+                        unitOfMeasureDto1 = productUnitOfMeasures.FirstOrDefault(predicate);
                     }
                 }
                 ProductUnitOfMeasureDto unitOfMeasureDto2 = unitOfMeasureDto1;
@@ -118,41 +117,41 @@ namespace Extensions.Mappers
                     orderLineModel.UnitOfMeasureDescription = unitOfMeasureDto2.Description;
                 }
                 orderLineModel.SectionOptions = getOrderLineResult.SectionOptions;
-                orderLineModel.TotalRegularPriceDisplay = this.CurrencyFormatProvider.GetString(orderLineModel.TotalRegularPrice, currency);
-                orderLineModel.UnitDiscountAmountDisplay = this.CurrencyFormatProvider.GetString(orderLineModel.UnitDiscountAmount, currency);
-                orderLineModel.TotalDiscountAmountDisplay = this.CurrencyFormatProvider.GetString(orderLineModel.TotalDiscountAmount, currency);
+                orderLineModel.TotalRegularPriceDisplay = CurrencyFormatProvider.GetString(orderLineModel.TotalRegularPrice, currency);
+                orderLineModel.UnitDiscountAmountDisplay = CurrencyFormatProvider.GetString(orderLineModel.UnitDiscountAmount, currency);
+                orderLineModel.TotalDiscountAmountDisplay = CurrencyFormatProvider.GetString(orderLineModel.TotalDiscountAmount, currency);
                 orderLineModel.ExtendedUnitNetPrice = NumberHelper.RoundCurrency(orderLineModel.UnitNetPrice * orderLineModel.QtyOrdered);
-                orderLineModel.ExtendedUnitNetPriceDisplay = this.CurrencyFormatProvider.GetString(orderLineModel.ExtendedUnitNetPrice, currency);
-                orderLineModel.UnitNetPriceDisplay = this.CurrencyFormatProvider.GetString(orderLineModel.UnitNetPrice, currency);
-                orderLineModel.UnitListPriceDisplay = this.CurrencyFormatProvider.GetString(orderLineModel.UnitListPrice, currency);
-                orderLineModel.UnitRegularPriceDisplay = this.CurrencyFormatProvider.GetString(orderLineModel.UnitRegularPrice, currency);
-                orderLineModel.UnitCostDisplay = this.CurrencyFormatProvider.GetString(orderLineModel.UnitCost, currency);
-                orderLineModel.OrderLineOtherChargesDisplay = this.CurrencyFormatProvider.GetString(orderLineModel.OrderLineOtherCharges, currency);
+                orderLineModel.ExtendedUnitNetPriceDisplay = CurrencyFormatProvider.GetString(orderLineModel.ExtendedUnitNetPrice, currency);
+                orderLineModel.UnitNetPriceDisplay = CurrencyFormatProvider.GetString(orderLineModel.UnitNetPrice, currency);
+                orderLineModel.UnitListPriceDisplay = CurrencyFormatProvider.GetString(orderLineModel.UnitListPrice, currency);
+                orderLineModel.UnitRegularPriceDisplay = CurrencyFormatProvider.GetString(orderLineModel.UnitRegularPrice, currency);
+                orderLineModel.UnitCostDisplay = CurrencyFormatProvider.GetString(orderLineModel.UnitCost, currency);
+                orderLineModel.OrderLineOtherChargesDisplay = CurrencyFormatProvider.GetString(orderLineModel.OrderLineOtherCharges, currency);
                 orderModel1.OrderLines.Add(orderLineModel);
             }
-            foreach (OrderHistoryPromotion historyPromotion in (IEnumerable<OrderHistoryPromotion>)serviceResult.OrderHistory.OrderHistoryPromotions)
+            foreach (OrderHistoryPromotion historyPromotion in serviceResult.OrderHistory.OrderHistoryPromotions)
             {
                 OrderPromotionModel orderPromotionModel1 = new OrderPromotionModel();
                 orderPromotionModel1.Id = historyPromotion.Id.ToString();
                 orderPromotionModel1.Name = historyPromotion.Name;
                 orderPromotionModel1.Amount = historyPromotion.Amount;
-                orderPromotionModel1.AmountDisplay = this.CurrencyFormatProvider.GetString(historyPromotion.Amount ?? Decimal.Zero, currency);
+                orderPromotionModel1.AmountDisplay = CurrencyFormatProvider.GetString(historyPromotion.Amount ?? Decimal.Zero, currency);
                 orderPromotionModel1.OrderHistoryLineId = historyPromotion.OrderHistoryLineId;
-                PromotionResult promotionResult = historyPromotion.Promotion.PromotionResults.FirstOrDefault<PromotionResult>();
-                string str2 = promotionResult != null ? promotionResult.PromotionResultType : (string)null;
+                PromotionResult promotionResult = historyPromotion.Promotion.PromotionResults.FirstOrDefault();
+                string str2 = promotionResult != null ? promotionResult.PromotionResultType : null;
                 orderPromotionModel1.PromotionResultType = str2;
                 OrderPromotionModel orderPromotionModel2 = orderPromotionModel1;
                 orderModel1.OrderPromotions.Add(orderPromotionModel2);
             }
             if (serviceResult.Shipments != null)
-                orderModel1.ShipmentPackages = (ICollection<ShipmentPackageDto>)serviceResult.Shipments.SelectMany<ShipmentDto, ShipmentPackageDto>((Func<ShipmentDto, IEnumerable<ShipmentPackageDto>>)(s => (IEnumerable<ShipmentPackageDto>)s.ShipmentPackages)).OrderByDescending<ShipmentPackageDto, DateTime>((Func<ShipmentPackageDto, DateTime>)(s => s.ShipmentDate)).ToList<ShipmentPackageDto>();
+                orderModel1.ShipmentPackages = serviceResult.Shipments.SelectMany(s => (IEnumerable<ShipmentPackageDto>)s.ShipmentPackages).OrderByDescending(s => s.ShipmentDate).ToList();
             if (serviceResult.ReturnReasons != null)
                 orderModel1.ReturnReasons = serviceResult.ReturnReasons;
-            foreach (OrderHistoryTaxDto orderHistoryTax in (IEnumerable<OrderHistoryTaxDto>)orderModel1.OrderHistoryTaxes)
+            foreach (OrderHistoryTaxDto orderHistoryTax in orderModel1.OrderHistoryTaxes)
             {
-                orderHistoryTax.TaxCode = this.TranslationLocalizer.TranslateLabel(orderHistoryTax.TaxCode);
-                orderHistoryTax.TaxDescription = this.TranslationLocalizer.TranslateLabel(orderHistoryTax.TaxDescription);
-                orderHistoryTax.TaxAmountDisplay = this.CurrencyFormatProvider.GetString(orderHistoryTax.TaxAmount, currency);
+                orderHistoryTax.TaxCode = TranslationLocalizer.TranslateLabel(orderHistoryTax.TaxCode);
+                orderHistoryTax.TaxDescription = TranslationLocalizer.TranslateLabel(orderHistoryTax.TaxDescription);
+                orderHistoryTax.TaxAmountDisplay = CurrencyFormatProvider.GetString(orderHistoryTax.TaxAmount, currency);
             }
             return orderModel1;
         }

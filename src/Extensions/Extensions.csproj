@@ -343,7 +343,6 @@
     <Compile Include="Handlers\GetCartHandler\AddAnalyticsValues.cs" />
     <Compile Include="Handlers\GetCartHandler\AddPaymentMethods.cs" />
     <Compile Include="Handlers\GetDashboardPanelCollectionHandlerNBF.cs" />
-    <Compile Include="Handlers\GetProductCollectionHandler\AfterProductListRetrived.cs" />
     <Compile Include="Handlers\GetProductCollectionHandler\FindProductsWithSearch.cs" />
     <Compile Include="Handlers\Helpers\NBFHtmlHelper.cs" />
     <Compile Include="Handlers\Helpers\NBFListrakHelper.cs" />
@@ -357,6 +356,7 @@
     <Compile Include="Handlers\GetCartHandler\RecalculateCart.cs" />
     <Compile Include="Mappers\GetTrackedOrderMapper.cs" />
     <Compile Include="Mappers\Interfaces\IGetTrackedOrderMapper.cs" />
+    <Compile Include="Mappers\NbfGetProductCollectionMapper.cs" />
     <Compile Include="Models\AffiliateCode\AffiliateCodeModel.cs" />
     <Compile Include="Models\AffiliateCode\AffiliateCodeModelMapping.cs" />
     <Compile Include="Models\ShippingByVendor\ShippingByVendorModel.cs" />
@@ -535,6 +535,8 @@
     <EmbeddedResource Include="DatabaseScripts\2018.05.08.01.CreateShippingChargesRuleTable.sql" />
     <EmbeddedResource Include="DatabaseScripts\2018.05.15.01.AlterTablesForNotNull.1of2.sql" />
     <EmbeddedResource Include="DatabaseScripts\2018.05.15.02.AlterTablesForNotNull.2of2.sql" />
+    <EmbeddedResource Include="DatabaseScripts\2018.06.19.01.DropAndCreateShippingByVendorTable.sql" />
+    <EmbeddedResource Include="DatabaseScripts\2018.06.21.01.CleanUpSwatchCustomProperties.sql" />
     <Content Include="packages.config">
       <SubType>Designer</SubType>
     </Content>

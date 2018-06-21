@@ -257,7 +257,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div ng-show="vm.cart.showCreditCard && vm.cart.paymentMethod.isCreditCard && vm.cart.paymentMethod.name !== 'Open_Credit' && vm.remainingTotal > 0">
+                                                    <div ng-show="vm.cart.showCreditCard && vm.cart.paymentMethod.isCreditCard && vm.cart.paymentMethod.name !== 'Open_Credit'">
                                                         <div class="card-name">
                                                             <label for="cardHolderName">[% translate 'Name on Card' %]</label>
                                                             <input id="cardHolderName" name="cardHolderName" type="text" maxlength="30"
@@ -330,24 +330,8 @@
                                                             <label for="expirationMonth" class="error"></label>
                                                         </div>
                                                     </div>
-                                                    <div ng-show="vm.cart.showCreditCard && (vm.cart.paymentMethod.isCreditCard || vm.cart.paymentMethod.isPaymentProfile) && vm.cart.paymentMethod.name !== 'Open_Credit' && vm.remainingTotal > 0">
-                                                        <label for="paymentAmount">[% translate 'Payment Amount' %]</label>
-                                                        <div class="row">
-                                                            <div class="small-4 columns payment-amount">
-                                                                <input id="paymentAmount" name="paymentAmount" maxlength="16" type="number" min="1" max="vm.remainingTotal" style="display: block;"
-                                                                       data-rule-required="true" data-msg-required="[% translate 'Credit card number is required.' %]"
-                                                                       data-msg-creditcard="[% translate 'Credit card number is invalid.' %]"
-                                                                       ng-model="vm.paymentAmount"
-                                                                       ng-change="" ng-disabled="vm.cart.properties['cc1'] && vm.cart.properties['cc1'] != ''">
-                                                            </div>
-                                                            <div class="small-4 columns remaining-total">
-                                                                <input id="remainingTotal" type="number" name="remainingTotal" readonly ng-model="vm.remainingTotal" style="display: block;" />
-                                                            </div>
-                                                            <div class="small-4 columns payment-amount">
-                                                                <button ng-if="vm.remainingTotal > 0" ng-click="vm.addPayment()">Add payment</button>
-
-                                                            </div>
-                                                        </div>
+                                                    <div ng-show="vm.cart.showCreditCard && (vm.cart.paymentMethod.isCreditCard || vm.cart.paymentMethod.isPaymentProfile) && vm.cart.paymentMethod.name !== 'Open_Credit'">
+                                                        
                                                         <!--
                                                             <div class="row">
                                                                 <div class="small-12 columns save-payment">
@@ -412,23 +396,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="payments order-subtotal" ng-if="vm.cart.properties['cc1'] && vm.cart.properties['cc1'] != ''">
-                                                        <label>[% translate 'Payments' %]</label>
-                                                        <div class="row">
-                                                            <div class="small-4 columns payment-amount">
-                                                                <div ng-if="vm.cart.properties['cc1'] != ''"><span ng-bind="vm.cc1Display" /></div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="small-4 columns payment-amount">
-                                                                <div ng-if="vm.cart.properties['cc2'] != ''">
-                                                                    <span ng-bind="vm.cc2Display" />
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <label>[% translate 'Total payments' %]&nbsp;<label ng-bind="vm.totalPaymentsDisplay" /></label>
-                                                        <label>[% translate 'Remaining balance' %]&nbsp;<label ng-bind="vm.remainingTotalDisplay" /></label>
-                                                    </div>
+                                                    
                                                 </div>
                                                 <div ng-if="vm.cart.billTo.isGuest">
                                                     <p>

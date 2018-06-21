@@ -14,6 +14,7 @@
         resourceAndAssemblyDocs: any[];
         selectedSwatchProductIds: System.Guid[] = [];
         isSingleBlankSwatch: boolean = false;
+        parentErpNumber: string = '';
 
         static $inject = [
             "$scope",
@@ -123,7 +124,7 @@
 
         protected getFavorites(product : ProductDto) {
             this.wishListService.getWishLists("CreatedOn", "wishlistlines").then((wishList) => {
-                this.favoritesWishlist = wishList.wishListCollection[0];
+                this.favoritesWishlist = wishList.wishListCollection.filter(x => x.name === "Favorites")[0];
                 product.properties["isFavorite"] = "false";
                 if (this.favoritesWishlist) {
                     if (this.favoritesWishlist.wishListLineCollection) {
@@ -208,10 +209,7 @@
         }   
 
         styleChange(): void {
-            if (this.product.isConfigured) {
-                $("#s7flyout_inline_div").empty();
-                $('#s7flyout_inline_div').show();
-            }
+
             $('#Wrapper360').hide();
             var myVideo = $('#videofile');
             if (myVideo) {
@@ -219,6 +217,22 @@
             }
             $('#videofile').hide();
             super.styleChange();
+            window.console.log("1 isConfigured = " + this.product.isConfigured);
+            var isConfigured = true;
+            this.product.styleTraits.forEach((trait) => {
+                window.console.dir(trait);
+                window.console.dir(this.styleSelection);
+                if (this.styleSelection.filter(x => x && x.styleTraitId == trait.styleTraitId).length === 0) {
+                    window.console.log('not found');
+                    isConfigured = false;
+                };
+            });
+            this.product.isConfigured = isConfigured;
+            window.console.log("2 isConfigured = " + this.product.isConfigured);
+            if (this.product.isConfigured) {
+                $("#s7flyout_inline_div").empty();
+                $('#s7flyout_inline_div').show();
+            }
         }
         protected toggleSwatchProductSelection(styleTraitName: string, styleTraitValueId: string): void {
             let swatch = this.swatches.find(x => x.ModelNumber == styleTraitName
@@ -306,6 +320,7 @@
 
         protected getProductCompleted(productModel: ProductModel): void {
             this.product = productModel.product;
+            this.parentErpNumber = this.product.erpNumber;
 
             this.$rootScope.$broadcast("productPageLoaded", this.product);
             this.$rootScope.$broadcast("AnalyticsEvent", "ProductPageView", null, null, { product: this.product, breadcrumbs: this.breadCrumbs });
@@ -435,7 +450,7 @@
             if (this.product.unspsc.length > 0) {
                 var lanes = parseInt(this.product.unspsc.substring(0, 2));
                 var frames = parseInt(this.product.unspsc.substring(2));
-                this.set360(this.product.erpNumber, lanes, frames);
+                this.set360(this.parentErpNumber, lanes, frames);
             }
         }
 
