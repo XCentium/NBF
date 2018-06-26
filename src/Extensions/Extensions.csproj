@@ -539,6 +539,7 @@
     <EmbeddedResource Include="DatabaseScripts\2018.06.19.01.DropAndCreateShippingByVendorTable.sql" />
     <EmbeddedResource Include="DatabaseScripts\2018.06.21.01.CleanUpSwatchCustomProperties.sql" />
     <EmbeddedResource Include="DatabaseScripts\2018.06.26.01.AddProductCodeIndexPerInsite.sql" />
+    <EmbeddedResource Include="DatabaseScripts\2018.06.26.02.UpdateCustomerTaxCodeForTaxExempt.sql" />
     <Content Include="packages.config">
       <SubType>Designer</SubType>
     </Content>
