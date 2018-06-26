@@ -36,7 +36,7 @@ namespace Extensions.WebApi.TaxExempt.Repository
 
             if (billTo != null)
             {
-                billTo.TaxCode1 = "NT";
+                billTo.TaxCode1 = "A";
                 _unitOfWork.Save();
             }
 
