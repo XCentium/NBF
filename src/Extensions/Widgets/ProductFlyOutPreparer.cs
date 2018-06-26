@@ -44,49 +44,13 @@ namespace Extensions.Widgets
         {
             ReadOnlyCollection<NavLinkDto> categoryMenuLinks = CatalogLinkProvider.GetCategoryMenuLinks(new int?());
 
-            ProductFlyOutDrop navigationListDrop1 = model;
-            navigationListDrop1.RootPageTitle = "Products";
-            ProductFlyOutDrop navigationListDrop2 = model;
-            navigationListDrop2.RootPageExists = true;
-            ProductFlyOutDrop navigationListDrop3 = model;
-            navigationListDrop3.Id = model.Id;
-            ProductFlyOutDrop navigationListDrop4 = model;
-            IList<NbfChildPageDrop> childPageDropList = new List<NbfChildPageDrop>();
-
             var allProducts = contentItem.CategoryFilter.Equals("All Categories", StringComparison.CurrentCultureIgnoreCase);
             var byAreaOnly = contentItem.CategoryFilter.Equals("By-Area Categories Only", StringComparison.CurrentCultureIgnoreCase);
             var noByArea = contentItem.CategoryFilter.Equals("No By-Area Categories", StringComparison.CurrentCultureIgnoreCase);
 
-            foreach (var categoryMenuLink in categoryMenuLinks)
-            {
-                if (allProducts)
-                {
-                    childPageDropList.Add(CreateChildPageDrop(categoryMenuLink));
-                }
-                else
-                {
-                    bool isByArea;
-                    var isByAreaString = categoryMenuLink.Category.CustomProperties.FirstOrDefault(x => x.Name.Equals("IsAreaCat", StringComparison.CurrentCulture))?.Value;
-                    bool.TryParse(isByAreaString, out isByArea);
-
-                    if (byAreaOnly)
-                    {
-                        navigationListDrop1.RootPageTitle = "By Area";
-                        if (isByArea)
-                        {
-                            childPageDropList.Add(CreateChildPageDrop(categoryMenuLink));
-                        }
-                    }
-                    else if (noByArea)
-                    {
-                        if (!isByArea)
-                        {
-                            childPageDropList.Add(CreateChildPageDrop(categoryMenuLink));
-                        }
-                    }
-                }
-            }
-            navigationListDrop4.ChildPages = childPageDropList;
+            model.RootPageTitle = byAreaOnly ? "By Area" : "Products";
+            model.RootPageExists = true;
+            model.ChildPages = categoryMenuLinks.Where(n => n.Properties["IsByArea"] == (byAreaOnly ? "true" : "false")).Select(CreateChildPageDrop).ToList();
 
             if (!contentItem.LandingPageName.IsNullOrWhiteSpace())
             {
@@ -103,7 +67,7 @@ namespace Extensions.Widgets
                 Url = navLink.Url,
                 Id = navLink.CategoryId,
                 CatNum = CatId,
-                NavigationContent = navLink.Category.CustomProperties.FirstOrDefault(x => x.Name.Equals("NavigationFlyOutContent", StringComparison.CurrentCultureIgnoreCase))?.Value
+                //NavigationContent = navLink.Category.CustomProperties.FirstOrDefault(x => x.Name.Equals("NavigationFlyOutContent", StringComparison.CurrentCultureIgnoreCase))?.Value
             };
 
             //Add child elements
@@ -122,61 +86,61 @@ namespace Extensions.Widgets
                     GrandCatId++;
                 }
                 //Add other stuff
-                child.NbfChildPages.Add(new NbfChildPageDrop()
-                {
-                    Title = "On sale",
-                    Url = child.Url + "?attr=onsale",
-                    CatNum = GrandCatId,
-                    Id = new Guid()
-                });
-                GrandCatId++;
-                child.NbfChildPages.Add(new NbfChildPageDrop()
-                {
-                    Title = "Ships Today",
-                    Url = child.Url + "?attr=shipstoday",
-                    CatNum = GrandCatId,
-                    Id = new Guid()
-                });
-                GrandCatId++;
-                child.NbfChildPages.Add(new NbfChildPageDrop()
-                {
-                    Title = "Top Rated",
-                    Url = child.Url + "?attr=toprated",
-                    CatNum = GrandCatId,
-                    Id = new Guid()
-                });
-                GrandCatId++;
-                child.NbfChildPages.Add(new NbfChildPageDrop()
-                {
-                    Title = "New Products",
-                    Url = child.Url + "?attr=newproducts",
-                    CatNum = GrandCatId,
-                    Id = new Guid()
-                });
-                GrandCatId++;
-                child.NbfChildPages.Add(new NbfChildPageDrop()
-                {
-                    Title = "Best Selling",
-                    Url = child.Url + "?attr=bestselling",
-                    CatNum = GrandCatId,
-                    Id = new Guid()
-                });
-                GrandCatId++;
-                child.NbfChildPages.Add(new NbfChildPageDrop()
-                {
-                    Title = "Clearance",
-                    Url = child.Url + "?attr=clearance",
-                    CatNum = GrandCatId,
-                    Id = new Guid()
-                });
-                GrandCatId++;
-                child.NbfChildPages.Add(new NbfChildPageDrop()
-                {
-                    Title = "GSA",
-                    Url = child.Url + "?attr=gsa",
-                    CatNum = GrandCatId,
-                    Id = new Guid()
-                });
+                //child.NbfChildPages.Add(new NbfChildPageDrop()
+                //{
+                //    Title = "On sale",
+                //    Url = child.Url + "?attr=onsale",
+                //    CatNum = GrandCatId,
+                //    Id = new Guid()
+                //});
+                //GrandCatId++;
+                //child.NbfChildPages.Add(new NbfChildPageDrop()
+                //{
+                //    Title = "Ships Today",
+                //    Url = child.Url + "?attr=shipstoday",
+                //    CatNum = GrandCatId,
+                //    Id = new Guid()
+                //});
+                //GrandCatId++;
+                //child.NbfChildPages.Add(new NbfChildPageDrop()
+                //{
+                //    Title = "Top Rated",
+                //    Url = child.Url + "?attr=toprated",
+                //    CatNum = GrandCatId,
+                //    Id = new Guid()
+                //});
+                //GrandCatId++;
+                //child.NbfChildPages.Add(new NbfChildPageDrop()
+                //{
+                //    Title = "New Products",
+                //    Url = child.Url + "?attr=newproducts",
+                //    CatNum = GrandCatId,
+                //    Id = new Guid()
+                //});
+                //GrandCatId++;
+                //child.NbfChildPages.Add(new NbfChildPageDrop()
+                //{
+                //    Title = "Best Selling",
+                //    Url = child.Url + "?attr=bestselling",
+                //    CatNum = GrandCatId,
+                //    Id = new Guid()
+                //});
+                //GrandCatId++;
+                //child.NbfChildPages.Add(new NbfChildPageDrop()
+                //{
+                //    Title = "Clearance",
+                //    Url = child.Url + "?attr=clearance",
+                //    CatNum = GrandCatId,
+                //    Id = new Guid()
+                //});
+                //GrandCatId++;
+                //child.NbfChildPages.Add(new NbfChildPageDrop()
+                //{
+                //    Title = "GSA",
+                //    Url = child.Url + "?attr=gsa",
+                //    CatNum = GrandCatId,
+                //    Id = new Guid()
+                //});
                 GrandCatId++;
             }
 
