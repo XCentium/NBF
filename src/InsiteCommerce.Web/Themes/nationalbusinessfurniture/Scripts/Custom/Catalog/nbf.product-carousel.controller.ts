@@ -2,7 +2,7 @@
     import ProductCollectionModel = Insite.Catalog.WebApi.V1.ApiModels.ProductCollectionModel;
     "use strict";
 
-    export interface INbfProductCarouselControllerAttributes extends ng.IAttributes {
+    export interface INbfProductCarouselControllerAttributes extends IProductCarouselAttributes {
         productNumbersString: string;
         prApiKey: string;
         prMerchantGroupId: string;
@@ -29,7 +29,7 @@
         favoritesWishlist: WishListModel;
         isAuthenticatedAndNotGuest = false;
 
-        static $inject = ["cartService", "productService", "$timeout", "addToWishlistPopupService", "settingsService", "$scope", "$attrs", "$attrs2", "queryString", "$stateParams", "sessionService", "wishListService", "$rootScope", "$window"];
+        static $inject = ["cartService", "productService", "$timeout", "addToWishlistPopupService", "settingsService", "$scope", "$attrs", "queryString", "$stateParams", "sessionService", "wishListService", "$rootScope", "$window"];
 
         constructor(
             protected cartService: cart.ICartService,
@@ -38,8 +38,7 @@
             protected addToWishlistPopupService: wishlist.AddToWishlistPopupService,
             protected settingsService: core.ISettingsService,
             protected $scope: ng.IScope,
-            protected $attrs: IProductCarouselAttributes,
-            protected $attrs2: INbfProductCarouselControllerAttributes,
+            protected $attrs: INbfProductCarouselControllerAttributes,
             protected queryString: common.IQueryStringService,
             protected $stateParams: IProductListStateParams,
             protected sessionService: account.ISessionService,
@@ -326,14 +325,16 @@
 
             $(".cs-carousel", this.productCarouselElement).flexslider({
                 animation: "slide",
-                controlNav: false,
+                controlNav: true,
                 animationLoop: true,
                 slideshow: false,
                 touch: num > itemsNum,
                 itemWidth: this.getItemSize(),
+                itemMargin: 36,
                 minItems: this.getItemsNumber(),
                 maxItems: this.getItemsNumber(),
                 move: this.getItemsMove(),
+                controlsContainer: $(".custom-controls-container"),
                 customDirectionNav: $(".carousel-control-nav", this.productCarouselElement),
                 start: (slider: any) => { this.onCarouselStart(slider); }
             });
@@ -529,10 +530,10 @@
         protected setPowerReviews() {
             let powerReviewsConfigs = this.products.map(x => {
                 return {
-                    api_key: this.$attrs2.prApiKey,
+                    api_key: this.$attrs.prApiKey,
                     locale: 'en_US',
-                    merchant_group_id: this.$attrs2.prMerchantGroupId,
-                    merchant_id: this.$attrs2.prMerchantId,
+                    merchant_group_id: this.$attrs.prMerchantGroupId,
+                    merchant_id: this.$attrs.prMerchantId,
                     page_id: x.productCode,
                     review_wrapper_url: 'Product-Review?',
                     components: {
