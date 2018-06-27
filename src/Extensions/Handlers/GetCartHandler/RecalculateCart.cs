@@ -35,7 +35,7 @@ namespace Extensions.Handlers.GetCartHandler
             if (result.Cart.Status != "Cart" && result.Cart.Status != "AwaitingApproval")
                 return NextHandler.Execute(unitOfWork, parameter, result);
             //var lastPricingOn = result.Cart.LastPricingOn;
-            //var billToTaxCodeTaxFree = SiteContext.Current.BillTo != null && SiteContext.Current.BillTo.TaxCode1.Equals("NT", StringComparison.CurrentCultureIgnoreCase);
+            //var billToTaxCodeTaxFree = SiteContext.Current.BillTo != null && SiteContext.Current.BillTo.TaxCode1.Equals("A", StringComparison.CurrentCultureIgnoreCase);
 
             //if (lastPricingOn.HasValue && !billToTaxCodeTaxFree)
             //{
