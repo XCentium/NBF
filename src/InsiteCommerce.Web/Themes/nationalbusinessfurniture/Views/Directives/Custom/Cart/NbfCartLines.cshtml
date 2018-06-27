@@ -31,7 +31,7 @@
                 <div class="cols">
                     <div class="cart-price-label">Price</div>
                     <div class="price" ng-if="!cart.cartNotPriced">
-                        <isc-product-price product="cartLine"></isc-product-price>
+                        <nbf-product-price product="cartLine" is-fob="vm.fobPricing"></nbf-product-price>
                         <isc-unit-of-measure-display product="cartLine"> </isc-unit-of-measure-display>
                         <isc-product-price-saving product="cartLine" currency-symbol="cart.currencySymbol"></isc-product-price-saving>
                     </div>
@@ -61,7 +61,11 @@
                 </div>
                 <div class="cols">
                     <div class="total-label">Total</div>
-                    <div class="item-subtotal"><span ng-if="!cartLine.quoteRequired && !cart.cartNotPriced" ng-bind="cartLine.pricing.extendedUnitNetPriceDisplay"></span></div>
+                    <div class="item-subtotal">
+                        <span ng-if="!cartLine.quoteRequired && !cart.cartNotPriced && !fobPricing" ng-bind="cartLine.pricing.extendedUnitNetPriceDisplay"></span>
+                        <span ng-if="!cartLine.quoteRequired && !cart.cartNotPriced && fobPricing" ng-bind="vm.getFOBPricing(cartLine)"></span>
+                    </div>
+
                 </div>
             </div>
             <div class="row promo-applied" ng-repeat="promotion in promotions | filter: {orderLineId : cartLine.id}">

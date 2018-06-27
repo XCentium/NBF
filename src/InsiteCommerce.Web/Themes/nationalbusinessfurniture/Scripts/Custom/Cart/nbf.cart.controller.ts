@@ -7,9 +7,11 @@
         promotionAppliedMessage: string;
         promotionErrorMessage: string;
         promotionCode: string;
+        isGSA: boolean = false;
+        usingFOBPricing: boolean = false;
 
         static $inject = ["$scope", "cartService", "promotionService", "settingsService", "coreService", "$localStorage", "addToWishlistPopupService", "spinnerService", "accountService", "sessionService", "productService", "accessToken",
-            "queryString", "$window", "$rootScope"];
+            "queryString", "$window", "$rootScope", "nbfPriceCodeService"];
         
         constructor(
             protected $scope: ICartScope,
@@ -26,10 +28,18 @@
             protected accessToken: common.IAccessTokenService,
             protected queryString: common.IQueryStringService,
             protected $window: ng.IWindowService,
-            protected $rootScope: ng.IRootScopeService
+            protected $rootScope: ng.IRootScopeService,
+            protected nbfPriceCodeService: nbf.PriceCode.INbfPriceCodeService
         ) {
             super($scope, cartService, promotionService, settingsService, coreService, $localStorage, addToWishlistPopupService, spinnerService);
-            
+            var self = this;
+            sessionService.getSession().then(session => {
+                nbfPriceCodeService.getPriceCode(session.billTo.id).then(contract => {
+                    self.isGSA = contract.value === "GSA";
+                    self.usingFOBPricing = self.isGSA;
+                });
+            });
+
         }
 
         init(): void {
@@ -241,6 +251,7 @@
         continueShopping($event): void {
             this.$rootScope.$broadcast("AnalyticsEvent", "ContinueShoppingFromCartPage");
         }
+
     }
 
     angular

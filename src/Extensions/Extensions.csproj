@@ -334,11 +334,11 @@
     <Compile Include="Enums\Listrak\EventIdEnum.cs" />
     <Compile Include="Enums\Listrak\TransactionalMessageEnum.cs" />
     <Compile Include="Filters\OrderTrackerFilter.cs" />
-    <Compile Include="Handlers\AddCartLineHandler\AddCartLineAnalytics.cs" />
     <Compile Include="Handlers\AddRmaHandler\SendEmail.cs" />
     <Compile Include="Handlers\AddSessionHandlerNBF.cs" />
     <Compile Include="Handlers\AddCustomer.cs" />
     <Compile Include="Handlers\AddWishListHandler\AddWishList.cs" />
+    <Compile Include="Handlers\GetCartLineHandler\AddShippingOverride.cs" />
     <Compile Include="Handlers\GetCategoryCollectionHandler\OverwriteNavigationLinks.cs" />
     <Compile Include="Handlers\GetIndexableProducts\CustomGetIndexableProducts.cs" />
     <Compile Include="Handlers\GetCartHandler\AddAnalyticsValues.cs" />
@@ -357,6 +357,7 @@
     <Compile Include="Handlers\GetCartHandler\RecalculateCart.cs" />
     <Compile Include="Mappers\GetTrackedOrderMapper.cs" />
     <Compile Include="Mappers\Interfaces\IGetTrackedOrderMapper.cs" />
+    <Compile Include="Mappers\NbfGetCartLineMapper.cs" />
     <Compile Include="Mappers\NbfGetProductMapper.cs" />
     <Compile Include="Mappers\NbfGetProductCollectionMapper.cs" />
     <Compile Include="Models\AffiliateCode\AffiliateCodeModel.cs" />
