@@ -13,8 +13,7 @@
      is-catalog-page="[[Model.Drop.IsCatalogPage]]"
      pr-api-key="[% siteMessage 'PowerReviews_ApiKey' '56b8fc6a-79a7-421e-adc5-36cbdaec7daf ' %]"
      pr-merchant-group-id="[% siteMessage 'PowerReviews_MerchantGroupId' '47982' %]"
-     pr-merchant-id="[% siteMessage 'PowerReviews_MerchantId' '33771' %]"
-     >
+     pr-merchant-id="[% siteMessage 'PowerReviews_MerchantId' '33771' %]">
     <h3 ng-if="vm.showCarousel()" ng-cloak>[[Model.Title]]</h3>
     <div class="row recently-viewed" role="cross-sells" ng-if="vm.showCarousel()" ng-cloak>
         <div class="medium-12 large-12 columns">
@@ -22,7 +21,7 @@
                 <div class="cs-carousel flexslider">
                     <ul class="items slides tst_productCarousel[[Model.RelatedProductsRelationship]]_slides">
                         <li id="tst_productCarousel[[Model.RelatedProductsRelationship]]_{{product.id}}" class="medium-3 large-3 columns isc-productContainer tst_productCarousel[[Model.RelatedProductsRelationship]]_productContainer" ng-repeat="product in vm.products track by $id(product)">
-                            <div class="item-block__product four-col__item">
+                            <div class="item-block__product four-col__item carousel-item-equalize">
                                 <div class="favorite-btn" ng-if="vm.isAuthenticatedAndNotGuest">
                                     <a id="tst_productDetail_addToWishList" ng-class="{'in-favorites': product.properties['isFavorite'] == 'true' } "
                                        ng-click="vm.toggleFavorite(product)" role="button"
@@ -40,7 +39,7 @@
                                     <div class="item-block__product__details">
                                         <div class="item-block__product__swatch">
                                             <ul>
-                                                <li ng-repeat="swatchImg in vm.getTop6Swatches(product.properties['swatches'])">
+                                                <li ng-repeat="swatchImg in vm.getTop6Swatches(product.properties['swatches']) track by $index">
                                                     <div class="item-block__product__swatch__img-wrap">
                                                         <img class="item-block__product__swatch" ng-src="https://s7d9.scene7.com/is/image/NationalBusinessFurniture/{{swatchImg}}?hei=200&id=5-zsy2&fmt=jpg&fit=constrain,1&wid=344&hei=344" />
                                                     </div>

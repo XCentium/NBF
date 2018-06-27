@@ -79,7 +79,7 @@
             });
 
             let powerReviews = this.$window["POWERREVIEWS"];
-            powerReviews.display.render(powerReviewsConfigs)
+            powerReviews.display.render(powerReviewsConfigs);
         }
 
         protected getTop6Swatches(swatchesJson): string[] {
@@ -127,10 +127,10 @@
             let retVal: boolean = false;
 
             if (product && product.attributeTypes) {
-                var attrType = product.attributeTypes.find(x => x.name == attrName && x.isActive == true);
+                var attrType = product.attributeTypes.find(x => x.name === attrName && x.isActive === true);
 
                 if (attrType) {
-                    var matchingAttrValue = attrType.attributeValues.find(y => y.value == attrValue);
+                    var matchingAttrValue = attrType.attributeValues.find(y => y.value === attrValue);
 
                     if (matchingAttrValue) {
                         retVal = true;
@@ -145,7 +145,7 @@
 
             if (favoriteLine.length > 0) {
                 //Remove lines
-                this.wishListService.deleteLineCollection(this.favoritesWishlist, favoriteLine).then((result) => {
+                this.wishListService.deleteLineCollection(this.favoritesWishlist, favoriteLine).then(() => {
                     this.getFavorites();
                 });
             } else {
@@ -186,8 +186,6 @@
         protected cEqualize(): void {
             const $itemBlocks = $(".item-block__product");
             if ($itemBlocks.length > 0) {
-                let maxHeight = -1;
-                let priceHeight = -1;
                 let thumbHeight = -1;
                 let productInfoHeight = -1;
 

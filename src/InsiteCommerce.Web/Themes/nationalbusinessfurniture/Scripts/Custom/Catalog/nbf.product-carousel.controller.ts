@@ -119,7 +119,7 @@
                 if (this.isProductDetailPage && !this.isProductLoaded()) {
                     return;
                 }
-                this.productService.getProducts({}, ["pricing", "recentlyviewed"]).then(
+                this.productService.getProducts({}, ["pricing", "attributes", "specifications", "recentlyviewed"]).then(
                     (productCollection: ProductCollectionModel) => { this.getProductsCompleted(productCollection); },
                     (error: any) => { this.getProductsFailed(error); });
             }
@@ -166,7 +166,7 @@
                     return;
                 }
 
-                this.productService.getProducts({ topSellersCategoryIds: this.selectedCategoryIds, topSellersMaxResults: this.numberOfProductsToDisplay }, null, ["topsellers"]).then(
+                this.productService.getProducts({ topSellersCategoryIds: this.selectedCategoryIds, topSellersMaxResults: this.numberOfProductsToDisplay }, ["attributes", "specifications"], ["topsellers"]).then(
                     (productCollection: ProductCollectionModel) => { this.getProductsCompleted(productCollection); },
                     (error: any) => { this.getProductsFailed(error); });
             }
@@ -179,7 +179,7 @@
                 if (this.isAuthenticatedAndNotGuest) {
                     this.getFavorites();
                 }
-            });
+            });            
         }
 
         protected getProductsCompleted(productCollection: CrossSellCollectionModel): void {
@@ -230,6 +230,10 @@
                     (realTimePricing: RealTimePricingModel) => this.getProductRealTimePricesCompleted(realTimePricing),
                     (error: any) => this.getProductRealTimePricesFailed(error));
             }
+
+            setTimeout(() => {
+                this.setPowerReviews();
+            }, 1000);
         }
 
         protected getProductRealTimePricesCompleted(realTimePricing: RealTimePricingModel): void {
@@ -444,20 +448,20 @@
                 // clear the height overrides
                 $(".carousel-item-equalize", this.productCarouselElement).each(function () {
                     const $this = $(this);
-                    $this.find(".item-thumb").height("auto");
-                    $this.find(".item-name").height("auto");
-                    $this.find(".product-info").height("auto");
+                    $this.find(".item-block__product__img-wrap").height("auto");
+                    $this.find(".item-block__product__desc").height("auto");
+                    $this.find(".item-block__product__price-wrap").height("auto");
                     $this.height("auto");
                 });
 
                 // find the max heights
                 $(".carousel-item-equalize", this.productCarouselElement).each(function () {
                     const $this = $(this);
-                    const thumbHeight = $this.find(".item-thumb").height();
+                    const thumbHeight = $this.find(".item-block__product__img-wrap").height();
                     maxThumbHeight = maxThumbHeight > thumbHeight ? maxThumbHeight : thumbHeight;
-                    const nameHeight = $this.find(".item-name").height();
+                    const nameHeight = $this.find(".item-block__product__desc").height();
                     maxNameHeight = maxNameHeight > nameHeight ? maxNameHeight : nameHeight;
-                    const productInfoHeight = $this.find(".product-info").height();
+                    const productInfoHeight = $this.find(".item-block__product__price-wrap").height();
                     maxProductInfoHeight = maxProductInfoHeight > productInfoHeight ? maxProductInfoHeight : productInfoHeight;
 
                 });
@@ -466,9 +470,9 @@
                 if (maxThumbHeight > 0) {
                     $(".carousel-item-equalize", this.productCarouselElement).each(function () {
                         const $this = $(this);
-                        $this.find(".item-thumb").height(maxThumbHeight);
-                        $this.find(".item-name").height(maxNameHeight);
-                        $this.find(".product-info").height(maxProductInfoHeight);
+                        $this.find(".item-block__product__img-wrap").height(maxThumbHeight);
+                        $this.find(".item-block__product__desc").height(maxNameHeight);
+                        $this.find(".item-block__product__price-wrap").height(maxProductInfoHeight);
                         const height = $this.height();
                         maxHeight = maxHeight > height ? maxHeight : height;
                         $this.addClass("eq");
@@ -491,7 +495,7 @@
 
             if (favoriteLine.length > 0) {
                 //Remove lines
-                this.wishListService.deleteLineCollection(this.favoritesWishlist, favoriteLine).then((result) => {
+                this.wishListService.deleteLineCollection(this.favoritesWishlist, favoriteLine).then(() => {
                     this.getFavorites();
                 });
             } else {
@@ -543,7 +547,7 @@
             });
 
             let powerReviews = this.$window["POWERREVIEWS"];
-            powerReviews.display.render(powerReviewsConfigs)
+            powerReviews.display.render(powerReviewsConfigs);
         }
 
         protected getTop6Swatches(swatchesJson): string[] {
@@ -591,10 +595,10 @@
             let retVal: boolean = false;
 
             if (product && product.attributeTypes) {
-                var attrType = product.attributeTypes.find(x => x.name == attrName && x.isActive == true);
+                var attrType = product.attributeTypes.find(x => x.name === attrName && x.isActive === true);
 
                 if (attrType) {
-                    var matchingAttrValue = attrType.attributeValues.find(y => y.value == attrValue);
+                    var matchingAttrValue = attrType.attributeValues.find(y => y.value === attrValue);
 
                     if (matchingAttrValue) {
                         retVal = true;
