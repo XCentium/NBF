@@ -1,5 +1,8 @@
-USE [Insite.NBF]
-GO
+IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_NAME = N'StaticCategory')
+BEGIN
+	DROP TABLE [Extensions].[StaticCategory]
+END
 
 /****** Object:  Table [Extensions].[StaticCategory]    Script Date: 6/26/2018 1:44:33 PM ******/
 SET ANSI_NULLS ON

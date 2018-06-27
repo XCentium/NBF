@@ -36,10 +36,12 @@
     }
 }
 
-
-
+[role="cross-sells"].recently-viewed .cs-carousel .slides > li {
+    @media (min-width: 991px) {
+        max-width: 317px;
+    }
+}
 /* Cross Sells */
-
 [role="cross-sells"] {
 }
 
