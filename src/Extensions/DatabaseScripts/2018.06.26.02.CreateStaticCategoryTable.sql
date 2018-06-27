@@ -1,4 +1,4 @@
-USE [Insite.NBF]
+DROP TABLE [Extensions].[StaticCategory]
 GO
 
 /****** Object:  Table [Extensions].[StaticCategory]    Script Date: 6/26/2018 1:44:33 PM ******/
