@@ -36,7 +36,7 @@
         }
 
         checkUserName(userName: string) : ng.IPromise <boolean> {
-            const uri = `${this.serviceUri}?userName=${userName}`;
+            const uri = `${this.serviceUri}?userName=${encodeURIComponent(userName)}`;
                 return this.httpWrapperService.executeHttpRequest(
                 this,
                 this.$http({ url: uri, method: "GET" }),
