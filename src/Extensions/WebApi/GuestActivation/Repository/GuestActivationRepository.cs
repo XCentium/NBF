@@ -35,7 +35,7 @@ namespace Extensions.WebApi.GuestActivation.Repository
             if (account != null)
             {
                 //Add wishlist for user if not exists
-                var favoritesList = _unitOfWork.GetRepository<WishList>().GetTable().FirstOrDefault(x => x.Name.Equals("Favorites", StringComparison.CurrentCultureIgnoreCase));
+                var favoritesList = _unitOfWork.GetRepository<WishList>().GetTable().FirstOrDefault(x => x.Name.Equals("Favorites", StringComparison.CurrentCultureIgnoreCase) && x.UserProfileId == account.Id);
                 if (favoritesList == null)
                 {
                     var param = new AddWishListParameter {Name = "Favorites"};

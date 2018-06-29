@@ -1,7 +1,7 @@
 ﻿@import "../variables";
 
 
-.featured-product {
+.featured-product, .widget-webcrosssells {
     .pr-snippet-rating-decimal, .pr-category-snippet__total {
         display: none !important;
     }
@@ -197,6 +197,7 @@
                 li {
                     display: inline-block;
                     margin-right: 10px;
+                    width: auto !important;
                 }
             }
 
