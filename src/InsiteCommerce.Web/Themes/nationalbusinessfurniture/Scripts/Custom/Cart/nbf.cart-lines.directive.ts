@@ -37,7 +37,8 @@
             inventoryCheck: "@",
             includeInventory: "@",
             includeQuoteRequired: "=",
-            failedToGetRealTimeInventory: "="
+            failedToGetRealTimeInventory: "=",
+            fobPricing: "="
         },
         controller: "CartLinesController",
         controllerAs: "vm",

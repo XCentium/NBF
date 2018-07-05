@@ -15,7 +15,8 @@
                 showSeparateShippingAndHandling: "=",
                 showMiscCharge: "=",
                 showDiscountTotal: "=",
-                label: "="
+                label: "=",
+                fobPricing: "="
             },
             link: ($scope: any) => {
                 $scope.discountOrderFilter = promotion =>
@@ -35,6 +36,7 @@
 
                     return currencySymbol + discountTotal.toFixed(2);
                 };
+                $scope.getFobPricing = cart => cart ? "$" + (cart.orderSubTotal + cart.shippingAndHandling).toFixed(2) : null;
             }
         }));
 }
