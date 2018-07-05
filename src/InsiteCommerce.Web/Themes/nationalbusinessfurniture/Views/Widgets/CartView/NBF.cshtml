@@ -25,9 +25,9 @@
                 <h2 class="cart__title">My Shopping Cart</h2>
             </div>
             <div class="medium-6 columns">
-                <div ng-show="vm.cart.cartLines.length > 0">
-                    <span ng-if="vm.usingFOBPricing" style="color:#B40007;">FOB Destination - Delivery cost included in item price</span><br />
-                    <a ng-click="vm.toggleFOBPricing()"><span style="font-size:18px;">{{vm.usingFOBPricing ? 'View as FOB Origin' : 'View as FOB Destination'}}</span></a>
+                <div ng-show="vm.cart.cartLines.length > 0" class="nbf-cart-fobpricing">
+                    <span ng-if="vm.usingFOBPricing" class="fob-alert">FOB Destination - Delivery cost included in item price</span><br />
+                    <a ng-click="vm.toggleFOBPricing()"><span class="fob-toggle">{{vm.usingFOBPricing ? 'View as FOB Origin' : 'View as FOB Destination'}}</span></a>
                 </div>
             </div>
         </div>
