@@ -542,7 +542,7 @@
     <EmbeddedResource Include="DatabaseScripts\2018.05.15.02.AlterTablesForNotNull.2of2.sql" />
     <EmbeddedResource Include="DatabaseScripts\2018.06.19.01.DropAndCreateShippingByVendorTable.sql" />
     <EmbeddedResource Include="DatabaseScripts\2018.06.21.01.CleanUpSwatchCustomProperties.sql" />
-    <EmbeddedResource Include="DatabaseScripts\2018.06.26.01.AddProductCodeIndexPerInsite.sql" />
+    <EmbeddedResource Include="DatabaseScripts\2018.06.26.04.UpdateCustomerTaxCodeForTaxExempt.sql" />
     <EmbeddedResource Include="DatabaseScripts\2018.06.26.02.CreateStaticCategoryTable.sql" />
     <EmbeddedResource Include="DatabaseScripts\2018.06.26.03.PopulateStaticCategoryTable.sql" />
     <Content Include="packages.config">

@@ -111,7 +111,9 @@
             "ipCookie",
             "$location",
             "accessToken",
-            "$q"
+            "$q",
+            "listrakService"
+
         ];
 
         constructor(
@@ -142,7 +144,8 @@
             protected ipCookie: any,
             protected $location: ng.ILocaleService,
             protected accessToken: insite.common.IAccessTokenService,
-            protected $q: ng.IQService
+            protected $q: ng.IQService,
+            protected listrakService: nbf.listrak.IListrakService
         ) {
             this.init();
         }
@@ -276,7 +279,7 @@
         //}
 
         protected convertToCurrency(amount: number): string {
-            return "$" + amount.toFixed(2).replace(/./g, (c, i, a) => i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c);
+            return "$" + amount.toFixed(2).replace(/./g, (c, i, a) => i && c !== "." && ((a.length - i) % 3 === 0) ? "," + c : c);
         }
 
         protected getCartCompleted(cart: CartModel): void {
@@ -650,7 +653,7 @@
         }
 
         protected updateBillToCompleted(billTo: BillToModel): void {
-            
+
         }
 
         protected updateBillToFailed(error: any): void {
@@ -1206,24 +1209,30 @@
                         if (response) {
                             this.userFound = true;
                             this.submitting = false;
+                            this.spinnerService.hide();
                         } else {
-                            const newAccount = {
-                                email: this.cart.billTo.email,
-                                userName: this.cart.billTo.email,
-                                password: pass,
-                                isSubscribed: true,
-                                firstName: this.cart.billTo.firstName,
-                                lastName: this.cart.billTo.lastName
-                            } as AccountModel;
+                            this.accountService.getAccount().then(
+                                (account: AccountModel) => {
+                                    const newAccount = {
+                                        email: this.cart.billTo.email,
+                                        userName: this.cart.billTo.email,
+                                        password: pass,
+                                        isSubscribed: true,
+                                        firstName: this.cart.billTo.firstName,
+                                        lastName: this.cart.billTo.lastName
+                                    } as AccountModel;
 
-                            this.nbfGuestActivationService.createAccountFromGuest(this.account.id,
-                                newAccount,
-                                this.cart.billTo,
-                                this.cart.shipTo).then((response) => {
-                                    self.$rootScope.$broadcast("AnalyticsEvent", "CheckoutAccountCreation");
-                                    this.newUser = true;
-                                    this.setUpNewUserAndSubmit(signInUri, response, pass);
-                                });
+                                    this.nbfGuestActivationService.createAccountFromGuest(account.id,
+                                        newAccount,
+                                        this.cart.billTo,
+                                        this.cart.shipTo).then(
+                                        (accountResult: AccountModel) => {
+                                            self.$rootScope.$broadcast("AnalyticsEvent", "CheckoutAccountCreation");
+                                            this.newUser = true;
+                                            this.setUpNewUserAndSubmit(signInUri, accountResult, pass);
+                                        });
+                                },
+                                (error: any) => { this.createAccountFailed(error); });
                         }
                     });
             } else {
@@ -1232,7 +1241,7 @@
         }
 
         protected submitOrder(signInUri: string) {
-            if ((this.cart.cartLines.filter((line: CartLineModel) => line.erpNumber.search('^[^:]*[:][^:]*[:][^:]*$') > 0)).length > 0) {
+            if ((this.cart.cartLines.filter((line: CartLineModel) => line.erpNumber.search("^[^:]*[:][^:]*[:][^:]*$") > 0)).length > 0) {
                 this.$rootScope.$broadcast("AnalyticsEvent", "SwatchRequest");
             }
 
@@ -1400,7 +1409,7 @@
                 return true;
             }
 
-            if (!this.cart.showCreditCard || !this.cart.paymentMethod.isCreditCard || this.cart.paymentMethod.name == 'Open_Credit') {
+            if (!this.cart.showCreditCard || !this.cart.paymentMethod.isCreditCard || this.cart.paymentMethod.name === "Open_Credit") {
                 return true;
             }
 
@@ -1679,7 +1688,7 @@
                 let r = new FileReader();
 
                 r.addEventListener("load", () => {
-                    this.fileData.b64 = r.result.split(',')[1];
+                    this.fileData.b64 = r.result.split(",")[1];
                     this.$scope.$apply();
                 }, false);
 
@@ -1754,25 +1763,22 @@
                         if (tempPass && userName) {
                             const session: SessionModel = {
                                 password: tempPass,
-                                newPassword: newPass,
-                                userName: response.userName,
-                                userLabel: response.userName,
-                                email: response.email,
-                                activateAccount: true
+                                newPassword: newPass
                             } as any;
 
-                            this.sessionService.changePassword(session).then(
-                                () => {
-                                    var currentToken = this.accessToken.get();
-                                    this.sessionService.signIn(currentToken, response.userName, newPass).then(
-                                        (session: SessionModel) => {
-                                            this.sessionService.setContextFromSession(session);
-                                            if (session.isRestrictedProductExistInCart) {
-                                                this.$localStorage.set("hasRestrictedProducts", true.toString());
-                                            }
-                                            this.submitOrder(signInUri);
-                                        });
-                                });
+                            this.sessionService.changePassword(session).then(() => {
+                                this.$rootScope.$broadcast("AnalyticsEvent", "AccountCreation");
+                                const currentContext = this.sessionService.getContext();
+                                currentContext.billToId = response.billToId;
+                                currentContext.shipToId = response.shipToId;
+
+                                //this.listrakService.CreateContact(response.email, "account");
+                                this.sessionService.setContext(currentContext);
+                                if (session.isRestrictedProductExistInCart) {
+                                    this.$localStorage.set("hasRestrictedProducts", true.toString());
+                                }
+                                this.submitOrder(signInUri);
+                            });
                         }
                     });
             }
