@@ -252,6 +252,9 @@
             this.$rootScope.$broadcast("AnalyticsEvent", "ContinueShoppingFromCartPage");
         }
 
+        toggleFOBPricing() {
+            this.usingFOBPricing = !this.usingFOBPricing;
+        }
     }
 
     angular

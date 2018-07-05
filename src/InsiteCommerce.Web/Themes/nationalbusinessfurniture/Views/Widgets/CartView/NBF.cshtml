@@ -26,7 +26,8 @@
             </div>
             <div class="medium-6 columns">
                 <div ng-show="vm.cart.cartLines.length > 0">
-                    [% zone 'Content Right Above' %]
+                    <span ng-if="vm.usingFOBPricing" style="color:#B40007;">FOB Destination - Delivery cost included in item price</span><br />
+                    <a ng-click="vm.toggleFOBPricing()"><span style="font-size:18px;">{{vm.usingFOBPricing ? 'View as FOB Origin' : 'View as FOB Destination'}}</span></a>
                 </div>
             </div>
         </div>
@@ -105,7 +106,14 @@
                     <div class="right-top secure">
                         <span class="ico-lock"></span><strong> Secure Form</strong>
                     </div>
-                    <nbf-cart-total-display ng-if="!vm.cart.cartNotPriced" cart="vm.cart" promotions="vm.promotions" order-taxes="vm.cart.customerOrderTaxes" label="'[% translate 'Order Summary' %]'"></nbf-cart-total-display>
+                    <nbf-cart-total-display 
+                            ng-if="!vm.cart.cartNotPriced" 
+                            cart="vm.cart" 
+                            promotions="vm.promotions" 
+                            order-taxes="vm.cart.customerOrderTaxes" 
+                            label="'[% translate 'Order Summary' %]'"
+                            fob-pricing="vm.usingFOBPricing">                            
+                    </nbf-cart-total-display>
                     <div class="btns hide-for-print" id="tst_cartPage_buttons">
                         [[CheckoutButtons]]
                     </div>

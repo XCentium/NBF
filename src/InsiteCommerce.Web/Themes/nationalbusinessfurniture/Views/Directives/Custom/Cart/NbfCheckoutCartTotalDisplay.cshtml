@@ -4,7 +4,8 @@
     </div>
     <div class="row">
         <div class="columns sub-label">[% translate 'Subtotal' %]</div>
-        <div id="tst_cartTotalDisplay_orderSubTotal" class="columns sub-amount" ng-bind="cart.orderSubTotalDisplay"></div>
+        <div id="tst_cartTotalDisplay_orderSubTotal" class="columns sub-amount" ng-if="!fobPricing" ng-bind="cart.orderSubTotalDisplay"></div>
+        <div id="tst_cartTotalDisplay_orderSubTotal" class="columns sub-amount" ng-if="fobPricing" ng-bind="getFobPricing(cart)"></div>
     </div>
     <div class="row promo-applied" ng-repeat="promotion in promotions | filter: discountOrderFilter">
         <div class="columns sub-label">[% translate 'Promotion' %]: <em><span ng-bind="promotion.name"></span></em>
@@ -13,11 +14,13 @@
     </div>
     <div class="row" ng-if="showSeparateShippingAndHandling && (cart.showTaxAndShipping || !isCartPage) && cart.shippingChargesDisplay.length > 0">
         <div class="columns sub-label">[% translate 'Shipping' %]</div>
-        <div class="columns sub-amount" ng-bind="cart.shippingChargesDisplay"></div>
+        <div class="columns sub-amount" ng-if="!fobPricing" ng-bind="cart.shippingChargesDisplay"></div>
+        <div class="columns sub-amount" ng-if="fobPricing">Free</div>
     </div>
     <div class="row" ng-if="!showSeparateShippingAndHandling && (cart.showTaxAndShipping || !isCartPage) && cart.shippingAndHandlingDisplay.length > 0">
         <div class="columns sub-label">[% translate 'Estimated Shipping' %]</div>
-        <div class="columns sub-amount" ng-bind="cart.shippingAndHandlingDisplay"></div>
+        <div class="columns sub-amount" ng-if="!fobPricing" ng-bind="cart.shippingAndHandlingDisplay"></div>
+        <div class="columns sub-amount" ng-if="fobPricing">Free</div>
     </div>
     <div class="row promo-applied" ng-repeat="promotion in promotions | filter: discountShippingFilter">
         <div class="columns sub-label">[% translate 'Promotion' %]: <em><span ng-bind="promotion.name"></span></em>

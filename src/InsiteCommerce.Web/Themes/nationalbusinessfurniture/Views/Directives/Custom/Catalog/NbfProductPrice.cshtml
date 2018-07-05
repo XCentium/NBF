@@ -1,3 +1,3 @@
 ﻿<h3 ng-if="product" class="item-block__price" ng-controller="ProductPriceSavingController as vm1"
     ng-class="{'text-orange': vm1.showPriceSaving($parent.product)}"
-    ng-bind-html="vm.getUnitNetPriceDisplay($parent.product, $parent.isFob)"></h3>
+    ng-bind="vm.nbfUnitNetPriceDisplay($parent.product, $parent.isFob)"></h3>

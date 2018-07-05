@@ -8,7 +8,7 @@
             super(productPriceService);
         }
 
-        getUnitNetPriceDisplay(product: ProductDto, isFOB: boolean = true): string {
+        nbfUnitNetPriceDisplay(product, isFOB: boolean = false, $scope: ng.IScope = null): string {
             if (!isFOB) {
                 return this.productPriceService.getUnitNetPrice(product).priceDisplay;
             }
