@@ -1,6 +1,8 @@
 ﻿module insite.core {
     "use strict";
 
+    import WebsiteSettingsModel = Insite.Websites.WebApi.V1.ApiModels.WebsiteSettingsModel;
+
     interface ISettingsCollectionWrapper {
         settingsCollection: SettingsCollection;
     }
@@ -14,15 +16,26 @@
         productSettings: ProductSettingsModel;
         quoteSettings: QuoteSettingsModel;
         searchSettings: any;
+        websiteSettings: WebsiteSettingsModel;
         wishListSettings: WishListSettingsModel;
+    }
+
+    export class TokenExDto {
+        tokenExId: string;
+        origin: string;
+        timestamp: string;
+        tokenScheme: string;
+        authenticationKey: string;
     }
 
     export interface ISettingsService {
         getSettings(): ng.IPromise<SettingsCollection>;
+        getTokenExConfig(): ng.IPromise<TokenExDto>;
     }
 
     export class SettingsService implements ISettingsService {
         settingsUri = "/api/v1/settings";
+        tokenExConfigUri = "/api/v1/tokenexconfig";
         settingsCollections = {} as any;
         deferredRequests = {} as any;
 
@@ -69,6 +82,21 @@
         }
 
         protected getSettingsFailed(error: ng.IHttpPromiseCallbackArg<any>): void {
+        }
+
+        getTokenExConfig(): ng.IPromise<TokenExDto> {
+            return this.httpWrapperService.executeHttpRequest(
+                this,
+                this.$http.get(`${this.tokenExConfigUri}`),
+                this.getTokenExConfigCompleted,
+                this.getTokenExConfigFailed
+            );
+        }
+
+        protected getTokenExConfigCompleted(response: ng.IHttpPromiseCallbackArg<TokenExDto>): void {
+        }
+
+        protected getTokenExConfigFailed(error: ng.IHttpPromiseCallbackArg<any>): void {
         }
     }
 

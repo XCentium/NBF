@@ -246,6 +246,7 @@ declare module Insite.Websites.WebApi.V1.ApiModels {
 	}
 	interface WebsiteSettingsModel extends Insite.Core.WebApi.BaseModel {
 		mobileAppEnabled: boolean;
+		useTokenExGateway: boolean;
 	}
 	interface AddressFieldCollectionModel extends Insite.Core.WebApi.BaseModel {
 		billToAddressFields: Insite.Websites.WebApi.V1.ApiModels.AddressFieldDisplayCollectionModel;
