@@ -1,10 +1,13 @@
-﻿module nbf.checkout {
+﻿declare let TokenEx: any;
+
+module nbf.checkout {
     "use strict";
     import SessionService = insite.account.ISessionService;
     import ShipToModel = Insite.Customers.WebApi.V1.ApiModels.ShipToModel;
     import StateModel = Insite.Websites.WebApi.V1.ApiModels.StateModel;
     import CountryModel = Insite.Websites.WebApi.V1.ApiModels.CountryModel;
     import TaxExemptParams = insite.account.TaxExemptParams;
+    import TokenExDto = insite.core.TokenExDto;
 
     export interface INbfCheckoutControllerAttributes extends ng.IAttributes {
         cartUrl: string;
@@ -46,11 +49,11 @@
         pageIsReady = false;
         showQuoteRequiredProducts: boolean;
         submitSuccessUri: string;
-        isCloudPaymentGateway: boolean;
+        useTokenExGateway: boolean;
+        tokenExIframe: any;
         isInvalidCardNumber: boolean;
         isInvalidSecurityCode: boolean;
-        isInvalidCardNumberOrSecurityCode: boolean;
-        hcpiDeferred: ng.IDeferred<any>;
+        tokenExDeferred: ng.IDeferred<any>;
         paypalIndication: string;
 
         //Confirmation Variables
@@ -210,6 +213,7 @@
 
         protected getSettingsCompleted(settingsCollection: insite.core.SettingsCollection): void {
             this.customerSettings = settingsCollection.customerSettings;
+            this.useTokenExGateway = settingsCollection.websiteSettings.useTokenExGateway;
         }
 
         protected getSettingsFailed(error: any): void {
@@ -1020,7 +1024,7 @@
             this.setUpPayPal(isInit);
 
             setTimeout(() => {
-                this.setUpCloudPaymentGateway();
+                this.setUpTokenExGateway();
             }, 0, false);
 
             this.setUpBillTo();
@@ -1278,12 +1282,12 @@
         }
 
         protected tokenizeCardInfoIfNeeded(oldCartLines: CartLineModel[]) {
-            if (this.isCloudPaymentGateway && this.cart.showCreditCard && this.cart.paymentMethod.isCreditCard) {
-                this.hcpiDeferred = this.$q.defer();
-                this.hcpiDeferred.promise.then(() => {
+            if (this.useTokenExGateway && this.cart.showCreditCard && this.cart.paymentMethod.isCreditCard) {
+                this.tokenExDeferred = this.$q.defer();
+                this.tokenExDeferred.promise.then(() => {
                     this.submitCart(oldCartLines);
                 });
-                (<any>window).sendHPCIMsg();
+                this.tokenExIframe.tokenize();
             } else {
                 this.submitCart(oldCartLines);
             }
@@ -1327,6 +1331,10 @@
         }
 
         protected submitFailed(error: any): void {
+            if (this.useTokenExGateway && this.cart.showCreditCard && this.cart.paymentMethod.isCreditCard) {
+                this.tokenExIframe.reset();
+            }
+
             this.submitting = false;
             this.cart.paymentOptions.isPayPal = false;
             this.submitErrorMessage = error.message;
@@ -1389,31 +1397,11 @@
         }
 
         protected validateReviewAndPayForm(): boolean {
-            if (!this.validatedCloudPaymentGateway()) {
-                return false;
-            }
-
             const valid = $("#reviewAndPayForm").validate().form();
             if (!valid) {
                 jQuery("html, body").animate({
                     scrollTop: jQuery("#reviewAndPayForm").offset().top
                 }, 300);
-                return false;
-            }
-
-            return true;
-        }
-
-        protected validatedCloudPaymentGateway(): boolean {
-            if (!this.isCloudPaymentGateway) {
-                return true;
-            }
-
-            if (!this.cart.showCreditCard || !this.cart.paymentMethod.isCreditCard || this.cart.paymentMethod.name === "Open_Credit") {
-                return true;
-            }
-
-            if (this.isInvalidCardNumber || this.isInvalidSecurityCode || this.isInvalidCardNumberOrSecurityCode) {
                 return false;
             }
 
@@ -1449,78 +1437,108 @@
             this.getCart();
         }
 
-
-        setUpCloudPaymentGateway(): void {
-            this.isCloudPaymentGateway = (<any>window).isCloudPaymentGateway;
-            if (!this.isCloudPaymentGateway) {
+        setUpTokenExGateway(): void {
+            if (!this.useTokenExGateway) {
                 return;
             }
 
-            (<any>window).hpciNoConflict = "N";
-            (<any>window).hpciStatusReset();
-            (<any>window).receiveHPCIMsg();
+            this.settingsService.getTokenExConfig().then(
+                (tokenExDto: TokenExDto) => {
+                    this.getTokenExConfigCompleted(tokenExDto);
+                },
+                (error: any) => {
+                    this.getTokenExConfigFailed(error);
+                });
+        }
 
-            (<any>window).hpciSiteSuccessHandlerV4 = (hpciMappedCCValue: string, hpciMappedCVVValue: string, hpciCCBINValue: string, hpciGtyTokenValue: string, hpciCCLast4Value: string, hpciGtyTokenAuthRespValue: string, hpciTokenRespEncrypt: string) => {
+        protected getTokenExConfigCompleted(tokenExDto: TokenExDto) {
+            this.tokenExIframe = new TokenEx.Iframe("tokenExCardNumber", {
+                origin: tokenExDto.origin,
+                timestamp: tokenExDto.timestamp,
+                tokenExID: tokenExDto.tokenExId,
+                tokenScheme: tokenExDto.tokenScheme,
+                authenticationKey: tokenExDto.authenticationKey,
+                styles: {
+                    base: "font-family: Arial, sans-serif;padding: 0 20px;border: 1px solid #868889;margin: 0;width: 100%;font-size: 13px;height: 46px;box-sizing: border-box;-moz-box-sizing: border-box;",
+                    focus: "box-shadow: 0 0 6px 0 rgba(0, 132, 255, 0.5);border: 1px solid rgba(0, 132, 255, 0.5);outline: 0;",
+                    error: "box-shadow: 0 0 6px 0 rgba(224, 57, 57, 0.5);border: 1px solid #c60f13;background-color: rgba(198, 15, 19, 0.1) !important;",
+                    cvv: {
+                        base: "font-family: Arial, sans-serif;padding: 0 20px;border: 1px solid #868889;margin: 0;width: 100%;font-size: 13px;height: 46px;box-sizing: border-box;-moz-box-sizing: border-box;",
+                        focus: "box-shadow: 0 0 6px 0 rgba(0, 132, 255, 0.5);border: 1px solid rgba(0, 132, 255, 0.5);outline: 0;",
+                        error: "box-shadow: 0 0 6px 0 rgba(224, 57, 57, 0.5);border: 1px solid #c60f13;background-color: rgba(198, 15, 19, 0.1) !important;",
+                    }
+                },
+                pci: true,
+                enableValidateOnBlur: true,
+                inputType: "text",
+                enablePrettyFormat: true,
+                cvv: true,
+                cvvContainerID: "tokenExSecurityCode",
+                cvvInputType: "Number"
+            });
+
+            this.tokenExIframe.load();
+
+            this.tokenExIframe.on("tokenize", (data) => {
                 this.$scope.$apply(() => {
-                    if (!hpciMappedCCValue || !hpciMappedCVVValue) {
-                        if (!hpciMappedCCValue) {
+                    this.cart.paymentOptions.creditCard.cardNumber = data.token;
+                    this.cart.paymentOptions.creditCard.securityCode = "CVV";
+                    this.tokenExDeferred.resolve();
+                });
+            });
+
+            this.tokenExIframe.on("validate", (data) => {
+                this.$scope.$apply(() => {
+                    if (data.isValid) {
+                        this.isInvalidCardNumber = false;
+
+                        if (data.cardType === "visa")
+                            this.cart.paymentOptions.creditCard.cardType = this.cart.paymentOptions.cardTypes[0]["value"];
+                        else if (data.cardType === "masterCard")
+                            this.cart.paymentOptions.creditCard.cardType = this.cart.paymentOptions.cardTypes[1]["value"];
+                        else if (data.cardType === "americanExpress")
+                            this.cart.paymentOptions.creditCard.cardType = this.cart.paymentOptions.cardTypes[2]["value"];
+                        else if (data.cardType === "discover")
+                            this.cart.paymentOptions.creditCard.cardType = this.cart.paymentOptions.cardTypes[3]["value"];
+                        else
+                            this.cart.paymentOptions.creditCard.cardType = null;
+                    } else {
+                        if (this.submitting) {
                             this.isInvalidCardNumber = true;
-                        } else {
-                            this.isInvalidSecurityCode = true;
+                        } else if (data.validator && data.validator !== "required") {
+                            this.isInvalidCardNumber = true;
                         }
 
-                        (<any>window).hpciStatusReset();
-                        this.hcpiDeferred.reject();
-                        return;
-                    }
-
-                    this.cart.paymentOptions.creditCard.cardNumber = hpciMappedCCValue;
-                    this.cart.paymentOptions.creditCard.securityCode = hpciMappedCVVValue;
-                    (<any>window).hpciStatusReset();
-                    this.hcpiDeferred.resolve();
-                });
-            };
-
-            (<any>window).hpciSiteErrorHandler = (errorCode: string, errorMessage: string) => {
-                this.$scope.$apply(() => {
-                    this.isInvalidCardNumberOrSecurityCode = true;
-                    (<any>window).hpciStatusReset();
-                    this.hcpiDeferred.reject();
-                });
-            };
-
-            (<any>window).hpciCCPreliminarySuccessHandlerV2 = (hpciCCTypeValue: string, hpciCCBINValue: string, hpciCCValidValue: string, hpciCCLengthValue: number, hpciCCEnteredLengthValue: number) => {
-                this.$scope.$apply(() => {
-                    this.isInvalidCardNumberOrSecurityCode = false;
-                    if (hpciCCValidValue === "Y") {
-                        this.isInvalidCardNumber = false;
-                    } else {
-                        this.isInvalidCardNumber = true;
-                    }
-
-                    if (hpciCCTypeValue === "visa")
-                        this.cart.paymentOptions.creditCard.cardType = this.cart.paymentOptions.cardTypes[0]["value"];
-                    else if (hpciCCTypeValue === "mastercard")
-                        this.cart.paymentOptions.creditCard.cardType = this.cart.paymentOptions.cardTypes[1]["value"];
-                    else if (hpciCCTypeValue === "amex")
-                        this.cart.paymentOptions.creditCard.cardType = this.cart.paymentOptions.cardTypes[2]["value"];
-                    else if (hpciCCTypeValue === "discover")
-                        this.cart.paymentOptions.creditCard.cardType = this.cart.paymentOptions.cardTypes[3]["value"];
-                    else
                         this.cart.paymentOptions.creditCard.cardType = null;
-                });
-            };
+                    }
 
-            (<any>window).hpciCVVPreliminarySuccessHandlerV2 = (hpciCVVLengthValue: number, hpciCVVValidValue: string) => {
-                this.$scope.$apply(() => {
-                    this.isInvalidCardNumberOrSecurityCode = false;
-                    if (hpciCVVValidValue === "Y") {
+                    if (data.isCvvValid) {
                         this.isInvalidSecurityCode = false;
                     } else {
-                        this.isInvalidSecurityCode = true;
+                        if (this.submitting) {
+                            this.isInvalidSecurityCode = true;
+                        } else if (data.cvvValidator && data.cvvValidator !== "required") {
+                            this.isInvalidSecurityCode = true;
+                        }
+                    }
+
+                    if (this.submitting && (this.isInvalidCardNumber || this.isInvalidSecurityCode)) {
+                        this.submitting = false;
+                        this.spinnerService.hide();
                     }
                 });
-            };
+            });
+
+            this.tokenExIframe.on("error", (data) => {
+                this.$scope.$apply(() => {
+                    // if there was some sort of unknown error from tokenex tokenization (the example they gave was authorization timing out)
+                    // try to completely re-initialize the tokenex iframe
+                    this.setUpTokenExGateway();
+                });
+            });
+        }
+
+        protected getTokenExConfigFailed(error: any): void {
         }
 
         protected loadStep2() {

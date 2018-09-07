@@ -6,6 +6,7 @@ using Insite.Core.Context;
 using Insite.Core.Exceptions;
 using Insite.Core.Interfaces.Localization;
 using Insite.Core.SystemSetting.Groups.SystemSettings;
+using Insite.Core.WebApi.Interfaces;
 using Insite.WebFramework;
 using Insite.WebFramework.Content;
 using Insite.WebFramework.Content.Interfaces;
@@ -19,8 +20,8 @@ namespace Extensions.Widgets
         protected int CatId;
         protected int GrandCatId = 1000;
 
-        public LinkListWithTitlePreparer(SecuritySettings securitySettings, ITranslationLocalizer translationLocalizer, IContentHelper contentHelper)
-            : base(translationLocalizer, securitySettings)
+        public LinkListWithTitlePreparer(ITranslationLocalizer translationLocalizer, SecuritySettings securitySettings, IUrlHelper urlHelper, IContentHelper contentHelper)
+            : base(translationLocalizer, securitySettings, urlHelper)
         {
             ContentHelper = contentHelper;
         }
